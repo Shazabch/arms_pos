@@ -1,10 +1,13 @@
 <?php
 
-	$db_default_connection = array("localhost", "root", "", "armshq");
+	$db_default_connection = array("localhost", "root", "root", "armshq");
 
 	// define constants
+
+	//die($_SERVER['HTTP_HOST']);
 	if (!$_SERVER['HTTP_HOST'])
 	{
+
 		//cli mode
 		define("HQ_IP", "localhost");
 		define("HQ_MYSQL", "localhost");
@@ -17,14 +20,13 @@
 		define("HQ_MYSQL", "localhost");//akadgurun.no-ip.org:5001");
 
 		// testing as HQ
-		if ($_SERVER['SERVER_PORT'] == '2001')
+		if ($_SERVER['SERVER_PORT'] == '8888')
 		{
 //			define("BRANCH_CODE", "GURUN");
 			define("BRANCH_CODE", "HQ");
 //			$config['consignment_modules'] = 1;
 			$config['counter_collection_simple']=true;
-		}
-		
+		}		
 		elseif ($_SERVER['SERVER_PORT'] == '2004')
 		{
 			define("BRANCH_CODE", "HQ");
