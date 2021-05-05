@@ -1,6 +1,6 @@
 <?php
 
-	$db_default_connection = array("localhost", "root", "", "armshq");
+	$db_default_connection = array("localhost", "root", "root", "armshq");
 
 	// define constants
 	if (!$_SERVER['HTTP_HOST'])
@@ -17,7 +17,7 @@
 		define("HQ_MYSQL", "localhost");//akadgurun.no-ip.org:5001");
 
 		// testing as HQ
-		if ($_SERVER['SERVER_PORT'] == '2001')
+		if ($_SERVER['SERVER_PORT'] == '8888')
 		{
 //			define("BRANCH_CODE", "GURUN");
 			define("BRANCH_CODE", "HQ");
