@@ -11,12 +11,15 @@ if ($_REQUEST['clear_cache'])
 	exit;
 }
 
+
+
+
 if (!$login && !$vp_login && !$dp_login)
 {
-	header("Location: /login.php");
+	header("Location: login.php");
 }
 else
 {
-	header("Location: /home.php");
+	header("Location: home.php");
 }
 ?>

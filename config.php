@@ -17,7 +17,7 @@
 		define("HQ_MYSQL", "localhost");//akadgurun.no-ip.org:5001");
 
 		// testing as HQ
-		if ($_SERVER['SERVER_PORT'] == '8888')
+		if ($_SERVER['SERVER_PORT'] == '80')
 		{
 //			define("BRANCH_CODE", "GURUN");
 			define("BRANCH_CODE", "HQ");
@@ -502,4 +502,8 @@ if ($_SERVER['SERVER_NAME'] == 'maximus')
 	define('NO_OB', 1);
 	define('HQ_HAVE_SALES',1);
 }
+
+
+
+
 ?>
