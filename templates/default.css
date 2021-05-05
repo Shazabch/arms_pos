@@ -1,0 +1,444 @@
+@import url(/templates/screen.css?v=5);
+
+/**header**/
+.greenbar {
+    /*padding: 4px;*/
+    background: #32405b;
+    color:#fff;
+    /*font-size:11px;*/
+    padding: 10px;
+    font-size: 15px;
+}
+
+.greenbar A {
+    color:#fff;
+}
+.greenbar A:hover {
+    color:#fff;
+    text-decoration: underline;
+}
+
+.redbar {
+    padding: 4px;
+    /*background: #23bcd2;*/
+    color:#fff;
+    /*font-size:11px;*/
+    background: #5d842e;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+.redbar A {
+    color:#fff;
+}
+.redbar A:hover {
+    color:#fff;
+    text-decoration: underline;
+}
+
+
+.header_datetime{
+    font-size: 12px !important;
+    color: #fff;
+    padding-left: 20px;
+}
+
+.header2{
+    font-size: 14px
+}
+
+
+.header3{
+    font-size: 12px !important;
+}
+
+
+h1{
+    color: #32405b;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+/*table{
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    font-size: 13px !important;
+}*/
+
+/*.ads{
+    display: none;
+    padding-bottom: 50px;
+}*/
+
+
+/**dashboard**/
+#div_pm_notification{
+    border: 1px inset rgba(128, 127, 127, 0.31) !important;
+}
+
+
+/**footer**/
+.footer-link{
+    color: #fff; 
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.footer-link:hover{
+    color: rgba(255,255,255,0.7); 
+    font-weight: bold;
+}
+
+.small{
+    color: #1D1D1F;
+}
+
+input[type=submit]:hover, input[type=button]:hover, input[type=reset]:hover, button:hover{
+  cursor: pointer;
+}
+
+input[disabled], input[disabled]:hover {
+    background: #D2D2D2 !important;
+    color: #000  !important;
+    cursor: not-allowed;
+    border-color: #D2D2D2 !important;
+}
+
+/**input**/
+.form-control, input, button{
+    /*padding: 2px 12px;*/
+    line-height: 1.42857143;
+    color: #1D1D1F;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+
+select{
+  padding: 2px 16px 1px 5px;
+  line-height: 1.42857143;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+input[type='checkbox'] {
+    cursor: pointer;
+}
+
+input[type=checkbox], input[type=radio] {
+    line-height: normal;
+}
+
+input[type=checkbox], input[type=radio] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+/*input[type='checkbox']
+{
+  -webkit-appearance: none;
+  width: 15px;
+  height: 16px;
+  display: inline-block;
+  background: #FFFFFF;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-top: 0px;
+  margin: 0 3px 0 0;
+  padding: 0;
+}*/
+input[type=checkbox]:after {
+  content: "";
+  display: inline-block;
+  position: relative;
+  top: -3px;
+  left: 4px;
+  width: 3px;
+  height: 5px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  -webkit-transform: rotate(45deg);
+}
+
+input[type=checkbox]:checked   {
+    background: #327DFF;
+    outline: none;
+    border: 1px solid rgba(50,125,255,1);
+}
+input:focus,input:active {
+  outline: none;
+}
+
+input:hover {
+   border: 1px solid rgba(50,125,255,1);
+}
+
+/**select dropdown**/
+/* Arrow */
+
+select {
+  flex: 1;
+  cursor: pointer;
+}
+
+select{
+  /*background-color: white;*/
+  border-radius: 4px;
+  display: inline-block;
+  line-height: 1.5em;
+  box-sizing: border-box;
+}
+
+select{ 
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-image: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) !important;
+  background-position: calc(100% - .5rem), 100% 0 !important;
+  background-size: 10px !important;
+  background-repeat: no-repeat !important;
+}
+
+select:focus {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-image: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_up.png) !important;
+  background-position: calc(100% - .5rem), 100% 0 !important;
+  background-size: 10px !important;
+  background-repeat: no-repeat !important;
+  border-color: #0066CC !important;
+  outline: 0 !important;
+}
+
+/**buttons default css**/
+.btn {
+    border-radius: 3px;
+    box-shadow: none;
+    border: 1px solid transparent;
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    padding: 4px 12px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    user-select: none;
+}
+
+/*
+buttons default color without changing the button height
+color: blue;
+*/
+.btn-default, input[type="button"]{
+  background-color: #32405b ;
+  border-color: #32405b ;
+  color: #fff ;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.btn-default:hover, .btn-default:active,
+input[type="button"]:hover, input[type="button"]:active{
+  background-color: #495b80;
+}
+/*
+buttons provides extra visual weight and identifies the primary action in a set of buttons
+color: blue;
+*/
+.btn-primary { 
+  background-color: #32405b !important;
+  border-color: #32405b !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+input[value='Download']:hover,
+input[value='Download']:active
+{
+  background-color: #495b80 !important;
+}
+
+
+input[value="Show Report"], input[value="Refresh"], input[value="Copy"], input[type="file"], input[value="Import"],input[value="Show Result"],
+input[value="Run"], input[value="Export"], input[value="Search"], input[value="Upload"], input[value="Update Setting"], input[value="Add Row"], input[value="Print"],
+input[value="OK"], input[value="Add"]{
+  font-weight: 600;
+  background-color: #32405b ;
+  border-color: #32405b ;
+  color: #fff ;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+input[value="Show Report"]:hover,
+input[value="Show Report"]:active,
+input[value="Refresh"]:hover,
+input[value="Refresh"]:active,
+input[value="Copy"]:hover,
+input[value="Copy"]:active,
+input[value="Import"]:hover,
+input[value="Import"]:active,
+input[value="Show Result"]:hover,
+input[value="Show Result"]:active,
+input[value="Run"]:hover,
+input[value="Run"]:active,
+input[value="Export"]:hover,
+input[value="Export"]:active,
+input[value="Search"]:hover,
+input[value="Search"]:active,
+input[value="Upload"]:hover,
+input[value="Upload"]:active,
+input[value="Update Setting"]:hover,
+input[value="Update Setting"]:active,
+input[value="Add Row"]:hover,
+input[value="Add Row"]:active,
+input[value="Print"]:hover,
+input[value="Print"]:active,
+input[value="OK"]:hover,
+input[value="OK"]:active,
+input[value="Add"]:hover,
+input[value="Add"]:active{
+  background-color: #495b80 !important;
+}
+
+input[type="file"]{
+  cursor: pointer;
+}
+
+input[value="Go"]{
+  background-color: #32405b ;
+  border-color: #32405b ;
+  color: #fff ;
+  padding: 0px 8px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: normal;
+}
+
+input[value="Go"]:hover, input[value="Go"]:active{
+  background-color: #495b80 !important;
+}
+/*
+buttons indicates a successful or positive action
+color:green;
+*/
+.btn-success, input[value="Save"], input[value="Save Records"] { /*green*/
+  background-color: #5d842e !important;
+  border-color: #5d842e !important;
+  color: #fff !important;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.btn-success:hover,
+.btn-success:active,input[value="Save Records"]:hover,
+input[value="Save Records"]:active, input[value="Save"]:hover,input[value="Save"]:active{
+  background-color: #689B18 !important;
+}
+
+/*
+buttons for informational alert messages
+color:red;
+*/
+.btn-error { /*red*/
+  background-color: #e84118 !important;
+  border-color: #e84118 !important;
+  color: #fff;
+}
+.btn-error:hover,
+.btn-error:active,
+.btn-error.hover {
+  background-color: #ff481b !important;
+}
+
+input[value='Close']{
+  background-color: #e84118;
+  border-color: #e84118;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+
+input[value='Close']:hover,
+input[value='Close']:active{
+  background-color: #ff481b !important;
+}
+
+/*
+buttons indicates caution should be taken with this action
+color:yellow;
+*/
+.btn-warning, input[value="Reset"], input[value="Cancel"], input[name="resetbtn"] { /*orange*/
+  background-color: #D89A11 !important;
+  border-color: #D89A11 !important;
+  color: #fff !important;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.btn-warning:hover,
+.btn-warning:active,
+{
+  background-color: #F6B014 !important;
+}
+
+input[value="Reset"]:hover,
+input[value="Reset"]:active,
+input[name="resetbtn"]:hover,
+input[name="resetbtn"]:active,
+input[value="Cancel"]:hover,
+input[value="Cancel"]:active{
+    background-color: #F6B014 !important;
+}
+
+/*
+buttons disabled
+color:grey;
+*/
+.btn-disabled { /*grey*/
+  background-color: #f4f4f4;
+  color: #0000002b !important;
+  border-color: #ddd !important;
+}
+.btn-disabled:hover,
+.btn-disabled:active,
+.btn-disabled.hover {
+  cursor: not-allowed !important;
+}
+
+/**login page ads**/
+.login-ads{
+    display: none
+}
+
+/*input[type=submit], input[type=button], button[name="generate_report"], button[name="a"], button{
+  background-color: #32405b ;
+  border-color: #32405b ;
+  color: #fff ;
+}*/
+
+
+}
+

@@ -1,0 +1,1 @@
+ {if !$config.doc_hide_packing_uom_code}<span id="{$id}" class="uom_class {$class}">({$uom})</span>{/if}

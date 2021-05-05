@@ -1,0 +1,56 @@
+{include file='header.tpl'}
+
+<style>
+{literal}
+.error{
+	color:red;
+}
+{/literal}
+</style>
+
+<h1>{$PAGE_TITLE}</h1>
+
+{foreach from=$integration_list key=bid item=b_data}
+	<h3>{$branch_list.$bid.code}</h3>
+	<table class="report_table">
+		<tr class="header">
+			<th>Integration Type</th>
+			<th>Sub Type</th>
+			<th>Status</th>
+			<th>Error</th>
+			<th>Last Update</th>
+		</tr>
+
+		{foreach from=$b_data key=integration_type item=sub_type_list}
+			{foreach from=$sub_type_list key=sub_type item=r}
+				<tr>
+					<td>{$integration_type}</td>
+					<td>{$sub_type}</td>
+					<td>
+						{if $r.status eq 0}
+							Processing
+						{elseif $r.status eq 1}
+							Done	
+						{/if}
+						{if $r.got_error}
+							with Error
+						{/if}
+					</td>
+					<td>
+						{if $r.error_msg}
+							<span class="error">
+							{foreach from=$r.error_msg item=e}
+								{$e}<br />
+							{/foreach}
+							</span>
+						{else}
+							-
+						{/if}
+					</td>
+					<td align="center">{$r.last_update}</td>
+				</tr>
+			{/foreach}
+		{/foreach}
+	</table>
+{/foreach}
+{include file='footer.tpl'}

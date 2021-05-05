@@ -1,0 +1,189 @@
+delete from grn_items where grn_id=268 and branch_id=9 and sku_item_id=31809 | DO:(314,1)
+insert into grn_items : grn_id=268, branch_id=9, sku_item_id=31809
+insert into grn_items : grn_id=268, branch_id=9, sku_item_id=31809
+
+delete from grn_items where grn_id=268 and branch_id=9 and sku_item_id=31815 | DO:(314,1)
+insert into grn_items : grn_id=268, branch_id=9, sku_item_id=31815
+insert into grn_items : grn_id=268, branch_id=9, sku_item_id=31815
+
+delete from grn_items where grn_id=419 and branch_id=2 and sku_item_id=31245 | DO:(381,1)
+insert into grn_items : grn_id=419, branch_id=2, sku_item_id=31245
+insert into grn_items : grn_id=419, branch_id=2, sku_item_id=31245
+
+delete from grn_items where grn_id=138 and branch_id=3 and sku_item_id=9164 | DO:(439,1)
+insert into grn_items : grn_id=138, branch_id=3, sku_item_id=9164
+insert into grn_items : grn_id=138, branch_id=3, sku_item_id=9164
+
+delete from grn_items where grn_id=226 and branch_id=5 and sku_item_id=28892 | DO:(522,1)
+insert into grn_items : grn_id=226, branch_id=5, sku_item_id=28892
+insert into grn_items : grn_id=226, branch_id=5, sku_item_id=28892
+
+delete from grn_items where grn_id=179 and branch_id=3 and sku_item_id=6396 | DO:(565,1)
+insert into grn_items : grn_id=179, branch_id=3, sku_item_id=6396
+insert into grn_items : grn_id=179, branch_id=3, sku_item_id=6396
+
+delete from grn_items where grn_id=98 and branch_id=7 and sku_item_id=11483 | DO:(856,1)
+insert into grn_items : grn_id=98, branch_id=7, sku_item_id=11483
+insert into grn_items : grn_id=98, branch_id=7, sku_item_id=11483
+
+delete from grn_items where grn_id=173 and branch_id=8 and sku_item_id=1207 | DO:(884,1)
+insert into grn_items : grn_id=173, branch_id=8, sku_item_id=1207
+insert into grn_items : grn_id=173, branch_id=8, sku_item_id=1207
+
+delete from grn_items where grn_id=920 and branch_id=2 and sku_item_id=29090 | DO:(892,1)
+insert into grn_items : grn_id=920, branch_id=2, sku_item_id=29090
+insert into grn_items : grn_id=920, branch_id=2, sku_item_id=29090
+
+delete from grn_items where grn_id=986 and branch_id=2 and sku_item_id=26499 | DO:(972,1)
+insert into grn_items : grn_id=986, branch_id=2, sku_item_id=26499
+insert into grn_items : grn_id=986, branch_id=2, sku_item_id=26499
+
+delete from grn_items where grn_id=986 and branch_id=2 and sku_item_id=14656 | DO:(972,1)
+insert into grn_items : grn_id=986, branch_id=2, sku_item_id=14656
+insert into grn_items : grn_id=986, branch_id=2, sku_item_id=14656
+
+delete from grn_items where grn_id=273 and branch_id=3 and sku_item_id=29368 | DO:(1019,1)
+insert into grn_items : grn_id=273, branch_id=3, sku_item_id=29368
+insert into grn_items : grn_id=273, branch_id=3, sku_item_id=29368
+
+delete from grn_items where grn_id=232 and branch_id=8 and sku_item_id=29086 | DO:(1026,1)
+insert into grn_items : grn_id=232, branch_id=8, sku_item_id=29086
+insert into grn_items : grn_id=232, branch_id=8, sku_item_id=29086
+
+delete from grn_items where grn_id=232 and branch_id=8 and sku_item_id=29094 | DO:(1026,1)
+insert into grn_items : grn_id=232, branch_id=8, sku_item_id=29094
+insert into grn_items : grn_id=232, branch_id=8, sku_item_id=29094
+
+delete from grn_items where grn_id=240 and branch_id=8 and sku_item_id=30037 | DO:(1046,1)
+insert into grn_items : grn_id=240, branch_id=8, sku_item_id=30037
+insert into grn_items : grn_id=240, branch_id=8, sku_item_id=30037
+
+delete from grn_items where grn_id=240 and branch_id=8 and sku_item_id=30034 | DO:(1046,1)
+insert into grn_items : grn_id=240, branch_id=8, sku_item_id=30034
+insert into grn_items : grn_id=240, branch_id=8, sku_item_id=30034
+
+delete from grn_items where grn_id=1616 and branch_id=1 and sku_item_id=27201 | DO:(100,2)
+insert into grn_items : grn_id=1616, branch_id=1, sku_item_id=27201
+insert into grn_items : grn_id=1616, branch_id=1, sku_item_id=27201
+
+delete from grn_items where grn_id=1904 and branch_id=1 and sku_item_id=31588 | DO:(125,2)
+insert into grn_items : grn_id=1904, branch_id=1, sku_item_id=31588
+insert into grn_items : grn_id=1904, branch_id=1, sku_item_id=31588
+
+delete from grn_items where grn_id=1943 and branch_id=1 and sku_item_id=29420 | DO:(133,2)
+insert into grn_items : grn_id=1943, branch_id=1, sku_item_id=29420
+insert into grn_items : grn_id=1943, branch_id=1, sku_item_id=29420
+
+delete from grn_items where grn_id=1946 and branch_id=1 and sku_item_id=26125 | DO:(135,2)
+insert into grn_items : grn_id=1946, branch_id=1, sku_item_id=26125
+insert into grn_items : grn_id=1946, branch_id=1, sku_item_id=26125
+insert into grn_items : grn_id=1946, branch_id=1, sku_item_id=26125
+insert into grn_items : grn_id=1946, branch_id=1, sku_item_id=26125
+
+delete from grn_items where grn_id=361 and branch_id=5 and sku_item_id=31003 | DO:(157,2)
+insert into grn_items : grn_id=361, branch_id=5, sku_item_id=31003
+insert into grn_items : grn_id=361, branch_id=5, sku_item_id=31003
+
+delete from grn_items where grn_id=2407 and branch_id=1 and sku_item_id=14943 | DO:(168,2)
+insert into grn_items : grn_id=2407, branch_id=1, sku_item_id=14943
+insert into grn_items : grn_id=2407, branch_id=1, sku_item_id=14943
+
+delete from grn_items where grn_id=2833 and branch_id=1 and sku_item_id=3917 | DO:(184,2)
+insert into grn_items : grn_id=2833, branch_id=1, sku_item_id=3917
+insert into grn_items : grn_id=2833, branch_id=1, sku_item_id=3917
+
+delete from grn_items where grn_id=1017 and branch_id=1 and sku_item_id=28657 | DO:(18,3)
+insert into grn_items : grn_id=1017, branch_id=1, sku_item_id=28657
+insert into grn_items : grn_id=1017, branch_id=1, sku_item_id=28657
+
+delete from grn_items where grn_id=1231 and branch_id=1 and sku_item_id=28657 | DO:(26,3)
+insert into grn_items : grn_id=1231, branch_id=1, sku_item_id=28657
+insert into grn_items : grn_id=1231, branch_id=1, sku_item_id=28657
+
+delete from grn_items where grn_id=2136 and branch_id=1 and sku_item_id=23646 | DO:(5,4)
+insert into grn_items : grn_id=2136, branch_id=1, sku_item_id=23646
+insert into grn_items : grn_id=2136, branch_id=1, sku_item_id=23646
+
+delete from grn_items where grn_id=2646 and branch_id=1 and sku_item_id=26158 | DO:(31,4)
+insert into grn_items : grn_id=2646, branch_id=1, sku_item_id=26158
+insert into grn_items : grn_id=2646, branch_id=1, sku_item_id=26158
+
+delete from grn_items where grn_id=1170 and branch_id=2 and sku_item_id=30516 | DO:(53,4)
+insert into grn_items : grn_id=1170, branch_id=2, sku_item_id=30516
+insert into grn_items : grn_id=1170, branch_id=2, sku_item_id=30516
+
+delete from grn_items where grn_id=1954 and branch_id=1 and sku_item_id=2962 | DO:(24,5)
+insert into grn_items : grn_id=1954, branch_id=1, sku_item_id=2962
+insert into grn_items : grn_id=1954, branch_id=1, sku_item_id=2962
+
+delete from grn_items where grn_id=2119 and branch_id=1 and sku_item_id=31143 | DO:(44,5)
+insert into grn_items : grn_id=2119, branch_id=1, sku_item_id=31143
+insert into grn_items : grn_id=2119, branch_id=1, sku_item_id=31143
+
+delete from grn_items where grn_id=2461 and branch_id=1 and sku_item_id=29422 | DO:(7,6)
+insert into grn_items : grn_id=2461, branch_id=1, sku_item_id=29422
+insert into grn_items : grn_id=2461, branch_id=1, sku_item_id=29422
+
+delete from grn_items where grn_id=2459 and branch_id=1 and sku_item_id=26725 | DO:(7,6)
+insert into grn_items : grn_id=2459, branch_id=1, sku_item_id=26725
+insert into grn_items : grn_id=2459, branch_id=1, sku_item_id=26725
+insert into grn_items : grn_id=2459, branch_id=1, sku_item_id=26725
+
+delete from grn_items where grn_id=2510 and branch_id=1 and sku_item_id=10806 | DO:(22,6)
+insert into grn_items : grn_id=2510, branch_id=1, sku_item_id=10806
+insert into grn_items : grn_id=2510, branch_id=1, sku_item_id=10806
+
+delete from grn_items where grn_id=2510 and branch_id=1 and sku_item_id=11490 | DO:(22,6)
+insert into grn_items : grn_id=2510, branch_id=1, sku_item_id=11490
+insert into grn_items : grn_id=2510, branch_id=1, sku_item_id=11490
+
+delete from grn_items where grn_id=2799 and branch_id=1 and sku_item_id=12861 | DO:(70,6)
+insert into grn_items : grn_id=2799, branch_id=1, sku_item_id=12861
+insert into grn_items : grn_id=2799, branch_id=1, sku_item_id=12861
+
+delete from grn_items where grn_id=2904 and branch_id=1 and sku_item_id=29402 | DO:(75,6)
+insert into grn_items : grn_id=2904, branch_id=1, sku_item_id=29402
+insert into grn_items : grn_id=2904, branch_id=1, sku_item_id=29402
+
+delete from grn_items where grn_id=175 and branch_id=11 and sku_item_id=2195 | DO:(12,7)
+insert into grn_items : grn_id=175, branch_id=11, sku_item_id=2195
+insert into grn_items : grn_id=175, branch_id=11, sku_item_id=2195
+
+delete from grn_items where grn_id=2445 and branch_id=1 and sku_item_id=14915 | DO:(5,8)
+insert into grn_items : grn_id=2445, branch_id=1, sku_item_id=14915
+insert into grn_items : grn_id=2445, branch_id=1, sku_item_id=14915
+
+delete from grn_items where grn_id=2446 and branch_id=1 and sku_item_id=14888 | DO:(5,8)
+insert into grn_items : grn_id=2446, branch_id=1, sku_item_id=14888
+insert into grn_items : grn_id=2446, branch_id=1, sku_item_id=14888
+
+delete from grn_items where grn_id=2852 and branch_id=1 and sku_item_id=14886 | DO:(12,8)
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14886
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14886
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14886
+
+delete from grn_items where grn_id=2852 and branch_id=1 and sku_item_id=14917 | DO:(12,8)
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14917
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14917
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14917
+
+delete from grn_items where grn_id=2852 and branch_id=1 and sku_item_id=14885 | DO:(12,8)
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14885
+insert into grn_items : grn_id=2852, branch_id=1, sku_item_id=14885
+
+delete from grn_items where grn_id=2853 and branch_id=1 and sku_item_id=14890 | DO:(12,8)
+insert into grn_items : grn_id=2853, branch_id=1, sku_item_id=14890
+insert into grn_items : grn_id=2853, branch_id=1, sku_item_id=14890
+
+delete from grn_items where grn_id=1706 and branch_id=1 and sku_item_id=25303 | DO:(134,9)
+insert into grn_items : grn_id=1706, branch_id=1, sku_item_id=25303
+insert into grn_items : grn_id=1706, branch_id=1, sku_item_id=25303
+
+delete from grn_items where grn_id=2790 and branch_id=1 and sku_item_id=31582 | DO:(18,11)
+insert into grn_items : grn_id=2790, branch_id=1, sku_item_id=31582
+insert into grn_items : grn_id=2790, branch_id=1, sku_item_id=31582
+
+delete from grn_items where grn_id=2796 and branch_id=1 and sku_item_id=3687 | DO:(19,11)
+insert into grn_items : grn_id=2796, branch_id=1, sku_item_id=3687
+insert into grn_items : grn_id=2796, branch_id=1, sku_item_id=3687
+

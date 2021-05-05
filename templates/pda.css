@@ -1,0 +1,608 @@
+@import url(/ui/3of9/stylesheet.css);
+@import url(/ui/icofont/icofont.min.css);
+
+.home-row{
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: center;
+}
+
+.home-column {
+  	float: left;
+	width: 40%;
+	border: 3px solid #231F20;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
+	margin: 5px;
+	padding: 5px;
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#e0cfa7+1,e0cfa7+43,e0cfa7+43,ffebbd+56,ffebbd+100 */
+	background: #e0cfa7; /* Old browsers */
+	background: -moz-linear-gradient(left,  #e0cfa7 1%, #e0cfa7 43%, #e0cfa7 43%, #ffebbd 56%, #ffebbd 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  #e0cfa7 1%,#e0cfa7 43%,#e0cfa7 43%,#ffebbd 56%,#ffebbd 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  #e0cfa7 1%,#e0cfa7 43%,#e0cfa7 43%,#ffebbd 56%,#ffebbd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0cfa7', endColorstr='#ffebbd',GradientType=1 ); /* IE6-9 */
+
+}
+
+#home-grr, #home-grn, #home-gra, #home-adjustment, #home-sales-order, #home-do,
+	#home-po, #home-stock-take, #home-promotion, #home-batch-barcode, #home-voucher, 
+	#home-check-code, #home-custom-modules{
+		width: 40px ;
+		height: 40px;
+	}
+
+.home-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.home-column p {
+  text-align: center;
+  font-weight: bolder;
+  margin: 0px;
+}
+
+#home-grr{
+	background: url("/ui/pda/btn-grr.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-grn{
+	background: url("/ui/pda/btn-grn.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+
+#home-gra{
+	background: url("/ui/pda/btn-gra.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-adjustment{
+	background: url("/ui/pda/btn-adjustment.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+
+#home-sales-order{
+	background: url("/ui/pda/btn-sales-order.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-do{
+	background: url("/ui/pda/btn-do.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-po{
+	background: url("/ui/pda/btn-po.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-stock-take{
+	background: url("/ui/pda/btn-stock-take.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-promotion{
+	background: url("/ui/pda/btn-promotion.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-batch-barcode{
+	background: url("/ui/pda/btn-barcode.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-voucher{
+	background: url("/ui/pda/btn-voucher.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-check-code{
+	background: url("/ui/pda/btn-checkcode.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-member{
+	background: url("/ui/pda/btn-member.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+
+#home-custom-modules{
+	background: url("/ui/pda/btn-custom-modules.png");
+    background-repeat: repeat;
+    background-size: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin: 0px auto;
+}
+.menu-back{
+	width: 90px;
+	left: 127px;
+	top: 190px;
+	background: #EEEEEE;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+	font-weight: 500;
+	font-size: 14px;
+	text-align: center;
+	display: block;
+	padding: 5px;
+}
+
+.pda-body .menu-title{
+	font-weight: 500;
+	line-height: 21px;
+	color: #5D842E;
+	font-size: 16px;
+}
+
+.pda-body .menu-sub-title{
+	color: #5D842E;
+	font-size: 14px;
+}
+
+ .pda-body .home-menu-column {
+  	float: left;
+	width: 30%;
+	background: #FFFFFF;
+	border: 1px solid #E0E0E0;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
+	margin: 10px;
+	height: 70px;
+}
+
+@media only screen and (max-width: 480px) {
+  .home-menu-column {
+    width: 80%;
+    text-align: center;
+  }
+
+  .home-menu-column a{
+		padding: 10px;
+	}
+}
+
+/**PDA LOGIN PAGE **/
+
+.pda-login-table input,  .pda-login-table select{
+width: 100%;
+box-shadow: 0 1px 1px rgba(0,0,0,.1);
+border-radius: 7px;
+padding-bottom: 5px;
+}
+
+
+.pda-login-table{
+font-size: 16px;
+width: 100%;
+}
+
+
+.pda-login-container{
+margin: 0 10px;
+}
+
+@media only screen and (min-width: 767px) {
+	.pda-login-container{
+
+	margin: 0 25%;
+	}
+
+	.home-menu-column div{
+		height: 100%;
+		text-align: center;
+		padding: 5px;
+		font-weight: bolder;
+	}
+
+	h1 .breadcrumbs{
+		float: right;
+		font-size: 12px;
+	}
+
+	.scan_product {
+	  table-layout: fixed;
+	  border-collapse:collapse;
+	  width: 100%;
+	}
+
+	form table.scan_product span{
+	    word-wrap:break-word;
+	    white-space: normal !important;
+	}
+
+	#logout-icon {
+	    vertical-align: middle;
+	}
+
+}
+
+
+/* Portrait phones and smaller */
+@media only screen and (min-width : 320px), (min-width : 360px), (min-width : 480px)  {
+	.pda-login-table input,  .pda-login-table select{
+	line-height: 2.5;
+	}
+
+	.pda-login-container table th{
+		font-weight: 400;
+	}
+
+	.pda-body #login-title{
+		font-size:18px; 
+	}
+
+	.pda-body .home-column {
+		width: 25%;
+		padding: 5px 2px;
+	}
+
+	.pda-body .home-menu-column {
+    	width: 100%;
+	}
+
+   .pda-body .home-column p, .home-menu-column p {
+  	font-size: 13px;
+  	text-align: center;
+	}
+
+	#home-grr, #home-grn, #home-gra, #home-adjustment, #home-sales-order, #home-do,
+	#home-po, #home-stock-take, #home-promotion, #home-batch-barcode, #home-voucher, 
+	#home-check-code, #home-member, #home-custom-modules{
+		width: 50px ;
+		height: 50px ;
+	}
+
+	.pda-body .menu-title, .pda-body h1{
+	font-size: 18px;
+	}
+
+	.pda-body .menu-sub-title, .pda-header{
+	font-size: 16px;
+	}
+
+	.pda-body .breadcrumbs a, h3{
+	font-size: 16px;	
+	}
+
+	.pda-font p, .pda-font .small input, .pda-font table, .pda-body input[value="Save"], .pda-body .btn-primary, .pda-body .btn-success, .pda-body .btn-warning, .pda-body input[type="button"]{
+		font-size: 16px;
+
+	}
+
+	.pda-body input[value="Save"], .pda-body .btn-primary, .pda-body .btn-success, .pda-body .btn-warning, .pda-body input[type="button"]{
+		font-weight: 400 !important; 
+		line-height: 2.5; 
+		-moz-appearance: none;
+		appearance: none;
+		-webkit-appearance: button;
+		padding: 0px 10px;
+	}
+
+	.pda-body input[type="text"], .pda-body select, .txt-width, .pda-body textarea, .item_type{
+		line-height: 2.5;
+		width:100%;
+	}
+
+	.pda-body input{
+		line-height: 2.5;
+	}
+
+	.pda-body .small, .pda-body footer{
+		font-size: 12px;
+	}
+
+	.pda-body input[type="radio"]{
+		width:10%;
+	}
+
+	.pda-body input[type="button"]{
+		width:fit-content;
+		padding: 0px 10px;
+	}
+
+	.pda-body .txt-width-50{
+		width: 50% !important
+		;
+	}
+
+	.pda-body .txt-width-40 {
+    	width: 40% !important;
+	}
+
+	.pda-body .txt-width-30 {
+    	width: 30% !important;
+	}
+
+	.pda-prompt{
+		margin-top: 40%;
+		padding: 10%;
+		background: #F4F4F4;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		border-radius: 10px;
+	}
+
+	.pda-prompt img{
+		width: 100px;
+	}
+}
+
+/*@media only screen and (min-width: 768px) {*/
+@media only screen and (min-width : 992px), (min-width : 1200px) {
+
+	.pda-login-table input,  .pda-login-table select{
+	line-height: 2.6;
+	}
+
+	.pda-body .home-column p, .home-menu-column p {
+  	font-size: 18px;
+  	text-align: center;
+	}
+
+	.pda-body .home-column {
+    width: 25%;
+	}
+
+	.pda-body .home-menu-column {
+    width: 50%;
+	}
+
+	.pda-body .home-column {
+		width: 20%;
+	}
+
+	#home-grr, #home-grn, #home-gra, #home-adjustment, #home-sales-order, #home-do,
+	#home-po, #home-stock-take, #home-promotion, #home-batch-barcode, #home-voucher, 
+	#home-check-code, #home-member, #home-custom-modules{
+		width: 100px;
+		height: 100px;
+	}
+
+	.pda-body .menu-title, .pda-body h1{
+	font-size: 24px;
+	}
+
+	.pda-body .menu-sub-title, .pda-header{
+	font-size: 20px;
+	}
+
+	.pda-body .breadcrumbs a, h3{
+	font-size: 20px;	
+	}
+
+	.pda-font p, .pda-font .small input, .pda-font table, .pda-body input[value="Save"], .pda-body .btn-primary, .pda-body .btn-success, .pda-body .btn-warning, .pda-body input[type="button"]{
+		font-size: 20px;
+	}
+
+	.pda-body input[type="text"], .pda-body select, .txt-width, .pda-body textarea, .item_type{
+		line-height: 2.6;
+		width:100%;
+	}
+
+	.pda-body input[type="radio"]{
+		width:2%;
+	}
+
+	.pda-body input[type="button"]{
+		width:fit-content;
+		line-height: 2;
+		padding: 0px 10px;
+	}
+
+
+	.pda-body .small, .pda-body footer{
+		font-size: 16px;
+	}
+
+	.txt-width-50{
+	width: 50% !important;
+	}
+
+	.pda-body .txt-width-40 {
+    width: 40% !important;
+	}
+
+	.pda-font{
+		margin: 10px 50px;
+	}
+
+	.pda-body .breadcrumbs a{
+    		font-size: 18px;
+	}
+
+	.pda-body .txt-width-50{
+		width: 50% !important;
+	}
+
+	.pda-body .txt-width-40 {
+    width: 40% !important;
+	}
+
+	.pda-body .txt-width-30 {
+    width: 30% !important;
+	}
+
+	.pda-prompt{
+		margin-top: 2%;
+		padding: 10%;
+		background: #F4F4F4;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		border-radius: 10px;
+	}
+
+	.pda-prompt img{
+		width: 250px;
+	}
+
+	.pda-prompt h1{
+		font-size: 30px;
+	}
+
+	.pda-prompt span{
+		font-size: 22px;
+	}
+}
+
+/* Landscape phones and portrait tablets */
+@media only screen and (min-width : 768px) {
+	.pda-login-table input,  .pda-login-table select{
+	line-height: 2.6;
+	}
+
+	.home-menu-column {
+  	float: left;
+	width: 30%;
+	background: #FFFFFF;
+	border: 1px solid #E0E0E0;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
+	margin: 10px;
+	height: 70px;
+	}
+
+	.home-column {
+		width: 20%;
+	}
+	
+	.pda-body .home-column p, .home-menu-column p {
+  	font-size: 18px;
+  	text-align: center;
+	}
+
+	#home-grr, #home-grn, #home-gra, #home-adjustment, #home-sales-order, #home-do,
+	#home-po, #home-stock-take, #home-promotion, #home-batch-barcode, #home-voucher, 
+	#home-check-code, #home-member, #home-custom-modules{
+		width: 70px;
+		height: 70px;
+	}
+
+	.menu-title, .pda-body h1{
+	font-size: 24px;
+	}
+
+	.menu-sub-title, .pda-header{
+	font-size: 20px;
+	}
+
+	.breadcrumbs a, h3{
+	font-size: 20px;	
+	}
+
+	.pda-font p, .pda-font .small input, .pda-font table, .pda-body input[value="Save"], .pda-body .btn-primary, .pda-body .btn-success, .pda-body .btn-warning, .pda-body input[type="button"]{
+		font-size: 20px;
+	}
+
+	.pda-body input[type="text"], .pda-body select, .txt-width, .pda-body textarea, .item_type{
+		line-height: 2.6;
+		width:100%;
+	}
+
+	.pda-body .small, .pda-body footer{
+		font-size: 16px;
+	}
+
+	.pda-body input[type="radio"]{
+		width:2%;
+	}
+
+	.pda-body input[type="button"], .pda-body input[value="Save"], .pda-body .btn-primary, .pda-body .btn-success, .pda-body .btn-warning{
+		width:fit-content;
+		padding: 0px 10px;
+		line-height: 2;
+	}
+
+	.pda-body input{
+		line-height: 2.5;
+	}
+
+	.txt-width-50{
+	width: 50% !important;
+	}
+
+	.pda-body .txt-width-40 {
+    width: 40% !important;
+	}
+
+	.pda-body .txt-width-30 {
+    width: 30% !important;
+	}
+
+	.pda-prompt{
+		margin-top: 2%;
+		padding: 10%;
+		background: #F4F4F4;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		border-radius: 10px;
+	}
+
+	.pda-prompt img{
+		width: 250px;
+	}
+
+	.pda-prompt h1{
+		font-size: 30px;
+	}
+
+	.pda-prompt span{
+		font-size: 22px;
+	}
+
+}

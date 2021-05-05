@@ -1,0 +1,12 @@
+Options -Indexes
+ServerSignature Off
+
+RewriteEngine on
+
+RewriteRule ^(.*)\.tpl$ /index.php [R,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [R,L]
+
+php_flag magic_quotes_gpc Off

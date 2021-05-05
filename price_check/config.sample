@@ -1,0 +1,3 @@
+<?php	
+	$config['hq_server_url'] = "http://10.1.1.200:2001";	// please put at root config.php, eg: /var/www/config.php
+?>

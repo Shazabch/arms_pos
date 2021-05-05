@@ -1,0 +1,223 @@
+body {
+	font:14px Arial, Sans;
+	margin:20px;
+	line-height:1.5em;
+}
+
+h1 {
+	font-size:36px;
+	color:#2B529C;
+	letter-spacing:-2px;
+	line-height:1.5em;
+}
+
+td, th, table {
+	font:inherit;
+	padding:4px;margin:0;
+	border-collapse:collapse;
+	border:1px solid #fff;
+	white-space:nowrap;
+}
+
+th{
+	white-space:normal;
+}
+
+table.no_line, table.no_line td, table.no_line th {
+	border:none !important;
+}
+
+tbody tr:hover {
+	background-color:#fff !important;
+}
+
+table.cash_detail
+{
+	display:inline;
+	vertical-align:top;
+	/*position:absolute;*/
+	margin: 20px 0 0 20px;
+}
+
+table.cash_detail th, table.cash_detail td
+{
+	border:1px solid #000 !important;
+}
+
+table.cash_detail{
+	//border: 1px solid #000;
+}
+
+#flashcontent{
+  margin-bottom:10px;
+  height:400px;
+  width:1000px;
+}
+
+thead {
+	font-weight:bold;
+	background:#fff !important;
+	color:#000 !important;
+}
+tr.total {
+	font-weight:bold;
+	background:#fff !important;
+}
+
+/*tr.total td, th {
+	box-shadow:inset 0 0px 2px rgba(0,0,0,0.2);
+}*/
+
+table.no_lines, table.no_lines td, table.no_lines th {
+	border:none !important;
+}
+
+table.no_border{
+  border:none !important;
+}
+
+td.desc_space{
+  width:50% !important;
+}
+
+tr.invoice_items, tr.invoice_items td{
+	border:none !important;
+}
+tr.invoice_total, tr.invoice_total > td{
+	border:none;
+	border-top:1px solid #000 !important;
+	border-bottom:1px solid #000 !important;
+	text-align:right !important;	
+}
+
+.gst_summary table,
+.gst_summary thead,
+.gst_summary tbody,
+.gst_summary tfoot,
+.gst_summary tr,
+.gst_summary th,
+.gst_summary td {
+
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 3px;
+    border: none;
+    border-collapse: collapse;
+	border-spacing: 0;
+    border-color: inherit;
+    vertical-align: inherit;
+    text-align: left;
+    font-weight: inherit;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+.gst_summary th{
+	font-weight: bold;
+}
+
+.gst_summary th, .gst_summary td {
+
+	border:1px solid #000;
+}
+
+tr.trans_summary {
+	border:none !important;
+}
+
+tr.trans_summary td {		
+	text-align:right !important;
+}
+
+@media print {
+	embed, object {
+	 display:none;
+	}
+	
+	/*table, td, th { border:1px solid #000; }*/
+	table.no_line, table.no_line td, table.no_line th {
+		border:none !important;
+	}
+	
+	table.item_detail, table.item_detail td, table.item_detail thead, table.item_detail th {
+		border:none !important;
+		
+		/*border-bottom:1px solid #000;*/
+	}
+	
+	table.item_detail {
+		border-top:1px solid #000 !important;
+	}
+	
+	table.item_detail, table.item_detail thead{
+		border-bottom:1px solid #000 !important;
+	}
+  
+	#flashcontent{
+		width:1000px !important;
+	}
+		  
+	table.no_lines, table.no_lines td, table.no_lines th {
+		border:none !important;
+	}
+
+	/*td.empty_value{
+		border:none !important;
+	}*/
+
+	table.no_border{
+		border:none !important;
+	}
+
+	td.desc_space{
+		width:50% !important;
+	}
+		
+	/*table.print_border{
+		border: 1px solid #000 !important; 
+	}*/
+	
+	tr.invoice_items, tr.invoice_items td{
+		border:none !important;
+	}
+	
+	tr.invoice_total, tr.invoice_total td{		
+		border:none;
+		border-top:1px solid #000 !important;
+		border-bottom:1px solid #000 !important;
+		text-align:right !important;	
+	}
+	
+	tr.trans_summary {
+		border:none !important;
+	}
+	
+	tr.trans_summary td {		
+		text-align:right !important;
+	}
+	
+	/*table.item_border, table.item_border thead, table.item_border tr, table.item_border tbody, table.item_border th, table.item_border td{
+		border:none !important;		
+	}*/
+	
+	/*table.item_border, table.item_border thead, table.item_border tr, table.item_border th, table.item_border tbody, table.item_border td{
+		box-shadow: none;
+		border:1px solid #000 !important;		
+	}*/
+	/*thead.print_border tr, thead.print_border td, tbody.print_border tr, tbody.print_border td{
+		border:none !important;
+	}
+	
+	thead.print_border tr, thead.print_border td, tbody.print_border tr{
+		border:1px sold #000 !important;
+	}*/
+	
+	/*table.print_border, table.print_border thead, table.print_border tbody, table.print_border tr, table.print_border th,  table.print_border td{
+		border:none !important;
+	}
+	
+	table.print_border, table.print_border thead, table.print_border tbody, table.print_border tr, table.print_border th, table.print_border td{		
+		border:1px sold #000 !important;		
+	}*/
+}

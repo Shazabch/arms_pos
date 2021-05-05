@@ -1,0 +1,30 @@
+@import url(/templates/screen.css);
+
+.greenbar {
+	background:#ff0 none repeat scroll 0%;
+	color:#000;
+	font-size:11px;
+	padding:4px;
+}
+
+.greenbar a {
+	color:#000;
+}
+
+.greenbar a:hover {
+	color:#000;
+	text-decoration:underline;
+}
+.redbar {
+	padding: 4px;
+	background: #06f;
+	color:#fff;
+	font-size:11px;
+}
+.redbar A {
+	color:#fff;
+}
+.redbar A:hover {
+	color:#fff;
+	text-decoration: underline;
+}

@@ -1,0 +1,159 @@
+@import url(/ui/3of9/stylesheet.css);
+
+/* in firefox, set the print margin to 0.25 */
+
+body {
+	font: 9pt Arial, "Sans Serif";
+}
+
+table {
+	font-size: 1em;
+}
+
+@media print {
+	body {
+		margin:0;
+	}
+	table.report_table {
+		border-collapse: initial !important;
+		border-spacing: 0;
+	}
+}
+
+table.tbd th, table.tbd td {
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+}
+table.tbd {
+	border-left:1px solid black;
+	border-top:1px solid black;
+	border-collapse: collapse;
+}
+
+table.box  {
+	border-left:1px solid #000;
+	border-bottom:1px solid #000;
+	border-collapse: collapse;
+}
+
+table.box tr td, table.box tr th, table.tbd tr td, table.tbd tr th {
+	border-right:1px solid #000;
+    padding:2 4px;
+}
+
+tr.topline td, tr.topline th {
+	border-top:1px solid #000;
+}
+
+tr.botline td, tr.botline th {
+	border-bottom:1px solid #000;
+}
+
+table.nobox  {
+	border:none;
+}
+
+table.nobox tr td {
+	border:none;
+    padding:0;
+}
+
+
+.printarea {
+/*    width:710px;
+	height:910px;
+	border:1px solid #ccc;
+	padding:0px;*/
+	clear:both;
+	page-break-after: always;
+}
+
+
+h1 { font-size: 1.6em; font-weight: bold; margin: 0 0 0 0; padding: 5 0 10 0; line-height: 1.5em; margin:0; padding:0; }
+h2 { font-size: 1.5em; font-weight: bold; margin: 0 0 0 0; padding: 5 0 10 0; line-height: 1.5em; margin:0; padding:0; }
+h3 { font-size: 1.4em; font-weight: bold; margin: 0 0 0 0; padding: 5 0 10 0; line-height: 1.5em; margin:0; padding:0; }
+h4 { font-size: 1.2em; font-weight: bold; margin: 0 0 0 0; padding: 5 0 10 0; line-height: 1.5em; margin:0; padding:0; }
+h5 { font-size: 1.0em; font-weight: bold; margin: 0 0 0 0; padding: 5 0 10 0; line-height: 1.5em; margin:0; padding:0; }
+
+.normal { font: 9pt Arial, "Sans Serif" }
+.xlarge { font-size: 140%; }
+.large  { font-size: 120%; }
+.small  { font-size: 80%; }
+.xsmall { font-size: 60%; }
+.xxsmall { font-size: 30%; }
+
+table.nobreak {
+	page-break-inside: avoid;
+}
+
+.tbh {
+	font-weight:bold;
+	border-top:1px solid #999;
+	border-bottom:1px solid #999;
+	background-color:#fe7;
+}
+
+.tbr {
+	font-weight:bold;
+	border-bottom:1px solid #ccc;
+	background-color:#ffd;
+}
+.tbe {
+	font-weight:bold;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	background-color:#efc;
+}
+
+.tbst {
+	font-weight:bold;
+	border-bottom:2px solid #000;
+	background-color:#cef;
+}
+
+.tbt {
+	font-weight:bold;
+	border-top:1px solid #999;
+	border-bottom:1px solid #999;
+	background-color:#fe4;
+	line-height: 2em;
+}
+
+
+table {
+	font-size:1em;
+}
+
+table.tb  {
+	border-left:1px solid #000;
+	border-top:1px solid #000;
+}
+
+table.tb td {
+	border-bottom: 1px solid #000;
+	border-right:1px solid #000;
+}
+
+table.tb th {
+	border-bottom: 1px solid #000;
+	border-right:1px solid #000;
+}
+
+/* remove out the comment line if don't want to show horizontal line*/
+
+/*.no_border_bottom td{
+	border-bottom:none !important;
+}
+.total_row td, .total_row th{
+    border-top: 1px solid #000;
+}
+.td_btm_got_line td,.td_btm_got_line th{
+    border-bottom:1px solid black !important;
+}*/
+
+.strike { text-decoration: line-through; }
+
+
+td div.crop {
+	line-height:1em;height:1em;overflow:hidden;
+} 

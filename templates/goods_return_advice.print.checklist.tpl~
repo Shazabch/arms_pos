@@ -1,0 +1,269 @@
+{*
+Revision History
+================
+4/19/2007 yinsee
+- add return_type + cost column and total row
+- rearrange vendor, date etc order
+
+9/21/2007 10:48:14 AM yinsee
+- only show total in last page
+
+2/19/2008 3:54:28 PM gary
+- separate out the NONSKU and SKU items with pagination.
+
+2/20/2008 11:15:02 AM gary
+- add grand total if have nonSKU items.
+
+4/7/2008 4:55:48 PM gary
+- add branch tel.
+
+3/2/2009 5:00:00 PM Jeff
+- add total & grand total
+*}
+
+{if !$skip_header}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<link rel="stylesheet" type="text/css" href="templates/print.css">
+
+<body onload="window.print()">
+{/if}
+
+<!-- print sheet -->
+<div class=printarea>
+
+{*if $sku_type!='CONSIGN'*}
+<!--<table align=right cellpadding=4 cellspacing=0 border=0>
+<tr bgcolor=#cccccc>
+	<td align=center><b>GRA CHECKLIST<br>GRA{$form.id|string_format:"%05d"}/{$form.batchno}</b></td>
+</tr>
+</table>
+<h2>{$branch.description}</h2>-->
+{*else*}
+<table width=100% cellpadding=4 cellspacing=0 border=0>
+<tr>
+<td width=30% align=left nowrap><h3>{$branch.description}</td>
+<td width=40% align=center><h2>GRA CHECKLIST ({$form.sku_type})</h2></td>
+<td width=20% align=right><h2>GRA{$form.id|string_format:"%05d"}/{$form.batchno}</h2><br>{$page}</td>
+</tr>
+</table>
+{*/if*}
+
+<div class=small style="padding-bottom:10px">
+{$branch.address|nl2br}<br>
+Tel: {$branch.phone_1}{if $branch.phone_2} / {$branch.phone_2}{/if}
+</div>
+
+<table width=100% border=0 cellspacing=0 cellpadding=4 class="tb">
+<tr>
+	<td><b>Vendor</b></td>
+	<td>{$form.vendor}</td>
+	<td><b>Date</b></td>
+	<td>{$smarty.now|date_format:"%d/%m/%Y %I:%M%p"}</td>
+</tr>
+<tr >
+	<td><b>Department</b></td>
+	<td>{$form.dept_code}</td>
+	<td><b>Printed By</b></td>
+	<td>{$sessioninfo.u}</td>
+</tr>
+</table>
+
+<br>
+{if $items && !$new}
+<table border=0 cellspacing=0 cellpadding=4 width=100% class="tb xsmall">
+<tr  bgcolor=#cccccc>
+	<th>&nbsp;</th>
+	<th>ARMS Code/<br>MCode</th>
+	<!--th>Manufacturer Code</th-->
+	<th>Article No{if $config.link_code_name}/<br>{$config.link_code_name}{/if}</th>
+	{if $config.link_code_name}
+	<!--th>{$config.link_code_name}</th-->
+	{/if}
+	<th width=40%>SKU</th>
+	{if $form.sku_type eq 'CONSIGN'}
+	<th align=center>Price Type</th>
+	<th align=center>Selling Price</th>
+	{/if}
+	<th>Return Type</th>
+	{if $form.sku_type ne 'CONSIGN'}
+	<th>Cost</th>
+	{/if}
+	<th>Qty (pcs)</th>
+	<th>Amount</th>
+</tr>
+
+{assign var=t_page value=0}
+{assign var=gra_items value=$items}
+
+{section name=i loop=$gra_items}
+<!--{$t_page++}-->
+{assign var=total_qty value=$gra_items[i].qty+$total_qty}
+{if $form.sku_type eq 'CONSIGN'}
+	{assign var=total_amt value=$gra_items[i].qty*$gra_items[i].selling_price+$total_amt}
+{else}
+	{assign var=total_amt value=$gra_items[i].qty*$gra_items[i].cost+$total_amt}
+{/if}
+
+<tr id="tbrow_{$gra_items[i].id}" bgcolor="{cycle values="#eeeeee,"}">
+    <td align=right>
+    <!--{$line_no++}-->
+	{$line_no}
+    </td>
+	<td>{$gra_items[i].sku_item_code}<br>{$gra_items[i].mcode}</td>
+	<!--td>{$gra_items[i].mcode|default:"&nbsp;"}</td-->
+	
+	<td>{$gra_items[i].artno}{if $config.link_code_name}<br>{$gra_items[i].link_code}{/if}</td>
+	{if $config.link_code_name}
+	<!--td>{$gra_items[i].link_code|default:"&nbsp;"}</td-->
+	{/if}
+	<td>{$gra_items[i].sku}</td>
+	{if $form.sku_type eq 'CONSIGN'}
+	<td align=center>{$gra_items[i].price_type|default:"&nbsp;"}</th>
+	<td align=center>{$gra_items[i].selling_price|default:"&nbsp;"|number_format:3}</th>
+	{/if}
+	<td>{$gra_items[i].return_type|default:"-"}</td>
+	{if $form.sku_type ne 'CONSIGN'}
+	<td align=right>{$gra_items[i].cost|number_format:3}</td>
+	{/if}
+	<td align=right>{$gra_items[i].qty|number_format}</td>
+	<td align=right>
+	{if $form.sku_type eq 'CONSIGN'}
+	{$gra_items[i].qty*$gra_items[i].selling_price|number_format:3}
+	{else}
+	{$gra_items[i].qty*$gra_items[i].cost|number_format:3}
+	{/if}
+	</td>
+</tr>
+{/section}
+
+{repeat s=$t_page+1 e=9}
+<tr height=30>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	{if $form.sku_type eq 'CONSIGN'}
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	{/if}
+	<td>&nbsp;</td>
+	{if $form.sku_type ne 'CONSIGN'}
+	<td>&nbsp;</td>
+	{/if}
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+{/repeat}
+
+{if $is_lastpage}
+<tr>
+	{if $config.link_code_name && $form.sku_type eq 'CONSIGN'}
+		{assign var=cols value=7}
+	{elseif $config.link_code_name}
+		{assign var=cols value=6}
+	{elseif $form.sku_type}
+		{assign var=cols value=7}
+	{else}
+		{assign var=cols value=5}
+	{/if}
+	<th colspan={$cols} align=right>Total</th>
+	<td align=right>{$total_qty|number_format}</td>
+	<td align=right>{$total_amt|number_format:3}</td>
+</tr>
+{/if}
+</table>
+<br>
+{/if}
+
+
+{if $new}
+<h5>Items Not in ARMS SKU</h5>
+<table border=0 cellspacing=0 cellpadding=4 width=100% class="tb  xsmall">
+<tr  bgcolor=#cccccc>
+	<th>&nbsp;</th>
+	<th>Item Code</th>
+	<th width=50%>Description</th>
+	<th>Cost</th>
+	<th>Qty (pcs)</th>
+	<th>Amount</th>
+</tr>
+
+{assign var=t1_page value=0}
+
+{section name=i loop=$new}
+<!--{$t1_page++}-->
+{assign var=total1_qty value=$new[i].qty+$total1_qty}
+{assign var=total1_amt value=$new[i].qty*$new[i].cost+$total1_amt}
+
+<tr  id="tbrow_{$new[i].id}" bgcolor="{cycle values="#eeeeee,"}" height=30>
+    <td width=6 align=right>
+    {$start_counter+$smarty.section.i.iteration}.
+    </td>
+	<td>{$new[i].code}</td>
+	<td>{$new[i].description}</td>
+	<td align=right>{$new[i].cost|number_format:3}</td>
+	<td align=right>{$new[i].qty|number_format}</td>
+	<td align=right>{$new[i].qty*$new[i].cost|number_format:3}</td>
+</tr>
+{/section}
+
+{repeat s=$t1_page+1 e=9}
+<tr height=30>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+{/repeat}
+
+{if $is_lastpage}
+<tr>
+	<th colspan=4 align=right>Total</th>
+	<td align=right>{$total1_qty|number_format}</td>
+	<td align=right>{$total1_amt|number_format:3}</td>
+</tr>
+<tr>
+	<th colspan=4 align=right>Grand Total</th>
+	<td align=right>{$total1_qty+$total_qty|number_format}</td>
+	<td align=right>{$total1_amt+$total_amt|number_format:3}</td>
+</tr>
+{/if}
+</table>
+{/if}
+
+<br>
+
+<table class="tbd small" cellpadding=4 cellspacing=0 border=0 width=100%>
+<tr  bgcolor=#cccccc>
+	<th width=80>&nbsp;</th>
+	<th>Name</th>
+	<th>Signature</th>
+	<th>Date</th>
+	<th>Time</th>
+</tr>
+<tr  height=25>
+	<td><b>Issued By</b></td>
+	<td align=center>{$sessioninfo.fullname}</td>
+	<td>&nbsp;</td>
+	<td align=center>{$smarty.now|date_format:"%d/%m/%Y"}</td>
+	<td align=center>{$smarty.now|date_format:"%H:%M:%S"}</td>
+</tr>
+<tr  height=25>
+	<td><b>Delivered By <BR>(Dept PIC)</b></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<tr  height=25>
+	<td><b>Received By <BR>(Store Department)</b></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+</div>

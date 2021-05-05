@@ -1,0 +1,45 @@
+body {
+	font:20px Arial;
+	margin:0; padding:0; 
+	background: #fefefe;
+	color: #000;
+	text-align:center;
+	height:100%;
+}
+
+.small{ font-size: 15px; }
+.large{ font-size: 30px; }
+.gst_info{
+	font-size: 50%;
+}
+.sku_photo{
+	min-width:150px;
+	min-height:150px;
+	width: 90%;
+	height: 90%;
+}
+
+.label{
+	background: #cbe7d3;
+}
+
+.div_sp{
+	font-size: 80px;
+}
+.smaller{
+	font-size: 80%;
+}
+.span_sp{
+	font-weight: bold;
+}
+
+.div_not_allow_discount{
+	color: red;
+	font-weight: bold;
+	border: 2px solid red;
+	background-color: #FFFAAE;
+	padding: 10px 10px;
+	margin: auto;
+	width: 150px;
+	white-space: nowrap;
+}

@@ -1,0 +1,155 @@
+Windows Registry Editor Version 5.00
+[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main]
+"Anchor Underline"="no"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache\Content]
+"CacheLimit"=dword:200
+[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main]
+"Error Dlg Displayed On Every Error"="no"
+"Search Page"="http://search.msn.com"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings]
+"SecureProtocols"=dword:28
+[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main]
+"SmoothScroll"=dword:1
+"Start Page"="http://hq.12shoppkt.com:4000/pricechecker/index.php?branch=PKTPT"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings]
+"WarnOnBadCertRecving"=dword:0
+"WarnOnBadCertSending"=dword:0
+"WarnOnPost"=dword:0
+"WarnOnPostRedirect"=dword:0
+"WarnOnZoneCrossing"=dword:0
+[HKEY_CURRENT_USER\Software\Symbol\ScanWedge]
+"AutoEnter"=dword:0
+"AutoTab"=dword:0
+"RasterMode"=dword:3
+"CodeId"=dword:0
+[HKEY_LOCAL_MACHINE\Comm\SMC91C1111\Parms\TcpIp]
+"DefaultGateway"=""
+[HKEY_LOCAL_MACHINE\Comm\SMC91C1111\Parms\Tcpip\DhcpSendOptions]
+[HKEY_LOCAL_MACHINE\Comm\SMC91C1111\Parms\TcpIp]
+"EnableDHCP"=dword:1
+[HKEY_LOCAL_MACHINE\SOFTWARE\Symbol Technologies, Inc.\Profiles\Default]
+"CountryCode"="IR"
+[HKEY_LOCAL_MACHINE\Comm\NETWLAN1\Parms\Tcpip\DhcpSendOptions]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Symbol Technologies, Inc.\Profiles\Default]
+"EnableDHCP"=dword:0
+"ESS_ID"="101"
+[HKEY_LOCAL_MACHINE\Comm\SLACE1\Parms\Tcpip\DhcpSendOptions]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Symbol Technologies, Inc.\Profiles\Default]
+[HKEY_LOCAL_MACHINE\Comm\SLACE1\Parms\TcpIp]
+"EnableDHCP"=dword:1
+[HKEY_LOCAL_MACHINE\Comm\SLACE1\Parms]
+"ESS_ID"="101"
+[HKEY_LOCAL_MACHINE\HARDWARE\DEVICEMAP\BACKLIGHT]
+"BacklightIntensity"=dword:3a
+[HKEY_LOCAL_MACHINE\Software\Symbol\ButtonsDriver]
+"Button_1"=dword:26
+"Button_2"=dword:28
+"Button_4"=dword:25
+"Button_8"=dword:27
+"Button_3"=dword:d
+"Button_5"=dword:c2
+"Button_6"=dword:c7
+"Button_7"=dword:c5
+"Button_9"=dword:12
+"Button_10"=dword:9
+"Button_11"=dword:c3
+"Button_12"=dword:1b
+"Button_13"=dword:c4
+"Button_14"=dword:8
+"Button_15"=dword:c6
+"TriggerTime"=dword:1f4
+[HKEY_LOCAL_MACHINE\Time Zones]
+"Default"="Pacific Standard Time"
+[HKEY_LOCAL_MACHINE\Services\IAM]
+"EnablePowerSaver"=dword:1
+[HKEY_LOCAL_MACHINE\Services\IAM\1]
+"Name"="All"
+"Days"=dword:0
+[HKEY_LOCAL_MACHINE\Services\IAM\2]
+"Name"="All"
+"Days"=dword:0
+[HKEY_LOCAL_MACHINE\Services\IAM\3]
+"Name"="All"
+"Days"=dword:0
+[HKEY_LOCAL_MACHINE\System\OOM]
+"cbFSFree"=dword:100000
+"cbFSSteal"=dword:100000
+"ShowWindow"=dword:0
+"ShowWindow"=dword:0
+[HKEY_LOCAL_MACHINE\Services\IAM]
+"InactivityAppName"="\\Windows\\SimpleSaver.exe"
+"IdleTimeBeforeLaunch"=dword:0
+[HKEY_LOCAL_MACHINE\Software\Symbol\SNTPClient]
+"Quiet"=dword:1
+"Period"=dword:0
+"Timeout"=dword:19
+[HKEY_LOCAL_MACHINE\Drivers\BuiltIn\SymPrint1]
+"DeviceName"="Comtec_RP3"
+[HKEY_LOCAL_MACHINE\Software\Symbol\GateKeeper]
+"Password"="44213"
+"Application"="\\windows\\explorer.exe"
+[HKEY_LOCAL_MACHINE\nls\overrides]
+"ILZro"=dword:1
+[HKEY_CURRENT_USER\ControlPanel\Pen]
+"DblTapDist"=dword:6
+"DblTapTime"=dword:1f4
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog11]
+"Name"="\\windows\\kioskie.exe"
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog12]
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog13]
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog14]
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog15]
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog16]
+"Continue"=dword:1
+[HKEY_CURRENT_USER\Software\Symbol\StartUp\Programs\Prog17]
+"Continue"=dword:1
+[HKEY_LOCAL_MACHINE\Software\Symbol\ButtonsDriver]
+"BeeperDuration"=dword:8
+"BeeperFrequency"=dword:190
+"BeeperVolume"=dword:2
+[HKEY_LOCAL_MACHINE\Software\Symbol\Audio]
+"BeeperVolume"=dword:1
+[HKEY_LOCAL_MACHINE\Drivers\BuiltIn\Touch]
+"BeeperDuration"=dword:8
+"BeeperFrequency"=dword:190
+"BeeperVolume"=dword:2
+[HKEY_LOCAL_MACHINE\SOFTWARE\AirBeam]
+"ASCENDINGONLY"="1"
+"AUTOLOAD"="0"
+"AUTOLOADNOPROMPT"="0"
+"AUTORETRY"="-1"
+"CLOSEAPPS"="1"
+[HKEY_LOCAL_MACHINE\Comm\IGNOREPACKAGE\Parms\Tcpip\DhcpSendOptions]
+[HKEY_LOCAL_MACHINE\SOFTWARE\AirBeam]
+[HKEY_LOCAL_MACHINE\Comm\IGNORESERVER\Parms\Tcpip\DhcpSendOptions]
+[HKEY_LOCAL_MACHINE\SOFTWARE\AirBeam]
+"FORCETOPMOST"="1"
+"LAUNCHONFAIL"="0"
+"PASSIVEMODE"="0"
+"INUSETEST"="0"
+"PUTPACKAGE"="0"
+"RAMMGT"="1"
+"RETRYDELAY"="300"
+"SCHEDULELOADMODE"="0"
+"SCHEDULEMODE"="0"
+"SCHEDULEPROMPT"="0"
+"SCHEDULETIME"="0"
+"SUPPRESSSEP"="0"
+"TFTP"="0"
+"WNMS"="0"
+"WNMSONTEST"="0"
+[HKEY_LOCAL_MACHINE\COMM\FTPD]
+"IsEnabled"=dword:1
+"AllowOverride"=dword:1
+"AllowAnonymous"=dword:1
+"AllowAnonymousUpload"=dword:1
+"DefaultDir"="\\"
+"UseAuthentication"=dword:0
+;Do NOT delete the following two lines (ConfigDomain and ConfigVersion):
+;ConfigVersion=0.1
+;ConfigDomain=MK1100

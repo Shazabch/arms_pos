@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*).jpg$ /icfiles.save/$1.JPG [R,L]
+RewriteRule ^(.*).JPG$ /icfiles.save/$1.jpg [R,L]
+
