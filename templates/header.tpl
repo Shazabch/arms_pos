@@ -189,6 +189,33 @@
 <link rel="stylesheet" media="print" href="/templates/print.css" type="text/css">
 <link rel="shortcut icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- Icons css -->
+		<link href="../assets/css/icons.css" rel="stylesheet">
+
+		<!--  Owl-carousel css-->
+		<link href="../assets/plugins/owl-carousel/owl.carousel.css" rel="stylesheet" />
+
+		<!-- P-scroll bar css-->
+		<link href="../assets/plugins/perfect-scrollbar/p-scrollbar.css" rel="stylesheet" />
+
+		<!--  Right-sidemenu css -->
+		<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
+
+		<!-- Sidemenu css -->
+		<link rel="stylesheet" href="../assets/css/sidemenu.css">
+
+		<!-- Maps css -->
+		<link href="../assets/plugins/jqvmap/jqvmap.min.css" rel="stylesheet">
+
+		<!-- style css -->
+		<link href="../assets/css/style.css" rel="stylesheet">
+		<link href="../assets/css/style-dark.css" rel="stylesheet">
+
+		<!---Skinmodes css-->
+		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
+
+
 <script src="/js/prototype.js" language=javascript type="text/javascript"></script>
 <script src="/js/scriptaculous.js" language=javascript type="text/javascript"></script>
 <script src="/js/sorttable.js?v=2" type="text/javascript"></script>
@@ -202,8 +229,8 @@
 </script>
 </head>
 
-<body onmousemove = "mouse_trapper(event);" style="display: flex;flex-direction: column;min-height: 100vh;" id="page-top">
-<div class=noprint>
+<body class="main-body app sidebar-mini" onmousemove = "mouse_trapper(event);" id="page-top">
+
 <div id=curtain onclick="default_curtain_clicked()" style="position:absolute;display:none;z-index:9999;background:#fff;opacity:0.1;"></div>
 <div id="curtain2" style="position:absolute;display:none;z-index:9999;background:#000;opacity:0.1;"></div>
 <div id="div_global_wait_popup" style="display:none;position:absolute;z-index:10000;background:#fff;border:1px solid #000;padding:5px;width:200;height:100">
@@ -247,48 +274,55 @@ position:absolute;z-index:10001;" class="curtain_popup">
 </div>
 <div style="height:26px;"></div>
 *}
-<table width=100% cellspacing=0 cellpadding=0 border=0 id="top_nav_header">
-	<tr>
-	<td class="redbar header1" align=center nowrap style="width:5%;"><b>{if !$sa_session}{$BRANCH_CODE}{/if}</b></td>
-	<td width=1 style="display: none"><img src=ui/pixel.gif width=1 height=20></td>
-	<td class="greenbar header1" style="width:25%;" nowrap>
-		{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false}
-			ARMS&reg; GO Retail Management System &amp; Point Of Sale
-		{elseif $config.consignment_modules}
-			ARMS&reg; Consignment Retail Management System &amp; Point Of Sale
-		{else}
-			{#SYSTEM_ID#}
-		{/if}
-	</td>
-	<td align=center class="greenbar" nowrap style="width:40%;"><b>{$license.Licensed.value|upper}</td>
-	<td align=right class="greenbar header3" nowrap style="width:30%;">
-	{if $sessioninfo}
-		<b>Logged in as 
-		{if $smarty.session.admin_session}
-			{$smarty.session.admin_session.u}</b> (now running as <b>{$sessioninfo.u}</b> | <a href="/login.php?logout_as=1"><u>Logout</u></a>)
-		{else}
-			{$sessioninfo.u}</b>
-		{/if}
-	{elseif $vp_session}
-		<b>Logged in as {$vp_session.description}</b>
-	{elseif $dp_session}
-		<b>Logged in as {$dp_session.description}</b>
-	{elseif $sa_session}
-		<b>Logged in as {$sa_session.name}</b>
-	{/if}
-	&nbsp;&nbsp;&nbsp;
-	<span class="header_datetime">
-	{*<img src="/ui/icon-flat/icon-calendar.png" align="absmiddle" class="icon icon-new"/>*}
-	<i class="icofont-ui-calendar icofont header-icon"></i>
-	{$smarty.now|date_format:"%a %d %b, %I:%M%p"}</span></td>
-	</tr>
-	<tr><td colspan=5><img src=ui/pixel.gif width=760 height=1></td></tr>
-</table>
 
-<a name="#top"> </a>
-{assign var=http_host value=$smarty.server.HTTP_HOST}
-{if !$no_menu_templates && !$smarty.session.$http_host.is_remote}{include file=menu.tpl}{/if}
-</div>
-<div class=body>
+<!-- Loader -->
+		<!-- <div id="global-loader">
+			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
+		</div> -->
+		<!-- /Loader -->
+
+		<!-- Page -->
+		<div class="page">
+
+			{assign var=http_host value=$smarty.server.HTTP_HOST}
+
+			{if !$no_menu_templates && !$smarty.session.$http_host.is_remote}{include file=menu.tpl}{/if}
+
+
+			
+
+			<!-- main-content -->
+			<div class="main-content app-content">
+
+				<!-- main-header -->
+				<div id ="top_nav_header" class="main-header sticky side-header nav nav-item">
+					<div class="container-fluid">
+						<div class="main-header-left ">
+							<div class="responsive-logo">
+								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
+								
+							</div>
+							<div class="app-sidebar__toggle" data-toggle="sidebar">
+								<a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
+								<a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
+							</div>
+							<div class="main-header-center ml-3 d-sm-none d-md-none d-lg-block">
+								<p style="display: table-cell;" class="lead">{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false}
+							ARMS&reg; GO Retail Management System &amp; Point Of Sale
+						{elseif $config.consignment_modules}
+							ARMS&reg; Consignment Retail Management System &amp; Point Of Sale
+						{else}
+							{#SYSTEM_ID#}
+						{/if}</p>
+							</div>
+						</div>
+						<div class="main-header-right">
+							<i class="mdi mdi-calendar"></i> &nbsp; {$smarty.now|date_format:"%a %d %b, %I:%M %p"}
+							
+						</div>
+					</div>
+				</div>
+				<!-- /main-header -->
+<div class=container-fluid>
 <img src=ui/pixel.gif width=700 height=1><br>
 {/if}

@@ -698,5 +698,8 @@ if($config['login_page_header']){
 	$smarty->assign("header_info", $header_info);
 }
 
+//echo $smarty->compile_dir;
+//echo $smarty->template_dir;
 $smarty->display("login.tpl");
+
 ?>

@@ -715,8 +715,17 @@ if(!defined('HQ_MYSQL')) define("HQ_MYSQL", "localhost");
 // error_reporting (E_ALL);
 if (!isset($_SERVER['SERVER_NAME']) || $_SERVER['SERVER_NAME'] != 'maximus'){
 	
-    if (defined('E_FATAL')) error_reporting(E_FATAL | E_ERROR);
-	else error_reporting (E_ERROR);
+    if (defined('E_FATAL')){
+    	error_reporting(E_FATAL | E_ERROR);
+
+    	
+    } 
+    else{
+    	 error_reporting (E_ERROR);
+
+    }
+	
+	
 }else{
 	//error_reporting (E_ERROR & ~E_NOTICE);
 	error_reporting (E_ALL ^ E_NOTICE);
