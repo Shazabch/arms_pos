@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-05-11 17:21:39
+<?php /* Smarty version 2.6.18, created on 2021-05-11 18:24:29
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 320, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 327, false),)), $this); ?>
 <?php if (! $this->_tpl_vars['no_header_footer']): ?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -57,7 +57,10 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 
 		<!---Skinmodes css-->
 		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
+		
 
+		
+		
 
 <script src="/js/prototype.js" language=javascript type="text/javascript"></script>
 <script src="/js/scriptaculous.js" language=javascript type="text/javascript"></script>
@@ -143,6 +146,10 @@ unset($_smarty_tpl_vars);
 						<div class="main-header-left ">
 							<div class="responsive-logo">
 								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
+							
+
+								<a href="index.html"><img src="../../assets/img/brand/favicon.png" class="logo-2" alt="logo"></a>
+								
 								
 							</div>
 							<div class="app-sidebar__toggle" data-toggle="sidebar">

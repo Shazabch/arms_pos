@@ -214,7 +214,10 @@
 
 		<!---Skinmodes css-->
 		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
+		
 
+		
+		
 
 <script src="/js/prototype.js" language=javascript type="text/javascript"></script>
 <script src="/js/scriptaculous.js" language=javascript type="text/javascript"></script>
@@ -300,6 +303,10 @@ position:absolute;z-index:10001;" class="curtain_popup">
 						<div class="main-header-left ">
 							<div class="responsive-logo">
 								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
+							
+
+								<a href="index.html"><img src="../../assets/img/brand/favicon.png" class="logo-2" alt="logo"></a>
+								
 								
 							</div>
 							<div class="app-sidebar__toggle" data-toggle="sidebar">

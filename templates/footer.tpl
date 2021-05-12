@@ -131,6 +131,59 @@
 </div>
 <!-- End Page -->
 
+<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		
+
+		<!-- JQuery min js -->
+		<script src="../assets/plugins/jquery/jquery.min.js"></script>
+
+			<script type="text/javascript">
+			{literal}
+				jQuery.noConflict();
+				 // jQuery(document).ready(function(){
+			  //     console.log("ready ji");
+			  //     });
+
+
+			{/literal}	
+		</script>
+		
+
+		<!-- Bootstrap Bundle js -->
+		<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Ionicons js -->
+		<script src="../assets/plugins/ionicons/ionicons.js"></script>
+
+		<!-- Moment js -->
+		<script src="../assets/plugins/moment/moment.js"></script>
+
+		<!-- P-scroll js -->
+		<script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
+
+		<!-- Sticky js -->
+		<script src="../assets/js/sticky.js"></script>
+
+		<!-- eva-icons js -->
+		<script src="../assets/js/eva-icons.min.js"></script>
+
+		<!-- Rating js-->
+		<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
+		<script src="../assets/plugins/rating/jquery.barrating.js"></script>
+
+		<!-- Sidebar js -->
+		<script src="../assets/plugins/side-menu/sidemenu.js"></script>
+
+		<!-- Right-sidebar js -->
+		<script src="../assets/plugins/sidebar/sidebar.js"></script>
+		<script src="../assets/plugins/sidebar/sidebar-custom.js"></script>
+
+		<!-- custom js -->
+		<script src="../assets/js/custom.js"></script>
+
 </body>
 </html>
 

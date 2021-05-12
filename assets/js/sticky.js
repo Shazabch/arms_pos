@@ -1,6 +1,6 @@
-$(document).ready(function(){
+jQuery(document).ready(function(){
 
-  var stickyElement = $(".sticky"),
+  var stickyElement = jQuery(".sticky"),
       stickyClass = "sticky-pin",
       stickyPos = stickyElement.offset().top, //Distance from the top of the window.
       stickyHeight;
@@ -17,13 +17,13 @@ $(document).ready(function(){
   jumpsPrevent(); //Run.
 
   //Function trigger:
-  $(window).resize(function(){
+  jQuery(window).resize(function(){
     jumpsPrevent();
   });
 
   //Sticker function:
   function stickerFn() {
-    var winTop = $(this).scrollTop();
+    var winTop = jQuery(this).scrollTop();
     //Check element position:
     winTop >= stickyPos ?
       stickyElement.addClass(stickyClass):
@@ -32,7 +32,7 @@ $(document).ready(function(){
   stickerFn(); //Run.
 
   //Function trigger:
-  $(window).scroll(function(){
+  jQuery(window).scroll(function(){
     stickerFn();
   });
 

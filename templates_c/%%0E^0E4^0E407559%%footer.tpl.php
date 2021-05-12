@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-05-11 17:21:39
+<?php /* Smarty version 2.6.18, created on 2021-05-11 18:24:29
          compiled from footer.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'footer.tpl', 60, false),)), $this); ?>
@@ -132,6 +132,60 @@ if ($this->_foreach['cpf']['total'] > 0):
 
 </div>
 <!-- End Page -->
+
+<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
+		
+
+		<!-- JQuery min js -->
+		<script src="../assets/plugins/jquery/jquery.min.js"></script>
+
+			<script type="text/javascript">
+			<?php echo '
+				jQuery.noConflict();
+				 // jQuery(document).ready(function(){
+			  //     console.log("ready ji");
+			  //     });
+
+
+			'; ?>
+	
+		</script>
+		
+
+		<!-- Bootstrap Bundle js -->
+		<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Ionicons js -->
+		<script src="../assets/plugins/ionicons/ionicons.js"></script>
+
+		<!-- Moment js -->
+		<script src="../assets/plugins/moment/moment.js"></script>
+
+		<!-- P-scroll js -->
+		<script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
+
+		<!-- Sticky js -->
+		<script src="../assets/js/sticky.js"></script>
+
+		<!-- eva-icons js -->
+		<script src="../assets/js/eva-icons.min.js"></script>
+
+		<!-- Rating js-->
+		<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
+		<script src="../assets/plugins/rating/jquery.barrating.js"></script>
+
+		<!-- Sidebar js -->
+		<script src="../assets/plugins/side-menu/sidemenu.js"></script>
+
+		<!-- Right-sidebar js -->
+		<script src="../assets/plugins/sidebar/sidebar.js"></script>
+		<script src="../assets/plugins/sidebar/sidebar-custom.js"></script>
+
+		<!-- custom js -->
+		<script src="../assets/js/custom.js"></script>
 
 </body>
 </html>

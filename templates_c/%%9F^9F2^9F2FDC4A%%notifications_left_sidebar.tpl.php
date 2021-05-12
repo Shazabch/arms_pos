@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-05-11 17:21:41
+<?php /* Smarty version 2.6.18, created on 2021-05-11 18:24:32
          compiled from notifications_left_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_left_sidebar.tpl', 55, false),array('modifier', 'urlencode', 'notifications_left_sidebar.tpl', 74, false),array('modifier', 'escape', 'notifications_left_sidebar.tpl', 74, false),array('modifier', 'string_format', 'notifications_left_sidebar.tpl', 316, false),)), $this); ?>

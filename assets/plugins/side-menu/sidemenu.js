@@ -1,4 +1,4 @@
-(function () {
+(function ($) {
 	"use strict";
 
 	var slideMenu = $('.side-menu');
@@ -150,4 +150,4 @@
 	  suppressScrollX:true,
 	});
 
-})();
+})(jQuery);
