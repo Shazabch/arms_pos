@@ -1,19 +1,37 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-03 21:14:46
+<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:28
          compiled from notifications_right_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 38, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 97, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 98, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 205, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 209, false),array('function', 'count', 'notifications_right_sidebar.tpl', 248, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 53, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 116, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 117, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 235, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 239, false),array('function', 'count', 'notifications_right_sidebar.tpl', 278, false),)), $this); ?>
 
 <!-- Price Change Notify -->
 <?php if ($this->_tpl_vars['price_history']): ?>
-<div id="history_popup" style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
-<div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
-<div id="history_popup_content"></div>
-</div>
 
-<h5><i class="icofont-price icofont"></i> Price Change History</h5>
-<div class=ntc>Last 25 price change items</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-<?php unset($this->_sections['i']);
+<!-- History Popup Start -->
+<div class="modal fade" id="history_popup" data-backdrop="false">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Modal Header</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<div id="history_popup_content"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- History Popup End-->
+
+<!-- <div id="history_popup" style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
+	<div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
+	<div id="history_popup_content"></div>
+</div> -->
+
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Price Change History</div>
+		<span class="border-bottom mb-4">Last 25 price change items</span>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height:200px;">
+			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['price_history']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['i']['show'] = true;
@@ -37,32 +55,34 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-<div style="border-bottom:1px solid #eee">
-<font color=#666666 class=small>
-<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['last_update']; ?>
+			<li  style="font-size: 0.8rem;">
+				<span class="text-muted" style="font-size: 0.6rem;"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['last_update']; ?>
  - <?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['branch']; ?>
-
-</font><br>
-<img title="View History" onclick="price_history(this,<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['id']; ?>
+</span><br>
+				<strong style="font-size: 0.9rem;">
+					<i class="fas fa-search"  data-toggle="modal" href="#history_popup" onclick="price_history(this,<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['id']; ?>
 ,<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['branch_id']; ?>
-)" src="/ui/icons/zoom.png" align=left/> <font class="idno" color=#d00000>
-<?php if ($this->_tpl_vars['config']['notification_price_change_show_artno']): ?>
-    <?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['artno']; ?>
+)" role="button"></i>
+					<?php if ($this->_tpl_vars['config']['notification_price_change_show_artno']): ?>
+						<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['artno']; ?>
 
-<?php else: ?>
-	<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['sku_item_code']; ?>
+					<?php else: ?>
+						<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['sku_item_code']; ?>
 
-<?php endif; ?>
-
-</font> = <font class="price_amount" color=blue><?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
+					<?php endif; ?>
+				</strong>= <?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['price_history'][$this->_sections['i']['index']]['price'])) ? $this->_run_mod_handler('number_format', true, $_tmp, 2) : number_format($_tmp, 2)); ?>
-</font><br>
-<font class=small><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['description']; ?>
-</font>  
+<br>
+				<span style="font-size: 0.6rem;" class=" text-secondary"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['description']; ?>
+</span>
+			</li>
+			<?php endfor; endif; ?>
+		</ul>
+	</div>
 </div>
-<?php endfor; endif; ?>
-</div>
+
 <?php endif; ?>
+<!-- Price Change Notify  End -->
 
 <!-- Batch Price Change notification -->
 <?php if ($this->_tpl_vars['batch_price_change']['ok'] == 1): ?>
@@ -172,11 +192,12 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 
 <!-- New SKU Notify -->
 <?php if ($this->_tpl_vars['new_sku']): ?>
-<h5>
-<i class="icofont-tags icofont"></i> New SKU</h5>
-<div class=ntc>Last 25 new SKU items</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-<?php unset($this->_sections['i']);
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> New SKU</div>
+		<span class="border-bottom mb-2">Last 25 new SKU items</span>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 300px;">
+			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['new_sku']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['i']['show'] = true;
@@ -200,39 +221,44 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-<div style="border-bottom:1px solid #eee;cursor:pointer;" onclick="window.open('masterfile_sku.php?a=view&id=<?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_id']; ?>
-')">
-<font color=#666666 class=small>
-<?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['added']; ?>
+			<li  style="font-size: 0.8rem;">
+				<a href="masterfile_sku.php?a=view&id=<?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_id']; ?>
+" target="_blank" class="text-reset">
+					<span class="text-muted" style="font-size: 0.6rem;"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['added']; ?>
+</span><br>
+					<strong style="font-size: 0.9rem;">
+						<?php if ($this->_tpl_vars['config']['notification_price_change_show_artno']): ?>
+						    <?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['artno']; ?>
 
-</font><br>
-<div class="text-link">
-	<font class="idno" color=#d00000>
-	<?php if ($this->_tpl_vars['config']['notification_price_change_show_artno']): ?>
-	    <?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['artno']; ?>
+						<?php else: ?>
+							<?php echo ((is_array($_tmp=@$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['mcode'])) ? $this->_run_mod_handler('default', true, $_tmp, @$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_item_code']) : smarty_modifier_default($_tmp, @$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_item_code'])); ?>
 
-	<?php else: ?>
-		<?php echo ((is_array($_tmp=@$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['mcode'])) ? $this->_run_mod_handler('default', true, $_tmp, @$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_item_code']) : smarty_modifier_default($_tmp, @$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_item_code'])); ?>
-
-	<?php endif; ?>
-	</font> = <font class="price_amount" color=blue><?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
+						<?php endif; ?>
+					</strong>= <?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['selling_price'])) ? $this->_run_mod_handler('number_format', true, $_tmp, 2) : number_format($_tmp, 2)); ?>
-</font><br>
-	<font class="price_amount" class=small><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['description']; ?>
-</font> 
-</div>
-</div>
-<?php endfor; endif; ?>
+<br>
+					<span style="font-size: 0.6rem;" class=" text-secondary"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['description']; ?>
+</span>
+				</a>
+			</li>
+			<?php endfor; endif; ?>
+		</ul>
+	</div>
 </div>
 <?php endif; ?>
+<!-- New SKU Notify  End-->
 
 <!-- GRA Notify -->
+
 <?php if ($this->_tpl_vars['last_gra']): ?>
-<h5>
-<i class="icofont-building icofont"></i> GRA Status</h5>
-<div class=ntc>The following GRA has been pending for more than a week</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-<?php unset($this->_sections['i']);
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Gra Status</div>
+		<div class="border-bottom mb-2">
+			<span>The following GRA has been pending for more than a week</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['last_gra']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['i']['show'] = true;
@@ -256,28 +282,35 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-<div style="border-bottom:1px solid #eee"><a href="/goods_return_advice.php?a=view&id=<?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['id']; ?>
-"><?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['vendor']; ?>
-</a><br>
-<font color=#666666 class=small>
-Created: <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['added']; ?>
-<br>
-Last Update: <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['last_update']; ?>
-
-</font>
-</div>
-<?php endfor; endif; ?>
+			<li  style="font-size: 0.8rem;">
+				<a href="/goods_return_advice.php?a=view&id=<?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['id']; ?>
+" target="_blank" class="text-reset">
+					<strong style="font-size: 0.8rem;"><?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['vendor']; ?>
+</strong><br>
+					<span class="text-secondary" style="font-size: 0.6rem;">Created: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['added']; ?>
+</span></span><br>
+					<span style="font-size: 0.6rem;" class=" text-secondary">Last Update: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['last_update']; ?>
+</span></span>
+				</a>
+			</li>
+			<?php endfor; endif; ?>
+		</ul>
+	</div>
 </div>
 <?php endif; ?>
+<!-- GRA Notify End -->
 
 <!-- GRR Notify -->
 <?php if ($this->_tpl_vars['grr_notify']): ?>
-<h5>
-<i class="icofont-building icofont"></i> GRR Status</h5>
-<div class=ntc>The following GRR has been pending for more than <?php echo ((is_array($_tmp=@$this->_tpl_vars['config']['grr_incomplete_notification'])) ? $this->_run_mod_handler('default', true, $_tmp, 3) : smarty_modifier_default($_tmp, 3)); ?>
- days</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-<?php unset($this->_sections['i']);
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> GRR Status</div>
+		<div class="border-bottom mb-2">
+			<span>The following GRR has been pending for more than <?php echo ((is_array($_tmp=@$this->_tpl_vars['config']['grr_incomplete_notification'])) ? $this->_run_mod_handler('default', true, $_tmp, 3) : smarty_modifier_default($_tmp, 3)); ?>
+ days</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['grr_notify']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['i']['show'] = true;
@@ -301,21 +334,22 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-<div style="border-bottom:1px solid #eee"> 
-<a href="/goods_receiving_record.php?a=view&id=<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['id']; ?>
+			<li  style="font-size: 0.8rem;">
+				<a href="/goods_receiving_record.php?a=view&id=<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['id']; ?>
 &branch_id=<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['branch_id']; ?>
-">
-<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['vendor']; ?>
-</a>
-<br>
-<font color=#666666 class=small>
-Received Date : <?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['rcv_date']; ?>
-<br>
-</font>
-</div>
-<?php endfor; endif; ?>
+" target="_blank" class="text-reset">
+					<strong style="font-size: 0.8rem;"><?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['vendor']; ?>
+</strong><br>
+					<span class="text-secondary" style="font-size: 0.6rem;">Received Date : <span class="text-muted"></span> <?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['rcv_date']; ?>
+</span>
+				</a>
+			</li>
+			<?php endfor; endif; ?>
+		</ul>
+	</div>
 </div>
 <?php endif; ?>
+<!-- GRR Notify End -->
 
 <!-- Redemption item Notify -->
 <?php if ($this->_tpl_vars['redemption_items']): ?>

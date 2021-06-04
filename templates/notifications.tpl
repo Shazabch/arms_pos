@@ -358,34 +358,45 @@ function change_style(obj,branch_id,id){
 {/literal}
 </script>
 
-<!-- start left -->
-<div class="leftbar" style="float:left; padding-right:10px; border-right: 1px dashed #ddd; width:200px;">
+<div class="container-fluid mt-2">
+	<div class="row">
+		<!-- Start LEft -->
+		<div class="col-md-3 border p-0 m-0">
+			<!-- Annoucement Start -->
+			{if $announcementList}
+			<div class="card">
+				<div class="card-body text-center pricing ">
+					<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-bullhorn"></i> Annoucements</div>
+					<ul class="list-unstyled leading-loose text-left">
+					{foreach from=$announcementList key=announcement_code item=r}
+						<li id="li_announcement-{$announcement_code}" style="font-size: 0.8rem;"><a href="announcement.php?a=view&code={$announcement_code}" target="_blank" class="text-reset">{$r.title}</a>{if $r.is_new} <span class="badge badge-pill badge-warning">new</span> {/if}</li>
+					{/foreach}
+					</ul>
+				</div>
+			</div>
+			{/if}
+			<!-- Annoucement End -->
+		</div>
+		<!-- End Left -->
 
+		<!-- Start Center -->
+		<div class="col border">
+			2
+		</div>
+		<!-- End Center -->
 
-<!-- announcement-->
-{if $announcementList}
-<div class="leftbar-div">
-	<h5>
-	{*<img src="/ui/icons/bell.png" align="absmiddle" border="0"> *}
-	<i class="icofont-megaphone-alt icofont"></i> Announcements</h5>
-	<div style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-		<ul>		
-			{foreach from=$announcementList key=announcement_code item=r}
-				<li id="li_announcement-{$announcement_code}">
-					<a target="_blank" href="announcement.php?a=view&code={$announcement_code}">
-						{if $r.is_new}<b>{/if}
-						{$r.title}
-						{if $r.is_new}
-							</b>
-							{if $r.is_new}<img src="/ui/icons/new.png" align="absmiddle" border="0">{/if}
-						{/if}
-					</a>
-				</li>
-			{/foreach}
-		</ul>
+		<!-- Start Right -->
+		<div class="col-md-3 border p-0 m-0">
+			<div id="right_content">
+				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
+			</div>
+		</div>
+		<!-- End Right -->
 	</div>
 </div>
-{/if}
+
+<!-- start left -->
+<div class="leftbar" style="float:left; padding-right:10px; border-right: 1px dashed #ddd; width:200px;">
 
 <!-- disk space -->
 {if $disk_space}
@@ -432,14 +443,8 @@ function change_style(obj,branch_id,id){
 </div>
 <!-- end left -->
 
-
 <!-- start right -->
 <div class="rightbar" style="float:right; padding-left:10px; border-left: 1px dashed #ddd; width:200px;">
-
-
-<div id="right_content">
-	<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
-</div>
 
 <!-- Offline Documents -->
 {if $off_docs}

@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-03 21:15:07
+<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:24
          compiled from notifications.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 399, false),array('modifier', 'upper', 'notifications.tpl', 471, false),array('modifier', 'string_format', 'notifications.tpl', 487, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 410, false),array('modifier', 'upper', 'notifications.tpl', 476, false),array('modifier', 'string_format', 'notifications.tpl', 492, false),)), $this); ?>
 <?php echo '
 <style>
 .ntc {
@@ -172,38 +172,50 @@ function change_style(obj,branch_id,id){
 
 </script>
 
-<!-- start left -->
-<div class="leftbar" style="float:left; padding-right:10px; border-right: 1px dashed #ddd; width:200px;">
-
-
-<!-- announcement-->
-<?php if ($this->_tpl_vars['announcementList']): ?>
-<div class="leftbar-div">
-	<h5>
-		<i class="icofont-megaphone-alt icofont"></i> Announcements</h5>
-	<div style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-		<ul>		
-			<?php $_from = $this->_tpl_vars['announcementList']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+<div class="container-fluid mt-2">
+	<div class="row">
+		<!-- Start LEft -->
+		<div class="col-md-3 border p-0 m-0">
+			<!-- Annoucement Start -->
+			<?php if ($this->_tpl_vars['announcementList']): ?>
+			<div class="card">
+				<div class="card-body text-center pricing ">
+					<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-bullhorn"></i> Annoucements</div>
+					<ul class="list-unstyled leading-loose text-left">
+					<?php $_from = $this->_tpl_vars['announcementList']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
     foreach ($_from as $this->_tpl_vars['announcement_code'] => $this->_tpl_vars['r']):
 ?>
-				<li id="li_announcement-<?php echo $this->_tpl_vars['announcement_code']; ?>
-">
-					<a target="_blank" href="announcement.php?a=view&code=<?php echo $this->_tpl_vars['announcement_code']; ?>
-">
-						<?php if ($this->_tpl_vars['r']['is_new']): ?><b><?php endif; ?>
-						<?php echo $this->_tpl_vars['r']['title']; ?>
+						<li id="li_announcement-<?php echo $this->_tpl_vars['announcement_code']; ?>
+" style="font-size: 0.8rem;"><a href="announcement.php?a=view&code=<?php echo $this->_tpl_vars['announcement_code']; ?>
+" target="_blank" class="text-reset"><?php echo $this->_tpl_vars['r']['title']; ?>
+</a><?php if ($this->_tpl_vars['r']['is_new']): ?> <span class="badge badge-pill badge-warning">new</span> <?php endif; ?></li>
+					<?php endforeach; endif; unset($_from); ?>
+					</ul>
+				</div>
+			</div>
+			<?php endif; ?>
+			<!-- Annoucement End -->
+		</div>
+		<!-- End Left -->
 
-						<?php if ($this->_tpl_vars['r']['is_new']): ?>
-							</b>
-							<?php if ($this->_tpl_vars['r']['is_new']): ?><img src="/ui/icons/new.png" align="absmiddle" border="0"><?php endif; ?>
-						<?php endif; ?>
-					</a>
-				</li>
-			<?php endforeach; endif; unset($_from); ?>
-		</ul>
+		<!-- Start Center -->
+		<div class="col border">
+			2
+		</div>
+		<!-- End Center -->
+
+		<!-- Start Right -->
+		<div class="col-md-3 border p-0 m-0">
+			<div id="right_content">
+				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
+			</div>
+		</div>
+		<!-- End Right -->
 	</div>
 </div>
-<?php endif; ?>
+
+<!-- start left -->
+<div class="leftbar" style="float:left; padding-right:10px; border-right: 1px dashed #ddd; width:200px;">
 
 <!-- disk space -->
 <?php if ($this->_tpl_vars['disk_space']): ?>
@@ -238,14 +250,8 @@ MB (<?php echo $this->_tpl_vars['pct']; ?>
 </div>
 <!-- end left -->
 
-
 <!-- start right -->
 <div class="rightbar" style="float:right; padding-left:10px; border-left: 1px dashed #ddd; width:200px;">
-
-
-<div id="right_content">
-	<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
-</div>
 
 <!-- Offline Documents -->
 <?php if ($this->_tpl_vars['off_docs']): ?>

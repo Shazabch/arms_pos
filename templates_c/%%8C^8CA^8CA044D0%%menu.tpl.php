@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-03 21:15:06
+<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:48
          compiled from menu.tpl */ ?>
 <!-- main-sidebar -->
 			<div class="app-sidebar__overlay" data-toggle="sidebar"></div>

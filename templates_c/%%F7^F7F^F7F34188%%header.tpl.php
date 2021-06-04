@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-03 21:15:06
+<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:48
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 327, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 328, false),)), $this); ?>
 <?php if (! $this->_tpl_vars['no_header_footer']): ?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,7 +33,7 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 <link rel="shortcut icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-<!-- Icons css -->
+		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
 
 		<!--  Owl-carousel css-->
@@ -57,8 +57,9 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 
 		<!---Skinmodes css-->
 		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
-		
 
+		<!--- Animations css-->
+		<link href="../../assets/css/animate.css" rel="stylesheet">
 		
 		
 

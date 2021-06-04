@@ -967,14 +967,16 @@ function _init_focus_input_class(selector,parent)
 function price_history(element,id,bid,type)
 {
 	if (type==undefined) type='';
-	new Draggable('history_popup', {starteffect:undefined,endeffect:undefined});
+
+	// All The Lines Are Commented beacause we Reaplaced popup with the modal 
+	 // new Draggable('history_popup', {starteffect:undefined,endeffect:undefined});
 	
-	if ($('history_popup').style.display=='none')
-	{
-		// move to position if hidden
-		Position.clone(element,$('history_popup'),{setHeight: false, setWidth:false, offsetLeft:20});
-		Element.show('history_popup');
-	}
+	 // if ($('history_popup').style.display=='none')
+	 // {
+	 // 	// // move to position if hidden
+	 // 	// Position.clone(element,$('history_popup'),{setHeight: false, setWidth:false, offsetLeft:20});
+	 // 	// Element.show('history_popup');
+	 // }
 	// loading
 	$('history_popup_content').innerHTML = _loading_;
 	new Ajax.Updater('history_popup_content','/masterfile_sku_items_price.php?a=history&id='+id+'&branch_id='+bid+'&type='+type,{evalScripts:true});

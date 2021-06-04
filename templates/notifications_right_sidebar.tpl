@@ -14,33 +14,52 @@ Revision History
 
 <!-- Price Change Notify -->
 {if $price_history}
-<div id="history_popup" style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
-<div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
-<div id="history_popup_content"></div>
+
+<!-- History Popup Start -->
+<div class="modal fade" id="history_popup" data-backdrop="false">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Modal Header</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<div id="history_popup_content"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- History Popup End-->
+
+<!-- <div id="history_popup" style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
+	<div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
+	<div id="history_popup_content"></div>
+</div> -->
+
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Price Change History</div>
+		<span class="border-bottom mb-4">Last 25 price change items</span>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height:200px;">
+			{section name=i loop=$price_history}
+			<li  style="font-size: 0.8rem;">
+				<span class="text-muted" style="font-size: 0.6rem;">{$price_history[i].last_update} - {$price_history[i].branch}</span><br>
+				<strong style="font-size: 0.9rem;">
+					<i class="fas fa-search"  data-toggle="modal" href="#history_popup" onclick="price_history(this,{$price_history[i].id},{$price_history[i].branch_id})" role="button"></i>
+					{if $config.notification_price_change_show_artno}
+						{$price_history[i].artno}
+					{else}
+						{$price_history[i].sku_item_code}
+					{/if}
+				</strong>= {$config.arms_currency.symbol}{$price_history[i].price|number_format:2}<br>
+				<span style="font-size: 0.6rem;" class=" text-secondary">{$price_history[i].description}</span>
+			</li>
+			{/section}
+		</ul>
+	</div>
 </div>
 
-<h5>{*<img src=/ui/info.png align=absmiddle border=0>*}
-<i class="icofont-price icofont"></i> Price Change History</h5>
-<div class=ntc>Last 25 price change items</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-{section name=i loop=$price_history}
-<div style="border-bottom:1px solid #eee">
-<font color=#666666 class=small>
-{$price_history[i].last_update} - {$price_history[i].branch}
-</font><br>
-<img title="View History" onclick="price_history(this,{$price_history[i].id},{$price_history[i].branch_id})" src="/ui/icons/zoom.png" align=left/> <font class="idno" color=#d00000>
-{if $config.notification_price_change_show_artno}
-    {$price_history[i].artno}
-{else}
-	{$price_history[i].sku_item_code}
 {/if}
-
-</font> = <font class="price_amount" color=blue>{$config.arms_currency.symbol}{$price_history[i].price|number_format:2}</font><br>
-<font class=small>{$price_history[i].description}</font>  
-</div>
-{/section}
-</div>
-{/if}
+<!-- Price Change Notify  End -->
 
 <!-- Batch Price Change notification -->
 {if $batch_price_change.ok eq 1}
@@ -107,68 +126,79 @@ Revision History
 
 <!-- New SKU Notify -->
 {if $new_sku}
-<h5>
-{*<img src=/ui/store.png align=absmiddle border=0>*}
-<i class="icofont-tags icofont"></i> New SKU</h5>
-<div class=ntc>Last 25 new SKU items</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-{section name=i loop=$new_sku}
-<div style="border-bottom:1px solid #eee;cursor:pointer;" onclick="window.open('masterfile_sku.php?a=view&id={$new_sku[i].sku_id}')">
-<font color=#666666 class=small>
-{$new_sku[i].added}
-</font><br>
-<div class="text-link">
-	<font class="idno" color=#d00000>
-	{if $config.notification_price_change_show_artno}
-	    {$new_sku[i].artno}
-	{else}
-		{$new_sku[i].mcode|default:$new_sku[i].sku_item_code}
-	{/if}
-	</font> = <font class="price_amount" color=blue>{$config.arms_currency.symbol}{$new_sku[i].selling_price|number_format:2}</font><br>
-	<font class="price_amount" class=small>{$new_sku[i].description}</font> 
-</div>
-</div>
-{/section}
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> New SKU</div>
+		<span class="border-bottom mb-2">Last 25 new SKU items</span>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 300px;">
+			{section name=i loop=$new_sku}
+			<li  style="font-size: 0.8rem;">
+				<a href="masterfile_sku.php?a=view&id={$new_sku[i].sku_id}" target="_blank" class="text-reset">
+					<span class="text-muted" style="font-size: 0.6rem;">{$new_sku[i].added}</span><br>
+					<strong style="font-size: 0.9rem;">
+						{if $config.notification_price_change_show_artno}
+						    {$new_sku[i].artno}
+						{else}
+							{$new_sku[i].mcode|default:$new_sku[i].sku_item_code}
+						{/if}
+					</strong>= {$config.arms_currency.symbol}{$new_sku[i].selling_price|number_format:2}<br>
+					<span style="font-size: 0.6rem;" class=" text-secondary">{$new_sku[i].description}</span>
+				</a>
+			</li>
+			{/section}
+		</ul>
+	</div>
 </div>
 {/if}
+<!-- New SKU Notify  End-->
 
 <!-- GRA Notify -->
+
 {if $last_gra}
-<h5>
-{*<img src=/ui/store.png align=absmiddle border=0>*}
-<i class="icofont-building icofont"></i> GRA Status</h5>
-<div class=ntc>The following GRA has been pending for more than a week</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-{section name=i loop=$last_gra}
-<div style="border-bottom:1px solid #eee"><a href="/goods_return_advice.php?a=view&id={$last_gra[i].id}">{$last_gra[i].vendor}</a><br>
-<font color=#666666 class=small>
-Created: {$last_gra[i].added}<br>
-Last Update: {$last_gra[i].last_update}
-</font>
-</div>
-{/section}
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Gra Status</div>
+		<div class="border-bottom mb-2">
+			<span>The following GRA has been pending for more than a week</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+			{section name=i loop=$last_gra}
+			<li  style="font-size: 0.8rem;">
+				<a href="/goods_return_advice.php?a=view&id={$last_gra[i].id}" target="_blank" class="text-reset">
+					<strong style="font-size: 0.8rem;">{$last_gra[i].vendor}</strong><br>
+					<span class="text-secondary" style="font-size: 0.6rem;">Created: <span class="text-muted"> {$last_gra[i].added}</span></span><br>
+					<span style="font-size: 0.6rem;" class=" text-secondary">Last Update: <span class="text-muted"> {$last_gra[i].last_update}</span></span>
+				</a>
+			</li>
+			{/section}
+		</ul>
+	</div>
 </div>
 {/if}
+<!-- GRA Notify End -->
 
 <!-- GRR Notify -->
 {if $grr_notify}
-<h5>
-{*<img src=/ui/store.png align=absmiddle border=0>*}
-<i class="icofont-building icofont"></i> GRR Status</h5>
-<div class=ntc>The following GRR has been pending for more than {$config.grr_incomplete_notification|default:3} days</div>
-<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-{section name=i loop=$grr_notify}
-<div style="border-bottom:1px solid #eee"> 
-<a href="/goods_receiving_record.php?a=view&id={$grr_notify[i].id}&branch_id={$grr_notify[i].branch_id}">
-{$grr_notify[i].vendor}</a>
-<br>
-<font color=#666666 class=small>
-Received Date : {$grr_notify[i].rcv_date}<br>
-</font>
-</div>
-{/section}
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> GRR Status</div>
+		<div class="border-bottom mb-2">
+			<span>The following GRR has been pending for more than {$config.grr_incomplete_notification|default:3} days</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+			{section name=i loop=$grr_notify}
+			<li  style="font-size: 0.8rem;">
+				<a href="/goods_receiving_record.php?a=view&id={$grr_notify[i].id}&branch_id={$grr_notify[i].branch_id}" target="_blank" class="text-reset">
+					<strong style="font-size: 0.8rem;">{$grr_notify[i].vendor}</strong><br>
+					<span class="text-secondary" style="font-size: 0.6rem;">Received Date : <span class="text-muted"></span> {$grr_notify[i].rcv_date}</span>
+				</a>
+			</li>
+			{/section}
+		</ul>
+	</div>
 </div>
 {/if}
+<!-- GRR Notify End -->
 
 <!-- Redemption item Notify -->
 {if $redemption_items}
