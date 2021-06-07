@@ -37,13 +37,15 @@ Revision History
 
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Price Change History</div>
-		<span class="border-bottom mb-4">Last 25 price change items</span>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height:200px;">
+		<div class="card-category fs-09"><i class="fas fa-tag"></i> Price Change History</div>
+		<div class="mb-2">
+			<span class="fs-07 text-muted">Last 25 price change items</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height:200px;">
 			{section name=i loop=$price_history}
-			<li  style="font-size: 0.8rem;">
-				<span class="text-muted" style="font-size: 0.6rem;">{$price_history[i].last_update} - {$price_history[i].branch}</span><br>
-				<strong style="font-size: 0.9rem;">
+			<li  class="fs-08">
+				<span class="text-muted fs-06">{$price_history[i].last_update} - {$price_history[i].branch}</span><br>
+				<strong class="fs-09">
 					<i class="fas fa-search"  data-toggle="modal" href="#history_popup" onclick="price_history(this,{$price_history[i].id},{$price_history[i].branch_id})" role="button"></i>
 					{if $config.notification_price_change_show_artno}
 						{$price_history[i].artno}
@@ -51,7 +53,7 @@ Revision History
 						{$price_history[i].sku_item_code}
 					{/if}
 				</strong>= {$config.arms_currency.symbol}{$price_history[i].price|number_format:2}<br>
-				<span style="font-size: 0.6rem;" class=" text-secondary">{$price_history[i].description}</span>
+				<span class="fs-06 text-secondary">{$price_history[i].description}</span>
 			</li>
 			{/section}
 		</ul>
@@ -128,21 +130,23 @@ Revision History
 {if $new_sku}
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> New SKU</div>
-		<span class="border-bottom mb-2">Last 25 new SKU items</span>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 300px;">
+		<div class="card-category fs-09" ><i class="fas fa-tag"></i> New SKU</div>
+		<div class="mb-2 fs-07">
+			<span class="text-muted">Last 25 new SKU items</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 300px;">
 			{section name=i loop=$new_sku}
-			<li  style="font-size: 0.8rem;">
+			<li  class="fs-08">
 				<a href="masterfile_sku.php?a=view&id={$new_sku[i].sku_id}" target="_blank" class="text-reset">
-					<span class="text-muted" style="font-size: 0.6rem;">{$new_sku[i].added}</span><br>
-					<strong style="font-size: 0.9rem;">
+					<span class="text-muted fs-06">{$new_sku[i].added}</span><br>
+					<strong class="fs-09">
 						{if $config.notification_price_change_show_artno}
 						    {$new_sku[i].artno}
 						{else}
 							{$new_sku[i].mcode|default:$new_sku[i].sku_item_code}
 						{/if}
 					</strong>= {$config.arms_currency.symbol}{$new_sku[i].selling_price|number_format:2}<br>
-					<span style="font-size: 0.6rem;" class=" text-secondary">{$new_sku[i].description}</span>
+					<span class="text-secondary fs-06">{$new_sku[i].description}</span>
 				</a>
 			</li>
 			{/section}
@@ -157,17 +161,17 @@ Revision History
 {if $last_gra}
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Gra Status</div>
-		<div class="border-bottom mb-2">
+		<div class="card-category fs-09"><i class="far fa-building"></i> Gra Status</div>
+		<div class="fs-07 mb-2 text-muted">
 			<span>The following GRA has been pending for more than a week</span>
 		</div>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 200px;">
 			{section name=i loop=$last_gra}
-			<li  style="font-size: 0.8rem;">
+			<li class="fs-08">
 				<a href="/goods_return_advice.php?a=view&id={$last_gra[i].id}" target="_blank" class="text-reset">
-					<strong style="font-size: 0.8rem;">{$last_gra[i].vendor}</strong><br>
-					<span class="text-secondary" style="font-size: 0.6rem;">Created: <span class="text-muted"> {$last_gra[i].added}</span></span><br>
-					<span style="font-size: 0.6rem;" class=" text-secondary">Last Update: <span class="text-muted"> {$last_gra[i].last_update}</span></span>
+					<strong class="fs-08">{$last_gra[i].vendor}</strong><br>
+					<span class="text-secondary fs-06">Created: <span class="text-muted"> {$last_gra[i].added}</span></span><br>
+					<span class="text-secondary fs-06">Last Update: <span class="text-muted"> {$last_gra[i].last_update}</span></span>
 				</a>
 			</li>
 			{/section}
@@ -181,16 +185,16 @@ Revision History
 {if $grr_notify}
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> GRR Status</div>
-		<div class="border-bottom mb-2">
+		<div class="card-category fs-09"><i class="far fa-building"></i> GRR Status</div>
+		<div class="mb-2 fs-07 text-muted">
 			<span>The following GRR has been pending for more than {$config.grr_incomplete_notification|default:3} days</span>
 		</div>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 200px;">
 			{section name=i loop=$grr_notify}
-			<li  style="font-size: 0.8rem;">
+			<li class="fs-08">
 				<a href="/goods_receiving_record.php?a=view&id={$grr_notify[i].id}&branch_id={$grr_notify[i].branch_id}" target="_blank" class="text-reset">
-					<strong style="font-size: 0.8rem;">{$grr_notify[i].vendor}</strong><br>
-					<span class="text-secondary" style="font-size: 0.6rem;">Received Date : <span class="text-muted"></span> {$grr_notify[i].rcv_date}</span>
+					<strong class="fs-08">{$grr_notify[i].vendor}</strong><br>
+					<span class="text-secondary fs-06">Received Date : <span class="text-muted"></span> {$grr_notify[i].rcv_date}</span>
 				</a>
 			</li>
 			{/section}

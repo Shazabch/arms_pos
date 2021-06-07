@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:24
+<?php /* Smarty version 2.6.18, created on 2021-06-07 18:55:14
          compiled from notifications.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 410, false),array('modifier', 'upper', 'notifications.tpl', 476, false),array('modifier', 'string_format', 'notifications.tpl', 492, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 417, false),array('modifier', 'upper', 'notifications.tpl', 481, false),array('modifier', 'string_format', 'notifications.tpl', 497, false),)), $this); ?>
 <?php echo '
 <style>
 .ntc {
@@ -180,13 +180,13 @@ function change_style(obj,branch_id,id){
 			<?php if ($this->_tpl_vars['announcementList']): ?>
 			<div class="card">
 				<div class="card-body text-center pricing ">
-					<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-bullhorn"></i> Annoucements</div>
+					<div class="card-category fs-09"><i class="fas fa-bullhorn"></i> Annoucements</div>
 					<ul class="list-unstyled leading-loose text-left">
 					<?php $_from = $this->_tpl_vars['announcementList']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
     foreach ($_from as $this->_tpl_vars['announcement_code'] => $this->_tpl_vars['r']):
 ?>
 						<li id="li_announcement-<?php echo $this->_tpl_vars['announcement_code']; ?>
-" style="font-size: 0.8rem;"><a href="announcement.php?a=view&code=<?php echo $this->_tpl_vars['announcement_code']; ?>
+" class="fs-08"><a href="announcement.php?a=view&code=<?php echo $this->_tpl_vars['announcement_code']; ?>
 " target="_blank" class="text-reset"><?php echo $this->_tpl_vars['r']['title']; ?>
 </a><?php if ($this->_tpl_vars['r']['is_new']): ?> <span class="badge badge-pill badge-warning">new</span> <?php endif; ?></li>
 					<?php endforeach; endif; unset($_from); ?>
@@ -195,6 +195,13 @@ function change_style(obj,branch_id,id){
 			</div>
 			<?php endif; ?>
 			<!-- Annoucement End -->
+
+			<!-- Ajax Fetch left side content -->
+			<div id="left_content">
+				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
+			</div>
+			<!-- /Ajax Fetch left side content -->
+
 		</div>
 		<!-- End Left -->
 
@@ -242,9 +249,7 @@ MB (<?php echo $this->_tpl_vars['pct']; ?>
 </div>
 <?php endif; ?>
 
-<div id="left_content">
-	<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
-</div>
+
 
 <!-- Inactive User notification -->
 </div>

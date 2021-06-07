@@ -20,44 +20,73 @@ Revision History
 
 <!-- membership notification -->
 {if $membership}
-<h5>
-{*<img src=/ui/notify_mm.png align=absmiddle border=0> *}
-<i class="icofont-users-alt-2 icofont"></i> <a href="membership.php?t=verify">Membership Verification</a></h5>
-<div class=ntc>There are records to be verified.</div>
-<ul style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-{section name=i loop=$membership}
-<li> <a href="membership.php?t=verify&branch_id={$membership[i].branch_id}">{$membership[i].branch_code}</a> ({$membership[i].count})
-{/section}
-</ul>
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category fs-09" ><i class="fas fa-users"></i> Membership Verification</div>
+		<div class="mb-2 text-muted fs-07">
+			<span>There are records to be verified.</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 150px;">
+			{section name=i loop=$membership}
+			<li class="fs-08"><a href="membership.php?t=verify&branch_id={$membership[i].branch_id}" target="_blank" class="text-reset">{$membership[i].branch_code}</a><span class="badge  badge-info ml-2">{$membership[i].count}</span></li>
+			{/section}
+		</ul>
+		<div class="text-center mt-4">
+			<a href="membership.php?t=verify" class="btn btn-info btn-block">Verify</a>
+		</div>
+	</div>
+</div>
 {/if}
 
 <!-- membership blocked -->
 {if $membership_blocked}
-<h5>
-{*<img src=/ui/notify_mm.png align=absmiddle border=0>*}
-<i class="icofont-ui-block icofont"></i>
-<a href="membership.php?t=verify">Blocked Membership</a></h5>
-<div class=ntc>The following membership are blocked.</div>
-<ul style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-{section name=i loop=$membership_blocked}
-<li> <a href="membership.listing.php?branch_id={$membership_blocked[i].branch_id}">{$membership_blocked[i].branch_code}</a> ({$membership_blocked[i].count})
-{/section}
-</ul>
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category fs-09"><i class="fas fa-users"></i> Blocked Membership</div>
+		<div class="mb-2 text-muted fs-07">
+			<span>The following membership are blocked.</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 150px;">
+			{section name=i loop=$membership_blocked}
+			<li class="fs-08"><a href="membership.listing.php?branch_id={$membership_blocked[i].branch_id}" target="_blank" class="text-reset">{$membership_blocked[i].branch_code}</a><span class="badge badge-info ml-2">{$membership_blocked[i].count}</span></li>
+			{/section}
+		</ul>
+		<div class="text-center mt-4">
+			<a href="membership.php?t=verify" class="btn btn-info btn-block">Verify</a>
+		</div>
+	</div>
+</div>
 {/if}
 
 <!-- Membership Summary -->
 {if $sessioninfo.privilege.MEMBERSHIP_SUMM and $membership_summary}
-	<h5>
-	{*<img src="/ui/notify_mm.png" align="absmiddle" border="0">*}
-	<i class="icofont-users-alt-2 icofont"></i>
-	Membership Summary</h5>
-	<ul style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-	    <li> <a href="membership.listing.php">Total Member</a> ({$membership_summary.total|number_format})</li>
-	    <li> <a href="membership.listing.php?verified=1&blocked=0&terminated=0">Total Verified Member</a> ({$membership_summary.verified|number_format})</li>
-	    <li> <a href="membership.listing.php?verified=0&blocked=0&terminated=0">Total Unverified Member</a> ({$membership_summary.unverified|number_format})</li>
-	    <li> <a href="membership.listing.php?blocked=1&terminated=0">Total Blocked Member</a> ({$membership_summary.blocked|number_format})</li>
-	    <li> <a href="membership.listing.php?terminated=1">Total Terminated Member</a> ({$membership_summary.terminated|number_format})</li>
-	</ul>
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category fs-09"><i class="fas fa-users"></i> Membership Summary</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 200px;">
+			<li class="fs-08" class="fs-08">
+				<a href="membership.listing.php"  class="text-reset">Total Member</a>
+				<span class="badge badge-info ml-2">{$membership_summary.total|number_format}</span>
+			</li>
+			<li class="fs-08">
+				<a href="membership.listing.php?verified=1&blocked=0&terminated=0" class="text-reset">Total Verified Member</a>
+				<span class="badge badge-info ml-2">{$membership_summary.verified|number_format}</span>
+			</li>
+			<li class="fs-08">
+				<a href="membership.listing.php?verified=0&blocked=0&terminated=0" class="text-reset">Total Unverified Member</a>
+				<span class="badge badge-info ml-2">{$membership_summary.unverified|number_format}</span>
+			</li>
+			<li class="fs-08">
+				<a href="membership.listing.php?blocked=1&terminated=0"  class="text-reset">Total Blocked Member</a>
+				<span class="badge badge-info ml-2">{$membership_summary.blocked|number_format}</span>
+			</li>
+			<li class="fs-08">
+				<a href="membership.listing.php?terminated=1" class="text-reset">Total Terminated Member</a>
+				<span class="badge badge-info ml-2">{$membership_summary.terminated|number_format}</span>
+			</li>
+		</ul>
+	</div>
+</div>
 {/if}
 
 <!-- redemption notification -->
@@ -292,56 +321,68 @@ You have GRN waiting for verification.<br>
 
 <!-- GRN approval notification -->
 {if $grn_confirmations || $grn_approvals}
-	<h5>
-	{*<img src="/ui/notify_po_new.png" align=absmiddle border=0>*}
-	<i class="icofont-tags icofont"></i> GRN</h5>
-	{if $grn_confirmations}
-		<p><h5><i class="icofont-check-circled icofont"></i>Confirmation:</h5></p>
-		<div class=ntc>The following GRN requires your confirmation.</div>
-		{foreach from=$grn_count_list name=grn_count key=r item=count}
-			{if $r eq "doc_pending"}
-				Document Pending
-			{elseif $r eq "acc_verify"}
-				Account Verification
-			{else}
-				SKU Manage
-			{/if}
-			: {$count} record(s)
-			{if !$smarty.foreach.grn_count.last}<br />{/if}
-		{/foreach}
-		<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
-		{foreach from=$grn_confirmations item=grn key=row}
-			<div style="border-bottom:1px solid #eee"> 
-				<a href="/goods_receiving_note.php?a=open&id={$grn.grn_id}&branch_id={$grn.branch_id}&action={$grn.action}">
-					{$grn.report_prefix}{$grn.grn_id|string_format:"%05d"} - 
-					{if $grn.action eq 'verify'}
-						SKU Manage
-					{elseif $grn.action eq 'grr_edit'}
-						Pending Document
-					{else}
-						Account Verification
-					{/if}
-				</a>
-				<br>
-				<font color=#666666 class=small>Received Date : {$grn.rcv_date}<br></font>
+<div class="card">
+	<div class="card-body text-center pricing overflow-auto" style="max-height: 300px;">
+		<div class="card-category fs-09" ><i class="fas fa-tag"></i> GRN</div>
+		{if $grn_confirmations}
+			<h3 class="fs-08 text-info text-left mb-0 pb-0"><i class="far fa-check-circle"></i> Confirmation</h3>
+			<div class="mb-2 text-muted text-left fs-06">
+				<span>The following GRN requires your confirmation.</span>
 			</div>
-		{/foreach}
-		</div>
-	{/if}
-	{if $grn_approvals}
-		<div style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-		<p><h5>Approval:</h5></p>
-		<p>
-		You have GRN waiting for approval.<br>
-		<ul>
-		{section name=i loop=$grn_approvals}
-			<li><a href="login.php?server={$grn_approvals[i].code|urlencode}&redir=goods_receiving_note_approval.php">{$grn_approvals[i].code} ({$grn_approvals[i].count})
-			</a></li>
-		{/section}
-		</ul>
-		</p>
-		</div>
-	{/if}
+
+			{foreach from=$grn_count_list name=grn_count key=r item=count}
+			<div class="fs-08 text-left mt-1">
+				{if $r eq "doc_pending"}
+					Document Pending
+				{elseif $r eq "acc_verify"}
+					Account Verification
+				{else}
+					SKU Manage
+				{/if}
+				<span class="badge badge-pill badge-success ml-1">
+					{$count}
+					{if !$smarty.foreach.grn_count.last}{/if}
+				</span>
+			</div>
+			{/foreach}
+			<ul class="list-unstyled leading-loose text-left overflow-auto">
+				{foreach from=$grn_confirmations item=grn key=row}
+				<li  class="fs-08">
+					<a href="/goods_receiving_note.php?a=open&id={$grn.grn_id}&branch_id={$grn.branch_id}&action={$grn.action}" target="_blank" class="text-reset">
+						<strong class="fs-08">
+							{$grn.report_prefix}{$grn.grn_id|string_format:"%05d"} - 
+							{if $grn.action eq 'verify'}
+								SKU Manage
+							{elseif $grn.action eq 'grr_edit'}
+								Pending Document
+							{else}
+								Account Verification
+							{/if}
+						</strong><br>
+						<span class="text-secondary" class="fs-06">Received Date : 
+							<span class="text-muted"></span> {$grn.rcv_date}
+						</span>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		{/if}
+		{if $grn_approvals}
+			<h3 class="fs-08 text-primary text-left mt-1 mb-0 pb-0"><i class="fas fa-tag"></i> Approval</h3>
+			<div class=" mb-2 text-muted fs-06 text-left">
+				<span>You have GRN waiting for approval</span>
+			</div>
+			<ul class="list-unstyled leading-loose text-left overflow-auto">
+				{section name=i loop=$grn_approvals}
+				<li class="fs-08">
+					<a href="login.php?server={$grn_approvals[i].code|urlencode}&redir=goods_receiving_note_approval.php" target="_blank" class="text-reset">{$grn_approvals[i].code}</a>
+					<span class="badge  badge-info ml-2">{$grn_approvals[i].count}</span>
+				</li>
+				{/section}
+			</ul>
+		{/if}
+	</div>
+</div>
 {/if}
 
 <!-- Credit Note approval notification -->
@@ -531,19 +572,19 @@ You have e-Form waiting for approval.<br>
 
 <!-- Stucked Docs -->
 {if $stucked_docs}
-	<h5>
-	{*<img src="/ui/notify_po_new.png" align="absmiddle" border="0">*}
-	<i class="icofont-tags icofont"></i> Stucked Document Approvals</h5>
-	<div style="margin-bottom:10px; border-bottom: 1px solid #eee;">
-	<p>
-	Due to inactive users(s), these documents approval is currently stucked.<br />
-	<ul>
-	{foreach from=$stucked_docs key=k item=i}
-		<li><a href="stucked_document_approvals.php?m={$k}" target="_blank">{$i.desc}</a> ({$i.count})</li>
-	{/foreach}
-	</ul>
-	</p>
+<div class="card">
+	<div class="card-body text-center pricing ">
+		<div class="card-category fs-09" ><i class="fas fa-tag"></i> Stucked Document Approvals</div>
+		<div class=" mb-2 text-muted fs-07">
+			<span>Due to inactive user(s), these documents approval is currently stucked.</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 100px;">
+			{foreach from=$stucked_docs key=k item=i}
+			<li class="fs-08"><a href="stucked_document_approvals.php?m={$k}" target="_blank" class="text-reset">{$i.desc}</a><span class="badge  badge-info ml-2">{$i.count}</span></li>
+			{/foreach}
+		</ul>
 	</div>
+</div>
 {/if}
 
 {* CNote approval notification *}

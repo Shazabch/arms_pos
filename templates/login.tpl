@@ -45,7 +45,7 @@
 - Added Background image
 
 *}
-<div class="login-bg no-bg-img">	
+
 {include file=header.tpl}
 
 {*<div id="div_install_jsprintsetup" style="display:none;">
@@ -143,6 +143,171 @@ function do_debtor_login(){
 
 {/literal}
 </script>
+
+<div class="container-fluid m-0 p-0">
+	<div class="row no-gutter">
+		<!-- The image half -->
+		<div class="col-md-5 col-lg-5 col-xl-5 d-none d-md-flex bg-primary-transparent">
+			<div class="row wd-100p mx-auto text-center">
+				<div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
+					<img src="../../assets/img/media/login.png" class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
+				</div>
+			</div>
+		</div>
+		<!-- The content half -->
+		<div class="col-md-7 col-lg-7 col-xl-7 bg-white">
+			<div class="login d-flex align-items-center py-2">
+				<!-- Demo content-->
+				<div class="container p-0">
+					<div class="row">
+						<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
+							<div class="card-sigin">
+								<div class="mb-5 d-flex"> <a href="index.html"><img src="../../assets/img/brand/favicon.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28">Va<span>le</span>x</h1></div>
+								<div class="card-sigin">
+									<div class="main-signup-header">
+										<h2>Welcome back!</h2>
+										<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
+										<div class="panel panel-primary border-0 tabs-style-3">
+											<div class="tab-menu-heading">
+												<div class="tabs-menu ">
+													<!-- Tabs -->
+													<ul class="nav panel-tabs">
+														<li class=""><a href="#admin-tab" class="active" data-toggle="tab"><i class="fa fa-laptop"></i> Admin</a></li>
+														<li><a href="#vendor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Vendor</a></li>
+														<li><a href="#debtor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Debtor</a></li>
+														<li><a href="#sales-agent-tab" data-toggle="tab"><i class="fa fa-cube"></i> Sales Agent</a></li>
+													</ul>
+												</div>
+											</div>
+											<div class="panel-body tabs-menu-body">
+												<div class="tab-content">
+													<div class="tab-pane active" id="admin-tab">
+														{if $errmsg}
+															<div class="alert alert-danger mb-0 text-left" role="alert">
+																<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+																<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+																<span class="alert-inner--text"> {$errmsg}</span>
+															</div>
+														{/if}
+
+														<form method="post" name="f_l" onSubmit="return do_branch_login();">
+															<div class="form-group">
+																<label>Branch</label>
+																<select id="branch"  name="login_branch" class="form-control select2-no-search">
+																{section name=i loop=$branch}
+																	{assign var=bcode value=$branch[i].code}
+																		<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}
+																		</option>
+																{/section}
+																</select>
+															</div>
+															<div class="form-group">
+																<label>Login ID</label> <input class="form-control" name="u" type="password" >
+															</div>
+															<div class="form-group">
+																<label>Password</label> <input class="form-control" name="p" type="password">
+															</div>
+															<div class="form-group">
+																<div class="checkbox">
+																	<div class="custom-checkbox custom-control">
+																		<input type="checkbox"  class="custom-control-input" id="checkbox-2" name="tnc" value="1" checked>
+																		<label for="checkbox-2" class="custom-control-label mt-1">I agree to the  <a href="https://agreement.arms.my/5" target="_blank">Terms & Conditions</a></label>
+																	</div>
+																</div>
+															</div>
+															<input type="submit" class="btn btn-main-primary btn-block" value="Sign In">
+														</form>
+													</div>
+													{if $config.po_allow_vendor_request}
+													<div class="tab-pane" id="vendor-tab">
+														{if $errmsg2}
+															<div class="alert alert-danger mb-0 text-left" role="alert">
+																<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+																<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+																<span class="alert-inner--text"> {$errmsg2}</span>
+															</div>
+														{/if}
+														<form method="post" name="f_b" onSubmit="return do_vendor_login();">
+															<div class="form-group">
+																<label>Branch</label>
+																<select id="sel_vp_branch" name="login_branch" class="form-control select2-no-search">
+																	{section name=i loop=$branch}
+																		{assign var=bcode value=$branch[i].code}
+																		<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}</option>
+																	{/section}
+																</select>
+															</div>
+															<div class="form-group">
+																<label>Enter Ticket No</label> <input class="form-control" name="ac" type="password">
+															</div>
+															<input type="submit" value="Sign In" class="btn btn-main-primary btn-block">
+														</form>
+													</div>
+													{/if}
+													<div class="tab-pane" id="debtor-tab">
+														<form action="#">
+															<div class="form-group">
+																<label>Branch3</label>
+																<select class="form-control select2-no-search">
+																	<option label="Choose one">
+																	</option>
+																	<option value="Firefox">
+																		HQ 1
+																	</option>
+																	<option value="Chrome">
+																		HQ 2
+																	</option>
+																</select>
+															</div>
+															<div class="form-group">
+																<label>Enter Ticket No</label> <input class="form-control" placeholder="" type="text">
+															</div>
+															<button class="btn btn-main-primary btn-block">Sign In</button>
+														</form>
+													</div>
+													<div class="tab-pane" id="sales-agent-tab">
+														<form action="#">
+															<div class="form-group">
+																<label>Branch1</label>
+																<select class="form-control select2-no-search">
+																	<option label="Choose one">
+																	</option>
+																	<option value="Firefox">
+																		HQ 1
+																	</option>
+																	<option value="Chrome">
+																		HQ 2
+																	</option>
+																</select>
+															</div>
+															<div class="form-group">
+																<label>Enter Ticket No</label> <input class="form-control" placeholder="" type="text">
+															</div>
+															<button class="btn btn-main-primary btn-block">Sign In</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="main-signin-footer mt-3">
+											<p><a href="">Forgot password?</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- End -->
+			</div>
+		</div><!-- End -->
+	</div>
+</div>
+
 
 {if $config.login_page_header}
 	<div style="width: 60%; margin: 0px auto;" class="login-header">
@@ -290,4 +455,3 @@ if(isFirefox && typeof(jsPrintSetup) == 'undefined'){
 </script>
 
 {include file=footer.tpl}
-</div>

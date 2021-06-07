@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:48
+<?php /* Smarty version 2.6.18, created on 2021-06-07 20:08:19
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 328, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 329, false),)), $this); ?>
 <?php if (! $this->_tpl_vars['no_header_footer']): ?><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -54,6 +54,9 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 		<!-- style css -->
 		<link href="../assets/css/style.css" rel="stylesheet">
 		<link href="../assets/css/style-dark.css" rel="stylesheet">
+
+		<!-- Custom css -->
+		<link href="../assets/custom-css/custom.css" rel="stylesheet">
 
 		<!---Skinmodes css-->
 		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
@@ -128,7 +131,6 @@ unset($_smarty_tpl_vars);
 		<div class="page">
 
 			<?php $this->assign('http_host', $_SERVER['HTTP_HOST']); ?>
-
 			<?php if (! $this->_tpl_vars['no_menu_templates'] && ! $_SESSION[$this->_tpl_vars['http_host']]['is_remote']): ?><?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "menu.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -137,10 +139,9 @@ unset($_smarty_tpl_vars);
 
 
 			
-
+			<?php if ($this->_tpl_vars['sessioninfo']): ?>
 			<!-- main-content -->
 			<div class="main-content app-content">
-
 				<!-- main-header -->
 				<div id ="top_nav_header" class="main-header sticky side-header nav nav-item">
 					<div class="container-fluid">
@@ -176,6 +177,7 @@ unset($_smarty_tpl_vars);
 					</div>
 				</div>
 				<!-- /main-header -->
+			<?php endif; ?>
 <div class=container-fluid>
 <img src=ui/pixel.gif width=700 height=1><br>
 <?php endif; ?>

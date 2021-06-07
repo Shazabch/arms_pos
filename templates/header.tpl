@@ -212,6 +212,9 @@
 		<link href="../assets/css/style.css" rel="stylesheet">
 		<link href="../assets/css/style-dark.css" rel="stylesheet">
 
+		<!-- Custom css -->
+		<link href="../assets/custom-css/custom.css" rel="stylesheet">
+
 		<!---Skinmodes css-->
 		<link href="../assets/css/skin-modes.css" rel="stylesheet" />
 
@@ -289,15 +292,13 @@ position:absolute;z-index:10001;" class="curtain_popup">
 		<div class="page">
 
 			{assign var=http_host value=$smarty.server.HTTP_HOST}
-
 			{if !$no_menu_templates && !$smarty.session.$http_host.is_remote}{include file=menu.tpl}{/if}
 
 
 			
-
+			{if $sessioninfo}
 			<!-- main-content -->
 			<div class="main-content app-content">
-
 				<!-- main-header -->
 				<div id ="top_nav_header" class="main-header sticky side-header nav nav-item">
 					<div class="container-fluid">
@@ -331,6 +332,7 @@ position:absolute;z-index:10001;" class="curtain_popup">
 					</div>
 				</div>
 				<!-- /main-header -->
+			{/if}
 <div class=container-fluid>
 <img src=ui/pixel.gif width=700 height=1><br>
 {/if}

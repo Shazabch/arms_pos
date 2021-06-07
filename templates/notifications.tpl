@@ -366,16 +366,23 @@ function change_style(obj,branch_id,id){
 			{if $announcementList}
 			<div class="card">
 				<div class="card-body text-center pricing ">
-					<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-bullhorn"></i> Annoucements</div>
+					<div class="card-category fs-09"><i class="fas fa-bullhorn"></i> Annoucements</div>
 					<ul class="list-unstyled leading-loose text-left">
 					{foreach from=$announcementList key=announcement_code item=r}
-						<li id="li_announcement-{$announcement_code}" style="font-size: 0.8rem;"><a href="announcement.php?a=view&code={$announcement_code}" target="_blank" class="text-reset">{$r.title}</a>{if $r.is_new} <span class="badge badge-pill badge-warning">new</span> {/if}</li>
+						<li id="li_announcement-{$announcement_code}" class="fs-08"><a href="announcement.php?a=view&code={$announcement_code}" target="_blank" class="text-reset">{$r.title}</a>{if $r.is_new} <span class="badge badge-pill badge-warning">new</span> {/if}</li>
 					{/foreach}
 					</ul>
 				</div>
 			</div>
 			{/if}
 			<!-- Annoucement End -->
+
+			<!-- Ajax Fetch left side content -->
+			<div id="left_content">
+				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
+			</div>
+			<!-- /Ajax Fetch left side content -->
+
 		</div>
 		<!-- End Left -->
 
@@ -417,9 +424,7 @@ function change_style(obj,branch_id,id){
 	<div class="ntc">Last DB Cutoff Date: {$config.db_last_cutoff_date}</div>
 {/if}
 
-<div id="left_content">
-	<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
-</div>
+
 
 <!-- Inactive User notification -->
 {*

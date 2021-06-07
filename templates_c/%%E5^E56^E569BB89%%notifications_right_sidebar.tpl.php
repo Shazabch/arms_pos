@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-04 21:15:28
+<?php /* Smarty version 2.6.18, created on 2021-06-07 18:53:05
          compiled from notifications_right_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 53, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 116, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 117, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 235, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 239, false),array('function', 'count', 'notifications_right_sidebar.tpl', 278, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 239, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 243, false),array('function', 'count', 'notifications_right_sidebar.tpl', 282, false),)), $this); ?>
 
 <!-- Price Change Notify -->
 <?php if ($this->_tpl_vars['price_history']): ?>
@@ -28,9 +28,11 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_form
 
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Price Change History</div>
-		<span class="border-bottom mb-4">Last 25 price change items</span>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height:200px;">
+		<div class="card-category fs-09"><i class="fas fa-tag"></i> Price Change History</div>
+		<div class="mb-2">
+			<span class="fs-07 text-muted">Last 25 price change items</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height:200px;">
 			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['price_history']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
@@ -55,11 +57,11 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-			<li  style="font-size: 0.8rem;">
-				<span class="text-muted" style="font-size: 0.6rem;"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['last_update']; ?>
+			<li  class="fs-08">
+				<span class="text-muted fs-06"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['last_update']; ?>
  - <?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['branch']; ?>
 </span><br>
-				<strong style="font-size: 0.9rem;">
+				<strong class="fs-09">
 					<i class="fas fa-search"  data-toggle="modal" href="#history_popup" onclick="price_history(this,<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['id']; ?>
 ,<?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['branch_id']; ?>
 )" role="button"></i>
@@ -73,7 +75,7 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 				</strong>= <?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['price_history'][$this->_sections['i']['index']]['price'])) ? $this->_run_mod_handler('number_format', true, $_tmp, 2) : number_format($_tmp, 2)); ?>
 <br>
-				<span style="font-size: 0.6rem;" class=" text-secondary"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['description']; ?>
+				<span class="fs-06 text-secondary"><?php echo $this->_tpl_vars['price_history'][$this->_sections['i']['index']]['description']; ?>
 </span>
 			</li>
 			<?php endfor; endif; ?>
@@ -194,9 +196,11 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 <?php if ($this->_tpl_vars['new_sku']): ?>
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> New SKU</div>
-		<span class="border-bottom mb-2">Last 25 new SKU items</span>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 300px;">
+		<div class="card-category fs-09" ><i class="fas fa-tag"></i> New SKU</div>
+		<div class="mb-2 fs-07">
+			<span class="text-muted">Last 25 new SKU items</span>
+		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 300px;">
 			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['new_sku']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
@@ -221,12 +225,12 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-			<li  style="font-size: 0.8rem;">
+			<li  class="fs-08">
 				<a href="masterfile_sku.php?a=view&id=<?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['sku_id']; ?>
 " target="_blank" class="text-reset">
-					<span class="text-muted" style="font-size: 0.6rem;"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['added']; ?>
+					<span class="text-muted fs-06"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['added']; ?>
 </span><br>
-					<strong style="font-size: 0.9rem;">
+					<strong class="fs-09">
 						<?php if ($this->_tpl_vars['config']['notification_price_change_show_artno']): ?>
 						    <?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['artno']; ?>
 
@@ -237,7 +241,7 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 					</strong>= <?php echo $this->_tpl_vars['config']['arms_currency']['symbol']; ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['selling_price'])) ? $this->_run_mod_handler('number_format', true, $_tmp, 2) : number_format($_tmp, 2)); ?>
 <br>
-					<span style="font-size: 0.6rem;" class=" text-secondary"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['description']; ?>
+					<span class="text-secondary fs-06"><?php echo $this->_tpl_vars['new_sku'][$this->_sections['i']['index']]['description']; ?>
 </span>
 				</a>
 			</li>
@@ -253,11 +257,11 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 <?php if ($this->_tpl_vars['last_gra']): ?>
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> Gra Status</div>
-		<div class="border-bottom mb-2">
+		<div class="card-category fs-09"><i class="far fa-building"></i> Gra Status</div>
+		<div class="fs-07 mb-2 text-muted">
 			<span>The following GRA has been pending for more than a week</span>
 		</div>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 200px;">
 			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['last_gra']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
@@ -282,14 +286,14 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-			<li  style="font-size: 0.8rem;">
+			<li class="fs-08">
 				<a href="/goods_return_advice.php?a=view&id=<?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['id']; ?>
 " target="_blank" class="text-reset">
-					<strong style="font-size: 0.8rem;"><?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['vendor']; ?>
+					<strong class="fs-08"><?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['vendor']; ?>
 </strong><br>
-					<span class="text-secondary" style="font-size: 0.6rem;">Created: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['added']; ?>
+					<span class="text-secondary fs-06">Created: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['added']; ?>
 </span></span><br>
-					<span style="font-size: 0.6rem;" class=" text-secondary">Last Update: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['last_update']; ?>
+					<span class="text-secondary fs-06">Last Update: <span class="text-muted"> <?php echo $this->_tpl_vars['last_gra'][$this->_sections['i']['index']]['last_update']; ?>
 </span></span>
 				</a>
 			</li>
@@ -304,12 +308,12 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 <?php if ($this->_tpl_vars['grr_notify']): ?>
 <div class="card">
 	<div class="card-body text-center pricing ">
-		<div class="card-category" style="font-size: 0.9rem;"><i class="fas fa-tag"></i> GRR Status</div>
-		<div class="border-bottom mb-2">
+		<div class="card-category fs-09"><i class="far fa-building"></i> GRR Status</div>
+		<div class="mb-2 fs-07 text-muted">
 			<span>The following GRR has been pending for more than <?php echo ((is_array($_tmp=@$this->_tpl_vars['config']['grr_incomplete_notification'])) ? $this->_run_mod_handler('default', true, $_tmp, 3) : smarty_modifier_default($_tmp, 3)); ?>
  days</span>
 		</div>
-		<ul class="list-unstyled leading-loose text-left overflow-auto" style="height: 200px;">
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 200px;">
 			<?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['grr_notify']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
@@ -334,13 +338,13 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-			<li  style="font-size: 0.8rem;">
+			<li class="fs-08">
 				<a href="/goods_receiving_record.php?a=view&id=<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['id']; ?>
 &branch_id=<?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['branch_id']; ?>
 " target="_blank" class="text-reset">
-					<strong style="font-size: 0.8rem;"><?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['vendor']; ?>
+					<strong class="fs-08"><?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['vendor']; ?>
 </strong><br>
-					<span class="text-secondary" style="font-size: 0.6rem;">Received Date : <span class="text-muted"></span> <?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['rcv_date']; ?>
+					<span class="text-secondary fs-06">Received Date : <span class="text-muted"></span> <?php echo $this->_tpl_vars['grr_notify'][$this->_sections['i']['index']]['rcv_date']; ?>
 </span>
 				</a>
 			</li>
