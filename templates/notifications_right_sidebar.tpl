@@ -20,7 +20,7 @@ Revision History
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h6 class="modal-title">Modal Header</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				<h6 class="modal-title">Item History</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
 				<div id="history_popup_content"></div>

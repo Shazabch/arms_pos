@@ -1069,17 +1069,18 @@ function goto_branch(is_arms) {
 		can_pop = check_login('goto_branch');
 	}
 	if (can_pop) {
-        curtain(true);
-		center_div('goto_branch_popup');
-		Element.show('goto_branch_popup');
-		$('goto_branch_popup').style.zIndex = 10000;
+        // curtain(true);
+		// center_div('goto_branch_popup');
+		// Element.show('goto_branch_popup');
+		//$('#goto_branch_popup').modal('show');
+		//$('goto_branch_popup').style.zIndex = 10000;
 		$('goto_branch_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 		new Ajax.Updater('goto_branch_list', 'ajax_autocomplete.php',{
 			parameters: 'a=ajax_allowed_login_branches',
 			evalScripts:true,
 			onComplete:function(){
-				center_div('goto_branch_popup');
-				Element.show('goto_branch_popup');
+				//center_div('goto_branch_popup');
+				//Element.show('goto_branch_popup');
 			}
 		});
     }

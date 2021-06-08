@@ -1,3 +1,26 @@
+<!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
+	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
+	<h3>Select Branch to login</h3>
+	<span id=goto_branch_list></span> <button onclick="goto_branch_select()">Login</button>
+</div> -->
+<!-- Basic modal -->
+<div class="modal fade" id="goto_branch_popup">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Select Branch to login</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<label>Select Branch</label>
+				<span id=goto_branch_list></span>
+				<button class="btn btn-primary" onclick="goto_branch_select()">Login</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Basic modal -->
+
+
 
 {if $sessioninfo}
 <!-- main-sidebar -->
@@ -38,10 +61,142 @@
 					<ul class="side-menu">
 						<li class="side-item side-item-category">Main</li>
 						<li class="slide">
-							<a class="side-menu__item" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3"/><path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"/></svg><span class="side-menu__label">Index</span><span class="badge badge-success side-badge">1</span></a>
+							<a class="side-menu__item" href="home.php"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3"/><path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"/></svg><span class="side-menu__label">Dashboard</span><span class="badge badge-success side-badge">1</span></a>
+						</li>
+						<li class="slide">
+							<a class="side-menu__item" onclick="goto_branch(1);" href="#goto_branch_popup" data-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3"/><path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"/></svg><span class="side-menu__label">Go To Branch</span></a>
 						</li>
 						<li class="slide">
 							<a class="side-menu__item" href="/login.php?logout=1" onclick="return confirm('{$LANG.CONFIRM_LOGOUT}')"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3"/><path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z"/></svg><span class="side-menu__label">logout</span><span class="badge badge-success side-badge">1</span></a>
+						</li>
+						<li class="slide ">
+							<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3"/><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z"/></svg><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
+							<ul class="slide-menu">
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Users</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Create Profile</a></li>
+										<li><a class="sub-slide-item" href="#">Update Profile</a></li>
+										<li><a class="sub-slide-item" href="#">No Activity User Report</a></li>
+										<li class="sub-slide-sub">
+											<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">User Application E-Form</span><i class="sub-angle fe fe-chevron-down"></i></a>
+											<ul class="sub-slide-menu-sub">
+												<li><a class="sub-slide-item" href="#">Generate QR Code</a></li>
+												<li><a class="sub-slide-item" href="#">Application List</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a class="slide-item" href="#">Approval Flows</a></li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Selling Price</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Copy Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Import Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Update Price Type</a></li>
+									</ul>
+								</li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Cost Price</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Update SKU Master Cost</a></li>
+									</ul>
+								</li>
+								<li><a class="slide-item" href="#">Block/Unblock SKU in PO (CSV)</a></li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Import / Export</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Export SKU Items</a></li>
+										<li><a class="sub-slide-item" href="#">Export Weighing Scale Items</a></li>
+										<li><a class="sub-slide-item" href="#">Export Member Points</a></li>
+										<li><a class="sub-slide-item" href="#">Import Stock Take</a></li>
+										<li><a class="sub-slide-item" href="#">Import Member Points</a></li>
+										<li><a class="sub-slide-item" href="#">Import Members</a></li>
+										<li><a class="sub-slide-item" href="#">Pre-activate Member Cards</a></li>
+										<li><a class="sub-slide-item" href="#">Import SKU</a></li>
+										<li><a class="sub-slide-item" href="#">Import Vendor</a></li>
+										<li><a class="sub-slide-item" href="#">Import Brand</a></li>
+										<li><a class="sub-slide-item" href="#">Import Debtor</a></li>
+										<li><a class="sub-slide-item" href="#">Import UOM</a></li>
+										<li><a class="sub-slide-item" href="#">Deactivate SKU by CSV</a></li>
+									</ul>
+								</li>
+								<li><a class="slide-item" href="#">ARMS Request Tracker</a></li>
+								<li><a class="slide-item" href="#">System Update Log</a></li>
+								<li><a class="slide-item" href="#">Sales Target</a></li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Edit Color</a></li>
+										<li><a class="sub-slide-item" href="#">Edit Size</a></li>
+										<li><a class="sub-slide-item" href="#">Edit Logo Settings</a></li>
+									</ul>
+								</li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Server Management</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Config Manager</a></li>
+										<li><a class="sub-slide-item" href="#">Privilege Manager</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="slide ">
+							<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3"/><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z"/></svg><span class="side-menu__label">Office</span><i class="angle fe fe-chevron-down"></i></a>
+							<ul class="slide-menu">
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Adjustment</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Copy Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Import Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Update Price Type</a></li>
+									</ul>
+								</li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Adt</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Create Profile</a></li>
+										<li><a class="sub-slide-item" href="#">Update Profile</a></li>
+										<li><a class="sub-slide-item" href="#">No Activity User Report</a></li>
+										<li class="sub-slide-sub">
+											<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">User Application E-Form</span><i class="sub-angle fe fe-chevron-down"></i></a>
+											<ul class="sub-slide-menu-sub">
+												<li><a class="sub-slide-item" href="#">Generate QR Code</a></li>
+												<li><a class="sub-slide-item" href="#">Application List</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a class="slide-item" href="#">Approval Flows</a></li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Selling Price</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Copy Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Import Selling Price</a></li>
+										<li><a class="sub-slide-item" href="#">Update Price Type</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="slide ">
+							<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3"/><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z"/></svg><span class="side-menu__label">Submenus</span><i class="angle fe fe-chevron-down"></i></a>
+							<ul class="slide-menu">
+								<li><a class="slide-item" href="#">Level1</a></li>
+								<li class="sub-slide">
+									<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Level2</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li><a class="sub-slide-item" href="#">Level01</a></li>
+										<li><a class="sub-slide-item" href="#">Level02</a></li>
+										<li class="sub-slide-sub">
+											<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">Level03</span><i class="sub-angle fe fe-chevron-down"></i></a>
+											<ul class="sub-slide-menu-sub">
+												<li><a class="sub-slide-item" href="#">Level11</a></li>
+												<li><a class="sub-slide-item" href="#">Level2</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 						<li class="side-item side-item-category">General</li>
 						<li class="slide">

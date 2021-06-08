@@ -167,6 +167,26 @@ function do_debtor_login(){
 									<div class="main-signup-header">
 										<h2>Welcome back!</h2>
 										<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
+										<!-- Error Meassages -->
+										{if $errmsg}
+											<div class="alert alert-danger mb-0 text-left" role="alert">
+												<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+												<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<span class="alert-inner--text"> {$errmsg}</span>
+											</div>
+										{/if}
+										{if $errmsg2}
+											<div class="alert alert-danger mb-0 text-left" role="alert">
+												<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+												<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<span class="alert-inner--text"> {$errmsg2}</span>
+											</div>
+										{/if}
+										<!-- Error Messages End -->
 										<div class="panel panel-primary border-0 tabs-style-3">
 											<div class="tab-menu-heading">
 												<div class="tabs-menu ">
@@ -182,16 +202,6 @@ function do_debtor_login(){
 											<div class="panel-body tabs-menu-body">
 												<div class="tab-content">
 													<div class="tab-pane active" id="admin-tab">
-														{if $errmsg}
-															<div class="alert alert-danger mb-0 text-left" role="alert">
-																<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-																<button aria-label="Close" class="close" data-dismiss="alert" type="button">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-																<span class="alert-inner--text"> {$errmsg}</span>
-															</div>
-														{/if}
-
 														<form method="post" name="f_l" onSubmit="return do_branch_login();">
 															<div class="form-group">
 																<label>Branch</label>
@@ -222,15 +232,6 @@ function do_debtor_login(){
 													</div>
 													{if $config.po_allow_vendor_request}
 													<div class="tab-pane" id="vendor-tab">
-														{if $errmsg2}
-															<div class="alert alert-danger mb-0 text-left" role="alert">
-																<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-																<button aria-label="Close" class="close" data-dismiss="alert" type="button">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-																<span class="alert-inner--text"> {$errmsg2}</span>
-															</div>
-														{/if}
 														<form method="post" name="f_b" onSubmit="return do_vendor_login();">
 															<div class="form-group">
 																<label>Branch</label>
@@ -295,7 +296,7 @@ function do_debtor_login(){
 										</div>
 
 										<div class="main-signin-footer mt-3">
-											<p><a href="">Forgot password?</a></p>
+											<p><a href="password_reset.php">Forgot password?</a></p>
 										</div>
 									</div>
 								</div>
