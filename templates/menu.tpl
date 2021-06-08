@@ -30,14 +30,8 @@
 						<!--Nav-->
 						<nav class="horizontalMenu clearfix">
 							<ul class="horizontalMenu-list">
-								<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-tachometer-alt"></i> Home</a></li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Dashboard<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="home.php" class="slide-item"> Home</a></li>
-										<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Go To Branch</a></li>
-									</ul>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/><path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/></svg> Administrator<i class="fe fe-chevron-down horizontal-icon"></i></a>
+
+								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator<i class="fe fe-chevron-down horizontal-icon"></i></a>
 									<div class="horizontal-megamenu clearfix">
 										<div class="container">
 											<div class="mega-menubg hor-mega-menu">
@@ -147,10 +141,41 @@
 			</div>
 			<!--Horizontal-main -->
 
-			<!-- main-content opened -->
-			<div class="main-content horizontal-content">
-
-				<!-- container opened -->
-				<div class="container">
-
 {/if}
+<div class="sticky">
+	<div class="horizontal-main hor-menu clearfix side-header">
+		<div class="horizontal-mainwrapper container clearfix">
+			<!--Nav-->
+			<nav class="horizontalMenu clearfix">
+				<ul class="horizontalMenu-list">
+{if $sessioninfo}
+
+			<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-tachometer-alt"></i> Home</a></li>
+			<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Dashboard<i class="fe fe-chevron-down horizontal-icon"></i></a>
+				<ul class="sub-menu">
+					<li aria-haspopup="true"><a href="home.php" class="slide-item"> Home</a></li>
+					<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Go To Branch</a></li>
+				</ul>
+			</li>
+
+	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
+	<!-- Administrator -->
+		
+	{/if}
+<!-- /Administrator -->
+{/if}
+	</ul>
+		</nav>
+		<!--Nav-->
+			</div>
+				</div>
+					</div>
+					<!--Horizontal-main -->
+
+<!-- Menu Ends Here And Page Content Container Starts From Here -->
+
+<!-- main-content opened -->
+<div class="main-content horizontal-content">
+
+	<!-- container opened -->
+	<div class="container-fluid">
