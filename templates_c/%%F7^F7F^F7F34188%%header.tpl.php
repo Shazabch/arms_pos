@@ -1,11 +1,9 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-07 20:08:19
+<?php /* Smarty version 2.6.18, created on 2021-06-08 20:14:37
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 174, false),array('modifier', 'date_format', 'header.tpl', 329, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 172, false),)), $this); ?>
 <?php if (! $this->_tpl_vars['no_header_footer']): ?><html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name='robots' content='noindex, nofollow'>
 <?php echo smarty_function_config_load(array('file' => "site.conf"), $this);?>
 
 <?php if (strpos ( $_SERVER['SERVER_NAME'] , 'arms-go' ) !== false): ?>
@@ -15,23 +13,21 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 	<?php echo smarty_function_config_load(array('file' => "common.conf"), $this);?>
 
 <?php endif; ?>
-
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta NAME="Description" CONTENT="<?php echo $this->_config[0]['vars']['META_DESCRIPTION']; ?>
 ">
-<?php if (isset ( $this->_tpl_vars['mobile_scale'] )): ?>
-	<meta name="viewport" content="width=device-width,initial-scale=<?php echo $this->_tpl_vars['mobile_scale']; ?>
-;" />
-<?php endif; ?>
 <title><?php echo $this->_tpl_vars['BRANCH_CODE']; ?>
  | <?php echo $this->_config[0]['vars']['SITE_NAME']; ?>
  | <?php echo $this->_tpl_vars['PAGE_TITLE']; ?>
 </title>
 <?php if (dirname ( $_SERVER['REQUEST_URI'] ) != '/'): ?><base href="http<?php if ($_SERVER['HTTPS']): ?>s<?php endif; ?>://<?php echo $_SERVER['HTTP_HOST']; ?>
 /"><?php endif; ?>
-<link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
+<!-- <link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
 <link rel="stylesheet" media="print" href="/templates/print.css" type="text/css">
 <link rel="shortcut icon" href="/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
 
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
@@ -39,14 +35,13 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 		<!--  Owl-carousel css-->
 		<link href="../assets/plugins/owl-carousel/owl.carousel.css" rel="stylesheet" />
 
-		<!-- P-scroll bar css-->
-		<link href="../assets/plugins/perfect-scrollbar/p-scrollbar.css" rel="stylesheet" />
+		<!--  Custom Scroll bar-->
+		<link href="../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
 
 		<!--  Right-sidemenu css -->
 		<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
-		<!-- Sidemenu css -->
-		<link rel="stylesheet" href="../assets/css/sidemenu.css">
+		
 
 		<!-- Maps css -->
 		<link href="../assets/plugins/jqvmap/jqvmap.min.css" rel="stylesheet">
@@ -82,9 +77,10 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 	<?php if ($this->_tpl_vars['config']['arms_currency']['rounding']): ?>ARMS_CURRENCY['rounding'] = '<?php echo $this->_tpl_vars['config']['arms_currency']['rounding']; ?>
 ';<?php endif; ?>
 </script>
+
 </head>
 
-<body class="main-body app sidebar-mini" onmousemove = "mouse_trapper(event);" id="page-top">
+<body class="main-body" onmousemove = "mouse_trapper(event);" id="top">
 
 <div id=curtain onclick="default_curtain_clicked()" style="position:absolute;display:none;z-index:9999;background:#fff;opacity:0.1;"></div>
 <div id="curtain2" style="position:absolute;display:none;z-index:9999;background:#000;opacity:0.1;"></div>
@@ -121,63 +117,82 @@ unset($_smarty_tpl_vars);
 <?php endif; ?>
 
 
-<!-- Loader -->
-		<!-- <div id="global-loader">
-			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
-		</div> -->
-		<!-- /Loader -->
-
-		<!-- Page -->
 		<div class="page">
 
 			<?php $this->assign('http_host', $_SERVER['HTTP_HOST']); ?>
+
+
+			
+			<?php if ($this->_tpl_vars['sessioninfo']): ?>
+			<!-- main-header opened -->
+			<div class="main-header nav nav-item hor-header">
+				<div class="container">
+					<div class="main-header-left ">
+						<a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a><!-- sidebar-toggle-->
+						<a class="header-brand" href="index.html">
+							<img src="../../assets/img/brand/logo-white.png" class="desktop-dark">
+							<img src="../../assets/img/brand/logo.png" class="desktop-logo">
+							<img src="../../assets/img/brand/favicon.png" class="desktop-logo-1">
+							<img src="../../assets/img/brand/favicon-white.png" class="desktop-logo-dark">
+						</a>
+						<div class="main-header-center  ml-4">
+							<input class="form-control" placeholder="Search for anything..." type="search"><button class="btn"><i class="fe fe-search"></i></button>
+						</div>
+					</div><!-- search -->
+					<div class="main-header-right">
+						<div class="nav nav-item  navbar-nav-right ml-auto">
+							<div class="nav-link" id="bs-example-navbar-collapse-1">
+								<form class="navbar-form" role="search">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Search">
+										<span class="input-group-btn">
+											<button type="reset" class="btn btn-default">
+												<i class="fas fa-times"></i>
+											</button>
+											<button type="submit" class="btn btn-default nav-link resp-btn">
+												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+											</button>
+										</span>
+									</div>
+								</form>
+							</div>
+							<div class="nav-item full-screen fullscreen-button">
+								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
+							</div>
+							<div class="dropdown main-profile-menu nav nav-item nav-link">
+								<a class="profile-user d-flex" href=""><img alt="" src="../../assets/img/faces/6.jpg"></a>
+								<div class="dropdown-menu">
+									<div class="main-header-profile bg-primary p-3">
+										<div class="d-flex wd-100p">
+											<div class="main-img-user"><img alt="" src="../../assets/img/faces/6.jpg" class=""></div>
+											<div class="ml-3 my-auto">
+												<h6>Petey Cruiser</h6><span>Premium Member</span>
+											</div>
+										</div>
+									</div>
+									<a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
+									<a class="dropdown-item" href=""><i class="bx bx-cog"></i> Edit Profile</a>
+									<a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
+									<a class="dropdown-item" href=""><i class="bx bx-envelope"></i>Messages</a>
+									<a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
+									<a class="dropdown-item" href="page-signin.html"><i class="bx bx-log-out"></i> Sign Out</a>
+								</div>
+							</div>
+							<div class="dropdown main-header-message right-toggle">
+								<a class="nav-link pr-0" data-toggle="sidebar-right" data-target=".sidebar-right">
+									<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /main-header -->
 			<?php if (! $this->_tpl_vars['no_menu_templates'] && ! $_SESSION[$this->_tpl_vars['http_host']]['is_remote']): ?><?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "menu.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?><?php endif; ?>
-
-
-			
-			<?php if ($this->_tpl_vars['sessioninfo']): ?>
-			<!-- main-content -->
-			<div class="main-content app-content">
-				<!-- main-header -->
-				<div id ="top_nav_header" class="main-header sticky side-header nav nav-item">
-					<div class="container-fluid">
-						<div class="main-header-left ">
-							<div class="responsive-logo">
-								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
-							
-
-								<a href="index.html"><img src="../../assets/img/brand/favicon.png" class="logo-2" alt="logo"></a>
-								
-								
-							</div>
-							<div class="app-sidebar__toggle" data-toggle="sidebar">
-								<a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
-								<a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
-							</div>
-							<div class="main-header-center ml-3 d-sm-none d-md-none d-lg-block">
-								<p style="display: table-cell;" class="lead"><?php if (strpos ( $_SERVER['SERVER_NAME'] , 'arms-go' ) !== false): ?>
-							ARMS&reg; GO Retail Management System &amp; Point Of Sale
-						<?php elseif ($this->_tpl_vars['config']['consignment_modules']): ?>
-							ARMS&reg; Consignment Retail Management System &amp; Point Of Sale
-						<?php else: ?>
-							<?php echo $this->_config[0]['vars']['SYSTEM_ID']; ?>
-
-						<?php endif; ?></p>
-							</div>
-						</div>
-						<div class="main-header-right">
-							<i class="mdi mdi-calendar"></i> &nbsp; <?php echo ((is_array($_tmp=time())) ? $this->_run_mod_handler('date_format', true, $_tmp, "%a %d %b, %I:%M %p") : smarty_modifier_date_format($_tmp, "%a %d %b, %I:%M %p")); ?>
-
-							
-						</div>
-					</div>
-				</div>
-				<!-- /main-header -->
 			<?php endif; ?>
-<div class=container-fluid>
-<img src=ui/pixel.gif width=700 height=1><br>
+
 <?php endif; ?>

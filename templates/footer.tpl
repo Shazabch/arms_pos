@@ -1,12 +1,48 @@
 {if !$no_header_footer}
 </div>
-<!-- Container-fluid closed -->
+				<!-- Container closed -->
+			</div>
+			<!-- main-content closed -->
 
-</div>
-<!-- Page closed -->
+			<!-- Sidebar-right-->
+			<div class="sidebar sidebar-right sidebar-animate">
+				<div class="panel panel-primary card mb-0 box-shadow">
+					<div class="tab-menu-heading border-0 p-3">
+						<div class="card-title mb-0">Notifications</div>
+						<div class="card-options ml-auto">
+							<a href="#" class="sidebar-remove"><i class="fe fe-x"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/Sidebar-right-->
 
-<!-- Footer opened -->
-	
+			
+			<!-- Footer opened -->
+			<div class="main-footer ht-40">
+				<div class="container-fluid pd-t-0-f ht-100p">
+					<div style="height:25px">Copyright &copy; 2007-{$smarty.now|date_format:"%Y"} <a class="footer-linkx" href="http://arms.my" target=_blank>ARMS Software International Sdn Bhd</a></div> 
+					{*	More info at *}
+					{*	{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false} *}
+					{*		<a class="footer-linkx" href="http://arms-go.com" target=_blank>arms-go.com</a>. *}
+					{*	{else} *}
+					{*		<a class="footer-linkx" href="http://arms.my" target=_blank>arms.my</a>. *}
+					{*	{/if} *}
+					<div style="height:25px">For Technical Assistance: Please <a class="footer-linkx" href="https://helpdesk.arms.my/" target="_blank">send ticket</a>
+					(include screenshots attachment) or call +6012-4016647.</div>
+					<div style="height:25px;margin-bottom:20px">For Other Assistance: Please email cs@arms.my or call +604-5026265.</div>
+						
+					{*	{if strpos(strtolower($smarty.server.HTTP_USER_AGENT), 'firefox') ===false} *}
+					{*		<br /> *}
+					{*		For 100% compatibility, please use the latest version of <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Firefox</a>. *}
+					{*	{/if} *}
+				</div>
+			</div>
+			<!-- Footer closed -->
+
+		</div>
+		<!-- End Page -->
+
 			
 			<p align=center class="noprint footer-ads"  style="clear:both">
 	{if !$config.hide_footer_ad and $smarty.server.PHP_SELF eq '/login.php'}
@@ -52,30 +88,6 @@
 
 	{if ($config.custom_page_footer && !$config.replace_page_footer) || !$config.custom_page_footer}
 		{* #COPYRIGHT# *}
-		
-		<!-- Footer opened -->
-			<div class="main-footer">
-				<div class="container-fluid pd-t-0-f ht-100p">
-					
-					<div style="height:25px">Copyright &copy; 2007-{$smarty.now|date_format:"%Y"} <a class="footer-linkx" href="http://arms.my" target=_blank>ARMS Software International Sdn Bhd</a></div> 
-					{*	More info at *}
-					{*	{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false} *}
-					{*		<a class="footer-linkx" href="http://arms-go.com" target=_blank>arms-go.com</a>. *}
-					{*	{else} *}
-					{*		<a class="footer-linkx" href="http://arms.my" target=_blank>arms.my</a>. *}
-					{*	{/if} *}
-					<div style="height:25px">For Technical Assistance: Please <a class="footer-linkx" href="https://helpdesk.arms.my/" target="_blank">send ticket</a>
-					(include screenshots attachment) or call +6012-4016647.</div>
-					<div style="height:25px;margin-bottom:20px">For Other Assistance: Please email cs@arms.my or call +604-5026265.</div>
-						
-					{*	{if strpos(strtolower($smarty.server.HTTP_USER_AGENT), 'firefox') ===false} *}
-					{*		<br /> *}
-					{*		For 100% compatibility, please use the latest version of <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Firefox</a>. *}
-					{*	{/if} *}
-
-				</div>
-			</div>
-			<!-- Footer closed -->
 
 	{/if}
 {* </p> *}
@@ -113,28 +125,14 @@
 	</script>
 {/if}
 
-<a class="scroll-to-top rounded" id="scroll-to-top" href="#page-top" style="z-index: 2000">
-  <i class="icofont-rounded-up icofont icon-up"></i>
-</a> 
-<script type="text/javascript">
-	var test = document.getElementById("page-top")
-	console.log(test.scrollHeight );
+<!-- <script type="text/javascript">
+	var test = document.getElementById("top")
 
 	if(test.scrollHeight > 200)
-		document.getElementById("scroll-to-top").style.visibility = "visible";
+		document.getElementById("back-to-top").style.visibility = "visible";
 	else
-		document.getElementById("scroll-to-top").style.visibility = "hidden";
-</script>
-
-		
-
-</div>
-<!-- End Page -->
-
-<!-- Back-to-top -->
-		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
-
-		
+		document.getElementById("back-to-top").style.visibility = "hidden";
+</script> -->
 
 		<!-- JQuery min js -->
 		<script src="../assets/plugins/jquery/jquery.min.js"></script>
@@ -151,6 +149,9 @@
 		</script>
 		
 
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
+
 		<!-- Bootstrap Bundle js -->
 		<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -164,9 +165,6 @@
 		<script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
-		<!-- Sticky js -->
-		<script src="../assets/js/sticky.js"></script>
-
 		<!-- eva-icons js -->
 		<script src="../assets/js/eva-icons.min.js"></script>
 
@@ -174,8 +172,14 @@
 		<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
 		<script src="../assets/plugins/rating/jquery.barrating.js"></script>
 
-		<!-- Sidebar js -->
-		<script src="../assets/plugins/side-menu/sidemenu.js"></script>
+		<!-- Custom Scroll bar Js-->
+		<script src="../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+		<!-- Horizontalmenu js-->
+		<script src="../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
+
+		<!-- Sticky js -->
+		<script src="../assets/js/sticky.js"></script>
 
 		<!-- Right-sidebar js -->
 		<script src="../assets/plugins/sidebar/sidebar.js"></script>

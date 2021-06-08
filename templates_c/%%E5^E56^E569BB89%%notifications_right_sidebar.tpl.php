@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-07 18:53:05
+<?php /* Smarty version 2.6.18, created on 2021-06-08 20:14:42
          compiled from notifications_right_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 239, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 243, false),array('function', 'count', 'notifications_right_sidebar.tpl', 282, false),)), $this); ?>
@@ -11,7 +11,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_form
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h6 class="modal-title">Modal Header</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				<h6 class="modal-title">Item History</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
 				<div id="history_popup_content"></div>

@@ -169,26 +169,23 @@
 *}
 {if !$no_header_footer}<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name='robots' content='noindex, nofollow'>
 {config_load file="site.conf"}
 {if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false}
 	{config_load file="common-go.conf"}
 {else}
 	{config_load file="common.conf"}
 {/if}
-
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta NAME="Description" CONTENT="{#META_DESCRIPTION#}">
-{if isset($mobile_scale)}
-	<meta name="viewport" content="width=device-width,initial-scale={$mobile_scale};" />
-{/if}
 <title>{$BRANCH_CODE} | {#SITE_NAME#} | {$PAGE_TITLE}</title>
 {if dirname($smarty.server.REQUEST_URI) ne '/'}<base href="http{if $smarty.server.HTTPS}s{/if}://{$smarty.server.HTTP_HOST}/">{/if}
 {*<link rel="stylesheet" href="{#SITE_CSS#}" type="text/css">*}
-<link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
+<!-- <link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
 <link rel="stylesheet" media="print" href="/templates/print.css" type="text/css">
 <link rel="shortcut icon" href="/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
 
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
@@ -196,14 +193,13 @@
 		<!--  Owl-carousel css-->
 		<link href="../assets/plugins/owl-carousel/owl.carousel.css" rel="stylesheet" />
 
-		<!-- P-scroll bar css-->
-		<link href="../assets/plugins/perfect-scrollbar/p-scrollbar.css" rel="stylesheet" />
+		<!--  Custom Scroll bar-->
+		<link href="../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
 
 		<!--  Right-sidemenu css -->
 		<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
-		<!-- Sidemenu css -->
-		<link rel="stylesheet" href="../assets/css/sidemenu.css">
+		
 
 		<!-- Maps css -->
 		<link href="../assets/plugins/jqvmap/jqvmap.min.css" rel="stylesheet">
@@ -234,9 +230,10 @@
 	{if $config.arms_currency.country}ARMS_CURRENCY['country'] = '{$config.arms_currency.country}';{/if}
 	{if $config.arms_currency.rounding}ARMS_CURRENCY['rounding'] = '{$config.arms_currency.rounding}';{/if}
 </script>
+
 </head>
 
-<body class="main-body app sidebar-mini" onmousemove = "mouse_trapper(event);" id="page-top">
+<body class="main-body" onmousemove = "mouse_trapper(event);" id="top">
 
 <div id=curtain onclick="default_curtain_clicked()" style="position:absolute;display:none;z-index:9999;background:#fff;opacity:0.1;"></div>
 <div id="curtain2" style="position:absolute;display:none;z-index:9999;background:#000;opacity:0.1;"></div>
@@ -282,57 +279,78 @@ position:absolute;z-index:10001;" class="curtain_popup">
 <div style="height:26px;"></div>
 *}
 
-<!-- Loader -->
-		<!-- <div id="global-loader">
-			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
-		</div> -->
-		<!-- /Loader -->
-
-		<!-- Page -->
 		<div class="page">
 
 			{assign var=http_host value=$smarty.server.HTTP_HOST}
-			{if !$no_menu_templates && !$smarty.session.$http_host.is_remote}{include file=menu.tpl}{/if}
 
 
 			
 			{if $sessioninfo}
-			<!-- main-content -->
-			<div class="main-content app-content">
-				<!-- main-header -->
-				<div id ="top_nav_header" class="main-header sticky side-header nav nav-item">
-					<div class="container-fluid">
-						<div class="main-header-left ">
-							<div class="responsive-logo">
-								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
-							
-
-								<a href="index.html"><img src="../../assets/img/brand/favicon.png" class="logo-2" alt="logo"></a>
-								
-								
-							</div>
-							<div class="app-sidebar__toggle" data-toggle="sidebar">
-								<a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
-								<a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
-							</div>
-							<div class="main-header-center ml-3 d-sm-none d-md-none d-lg-block">
-								<p style="display: table-cell;" class="lead">{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false}
-							ARMS&reg; GO Retail Management System &amp; Point Of Sale
-						{elseif $config.consignment_modules}
-							ARMS&reg; Consignment Retail Management System &amp; Point Of Sale
-						{else}
-							{#SYSTEM_ID#}
-						{/if}</p>
-							</div>
+			<!-- main-header opened -->
+			<div class="main-header nav nav-item hor-header">
+				<div class="container">
+					<div class="main-header-left ">
+						<a class="animated-arrow hor-toggle horizontal-navtoggle"><span></span></a><!-- sidebar-toggle-->
+						<a class="header-brand" href="index.html">
+							<img src="../../assets/img/brand/logo-white.png" class="desktop-dark">
+							<img src="../../assets/img/brand/logo.png" class="desktop-logo">
+							<img src="../../assets/img/brand/favicon.png" class="desktop-logo-1">
+							<img src="../../assets/img/brand/favicon-white.png" class="desktop-logo-dark">
+						</a>
+						<div class="main-header-center  ml-4">
+							<input class="form-control" placeholder="Search for anything..." type="search"><button class="btn"><i class="fe fe-search"></i></button>
 						</div>
-						<div class="main-header-right">
-							<i class="mdi mdi-calendar"></i> &nbsp; {$smarty.now|date_format:"%a %d %b, %I:%M %p"}
-							
+					</div><!-- search -->
+					<div class="main-header-right">
+						<div class="nav nav-item  navbar-nav-right ml-auto">
+							<div class="nav-link" id="bs-example-navbar-collapse-1">
+								<form class="navbar-form" role="search">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Search">
+										<span class="input-group-btn">
+											<button type="reset" class="btn btn-default">
+												<i class="fas fa-times"></i>
+											</button>
+											<button type="submit" class="btn btn-default nav-link resp-btn">
+												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+											</button>
+										</span>
+									</div>
+								</form>
+							</div>
+							<div class="nav-item full-screen fullscreen-button">
+								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
+							</div>
+							<div class="dropdown main-profile-menu nav nav-item nav-link">
+								<a class="profile-user d-flex" href=""><img alt="" src="../../assets/img/faces/6.jpg"></a>
+								<div class="dropdown-menu">
+									<div class="main-header-profile bg-primary p-3">
+										<div class="d-flex wd-100p">
+											<div class="main-img-user"><img alt="" src="../../assets/img/faces/6.jpg" class=""></div>
+											<div class="ml-3 my-auto">
+												<h6>Petey Cruiser</h6><span>Premium Member</span>
+											</div>
+										</div>
+									</div>
+									<a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
+									<a class="dropdown-item" href=""><i class="bx bx-cog"></i> Edit Profile</a>
+									<a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
+									<a class="dropdown-item" href=""><i class="bx bx-envelope"></i>Messages</a>
+									<a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
+									<a class="dropdown-item" href="page-signin.html"><i class="bx bx-log-out"></i> Sign Out</a>
+								</div>
+							</div>
+							<div class="dropdown main-header-message right-toggle">
+								<a class="nav-link pr-0" data-toggle="sidebar-right" data-target=".sidebar-right">
+									<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
-				<!-- /main-header -->
+			</div>
+			<!-- /main-header -->
+			{if !$no_menu_templates && !$smarty.session.$http_host.is_remote}{include file=menu.tpl}{/if}
 			{/if}
-<div class=container-fluid>
-<img src=ui/pixel.gif width=700 height=1><br>
+
 {/if}
