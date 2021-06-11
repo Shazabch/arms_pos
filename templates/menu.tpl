@@ -20,129 +20,7 @@
 </div>
 <!-- End Basic modal -->
 
-
-
-{if $sessioninfo}
-<!--Horizontal-main -->
-			<div class="sticky">
-				<div class="horizontal-main hor-menu clearfix side-header">
-					<div class="horizontal-mainwrapper container clearfix">
-						<!--Nav-->
-						<nav class="horizontalMenu clearfix">
-							<ul class="horizontalMenu-list">
-
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<div class="horizontal-megamenu clearfix">
-										<div class="container">
-											<div class="mega-menubg hor-mega-menu">
-												<div class="row">
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-
-														<ul>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Users</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Create Profile</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">update Profile</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">No Activity User Report</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">User Application E-Form</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Generate QR Code</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Application List</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Others</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Approval Flows</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">ARMS Request Tracker</a></li>
-
-
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li aria-haspopup="true"><a href="" class="slide-item">System Update Log</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Sales Target</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Selling Price</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Copy Selling Price</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Selling Price</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Update Price Type</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Cost Price</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Update SKU Master</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">SKU</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Block / Unblock SKU in PO (csv)</a></li>
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Import / Export</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export SKU Items</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export Weighing Scale Items</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export Member Points</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Stock Take</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Member Points</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Members</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Pre-activate Member Cards</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import SKU</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Vendor</a></li>
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Brand</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Debtor</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import UOM</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Deactivate SKU by CSV</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Settings</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Colour</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Size</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Logo Settings</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Server Management</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Config Manager</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Privilege Manager</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5 0-.16-.08-.28-.14-.35-.41-.46-.63-1.05-.63-1.65 0-1.38 1.12-2.5 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 10 6.5 10s1.5.67 1.5 1.5S7.33 13 6.5 13zm3-4C8.67 9 8 8.33 8 7.5S8.67 6 9.5 6s1.5.67 1.5 1.5S10.33 9 9.5 9zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 6 14.5 6s1.5.67 1.5 1.5S15.33 9 14.5 9zm4.5 2.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z" opacity=".3"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm4 13h-1.77c-1.38 0-2.5 1.12-2.5 2.5 0 .61.22 1.19.63 1.65.06.07.14.19.14.35 0 .28-.22.5-.5.5-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.14 8 7c0 2.21-1.79 4-4 4z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg> Advanced UI <i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="blog.html" class="slide-item">Blog</a></li>
-										<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Submenu</a>
-											<ul class="sub-menu">
-												<li aria-haspopup="true"><a href="#" class="slide-item">Submenu-01</a></li>
-												<li aria-haspopup="true" class="slide-item sub-menu-sub"><a href="#">Submenu-02</a>
-													<ul class="sub-menu">
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-01</a></li>
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-02</a></li>
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-02</a></li>
-													</ul>
-												</li>
-												<li aria-haspopup="true"><a href="form-layouts.html" class="slide-item">Submenu-03</a></li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> E-Commerce<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="products.html" class="slide-item"> Products</a></li>
-										<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Product-Details</a></li>
-										<li aria-haspopup="true"><a href="product-cart.html" class="slide-item">Shopping Cart</a></li>
-									</ul>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> E-Commerce<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="products.html" class="slide-item"> Products</a></li>
-										<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Product-Details</a></li>
-										<li aria-haspopup="true"><a href="product-cart.html" class="slide-item">Shopping Cart</a></li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
-						<!--Nav-->
-					</div>
-				</div>
-			</div>
-			<!--Horizontal-main -->
-
-{/if}
-<div class="sticky">
+<div class="">
 	<div class="horizontal-main hor-menu clearfix side-header">
 		<div class="horizontal-mainwrapper container clearfix">
 			<!--Nav-->
@@ -157,10 +35,207 @@
 					<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Go To Branch</a></li>
 				</ul>
 			</li>
-
-	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
 	<!-- Administrator -->
-		
+	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
+	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
+		<ul class="sub-menu">
+			<li aria-haspopup="true"><a href="" class="slide-item">O level</a></li>
+			{if $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE}
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Users</a>
+					<ul class="sub-menu">
+						{if $sessioninfo.privilege.USERS_ADD}<li aria-haspopup="true"><a href="users.php?t=create" class="slide-item">Create Profile</a></li>{/if}
+						{if $sessioninfo.privilege.USERS_ACTIVATE}<li aria-haspopup="true"><a href="users.php?t=update" class="slide-item">Update Profile</a></li>{/if}
+						{if $sessioninfo.level==500 || $sessioninfo.level>=9999}<li aria-haspopup="true"><a href="admin.inactive_user.php" class="slide-item">No-Activity User Report</a></li>{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/users.application.php") and $sessioninfo.privilege.USERS_EFORM }
+						<li aria-haspopup="true" class="slide-item sub-menu-sub"><a href="#">User Application E-Form</a>
+							<ul class="sub-menu">
+								{if $config.single_server_mode or (!$config.single_server_mode and $sessioninfo.branch_id eq 1)}<li aria-haspopup="true"><a  href="users.application.php?a=generate_code" class="slide-item">Generate QR Code</a></li>{/if}
+								<li aria-haspopup="true"><a href="users.application.php?a=application_list" class="slide-item">Application List</a></li>
+							</ul>
+						</li>
+						{/if}
+					</ul>
+				</li>
+			{/if}
+			{if $sessioninfo.privilege.MST_APPROVAL}<li aria-haspopup="true"><a href="approval_flow.php" class="slide-item">Approval Flows</a></li>{/if}
+			{if $sessioninfo.level>=9999 and $BRANCH_CODE eq 'HQ'}
+			<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Selling Price</a>
+				<ul class="sub-menu">
+					<li aria-haspopup="true"><a href="admin.copy_selling.php" class="slide-item">Copy Selling Price</a></li>
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_selling.php")}
+					<li aria-haspopup="true"><a href="admin.import_selling.php" class="slide-item">Import Selling Price</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.update_price_type.php")}
+					<li aria-haspopup="true"><a href="admin.update_price_type.php" class="slide-item">Update Price Type</a></li>
+					{/if}
+				</ul>
+			</li>			
+			{/if}
+			{if $BRANCH_CODE eq 'HQ' and $sessioninfo.level>=9999 and ($sessioninfo.privilege.ADMIN_UPDATE_SKU_MASTER_COST and file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.update_sku_master_cost.php"))}
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Cost Price</a>
+					<ul class="sub-menu">
+						<li aria-haspopup="true"><a href="admin.update_sku_master_cost.php" class="slide-item">Update SKU Master Cost</a></li>
+					</ul>
+				</li>
+			{/if}
+			{if $sessioninfo.level>=9999 and $BRANCH_CODE eq 'HQ'}
+				<li aria-haspopup="true"><a href="admin.sku_block.php" class="slide-item">Block/Ublock in SKU in PO (CSV)</a></li>
+			{/if}
+
+			{if $sessioninfo.privilege.SKU_EXPORT ||  $sessioninfo.level>=9999 || $sessioninfo.privilege.POS_IMPORT || $sessioninfo.privilege.ALLOW_IMPORT_SKU || $sessioninfo.privilege.ALLOW_IMPORT_VENDOR  || $sessioninfo.privilege.ALLOW_IMPORT_BRAND || $sessioninfo.privilege.ALLOW_IMPORT_DEBTOR || $sessioninfo.privilege.ALLOW_IMPORT_UOM || $sessioninfo.privilege.ALLOW_IMPORT_DEACTIVATE_SKU}
+			<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Import / Export</a>
+				<ul class="sub-menu">
+				{if $sessioninfo.privilege.SKU_EXPORT}
+					<li aria-haspopup="true"><a class="slide-item" href="admin.sku_export.php">Export SKU Items</a>
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.weightcode_export.php") and !$config.consignment_modules}
+						<li aria-haspopup="true"><a class="slide-item" href="admin.weightcode_export.php">Export Weighing Scale Items</a></li>
+					{/if}
+				{/if}
+				{if $sessioninfo.level>=9999 || $sessioninfo.privilege.POS_IMPORT}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.export_points.php")}<li aria-haspopup="true"><a class="slide-item" href="admin.export_points.php">Export Member Points</a></li>{/if}
+				{/if}
+				{if $sessioninfo.level>=9999 || $sessioninfo.privilege.POS_IMPORT}
+					{*<li aria-haspopup="true"><a class="slide-item" href="admin.pos_transaction_import.php">Import POS Transaction</a></li>*}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_pos_sales.php")}
+					    {*<li aria-haspopup="true"><a class="slide-item" href="admin.import_pos_sales.php">Import POS Sales</a></li>*}
+					{/if}
+		  			<li aria-haspopup="true"><a class="slide-item" href="admin.stockchk_import.php">Import Stock Take</a>
+				{/if}
+				{if $config.sku_application_require_multics && ($sess.level==500 || $sessioninfo.level>=9999)}
+				<li aria-haspopup="true"><a class="slide-item" href="admin.update_dat.php">Update Multics DAT files</a>
+				{/if}
+	            {if $sessioninfo.level>=9999 || $sessioninfo.privilege.POS_IMPORT}
+	                {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_member_points.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_member_points.php">Import Member Points</a></li>
+	                {/if}
+	                {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_members.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_members.php">Import Members</a></li>
+	                {/if}
+	                {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.preactivate_member_cards.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.preactivate_member_cards.php">Pre-activate Member Cards</a></li>
+	                {/if}
+	            {/if}
+				
+				{if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_SKU)}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_sku.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_sku.php">Import SKU</a></li>
+	                {/if}
+				{/if}
+				
+				{if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_VENDOR)}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_vendor.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_vendor.php">Import Vendor</a></li>
+	                {/if}
+				{/if}
+				
+				{if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_BRAND)}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_brand.php")}
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_brand.php">Import Brand</a></li>
+	                {/if}
+				{/if}
+	            
+	            {if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_DEBTOR) && file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_debtor.php")}
+					<li aria-haspopup="true"><a class="slide-item" href="admin.import_debtor.php">Import Debtor</a></li>
+				{/if}
+				{if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_UOM) && file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.import_uom.php")}
+	                 <li aria-haspopup="true"><a class="slide-item" href="admin.import_uom.php">Import UOM</a></li>
+	            {/if}
+				{if $BRANCH_CODE eq 'HQ' && ($sessioninfo.level>=9999 || $sessioninfo.privilege.ALLOW_IMPORT_DEACTIVATE_SKU) && file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.deactivate_sku.php")}
+	                 <li aria-haspopup="true"><a class="slide-item" href="admin.deactivate_sku.php">Deactivate SKU by CSV</a></li>
+	            {/if}
+				</ul>
+			</li>
+			{/if}
+			{if $sessioninfo.level>=9999 and $BRANCH_CODE eq 'HQ' and $config.show_tracker}
+			    <li aria-haspopup="true"><a class="slide-item" href="admin.arms_tracker.php">ARMS Request Tracker</a>
+			{/if}
+			{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.monthly_closing.php") and $config.monthly_closing and $sessioninfo.privilege.ADMIN_MONTHLY_CLOSING}
+				<li  aria-haspopup="true" class="sub-menu-sub"><a>Monthly Closing</a>
+					<ul class="sub-menu">
+						<li aria-haspopup="true"><a class="slide-item" href="admin.monthly_closing.php">Monthly Closing</a></li>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.monthly_closing.php?a=show_closed_month">Monthly Closing History</a></li>
+					</ul>
+				</li>
+			{/if}
+			{if $sessioninfo.level>=9999}
+				<li aria-haspopup="true"><a class="slide-item" href="admin.update_log.php">System Update log</a>
+				<li aria-haspopup="true"><a class="slide-item" href="sales_target.php">Sales Target</a>
+				<li arai-haspopup="true" class="sub-menu-sub"><a href="#">Settings</a>
+					<ul class="sub-menu">
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.settings.php")}
+						<li aria-haspopup="true"><a class="slide-item" href="admin.settings.php?file=color.txt">Edit Colour</a>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.settings.php?file=size.txt">Edit Size</a>
+						{/if}
+						{* if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.upload_config.php")}
+						<li aria-haspopup="true"><a class="slide-item" href="admin.upload_config.php">Upload Config CSV</a>
+						{/if *}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.upload_logo.php")}
+						<li aria-haspopup="true"><a class="slide-item" href="admin.upload_logo.php">Edit Logo Settings</a>
+						{/if}
+					</ul>
+				</li>
+				{*
+				{if $BRANCH_CODE eq 'HQ' and $sessioninfo.privilege.SERVER_MAINTENANCE}
+				    <li aria-haspopup="true" class="sub-menu-sub"><a href="#">Server Maintenance</a>
+				        <ul class="sub-menu">
+				            {if file_exists("admin.server_maintenance.archive_database.php")}
+				            <li aria-haspopup="true"><a class="slide-item" href="admin.server_maintenance.archive_database.php">Archive Database</a></li>
+				            <li aria-haspopup="true"><a class="slide-item" href="admin.server_maintenance.archive_database.php?a=restore">Restore Database</a></li>
+				            {/if}
+				        </ul>
+				    </li>
+				{/if}
+				*}
+				{if $BRANCH_CODE eq 'HQ' and $sessioninfo.id eq 1}
+				    <li aria-haspopup="true" class="sub-menu-sub"><a href="#">Server Management</a>
+				        <ul class="sub-menu">
+				            {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.config_manager.php")}
+				                <li aria-haspopup="true"><a class="slide-item" href="admin.config_manager.php">Config Manager</a></li>
+				            {/if}
+				            {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.privilege_manager.php")}
+				                <li aria-haspopup="true"><a class="slide-item" href="admin.privilege_manager.php">Privilege Manager</a></li>
+				            {/if}
+				            {*{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.reset_db.php")}
+				                <li aria-haspopup="true"><a class="slide-item" href="admin.reset_db.php">Reset Data</a></li>
+				            {/if}*}
+				        </ul>
+					</li>
+				{/if}
+				{if $config.enable_gst && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_gst_settings.php") && $sessioninfo.level>=9999}
+					<li aria-haspopup="true"><a class="slide-item" href="masterfile_gst_settings.php">GST Settings</a></li>
+				{/if}
+			{/if}
+			{if $config.enable_tax and $sessioninfo.level>=9999}
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Tax</a>
+					<ul class="sub-menu">
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_settings.php") }
+						<li aria-haspopup="true"><a class="slide-item" href="admin.tax_settings.php">Tax Settings</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_listing.php") }
+						<li aria-haspopup="true"><a class="slide-item" href="admin.tax_listing.php">Tax Listing</a></li>
+					{/if}
+					</ul>
+				</li>
+			{/if}
+			{* Foreign Currency *}
+			{if $config.foreign_currency and ($sessioninfo.privilege.ADMIN_FOREIGN_CURRENCY_RATE_UPDATE)}
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Foreign Currency</a>
+					<ul>
+						{if $sessioninfo.privilege.ADMIN_FOREIGN_CURRENCY_RATE_UPDATE and file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.foreign_currency.rate.php")}
+							<li aria-haspopup="true"><a class="slide-item" href="admin.foreign_currency.rate.php">Currency Rate Table</a></li>
+						{/if}
+					</ul>
+				</li>
+			{/if}
+			{*
+			{if $BRANCH_CODE eq 'HQ' && $config.stock_copy && $sessioninfo.privilege.STOCK_COPY}
+			    {if file_exists("admin.stock_copy.php")}
+			    	<li aria-haspopup="true"><a class="slide-item" href="admin.stock_copy.php">Stock Copy</a></li>
+			    {/if}
+			{/if}
+			*}
+		</ul>
+	</li>	
 	{/if}
 <!-- /Administrator -->
 {/if}

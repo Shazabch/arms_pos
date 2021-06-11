@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-08 21:08:10
+<?php /* Smarty version 2.6.18, created on 2021-06-11 15:52:15
          compiled from menu.tpl */ ?>
 <!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
 	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
@@ -22,129 +22,7 @@
 </div>
 <!-- End Basic modal -->
 
-
-
-<?php if ($this->_tpl_vars['sessioninfo']): ?>
-<!--Horizontal-main -->
-			<div class="sticky">
-				<div class="horizontal-main hor-menu clearfix side-header">
-					<div class="horizontal-mainwrapper container clearfix">
-						<!--Nav-->
-						<nav class="horizontalMenu clearfix">
-							<ul class="horizontalMenu-list">
-
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<div class="horizontal-megamenu clearfix">
-										<div class="container">
-											<div class="mega-menubg hor-mega-menu">
-												<div class="row">
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-
-														<ul>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Users</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Create Profile</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">update Profile</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">No Activity User Report</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">User Application E-Form</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Generate QR Code</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Application List</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Others</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Approval Flows</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">ARMS Request Tracker</a></li>
-
-
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li aria-haspopup="true"><a href="" class="slide-item">System Update Log</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Sales Target</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Selling Price</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Copy Selling Price</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Selling Price</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Update Price Type</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Cost Price</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Update SKU Master</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">SKU</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Block / Unblock SKU in PO (csv)</a></li>
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Import / Export</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export SKU Items</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export Weighing Scale Items</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Export Member Points</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Stock Take</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Member Points</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Members</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Pre-activate Member Cards</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import SKU</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Vendor</a></li>
-														</ul>
-													</div>
-													<div class="col-lg-3 col-md-12 col-xs-12 link-list">
-														<ul>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Brand</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import Debtor</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Import UOM</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Deactivate SKU by CSV</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Settings</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Colour</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Size</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Edit Logo Settings</a></li>
-															<li><h3 class="fs-14 font-weight-bold mb-1 mt-2">Server Management</h3></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Config Manager</a></li>
-															<li aria-haspopup="true"><a href="" class="slide-item">Privilege Manager</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5 0-.16-.08-.28-.14-.35-.41-.46-.63-1.05-.63-1.65 0-1.38 1.12-2.5 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 10 6.5 10s1.5.67 1.5 1.5S7.33 13 6.5 13zm3-4C8.67 9 8 8.33 8 7.5S8.67 6 9.5 6s1.5.67 1.5 1.5S10.33 9 9.5 9zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 6 14.5 6s1.5.67 1.5 1.5S15.33 9 14.5 9zm4.5 2.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z" opacity=".3"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm4 13h-1.77c-1.38 0-2.5 1.12-2.5 2.5 0 .61.22 1.19.63 1.65.06.07.14.19.14.35 0 .28-.22.5-.5.5-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.14 8 7c0 2.21-1.79 4-4 4z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg> Advanced UI <i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="blog.html" class="slide-item">Blog</a></li>
-										<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Submenu</a>
-											<ul class="sub-menu">
-												<li aria-haspopup="true"><a href="#" class="slide-item">Submenu-01</a></li>
-												<li aria-haspopup="true" class="slide-item sub-menu-sub"><a href="#">Submenu-02</a>
-													<ul class="sub-menu">
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-01</a></li>
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-02</a></li>
-														<li aria-haspopup="true"><a href="#" class="slide-item">SubmenuLevel-02</a></li>
-													</ul>
-												</li>
-												<li aria-haspopup="true"><a href="form-layouts.html" class="slide-item">Submenu-03</a></li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> E-Commerce<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="products.html" class="slide-item"> Products</a></li>
-										<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Product-Details</a></li>
-										<li aria-haspopup="true"><a href="product-cart.html" class="slide-item">Shopping Cart</a></li>
-									</ul>
-								</li>
-								<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> E-Commerce<i class="fe fe-chevron-down horizontal-icon"></i></a>
-									<ul class="sub-menu">
-										<li aria-haspopup="true"><a href="products.html" class="slide-item"> Products</a></li>
-										<li aria-haspopup="true"><a href="product-details.html" class="slide-item">Product-Details</a></li>
-										<li aria-haspopup="true"><a href="product-cart.html" class="slide-item">Shopping Cart</a></li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
-						<!--Nav-->
-					</div>
-				</div>
-			</div>
-			<!--Horizontal-main -->
-
-<?php endif; ?>
-<div class="sticky">
+<div class="">
 	<div class="horizontal-main hor-menu clearfix side-header">
 		<div class="horizontal-mainwrapper container clearfix">
 			<!--Nav-->
@@ -162,7 +40,182 @@
 
 	<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_ADD'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['SKU_EXPORT'] || $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
 	<!-- Administrator -->
-		
+	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
+		<ul class="sub-menu">
+			<li aria-haspopup="true"><a href="" class="slide-item">O level</a></li>
+			<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE']): ?>
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Users</a>
+					<ul class="sub-menu">
+						<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_ADD']): ?><li aria-haspopup="true"><a href="users.php?t=create" class="slide-item">Create Profile</a></li><?php endif; ?>
+						<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE']): ?><li aria-haspopup="true"><a href="users.php?t=update" class="slide-item">Update Profile</a></li><?php endif; ?>
+						<?php if ($this->_tpl_vars['sessioninfo']['level'] == 500 || $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?><li aria-haspopup="true"><a href="admin.inactive_user.php" class="slide-item">No-Activity User Report</a></li><?php endif; ?>
+						<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/users.application.php" ) && $this->_tpl_vars['sessioninfo']['privilege']['USERS_EFORM']): ?>
+						<li aria-haspopup="true" class="slide-item sub-menu-sub"><a href="#">User Application E-Form</a>
+							<ul class="sub-menu">
+								<?php if ($this->_tpl_vars['config']['single_server_mode'] || ( ! $this->_tpl_vars['config']['single_server_mode'] && $this->_tpl_vars['sessioninfo']['branch_id'] == 1 )): ?><li aria-haspopup="true"><a  href="users.application.php?a=generate_code" class="slide-item">Generate QR Code</a></li><?php endif; ?>
+								<li aria-haspopup="true"><a href="users.application.php?a=application_list" class="slide-item">Application List</a></li>
+							</ul>
+						</li>
+						<?php endif; ?>
+					</ul>
+				</li>
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_APPROVAL']): ?><li aria-haspopup="true"><a href="approval_flow.php" class="slide-item">Approval Flows</a></li><?php endif; ?>
+			<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 && $this->_tpl_vars['BRANCH_CODE'] == 'HQ'): ?>
+			<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Selling Price</a>
+				<ul class="sub-menu">
+					<li aria-haspopup="true"><a href="admin.copy_selling.php" class="slide-item">Copy Selling Price</a></li>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_selling.php" )): ?>
+					<li aria-haspopup="true"><a href="admin.import_selling.php" class="slide-item">Import Selling Price</a></li>
+					<?php endif; ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.update_price_type.php" )): ?>
+					<li aria-haspopup="true"><a href="admin.update_price_type.php" class="slide-item">Update Price Type</a></li>
+					<?php endif; ?>
+				</ul>
+			</li>			
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && $this->_tpl_vars['sessioninfo']['level'] >= 9999 && ( $this->_tpl_vars['sessioninfo']['privilege']['ADMIN_UPDATE_SKU_MASTER_COST'] && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.update_sku_master_cost.php" ) )): ?>
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Cost Price</a>
+					<ul class="sub-menu">
+						<li aria-haspopup="true"><a href="admin.update_sku_master_cost.php" class="slide-item">Update SKU Master Cost</a></li>
+					</ul>
+				</li>
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 && $this->_tpl_vars['BRANCH_CODE'] == 'HQ'): ?>
+				<li aria-haspopup="true"><a href="admin.sku_block.php" class="slide-item">Block/Ublock in SKU in PO (CSV)</a></li>
+			<?php endif; ?>
+
+			<?php if ($this->_tpl_vars['sessioninfo']['privilege']['SKU_EXPORT'] || $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_SKU'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_VENDOR'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_BRAND'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_DEBTOR'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_UOM'] || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_DEACTIVATE_SKU']): ?>
+			<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Import / Export</a>
+				<ul class="sub-menu">
+				<?php if ($this->_tpl_vars['sessioninfo']['privilege']['SKU_EXPORT']): ?>
+					<li aria-haspopup="true"><a class="slide-item" href="admin.sku_export.php">Export SKU Items</a>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.weightcode_export.php" ) && ! $this->_tpl_vars['config']['consignment_modules']): ?>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.weightcode_export.php">Export Weighing Scale Items</a></li>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT']): ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.export_points.php" )): ?><li aria-haspopup="true"><a class="slide-item" href="admin.export_points.php">Export Member Points</a></li><?php endif; ?>
+				<?php endif; ?>
+				<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT']): ?>
+										<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_pos_sales.php" )): ?>
+					    					<?php endif; ?>
+		  			<li aria-haspopup="true"><a class="slide-item" href="admin.stockchk_import.php">Import Stock Take</a>
+				<?php endif; ?>
+				<?php if ($this->_tpl_vars['config']['sku_application_require_multics'] && ( $this->_tpl_vars['sess']['level'] == 500 || $this->_tpl_vars['sessioninfo']['level'] >= 9999 )): ?>
+				<li aria-haspopup="true"><a class="slide-item" href="admin.update_dat.php">Update Multics DAT files</a>
+				<?php endif; ?>
+	            <?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT']): ?>
+	                <?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_member_points.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_member_points.php">Import Member Points</a></li>
+	                <?php endif; ?>
+	                <?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_members.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_members.php">Import Members</a></li>
+	                <?php endif; ?>
+	                <?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.preactivate_member_cards.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.preactivate_member_cards.php">Pre-activate Member Cards</a></li>
+	                <?php endif; ?>
+	            <?php endif; ?>
+				
+				<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_SKU'] )): ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_sku.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_sku.php">Import SKU</a></li>
+	                <?php endif; ?>
+				<?php endif; ?>
+				
+				<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_VENDOR'] )): ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_vendor.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_vendor.php">Import Vendor</a></li>
+	                <?php endif; ?>
+				<?php endif; ?>
+				
+				<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_BRAND'] )): ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_brand.php" )): ?>
+	                    <li aria-haspopup="true"><a class="slide-item" href="admin.import_brand.php">Import Brand</a></li>
+	                <?php endif; ?>
+				<?php endif; ?>
+	            
+	            <?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_DEBTOR'] ) && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_debtor.php" )): ?>
+					<li aria-haspopup="true"><a class="slide-item" href="admin.import_debtor.php">Import Debtor</a></li>
+				<?php endif; ?>
+				<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_UOM'] ) && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.import_uom.php" )): ?>
+	                 <li aria-haspopup="true"><a class="slide-item" href="admin.import_uom.php">Import UOM</a></li>
+	            <?php endif; ?>
+				<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && ( $this->_tpl_vars['sessioninfo']['level'] >= 9999 || $this->_tpl_vars['sessioninfo']['privilege']['ALLOW_IMPORT_DEACTIVATE_SKU'] ) && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.deactivate_sku.php" )): ?>
+	                 <li aria-haspopup="true"><a class="slide-item" href="admin.deactivate_sku.php">Deactivate SKU by CSV</a></li>
+	            <?php endif; ?>
+				</ul>
+			</li>
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999 && $this->_tpl_vars['BRANCH_CODE'] == 'HQ' && $this->_tpl_vars['config']['show_tracker']): ?>
+			    <li aria-haspopup="true"><a class="slide-item" href="admin.arms_tracker.php">ARMS Request Tracker</a>
+			<?php endif; ?>
+			<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.monthly_closing.php" ) && $this->_tpl_vars['config']['monthly_closing'] && $this->_tpl_vars['sessioninfo']['privilege']['ADMIN_MONTHLY_CLOSING']): ?>
+				<li  aria-haspopup="true" class="sub-menu-sub"><a>Monthly Closing</a>
+					<ul class="sub-menu">
+						<li aria-haspopup="true"><a class="slide-item" href="admin.monthly_closing.php">Monthly Closing</a></li>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.monthly_closing.php?a=show_closed_month">Monthly Closing History</a></li>
+					</ul>
+				</li>
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
+				<li aria-haspopup="true"><a class="slide-item" href="admin.update_log.php">System Update log</a>
+				<li aria-haspopup="true"><a class="slide-item" href="sales_target.php">Sales Target</a>
+				<li arai-haspopup="true" class="sub-menu-sub"><a href="#">Settings</a>
+					<ul class="sub-menu">
+						<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.settings.php" )): ?>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.settings.php?file=color.txt">Edit Colour</a>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.settings.php?file=size.txt">Edit Size</a>
+						<?php endif; ?>
+												<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.upload_logo.php" )): ?>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.upload_logo.php">Edit Logo Settings</a>
+						<?php endif; ?>
+					</ul>
+				</li>
+								<?php if ($this->_tpl_vars['BRANCH_CODE'] == 'HQ' && $this->_tpl_vars['sessioninfo']['id'] == 1): ?>
+				    <li aria-haspopup="true" class="sub-menu-sub"><a href="#">Server Management</a>
+				        <ul class="sub-menu">
+				            <?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.config_manager.php" )): ?>
+				                <li aria-haspopup="true"><a class="slide-item" href="admin.config_manager.php">Config Manager</a></li>
+				            <?php endif; ?>
+				            <?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.privilege_manager.php" )): ?>
+				                <li aria-haspopup="true"><a class="slide-item" href="admin.privilege_manager.php">Privilege Manager</a></li>
+				            <?php endif; ?>
+				            				        </ul>
+					</li>
+				<?php endif; ?>
+				<?php if ($this->_tpl_vars['config']['enable_gst'] && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/masterfile_gst_settings.php" ) && $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
+					<li aria-haspopup="true"><a class="slide-item" href="masterfile_gst_settings.php">GST Settings</a></li>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php if ($this->_tpl_vars['config']['enable_tax'] && $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Tax</a>
+					<ul class="sub-menu">
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.tax_settings.php" )): ?>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.tax_settings.php">Tax Settings</a></li>
+					<?php endif; ?>
+					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.tax_listing.php" )): ?>
+						<li aria-haspopup="true"><a class="slide-item" href="admin.tax_listing.php">Tax Listing</a></li>
+					<?php endif; ?>
+					</ul>
+				</li>
+			<?php endif; ?>
+						<?php if ($this->_tpl_vars['config']['foreign_currency'] && ( $this->_tpl_vars['sessioninfo']['privilege']['ADMIN_FOREIGN_CURRENCY_RATE_UPDATE'] )): ?>
+				<li aria-haspopup="true" class="sub-menu-sub"><a href="#">Foreign Currency</a>
+					<ul>
+						<?php if ($this->_tpl_vars['sessioninfo']['privilege']['ADMIN_FOREIGN_CURRENCY_RATE_UPDATE'] && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/admin.foreign_currency.rate.php" )): ?>
+							<li aria-haspopup="true"><a class="slide-item" href="admin.foreign_currency.rate.php">Currency Rate Table</a></li>
+						<?php endif; ?>
+					</ul>
+				</li>
+			<?php endif; ?>
+					
+
+
+
+
+		</ul>
+	</li>	
 	<?php endif; ?>
 <!-- /Administrator -->
 <?php endif; ?>
