@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-11 18:27:21
+<?php /* Smarty version 2.6.18, created on 2021-06-11 21:03:05
          compiled from menu.tpl */ ?>
 <!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
 	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
@@ -31,7 +31,7 @@
 				<ul class="horizontalMenu-list">
 <?php if ($this->_tpl_vars['sessioninfo']): ?>
 
-			<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-tachometer-alt"></i> Home</a></li>
+			<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-home"></i> Home</a></li>
 			<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Dashboard<i class="fe fe-chevron-down horizontal-icon"></i></a>
 				<ul class="sub-menu">
 					<li aria-haspopup="true"><a href="home.php" class="slide-item"> Home</a></li>
@@ -40,7 +40,7 @@
 			</li>
 	<!-- Administrator -->
 	<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_ADD'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['SKU_EXPORT'] || $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
-	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
+	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-user-tie"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
 		<ul class="sub-menu">
 			<li aria-haspopup="true"><a href="" class="slide-item">O level</a></li>
 			<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE']): ?>
@@ -217,7 +217,7 @@
 <!-- Office -->
     <?php if (! $this->_tpl_vars['config']['arms_go_modules'] || ( $this->_tpl_vars['config']['arms_go_modules'] && ( $this->_tpl_vars['config']['arms_go_enable_official_modules'] || ( ! $this->_tpl_vars['config']['arms_go_enable_official_modules'] && $this->_tpl_vars['BRANCH_CODE'] != 'HQ' ) ) )): ?>
         <?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_APPLY'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['PO'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_REQUEST'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_FROM_REQUEST'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['GRA'] || $this->_tpl_vars['sessioninfo']['privilege']['GRR_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['SHIFT_RECORD_VIEW'] || $this->_tpl_vars['sessioninfo']['privilege']['SHIFT_RECORD_EDIT'] || $this->_tpl_vars['sessioninfo']['privilege']['PAYMENT_VOUCHER'] || $this->_tpl_vars['sessioninfo']['privilege']['DO'] || $this->_tpl_vars['sessioninfo']['privilege']['ADJ'] || $this->_tpl_vars['sessioninfo']['privilege']['ACCOUNT_EXPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['OSTRIO_ACCOUNTING_STATUS'] || $this->_tpl_vars['sessioninfo']['privilege']['SPEED99_INTEGRATION_STATUS'] || $this->_tpl_vars['sessioninfo']['privilege']['KOMAISO_INTEGRATION_STATUS']): ?>
-        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Office<i class="fe fe-chevron-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-briefcase"></i> Office<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	        <ul class="sub-menu">
 	    
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['ADJ']): ?>
@@ -598,7 +598,7 @@
         <!-- Office Ends -->
         <!-- Store Starts -->
         <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRR'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN'] || $this->_tpl_vars['sessioninfo']['privilege']['GRA_CHECKOUT'] || $this->_tpl_vars['sessioninfo']['privilege']['DO_CHECKOUT'] || $this->_tpl_vars['sessioninfo']['privilege']['STOCK_TAKE']): ?>
-        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Store<i class="fe fe-chevron-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-store"></i> Store<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	        <ul class="sub-menu">
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRR']): ?><li aria-haspopup="true"><a class="slide-item" href="goods_receiving_record.php">GRR (Goods Receiving Record)</a></li><?php endif; ?>
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRN']): ?>
