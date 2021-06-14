@@ -29,7 +29,7 @@
 				<ul class="horizontalMenu-list">
 {if $sessioninfo}
 
-			<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-home"></i> Home</a></li>
+			<li aria-haspopup="true"><a href="home.php" class=""><i class="fas fa-tachometer-alt"></i> Home</a></li>
 			<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Dashboard<i class="fe fe-chevron-down horizontal-icon"></i></a>
 				<ul class="sub-menu">
 					<li aria-haspopup="true"><a href="home.php" class="slide-item"> Home</a></li>
@@ -38,7 +38,7 @@
 			</li>
 	<!-- Administrator -->
 	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
-	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-user-tie"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
+	<li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Administrator <i class="fe fe-chevron-down horizontal-icon"></i></a>
 		<ul class="sub-menu">
 			<li aria-haspopup="true"><a href="" class="slide-item">O level</a></li>
 			{if $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE}
@@ -243,7 +243,7 @@
 <!-- Office -->
     {if !$config.arms_go_modules || ($config.arms_go_modules && ($config.arms_go_enable_official_modules || (!$config.arms_go_enable_official_modules && $BRANCH_CODE ne 'HQ')))}
         {if $sessioninfo.privilege.MST_SKU_APPLY or $sessioninfo.privilege.MST_SKU_APPROVAL or $sessioninfo.privilege.PO or $sessioninfo.privilege.PO_REQUEST or $sessioninfo.privilege.PO_FROM_REQUEST or $sessioninfo.privilege.PO_REPORT or $sessioninfo.privilege.GRN_APPROVAL or $sessioninfo.privilege.GRA or $sessioninfo.privilege.GRR_REPORT or $sessioninfo.privilege.GRN_REPORT or $sessioninfo.privilege.SHIFT_RECORD_VIEW or $sessioninfo.privilege.SHIFT_RECORD_EDIT or $sessioninfo.privilege.PAYMENT_VOUCHER or $sessioninfo.privilege.DO or $sessioninfo.privilege.ADJ or $sessioninfo.privilege.ACCOUNT_EXPORT or $sessioninfo.privilege.OSTRIO_ACCOUNTING_STATUS or $sessioninfo.privilege.SPEED99_INTEGRATION_STATUS or $sessioninfo.privilege.KOMAISO_INTEGRATION_STATUS}
-        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-briefcase"></i> Office<i class="fe fe-chevron-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Office<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	        <ul class="sub-menu">
 	    
 	            {if $sessioninfo.privilege.ADJ}
@@ -655,7 +655,7 @@
         <!-- Office Ends -->
         <!-- Store Starts -->
         {if $sessioninfo.privilege.GRR or $sessioninfo.privilege.GRN or $sessioninfo.privilege.GRA_CHECKOUT or $sessioninfo.privilege.DO_CHECKOUT or $sessioninfo.privilege.STOCK_TAKE}
-        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-store"></i> Store<i class="fe fe-chevron-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon"><i class="fas fa-tachometer-alt"></i> Store<i class="fe fe-chevron-down horizontal-icon"></i></a>
 	        <ul class="sub-menu">
 	            {if $sessioninfo.privilege.GRR}<li aria-haspopup="true"><a class="slide-item" href="goods_receiving_record.php">GRR (Goods Receiving Record)</a></li>{/if}
 	            {if $sessioninfo.privilege.GRN}
