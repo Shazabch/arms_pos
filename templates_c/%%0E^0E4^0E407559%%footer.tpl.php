@@ -1,27 +1,13 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-11 21:03:05
+<?php /* Smarty version 2.6.18, created on 2021-06-15 20:40:59
          compiled from footer.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'footer.tpl', 24, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'footer.tpl', 10, false),)), $this); ?>
 <?php if (! $this->_tpl_vars['no_header_footer']): ?>
 </div>
 				<!-- Container closed -->
 			</div>
 			<!-- main-content closed -->
 
-			<!-- Sidebar-right-->
-			<div class="sidebar sidebar-right sidebar-animate">
-				<div class="panel panel-primary card mb-0 box-shadow">
-					<div class="tab-menu-heading border-0 p-3">
-						<div class="card-title mb-0">Notifications</div>
-						<div class="card-options ml-auto">
-							<a href="#" class="sidebar-remove"><i class="fe fe-x"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--/Sidebar-right-->
-
-			
 			<!-- Footer opened -->
 			<div class="main-footer ht-40">
 				<div class="container-fluid pd-t-0-f ht-100p">
@@ -37,6 +23,9 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
 
 		</div>
 		<!-- End Page -->
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
 
 			
 			<p align=center class="noprint footer-ads"  style="clear:both">
@@ -168,6 +157,9 @@ if ($this->_foreach['cpf']['total'] > 0):
 		<script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
+		<!-- Sticky js -->
+		<script src="../assets/js/sticky.js"></script>
+
 		<!-- eva-icons js -->
 		<script src="../assets/js/eva-icons.min.js"></script>
 
@@ -175,14 +167,8 @@ if ($this->_foreach['cpf']['total'] > 0):
 		<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
 		<script src="../assets/plugins/rating/jquery.barrating.js"></script>
 
-		<!-- Custom Scroll bar Js-->
-		<script src="../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-
-		<!-- Horizontalmenu js-->
-		<script src="../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
-
-		<!-- Sticky js -->
-		<script src="../assets/js/sticky.js"></script>
+		<!-- Sidebar js -->
+		<script src="../assets/plugins/side-menu/sidemenu.js"></script>
 
 		<!-- Right-sidebar js -->
 		<script src="../assets/plugins/sidebar/sidebar.js"></script>
