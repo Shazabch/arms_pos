@@ -27,14 +27,8 @@
 		</div>
 <ul class="side-menu">
 {if $sessioninfo}
-<li class="slide">
-	<a class="side-menu__item" href="index.html"><i class="fas fa-tachometer-alt side-menu__icon"></i><span class="side-menu__label">Index</span><span class="badge badge-success side-badge">1</span></a>
-</li>
 	<li class="slide">
-		<a class="side-menu__item" href="home.php"><i class="fas fa-tachometer-alt side-menu__icon"></i><span class="side-menu__label">Home</span><span class="badge badge-danger side-badge">New</span></a>
-	</li>
-	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><span class="side-menu__label">Dashboard</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Dashboard</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			<li><a class="sub-slide-item" href="home.php" > Home</a></li>
 			<li><a class="sub-slide-item" href="product-details.html" >Go To Branch</a></li>
@@ -43,9 +37,8 @@
 	<!-- Administrator -->
 	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
-			<li><a href="" class="slide-item">O level</a></li>
 			{if $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE}
 				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Users</span><i class="sub-angle fe fe-chevron-down"></i></a>
 					<ul class="sub-slide-menu">
@@ -250,7 +243,7 @@
     {if !$config.arms_go_modules || ($config.arms_go_modules && ($config.arms_go_enable_official_modules || (!$config.arms_go_enable_official_modules && $BRANCH_CODE ne 'HQ')))}
         {if $sessioninfo.privilege.MST_SKU_APPLY or $sessioninfo.privilege.MST_SKU_APPROVAL or $sessioninfo.privilege.PO or $sessioninfo.privilege.PO_REQUEST or $sessioninfo.privilege.PO_FROM_REQUEST or $sessioninfo.privilege.PO_REPORT or $sessioninfo.privilege.GRN_APPROVAL or $sessioninfo.privilege.GRA or $sessioninfo.privilege.GRR_REPORT or $sessioninfo.privilege.GRN_REPORT or $sessioninfo.privilege.SHIFT_RECORD_VIEW or $sessioninfo.privilege.SHIFT_RECORD_EDIT or $sessioninfo.privilege.PAYMENT_VOUCHER or $sessioninfo.privilege.DO or $sessioninfo.privilege.ADJ or $sessioninfo.privilege.ACCOUNT_EXPORT or $sessioninfo.privilege.OSTRIO_ACCOUNTING_STATUS or $sessioninfo.privilege.SPEED99_INTEGRATION_STATUS or $sessioninfo.privilege.KOMAISO_INTEGRATION_STATUS}
         <li class="slide">
-			<a class="side-menu__item" data-toggle="slide" href="#"><span class="side-menu__label">Office</span><i class="angle fe fe-chevron-down"></i></a>
+			<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Office</span><i class="angle fe fe-chevron-down"></i></a>
 	        <ul class="slide-menu">
 	    
 	            {if $sessioninfo.privilege.ADJ}
@@ -668,7 +661,7 @@
         <!-- Store Starts -->
         {if $sessioninfo.privilege.GRR or $sessioninfo.privilege.GRN or $sessioninfo.privilege.GRA_CHECKOUT or $sessioninfo.privilege.DO_CHECKOUT or $sessioninfo.privilege.STOCK_TAKE}
         <li class="slide">
-			<a class="side-menu__item" data-toggle="slide" href="#"><span class="side-menu__label">Store</span><i class="angle fe fe-chevron-down"></i></a>
+			<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Store</span><i class="angle fe fe-chevron-down"></i></a>
 	        <ul class="slide-menu">
 	            {if $sessioninfo.privilege.GRR}<li><a class="slide-item" href="goods_receiving_record.php">GRR (Goods Receiving Record)</a></li>{/if}
 	            {if $sessioninfo.privilege.GRN}
