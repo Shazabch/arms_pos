@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:04:04
+<?php /* Smarty version 2.6.18, created on 2021-06-18 21:11:00
          compiled from menu.tpl */ ?>
 <!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
 	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
@@ -52,7 +52,7 @@
 <ul class="side-menu">
 <?php if ($this->_tpl_vars['sessioninfo']): ?>
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/><path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/></svg><span class="side-menu__label">Home</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-home side-menu__icon"></i><span class="side-menu__label">Home</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			<li><a class="sub-slide-item" href="home.php" >Dashboard</a></li>
 			<li><a class="sub-slide-item" href="product-details.html" >Go To Branch</a></li>
@@ -63,7 +63,7 @@
 	<!-- Administrator -->
 	<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_ADD'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['POS_IMPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['SKU_EXPORT'] || $this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/><path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/></svg><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account side-menu__icon"></i><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			<?php if ($this->_tpl_vars['sessioninfo']['privilege']['USERS_MNG'] || $this->_tpl_vars['sessioninfo']['privilege']['USERS_ACTIVATE']): ?>
 				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Users</span><i class="sub-angle fe fe-chevron-down"></i></a>
@@ -241,7 +241,7 @@
     <?php if (! $this->_tpl_vars['config']['arms_go_modules'] || ( $this->_tpl_vars['config']['arms_go_modules'] && ( $this->_tpl_vars['config']['arms_go_enable_official_modules'] || ( ! $this->_tpl_vars['config']['arms_go_enable_official_modules'] && $this->_tpl_vars['BRANCH_CODE'] != 'HQ' ) ) )): ?>
         <?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_APPLY'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['PO'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_REQUEST'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_FROM_REQUEST'] || $this->_tpl_vars['sessioninfo']['privilege']['PO_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN_APPROVAL'] || $this->_tpl_vars['sessioninfo']['privilege']['GRA'] || $this->_tpl_vars['sessioninfo']['privilege']['GRR_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN_REPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['SHIFT_RECORD_VIEW'] || $this->_tpl_vars['sessioninfo']['privilege']['SHIFT_RECORD_EDIT'] || $this->_tpl_vars['sessioninfo']['privilege']['PAYMENT_VOUCHER'] || $this->_tpl_vars['sessioninfo']['privilege']['DO'] || $this->_tpl_vars['sessioninfo']['privilege']['ADJ'] || $this->_tpl_vars['sessioninfo']['privilege']['ACCOUNT_EXPORT'] || $this->_tpl_vars['sessioninfo']['privilege']['OSTRIO_ACCOUNTING_STATUS'] || $this->_tpl_vars['sessioninfo']['privilege']['SPEED99_INTEGRATION_STATUS'] || $this->_tpl_vars['sessioninfo']['privilege']['KOMAISO_INTEGRATION_STATUS']): ?>
         <li class="slide">
-			<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Office</span><i class="angle fe fe-chevron-down"></i></a>
+			<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-briefcase side-menu__icon"></i><span class="side-menu__label">Office</span><i class="angle fe fe-chevron-down"></i></a>
 	        <ul class="slide-menu">
 	    
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['ADJ']): ?>
@@ -628,7 +628,7 @@
         <!-- Store Starts -->
         <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRR'] || $this->_tpl_vars['sessioninfo']['privilege']['GRN'] || $this->_tpl_vars['sessioninfo']['privilege']['GRA_CHECKOUT'] || $this->_tpl_vars['sessioninfo']['privilege']['DO_CHECKOUT'] || $this->_tpl_vars['sessioninfo']['privilege']['STOCK_TAKE']): ?>
         <li class="slide">
-			<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Store</span><i class="angle fe fe-chevron-down"></i></a>
+			<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-domain side-menu__icon"></i><span class="side-menu__label">Store</span><i class="angle fe fe-chevron-down"></i></a>
 	        <ul class="slide-menu">
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRR']): ?><li><a class="slide-item" href="goods_receiving_record.php">GRR (Goods Receiving Record)</a></li><?php endif; ?>
 	            <?php if ($this->_tpl_vars['sessioninfo']['privilege']['GRN']): ?>
