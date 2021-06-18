@@ -817,39 +817,26 @@
 						<ul class="nav">
 							<li >
 								<div class="dropdown  nav-itemd-none d-md-flex">
-									{if $sessioninfo}
-										Logged in as 
-										{if $smarty.session.admin_session}
-											{$smarty.session.admin_session.u}</b> (now running as <b>{$sessioninfo.u}</b> |)
-										{else}
-											{$sessioninfo.u}
+									<div class="d-sm-none d-md-block">
+										{if $sessioninfo}
+											Logged in as 
+											{if $smarty.session.admin_session}
+												{$smarty.session.admin_session.u} (now running as {$sessioninfo.u} |)
+											{else}
+												{$sessioninfo.u}
+											{/if}
+										{elseif $vp_session}
+											Logged in as {$vp_session.description}
+										{elseif $dp_session}
+											Logged in as {$dp_session.description}
+										{elseif $sa_session}
+											Logged in as {$sa_session.name}
 										{/if}
-									{elseif $vp_session}
-										Logged in as {$vp_session.description}
-									{elseif $dp_session}
-										Logged in as {$dp_session.description}
-									{elseif $sa_session}
-										Logged in as {$sa_session.name}
-									{/if}
+									</div>
 								</div>
 							</li>
 						</ul>
 						<div class="nav nav-item  navbar-nav-right ml-auto">
-							<div class="nav-link" id="bs-example-navbar-collapse-1">
-								<form class="navbar-form" role="search">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Search">
-										<span class="input-group-btn">
-											<button type="reset" class="btn btn-default">
-												<i class="fas fa-times"></i>
-											</button>
-											<button type="submit" class="btn btn-default nav-link resp-btn">
-												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-											</button>
-										</span>
-									</div>
-								</form>
-							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
 								<a class="profile-user d-flex" href="#"><img alt="" src="../../assets/img/faces/6.jpg"></a>
 								<div class="dropdown-menu">

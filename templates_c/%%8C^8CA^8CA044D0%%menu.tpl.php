@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:11:00
+<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:01
          compiled from menu.tpl */ ?>
 <!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
 	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
@@ -768,45 +768,32 @@
 						<ul class="nav">
 							<li >
 								<div class="dropdown  nav-itemd-none d-md-flex">
-									<?php if ($this->_tpl_vars['sessioninfo']): ?>
-										Logged in as 
-										<?php if ($_SESSION['admin_session']): ?>
-											<?php echo $_SESSION['admin_session']['u']; ?>
-</b> (now running as <b><?php echo $this->_tpl_vars['sessioninfo']['u']; ?>
-</b> |)
-										<?php else: ?>
-											<?php echo $this->_tpl_vars['sessioninfo']['u']; ?>
+									<div class="d-sm-none d-md-block">
+										<?php if ($this->_tpl_vars['sessioninfo']): ?>
+											Logged in as 
+											<?php if ($_SESSION['admin_session']): ?>
+												<?php echo $_SESSION['admin_session']['u']; ?>
+ (now running as <?php echo $this->_tpl_vars['sessioninfo']['u']; ?>
+ |)
+											<?php else: ?>
+												<?php echo $this->_tpl_vars['sessioninfo']['u']; ?>
+
+											<?php endif; ?>
+										<?php elseif ($this->_tpl_vars['vp_session']): ?>
+											Logged in as <?php echo $this->_tpl_vars['vp_session']['description']; ?>
+
+										<?php elseif ($this->_tpl_vars['dp_session']): ?>
+											Logged in as <?php echo $this->_tpl_vars['dp_session']['description']; ?>
+
+										<?php elseif ($this->_tpl_vars['sa_session']): ?>
+											Logged in as <?php echo $this->_tpl_vars['sa_session']['name']; ?>
 
 										<?php endif; ?>
-									<?php elseif ($this->_tpl_vars['vp_session']): ?>
-										Logged in as <?php echo $this->_tpl_vars['vp_session']['description']; ?>
-
-									<?php elseif ($this->_tpl_vars['dp_session']): ?>
-										Logged in as <?php echo $this->_tpl_vars['dp_session']['description']; ?>
-
-									<?php elseif ($this->_tpl_vars['sa_session']): ?>
-										Logged in as <?php echo $this->_tpl_vars['sa_session']['name']; ?>
-
-									<?php endif; ?>
+									</div>
 								</div>
 							</li>
 						</ul>
 						<div class="nav nav-item  navbar-nav-right ml-auto">
-							<div class="nav-link" id="bs-example-navbar-collapse-1">
-								<form class="navbar-form" role="search">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Search">
-										<span class="input-group-btn">
-											<button type="reset" class="btn btn-default">
-												<i class="fas fa-times"></i>
-											</button>
-											<button type="submit" class="btn btn-default nav-link resp-btn">
-												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-											</button>
-										</span>
-									</div>
-								</form>
-							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
 								<a class="profile-user d-flex" href="#"><img alt="" src="../../assets/img/faces/6.jpg"></a>
 								<div class="dropdown-menu">

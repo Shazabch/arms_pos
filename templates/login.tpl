@@ -165,7 +165,7 @@ function do_debtor_login(){
 								<div class="mb-5 d-flex"> <a href="index.html"><img src="../../assets/img/brand/favicon.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"><span></span></h1></div>
 								<div class="card-sigin">
 									<div class="main-signup-header">
-										<h2>Welcome back!</h2>
+										<h2 class="">Welcome back!</h2>
 										<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
 										<!-- Error Meassages -->
 										{if $errmsg}

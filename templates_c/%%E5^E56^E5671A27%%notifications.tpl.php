@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:11:00
+<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:02
          compiled from notifications.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 417, false),array('modifier', 'upper', 'notifications.tpl', 481, false),array('modifier', 'string_format', 'notifications.tpl', 497, false),)), $this); ?>
@@ -175,7 +175,7 @@ function change_style(obj,branch_id,id){
 <div class="container-fluid mt-2">
 	<div class="row">
 		<!-- Start LEft -->
-		<div class="col-md-3 border p-0 m-0">
+		<div class="col-md-3 p-0 m-0">
 			<!-- Annoucement Start -->
 			<?php if ($this->_tpl_vars['announcementList']): ?>
 			<div class="card">
@@ -206,13 +206,13 @@ function change_style(obj,branch_id,id){
 		<!-- End Left -->
 
 		<!-- Start Center -->
-		<div class="col border">
-			2
+		<div class="col">
+			
 		</div>
 		<!-- End Center -->
 
 		<!-- Start Right -->
-		<div class="col-md-3 border p-0 m-0">
+		<div class="col-md-3 p-0 m-0">
 			<div id="right_content">
 				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
 			</div>

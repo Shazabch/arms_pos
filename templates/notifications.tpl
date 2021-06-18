@@ -361,7 +361,7 @@ function change_style(obj,branch_id,id){
 <div class="container-fluid mt-2">
 	<div class="row">
 		<!-- Start LEft -->
-		<div class="col-md-3 border p-0 m-0">
+		<div class="col-md-3 p-0 m-0">
 			<!-- Annoucement Start -->
 			{if $announcementList}
 			<div class="card">
@@ -387,13 +387,13 @@ function change_style(obj,branch_id,id){
 		<!-- End Left -->
 
 		<!-- Start Center -->
-		<div class="col border">
-			2
+		<div class="col">
+			
 		</div>
 		<!-- End Center -->
 
 		<!-- Start Right -->
-		<div class="col-md-3 border p-0 m-0">
+		<div class="col-md-3 p-0 m-0">
 			<div id="right_content">
 				<p><img src="/ui/clock.gif" align="absmiddle"> Loading content, please wait. . .</p>
 			</div>
