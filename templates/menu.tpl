@@ -20,24 +20,40 @@
 		<div class="app-sidebar__user clearfix">
 			<div class="dropdown user-pro-body">
 				<div class="user-info">
-					<h4 class="font-weight-semibold mb-0">Petey Cruiser</h4>
-					<span class="mb-0 text-muted">Premium Member</span>
+					<h4 class="font-weight-semibold mb-0">{if !$sa_session}{$BRANCH_CODE}{/if}</h4>
+					<span class="mb-0 text-muted">
+						{if $sessioninfo}
+							Logged in as 
+							{if $smarty.session.admin_session}
+								{$smarty.session.admin_session.u}</b> (now running as <b>{$sessioninfo.u}</b> |)
+							{else}
+								{$sessioninfo.u}
+							{/if}
+						{elseif $vp_session}
+							Logged in as {$vp_session.description}
+						{elseif $dp_session}
+							Logged in as {$dp_session.description}
+						{elseif $sa_session}
+							Logged in as {$sa_session.name}
+						{/if}
+					</span>
 				</div>
 			</div>
 		</div>
 <ul class="side-menu">
 {if $sessioninfo}
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Dashboard</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/><path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/></svg><span class="side-menu__label">Home</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
-			<li><a class="sub-slide-item" href="home.php" > Home</a></li>
+			<li><a class="sub-slide-item" href="home.php" >Dashboard</a></li>
 			<li><a class="sub-slide-item" href="product-details.html" >Go To Branch</a></li>
+			<li><a class="sub-slide-item" href="/login.php?logout=1" onclick="return confirm('{$LANG.CONFIRM_LOGOUT}')">Logout</a></li>
 		</ul>
 	</li>
 	<!-- Administrator -->
 	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 4H6v16h12V9h-5V4zm3 14H8v-2h8v2zm0-6v2H8v-2h8z" opacity=".3"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3"/><path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z"/></svg><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			{if $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE}
 				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Users</span><i class="sub-angle fe fe-chevron-down"></i></a>
@@ -786,13 +802,36 @@
 							<a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
 						</div>
 						<div class="main-header-center ml-3 d-sm-none d-md-none d-lg-block">
-							<input class="form-control" placeholder="Search for anything..." type="search"> <button class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
+							<h5 class="text-dark my-auto">
+								{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false}
+									ARMS&reg; GO Retail Management System &amp; Point Of Sale
+								{elseif $config.consignment_modules}
+									ARMS&reg; Consignment Retail Management System &amp; Point Of Sale
+								{else}
+									{#SYSTEM_ID#}
+								{/if}
+							</h5>
 						</div>
 					</div>
 					<div class="main-header-right">
 						<ul class="nav">
 							<li >
-								<div class="dropdown  nav-itemd-none d-md-flex">any link</div>
+								<div class="dropdown  nav-itemd-none d-md-flex">
+									{if $sessioninfo}
+										Logged in as 
+										{if $smarty.session.admin_session}
+											{$smarty.session.admin_session.u}</b> (now running as <b>{$sessioninfo.u}</b> |)
+										{else}
+											{$sessioninfo.u}
+										{/if}
+									{elseif $vp_session}
+										Logged in as {$vp_session.description}
+									{elseif $dp_session}
+										Logged in as {$dp_session.description}
+									{elseif $sa_session}
+										Logged in as {$sa_session.name}
+									{/if}
+								</div>
 							</li>
 						</ul>
 						<div class="nav nav-item  navbar-nav-right ml-auto">
@@ -812,7 +851,7 @@
 								</form>
 							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
-								<a class="profile-user d-flex" href=""><img alt="" src="../../assets/img/faces/6.jpg"></a>
+								<a class="profile-user d-flex" href="#"><img alt="" src="../../assets/img/faces/6.jpg"></a>
 								<div class="dropdown-menu">
 									<div class="main-header-profile bg-primary p-3">
 										<div class="d-flex wd-100p">

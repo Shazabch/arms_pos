@@ -2,7 +2,7 @@ $(function() {
 	'use strict'
 	
 	// ______________LOADER
-	$("#global-loader").fadeOut("slow");
+	//$("#global-loader").fadeOut("slow");
 	
 	
 	// This template is mobile first so active menu in navbar
@@ -397,5 +397,5 @@ $(function() {
 	// $('body').addClass(' body-style1'); //
 	
 	
-});
+})(jQuery);
 	

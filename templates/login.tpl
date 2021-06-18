@@ -55,7 +55,7 @@
 		</a>
 	</div><br style="clear:both;" />
 </div>*}
-<div align="center">
+
 {include file=front_end.tpl}
 
 <script type="text/javascript">
@@ -150,7 +150,7 @@ function do_debtor_login(){
 		<div class="col-md-5 col-lg-5 col-xl-5 d-none d-md-flex bg-primary-transparent">
 			<div class="row wd-100p mx-auto text-center">
 				<div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
-					<img src="../../assets/img/media/login.png" class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
+					<img src="../../assets/img/backgrounds/login-bg.png" class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
 				</div>
 			</div>
 		</div>
@@ -162,44 +162,38 @@ function do_debtor_login(){
 					<div class="row">
 						<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
 							<div class="card-sigin">
-								<div class="mb-5 d-flex"> <a href="index.html"><img src="../../assets/img/brand/favicon.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28">Va<span>le</span>x</h1></div>
+								<div class="mb-5 d-flex"> <a href="index.html"><img src="../../assets/img/brand/favicon.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"><span></span></h1></div>
 								<div class="card-sigin">
 									<div class="main-signup-header">
 										<h2>Welcome back!</h2>
 										<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
 										<!-- Error Meassages -->
 										{if $errmsg}
-											<div class="alert alert-danger mb-0 text-left" role="alert">
+											<div class="alert alert-danger mb-2 text-left" role="alert">
 												<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-												<button aria-label="Close" class="close" data-dismiss="alert" type="button">
-													<span aria-hidden="true">&times;</span>
-												</button>
 												<span class="alert-inner--text"> {$errmsg}</span>
 											</div>
 										{/if}
 										{if $errmsg2}
-											<div class="alert alert-danger mb-0 text-left" role="alert">
+											<div class="alert alert-danger mb-2 text-left" role="alert">
 												<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-												<button aria-label="Close" class="close" data-dismiss="alert" type="button">
-													<span aria-hidden="true">&times;</span>
-												</button>
 												<span class="alert-inner--text"> {$errmsg2}</span>
 											</div>
 										{/if}
 										<!-- Error Messages End -->
-										<div class="panel panel-primary border-0 tabs-style-3">
+										<div class="panel panel-primary border-0 tabs-style-3 p-0">
 											<div class="tab-menu-heading">
 												<div class="tabs-menu ">
 													<!-- Tabs -->
 													<ul class="nav panel-tabs">
-														<li class=""><a href="#admin-tab" class="active" data-toggle="tab"><i class="fa fa-laptop"></i> Admin</a></li>
-														<li><a href="#vendor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Vendor</a></li>
-														<li><a href="#debtor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Debtor</a></li>
-														<li><a href="#sales-agent-tab" data-toggle="tab"><i class="fa fa-cube"></i> Sales Agent</a></li>
+														<li class="tab-button"><a href="#admin-tab" class="active" data-toggle="tab"><i class="fa fa-laptop"></i> Admin</a></li>
+														<li class="tab-button"><a href="#vendor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Vendor</a></li>
+														<li class="tab-button"><a href="#debtor-tab" data-toggle="tab"><i class="fa fa-cube"></i> Debtor</a></li>
+														<li class="tab-button"><a href="#sales-agent-tab" data-toggle="tab"><i class="fa fa-cube"></i> Sales Agent</a></li>
 													</ul>
 												</div>
 											</div>
-											<div class="panel-body tabs-menu-body">
+											<div class="panel-body tabs-menu-body p-0">
 												<div class="tab-content">
 													<div class="tab-pane active" id="admin-tab">
 														<form method="post" name="f_l" onSubmit="return do_branch_login();">
@@ -252,7 +246,7 @@ function do_debtor_login(){
 													<div class="tab-pane" id="debtor-tab">
 														<form action="#">
 															<div class="form-group">
-																<label>Branch3</label>
+																<label>Branch</label>
 																<select class="form-control select2-no-search">
 																	<option label="Choose one">
 																	</option>
@@ -273,7 +267,7 @@ function do_debtor_login(){
 													<div class="tab-pane" id="sales-agent-tab">
 														<form action="#">
 															<div class="form-group">
-																<label>Branch1</label>
+																<label>Branch</label>
 																<select class="form-control select2-no-search">
 																	<option label="Choose one">
 																	</option>
@@ -295,7 +289,7 @@ function do_debtor_login(){
 											</div>
 										</div>
 
-										<div class="main-signin-footer mt-3">
+										<div class="main-signin-footer mt-1">
 											<p><a href="password_reset.php">Forgot password?</a></p>
 										</div>
 									</div>
@@ -310,143 +304,22 @@ function do_debtor_login(){
 </div>
 
 
-{if $config.login_page_header}
-	<div style="width: 60%; margin: 0px auto;" class="login-header">
-		<table cellpadding="0" cellspacing="5" border="0">
-			<tr>
-				{foreach from=$config.login_page_header key=dummy1 item=r}
-					{if $r.type eq 'image'}
-						<td align="center" rowspan="{$header_info.rowspan_count}">
-							<img src="{$r.path}" align="absmiddle" {if $r.width}width="{$r.width}"{/if} {if $r.height}height="{$r.height}"{/if} />
-						</td>
-					{elseif $r.type eq 'text'}
-						<td valign="top" {if !$header_info.show_image_first}align="center"{/if}><h4>{$r.html}</h4></td>
-					{/if}
-					{if $r.next_row}
-						</tr>
-						<tr>
-					{/if}
-				{/foreach}
-			</tr>
-		</table>
-	</div>
-{/if}
 
-<br style="clear:both">
-{*<h1>Please Login</h1>*}
-{if $errmsg}<font color="red">{$errmsg}</font>{/if}
-<form method="post" name="f_l" onSubmit="return do_branch_login();">
-	<table cellpadding="0" cellspacing="10" border="0" class="tbl-shadow login-container" style="border:1px solid #ccc;width:250px;">
-		<tr colspan="2"><th colspan="2"><h1>Please Login</h1></th></tr>
-		<tr>
-			<th align="left">Branch</th>
-			<td>
-				<select id="branch" class="form-control-2" name="login_branch">
-				{section name=i loop=$branch}
-					{assign var=bcode value=$branch[i].code}
-					<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}</option>
-				{/section}
-				</select>
-			</td>
-		</tr>
-	<tr>
-		<th align="left">Login ID</th><td><input name="u" class="form-control" size="20" type="password"></td>
-	</tr>
-	<tr>
-		<th align="left">Password</th><td><input name="p" class="form-control" size="20" type="password"></td>
-	</tr>
-	<tr>
-		<th align="left">&nbsp;</th><td><a href="password_reset.php" style="font-size: 12px;color: #32405b;">Forgot Password?</a></td>
-	</tr>
-	<tr>
-		<th align="right"><input type="checkbox" name="tnc" value="1" checked /></th><td nowrap><span class="small agreement-link">I agree to the <a href="https://agreement.arms.my/5" class="login-link" style="font-size: smaller;color: dodgerred; text-decoration: underline" target="_blank">Terms & Conditions</a></span></td>
-	</tr>
-	<tr>
-		<th colspan="2"><input class="btn btn-primary" type="submit" value="Login"></th>
-	</tr>
-	</table>
-</form>
-
-{if $config.po_allow_vendor_request}
-<br>
-{*<h1>Vendor Login</h1>*}
-{if $errmsg2}<font color="red">{$errmsg2}</font>{/if}
-<form method="post" name="f_b" onSubmit="return do_vendor_login();">
-	<table cellpadding="0"  class="tbl-shadow login-container" cellspacing="10" border="0" style="border:1px solid #ccc;width:250px;">
-		<tr colspan="2"><th colspan="2"><h1>Vendor Login</h1></th></tr>
-		<tr>
-			<th align="left">Branch</th>
-			<td>
-				<select id="sel_vp_branch" class="form-control-2" name="login_branch">
-					{section name=i loop=$branch}
-						{assign var=bcode value=$branch[i].code}
-						<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}</option>
-					{/section}
-				</select>
-			</td>
-		<tr>
-			<td><b>Enter Ticket No.</b></td>
-			<td><input name="ac" class="form-control" size="6" type="password"></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input class="btn btn-primary" type="submit" value="Login" /></td>
-		</tr>
-	</table>
-</form>
-{/if}
-
-{if $config.masterfile_enable_sa}
-<br>
-{*<h1>Sales Agent Login</h1>*}
-{if $errmsg3}<font color="red">{$errmsg3}</font>{/if}
-<form method="post" name="f_c">
-	<table cellpadding="0"  class="tbl-shadow login-container" cellspacing="10" border="0" style="border:1px solid #ccc;width:250px;">
-		<tr colspan="2"><th colspan="2"><h1>Sales Agent Login</h1></th></tr>
-		<tr>
-			<td><b>Enter Ticket No.</b></td>
-			<td><input name="sa_ticket" class="form-control" size="6" type="password"></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input type="button" class="btn btn-primary" onclick="do_sa_login();" value="Login"></td>
-		</tr>
-	</table>
-</form>
-{/if}
-
-{if $config.enable_debtor_portal and $smarty.request.dp eq 1}
-<h1>Debtor Login</h1>
-{if $deb_login_err}<font color="red">{$deb_login_err}</font>{/if}
-<form method="post" name="f_d">
-	<table cellpadding="0"  class="tbl-shadow login-container" cellspacing="10" border="0" style="border:1px solid #ccc;width:250px;">
-		<tr>
-			<th align="left">Branch</th>
-			<td>
-				<select class="form-control" id="sel_dp_branch" {if $config.single_server_mode}name="login_branch"{else}onchange="form.action=this.value+'/login.php'"{/if}>
-					{section name=i loop=$branch}
-						{if $config.single_server_mode}
-							<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if}>{$branch[i].code}</option>
-						{else}
-							<option value="{if $branch[i].code ne BRANCH_CODE}{$branch[i].code|strtolower|string_format:$config.no_ip_string}{/if}" {if $branch[i].code eq BRANCH_CODE}selected{/if}>{$branch[i].code}</option>
-						{/if}
-					{/section}
-				</select>
-			</td>
-		<tr>
-			<td><b>Enter Ticket No.</b></td>
-			<td><input class="form-control" name="debtor_key" size="6" type="password"></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input class="btn btn-primary" type="button" onclick="do_debtor_login();" value="Login"></td>
-		</tr>
-	</table>
-</form>
-{/if}
 </div>
+				<!-- Container closed -->
+			</div>
+			<!-- main-content closed -->
+</div>
+		<!-- End Page -->
+
+
 
 <script type="text/javascript">
 
 {literal}
 document.f_l.u.focus();
+
+console.log("xxx");
 
 /*var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
 if(isFirefox && typeof(jsPrintSetup) == 'undefined'){
@@ -455,4 +328,35 @@ if(isFirefox && typeof(jsPrintSetup) == 'undefined'){
 {/literal}
 </script>
 
-{include file=footer.tpl}
+	<script src="../assets/plugins/jquery/jquery.min.js"></script>
+
+			<script type="text/javascript">
+			{literal}
+				jQuery.noConflict();
+				 jQuery(document).ready(function(){
+			      console.log("ready jix");
+			      });
+
+
+			{/literal}	
+		</script>
+		<script src="../assets/js/custom.js"></script>
+
+			<script type="text/javascript">
+			{literal}
+				 jQuery(document).ready(function(){
+			     	jQuery(".tab-button").click(function(e){
+			     		e.preventDefault();
+					   
+					   	var tab_content_id = jQuery(this).children("a").attr("href");
+					   	jQuery(".tab-button").children("a").removeClass("active");
+
+					   	 jQuery(this).children("a").addClass("active");
+					   	 jQuery(".tab-pane").removeClass("active");
+					   	 jQuery(tab_content_id).addClass("active");
+					});
+			      });
+
+
+			{/literal}	
+		</script>

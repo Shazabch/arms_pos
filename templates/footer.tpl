@@ -129,14 +129,15 @@
 			<script type="text/javascript">
 			{literal}
 				jQuery.noConflict();
-				 // jQuery(document).ready(function(){
-			  //     console.log("ready ji");
-			  //     });
+				 jQuery(document).ready(function(){
+			      console.log("ready ji");
+			      });
 
 
 			{/literal}	
 		</script>
 		
+
 
 		<!-- Back-to-top -->
 		<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
