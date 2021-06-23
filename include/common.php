@@ -562,10 +562,13 @@ PM 9/5/2013 2:51 Justin
 - Added new privilege group "Komaiso".
 */
 
+
 if (isset($_ENV['windir']))
 	ini_set("include_path", $_SERVER['DOCUMENT_ROOT'].";".ini_get("include_path"));
 else
 	ini_set("include_path", $_SERVER['DOCUMENT_ROOT']."::".ini_get("include_path"));
+
+ini_set("include_path", $_SERVER['DOCUMENT_ROOT']);
 
 if(!isset($_SERVER['HTTP_USER_AGENT']) || stripos($_SERVER['HTTP_USER_AGENT'], 'Windows CE')===false)
 {

@@ -28,7 +28,7 @@ if (isset($_POST['login_branch']) && ($_SERVER['SERVER_PORT']==80 || $_SERVER['S
 	//$_SESSION['arms_login_branch'] = $_COOKIE['arms_login_branch'];
 }
 
-include("common.php");
+include("../include/common.php");
 //print_r($_COOKIE);
 //checking login for supplier
 if (isset($_REQUEST['ac'])){
