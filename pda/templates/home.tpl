@@ -58,148 +58,220 @@
 *}
 
 {include file='header.tpl'}
+<!-- <nav aria-label="breadcrumb">
+	<ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item">
+			<a href="#">Home</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="#">Library</a>
+		</li>
+		<li class="breadcrumb-item active">Data</li>
+	</ol>
+</nav> -->
 
-<p class="menu-title">Dashboard</p>
-<p class="menu-sub-title">Please choose module</p>
-<div class="home-row">
+<!-- <div class="breadcrumb-header justify-content-between mt-2">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ Please Choose Module</span>
+		</div>
+	</div>
+</div> -->
+<div class="row row-sm mt-5">
 	{if $sessioninfo.privilege.GRR}
-	  <div class="home-column">
-	  	<a href="home.php?a=menu&id=grr">
-		  	<div id="home-grr">
-		  	</div>
-		    <p>GRR</p>
-	    </a>
-	  </div>
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body ">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-bar-chart project bg-primary-transparent mx-auto text-primary "></i>
+				</div>
+				<h6 class="mb-1 text-muted">GRR</h6>
+				<a href="home.php?a=menu&id=grr" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
 	{/if}
 
 	{if $sessioninfo.privilege.GRN}
-	  <div class="home-column">
-	  	<a href="home.php?a=menu&id=grn">
-		    <div id="home-grn">
-		  	</div>
-		    <p>GRN</p>
-	    </a>
-	  </div>
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body ">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pie-chart project bg-pink-transparent mx-auto text-pink "></i>
+				</div>
+				<h6 class="mb-1 text-muted">GRN</h6>
+				<a href="home.php?a=menu&id=grn" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
 	{/if}
 
 	{if $sessioninfo.privilege.GRA}
-	  <div class="home-column">
-	  	<a href="home.php?a=menu&id=gra">
-		    <div id="home-gra">
-		  	</div>
-		    <p>GRA</p>
-	    </a>
-	  </div>
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">GRA</h6>
+				<a href="home.php?a=menu&id=gra" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
 	{/if}
 
 	{if $sessioninfo.privilege.ADJ and file_exists('adjustment.php')}
-	  <div class="home-column">
-	  	<a  href="home.php?a=menu&id=adjustment">
-		  	<div id="home-adjustment">
-		  	</div>
-		    <p>Adjustment</p>
-	    </a>
-	  </div>
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body ">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-stats-up project bg-success-transparent mx-auto text-success "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Adjustment</h6>
+				<a href="home.php?a=menu&id=adjustment" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if $config.allow_sales_order and file_exists('sales_order.php')}
-  	<div class="home-column">
-	  	<a  href="home.php?a=menu&id=sales_order">
-		    <div id="home-sales-order">
-		  	</div>
-		    <p>Sales Order</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-map  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Sales Order</h6>
+				<a href="home.php?a=menu&id=sales_order" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if $sessioninfo.privilege.DO}
-	  <div class="home-column">
-	  	<a href="home.php?a=menu&id=do">
-		    <div id="home-do">
-		  	</div>
-		    <p>DO</p>
-	    </a>
-	  </div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">DO</h6>
+				<a href="home.php?a=menu&id=do" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if $sessioninfo.privilege.PO and file_exists('po.php')}
-	<div class="home-column">
-	  	<a href="home.php?a=menu&id=po">
-		    <div id="home-po">
-		  	</div>
-		    <p>PO</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">PO</h6>
+				<a href="home.php?a=menu&id=po" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if $sessioninfo.privilege.STOCK_TAKE and file_exists('stock_take.php')}
-	<div class="home-column">
-	  	<a href="home.php?a=menu&id=stock_take">
-		    <div id="home-stock-take">
-		  	</div>
-		    <p>Stock Take</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Stock Take</h6>
+				<a href="home.php?a=menu&id=stock_take" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if file_exists('promotion.php')}
-	<div class="home-column">
-	  	<a  href="home.php?a=menu&id=promotion">
-		    <div id="home-promotion">
-		  	</div>
-		    <p>Promotion</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Promotion</h6>
+				<a href="home.php?a=menu&id=promotion" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if file_exists('batch_barcode.php')}
-	<div class="home-column">
-	  	<a href="home.php?a=menu&id=batch_barcode">
-		    <div id="home-batch-barcode">
-		  	</div>
-		    <p>Batch Barcode</p>
-	    </a>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Batch Barcode</h6>
+				<a href="home.php?a=menu&id=batch_barcode" class="stretched-link"></a>
+			</div>
+		</div>
 	</div>
 	{/if}
 
 	{if $sessioninfo.privilege.MST_VOUCHER and file_exists('mst_voucher.php')}
- 	<div class="home-column">
-	  	<a href="mst_voucher.php">
-		    <div id="home-voucher">
-		  	</div>
-		    <p>Voucher Activation</p>
-	    </a>
-  	</div>
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Voucher Activation</h6>
+				<a href="mst_voucher.php" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if file_exists('check_code.php')}
-  	<div class="home-column">
-	  	<a href="check_code.php">
-		    <div id="home-check-code">
-		  	</div>
-		    <p>Check Code</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Check Code</h6>
+				<a href="check_code.php" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 	
   	{if $config.membership_module && file_exists('member_enquiry.php')}
-  	<div class="home-column">
-	  	<a href="member_enquiry.php">
-		    <div id="home-member">
-		  	</div>
-		    <p>Member Enquiry</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Member Enquiry</h6>
+				<a href="member_enquiry.php" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 
   	{if isset($config.pda_custom_modules)}
-  	<div class="home-column">
-	  	<a href="home.php?a=menu&id=custom">
-		    <div id="home-custom-modules">
-		  	</div>
-			<p>Custom Modules</p>
-	    </a>
-  	</div>
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+		<div class="card text-center">
+			<div class="card-body">
+				<div class="feature widget-2 text-center mt-0 mb-3">
+					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+				</div>
+				<h6 class="mb-1 text-muted">Custom Modules</h6>
+				<a href="home.php?a=menu&id=custom" class="stretched-link"></a>
+			</div>
+		</div>
+	</div>
   	{/if}
 </div>
 {*
