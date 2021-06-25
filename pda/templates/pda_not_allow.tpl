@@ -7,11 +7,15 @@
 *}
 
 {include file='header.tpl'}
-
-<div align="center" class="stdframe pda-prompt">
-	<center><img id="pda-prompt" src="/ui/pda/icon-call.png" alt=""></center>
-	<h1 style="color: red !important;">PDA modules is not enabled</h1>
-	<span>Please contact your ARMS Account Manager for more details.</span>
+<div class="d-flex justify-content-center align-items-center mt-5" style="height: 80vh;">
+	<div class="container-fluid">
+		<div class="card mg-b-20 text-center">
+			<div class="card-body h-100">
+				<img src="../../assets/img/svgicons/imac.svg" alt="" class="wd-40p">
+				<h5 class="mg-b-10 mg-t-15 tx-18 text-danger">PDA modules is not enabled</h5>
+				<a href="#" class="text-muted">Please contact your ARMS Account Manager for more details.</a>
+			</div>
+		</div>
+	</div>
 </div>
-
 {include file='footer.tpl'}

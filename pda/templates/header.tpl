@@ -90,7 +90,7 @@
 			<!-- main-content -->
 			<!-- <div class="main-content app-content"> -->
 			<div class="">
-
+				{if $sessioninfo}
 				<!-- main-header -->
 				<div class="main-header sticky side-header nav nav-item">
 					<div class="container-fluid">
@@ -109,40 +109,18 @@
 						</div>
 						<div class="main-header-right">
 							<ul class="nav">
-								<li class="">
-									.
+								<li class="text-capitalize mr-2">
+									{$sessioninfo.u}
+								</li>
+								<li class="text-capitalize">
+									<a href="login.php?logout=1"><i class="fas fa-sign-out-alt"></i></a>
 								</li>
 							</ul>
-							<div class="nav nav-item  navbar-nav-right ml-auto">
-								<div class="dropdown main-profile-menu nav nav-item nav-link">
-									<a class="profile-user d-flex" href=""><img alt="" src="../../assets/img/faces/6.jpg"></a>
-									<div class="dropdown-menu">
-										<div class="main-header-profile bg-primary p-3">
-											<div class="d-flex wd-100p">
-												<div class="main-img-user"><img alt="" src="../../assets/img/faces/6.jpg" class=""></div>
-												<div class="ml-3 my-auto">
-													<h6>Petey Cruiser</h6><span>Premium Member</span>
-												</div>
-											</div>
-										</div>
-										<a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
-										<a class="dropdown-item" href=""><i class="bx bx-cog"></i> Edit Profile</a>
-										<a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
-										<a class="dropdown-item" href=""><i class="bx bx-envelope"></i>Messages</a>
-										<a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
-										<a class="dropdown-item" href="page-signin.html"><i class="bx bx-log-out"></i> Sign Out</a>
-									</div>
-								</div>
-								<div class="dropdown main-header-message right-toggle">
-									<a class="nav-link pr-0" data-toggle="sidebar-right" data-target=".sidebar-right">
-										<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-									</a>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 				<!-- /main-header -->
+				{/if}
 
 				<!-- container -->
 				<div class="container-fluid">

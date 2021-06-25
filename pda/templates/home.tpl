@@ -70,14 +70,14 @@
 	</ol>
 </nav> -->
 
-<!-- <div class="breadcrumb-header justify-content-between mt-2">
+<div class="breadcrumb-header justify-content-between mt-3">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ Please Choose Module</span>
 		</div>
 	</div>
-</div> -->
-<div class="row row-sm mt-5">
+</div>
+<div class="row row-sm mt-3">
 	{if $sessioninfo.privilege.GRR}
 	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
 		<div class="card text-center">
@@ -139,7 +139,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-map  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-bar-chart project bg-warning-transparent mx-auto text-warning "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Sales Order</h6>
 				<a href="home.php?a=menu&id=sales_order" class="stretched-link"></a>
@@ -153,7 +153,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-truck  project bg-purple-transparent mx-auto text-purple "></i>
 				</div>
 				<h6 class="mb-1 text-muted">DO</h6>
 				<a href="home.php?a=menu&id=do" class="stretched-link"></a>
@@ -167,7 +167,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-bag  project bg-secondary-transparent mx-auto text-secondary "></i>
 				</div>
 				<h6 class="mb-1 text-muted">PO</h6>
 				<a href="home.php?a=menu&id=po" class="stretched-link"></a>
@@ -181,7 +181,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-pulse  project bg-primary-transparent mx-auto text-primary "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Stock Take</h6>
 				<a href="home.php?a=menu&id=stock_take" class="stretched-link"></a>
@@ -195,7 +195,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-pulse  project bg-success-transparent mx-auto text-success "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Promotion</h6>
 				<a href="home.php?a=menu&id=promotion" class="stretched-link"></a>
@@ -209,7 +209,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-pulse  project bg-pink-transparent mx-auto text-pink "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Batch Barcode</h6>
 				<a href="home.php?a=menu&id=batch_barcode" class="stretched-link"></a>
@@ -223,7 +223,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-gift  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Voucher Activation</h6>
 				<a href="mst_voucher.php" class="stretched-link"></a>
@@ -237,7 +237,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-check-box  project bg-orange-transparent mx-auto text-orange "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Check Code</h6>
 				<a href="check_code.php" class="stretched-link"></a>
