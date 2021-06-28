@@ -145,19 +145,39 @@ function search_document(event){
 }
 {/literal}
 </script>
-<h1>
-Setting - {if $form.id}(GRR#{$form.id}){else}New GRR{/if}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a> {if $form.find_grr} > <a href="goods_receiving_record.php?a=open&find_grr={$form.find_grr}">Back to Search</a> {/if}</span>
-<div style="margin-bottom:10px;"></div>
+<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}(GRR#{$form.id}){else}New GRR{/if}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+		{if $form.find_grr}
+			<li class="breadcrumb-item">
+				<a href="goods_receiving_record.php?a=open&find_grr={$form.find_grr}">Back to Search</a>
+			</li>
+		{/if}
+	</ol>
+</nav>
 
 {if $form.id&&$form.branch_id}{include file='goods_receiving_record.top_include.tpl'}<br><br>{/if}
 {if $err}
-	<ul style="color:red;">
 	    {foreach from=$err item=e}
-	        <li>{$e}</li>
+	    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+		  {$e}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
 	    {/foreach}
-	</ul>
 {/if}
 
 {if $form.id}
@@ -166,82 +186,116 @@ Setting - {if $form.id}(GRR#{$form.id}){else}New GRR{/if}
     {assign var=branch_id value=$sessioninfo.branch_id}
 {/if}
 
-<div id="test_div"></div>
-<div class="stdframe" style="background:#fff;">
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-	<tr>
-	    <th align="left">Search<br />PO/DO</th>
-	    <td>
-			<input type="text" id="doc_no" name="doc_no" value="" onKeyUp="search_document(event);" size="10" />
-			<span id="loading_area"></span><br />
-			<input type="radio" name="doc_type" value="PO" checked />PO&nbsp;
-			<input type="radio" name="doc_type" value="DO" />DO
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">Received Date</th>
-	    <td>
-			<input type="text" id="rcv_date" name="rcv_date" value="{$form.rcv_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="9" /> <span class="small">(YYYY-MM-DD)</span>
-		</td>
-	</tr>
-    <tr>
-	    <th align="left">Vendor</th>
-	    <td>
-	        <select name="vendor_id">
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$vendor key=did item=r}
-	                <option value="{$did}" {if $form.vendor_id eq $did}selected {/if} vd_desc="{$r.description|escape:'html'}">{$r.code} - {$r.description}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	</tr>
-	<tr>
-	    <th align="left">Search Vendor</th>
-	    <td><input type="text" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);" />
-	</tr>
-	<tr>
-		<th align="left">Department</th>
-		<td colspan=6>
-			<select name="department_id">
-			<option value=0>-- Select Department --</option>
-			{section name=i loop=$dept}
-			<option value={$dept[i].id} {if $form.department_id == $dept[i].id}selected{/if}>{$dept[i].description}</option>
-			{/section}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<th align="left"><b>Lorry No.</th>
-		<td>
-			<input class="txt-width" name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10>
-		</td>
-	</tr>
-	<tr>
-		<th align="left"><b>Received By</th>
-		<td>
-			<select name="rcv_by">
-			{section name=i loop=$rcv}
-				<option value="{$rcv[i].id}" {if ((!$form.rcv_by && $rcv[i].id eq $sessioninfo.id) || ($form.rcv_by && $rcv[i].id eq $form.rcv_by))}selected{/if}>{$rcv[i].u}</option>
-			{/section}
-			</select>
-		</td>
-	</tr>
-</table>
-<p align="center">
-	<input type="button" name="submit_btn" value="Save" onclick="submit_form();" />
-	{if $smarty.request.id && $smarty.request.t}
-		<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 
-		{if $smarty.request.t eq 'insert'}
-			inserted
-		{else}
-			updated
-		{/if}
-	{/if}
-</p>
-</form>
+
+<!-- row -->
+<div class="row">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" value="save_setting">
+				<input type="hidden" name="id" value="{$form.id}">
+				<input type="hidden" name="branch_id" value="{$branch_id}">
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Search</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="doc_no" name="doc_no" value="" onKeyUp="search_document(event);" size="10">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">PO / Do</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<div class="row ml-3 mt-2">
+									<label class="rdiobox mr-3"><input type="radio"  name="doc_type" value="PO" checked> <span>PO</span></label>
+									<label class="rdiobox"><input type="radio"  name="doc_type" value="DO"> <span>DO</span></label>
+								</div>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Received Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="rcv_date" name="rcv_date" value="{$form.rcv_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="9">
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Vendor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2"  name="vendor_id">
+									<option value="" label="-- Please Select --"></option>
+									{foreach from=$vendor key=did item=r}
+										<option value="{$did}" {if $form.vendor_id eq $did}selected {/if} vd_desc="{$r.description|escape:'html'}">{$r.code} - {$r.description}</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Search Vendor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Department</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="department_id">
+									<option value=0 label="-- Select Department --">
+									</option>
+									{section name=i loop=$dept}
+										<option value={$dept[i].id} {if $form.department_id == $dept[i].id}selected{/if}>{$dept[i].description}</option>
+									{/section}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Lorry No</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class=" mg-b-0">Received By</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="rcv_by">
+									{section name=i loop=$rcv}
+										<option value="{$rcv[i].id}" {if ((!$form.rcv_by && $rcv[i].id eq $sessioninfo.id) || ($form.rcv_by && $rcv[i].id eq $form.rcv_by))}selected{/if}>{$rcv[i].u}</option>
+									{/section}
+								</select>
+							</div>
+						</div>
+						<input type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
+					</div>
+					{if $smarty.request.id && $smarty.request.t}
+						<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 
+						{if $smarty.request.t eq 'insert'}
+							inserted
+						{else}
+							updated
+						{/if}
+					{/if}
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
 {include file='footer.tpl'}

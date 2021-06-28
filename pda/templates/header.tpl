@@ -59,6 +59,9 @@
 		<!-- Icons css -->
 		<link href="../../assets/css/icons.css" rel="stylesheet">
 
+		<!-- Internal Select2 css -->
+		<link href="../../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+
 		<!--  Right-sidemenu css -->
 		<link href="../../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
@@ -79,6 +82,10 @@
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
+
+		<!-- Custom css -->
+		<link href="../../assets/custom-css/custom.css" rel="stylesheet">
+
 
 </head>
 

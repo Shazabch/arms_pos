@@ -10,6 +10,17 @@
 		<!-- JQuery min js -->
 		<script src="../../assets/plugins/jquery/jquery.min.js"></script>
 
+		<script type="text/javascript">
+			{literal}
+				jQuery.noConflict();
+				 jQuery(document).ready(function(){
+			      console.log("ready ji");
+			      });
+
+
+			{/literal}	
+		</script>
+
 		<!-- Bootstrap Bundle js -->
 		<script src="../../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -18,6 +29,9 @@
 
 		<!-- Moment js -->
 		<script src="../../assets/plugins/moment/moment.js"></script>
+
+		<!-- Internal Select2.min js -->
+		<script src="../../assets/plugins/select2/js/select2.min.js"></script>
 
 		<!--Internal Sparkline js -->
 		<script src="../../assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
@@ -52,8 +66,12 @@
 		<!-- eva js -->
 		<script src="../../assets/js/eva-icons.min.js"></script>
 
+		<!-- Internal form-elements js -->
+		<script src="../../assets/js/form-elements.js"></script>
+
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
+
 
 	</body>
 </html>
