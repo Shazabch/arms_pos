@@ -92,6 +92,141 @@
 			<li class="breadcrumb-item active">GRR</li>
 		</ol>
 	</nav>
+<!-- Card 2 with ico -->
+<!-- <div class="row row-sm mt-5">
+	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+		<div class="card ">
+			<div class="card-body">
+				<div class="counter-status d-flex md-mb-0">
+					<div class="counter-icon bg-primary-transparent">
+						<i class="icon-layers text-primary"></i>
+					</div>
+					<div class="ml-5 my-auto">
+						<h5 class="">Continue Last GRR</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+		<div class="card ">
+			<div class="card-body">
+				<div class="counter-status d-flex md-mb-0">
+					<div class="counter-icon bg-danger-transparent">
+						<i class="icon-paypal text-danger"></i>
+					</div>
+					<div class="ml-5 my-auto">
+						<h5 class="">Create New GRR</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+		<div class="card ">
+			<div class="card-body">
+				<div class="counter-status d-flex md-mb-0">
+					<div class="counter-icon bg-success-transparent">
+						<i class="icon-rocket text-success"></i>
+					</div>
+					<div class="ml-5 my-auto">
+						<h5 class="">Open GRR By GRR No</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+<!-- /Card 2 with ico -->
+
+<!-- Cards Menu  -->
+<!-- <div class="card p-1 border-primary mt-5">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-2">
+				<div class="d-flex justify-content-center align-items-center">
+					<i class="fas fa-clock fa-2x text-info"></i>
+				</div>
+			</div>
+			<div class="col-10 font-weight-bold">
+				Continue Last GRR
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card p-1 border-warning">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-2">
+				<div class="d-flex justify-content-center align-items-center">
+					<i class="fas fa-plus fa-2x text-warning"></i>
+				</div>
+			</div>
+			<div class="col-10 font-weight-bold">
+				Create New GRR
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card p-1 border-success">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-2">
+				<div class="d-flex justify-content-center align-items-center">
+					<i class="fas fa-search fa-2x text-success"></i>
+				</div>
+			</div>
+			<div class="col-10 font-weight-bold">
+				Open GRR By GRR No
+			</div>
+		</div>
+	</div>
+</div> -->
+<!-- /Cards Menu -->
+
+	<!-- List Group -->
+	<!-- <div class="text-wrap">
+		<div class="example">
+			<div class="list-group">
+				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
+					<span class="d-flex">
+						<i class="fas fa-clock mr-3 rounded-circle avatar-md text-info"></i>
+						<div class="">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-2 tx-14">Continue Last GRR</h5>
+							</div>
+							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
+						</div>
+					</span>
+				</a>
+				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
+					<span class="d-flex">
+						<i class="fas fa-plus mr-3 rounded-circle avatar-md text-primary"></i>
+						<div class="">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-2 tx-14">Create New GRR</h5>
+							</div>
+							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
+						</div>
+					</span>
+				</a>
+				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
+					<span class="d-flex">
+						<i class="fas fa-search mr-3 rounded-circle avatar-md text-warning"></i>
+						<div class="">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-2 tx-14">Open by GRR No</h5>
+							</div>
+							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
+						</div>
+					</span>
+				</a>
+			</div>
+		</div>
+	</div> -->
+	<!-- / List Group -->
+
+
 	<div class="d-flex justify-content-center align-items-center mt-5">
 		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
 			{if $smarty.session.grr.id>0 and $smarty.session.grr.branch_id eq $sessioninfo.branch_id}
