@@ -32,31 +32,63 @@ function check_form(){
 {/literal}
 
 </script>
-<h1>
-Open by GRR No.
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
-<div style="margin-bottom:10px;"></div>
-
-<div class="stdframe" style="background:#fff;">
-<form name="f_a" method="post" onSubmit="return check_form();">
-<p >
-	GRR No.
-	<input type="text" name="find_grr" class="txt-width-50" value="{$smarty.request.find_grr}" /> <input type="submit" class="btn btn-primary" value="Enter" />
-	<br />
-</p>
-	<span style="color:red;">
-	    {if $err}
-	        <ul>
-	        {foreach from=$err item=e}
-	            <li>{$e}</li>
-	        {/foreach}
-	        </ul>
-	    {/if}
-	</span>
-
-</form>
+<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Open by GRR No.</h4>
+		</div>
+	</div>
 </div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+
+<!-- Error Message -->
+{if $err}
+    {foreach from=$err item=e}
+    <div class="alert alert-danger mg-b-0" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
+<!-- Row -->
+<div class="row mt-2">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<form name="f_a" method="post" onSubmit="return check_form();">
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<div class="row row-xs">
+							<div class="col-md-2">
+								<label>GRN No. / GRR No.</label>
+							</div>
+							<div class="col-md-5 mg-t-10 mg-md-t-0">
+								<input class="form-control" type="text" name="find_grr" class="txt-width-50" value="{$smarty.request.find_grr}">
+							</div>
+							<div class="col-md-2 mt-4 mt-xl-0">
+								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- / Row -->
+
 <br>
 {if $grr_list}
 	<table width="100%" cellspacing="0" cellpadding="4" border="1">

@@ -64,7 +64,7 @@ function check_form(){
 <!-- /Error Message -->
 
 <!-- Row -->
-<div class="row">
+<div class="row mt-2">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form name="f_a" method="post" onSubmit="return check_form();">

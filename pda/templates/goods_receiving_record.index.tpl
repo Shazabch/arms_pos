@@ -200,7 +200,7 @@ function search_document(event){
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Search</label>
+								<label class="font-weight-bold mg-b-0">Search</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="doc_no" name="doc_no" value="" onKeyUp="search_document(event);" size="10">
@@ -208,18 +208,18 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">PO / Do</label>
+								<label class="font-weight-bold mg-b-0">PO / Do</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<div class="row ml-3 mt-2">
-									<label class="rdiobox mr-3"><input type="radio"  name="doc_type" value="PO" checked> <span>PO</span></label>
-									<label class="rdiobox"><input type="radio"  name="doc_type" value="DO"> <span>DO</span></label>
+									<label class="font-weight-boldrdiobox mr-3"><input type="radio"  name="doc_type" value="PO" checked> <span>PO</span></label>
+									<label class="font-weight-boldrdiobox"><input type="radio"  name="doc_type" value="DO"> <span>DO</span></label>
 								</div>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Received Date</label>
+								<label class="font-weight-bold mg-b-0">Received Date</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="rcv_date" name="rcv_date" value="{$form.rcv_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="9">
@@ -228,7 +228,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Vendor</label>
+								<label class="font-weight-bold mg-b-0">Vendor</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2"  name="vendor_id">
@@ -241,7 +241,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Search Vendor</label>
+								<label class="font-weight-bold mg-b-0">Search Vendor</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
@@ -249,7 +249,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Department</label>
+								<label class="font-weight-bold mg-b-0">Department</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="department_id">
@@ -263,7 +263,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Lorry No</label>
+								<label class="font-weight-bold mg-b-0">Lorry No</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10>
@@ -271,7 +271,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class=" mg-b-0">Received By</label>
+								<label class="font-weight-bold mg-b-0">Received By</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="rcv_by">
@@ -281,7 +281,7 @@ function search_document(event){
 								</select>
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
 					</div>
 					{if $smarty.request.id && $smarty.request.t}
 						<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 

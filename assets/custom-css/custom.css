@@ -30,3 +30,6 @@
 {
 	padding: 1.5rem 0 !important;
 }
+@media all and (max-width:480px) {
+   .btn-block-sm { width: 100%; display:block; }
+}   
