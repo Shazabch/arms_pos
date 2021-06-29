@@ -36,97 +36,146 @@ function toggle_grr_list(){
 }
 {/literal}
 </script>
-<h1>
-Search GRR No. 
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard </a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a></span>
-<div style="margin-top:10px;"></div>
-<div class="stdframe" style="background:#fff">
-{if $grr_list}
-	<form name="f_a" method="post" onSubmit="return check_form();">
-		<p >
-			GRR No.
-			<input type="text" name="find_grr" class="txt-width-50" value="{$smarty.request.find_grr}" />
-			<input type="hidden" name="a" value="show_grr_list" />
-			<input type="submit" class="btn btn-primary" value="Enter" />
-			<br />
-			<span style="color:red;">
-				{if $err}
-					<ul>
-					{foreach from=$err item=e}
-						<li>{$e}</li>
-					{/foreach}
-					</ul>
-				{/if}
-			</span>
-		<br />
-		<a onclick="toggle_grr_list();" style="cursor:pointer;">Show/Hide GRR List</a>
-		</p>
-	</form>
-	<div id="grr_list" {if !$smarty.request.find_grr}style="display:none;"{/if}>
-		<table width="100%" border="0" cellspacing="0" cellpadding="4">
-			{if !$config.use_grn_future}
-				{assign var=colspan value=2}
-			{/if}
-			<tr>
-				<th>&nbsp;</th>
-				<th>GRR No.</th>
-				<th colspan="{$colspan}">Vendor</th>
-			</tr>
-			{foreach from=$grr_list item=grr}
-				{if $grr_id ne $grr.grr_id}
-					{assign var=grr_id value=$grr.grr_id}
-					<tr {if !$config.use_grn_future}style="font-weight:bold;"{/if}>
-						{if $config.use_grn_future}
-							<td>
-								{assign var=have_inv value=0}
-								{assign var=have_do value=0}
-								{assign var=have_oth value=0}
-								{foreach from=$grr_list item=tmp_grr}
-									{if $tmp_grr.grr_id eq $grr.grr_id}
-										{if $tmp_grr.type eq 'INVOICE'}
-											{assign var=have_inv value=1}
-										{elseif $tmp_grr.type eq 'DO'}
-											{assign var=have_do value=1}
-										{elseif $tmp_grr.type eq 'OTHER'}
-											{assign var=have_oth value=1}
-										{/if}
-									{/if}
-								{/foreach}
-								{if $grr.status}
-									<img src="../ui/lock.gif" border="0" title="GRR is being used"></a>
-								{elseif !$have_inv && !$have_do && !$have_oth}
-									<img src="../ui/lock.gif" border="0" title="GRR does not contain Invoice, DO or Other"></a>
-								{else}
-									<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
-								{/if}
-							</td>
-						{/if}
-						<td colspan="{$colspan}">GRR#{$grr.grr_id}</td>
-						<td colspan="{$colspan}">{$grr.vendor}</td>
-					</tr>
-				{/if}
-				{if !$config.use_grn_future}
-					<tr class="small">
-						<td width=10>
-							{if $grr.grn_used}
-								<img src="../ui/lock.gif" border=0 title="GRR is used"></a>
-							{else}
-								<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
-							{/if}
-						</td>
-						<td>{$grr.type}</td>
-						<td>{$grr.doc_no}</td>
-						<td>Remark: {$grr.remark|default:"-"}</td>
-					</tr>
-				{/if}
-			{/foreach}
-		</table>
+<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Search GRR No.</h4>
+		</div>
 	</div>
-{else}
-	<br /><i> <img src="../ui/bananaman.gif" align="absmiddle"> Horray! There are no GRR at the moment.</i>
-{/if}
 </div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+{if $grr_list}
+<!-- Form -->
+<div class="row mt-2">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<form  name="f_a" method="post" onSubmit="return check_form();">
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<div class="row row-xs">
+							<div class="col-md-2">
+								<label>GRR No</label>
+							</div>
+							<div class="col-md-5 mg-t-10 mg-md-t-0">
+								<input class="form-control" type="text" name="find_grr" class="txt-width-50" value="{$smarty.request.find_grr}">
+							</div>
+							<input type="hidden" name="a" value="show_grr_list" />
+							<div class="col-md-2 mt-4 mt-xl-0">
+								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+							</div>
+						</div>
+					</div>
+					<!-- Error Message -->
+					{if $err}
+						{foreach from=$err item=e}
+						<div class="alert alert-danger mg-b-0" role="alert">
+							<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							{$e}
+						</div>
+					    {/foreach}
+					{/if}
+					<!-- /Error Message -->
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- / Form -->
+	<button class="btn btn-indigo btn-rounded btn-sm mb-2" onclick="toggle_grr_list();">Show/Hide GRR List</button>
+<!-- Table -->
+<div class="col-xl-12 p-0" id="grr_list" {if !$smarty.request.find_grr}style="display:none;"{/if}>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover mb-0 text-md-nowrap">
+					<thead>
+						{if !$config.use_grn_future}
+							{assign var=colspan value=2}
+						{/if}
+						<tr>
+							<th>&nbsp;</th>
+							<th>GRR No.</th>
+							<th colspan="{$colspan}">Vendor</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$grr_list item=grr}
+							{if $grr_id ne $grr.grr_id}
+								{assign var=grr_id value=$grr.grr_id}
+								<tr {if !$config.use_grn_future}style="font-weight:bold;"{/if}>
+									{if $config.use_grn_future}
+										<td>
+											{assign var=have_inv value=0}
+											{assign var=have_do value=0}
+											{assign var=have_oth value=0}
+											{foreach from=$grr_list item=tmp_grr}
+												{if $tmp_grr.grr_id eq $grr.grr_id}
+													{if $tmp_grr.type eq 'INVOICE'}
+														{assign var=have_inv value=1}
+													{elseif $tmp_grr.type eq 'DO'}
+														{assign var=have_do value=1}
+													{elseif $tmp_grr.type eq 'OTHER'}
+														{assign var=have_oth value=1}
+													{/if}
+												{/if}
+											{/foreach}
+											{if $grr.status}
+												<img src="../ui/lock.gif" border="0" title="GRR is being used">
+											{elseif !$have_inv && !$have_do && !$have_oth}
+												<img src="../ui/lock.gif" border="0" title="GRR does not contain Invoice, DO or Other">
+											{else}
+												<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
+											{/if}
+										</td>
+									{/if}
+									<td colspan="{$colspan}">GRR#{$grr.grr_id}</td>
+									<td colspan="{$colspan}">{$grr.vendor}</td>
+								</tr>
+							{/if}
+							{if !$config.use_grn_future}
+								<tr>
+									<td>
+										{if $grr.grn_used}
+											<img src="../ui/lock.gif" border=0 title="GRR is used"></a>
+										{else}
+											<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
+										{/if}
+									</td>
+									<td>{$grr.type}</td>
+									<td>{$grr.doc_no}</td>
+									<td>Remark: {$grr.remark|default:"-"}</td>
+								</tr>
+							{/if}
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Table -->
+{else}
+<div class="d-flex justify-content-center align-items-center">
+	<div class="card mg-b-20 text-center">
+		<div class="card-body h-100">
+			<img src="../../assets/img/svgicons/no-data.svg" alt="" class="wd-35p">
+			<h5 class="mg-b-10 mg-t-15 tx-18"><img src="../ui/bananaman.gif"> Horray!</h5>
+			<a href="#" class="text-muted">There are no GRR at the moment.</a>
+		</div>
+	</div>
+</div>
+{/if}
 <script>
 {if $grr_list}
 {literal}
