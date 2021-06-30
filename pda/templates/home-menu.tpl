@@ -30,24 +30,117 @@
 			<li class="breadcrumb-item active">DO</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.do.id>0 and $smarty.session.do.branch_id eq $sessioninfo.branch_id}
-			<a href="do.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last DO</a>
-		{/if}
-			<a href="do.php?a=new_do" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Transfer Do</a>
-
-			<a href="do.php?a=new_do&do_type=open" class="btn btn-danger-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Cash Sales Do</a>
-
-			<a href="do.php?a=new_do&do_type=credit_sales" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Credit Sales Do</a>
-
-			<a href="do.php?a=open" class="btn btn-success-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Open DO by Do No</a>
-
-			<a href="do.php?a=open_checklist" class="btn btn-primary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Open DO Checklist</a>
-
-			<a href="do.picking_verification.php?a=open" class="btn btn-dark-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> DO Picking Verification</a>
+<div class="container p-0 mt-5">
+	<div class="row">
+	{if $smarty.session.do.id>0 and $smarty.session.do.branch_id eq $sessioninfo.branch_id}	
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last DO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-exchange-alt text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Transfer DO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php?a=new_do" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-money-check-alt text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Cash Sales DO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php?a=new_do&do_type=open" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-pink-transparent">
+							<i class="fas fa-credit-card text-pink"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Credit Sales DO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php?a=new_do&do_type=credit_sales" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-truck-loading text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open DO By DO No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php?a=open" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-purple-transparent">
+							<i class="fas fa-tasks text-purple"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open DO Checklist</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.php?a=open_checklist" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-orange-transparent">
+							<i class="fas fa-clipboard-check text-orange"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">DO Picking Verification</h5>
+						</div>
+					</div>
+				</div>
+				<a href="do.picking_verification.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 {if $config.allow_sales_order and file_exists('sales_order.php') and $smarty.request.id eq 'sales_order' }
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
@@ -65,15 +158,57 @@
 			<li class="breadcrumb-item active">SALES ORDER</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.so.id>0 and $smarty.session.so.branch_id eq $sessioninfo.branch_id}
-			<a href="sales_order.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last Sales Order</a>
-		{/if}
-			<a href="sales_order.php?a=new_so" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Sales Order</a>
-			<a href="sales_order.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i>Open by Order No</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.so.id>0 and $smarty.session.so.branch_id eq $sessioninfo.branch_id}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last SaleS Order</h5>
+						</div>
+					</div>
+				</div>
+				<a href="sales_order.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Sales Order</h5>
+						</div>
+					</div>
+				</div>
+				<a href="sales_order.php?a=new_so" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open by Order No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="sales_order.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if $sessioninfo.privilege.GRR and $smarty.request.id eq 'grr'}
@@ -92,150 +227,58 @@
 			<li class="breadcrumb-item active">GRR</li>
 		</ol>
 	</nav>
-<!-- Card 2 with ico -->
-<!-- <div class="row row-sm mt-5">
-	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-		<div class="card ">
-			<div class="card-body">
-				<div class="counter-status d-flex md-mb-0">
-					<div class="counter-icon bg-primary-transparent">
-						<i class="icon-layers text-primary"></i>
-					</div>
-					<div class="ml-5 my-auto">
-						<h5 class="">Continue Last GRR</h5>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-		<div class="card ">
-			<div class="card-body">
-				<div class="counter-status d-flex md-mb-0">
-					<div class="counter-icon bg-danger-transparent">
-						<i class="icon-paypal text-danger"></i>
-					</div>
-					<div class="ml-5 my-auto">
-						<h5 class="">Create New GRR</h5>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
-		<div class="card ">
-			<div class="card-body">
-				<div class="counter-status d-flex md-mb-0">
-					<div class="counter-icon bg-success-transparent">
-						<i class="icon-rocket text-success"></i>
-					</div>
-					<div class="ml-5 my-auto">
-						<h5 class="">Open GRR By GRR No</h5>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->
-<!-- /Card 2 with ico -->
 
-<!-- Cards Menu  -->
-<!-- <div class="card p-1 border-primary mt-5">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-2">
-				<div class="d-flex justify-content-center align-items-center">
-					<i class="fas fa-clock fa-2x text-info"></i>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.grr.id>0 and $smarty.session.grr.branch_id eq $sessioninfo.branch_id}	
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last GRR</h5>
+						</div>
+					</div>
 				</div>
+				<a href="goods_receiving_record.php" class="stretched-link"></a>
 			</div>
-			<div class="col-10 font-weight-bold">
-				Continue Last GRR
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New GRR</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_receiving_record.php?a=new_grr" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open GRR By GRR No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_receiving_record.php?a=open" class="stretched-link"></a>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card p-1 border-warning">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-2">
-				<div class="d-flex justify-content-center align-items-center">
-					<i class="fas fa-plus fa-2x text-warning"></i>
-				</div>
-			</div>
-			<div class="col-10 font-weight-bold">
-				Create New GRR
-			</div>
-		</div>
-	</div>
-</div>
-<div class="card p-1 border-success">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-2">
-				<div class="d-flex justify-content-center align-items-center">
-					<i class="fas fa-search fa-2x text-success"></i>
-				</div>
-			</div>
-			<div class="col-10 font-weight-bold">
-				Open GRR By GRR No
-			</div>
-		</div>
-	</div>
-</div> -->
-<!-- /Cards Menu -->
-
-	<!-- List Group -->
-	<!-- <div class="text-wrap">
-		<div class="example">
-			<div class="list-group">
-				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
-					<span class="d-flex">
-						<i class="fas fa-clock mr-3 rounded-circle avatar-md text-info"></i>
-						<div class="">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-2 tx-14">Continue Last GRR</h5>
-							</div>
-							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
-						</div>
-					</span>
-				</a>
-				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
-					<span class="d-flex">
-						<i class="fas fa-plus mr-3 rounded-circle avatar-md text-primary"></i>
-						<div class="">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-2 tx-14">Create New GRR</h5>
-							</div>
-							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
-						</div>
-					</span>
-				</a>
-				<a class="list-group-item list-group-item-action flex-column align-items-start" href="#">
-					<span class="d-flex">
-						<i class="fas fa-search mr-3 rounded-circle avatar-md text-warning"></i>
-						<div class="">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-2 tx-14">Open by GRR No</h5>
-							</div>
-							<p class="mb-1 tx-13">Donec id elit non mi porta gravida at eget metus.</p>
-						</div>
-					</span>
-				</a>
-			</div>
-		</div>
-	</div> -->
-	<!-- / List Group -->
-
-
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-			{if $smarty.session.grr.id>0 and $smarty.session.grr.branch_id eq $sessioninfo.branch_id}
-			<a href="goods_receiving_record.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last GRR</a>
-			{/if}
-			<a href="goods_receiving_record.php?a=new_grr" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New GRR</a>
-			<a href="goods_receiving_record.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open by GRR No</a>
-		</div>
-	</div>
 {/if}
 
 {if $sessioninfo.privilege.GRN and $smarty.request.id eq 'grn'}
@@ -254,16 +297,57 @@
 			<li class="breadcrumb-item active">GRN</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.grn.id>0 and $smarty.session.grn.branch_id eq $sessioninfo.branch_id}
-			<a href="goods_receiving_note.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last GRN</a>
-		{/if}
-			<a href="goods_receiving_note.php?a=show_grr_list" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New GRN</a>
-
-			<a href="goods_receiving_note.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open by GRN No / GRR No</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.grn.id>0 and $smarty.session.grn.branch_id eq $sessioninfo.branch_id}	
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last GRN</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_receiving_note.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New GRN</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_receiving_note.php?a=show_grr_list" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open by GRN No / GRR No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_receiving_note.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if $sessioninfo.privilege.GRA and $smarty.request.id eq 'gra'}
@@ -282,16 +366,57 @@
 			<li class="breadcrumb-item active">GRA</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-			{if $smarty.session.gra.id>0 and $smarty.session.gra.branch_id eq $sessioninfo.branch_id}
-			<a href="goods_return_advice.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last GRA</a>
-			{/if}
-			<a  href="goods_return_advice.php?a=new_gra" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New GRA</a>
-
-			<a href="goods_return_advice.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open by GRA No</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.gra.id>0 and $smarty.session.gra.branch_id eq $sessioninfo.branch_id}	
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="goods_return_advice.php">Continue Last GRA</h5>
+						</div>
+					</div>
+				</div>
+				<a href="" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New GRA</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_return_advice.php?a=new_gra" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open by GRA No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="goods_return_advice.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if $sessioninfo.privilege.ADJ and file_exists('adjustment.php') and $smarty.request.id eq 'adjustment'}
@@ -310,16 +435,57 @@
 			<li class="breadcrumb-item active">ADJUSTMENT</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.adj.id>0 and $smarty.session.adj.branch_id eq $sessioninfo.branch_id}
-			<a href="adjustment.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last Adjustment</a>
-		{/if}
-			<a  href="adjustment.php?a=new_adj" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Adjustment</a>
-
-			<a href="adjustment.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open by Adjustment No</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.adj.id>0 and $smarty.session.adj.branch_id eq $sessioninfo.branch_id}	
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last Adjustment</h5>
+						</div>
+					</div>
+				</div>
+				<a href="adjustment.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Adjustment</h5>
+						</div>
+					</div>
+				</div>
+				<a href="adjustment.php?a=new_adj" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open by Adjustment No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="adjustment.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if $sessioninfo.privilege.PO and file_exists('po.php') and ($smarty.request.id eq 'po' || $smarty.request.id eq 'purchase_order')}
@@ -338,15 +504,57 @@
 			<li class="breadcrumb-item active">PO</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.po.id>0 and $smarty.session.po.branch_id eq $sessioninfo.branch_id}
-			<a href="po.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last PO</a>
-		{/if}
-			<a href="po.php?a=new_po" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New PO</a>
-			<a href="po.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open PO by PO No</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.po.id>0 and $smarty.session.po.branch_id eq $sessioninfo.branch_id}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last PO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="po.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New PO</h5>
+						</div>
+					</div>
+				</div>
+				<a href="po.php?a=new_po" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class=""> Open PO by PO No</h5>
+						</div>
+					</div>
+				</div>
+				<a href="po.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if $sessioninfo.privilege.STOCK_TAKE and file_exists('stock_take.php') and $smarty.request.id eq 'stock_take'}
@@ -365,16 +573,57 @@
 			<li class="breadcrumb-item active">STOCK TAKE</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.st.date and $smarty.session.st.location and $smarty.session.st.shelf and $smarty.session.st.branch_id eq $sessioninfo.branch_id}
-			<a href="stock_take.php?a=show_scan" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last Stock Take</a>
-		{/if}
-			<a href="stock_take.php?a=stock_take" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open Stock Take</a>
-
-			{*<a href="stock_take.php?a=open" class="btn btn-dark-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Open Existing Stock Take</a>*}
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.st.date and $smarty.session.st.location and $smarty.session.st.shelf and $smarty.session.st.branch_id eq $sessioninfo.branch_id}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last Stock Take</h5>
+						</div>
+					</div>
+				</div>
+				<a href="stock_take.php?a=show_scan" class="stretched-link"></a>
+			</div>
 		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open Stock Take</h5>
+						</div>
+					</div>
+				</div>
+				<a href="stock_take.php?a=stock_take" class="stretched-link"></a>
+			</div>
+		</div>
+		{*<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open Existing Stock Take</h5>
+						</div>
+					</div>
+				</div>
+				<a href="stock_take.php?a=open" class="stretched-link"></a>
+			</div>
+		</div>*}
 	</div>
+</div>
 {/if}
 
 {if file_exists('batch_barcode.php') and $smarty.request.id eq 'batch_barcode'}
@@ -393,15 +642,57 @@
 			<li class="breadcrumb-item active">BATCH BARCODE</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.batch_barcode.id && $smarty.session.batch_barcode.branch_id eq $sessioninfo.branch_id}
-			<a href="batch_barcode.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last Batch</a>
-		{/if}
-			<a href="batch_barcode.php?a=new_batch_barcode" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Batch</a>
-			<a href="batch_barcode.php?a=open" class="btn btn-warning-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-search"></i> Open Batch Barcode List</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if $smarty.session.batch_barcode.id && $smarty.session.batch_barcode.branch_id eq $sessioninfo.branch_id}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last Batch</h5>
+						</div>
+					</div>
+				</div>
+				<a href="batch_barcode.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Batch</h5>
+						</div>
+					</div>
+				</div>
+				<a href="batch_barcode.php?a=new_batch_barcode" class="stretched-link"></a>
+			</div>
+		</div>
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-success-transparent">
+							<i class="fas fa-search text-success"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Open Batch Barcode List</h5>
+						</div>
+					</div>
+				</div>
+				<a href="batch_barcode.php?a=open" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if file_exists('promotion.php') and $smarty.request.id eq 'promotion'}
@@ -420,14 +711,42 @@
 			<li class="breadcrumb-item active">PROMOTION</li>
 		</ol>
 	</nav>
-	<div class="d-flex justify-content-center align-items-center mt-5">
-		<div class="col-md-6 d-flex flex-column justify-content-center align-items-center py-2 px-2">
-		{if $smarty.session.promotion.id>0}
-			<a href="promotion.php" class="btn btn-secondary-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="far fa-clock"></i> Continue Last Promotion</a>
-		{/if}
-			<a href="promotion.php?a=create" class="btn btn-info-gradient btn-with-icon btn-block btn-lg pyc-2 shadow mb-1"><i class="fas fa-plus"></i> Create New Promotion</a>
+<div class="container p-0 mt-5">
+	<div class="d-flex flex-column justify-content-center align-items-center">
+	{if file_exists('promotion.php') and $smarty.request.id eq 'promotion'}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-warning-transparent">
+							<i class="fas fa-clock text-warning"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Continue Last Promotion</h5>
+						</div>
+					</div>
+				</div>
+				<a href="promotion.php" class="stretched-link"></a>
+			</div>
+		</div>
+	{/if}
+		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12">
+			<div class="card ">
+				<div class="card-body">
+					<div class="counter-status d-flex md-mb-0">
+						<div class="counter-icon bg-info-transparent">
+							<i class="fas fa-plus text-info"></i>
+						</div>
+						<div class="ml-3 my-auto">
+							<h5 class="">Create New Promotion</h5>
+						</div>
+					</div>
+				</div>
+				<a href="promotion.php?a=create" class="stretched-link"></a>
+			</div>
 		</div>
 	</div>
+</div>
 {/if}
 
 {if isset($config.pda_custom_modules) and $smarty.request.id eq 'custom'}

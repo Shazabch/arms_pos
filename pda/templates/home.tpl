@@ -83,7 +83,7 @@
 		<div class="card text-center">
 			<div class="card-body ">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-bar-chart project bg-primary-transparent mx-auto text-primary "></i>
+					<i class="ti-package project bg-primary-transparent mx-auto text-primary "></i>
 				</div>
 				<h6 class="mb-1 text-muted">GRR</h6>
 				<a href="home.php?a=menu&id=grr" class="stretched-link"></a>
@@ -125,7 +125,7 @@
 		<div class="card text-center">
 			<div class="card-body ">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-stats-up project bg-success-transparent mx-auto text-success "></i>
+					<i class="ti-arrows-corner project bg-success-transparent mx-auto text-success "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Adjustment</h6>
 				<a href="home.php?a=menu&id=adjustment" class="stretched-link"></a>
@@ -181,7 +181,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-primary-transparent mx-auto text-primary "></i>
+					<i class="ti-money  project bg-primary-transparent mx-auto text-primary "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Stock Take</h6>
 				<a href="home.php?a=menu&id=stock_take" class="stretched-link"></a>
@@ -195,7 +195,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-success-transparent mx-auto text-success "></i>
+					<i class="ti-stats-up  project bg-success-transparent mx-auto text-success "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Promotion</h6>
 				<a href="home.php?a=menu&id=promotion" class="stretched-link"></a>
@@ -209,7 +209,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-pink-transparent mx-auto text-pink "></i>
+					<i class="ti-layout-column4-alt  project bg-pink-transparent mx-auto text-pink "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Batch Barcode</h6>
 				<a href="home.php?a=menu&id=batch_barcode" class="stretched-link"></a>
