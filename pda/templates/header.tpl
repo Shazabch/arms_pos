@@ -99,9 +99,10 @@
 			<div class="">
 				{if $sessioninfo}
 				<!-- main-header -->
-				<div class="main-header sticky side-header nav nav-item">
+				<div class="main-header sticky side-header nav nav-item" style="padding-left: 0;">
 					<div class="container-fluid">
 						<div class="main-header-left ">
+							<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
 							<div class="responsive-logo">
 								<a href="index.html"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
 								<a href="index.html"><img src="../../assets/img/brand/logo-white.png" class="dark-logo-1" alt="logo"></a>

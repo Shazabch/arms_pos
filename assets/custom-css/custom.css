@@ -32,4 +32,11 @@
 }
 @media all and (max-width:480px) {
    .btn-block-sm { width: 100%; display:block; }
-} 
+}
+
+@media (max-width: 480px){
+	.logo-1 { display: none; }
+	.main-header.nav{
+		padding-left: 5px;
+	}
+}
