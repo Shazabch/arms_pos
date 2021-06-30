@@ -79,7 +79,7 @@
 </div>
 <div class="row row-sm mt-3">
 	{if $sessioninfo.privilege.GRR}
-	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body ">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -93,7 +93,7 @@
 	{/if}
 
 	{if $sessioninfo.privilege.GRN}
-	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body ">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -107,7 +107,7 @@
 	{/if}
 
 	{if $sessioninfo.privilege.GRA}
-	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -121,7 +121,7 @@
 	{/if}
 
 	{if $sessioninfo.privilege.ADJ and file_exists('adjustment.php')}
-	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body ">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -135,7 +135,7 @@
   	{/if}
 
   	{if $config.allow_sales_order and file_exists('sales_order.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -149,7 +149,7 @@
   	{/if}
 
   	{if $sessioninfo.privilege.DO}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -163,7 +163,7 @@
   	{/if}
 
   	{if $sessioninfo.privilege.PO and file_exists('po.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -177,7 +177,7 @@
   	{/if}
 
   	{if $sessioninfo.privilege.STOCK_TAKE and file_exists('stock_take.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -191,7 +191,7 @@
   	{/if}
 
   	{if file_exists('promotion.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -205,7 +205,7 @@
   	{/if}
 
   	{if file_exists('batch_barcode.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -219,7 +219,7 @@
 	{/if}
 
 	{if $sessioninfo.privilege.MST_VOUCHER and file_exists('mst_voucher.php')}
-	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -233,7 +233,7 @@
   	{/if}
 
   	{if file_exists('check_code.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -247,7 +247,7 @@
   	{/if}
 	
   	{if $config.membership_module && file_exists('member_enquiry.php')}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
@@ -261,7 +261,7 @@
   	{/if}
 
   	{if isset($config.pda_custom_modules)}
-  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6">
+  	<div class="col-xl-3 col-lg-6 col-sm-6 col-6 animated zoomIn">
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">

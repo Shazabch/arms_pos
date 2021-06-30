@@ -33,7 +33,7 @@
 <div class="container p-0 mt-5">
 	<div class="row">
 	{if $smarty.session.do.id>0 and $smarty.session.do.branch_id eq $sessioninfo.branch_id}	
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -49,7 +49,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -64,7 +64,7 @@
 				<a href="do.php?a=new_do" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -79,7 +79,7 @@
 				<a href="do.php?a=new_do&do_type=open" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -94,7 +94,7 @@
 				<a href="do.php?a=new_do&do_type=credit_sales" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -109,7 +109,7 @@
 				<a href="do.php?a=open" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -124,7 +124,7 @@
 				<a href="do.php?a=open_checklist" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -161,7 +161,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.so.id>0 and $smarty.session.so.branch_id eq $sessioninfo.branch_id}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -177,7 +177,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -192,7 +192,7 @@
 				<a href="sales_order.php?a=new_so" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -231,7 +231,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.grr.id>0 and $smarty.session.grr.branch_id eq $sessioninfo.branch_id}	
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -247,7 +247,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -262,7 +262,7 @@
 				<a href="goods_receiving_record.php?a=new_grr" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -300,7 +300,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.grn.id>0 and $smarty.session.grn.branch_id eq $sessioninfo.branch_id}	
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -316,7 +316,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -331,7 +331,7 @@
 				<a href="goods_receiving_note.php?a=show_grr_list" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -369,7 +369,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.gra.id>0 and $smarty.session.gra.branch_id eq $sessioninfo.branch_id}	
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -385,7 +385,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -400,7 +400,7 @@
 				<a href="goods_return_advice.php?a=new_gra" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -438,7 +438,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.adj.id>0 and $smarty.session.adj.branch_id eq $sessioninfo.branch_id}	
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -454,7 +454,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -469,7 +469,7 @@
 				<a href="adjustment.php?a=new_adj" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -507,7 +507,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.po.id>0 and $smarty.session.po.branch_id eq $sessioninfo.branch_id}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -523,7 +523,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -538,7 +538,7 @@
 				<a href="po.php?a=new_po" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -576,7 +576,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.st.date and $smarty.session.st.location and $smarty.session.st.shelf and $smarty.session.st.branch_id eq $sessioninfo.branch_id}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -592,7 +592,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -607,7 +607,7 @@
 				<a href="stock_take.php?a=stock_take" class="stretched-link"></a>
 			</div>
 		</div>
-		{*<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		{*<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -645,7 +645,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if $smarty.session.batch_barcode.id && $smarty.session.batch_barcode.branch_id eq $sessioninfo.branch_id}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -661,7 +661,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -676,7 +676,7 @@
 				<a href="batch_barcode.php?a=new_batch_barcode" class="stretched-link"></a>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -714,7 +714,7 @@
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
 	{if file_exists('promotion.php') and $smarty.request.id eq 'promotion'}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
@@ -730,7 +730,7 @@
 			</div>
 		</div>
 	{/if}
-		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated fadeInUp">
+		<div class="col-sm-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
 					<div class="counter-status d-flex md-mb-0">
