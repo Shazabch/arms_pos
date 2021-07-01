@@ -64,74 +64,120 @@ function search_debtor(event){
 }
 {/literal}
 </script>
-<h1>
-Setting - {if $form.order_no}(SO/{$form.order_no}){else}{if $form.id}(SO#{$form.id}){else}New SO{/if}{/if}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a></span>
-<div style="margin-bottom:10px;"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.order_no}(SO/{$form.order_no}){else}{if $form.id}(SO#{$form.id}){else}New SO{/if}{/if}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a  href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
 {if $form.id&&$form.branch_id}{include file='sales_order.top_include.tpl'}<br /><br />{/if}
 
 
+<!-- Error Message -->
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
 {/if}
+<!-- /Error Message -->
 
 {if $form.id}
     {assign var=branch_id value=$form.branch_id}
 {else}
     {assign var=branch_id value=$sessioninfo.branch_id}
 {/if}
-
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-	<tr>
-	    <th align="left">Order Date</th>
-	    <td>
-			<input type="text" id="inp_date" name="order_date" value="{$form.order_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10" /> <span class="small"> (YYYY-MM-DD) </span>
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">From</th>
-	    <td>
-			{$branches.$branch_id.code} - {$branches.$branch_id.description}
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">Batch Code</th>
-	    <td><input type="text" size="15" name="batch_code" value="{$form.batch_code}" />
-	</tr>
-	<tr>
-	    <th align="left">Customer PO</th>
-	    <td><input type="text" size="15" name="cust_po" value="{$form.cust_po}" />
-	</tr>
-    <tr>
-	    <th align="left">To Debtor</th>
-	    <td>
-	        <select name="debtor_id">
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$debtors key=did item=r}
-	                <option value="{$did}" {if $form.debtor_id eq $did}selected {/if}>{$r.code} - {$r.description}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	</tr>
-	<tr>
-	    <th align="left">Search Debtor</th>
-	    <td><input type="text" name="search_debtor_desc" onKeyUp="search_debtor(event);" />
-	</tr>
-</table>
-<p align="center">
-	<input type="button" name="submit_btn" value="Save" onClick="submit_form();" />
-</p>
-</form>
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<input type="hidden" name="a" value="save_setting" />
+						<input type="hidden" name="id" value="{$form.id}" />
+						<input type="hidden" name="branch_id" value="{$branch_id}" />
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Order Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="inp_date" name="order_date" value="{$form.order_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10">
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">From</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								{$branches.$branch_id.code} - {$branches.$branch_id.description}
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Batch Code</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" size="15" name="batch_code" value="{$form.batch_code}">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Customer PO</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" size="15" name="cust_po" value="{$form.cust_po}">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">To Debtor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="debtor_id">
+									<option value="" label="-- Please Select --"></option>
+									{foreach from=$debtors key=did item=r}
+					                	<option value="{$did}" {if $form.debtor_id eq $did}selected {/if}>{$r.code} - {$r.description}</option>
+					            	{/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Search Debtor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="search_debtor_desc" onKeyUp="search_debtor(event);">
+							</div>
+						</div>
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
+
 {include file='footer.tpl'}
