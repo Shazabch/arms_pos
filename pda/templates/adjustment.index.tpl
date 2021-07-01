@@ -73,17 +73,45 @@ function adj_type_changed(obj){
 
 {/literal}
 </script>
-<h1>
-Setting - {if $form.id}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}({$form.report_prefix}{$form.id}){else}New {$module_name}{/if}{/if}
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a> {if $form.find_adjustment} > <a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">Back to search</a> {/if}</span>
-
-<div style="margin-bottom: 10px"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}({$form.report_prefix}{$form.id}){else}New {$module_name}{/if}{/if}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a  href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+		{if $form.find_adjustment}
+		<li class="breadcrumb-item">
+			<a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">Back To Search</a>
+		</li>
+		{/if}
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
 {if $form.id&&$form.branch_id}{include file='adjustment.top_include.tpl'}<br /><br />{/if}
 
-
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
 
 {if $err}
 	<ul style="color:red;">
@@ -98,77 +126,106 @@ Setting - {if $form.id}({$form.report_prefix}{$form.id|string_format:"%05d"}){el
 {else}
     {assign var=branch_id value=$sessioninfo.branch_id}
 {/if}
-
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-	<tr>
-	    <th align="left">Date</th>
-	    <td>
-			<input type="text" id="inp_date" name="adjustment_date" value="{$form.adjustment_date|default:$smarty.now|date_format:'%Y-%m-%d'}" size="10" /> <span class="small"> (YYYY-MM-DD) </span>
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">Type</th>
-	    <td><input type="text" size="30" name="adjustment_type" value="{$form.adjustment_type}" /></td>
-	</tr>
-	<tr>
-	    <th align="left">Preset Type</th>
-	    <td>
-	        <select name="preset_type" onChange="adj_type_changed(this);">
-	            <option value="">--</option>
-	            {foreach from=$config.adjustment_type_list item=type_item}
-	                <option value="{$type_item.name|upper}" {if $form.adjustment_type eq $type_item.name|upper}selected {/if}>{$type_item.name|upper}</option>
-	            {/foreach}
-	        </select>
-		</td>
-	</tr>
-    <tr>
-	    <th align="left">Department</th>
-	    <td>
-	        <select name="dept_id">
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$dept key=r item=d}
-	                <option value="{$d.id}" {if $form.dept_id eq $d.id}selected {/if}>{$d.description}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	</tr>
-	<tr>
-	    <th align="left">Search Dept</th>
-	    <td><input type="text" name="search_dept_desc" onKeyUp="search_dept(event);" /></td>
-	</tr>
-	<tr>
-	    <th align="left">Remark</th>
-	    <td><textarea name="remark">{$form.remark}</textarea></td>
-	</tr>
-	<tr>
-	    <th align="left">Branch</th>
-	    <td>
-			{if $form.id}
-				{assign var=bid value=$form.branch_id}
-				{$form.branch_code} - {$form.description}
-			{else}
-				{if $BRANCH_CODE eq "HQ"}
-					<select name="branch_id">
-						{foreach from=$branches key=bid item=b}
-							<option value="{$bid}">{$b.code}</option>
-						{/foreach}
-					</select>
-				{else}
-					{assign var=bid value=$sessioninfo.branch_id}
-					{$branches.$bid.code}
-				{/if}
-			{/if}
-		</td>
-	</tr>
-</table>
-<p align="center">
-	<input type="button" name="submit_btn" value="Save" onClick="submit_form();" />
-</p>
-</form>
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<input type="hidden" name="a" value="save_setting" />
+						<input type="hidden" name="id" value="{$form.id}" />
+						<input type="hidden" name="branch_id" value="{$branch_id}" />
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="inp_date" name="adjustment_date" value="{$form.adjustment_date|default:$smarty.now|date_format:'%Y-%m-%d'}" size="10">
+								<small class="help-block text-muted pl-2">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Type</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" size="30" name="adjustment_type" value="{$form.adjustment_type}">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Preset Type</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="preset_type" onChange="adj_type_changed(this);">
+									<option value="" label="-- Please Select --"></option>
+									{foreach from=$config.adjustment_type_list item=type_item}
+						                <option value="{$type_item.name|upper}" {if $form.adjustment_type eq $type_item.name|upper}selected {/if}>{$type_item.name|upper}</option>
+						            {/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Department</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="dept_id">
+									<option value="" label="-- Please Select --"></option>
+									{foreach from=$dept key=r item=d}
+						                <option value="{$d.id}" {if $form.dept_id eq $d.id}selected {/if}>{$d.description}</option>
+						            {/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Search Department</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Remark</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<textarea class="form-control" name="remark" placeholder="Textarea" rows="2">{$form.remark}</textarea>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Branch</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								{if $form.id}
+									{assign var=bid value=$form.branch_id}
+									{$form.branch_code} - {$form.description}
+								{else}
+									{if $BRANCH_CODE eq "HQ"}
+								<select class="form-control select2" name="branch_id">
+									<option value="" label="-- Please Select --"></option>
+										{foreach from=$branches key=bid item=b}
+											<option value="{$bid}">{$b.code}</option>
+										{/foreach}
+								</select>
+									{else}
+										{assign var=bid value=$sessioninfo.branch_id}
+										{$branches.$bid.code}
+									{/if}
+								{/if}
+							</div>
+						</div>
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
 {include file='footer.tpl'}
