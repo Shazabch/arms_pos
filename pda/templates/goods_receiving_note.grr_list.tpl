@@ -36,7 +36,7 @@ function toggle_grr_list(){
 }
 {/literal}
 </script>
-<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">Search GRR No.</h4>
@@ -44,7 +44,7 @@ function toggle_grr_list(){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white">
+	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
 			<a href="home.php">Dashboard</a>
 		</li>
@@ -55,7 +55,7 @@ function toggle_grr_list(){
 </nav>
 {if $grr_list}
 <!-- Form -->
-<div class="row mt-2">
+<div class="row mt-2 animated fadeInDown">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form  name="f_a" method="post" onSubmit="return check_form();">
@@ -92,9 +92,9 @@ function toggle_grr_list(){
 	</div>
 </div>
 <!-- / Form -->
-	<button class="btn btn-indigo btn-rounded btn-sm mb-2" onclick="toggle_grr_list();">Show/Hide GRR List</button>
+	<button class="btn btn-indigo btn-rounded btn-sm mb-2 animated fadeInDown" onclick="toggle_grr_list();">Show/Hide GRR List</button>
 <!-- Table -->
-<div class="col-xl-12 p-0" id="grr_list" {if !$smarty.request.find_grr}style="display:none;"{/if}>
+<div class="col-xl-12 p-0 animated fadeInDown" id="grr_list" {if !$smarty.request.find_grr}style="display:none;"{/if}>
 	<div class="card">
 		<div class="card-body">
 			<div class="table-responsive">

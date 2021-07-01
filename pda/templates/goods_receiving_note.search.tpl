@@ -33,7 +33,7 @@ function check_form(){
 {/literal}
 </script>
 
-<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">Open By GRN No. / GRR No. </h4>
@@ -41,7 +41,7 @@ function check_form(){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white">
+	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
 			<a href="home.php">Dashboard</a>
 		</li>
@@ -53,7 +53,7 @@ function check_form(){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0" role="alert">
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -64,7 +64,7 @@ function check_form(){
 <!-- /Error Message -->
 
 <!-- Row -->
-<div class="row mt-2">
+<div class="row mt-2 animated fadeInDown">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form name="f_a" method="post" onSubmit="return check_form();">
@@ -90,22 +90,36 @@ function check_form(){
 <!-- / Row -->
 
 {if $grn_list}
-	<table width="100%" border="1" cellspacing="0" cellpadding="4">
-	    <tr>
-	        <th>&nbsp;</th>
-	        <th>GRN No.</th>
-			<th>GRR No.</th>
-	        <th>Vendor</th>
-	    </tr>
-	    {foreach from=$grn_list item=grn}
-	        <tr>
-	            <td width="20"><a href="{$smarty.server.PHP_SELF}?a=change_grn&id={$grn.id}&branch_id={$grn.branch_id}&find_grn={$smarty.request.find_grn}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
-	            <td>GRN#{$grn.id}</td>
-				<td>GRR#{$grn.grr_id}</td>
-	            <td>{$grn.vendor_code} - {$grn.vendor_desc}</td>
-	        </tr>
-	    {/foreach}
-	</table>
+<!--Table-->
+<div class="col-xl-12">
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover mb-0 text-md-nowrap">
+					<thead>
+						<tr>
+							<th></th>
+							<th>GRN NO.</th>
+							<th>GRR NO.</th>
+							<th>Vendor</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$grn_list item=grn}
+						<tr>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_grn&id={$grn.id}&branch_id={$grn.branch_id}&find_grn={$smarty.request.find_grn}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
+							<td>GRN#{$grn.id}</td>
+							<td>GRR#{$grn.grr_id}</td>
+							<td>{$grn.vendor_code} - {$grn.vendor_desc}</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Table -->
 {/if}
 </div>
 <script>

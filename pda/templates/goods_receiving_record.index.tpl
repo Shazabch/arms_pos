@@ -145,7 +145,7 @@ function search_document(event){
 }
 {/literal}
 </script>
-<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}(GRR#{$form.id}){else}New GRR{/if}</h4>
@@ -153,7 +153,7 @@ function search_document(event){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white">
+	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
 			<a href="home.php">Dashboard</a>
 		</li>
@@ -188,7 +188,7 @@ function search_document(event){
 
 
 <!-- row -->
-<div class="row">
+<div class="row animated fadeInLeft">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<!-- Form -->

@@ -32,7 +32,7 @@ function check_form(){
 {/literal}
 
 </script>
-<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">Open by GRR No.</h4>
@@ -40,7 +40,7 @@ function check_form(){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white">
+	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
 			<a href="home.php">Dashboard</a>
 		</li>
@@ -64,7 +64,7 @@ function check_form(){
 <!-- /Error Message -->
 
 <!-- Row -->
-<div class="row mt-2">
+<div class="row mt-2 animated fadeInDown">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form name="f_a" method="post" onSubmit="return check_form();">
@@ -89,22 +89,35 @@ function check_form(){
 </div>
 <!-- / Row -->
 
-<br>
 {if $grr_list}
-	<table width="100%" cellspacing="0" cellpadding="4" border="1">
-	    <tr>
-	        <th>&nbsp;</th>
-	        <th>GRR No.</th>
-	        <th>Vendor</th>
-	    </tr>
-	    {foreach from=$grr_list item=grr}
-	        <tr>
-	            <td width="20"><a href="{$smarty.server.PHP_SELF}?a=change_grr&id={$grr.id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
-	            <td>GRR#{$grr.id}</td>
-	            <td>{$grr.vendor_code} - {$grr.vendor_desc}</td>
-	        </tr>
-	    {/foreach}
-	</table>
+<!--Table-->
+<div class="col-xl-12">
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover mb-0 text-md-nowrap">
+					<thead>
+						<tr>
+							<th></th>
+							<th>GRR NO.</th>
+							<th>Vendor</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$grr_list item=grr}
+						<tr>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_grr&id={$grr.id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
+							<td>GRR#{$grr.id}</td>
+							<td>{$grr.vendor_code} - {$grr.vendor_desc}</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Table -->
 {/if}
 
 <script>
