@@ -24,52 +24,80 @@ function submit_form(){
 
 {/literal}
 </script>
-
-<h1>
-NEW PROMOTION
-&nbsp;
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=promotion">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">NEW PROMOTION</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=promotion">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
 {if $form.id}{include file='promotion.top_include.tpl'}<br /><br />{/if}
 
-<div class="stdframe" style="background:#fff">
-
-<h2>Setting - {if $form.promotion_no}(Promotion/{$form.promotion_no}){else}{if $form.id}(Promotion#{$form.id}){else}New Promotion{/if}{/if}
-</h2>
+<!-- Error Message -->
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
 {/if}
+<!-- /Error Message -->
 
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$promo_id}" />
-<table cellspacing="0" cellpadding="4" border="0">
-    <tr>
-	    <th align="left">Title</th>
-	    <td><input type="text" size="30" name="title" value="{$form.title}" /></td>
-	</tr>
-    <tr>
-	    <th align="left">Owner</th>
-	    <td>
-	        <select name="owner_id" >
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$owners item=r}
-	                <option value="{$r.id}" {if $form.owner_id eq $r.id}selected {/if}>{$r.u}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	</tr>
-</table>
-<p align="center">
-	<input type="button" name="submit_btn" value="Save" onClick="submit_form();" />
-</p>
-</form>
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<div class="card-header"><h4 class="border-bottom pb-2">Setting - {if $form.promotion_no}(Promotion/{$form.promotion_no}){else}{if $form.id}(Promotion#{$form.id}){else}New Promotion{/if}{/if}</h4></div>
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" value="save_setting" />
+				<input type="hidden" name="id" value="{$promo_id}" />
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Title</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" size="30" name="title" value="{$form.title}">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Owner</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="owner_id">
+									<option value="" label="-- Please Select --"></option>
+										{foreach from=$owners item=r}
+							                <option value="{$r.id}" {if $form.owner_id eq $r.id}selected {/if}>{$r.u}</option>
+							            {/foreach}
+								</select>
+							</div>
+						</div>
+						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
 {include file='footer.tpl'}
