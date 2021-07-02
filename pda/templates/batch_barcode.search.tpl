@@ -35,57 +35,101 @@ function toggle_bb_list(){
 }
 {/literal}
 </script>
-
-<h1>
-OPEN BATCH BARCODE
-&nbsp;
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
-
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return check_form();">
-<p align="center">
-	<span><h4>Search Batch Barcode</h4></span>
-	Batch Barcode No.
-	<input type="text" name="find_batch_barcode" class="txt-width-50" onChange="mi(this);" value="{$smarty.request.find_batch_barcode}" />
-	<input type="submit" class="btn btn-primary" value="Enter" />
-	<br />
-	<span style="color:red;">
-	    {if $err}
-	        <ul>
-	        {foreach from=$err item=e}
-	            <li>{$e}</li>
-	        {/foreach}
-	        </ul>
-	    {/if}
-	</span>
-</p>
-</form>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">OPEN BATCH BARCODE</h4>
+		</div>
+	</div>
 </div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
+<!-- Search form -->
+<div class="row mt-2 animated fadeInDown">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<form >
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<div class="row row-xs">
+							<div class="col-md-2">
+								<label>Batch Barcode No.</label>
+							</div>
+							<div class="col-md-5 mg-t-10 mg-md-t-0">
+								<input class="form-control" type="text" name="find_batch_barcode" onChange="mi(this);" value="{$smarty.request.find_batch_barcode}">
+							</div>
+							<div class="col-md-2 mt-4 mt-xl-0">
+								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- / Search form -->
+
 {if !$smarty.request.find_batch_barcode && $bb_list}
-	<a onclick="toggle_bb_list();" style="cursor:pointer;">Show/Hide Batch Barcode List</a>
+	<button onclick="toggle_bb_list();" class="btn btn-indigo btn-rounded btn-sm">Show/Hide Batch Barcode List</button>
 {/if}
 
 <div id="batch_barcode_list" {if !$smarty.request.find_batch_barcode || !$bb_list}style="display:none;"{/if}>
-	<table width="100%" border="1" cellspacing="0" cellpadding="4">
-		<tr>
-			<th>&nbsp;</th>
-			<th>ID</th>
-			<th>Total Items</th>
-		</tr>
-		{foreach from=$bb_list item=r}
-			<tr>
-				<td nowrap>
-					<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}"><img src="/ui/ed.gif" border="0" title="Open" /></a>&nbsp;
-					<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" onclick="return delete_confirmation();"><img src="/ui/del.gif" border="0" title="Delete" /></a>
-				</td>
-				<td>#{$r.id}</td>
-				<td align="right">{$r.total_items}</td>
-			</tr>
-		{/foreach}
-	</table>
+	<!--Table-->
+	<div class="col-xl-12 animated fadeInDown">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
+							<tr>
+								<th></th>
+								<th>ID</th>
+								<th>Total Items</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$bb_list item=r}
+							<tr>
+								<td>
+									<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}"><img src="/ui/ed.gif" border="0" title="Open" /></a>&nbsp;
+									<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" onclick="return delete_confirmation();"><img src="/ui/del.gif" border="0" title="Delete" /></a>
+								</td>
+								<td>#{$r.id}</td>
+								<td>{$r.total_items}</td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Table -->
 </div>
 
 <script>

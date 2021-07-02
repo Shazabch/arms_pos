@@ -72,13 +72,43 @@ function check_barcode_type(obj){
 }
 {/literal}
 </script>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name} NEW BATCH</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+		{if $form.search_var}
+		<li class="breadcrumb-item">
+			<a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">Back to search</a>
+		</li>
+		{/if}
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-<h1>
-{$smarty.session.scan_product.name}
-NEW BATCH
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a> {if $form.search_var} > <a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">Back to search</a> {/if}</span>
-<div style="margin-bottom:10px;"></div>
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
 
 {if !$is_grn_module || $smarty.session.$module.barcode_type eq 0}
 	{assign var=use_barcode_type value=0}
@@ -87,58 +117,67 @@ NEW BATCH
 	{assign var=use_barcode_type value=1}
 {/if}
 
-<div class="stdframe" style="background:#fff">
-
 {if $top_include}{include file=$top_include }{/if}
  
+<!-- Search form -->
+<div class="row mt-2 animated fadeInDown">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<form name="f_a" method="post" onSubmit="return check_form();">
+				{assign var=module value=$smarty.session.scan_product.type|strtolower}
+				<input type="hidden" name="type" value="{$smarty.session.scan_product.type}" />
+				<input type="hidden" name="a" value="show_scan_product" />
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<div class="row row-xs">
+							<div class="col-md-2">
+								<label>Scan</label>
+							</div>
+							<div class="col-md-5 mg-t-10 mg-md-t-0">
+								<input class="form-control" type="text"name="product_code">
+								{if $config.enable_grn_barcoder}
+								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="0" {if $use_barcode_type eq 0}checked{/if} onChange="check_barcode_type(this);"> <span>GRN Barcoder</span></label>
+								{/if}
+								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="1" {if $use_barcode_type eq 1}checked{/if} onChange="check_barcode_type(this);"> <span class="fs-08">ARMS Code / MCode / Art.No / {$config.link_code_name}</span></label>
+							</div>
+							<div class="col-md-2 mt-2 mt-md-0 mt-xl-0 mt-lg-0">
+								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+							</div>
+						</div>
+						<div class="container-flex mt-3">
+							{*if $auto_add && !$err}<br /><img src="/ui/approved.png" title="Item Added" border=0> Item added<br /><br />{/if*}
+							<div class="d-flex flex-row mb-2 mt-3">
+								<label class="ckbox mr-2"><input type="checkbox" value="1" name="auto_add_item" {if $auto_add}checked{/if} {if ($form.find_grn || !$is_grn_module) && $use_barcode_type ne 1 && !$is_grn_module}disabled{/if}><span></span></label>
+								<span class="">Add item when match one result {if is_item_check}(Allow Duplicate){/if}</span>
+							</div>
+							
 
+								<a href="batch_barcode.php?a=import_csv" class="text-warning"><i class="fas fa-file-import"></i> Import SKU by CSV</a>
 
-
-<form name="f_a" method="post" onSubmit="return check_form();">
-{assign var=module value=$smarty.session.scan_product.type|strtolower}
-<input type="hidden" name="type" value="{$smarty.session.scan_product.type}" />
-<input type="hidden" name="a" value="show_scan_product" />
-
-<p>
-	Scan
-	<input type="text" class="txt-width-50" name="product_code" />
-	<input class="btn btn-primary" type="submit" value="Enter" />
-	<br />
-		{if $config.enable_grn_barcoder}
-			<input type="radio" name="grn_barcode_type" value="0" {if $use_barcode_type eq 0}checked{/if} onChange="check_barcode_type(this);" /> GRN Barcoder
-		<br />
-		{/if}
-		<input type="radio" name="grn_barcode_type" value="1" {if $use_barcode_type eq 1}checked{/if} onChange="check_barcode_type(this);" /> ARMS Code / MCode / Art.No / {$config.link_code_name}
-		<br />
-</p>
-	<span style="color:red;white-space: normal!important;">
-	    {if $err}
-	        <ul>
-	        {foreach from=$err item=e}
-	            <li>{$e}</li>
-	        {/foreach}
-	        </ul>
-	    {/if}
-	</span>
-<p>
-	{*if $auto_add && !$err}<br /><img src="/ui/approved.png" title="Item Added" border=0> Item added<br /><br />{/if*}
-	<input type="checkbox" value="1" name="auto_add_item" {if $auto_add}checked{/if} {if ($form.find_grn || !$is_grn_module) && $use_barcode_type ne 1 && !$is_grn_module}disabled{/if} /> Add item when match one result {if is_item_check}(Allow Duplicate){/if}
-	{if $is_item_check}
-		<br /><a href="batch_barcode.php?a=import_csv"> [Import SKU by CSV]</a>
-	{/if}
-	<br /><br />
-	{if $smarty.session.scan_product.type == 'GRA'}
-		Return Type:&nbsp;
-		<select name=return_type>
-		{foreach from=$return_type_list item=rt}
-			<option>{$rt}</option>
-		{/foreach}
-		</select>
-	{/if}
-</p>
-</form>
-{if $btm_include}{include file=$btm_include}{/if}
+							{if $smarty.session.scan_product.type == 'GRA'}
+							<div class="row row-xs align-items-center mg-b-20 mt-2">
+								<div class="col-md-2">
+									<label class="font-weight-bold mg-b-0">Return Type:</label>
+								</div>
+								<div class="col-md-6 mg-t-5 mg-md-t-0">
+									<select class="form-control select2" name="return_type">
+										<option value="" label="-- Please Select --"></option>
+											{foreach from=$return_type_list item=rt}
+												<option>{$rt}</option>
+											{/foreach}
+									</select>
+								</div>
+							</div>
+							{/if}
+						</div>
+					</div>
+					{if $btm_include}{include file=$btm_include}{/if}
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
+<!-- / Search form -->
 <script>
 {literal}
 document.f_a['product_code'].select();

@@ -320,24 +320,42 @@ function row_recalc(id){
 }
 {/literal}
 </script>
-
-<h1>
-SCAN RESULT
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a> > <a href="{$smarty.server.PHP_SELF}">Back to Search</a></span>
-<div style="margin-bottom:10px;"></div>
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
-
-<div>
-<div style="float:left;"><p>{count var=$items} item(s) found.</p></div>
-<div style="display:none;" class="btn_padding"><input type="button" value="Back" onClick="window.location='{$smarty.server.PHP_SELF}';" /></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">SCAN RESULT</h4>
+		</div>
+	</div>
 </div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{$smarty.server.PHP_SELF}">Back to Search</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
+<div class="alert alert-success border">{count var=$items} item(s) found.</div>
 <div style="clear:both;"></div>
 <div class="stdframe" style="background:#fff; ">
 <form name="f_a" method="post" onSubmit="return add_items();">
