@@ -1,3 +1,5 @@
+
+
 {*
 23/9/2019 11:38 AM William 
 - Added new module Purchase Order.
@@ -223,35 +225,40 @@ function date_format_check(obj){
 }
 {/literal}
 </script>
-<h1>
-New Purchase Order
-&nbsp;
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=po">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">New Purchase Order</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a  href="home.php?a=menu&id=po">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
 {if $form.id&&$form.branch_id}{include file='po.top_include.tpl'}<br /><br />{/if}
-<div class="stdframe" style="background:#fff">
-<h2>Setting - 
-{if $form.po_no}
-		(PO/{$form.po_no})
-{else}
-	{if $form.id}
-		(PO#{$form.id})
-	{else}
-		New PO
-	{/if}
-{/if}
-</h2>
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
 
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
 
 {if $form.id}
     {assign var=branch_id value=$form.branch_id}
@@ -259,107 +266,150 @@ New Purchase Order
     {assign var=branch_id value=$sessioninfo.branch_id}
 {/if}
 
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<table cellspacing="0" cellpadding="4" border="0" width="100%">
-    <tr>
-	    <th align="left">Vendor</th>
-	    <td>
-	        <select name="vendor_id" {if $disable_sett} disabled{/if}>
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$vendor key=did item=r}
-	                <option value="{$did}" {if $form.vendor_id eq $did}selected {/if} vd_desc="{$r.description|escape:'html'}">{$r.code} - {$r.description}</option>
-	            {/foreach}
-	        </select>
-	    </td>
-	</tr>
-	{if !$disable_sett}
-	<tr>
-	    <th align="left">Search Vendor</th>
-	    <td><input type="text" class="txt-width" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);" />
-	</tr>
-	{/if}
-	<tr>
-	    <th align="left">Department</th>
-	    <td>
-	        <select name="dept_id" {if $disable_sett} disabled{/if}>
-	            <option value="">-- Please Select --</option>
-	            {foreach from=$dept item=d}
-	                <option value="{$d.id}" {if $form.dept_id eq $d.id}selected {/if} >{$d.description}</option>
-	            {/foreach}
-	        </select>
-		</td>
-	</tr>
-	{if !$disable_sett}
-	<tr>
-	    <th align="left">Search Dept</th>
-	    <td><input type="text" name="search_dept_desc" onKeyUp="search_dept(event);" /></td>
-	</tr>
-	{/if}
-	<tr>
-	    <th align="left">PO Date</th>
-	    <td>
-			<input type="text" name="po_date" onchange="date_format_check(this)" value="{$form.po_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10"  {if $disable_sett} disabled{/if} /> <span class="small" > (YYYY-MM-DD) </span>
-		</td>
-	</tr>
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card-body">
+					<div class="main-content-label mg-b-5 pb-2 border-bottom"><h4>Setting - New PO</h4></div>
+					<div class="pd-15 pd-sm-20">
+						<input type="hidden" name="a" value="save_setting" />
+						<input type="hidden" name="id" value="{$form.id}" />
+						<input type="hidden" name="branch_id" value="{$branch_id}" />
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Vendor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="vendor_id" {if $disable_sett} disabled{/if}>
+									<option value="" label="-- Please Select --"></option>
+									{foreach from=$vendor key=did item=r}
+	                					<option value="{$did}" {if $form.vendor_id eq $did}selected {/if} vd_desc="{$r.description|escape:'html'}">{$r.code} - {$r.description}</option>
+	            					{/foreach}
+								</select>
+							</div>
+						</div>
+						{if !$disable_sett}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Search Vendor</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
+							</div>
+						</div>
+						{/if}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Department</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="dept_id" {if $disable_sett} disabled{/if}>
+									<option value="" label="-- Please Select --"></option>
+										{foreach from=$dept item=d}
+							                <option value="{$d.id}" {if $form.dept_id eq $d.id}selected {/if} >{$d.description}</option>
+							            {/foreach}
+								</select>
+							</div>
+						</div>
+						{if !$disable_sett}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Search Dept</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
+							</div>
+						</div>
+						{/if}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">PO Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="po_date" onchange="date_format_check(this)" value="{$form.po_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10"  {if $disable_sett} disabled{/if}>
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Deliver Branch</label>
+							</div>
+							{if ($sessioninfo.branch_id eq 1 && (!$form.id && !$form.deliver_to)) || ($sessioninfo.branch_id eq 1 && ($form.id && $form.deliver_to)) || ($sessioninfo.branch_id eq 1 && $err) }
 
-	<tr>
-		<th valign="top" align="left">Deliver Branch</th>
-		<td>
-			{if ($sessioninfo.branch_id eq 1 && (!$form.id && !$form.deliver_to)) || ($sessioninfo.branch_id eq 1 && ($form.id && $form.deliver_to)) || ($sessioninfo.branch_id eq 1 && $err) }
-				<table border="0">
-				{foreach from=$branches item=branch}
-					<tr>
-						<td valign="top"><input type="checkbox" onClick="active_btn({$branch.id},this)" id="db_{$branch.id}" name="deliver_to[]" value="{$branch.id}" class="branch" {if is_array($form.deliver_to) and in_array($branch.id,$form.deliver_to)}checked{/if} {if $disable_sett} disabled{/if}></td>
-						<td valign="center">{$branch.code}</td>
-					</tr>
-					<tr id="date_list_{$branch.id}" {if !is_array($form.deliver_to) or !in_array($branch.id,$form.deliver_to)}style="display:none"{/if}>
-						<td colspan="2">
-							<table>
-								<tr>
-									<th align="left">Delivery Date</th>
-									<td><input type="text" name="delivery_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_updated({$branch.id},this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" value="{$form.delivery_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if} /></td>
-								</tr>
-								<tr>
-									<th align="left">Cancellation Date</th>
-									<td><input type="text" name="cancel_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_format_check(this)" value="{$form.cancel_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if} /></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				{/foreach}
-				</table>
-			{else}
-				{if $disable_sett}
-					{$form.po_branch_code}
-				{else}
-					{$BRANCH_CODE}
-				{/if}
-			{/if}
-		</td>
-	</tr>
-	{if ($sessioninfo.branch_id eq 1 && $form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && !$form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && $form.id && !$form.deliver_to) }
-	<tr>
-		<th align="left">Delivery Date</th>
-		<td>
-			<input type="text" name="delivery_date" value="{$form.delivery_date}" onchange="date_updated('',this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" size="10" {if $disable_sett} disabled{/if} /> (YYYY-MM-DD)
-		</td>
-	</tr>
-	<tr>
-		<th align="left">Cancellation Date</th>
-		<td>
-			<input type="text" name="cancel_date" value="{$form.cancel_date}" onchange="date_format_check(this)" size="10" {if $disable_sett} disabled{/if} /> (YYYY-MM-DD)
-		</td>
-	</tr>
-	{/if}
-</table>
-{if !$disable_sett}
-<p align="center">
-	<input name="submit_btn" type="button" value="Save" onClick="submit_form();" />
-</p>
-{/if}
-</form>
+								{foreach from=$branches item=branch}
+									<div class="col-md-8 mg-t-5 mg-md-t-0">
+										<div class="row align-items-center px-2">
+											<div class="col-md-3 mt-1">
+												<label class="ckbox"><input type="checkbox" onClick="active_btn({$branch.id},this)" id="db_{$branch.id}" name="deliver_to[]" value="{$branch.id}" class="branch" {if is_array($form.deliver_to) and in_array($branch.id,$form.deliver_to)}checked{/if} {if $disable_sett} disabled{/if}><span>{$branch.code}</span></label>
+											</div>
+											<div class="col-md-9 mt-1" id="date_list_{$branch.id}" {if !is_array($form.deliver_to) or !in_array($branch.id,$form.deliver_to)}style="display:none"{/if}>
+												<div class="row">
+													<div class="col-md-6 mt-2 mt-md-0 mt-xl-0 mt-xxl-0">
+														<div class="row row-xs align-items-center">
+															<div class="col-md-4">
+																<label class="font-weight-bold mg-b-0">Delivery Date</label>
+															</div>
+															<div class="col-md-8 mg-t-5 mg-md-t-0">
+																<input class="form-control" type="text" name="delivery_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_updated({$branch.id},this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" value="{$form.delivery_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if}>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6 mt-2 mt-md-0 mt-xl-0 mt-xxl-0">
+														<div class="row row-xs align-items-center">
+															<div class="col-md-4">
+																<label class="font-weight-bold mg-b-0">Cancellation Date</label>
+															</div>
+															<div class="col-md-8 mg-t-5 mg-md-t-0">
+																<input class="form-control" type="text" name="cancel_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_format_check(this)" value="{$form.cancel_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if}>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{/foreach}
+							{else}
+								{if $disable_sett}
+									{$form.po_branch_code}
+								{else}
+									{$BRANCH_CODE}
+								{/if}
+							{/if}
+						</div>
+						{if ($sessioninfo.branch_id eq 1 && $form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && !$form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && $form.id && !$form.deliver_to) }
+							<div class="row row-xs align-items-center mg-b-20">
+								<div class="col-md-2">
+									<label class="font-weight-bold mg-b-0">Delivery Date</label>
+								</div>
+								<div class="col-md-6 mg-t-5 mg-md-t-0">
+									<input class="form-control" type="text" name="delivery_date" value="{$form.delivery_date}" onchange="date_updated('',this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" size="10" {if $disable_sett} disabled{/if}>
+									<small class="help-block text-muted">(YYYY-MM-DD)</small>
+								</div>
+							</div>
+							<div class="row row-xs align-items-center mg-b-20">
+								<div class="col-md-2">
+									<label class="font-weight-bold mg-b-0">Cancellation Date</label>
+								</div>
+								<div class="col-md-6 mg-t-5 mg-md-t-0">
+									<input class="form-control" type="text" name="cancel_date" value="{$form.cancel_date}" onchange="date_format_check(this)" size="10" {if $disable_sett} disabled{/if}>
+									<small class="help-block text-muted">(YYYY-MM-DD)</small>
+								</div>
+							</div>
+						{/if}
+
+						{if !$disable_sett}
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+						{/if}
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
 {include file='footer.tpl'}

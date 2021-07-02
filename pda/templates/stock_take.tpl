@@ -96,55 +96,85 @@ function form_keypress(event){
 
 {/literal}
 </script>
-<h1>
-Stock Take
-&nbsp;
-</h1>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Stock Take</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=stock_take">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=stock_take">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
-
-{if $errm}
-	<ul style="color:red;">
-	    {foreach from=$errm item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
 {/if}
+<!-- /Error Message -->
 
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<input type="hidden" name="do_type" value="{$do_type}" />
-<table cellspacing="0" cellpadding="4" border="0" width="100%">
-	<tr>
-	    <th align="left">Date</th>
-	    <td>
-			<input type="text" id="inp_do_date" name="date_t" value="{$form.date_t|default:$smarty.now|date_format:'%Y-%m-%d'}" size="10"  onkeypress="form_keypress(event);" /> <span class="small" >(YYYY-MM-DD)</span>
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">Location</th>
-	    <td>
-			<input class="txt-width" name="location" {if $location}value="{$location}"{/if} onkeypress="form_keypress(event); "/>
-		</td>
-	</tr>
-	
-  <tr>
-      <th align="left" valign="top">Shelf</th>
- 		<td>
- 		  <input name="shelf" class="txt-width" {if $shelf}value="{$shelf}"{/if} onkeypress="form_keypress(event);" />
- 		</td>
- 	</tr>
- 	
-</table>
-<div align="center">
-	<input type="button" value="Save" onClick="submit_form();" /> 
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false">			
+				<input type="hidden" name="a" value="save_setting" />
+				<input type="hidden" name="id" value="{$form.id}" />
+				<input type="hidden" name="branch_id" value="{$branch_id}" />
+				<input type="hidden" name="do_type" value="{$do_type}" />
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="inp_do_date" name="date_t" value="{$form.date_t|default:$smarty.now|date_format:'%Y-%m-%d'}" size="10"  onkeypress="form_keypress(event);">
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Location</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="location" {if $location}value="{$location}"{/if} onkeypress="form_keypress(event); ">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Shelf</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" name="shelf" type="text" {if $shelf}value="{$shelf}"{/if} onkeypress="form_keypress(event);">
+							</div>
+						</div>
+						<button class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" onclick="submit_form();">Save</button>
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
-</form>
-</div>
+<!-- /row -->
 
 {literal}
 <script>
