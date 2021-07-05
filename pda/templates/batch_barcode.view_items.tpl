@@ -53,66 +53,110 @@ function submit_items(act){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs">
-<a href="home.php">Back to home</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a> {if $smarty.request.find_batch_barcode} > <a href="{$smarty.request.PHPSELF}?a=open&find_batch_barcode={$smarty.request.find_batch_barcode}">Back to search</a> {/if}
-</span>
-<div style="margin-bottom:10px;"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Back to home</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+		{if $smarty.request.find_batch_barcode}
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">Back to search</a>
+		</li>
+		{/if}
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
 
 {include file='batch_barcode.top_include.tpl'}<br><br>
-
-
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
-<div class="stdframe" style="background:#fff">
-{if $items}
-    <div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
+<div class="card animated fadeInDown">
+	<div class="card-body">
+		{if $items}
+		<div class="d-flex justify-content-between align-items-center py-2">
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="">
+				<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			</div>
+		</div>
+		<!--Table-->
+		<div class="col-xl-12 mt-2">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover mb-0 text-md-nowrap">
+								<thead>
+									<tr>
+										<th>#</th>
+								        <th>
+								        	<div class="checkbox">
+												<div class="custom-checkbox custom-control">
+													<input type="checkbox" data-checkboxes="mygroup" class="toggle_chx custom-control-input" id="checkbox-2">
+													<label for="checkbox-2" class="custom-control-label">DEL</label>
+												</div>
+											</div>
+								        </th>
+								        <th>ARMS Code</th>
+								        <th>Description</th>
+										<th>Qty</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$items key=row item=r name=i}
+								        <tr>
+								        	<td>{$smarty.foreach.i.iteration}.</td>
+								            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+								            <td>{$r.sku_item_code}</td>
+								            <td>{$r.sku_description}</td>
+											<td>
+												<input type="text" name="qty[{$r.id}]" class="qty items r form-control form-control-sm" size="3" value="{$r.qty}" />
+											</td>
+								        </tr>
+								    {/foreach}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- /Table -->
+		<div class="d-flex justify-content-end align-items-center py-2">
+			<button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+			<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		</div>
+		{else}
+			<div class="alert alert-danger">
+				No Item
+			</div>
+		{/if}
 	</div>
-	{count var=$items} item(s)
+</div>
 
-	<form name="f_a" method="post" onSubmit="return false;">
-	<div style="clear:both;"></div>
-
-	<input type="hidden" name="a" />
-	<table width="100%" border="1" cellspacing="0" cellpadding="4">
-	    <tr>
-	    	<th>#</th>
-	        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-	        <th>ARMS Code</th>
-	        <th>Description</th>
-			<th>Qty</th>
-	    </tr>
-	    {foreach from=$items key=row item=r name=i}
-	        <tr>
-	        	<td>{$smarty.foreach.i.iteration}.</td>
-	            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
-	            <td>{$r.sku_item_code}</td>
-	            <td>{$r.sku_description}</td>
-				<td align="center">
-					<input type="text" name="qty[{$r.id}]" class="qty items r" size="3" value="{$r.qty}" />
-				</td>
-	        </tr>
-	    {/foreach}
-	</table>
-	</form>
-	</div>
-
-	<div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
-	</div>
-{else}
-	No Item
-{/if}
 
 <script>
 {literal}

@@ -7,10 +7,9 @@
 
 {if $smarty.session.batch_barcode.id && $smarty.session.batch_barcode.branch_id}
 	{if $tab eq 'view_items'}
-		[View Items List]
-		<a class="btn btn-success animated fadeInDown disabled mr-1"><i class="mdi mdi-format-list-text"></i> View Items List</a>
+		<a class="btn btn-light btn-sm animated fadeInDown disabled mr-1"><i class="fas fa-th-list"></i> View Items List</a>
 	{else}
-		<a href="{$smarty.server.PHP_SELF}?a=view_items&find_batch_barcode={$form.search_var}" class="btn btn-success btn-sm animated fadeInDown mr-1"><i class="mdi mdi-format-list-text"></i> View Items List</a>
+		<a href="{$smarty.server.PHP_SELF}?a=view_items&find_batch_barcode={$form.search_var}" class="btn btn-success btn-sm animated fadeInDown mr-1"><i class="fas fa-th-list"></i> View Items List</a>
 	{/if}
 {/if}
 

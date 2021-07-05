@@ -132,22 +132,46 @@ function check_delete_status(){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a> {if $smarty.request.find_grr} > <a href="goods_receiving_record.php?a=open&find_grr={$smarty.request.find_grr}">Back to search</a>{/if}</span>
-<div style="margin-bottom:10px"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+		{if $smarty.request.find_grr}
+		<li class="breadcrumb-item">
+			<a href="goods_receiving_record.php?a=open&find_grr={$smarty.request.find_grr}">Back to search</a>
+		</li>
+		{/if}
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-{include file='goods_receiving_record.top_include.tpl'}<br><br>
-
+<!-- Error Message -->
 {if $err.top}
-<div id="err"><ul class="errmsg">
-{foreach from=$err.top item=e}
-&middot; {$e}<br />
-{/foreach}
-</ul></div>
+	{foreach from=$err.top item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		 {$e}
+	</div>
+    {/foreach}
 {/if}
-<div class="stdframe" style="background:#fff;">
+<!-- /Error Message --> 
+
+{include file='goods_receiving_record.top_include.tpl'}<br>
+
 <table style="display:none;">
 	<tr id="temp_gi_row1" class="temp_gi_row1">
 		<td>__row_num__</td>
@@ -186,97 +210,109 @@ function check_delete_status(){
 		</td>
 	</tr>
 </table>
-
+<div class="alert alert-info">Document Date in YYYY-MM-DD format.</div>
+<div class="card">
+	<div class="card-body">
+		<div class="d-flex justify-content-between align-items-center py-2">
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="">
+				<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-info btn-sm" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
+				<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			</div>
+		</div>
+		<!--Table-->
+		<div class="col-xl-12">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" />
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover mb-0 text-md-nowrap">
+								<thead>
+									<tr>
+										<th rowspan="2">#</th>
+										<th width="20" rowspan="2">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+										<th rowspan="2">Doc<br />No & Date</th>
+										<th rowspan="2">Doc<br />Type</th>
+										<th colspan="2">Qty</th>
+									</tr>
+									<tr>
+										<th>Ctn</th>
+										<th>Pcs</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$items item=r name=i}
+										<tr>
+											<td>{$smarty.foreach.i.iteration}.</td>
+											<td>
+												<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" />
+												<input type="hidden" name="gi_id[{$r.id}]" value="{$r.id}" />
+											</td>
+											<td>				
+												No: &nbsp;&nbsp;&nbsp;<input type="text" name="doc_no[{$r.id}]" value="{$r.doc_no}" size="8">
+												<div style="margin-top:-7px;">&nbsp;</div>
+												Date: <input type="text" name="doc_date[{$r.id}]" value="{$r.doc_date}" size="8">
+												
+												<input type="hidden" name="prev_doc_no[{$r.id}]" value="{$r.prev_doc_no|default:$r.doc_no}" />
+												<input type="hidden" name="prev_type[{$r.id}]" value="{$r.prev_type|default:$r.type}" />
+											</td>
+											<td>
+												<select name="type[{$r.id}]" class="item_type txt-width" onchange="check_type({$r.id});">
+													<option value="PO" {if $r.type eq 'PO'}selected{/if}>PO</option>
+													<option value="INVOICE" {if $r.type eq 'INVOICE'}selected{/if}>INV</option>
+													<option value="DO" {if $r.type eq 'DO'}selected{/if}>DO</option>
+													<option value="OTHER" {if $r.type eq 'OTHER'}selected{/if}>OTH</option>
+												</select>
+											</td>
+											<td align="center"><input type="text" name="ctn[{$r.id}]" value="{$r.ctn}" size="5" class="r" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" {if $r.type eq 'PO'}readonly{/if} /></td>
+											<td align="center"><input type="text" name="pcs[{$r.id}]" value="{$r.pcs}" size="5" class="r" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" {if $r.type eq 'PO'}readonly{/if} /></td>
+										</tr>
+										<tr>
+											<td align="right" colspan="6" style="padding:5px">
+												Amount
+												<input type="text" name="amount[{$r.id}]" value="{$r.amount}" class="txt-width-30" class="r" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if} />
+												{if $form.is_under_gst}
+													<br/><br/>GST Amount
+													<input type="text" name="gst_amount[{$r.id}]" value="{$r.gst_amount}" class="txt-width-30" class="r" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if}  />
+												{/if}
+												<br/><br/>Remark
+												<input type="text" name="remark[{$r.id}]" value="{$r.remark}" class="txt-width-30" />
+											</td>
+										</tr>
+										{if $err[$r.id]}
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="4">
+													<div class="alert alert-danger">
+														{foreach from=$err[$r.id] item=e}
+															&middot; <small>{$e}</small><br>
+														{/foreach}
+													</div>
+												</td>
+											</tr>
+										{/if}
+									{/foreach}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="d-flex justify-content-end align-items-center py-2">
+							<button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+							<button class="btn btn-info btn-sm mr-1" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
+							<button class="btn btn-success btn-sm mr-1" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- /Table -->
+	</div>
+</div>
 <div class="small">
 * Document Date in YYYY-MM-DD format.
 </div>
 <br />
-
-<div style="float:right;" class="btn_padding">
-	<input type="button" value="Delete" onClick="submit_items('delete');" />
-	<input type="button" value="Add Row" onClick="add_row();" />
-	<input type="button" id="submit_btn1" value="Save" onClick="submit_items('save');" />
-</div>
-<span class="item_count">{count var=$items}</span> item(s)
-
-<form name="f_a" method="post" onSubmit="return false;">
-<div style="clear:both;"></div>
-<input type="hidden" name="a" />
-<table width="100%" border="1" cellspacing="0">
-	<tr>
-		<th rowspan="2">#</th>
-		<th width="20" rowspan="2">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-		<th rowspan="2">Doc<br />No & Date</th>
-		<th rowspan="2">Doc<br />Type</th>
-		<th colspan="2">Qty</th>
-	</tr>
-	<tr>
-		<th>Ctn</th>
-		<th>Pcs</th>
-	</tr>
-	<tbody id="gi_list">
-	{foreach from=$items item=r name=i}
-		<tr>
-			<td>{$smarty.foreach.i.iteration}.</td>
-			<td>
-				<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" />
-				<input type="hidden" name="gi_id[{$r.id}]" value="{$r.id}" />
-			</td>
-			<td>				
-				No: &nbsp;&nbsp;&nbsp;<input type="text" name="doc_no[{$r.id}]" value="{$r.doc_no}" size="8">
-				<div style="margin-top:-7px;">&nbsp;</div>
-				Date: <input type="text" name="doc_date[{$r.id}]" value="{$r.doc_date}" size="8">
-				
-				<input type="hidden" name="prev_doc_no[{$r.id}]" value="{$r.prev_doc_no|default:$r.doc_no}" />
-				<input type="hidden" name="prev_type[{$r.id}]" value="{$r.prev_type|default:$r.type}" />
-			</td>
-			<td>
-				<select name="type[{$r.id}]" class="item_type txt-width" onchange="check_type({$r.id});">
-					<option value="PO" {if $r.type eq 'PO'}selected{/if}>PO</option>
-					<option value="INVOICE" {if $r.type eq 'INVOICE'}selected{/if}>INV</option>
-					<option value="DO" {if $r.type eq 'DO'}selected{/if}>DO</option>
-					<option value="OTHER" {if $r.type eq 'OTHER'}selected{/if}>OTH</option>
-				</select>
-			</td>
-			<td align="center"><input type="text" name="ctn[{$r.id}]" value="{$r.ctn}" size="5" class="r" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" {if $r.type eq 'PO'}readonly{/if} /></td>
-			<td align="center"><input type="text" name="pcs[{$r.id}]" value="{$r.pcs}" size="5" class="r" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" {if $r.type eq 'PO'}readonly{/if} /></td>
-		</tr>
-		<tr>
-			<td align="right" colspan="6" style="padding:5px">
-				Amount
-				<input type="text" name="amount[{$r.id}]" value="{$r.amount}" class="txt-width-30" class="r" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if} />
-				{if $form.is_under_gst}
-					<br/><br/>GST Amount
-					<input type="text" name="gst_amount[{$r.id}]" value="{$r.gst_amount}" class="txt-width-30" class="r" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if}  />
-				{/if}
-				<br/><br/>Remark
-				<input type="text" name="remark[{$r.id}]" value="{$r.remark}" class="txt-width-30" />
-			</td>
-		</tr>
-		{if $err[$r.id]}
-			<tr>
-				<td>&nbsp;</td>
-				<td colspan="4" class="errmsg">
-					<font class=small>
-						{foreach from=$err[$r.id] item=e}
-							&middot; {$e}<br>
-						{/foreach}
-					</font>
-				</td>
-			</tr>
-		{/if}
-	{/foreach}
-	</tbody>
-</table>
-</form>
-
-<div style="float:right;" class="btn_padding">
-	<input type="button" value="Delete" onClick="submit_items('delete');" />
-	<input type="button" value="Add Row" onClick="add_row();" />
-	<input type="button" id="submit_btn2" value="Save" onClick="submit_items('save');" />
-</div>
-<br style="clear:both">
-</div>
 <script>
 {literal}
     $('input.item_chx').live('click', function(){
