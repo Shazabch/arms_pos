@@ -18,10 +18,10 @@
 
 {assign var=n value=1}
 {if $msg}
-	{$msg}
+<div class="alert alert-info rounded px-2 col-sm-12 col-lg-8 col-xl-8 animated fadeInDown">{$msg}</div>	
 {/if}	
 {foreach from=$items item=item max=50}
-<div class="row">
+<div class="d-flex flex-row">
 	<div class="col-sm-12 col-lg-8 col-xl-8 animated fadeInLeft">
 		<div class="card">
 			<div class="card-body text-center pricing">
