@@ -109,7 +109,7 @@ function submit_items(act){
 		<input type="button" id="submit_btn2" value="Save" onClick="submit_items('save');" />
 	</div>
 {else}
-	No Item
+	<div class="alert alert-danger">No Item</div>
 {/if}
 
 <script>

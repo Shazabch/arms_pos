@@ -116,58 +116,105 @@ function qty_keypress(event){
 
 {/literal}
 </script>
-
-<h1>
-{$smarty.session.st.title}
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">Stock Take</a> > <a href="stock_take.php?a=show_scan">Scan Item</a> > <a href="stock_take.php?a=view_items">View Items</a></span>
-<div style="margin-bottom: 10px"></div>
-
-
-{if $errm}
-	<div id=err><div class=errmsg><ul>
-	{foreach from=$errm item=e}
-	<li> {$e}
-	{/foreach}
-	</ul></div></div>
-{/if}
-{if $smarty.request.auto_add}<br /><img src="/ui/approved.png" title="Item Added" border=0> Item added<br />{/if}
-<div class="stdframe" style="background:#fff">
-<form name="scan" onSubmit="return false" method="post" action="stock_take.php">
-<input type="hidden" name="a" value="save_scanning">
-<input type="checkbox" value="1" name="auto_add_item" {if $smarty.request.auto_add}checked{/if} /> Auto add item with one qty<br />
-<table width="100%" border="0" cellspacing="0" cellpadding="4">
-<tr>
-      <th align="left" valign="top">Code</th>
- 		<td>
- 		  <input type="text" name="code" onKeyPress="checkkey(event)" value="{$si_info.code}">
- 		  <input type="hidden" name="sku_item_id" value="{$si_info.sku_item_id}">
- 		</td>
- 	</tr>
- 	<tr>
-      <th align="left" valign="top">Description</th>
- 		<td>
- 		  <input type="text" name="description" size=30 value="{$si_info.description}" readonly>
- 		</td>
- 	</tr>
- 	<tr>
-      <th align="left" valign="top">Selling Price</th>
- 		<td>
- 		   <input type="text" name="sell_price" value="{$si_info.selling_price}" readonly>
- 		</td>
- 	</tr>
- 
-	<tr>
-    <th align="left" valign="top">Qty</th>
-	<td>
-	  <input type="text" name="qty"  size="10" class="qty" onkeypress="qty_keypress(event);" />
-	</td>
-</tr>
-</table>
-</form>
-<input type="button" id="submit_btn" value="Save" onClick="save_data();" /> <input type="button" value="Finish" onClick="back_stock_take();" />
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.st.title}</h4>
+		</div>
+	</div>
 </div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">Stock Take</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="stock_take.php?a=show_scan">Scan Item</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="stock_take.php?a=view_items">View Items</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+<!-- Error Message -->
+{if $errm}
+	{foreach from=$errm item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+{if $smarty.request.auto_add}
+	<div class="alert alert-success my-1"><img src="/ui/approved.png" title="Item Added"> Item added</div> 
+{/if}
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="scan" onSubmit="return false" method="post" action="stock_take.php">
+				<input type="hidden" name="a" value="save_scanning">
+				<div class="card-body">
+					<div class=" ml-4 checkbox">
+						<div class="custom-checkbox custom-control">
+							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2" value="1" name="auto_add_item" {if $smarty.request.auto_add}checked{/if}>
+							<label for="checkbox-2" class="custom-control-label mt-1">Auto add item with one qty</label>
+						</div>
+					</div>
+					<div class="pd-15 pd-sm-20">
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Code</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="code" onKeyPress="checkkey(event)" value="{$si_info.code}">
+								<input type="hidden" name="sku_item_id" value="{$si_info.sku_item_id}">
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Description</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="description" size=30 value="{$si_info.description}" readonly>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Selling Price</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" value="{$si_info.selling_price}" readonly>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Qty</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="qty"  size="10" class="qty" onkeypress="qty_keypress(event);">
+							</div>
+						</div>
+						<button class="btn btn-primary btn-block-sm" id="submit_btn" value="Save" onClick="save_data();">Save</button>
+						<button class="btn btn-success btn-block-sm mt-2 mt-md-0 mt-xl-0 mt-lg-0" onClick="back_stock_take();">Finish</button>
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
+</div>
+<!-- /row -->
+
 <script>
 {if $si_info.sku_item_id}
 	document.scan['qty'].focus();
