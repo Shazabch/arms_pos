@@ -356,237 +356,247 @@ function row_recalc(id){
 <!-- /Error Message -->
 
 <div class="alert alert-success border">{count var=$items} item(s) found.</div>
-<div style="clear:both;"></div>
-<div class="stdframe" style="background:#fff; ">
 <form name="f_a" method="post" onSubmit="return add_items();">
-<input type="hidden" name="scan_product" value="1" />
-<input type="hidden" name="scan_product_result" value="1" />
-<input type="hidden" name="product_code" value="{$smarty.request.product_code}" />
-
-<table width="100%" border="1" style="table-layout: fixed" cellspacing="0" scan_product">
-	{if $is_item_check}
-	<tr>
-		<td align="center"><input type="checkbox" name="allow_duplicate" /></td>
-		<td>Automatically add qty when item duplicate</td>
-	</tr>
-	{/if}
-	<tr>
-		{if $module_name eq 'GRN' && !$is_isi}
-			<th rowspan="2">Description</th>
-			<th colspan="2">Qty</th>
-		{else}
-			{if $is_item_check}
-				<th>#</th>
-				<th>Description</th>
-				<th>Qty</th>
-			{else}
-				{if $module_name neq 'Sales Order'}
-					<th>Description</th>
-				{/if}
-				{if $module_name eq 'Purchase Order' && $deliver_to}<th>Branch</th>{/if}
-				{if $module_name neq 'Promotion' && $module_name neq  'Sales Order'}<th>Qty<br />(pcs)</th>{/if}
-				{if $module_name eq 'Purchase Order'}<th>Foc<br />(pcs)</th>{/if}
-				{if $module_name eq 'GRA'}<th>Cost Price</th>{/if}
-			{/if}
+	<input type="hidden" name="scan_product" value="1" />
+	<input type="hidden" name="scan_product_result" value="1" />
+	<input type="hidden" name="product_code" value="{$smarty.request.product_code}" />
+	<div class="container-fluid mb-2">
+		{if $is_item_check}
+					<div class="custom-checkbox custom-control">
+							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1"  name="allow_duplicate">
+							<label for="checkbox-1" class="custom-control-label mt-1">Automatically add qty when item duplicate</label>
+					</div>
 		{/if}
-		{if $module_name eq 'Sales Order'}
-			<th>UOM</th>
-			<th>Ctn</th>
-			<th>Pcs</th>
-			<th>Selling<br />Price</th>
-			<th>Dis</th>
-			<th>Amt</th>
-		{/if}
-	</tr>
-	
-	{if $module_name eq 'GRN' && !$is_isi}
-		<tr align="center">
-			<td>Ctn</td>
-			<td>Pcs</td>
-		</tr>
-	{/if}
-	
-	{foreach from=$items item=r name=i}
-		{if $module_name eq 'Sales Order'}
-			{assign var=i value=1}
-		{/if}
-	    <tr class="{if $i%2 neq 1}tr_even{/if}">
-			{if $is_item_check}
-				<td align="center"><input type="checkbox" name="item_check[{$r.id}]" class="item_checkbox" {if $r.item_check}checked{/if} /></td>
-			{/if}
-			
-	        <td colspan="{if $module_name eq 'Sales Order'}6{else}1{/if}" {if $deliver_to}valign="top"{/if}>
-				{if $module_name eq 'GRN' && $config.use_grn_future && $is_isi}
-					<input type="hidden" name="is_isi" value="{$is_isi}" />
-					<input type="text" name="isi_desc" size="40" value="{$smarty.request.isi_desc}" onchange="this.value = this.value.toUpperCase().trim();" />
-				{else}
-					<span style="white-space: normal; color:blue;{if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id]) }text-decoration:line-through;{/if}" >{$r.item_code_remark} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</span><br />
-					<span style="white-space: normal;" {if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id])}style="text-decoration:line-through;"{/if}>{$r.description}</span>
-					{if $module_name eq 'Purchase Order' && $blocked_po[$r.id]}<br /><span style="color:red;">({$LANG.PO_ITEM_IS_BLOCKED})</span>{/if}
-					{if $module_name eq 'GRN' && $blocked_doc[$r.id]}<br /><span style="color:red;">({$LANG.DOC_ITEM_IS_BLOCKED|sprintf:"GRN"})</span>{/if}
-					{if $smarty.session.grn.type eq 'DO' || $smarty.session.grn.type eq 'PO'}
-						{if $r.matched_with_po}
-							<br />
-							<font color="blue">(Matched with {$smarty.session.grn.type})</font>
-						{elseif $r.matched_with_po_pc}
-							<br />
-							<font color="blue">(Matched with {$smarty.session.grn.type} [Parent & Child])</font>
-						{elseif $r.unmatched_with_po}
-							<br />
-							<font color="red">(Item not in {$smarty.session.grn.type})</font>
-						{/if}
-					{/if}
-					{if $module_name eq 'Sales Order'}
-						{if $r.link_code}<br />{$config.link_code_name}: {$r.link_code}{/if}
-					{/if}
-				{/if}
-			</td>
-			{if  $module_name eq 'Purchase Order' && $deliver_to}
-				<td align="center">
-					<table>
-						{foreach from=$deliver_to.branch_code item=bcode}
+	</div>
+	<!--Table-->
+	<div class="col-xl-12 animated fadeInLeft">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
 							<tr>
-								<td>{$bcode}</td>
+								{if $module_name eq 'GRN' && !$is_isi}
+									<th rowspan="2">Description</th>
+									<th colspan="2">Qty</th>
+								{else}
+									{if $is_item_check}
+										<th>#</th>
+										<th>Description</th>
+										<th>Qty</th>
+									{else}
+										{if $module_name neq 'Sales Order'}
+											<th>Description</th>
+										{/if}
+										{if $module_name eq 'Purchase Order' && $deliver_to}<th>Branch</th>{/if}
+										{if $module_name neq 'Promotion' && $module_name neq  'Sales Order'}<th>Qty<br />(pcs)</th>{/if}
+										{if $module_name eq 'Purchase Order'}<th>Foc<br />(pcs)</th>{/if}
+										{if $module_name eq 'GRA'}<th>Cost Price</th>{/if}
+									{/if}
+								{/if}
+								{if $module_name eq 'Sales Order'}
+									<th>UOM</th>
+									<th>Ctn</th>
+									<th>Pcs</th>
+									<th>Selling<br />Price</th>
+									<th>Dis</th>
+									<th>Amt</th>
+								{/if}
 							</tr>
-						{/foreach}
-					</table>
-				</td>
-			{/if}
-			{if $module_name eq 'GRN'}
-				{if $is_isi}
-					<td align="center"><input type="text" name="isi_pcs" class="items r" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); positive_check(this);" value="{$smarty.request.isi_pcs}" /></td>
-				{else}
-					<td align="center">
-						{if ($module_name eq 'GRN' && $config.doc_allow_edit_uom && $r.uom_fraction ne 1) || ($module_name ne 'GRN' && $r.uom_fraction ne 1)}
-							<input type="text" name="ctn[{$r.id}]" class="items r" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.ctn[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} />
-						{else}
-							&nbsp;
-						{/if}
-					</td>
-					<td align="center"><input type="text" name="pcs[{$r.id}]" class="items r item_qty {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
-					<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
-					<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
-					<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
-					<input type="hidden" name="doc_allow_decimal[{$r.id}]" value="{$r.doc_allow_decimal}" />
-				{/if}
-			{elseif !$is_item_check}
-				{if $module_name neq 'Promotion'}
-					{if  $module_name eq 'Purchase Order' && $deliver_to}
-						<td align="center">
-							<table>
-								{foreach from=$deliver_to.branch_id item=bid}
-									<tr>
-										<td align="center"><input type="text" name="item_qty[{$r.id}][{$bid}]" class="items r item_qty" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" {if $blocked_po[$r.id]}disabled{/if} /></td>
-									</tr>
-								{/foreach}
-							</table>
-						</td>
-						<td align="center">
-							<table>
-								{foreach from=$deliver_to.branch_id item=bid}
-									<tr>
+						</thead>
+						<tbody>
+							{if $module_name eq 'GRN' && !$is_isi}
+								<tr>
+									<td>Ctn</td>
+									<td>Pcs</td>
+								</tr>
+							{/if}
+							{foreach from=$items item=r name=i}
+								{if $module_name eq 'Sales Order'}
+									{assign var=i value=1}
+								{/if}
+							    <tr class="{if $i%2 neq 1}tr_even{/if}">
+									{if $is_item_check}
+										<td align="center"><input type="checkbox" name="item_check[{$r.id}]" class="item_checkbox" {if $r.item_check}checked{/if} /></td>
+									{/if}
+									
+							        <td colspan="{if $module_name eq 'Sales Order'}6{else}1{/if}" {if $deliver_to}valign="top"{/if}>
+										{if $module_name eq 'GRN' && $config.use_grn_future && $is_isi}
+											<input type="hidden" name="is_isi" value="{$is_isi}" />
+											<input type="text" class="form-control" name="isi_desc" size="40" value="{$smarty.request.isi_desc}" onchange="this.value = this.value.toUpperCase().trim();" />
+										{else}
+											<span style="white-space: normal; color:blue;{if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id]) }text-decoration:line-through;{/if}" >{$r.item_code_remark} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</span><br />
+											<span style="white-space: normal;" {if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id])}style="text-decoration:line-through;"{/if}>{$r.description}</span>
+											{if $module_name eq 'Purchase Order' && $blocked_po[$r.id]}<br /><span style="color:red;">({$LANG.PO_ITEM_IS_BLOCKED})</span>{/if}
+											{if $module_name eq 'GRN' && $blocked_doc[$r.id]}<br /><span style="color:red;">({$LANG.DOC_ITEM_IS_BLOCKED|sprintf:"GRN"})</span>{/if}
+											{if $smarty.session.grn.type eq 'DO' || $smarty.session.grn.type eq 'PO'}
+												{if $r.matched_with_po}
+													<br />
+													<font color="blue">(Matched with {$smarty.session.grn.type})</font>
+												{elseif $r.matched_with_po_pc}
+													<br />
+													<font color="blue">(Matched with {$smarty.session.grn.type} [Parent & Child])</font>
+												{elseif $r.unmatched_with_po}
+													<br />
+													<font color="red">(Item not in {$smarty.session.grn.type})</font>
+												{/if}
+											{/if}
+											{if $module_name eq 'Sales Order'}
+												{if $r.link_code}<br />{$config.link_code_name}: {$r.link_code}{/if}
+											{/if}
+										{/if}
+									</td>
+									{if  $module_name eq 'Purchase Order' && $deliver_to}
 										<td align="center">
-											<input class="items r item_qty" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}][{$bid}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
+											<table>
+												{foreach from=$deliver_to.branch_code item=bcode}
+													<tr>
+														<td>{$bcode}</td>
+													</tr>
+												{/foreach}
+											</table>
+										</td>
+									{/if}
+									{if $module_name eq 'GRN'}
+										{if $is_isi}
+											<td align="center"><input type="text" name="isi_pcs" class="items r form-control" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); positive_check(this);" value="{$smarty.request.isi_pcs}" /></td>
+										{else}
+											<td align="center">
+												{if ($module_name eq 'GRN' && $config.doc_allow_edit_uom && $r.uom_fraction ne 1) || ($module_name ne 'GRN' && $r.uom_fraction ne 1)}
+													<input type="text" name="ctn[{$r.id}]" class="items r form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.ctn[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} />
+												{else}
+													&nbsp;
+												{/if}
+											</td>
+											<td align="center"><input type="text" class="form-control" name="pcs[{$r.id}]" class="items r item_qty {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
+											<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
+											<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
+											<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
+											<input type="hidden" name="doc_allow_decimal[{$r.id}]" value="{$r.doc_allow_decimal}" />
+										{/if}
+									{elseif !$is_item_check}
+										{if $module_name neq 'Promotion'}
+											{if  $module_name eq 'Purchase Order' && $deliver_to}
+												<td align="center">
+													<table>
+														{foreach from=$deliver_to.branch_id item=bid}
+															<tr>
+																<td align="center"><input type="text" name="item_qty[{$r.id}][{$bid}]" class="items r item_qty form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" {if $blocked_po[$r.id]}disabled{/if} /></td>
+															</tr>
+														{/foreach}
+													</table>
+												</td>
+												<td align="center">
+													<table>
+														{foreach from=$deliver_to.branch_id item=bid}
+															<tr>
+																<td align="center">
+																	<input class="items r item_qty form-control" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}][{$bid}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
+																</td>
+															</tr>
+														{/foreach}
+													</table>
+												</td>
+											{else}
+												{if $module_name neq 'Sales Order'}
+												<td align="center"><input type="text" class="form-control" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
+												{/if}
+												{if $module_name eq 'Purchase Order'}
+												<td align="center">
+													<input class="items r item_qty form-control" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
+												</td>
+												{/if}
+											{/if}
+										{else}
+										<input type="hidden" name="item_qty[{$r.id}]" value="1" />
+										{/if}
+										{if $module_name eq 'GRA'}
+										<td align="center"><input type="text" name="item_price[{$r.id}]" class="items r item_price form-control" size="6" value="{$r.return_cost}" /></td>
+										{/if}
+									{elseif $is_item_check}
+										<td align="center"><input type="text" class="items form-control form-control" size="3" name="qty[{$r.id}]" value="1" /></td>
+									{/if}
+							    </tr>
+								{if $module_name eq 'Sales Order'}
+								<tr class="{if $i%2 neq 1}tr_even{/if}">
+									<input type="hidden" name="so_item[{$r.id}]" />
+									<td>
+										<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction}" />
+										<select class="inp_so form-select form-control" name="sel_uom[{$r.id}]" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
+											{foreach from=$uom key=uom_id item=u}
+												<option value="{$uom_id},{$u.fraction}" {if ($item.uom_id eq $uom_id) or (!$item.uom_id and $u.code eq 'EACH')}selected {/if}>{$u.code}</option>
+											{/foreach}
+										</select>
+									</td>
+									<td align="center">
+										<input type="text" class="items r item_qty inp_so form-control" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}positive_check(this);row_recalc({$r.id});" 
+											value="{$smarty.request.ctn[$r.id]}" 
+										/>
+									</td>
+									<td align="center">
+										<input type="text" class="items r item_qty inp_so form-control" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);row_recalc({$r.id});" 
+											value="{$smarty.request.pcs[$r.id]}" 
+										/>
+									</td>
+									<td>
+										<input class="items r inp_so form-control" onchange="row_recalc({$r.id});" type="text" name="selling_price[{$r.id}]" value="{$r.selling_price|default:0|number_format:2}" />
+									</td>
+									<td>
+										<input type="hidden" name="item_discount_amount[{$r.id}]" value="0" />
+										<input class="items r inp_so form-control" onchange="row_recalc({$r.id});" type="text" name="item_discount[{$r.id}]" />
+									</td>
+									<td>
+										<input type="hidden" name="line_amt[{$item.id}]"/>
+										<span class="items r" style="float: right;" id="span-so_amt-{$r.id}"></span>
+									</td>
+								</tr>
+								<tr class="{if $i%2 neq 1}tr_even{/if}">
+									<td colspan="6">
+										Remark: <textarea class="inp_so" style="resize: none;" name="remark[{$r.id}]"></textarea>
+									</td>
+								</tr>
+								<tr class="{if $i%2 neq 1}tr_even{/if}">
+									<td colspan="6">
+										Stock Balance: <span>{$r.stock_balance}</span></br>
+										Cost: <input style="width: 50%" type="text" class="form-control" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
+										Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))">?</a>]: <span>{$r.reserve_qty|default:'0'}</span>
+									</td>
+								</tr>
+								{/if}
+								
+								{if $module_name eq 'GRA'}
+									<tr>
+										<td align="right" nowrap colspan="3">
+											Inv/DO No. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
+											{if $form.is_under_gst}
+												&nbsp;&nbsp;
+												GST Code
+												<select name="gst_id[{$r.id}]">
+													{foreach from=$gst_list key=dummy item=gst}
+														<option value="{$gst.id}" {if $r.gst_id eq $gst.id}selected{/if}>{$gst.code} ({$gst.rate|default:'0'}%)</option>
+													{/foreach}
+												</select>
+											{/if}
 										</td>
 									</tr>
-								{/foreach}
-							</table>
-						</td>
-					{else}
-						{if $module_name neq 'Sales Order'}
-						<td align="center"><input type="text" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
-						{/if}
-						{if $module_name eq 'Purchase Order'}
-						<td align="center">
-							<input class="items r item_qty" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
-						</td>
-						{/if}
-					{/if}
-				{else}
-				<input type="hidden" name="item_qty[{$r.id}]" value="1" />
-				{/if}
-				{if $module_name eq 'GRA'}
-				<td align="center"><input type="text" name="item_price[{$r.id}]" class="items r item_price" size="6" value="{$r.return_cost}" /></td>
-				{/if}
-			{elseif $is_item_check}
-				<td align="center"><input type="text" class="items" size="3" name="qty[{$r.id}]" value="1" /></td>
-			{/if}
-	    </tr>
-		{if $module_name eq 'Sales Order'}
-		<tr class="{if $i%2 neq 1}tr_even{/if}">
-			<input type="hidden" name="so_item[{$r.id}]" />
-			<td>
-				<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction}" />
-				<select class="inp_so" name="sel_uom[{$r.id}]" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
-					{foreach from=$uom key=uom_id item=u}
-						<option value="{$uom_id},{$u.fraction}" {if ($item.uom_id eq $uom_id) or (!$item.uom_id and $u.code eq 'EACH')}selected {/if}>{$u.code}</option>
-					{/foreach}
-				</select>
-			</td>
-			<td align="center">
-				<input type="text" class="items r item_qty inp_so" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
-					onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}positive_check(this);row_recalc({$r.id});" 
-					value="{$smarty.request.ctn[$r.id]}" 
-				/>
-			</td>
-			<td align="center">
-				<input type="text" class="items r item_qty inp_so" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
-					onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);row_recalc({$r.id});" 
-					value="{$smarty.request.pcs[$r.id]}" 
-				/>
-			</td>
-			<td>
-				<input class="items r inp_so" onchange="row_recalc({$r.id});" type="text" name="selling_price[{$r.id}]" value="{$r.selling_price|default:0|number_format:2}" />
-			</td>
-			<td>
-				<input type="hidden" name="item_discount_amount[{$r.id}]" value="0" />
-				<input class="items r inp_so" onchange="row_recalc({$r.id});" type="text" name="item_discount[{$r.id}]" />
-			</td>
-			<td>
-				<input type="hidden" name="line_amt[{$item.id}]"/>
-				<span class="items r" style="float: right;" id="span-so_amt-{$r.id}"></span>
-			</td>
-		</tr>
-		<tr class="{if $i%2 neq 1}tr_even{/if}">
-			<td colspan="6">
-				Remark: <textarea class="inp_so" style="resize: none;" name="remark[{$r.id}]"></textarea>
-			</td>
-		</tr>
-		<tr class="{if $i%2 neq 1}tr_even{/if}">
-			<td colspan="6">
-				Stock Balance: <span>{$r.stock_balance}</span></br>
-				Cost: <input style="width: 50%" type="text" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-				Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))">?</a>]: <span>{$r.reserve_qty|default:'0'}</span>
-			</td>
-		</tr>
-		{/if}
-		
-		{if $module_name eq 'GRA'}
-			<tr>
-				<td align="right" nowrap colspan="3">
-					Inv/DO No. <input type="text" name="doc_no[{$r.id}]" size="15" value="" /> 
-					{if $form.is_under_gst}
-						&nbsp;&nbsp;
-						GST Code
-						<select name="gst_id[{$r.id}]">
-							{foreach from=$gst_list key=dummy item=gst}
-								<option value="{$gst.id}" {if $r.gst_id eq $gst.id}selected{/if}>{$gst.code} ({$gst.rate|default:'0'}%)</option>
+								{/if}
 							{/foreach}
-						</select>
-					{/if}
-				</td>
-			</tr>
-		{/if}
-	{/foreach}
-	
-	{if $module_name eq 'GRA'}
-	<input type="hidden" name="return_type" value="{$return_type}" />
-	{/if}
-	
-</table>
-<div style="float:right;" class="btn_padding"><input name="add_btn" type="submit" value="Add"  /></div>
+							{if $module_name eq 'GRA'}
+								<input type="hidden" name="return_type" value="{$return_type}" />
+							{/if}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Table -->
+	<div class="text-right mb-2">
+		<input name="add_btn" class="btn btn-primary btn-block-sm" type="submit" value="Add">
+	</div>
 </form>
-<div style="clear:both;"></div>
 {*<div style="float:right;"><input type="button" value="Add" onClick="add_items();" /></div>*}
 </div>
 <script>
