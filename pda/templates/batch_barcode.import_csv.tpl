@@ -45,103 +45,153 @@ var IMPORT_BATCH = {
 }
 {/literal}
 </script>
-<h1>
-Import Batch Barcode
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > {if $smarty.request.find_batch_barcode}<a href="{$smarty.request.PHPSELF}?a=open&find_batch_barcode={$smarty.request.find_batch_barcode}">Back to search</a> > {/if} <a href="home.php?a=menu&id=batch_barcode">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
-
-
-<div style="float:right;" class="btn_padding">
-  <input type="button" value="Back" onclick="window.location='/pda/batch_barcode.php';" />
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Import Batch Barcode</h4>
+		</div>
+	</div>
 </div>
-
-<div class="stdframe" style="background:#fff">
-<form name="f_a" enctype="multipart/form-data"  method="post" onsubmit="return IMPORT_BATCH.check_file(this);">
-	<div style="clear:both;"></div>
-	<input type="hidden" name="method" value="1" />
-	<input type="hidden" name="a" value="show_result" />
-	<input type="hidden" name="file_name" value="{$file_name}" />
-	
-	<h4>{if $smarty.session.batch_barcode.id}#{$smarty.session.batch_barcode.id}{else}New{/if}</h4>
-	
-	<table cellspacing="0" cellpadding="4" border="1" width="100%">
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* Please ensure the file extension <b>".csv"</b>.<br />
-				* Please ensure the import file contains header.<br />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV<br />(<a href="{$smarty.server.PHP_SELF}?a=download_sample_batch&method=1">Download Sample</a>)</b></td>
-			<td><input type="file" style="width: 100%;" name="import_csv" /></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" name="allow_duplicate" value="1" {if $form.allow_duplicate}checked{/if} /></td>
-			<td>Automatically add qty when item duplicate</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type="Submit" value="Show Result" /></td>
-		</tr>
-	</table>
-
-	<br>
-	Sample
-	<table width="100%" border="1" cellspacing="0" cellpadding="4">
-		<tr bgcolor="#ffffff">
-			{foreach from=$sample_headers[1] item=i}
-				<th>{$i}</th>
-			{/foreach}
-		</tr>
-		{foreach from=$sample[1] item=s}
-			<tr>
-			{foreach from=$s item=i}
-				<td>{$i}</td>
-			{/foreach}
-			</tr>
-		{/foreach}
-	</table>
-</form>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		{if $smarty.request.find_batch_barcode}
+		<li class="breadcrumb-item">
+			<a  href="{$smarty.request.PHPSELF}?a=open&find_batch_barcode={$smarty.request.find_batch_barcode}">Back to search</a>
+		</li>
+		{/if}
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=batch_barcode">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+<div class="container-fluid">
+	<div class="alert alert-info mb-0 mt-2 pb-0 p-2 mb-2" role="alert">
+	  <h5 class="alert-heading"><i class="fas fa-bullhorn"></i> Note</h5>
+	  <ul>
+	  	<li>Please ensure the file extension <b>".csv"</b></li>
+	  	<li>Please ensure the import file contains header.</li>
+	  </ul>
+	</div>
+	<div class="card ">
+		<div class="card-header border-bottom">
+			<div class="d-flex justify-content-between align-items-center">
+				<h3>New</h3>
+				<a onclick="window.location='/pda/batch_barcode.php';" class="btn btn btn-primary">Back</a>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="">
+				<form name="f_a" enctype="multipart/form-data"  method="post" onsubmit="return IMPORT_BATCH.check_file(this);">
+					<input type="hidden" name="method" value="1" />
+					<input type="hidden" name="a" value="show_result" />
+					<input type="hidden" name="file_name" value="{$file_name}" />
+					<div class="form-group mt-2">
+						<label class="font-weight-bold">Upload CSV</label><a href="{$smarty.server.PHP_SELF}?a=download_sample_batch&method=1" class="fs-07"><i class="ml-3 text-muted fas fa-file-download"></i> Download Sample</a>
+						<input type="file" class="form-control mt-2" data-height="200" name="import_csv" />
+					</div>
+					<div class="form-group mt-2">
+						<div class="checkbox">
+							<div class="custom-checkbox custom-control">
+								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2" name="allow_duplicate" value="1" {if $form.allow_duplicate}checked{/if}>
+								<label for="checkbox-2" class="custom-control-label mt-1">Automatically add qty when item duplicate</label>
+							</div>
+						</div>
+					</div>
+					<input type="Submit" class="btn btn-success" value="Show Result">
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
-<br><br>
+<!--Table-->
+<div class="col-xl-12">
+	<div class="card">
+		<div class="card-header pb-0">
+			<div class="d-flex justify-content-between">
+				<h4 class="card-title mg-b-0">Sample</h4>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover mb-0 text-md-nowrap">
+					<thead>
+						<tr>
+							{foreach from=$sample_headers[1] item=i}
+								<th>{$i}</th>
+							{/foreach}
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$sample[1] item=s}
+							<tr>
+							{foreach from=$s item=i}
+								<td>{$i}</td>
+							{/foreach}
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Table -->
+
 {if $item_lists && ($method == '1' || $partial_ok =='1')}
 <div id="div_result">
-	{if $partial_ok neq '1'}Result Status:{else}Item Failed to Import:{/if}
-	<p style="color:blue;">
-		{if $result.import_row}
-			Total {$result.import_row} of {$result.ttl_row} item(s) will be imported.<br />
+	<div class="mx-3">
+		{if $partial_ok neq '1'}Result Status:{else}Item Failed to Import:{/if}
+			{if $result.import_row}
+				<div class="alert alert-success fade show">
+					Total {$result.import_row} of {$result.ttl_row} item(s) will be imported.<br />
+				</div>
+			{/if}
+			{if $result.error_row > 0}
+				<div class="alert alert-danger fade show">
+					Total {$result.error_row} of {$result.ttl_row} item(s) will fail to import due to some error found, please check the error message at the end of <span style="color:red">highlighted</span> row.<br />
+				</div>
+			{/if}
+
+		{if $partial_ok neq '1'}
+		<button class="btn btn-success mb-2 " type="button" id="import_btn" name="import_btn" value="Import" onclick="IMPORT_BATCH.import_csv({$method});" {if !$result.import_row}disabled{/if}><i class="fas fa-file-upload mr-2"></i> Import</button>
 		{/if}
-		{if $result.error_row > 0}
-			Total {$result.error_row} of {$result.ttl_row} item(s) will fail to import due to some error found, please check the error message at the end of <span style="color:red">highlighted</span> row.<br />
-		{/if}
-	</p>
-	{if $partial_ok neq '1'}
-	<div style="float:left;" class="btn_padding">
-		<input type="button" id="import_btn" name="import_btn" value="Import" onclick="IMPORT_BATCH.import_csv({$method});" {if !$result.import_row}disabled{/if} />
 	</div>
-	{/if}
-	
-	<table width="100%" border="1">
-		<tr bgcolor="#ffffff">
-			<th>#</th>
-			{foreach from=$item_header item=i}
-				<th>{$i}</th>
-			{/foreach}
-		</tr>
-		<tbody>
-		{foreach from=$item_lists item=i name=batch_barcode}
-			<tr class="{if $i.error}tr_error{/if}">
-				<td>{$smarty.foreach.batch_barcode.iteration}.</td>
-				{foreach from=$i key=k item=r}
-					<td>{$r}</td>
-				{/foreach}
-			</tr>
-		{/foreach}
-		</tbody>
-	</table>
+
+<!--Table-->
+<div class="col-xl-12">
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover mb-0 text-md-nowrap">
+					<thead>
+						<tr>
+							<th>#</th>
+							{foreach from=$item_header item=i}
+								<th>{$i}</th>
+							{/foreach}
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$item_lists item=i name=batch_barcode}
+							<tr class="{if $i.error}tr_error{/if}">
+								<td>{$smarty.foreach.batch_barcode.iteration}.</td>
+								{foreach from=$i key=k item=r}
+									<td>{$r}</td>
+								{/foreach}
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Table -->
 </div>
 {else}
 	{if $errm}
