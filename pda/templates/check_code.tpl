@@ -12,44 +12,6 @@
 *}
 
 {include file=header.tpl}
-{literal}
-<style>
-#result {
-	width:100%;
-	margin:0 auto;
-	border:1px solid #ccc;
-	margin-top:1px;
-	align: left;
-}
-#result .item {
-	
-	padding-bottom:10px;
-	border-top:1px solid #999;
-	padding: 10px;
-}
-#result .item em {
-	color:#0066CC;
-	padding-left:5px;
-	font-style: normal;
-}
-#result .block
-{
-	float:left;
-}
-#result .bignumber
-{
-	float:left;
-	font-size:12px;
-}
-#result .br
-{
-	color:#fff;
-	background:#060;
-	padding:0 3px;
-	font-weight: bold;
-}
-</style>
-{/literal}
 <script>
 var php_self = '{$smarty.server.PHP_SELF}';
 {literal}
@@ -100,32 +62,54 @@ function checkKey(event){
 
 </script>
 {/literal}
-
-<!-- Replacement Iten Popup -->
-<h1>
-Check Code
-</h1>
-
-<span class="breadcrumbs"><a href="home.php"> < Dashboard</a></span>
-<div style="margin-bottom: 10px"></div>
-
-
-<div class="stdframe" style="background:#fff">
-<h2>Scan or Enter the code{if $config.enable_sn_bn}, <br />Batch or Serial No{/if} to Search</h2>
-<br/>
-<form name="f1" class="input" onsubmit="return false;">
-	<input type="hidden" name="a" value="">
-	<table width="100%">
-		<tr>
-			<td><input class="txt-width" name="code" onKeyPress="checkKey(event);"></td>
-			<td><input type="button" value="Find" onclick="fsubmit();"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="checkbox" name="show_child" value="1"> Show child items</td>
-		</tr>
-	</table>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Check Code</h4>
+		</div>
 	</div>
-<br>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Search form -->
+<div class="row mt-2 animated fadeInDown">
+	<div class="col-lg-12 col-md-12">
+		<div class="card col-md-8">
+			<form name="f1" class="input" onsubmit="return false;">
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<label>Scan or Enter the code{if $config.enable_sn_bn}, Batch or Serial No{/if} to Search</label>
+						<div class="row row-xs">
+							<input type="hidden" name="a" value="">
+							<div class="col-md-10 mg-t-10 mg-md-t-0">
+								<input class="form-control" type="text" name="code" onKeyPress="checkKey(event);">
+							</div>
+							<div class="col-md-2 mt-4 mt-xl-0">
+								<input type="submit" class="btn btn-main-primary btn-block" value="Find" onclick="fsubmit();">
+							</div>
+						</div>
+					</div>
+					<div class="checkbox">
+						<div class="custom-checkbox custom-control">
+							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" name="show_child" value="1" id="checkbox-2">
+							<label for="checkbox-2" class="custom-control-label mt-1">Show child items</label>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- / Search form -->
+
 <div id="result" {if !$is_find}style="display:none;"{/if}>
 	{if is_array($items)}{include file="check_code.items.tpl"}{/if}
 </div>

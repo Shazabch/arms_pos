@@ -26,6 +26,10 @@
 {
 	font-size: 1rem;
 }
+.bg-danger-opacity
+{
+	background-color: rgba(255, 21, 40, 0.22);
+}
 .pyc-2
 {
 	padding: 1.5rem 0 !important;
