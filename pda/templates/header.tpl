@@ -45,13 +45,13 @@
 		<link rel="shortcut icon" href="/favicon.ico">
 
 		<script src="include/jquery.js" language=javascript type="text/javascript"></script>
-		<script src="include/forms.js" language=javascript type="text/javascript"></script>
 		{literal}
 		<style>
 		.small input, .small select { font: 10px Arial !important; }
 		</style>
 		{/literal} -->
 		<!-- /Old Theme -->
+		<script src="include/forms.js" language=javascript type="text/javascript"></script>
 
 		<!-- Favicon -->
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>

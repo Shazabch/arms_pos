@@ -91,103 +91,148 @@ function toggle_all_check(obj){
 {/literal}
 </script>
 
-<h1>
-Voucher Activation
-</h1>
-
-<span class="breadcrumbs"><a href="home.php"> < Dashboard</a></span>
-<div style="margin-bottom: 10px"></div>
-
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Voucher Activation</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+<!-- Error Message -->
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
+{if $suc}
+	<ul class=err>
+		{foreach from=$suc item=s}
+		<div class="alert alert-success mg-b-0 animated fadeInDown" role="alert">
+			<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+				{$s}
+		</div>
+		{/foreach}
 	</ul>
 {/if}
 
-{if $suc}
-<ul class=err>
-{foreach from=$suc item=s}
-<li><font color="green"> {$s} </font></li>
-{/foreach}
-</ul>
-{/if}
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Date Start</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="inp_valid_from" name="valid_from" value="{$smarty.request.valid_from|default:$smarty.now|date_format:"%Y-%m-%d"}" onchange="calculate_date_end();" maxlength="10">
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<select class="form-control w-75" name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);'>
+									<option value='valid_to'>Date End</option>
+			    					<option value='valid_duration'>Duration</option>
+								</select>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<div id='date_end_id'>
+									<input class="form-control" type="text" name="valid_to" value="{$smarty.request.valid_to|date_format:"%Y-%m-%d"}" id="inp_valid_to" maxlength="10">
+									<small class="help-block text-muted">(YYYY-MM-DD)</small>
+								</div>
+								<div id='date_duration_id'>
+									<select class="form-control select2" name="valid_duration" id="inp_valid_duration" onchange="calculate_date_end();">
+								        {section name=mon loop=13 start=1}
+									        <option value="{$smarty.section.mon.index}">{$smarty.section.mon.index}</option>
+					              		{/section}
+								    </select>
+								    <small>Months</small>
+								</div>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20" id="date_duration_id2">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Date End</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="show_date_end" readonly="1" size=12>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Code</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<textarea class="form-control" name="codes" rows="10" cols="16">{$smarty.request.codes}</textarea>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Active Remark</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="active_remark">
+									{foreach from=$config.voucher_active_remark_prefix item=remark}
+									    <option value="{$remark}" {if $smarty.request.active_remark eq $remark} selected {/if} >{$remark}</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Inter-</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0" id="branch_check_id">
+								<label class="ckbox"><input type="checkbox" id="all_branch_id" onclick="toggle_all_check(this)"><span>All</span></label>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Branch</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								{assign var=a value=$form.interbranch}
+								{foreach from=$branches key=bid item=bcode}
 
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="activate_voucher" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
+								{if $bcode==$BRANCH_CODE}
+								<label class="ckbox mb-2"><input type="checkbox" checked disabled><span></span></label>
+								{/if}
 
-<table cellspacing="0" cellpadding="4" border="0" width="100%">
-	<tr>
-	    <th align="left">Date Start</th>
-	    <td>
-			<input type="text" id="inp_valid_from" name="valid_from" value="{$smarty.request.valid_from|default:$smarty.now|date_format:"%Y-%m-%d"}" onchange="calculate_date_end();" maxlength="10"/> <br/> <span class="small">(YYYY-MM-DD)</span>
-		</td>
-	</tr>
-	<tr>
-	    <th align="left" style="vertical-align: top; width:20%;">
-			<select name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);' style="width:100px;">
-			    <option value='valid_to'>Date End</option>
-			    <option value='valid_duration'>Duration</option>
-			</select>
-		</th>
-	    <td>
-			<span id='date_end_id'>
-				<input type="text" name="valid_to" value="{$smarty.request.valid_to|date_format:"%Y-%m-%d"}" id="inp_valid_to" maxlength="10" /> <br/> <span class="small">(YYYY-MM-DD)</span>
-			</span>
-			<span id='date_duration_id'>
-			    <select name="valid_duration" id="inp_valid_duration" onchange="calculate_date_end();">
-			        {section name=mon loop=13 start=1}
-				        <option value="{$smarty.section.mon.index}">{$smarty.section.mon.index}</option>
-              		{/section}
-			    </select>
-
-			{*
-				<input type="text" name="valid_duration" value="{$smarty.request.valid_duration}" id="inp_valid_duration" size=12 />
-			*}
-				<b>(Months)</b>
-			</span>
-		</td>
-	</tr>
-	<tr id="date_duration_id2">
-		<th align="left">Date End</th>
-		<td><input id="show_date_end" readonly="1" size=12></td>
-	</tr>
-	<tr>
-	    <th valign="top" align="left">Code</th>
-		<td><textarea name="codes" rows="10" cols="16">{$smarty.request.codes}</textarea></td>
-	</tr>
-	<tr>
-	    <th align="left">Active Remark</th>
-	    <td>
-			<select name="active_remark">
-			{foreach from=$config.voucher_active_remark_prefix item=remark}
-			    <option value="{$remark}" {if $smarty.request.active_remark eq $remark} selected {/if} >{$remark}</option>
-			{/foreach}
-			</select>
-		</td>
-	</tr>
-	<tr>
-	    <td valign="top"><b>Inter-<br />branch</b></td>
-	    <td colspan=2 id="branch_check_id">
-			<input type="checkbox" id="all_branch_id" onclick="toggle_all_check(this)"> <label for="all_branch_id">All</label> &nbsp;&nbsp;
-			{assign var=a value=$form.interbranch}
-			{foreach from=$branches key=bid item=bcode}
-				<br>
-				{if $bcode==$BRANCH_CODE}<input type="checkbox" checked disabled>{/if}
-				<input {if $bcode==$BRANCH_CODE}style="display:none;" {else}class="br_checkbox" {/if} type="checkbox" name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if} > <label for="interbranch_{$bid}">{$bcode}</label> &nbsp;&nbsp;
-
-			{/foreach}
-		</td>
-	</tr>	
-</table>
-<p align="center">
-	<input type="submit" class="btn btn-success" name="submit_btn" value="Activate" onClick="submit_form();" />
-</p>
-</form>
+								<label class="ckbox mb-2"><input type="checkbox" {if $bcode==$BRANCH_CODE}style="display:none;" {else} {/if} type="checkbox" name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if}><span>&nbsp;&nbsp;{$bcode}</span></label>
+								{/foreach}
+							</div>
+						</div>
+						<input type="submit" class="btn btn-success btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Activate" onclick="submit_form();">
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
+<!-- /row -->
 <script>
 toggle_date_type($('#rdo_end_id'));
 calculate_date_end();
