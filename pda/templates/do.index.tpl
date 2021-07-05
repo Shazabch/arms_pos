@@ -120,24 +120,44 @@ function branch_check(obj){
 }
 {/literal}
 </script>
-<h1>
-{if $do_type eq 'open'}Cash Sales
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{if $do_type eq 'open'}Cash Sales
 {elseif $do_type eq 'credit_sales'}Credit Sales
-{else}Transfer {/if} DO
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard </a> > <a href="home.php?a=menu&id=do">DO</a></span>
-<div style="margin-bottom:10px;"></div>
+{else}Transfer {/if} DO</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=do">DO</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
 {if $form.id&&$form.branch_id}{include file='do.top_include.tpl'}<br /><br />{/if}
 
-<h3>Setting - {if $form.do_no}(DO/{$form.do_no}){else}{if $form.id}(DO#{$form.id}){else}New DO{/if}{/if}</h3>
-
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
+<h3 class="animated fadeInDown">Setting - {if $form.do_no}(DO/{$form.do_no}){else}{if $form.id}(DO#{$form.id}){else}New DO{/if}{/if}</h3>
 
 {if $form.id}
     {assign var=branch_id value=$form.branch_id}
@@ -145,98 +165,103 @@ function branch_check(obj){
     {assign var=branch_id value=$sessioninfo.branch_id}
 {/if}
 
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false;">
-<input type="hidden" name="a" value="save_setting" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$branch_id}" />
-<input type="hidden" name="do_type" value="{$do_type}" />
-
-<table cellspacing="0" cellpadding="4" border="0" width="100%">
-	<tr>
-	    <th align="left">DO Date</th>
-	    <td>
-			<input type="text" id="inp_do_date" name="do_date" value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10" /> <span class="small">(YYYY-MM-DD)</span>
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">Deliver From</th>
-	    <td>
-			{$branches.$branch_id.code} - {$branches.$branch_id.description}
-		</td>
-	</tr>
-	{if $do_type eq 'open'}
-	    <tr>
-	        <th align="left" valign="top">Deliver To</th>
-     		<td>
-     		    <table width="100%">
-     		        <tr>
-	     		        <td>Company Name</td>
-					</tr>
-					<tr>
-	     		        <td><input onchange="this.value=this.value.toUpperCase();" value="{$form.open_info.name}" name="open_info[name]" class="txt-width" /></td>
-     		        </tr>
-     		        <tr>
-     		            <td align="left">Address</td>
-					</tr>
-					<tr>
-     	    			<td><textarea name="open_info[address]" cols="15">{$form.open_info.address}</textarea>
-     		        </tr>
-     		    </table>
-				
-			</td>
-     	</tr>
-	{elseif $do_type eq 'credit_sales'}
-	    <tr>
-	        <th align="left">Deliver To</th>
-	        <td>Debtor</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				<select name="debtor_id">
-					<option value="">-- Please Select --</option>
-					{foreach from=$debtors item=r}
-						<option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if}>{$r.code}</option>
-					{/foreach}
-				</select>
-			</td>
-	    </tr>
-		<tr>
-			<th align="left">Search Debtor</th>
-			<td><input type="text" name="search_debtor_desc" onKeyUp="search_debtor(event);" />
-		</tr>
-	{else}
-		<tr>
-		    <th align="left">Deliver To</th>
-		    <td>
-		        <select name="do_branch_id" onChange="branch_check(this);">
-		            <option value="">-- Please Select --</option>
-		            {foreach from=$branches_group.header key=bgid item=bg}
-		                <optgroup label="{$bg.code}">
-		                    {foreach from=$branches_group.items.$bgid key=bid item=b}
-		                        <option value="{$bid}" {if $form.do_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-		                    {/foreach}
-		                </optgroup>
-		            {/foreach}
-		            {foreach from=$branches key=bid item=b}
-		                {if !$branches_group.have_group.$bid}
-		                    <option value="{$bid}" {if $form.do_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-		                {/if}
-		            {/foreach}
-		        </select>
-		    </td>
-			<tr>
-				<th align="left">Search Branch</th>
-				<td><input type="text" name="search_branch_desc" onKeyUp="search_branch(event);" />
-			</tr>
-		</tr>
-	{/if}
-</table>
-<p align="center">
-	<input name="submit_btn" type="button" value="Save" onClick="submit_form();" />
-</p>
-</form>
+<!-- row -->
+<div class="row animated fadeInLeft">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<!-- Form -->
+			<form name="f_a" method="post" onSubmit="return false;">
+				<div class="card-body">
+					<div class="pd-15 pd-sm-20">
+						<input type="hidden" name="a" value="save_setting" />
+						<input type="hidden" name="id" value="{$form.id}" />
+						<input type="hidden" name="branch_id" value="{$branch_id}" />
+						<input type="hidden" name="do_type" value="{$do_type}" />
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">DO Date</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" id="inp_do_date" name="do_date" value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10">
+								<small class="help-block text-muted">(YYYY-MM-DD)</small>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Deliver From</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								{$branches.$branch_id.code} - {$branches.$branch_id.description}
+							</div>
+						</div>
+						{if $do_type eq 'open'}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Deliver To</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<label>Company Name</label>
+								<input type="text" class="form-control " onchange="this.value=this.value.toUpperCase();" value="{$form.open_info.name}" name="open_info[name]">
+								<label>Address</label>
+								<textarea class="form-control " rows="2" cols="8" name="open_info[address]">{$form.open_info.address}</textarea>
+							</div>
+						</div>
+						{elseif $do_type eq 'credit_sales'}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Deliver To</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<label>Debtor</label>
+								<select class="form-control select2" name="debtor_id">
+									<option value="" label="-- Please Select --"></option>
+										{foreach from=$debtors item=r}
+											<option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if}>{$r.code}</option>
+										{/foreach}
+								</select>
+								<label>Search Debtor</label>
+								<input type="text" class="form-control " name="search_debtor_desc" onKeyUp="search_debtor(event);">
+							</div>
+						</div>
+						{else}
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Deliver To</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<select class="form-control select2" name="do_branch_id" onChange="branch_check(this);">
+									<option value="" label="-- Please Select --"></option>
+										{foreach from=$branches_group.header key=bgid item=bg}
+						                <optgroup label="{$bg.code}">
+						                    {foreach from=$branches_group.items.$bgid key=bid item=b}
+						                        <option value="{$bid}" {if $form.do_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+						                    {/foreach}
+						                </optgroup>
+						                {/foreach}
+						                {foreach from=$branches key=bid item=b}
+							                {if !$branches_group.have_group.$bid}
+							                    <option value="{$bid}" {if $form.do_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+							                {/if}
+							            {/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="row row-xs align-items-center mg-b-20">
+							<div class="col-md-2">
+								<label class="font-weight-bold mg-b-0">Search Branch</label>
+							</div>
+							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<input class="form-control" type="text" name="search_branch_desc" onKeyUp="search_branch(event);">
+							</div>
+						</div>
+						{/if}
+						<input class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" type="button" value="Save" onClick="submit_form();">
+					</div>
+				</div>
+			</form>
+			<!-- / Form -->
+		</div>
+	</div>
 </div>
-
+<!-- /row -->
 {include file='footer.tpl'}
