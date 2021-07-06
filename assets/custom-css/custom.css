@@ -26,14 +26,41 @@
 {
 	font-size: 1rem;
 }
+.w-15
+{
+	width: 15%;
+}
 .bg-danger-opacity
 {
 	background-color: rgba(255, 21, 40, 0.22);
+}
+.bg-success-opacity
+{
+	background-color: rgba(121, 255, 167, 0.46);
 }
 .pyc-2
 {
 	padding: 1.5rem 0 !important;
 }
+.min-w-80
+{
+	min-width: 80px !important;
+}
+
+.min-w-100
+{
+	min-width: 100px !important;
+}
+
+.max-w-100
+{
+	max-width: 100px !important;
+}
+
+.border-2{
+	border-width: 8px;
+}
+
 @media all and (max-width:480px) {
    .btn-block-sm { width: 100%; display:block; }
 }

@@ -373,12 +373,12 @@ function row_recalc(id){
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover mb-0 text-md-nowrap">
+					<table class="table mb-0 text-md-nowrap">
 						<thead>
 							<tr>
 								{if $module_name eq 'GRN' && !$is_isi}
 									<th rowspan="2">Description</th>
-									<th colspan="2">Qty</th>
+									<th colspan="2" class="text-center">Qty</th>
 								{else}
 									{if $is_item_check}
 										<th>#</th>
@@ -396,21 +396,21 @@ function row_recalc(id){
 								{/if}
 								{if $module_name eq 'Sales Order'}
 									<th>UOM</th>
-									<th>Ctn</th>
-									<th>Pcs</th>
-									<th>Selling<br />Price</th>
-									<th>Dis</th>
+									<th class="text-center">Ctn</th>
+									<th class="text-center">Pcs</th>
+									<th class="text-center">Selling Price</th>
+									<th class="text-center">Dis</th>
 									<th>Amt</th>
 								{/if}
 							</tr>
-						</thead>
-						<tbody>
 							{if $module_name eq 'GRN' && !$is_isi}
 								<tr>
-									<td>Ctn</td>
-									<td>Pcs</td>
+									<td class="text-center">Ctn</td>
+									<td class="text-center">Pcs</td>
 								</tr>
 							{/if}
+						</thead>
+						<tbody>
 							{foreach from=$items item=r name=i}
 								{if $module_name eq 'Sales Order'}
 									{assign var=i value=1}
@@ -478,7 +478,7 @@ function row_recalc(id){
 										{if $module_name neq 'Promotion'}
 											{if  $module_name eq 'Purchase Order' && $deliver_to}
 												<td align="center">
-													<table>
+													<table class="table">
 														{foreach from=$deliver_to.branch_id item=bid}
 															<tr>
 																<td align="center"><input type="text" name="item_qty[{$r.id}][{$bid}]" class="items r item_qty form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" {if $blocked_po[$r.id]}disabled{/if} /></td>
@@ -522,30 +522,30 @@ function row_recalc(id){
 									<input type="hidden" name="so_item[{$r.id}]" />
 									<td>
 										<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction}" />
-										<select class="inp_so form-select form-control" name="sel_uom[{$r.id}]" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
+										<select class="inp_so form-select form-control min-w-100" name="sel_uom[{$r.id}]" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
 											{foreach from=$uom key=uom_id item=u}
 												<option value="{$uom_id},{$u.fraction}" {if ($item.uom_id eq $uom_id) or (!$item.uom_id and $u.code eq 'EACH')}selected {/if}>{$u.code}</option>
 											{/foreach}
 										</select>
 									</td>
-									<td align="center">
-										<input type="text" class="items r item_qty inp_so form-control" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+									<td>
+										<input type="number" class="items r item_qty inp_so form-control min-w-80" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
 											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}positive_check(this);row_recalc({$r.id});" 
 											value="{$smarty.request.ctn[$r.id]}" 
 										/>
 									</td>
-									<td align="center">
-										<input type="text" class="items r item_qty inp_so form-control" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+									<td>
+										<input type="text" class="items r item_qty inp_so form-control min-w-80" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
 											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);row_recalc({$r.id});" 
 											value="{$smarty.request.pcs[$r.id]}" 
 										/>
 									</td>
 									<td>
-										<input class="items r inp_so form-control" onchange="row_recalc({$r.id});" type="text" name="selling_price[{$r.id}]" value="{$r.selling_price|default:0|number_format:2}" />
+										<input class="items r inp_so form-control min-w-100" onchange="row_recalc({$r.id});" type="text" name="selling_price[{$r.id}]" value="{$r.selling_price|default:0|number_format:2}" />
 									</td>
 									<td>
 										<input type="hidden" name="item_discount_amount[{$r.id}]" value="0" />
-										<input class="items r inp_so form-control" onchange="row_recalc({$r.id});" type="text" name="item_discount[{$r.id}]" />
+										<input class="items r inp_so form-control min-w-100" onchange="row_recalc({$r.id});" type="text" name="item_discount[{$r.id}]" />
 									</td>
 									<td>
 										<input type="hidden" name="line_amt[{$item.id}]"/>
@@ -554,14 +554,14 @@ function row_recalc(id){
 								</tr>
 								<tr class="{if $i%2 neq 1}tr_even{/if}">
 									<td colspan="6">
-										Remark: <textarea class="inp_so" style="resize: none;" name="remark[{$r.id}]"></textarea>
+										Remark: <textarea class="inp_so min-w-100 form-control" style="resize: none;" name="remark[{$r.id}]"></textarea>
 									</td>
 								</tr>
 								<tr class="{if $i%2 neq 1}tr_even{/if}">
 									<td colspan="6">
 										Stock Balance: <span>{$r.stock_balance}</span></br>
-										Cost: <input style="width: 50%" type="text" class="form-control" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-										Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))">?</a>]: <span>{$r.reserve_qty|default:'0'}</span>
+										Cost: <input style="width: 50%" type="text" class="form-control min-w-100" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
+										Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
 									</td>
 								</tr>
 								{/if}

@@ -48,60 +48,85 @@ function submit_items(act){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=do">DO</a> </span>
-<div style="margin-bottom:10px;"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=do">DO</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
 {include file='do.top_include.tpl'}<br><br>
 
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
-<div class="stdframe" style="background:#fff">
-{if $items}
-    <div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
-	</div>
-	{count var=$items} item(s)
-	<form name="f_a" method="post" onSubmit="return false;">
-	<div style="clear:both;"></div>
-
-	<input type="hidden" name="a" />
-	<table width="100%" border="1" cellpadding="4" cellspacing="0">
-	    <tr>
-	    	<th>#</th>
-	        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-	        <th>ARMS Code</th>
-	        <th>Description</th>
-	        <th>Qty<br />(pcs)</th>
-	    </tr>
-	    {assign var="no" value=1}
-	    {foreach from=$items item=r name=i}
-	        <tr>
-	        	<td>{$smarty.foreach.i.iteration}.</td>
-	            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
-	            <td>{$r.sku_item_code}</td>
-	            <td>{$r.sku_description}</td>
-	            <td><input type="text" name="item_qty[{$r.id}]" value="{$r.pcs}" size="{if $r.doc_allow_decimal}6{else}3{/if}" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
-	        </tr>
-	    {/foreach}
-	</table>
-	</form>
-	
-	<div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
-	</div>
-{else}
-	No Item
-{/if}
-<br style="clear:both">
+<div class="card animated fadeInLeft">
+	<div class="card-body">
+	{if $items}
+		<div class="d-flex justify-content-between align-items-center mb-2">
+			<div class="badge badge-pill badge-light p-2">{count var=$items} item(s)</div>
+			<div>
+		    	<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+		    	<button class="btn btn-success btn-sm"  onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			</div>
+		</div>
+		<form name="f_a" method="post" onSubmit="return false;">
+		<input type="hidden" name="a" />
+			<div class="table-responsive">
+				<table class="table mb-0 text-md-nowrap">
+				    <thead>
+				    	<tr>
+					    	<th>#</th>
+					        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+					        <th>ARMS Code</th>
+					        <th>Description</th>
+					        <th>Qty<br />(pcs)</th>
+					    </tr>
+				    </thead>
+				    {assign var="no" value=1}
+				    {foreach from=$items item=r name=i}
+				        <tr>
+				        	<td>{$smarty.foreach.i.iteration}.</td>
+				            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+				            <td>{$r.sku_item_code}</td>
+				            <td>{$r.sku_description}</td>
+				            <td><input type="text" class="form-control form-control-sm min-w-80"name="item_qty[{$r.id}]" value="{$r.pcs}" size="{if $r.doc_allow_decimal}6{else}3{/if}" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
+				        </tr>
+				    {/foreach}
+				</table>
+			</div>
+		</form>
+		<div class="d-flex justify-content-end align-items-center mt-2">
+			<button class="btn btn-danger mr-1 btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+		    <button class="btn btn-success mr-1 btn-sm"  onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		</div>
+	{else}
+		<div class="alert alert-danger">No Item</div>
+	{/if}
+	</div>	
 </div> 
 <script>
 {literal}

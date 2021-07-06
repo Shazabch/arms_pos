@@ -169,21 +169,33 @@ function search_document(event){
 </nav>
 
 {if $form.id&&$form.branch_id}{include file='goods_receiving_record.top_include.tpl'}<br><br>{/if}
+
 {if $err}
-	    {foreach from=$err item=e}
-	    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-		  {$e}
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-	    {/foreach}
+    {foreach from=$err item=e}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+	  {$e}
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+    {/foreach}
 {/if}
 
 {if $form.id}
     {assign var=branch_id value=$form.branch_id}
 {else}
     {assign var=branch_id value=$sessioninfo.branch_id}
+{/if}
+
+{if $smarty.request.id && $smarty.request.t}
+<div class="alert alert-success animated fadeInDown">
+	<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 
+	{if $smarty.request.t eq 'insert'}
+		Inserted
+	{else}
+		Updated
+	{/if}
+</div>
 {/if}
 
 
@@ -283,14 +295,6 @@ function search_document(event){
 						</div>
 						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
 					</div>
-					{if $smarty.request.id && $smarty.request.t}
-						<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 
-						{if $smarty.request.t eq 'insert'}
-							inserted
-						{else}
-							updated
-						{/if}
-					{/if}
 				</div>
 			</form>
 			<!-- / Form -->

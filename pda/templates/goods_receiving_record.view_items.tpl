@@ -235,9 +235,9 @@ function check_delete_status(){
 										<th width="20" rowspan="2">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
 										<th rowspan="2">Doc<br />No & Date</th>
 										<th rowspan="2">Doc<br />Type</th>
-										<th colspan="2">Qty</th>
+										<th colspan="2" class="text-center">Qty</th>
 									</tr>
-									<tr>
+									<tr class="text-center">
 										<th>Ctn</th>
 										<th>Pcs</th>
 									</tr>
@@ -308,9 +308,6 @@ function check_delete_status(){
 		</div>
 		<!-- /Table -->
 	</div>
-</div>
-<div class="small">
-* Document Date in YYYY-MM-DD format.
 </div>
 <br />
 <script>

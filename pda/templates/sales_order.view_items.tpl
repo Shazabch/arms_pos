@@ -170,99 +170,120 @@ function update_all_item_amt(){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a></span>
-<div style="margin-bottom:10px;"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
 {include file='sales_order.top_include.tpl'}<br><br>
 
-<div class="stdframe" style="background:#fff;">
-{if $items}
-    <div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
+<div class="card">
+	<div class="card-body">
+	{if $items}
+		<div class="d-flex justify-content-between align-items-center py-2">
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="">
+				<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			</div>
+		</div>
+		<form name="f_a" method="post" onSubmit="return false;">
+			<input type="hidden" name="a" />
+			<table id="so_items" class="table text-md-nowrap mb-0">
+			    <thead>
+			    	<tr>
+				        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+				        <th>UOM</th>
+				        <th>Ctn</th>
+						<th>Pcs</th>
+						<th>Selling Price</th>
+						<th>Dis</th>
+						<th>Amt</th>
+				    </tr>
+			    </thead>
+				{*<pre>{$items|@print_r}</pre>*}
+			    <tbody>
+			    	{foreach from=$items item=r name=i}
+						<tr id="tr_so_item,{$r.id}" class="tr_so_item_{$r.id}">
+							<input type="hidden" name="so_item[{$r.id}]" />
+							<td rowspan="5" colspan="1"><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+						</tr>
+						<tr class="tr_so_item_{$r.id}">
+							<td colspan="6">
+								ARMS Code: {$r.sku_item_code}</br>
+								{if $r.link_code}{$config.link_code_name}: {$r.link_code}</br>{/if}
+								{$r.sku_description}
+							</td>
+						</tr>
+						<tr class="tr_so_item_{$r.id}">
+				            <td>
+								<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
+								<select name="sel_uom[{$r.id}]" class="form-control  select2 min-w-100" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
+									{foreach from=$uom key=uom_id item=u}
+										<option value="{$uom_id},{$u.fraction}" {if ($r.uom_id eq $uom_id) or (!$r.uom_id and $u.code eq 'EACH')}selected {/if}>{$u.code}</option>
+									{/foreach}
+								</select>
+							</td>
+				            <td>
+								<input type="text" class="r form-control  min-w-100" {if $r.uom_fraction == 1 or $r.uom_id==1 or !$r.uom_id}disabled value=""{else}value="{$r.ctn}"{/if} name="ctn[{$r.id}]" 
+								{if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="row_recalc({$r.id});{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" 
+								/>
+							</td>
+				            <td>
+								<input type="number" class="r form-control  min-w-100" name="pcs[{$r.id}]" value="{$r.pcs}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+								onChange="row_recalc({$r.id});{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" 
+								/>
+							</td>
+				            <td><input type="text" class="r form-control  min-w-100" onchange="row_recalc({$r.id})" name="selling_price[{$r.id}]" value="{$r.selling_price}" /></td>
+							<td>
+								<input type="hidden" name="item_discount_amount[{$r.id}]" value="{$r.item_discount_amount}" />
+								<input type="text" class="r form-control  min-w-100" onchange="row_recalc({$r.id})" name="item_discount[{$r.id}]" value="{$r.item_discount}" />
+							</td>
+							<td>
+								<span class="items r" style="float: right;" id="span-so_amt-{$r.id}"></span>
+							</td>
+				        </tr>
+						<tr class="tr_so_item_{$r.id}">
+							<td colspan="6">
+								Remark: <textarea name="remark[{$r.id}]" class="form-control  min-w-100" style="resize: none;background-color: transparent;">{$r.remark|escape}</textarea>
+							</td>
+						</tr>
+						<tr class="tr_so_item_{$r.id}">
+							<td colspan="6">
+								Stock Balance: <span>{$r.stock_balance}</span></br>
+								Cost: <input style="width: 50%" type="text" readonly name="cost_price[{$r.id}]" class="form-control  min-w-100" value="{$r.cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
+								Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
+							</td>
+						</tr>
+				    {/foreach}
+			    </tbody>
+			</table>
+		</form>
+		
+		<div class="d-flex justify-content-end align-items-center py-2">
+				<button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-info btn-sm mr-1" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
+				<button class="btn btn-success btn-sm mr-1" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		</div>
+	{else}
+		No Item
+	{/if}
 	</div>
-	{count var=$items} item(s)
-	<form name="f_a" method="post" onSubmit="return false;">
-	<div style="clear:both;"></div>
-
-	<input type="hidden" name="a" />
-	<table width="100%" id="so_items" border="1" cellspacing="0" cellpadding="4">
-	    <tr>
-	        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-	        <th>UOM</th>
-	        <th>Ctn</th>
-			<th>Pcs</th>
-			<th>Selling</br>Price</th>
-			<th>Dis</th>
-			<th>Amt</th>
-	    </tr>
-		{*<pre>{$items|@print_r}</pre>*}
-	    {foreach from=$items item=r name=i}
-			<tr id="tr_so_item,{$r.id}" class="tr_so_item_{$r.id}">
-				<input type="hidden" name="so_item[{$r.id}]" />
-				<td rowspan="5" colspan="1"><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
-			</tr>
-			<tr class="tr_so_item_{$r.id}">
-				<td colspan="6">
-					ARMS Code: {$r.sku_item_code}</br>
-					{if $r.link_code}{$config.link_code_name}: {$r.link_code}</br>{/if}
-					{$r.sku_description}
-				</td>
-			</tr>
-			<tr class="tr_so_item_{$r.id}">
-	            <td>
-					<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
-					<select name="sel_uom[{$r.id}]" onchange="uom_change(this.value,'{$r.id}');" {if $config.doc_uom_control}disabled {/if}>
-						{foreach from=$uom key=uom_id item=u}
-							<option value="{$uom_id},{$u.fraction}" {if ($r.uom_id eq $uom_id) or (!$r.uom_id and $u.code eq 'EACH')}selected {/if}>{$u.code}</option>
-						{/foreach}
-					</select>
-				</td>
-	            <td>
-					<input type="text" class="r" {if $r.uom_fraction == 1 or $r.uom_id==1 or !$r.uom_id}disabled value=""{else}value="{$r.ctn}"{/if} name="ctn[{$r.id}]" 
-					{if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="row_recalc({$r.id});{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" 
-					/>
-				</td>
-	            <td>
-					<input type="text" class="r" name="pcs[{$r.id}]" value="{$r.pcs}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
-					onChange="row_recalc({$r.id});{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" 
-					/>
-				</td>
-	            <td><input type="text" class="r" onchange="row_recalc({$r.id})" name="selling_price[{$r.id}]" value="{$r.selling_price}" /></td>
-				<td>
-					<input type="hidden" name="item_discount_amount[{$r.id}]" value="{$r.item_discount_amount}" />
-					<input type="text" class="r" onchange="row_recalc({$r.id})" name="item_discount[{$r.id}]" value="{$r.item_discount}" />
-				</td>
-				<td>
-					<span class="items r" style="float: right;" id="span-so_amt-{$r.id}"></span>
-				</td>
-	        </tr>
-			<tr class="tr_so_item_{$r.id}">
-				<td colspan="6">
-					Remark: <textarea name="remark[{$r.id}]" style="resize: none;background-color: transparent;">{$r.remark|escape}</textarea>
-				</td>
-			</tr>
-			<tr class="tr_so_item_{$r.id}">
-				<td colspan="6">
-					Stock Balance: <span>{$r.stock_balance}</span></br>
-					Cost: <input style="width: 50%" type="text" readonly name="cost_price[{$r.id}]" value="{$r.cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-					Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))">?</a>]: <span>{$r.reserve_qty|default:'0'}</span>
-				</td>
-			</tr>
-	    {/foreach}
-	</table>
-	</form>
-	
-	<div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" value="Save" onClick="submit_items('save');" />
-	</div>
-{else}
-	No Item
-{/if}
-<br style="clear:both;"/>
 </div>
 <script>
 {literal}

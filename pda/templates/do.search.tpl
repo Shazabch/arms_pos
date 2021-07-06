@@ -141,44 +141,6 @@ function check_form(){
 	</div>
 </div>
 <!-- /Table -->
-	<table width="100%" border="1" cellspacing="0" cellpadding="4">
-	    <tr>
-	        <th>&nbsp;</th>
-	        <th>DO No.</th>
-	        <th>Deliver To</th>
-	        <th>Type</th>
-	    </tr>
-	    {foreach from=$do_list item=do}
-	        <tr>
-	            <td width="20">
-					{if $do.do_type eq 'transfer' && $do.deliver_branch}
-						{* do nth because cannot let user to edit multiple branches DO *}
-					{else}
-						<a href="do.php?a={if $is_checklist}scan_checklist_item{else}change_do{/if}&id={$do.id}&branch_id={$do.branch_id}"><img src="/ui/ed.gif" border="0" title="Open" /></a>
-					{/if}
-				</td>
-	            <td>DO#{$do.id}</td>
-	            <td>
-				{if $do.do_type eq 'open'}
-				    {$do.open_info.name}
-				{elseif $do.do_type eq 'credit_sales'}
-				    Debtor: {$do.debtor_code}
-				{else}
-					{if $do.deliver_branch}
-						<font color="red">DO consist of Multiple branches, <br />disabled for editing</font>
-					{else}
-						{$do.do_branch_code}
-					{/if}
-				{/if}
-				</td>
-	            <td>
-                    {if $do.do_type eq 'open'}Cash Sales
-					{elseif $do.do_type eq 'credit_sales'}Credit Sales
-					{else}Transfer {/if}
-				</td>
-	        </tr>
-	    {/foreach}
-	</table>
 {/if}
 <script>
 {literal}

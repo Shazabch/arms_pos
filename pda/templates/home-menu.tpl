@@ -169,7 +169,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last SaleS Order</h5>
+							<h5 class="">Continue Last Sales Order</h5>
 						</div>
 					</div>
 				</div>

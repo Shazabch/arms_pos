@@ -174,107 +174,149 @@ function check_by_bom_group(obj, bom_id){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a> {if $smarty.request.find_grn} > <a href="goods_receiving_note.php?a=open&find_grn={$smarty.request.find_grn}">Back to Search</a> {/if}</span>
-<div style="margin-bottom:10px;"></div>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
+		</li>
+		{if $smarty.request.find_grn}
+		<li class="breadcrumb-item">
+			<a href="goods_receiving_note.php?a=open&find_grn={$smarty.request.find_grn}">Back to Search</a>
+		</li>
+		{/if}
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
+
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
 {include file='goods_receiving_note.top_include.tpl'}<br><br>
 
-
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
-<div class="stdframe" style="background:#fff">
-{if count($items) > 0 || count($non_sku_items.code) > 0}
-    <div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" id="submit_btn1" value="Save" onClick="submit_items('save');" />
+<div class="card animated fadeInLeft">
+	<div class="card-body">
+	{if count($items) > 0 || count($non_sku_items.code) > 0}
+	<div class="d-flex justify-content-end align-items-center">
+		<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+		<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 	</div>
 
 		<form name="f_a" method="post" onSubmit="return false;">
 		<input type="hidden" name="a" />
 		<input type="hidden" name="find_grn" value="{$smarty.request.find_grn}" />
-		{if count($items) > 0}
-		<div style="clear:both;"></div>
-			{count var=$items} item(s)
-			<table width="100%" border="1" cellspacing="0" class="small">
-				<tr>
-					<th>#</th>
-					<th width="15px">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-					<th>ARMS Code</th>
-					<th>Description</th>
-					<th>UOM</th>
-				</tr>
-				{foreach from=$items item=r name=i}
-					<tr>
-						<td>{$smarty.foreach.i.iteration}.</td>
-						<td align="center"><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if} /></td>
-						<td>{$r.sku_item_code}</td>
-						<td>{$r.sku_description} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</td>
-						<td align="center">
-							<select name="uom[{$r.id}]" id="uom_{$r.id}" style="width:60px;" onchange="uom_changed('{$r.id}');" {if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}disabled{/if}>
-								{foreach from=$uom key=row item=id}
-									<option value="{$uom.$row.id}" {if $uom.$row.id eq $r.uom_id}selected{/if} fraction="{$uom.$row.fraction}">{$uom.$row.code}</option>
+				{if count($items) > 0}
+					<div class="badge badge-pill badge-light p-2">{count var=$items} item(s)</div>
+					<div class="table-responsive">
+						<table class="table table-hover mb-0 text-md-nowrap">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+									<th>ARMS Code</th>
+									<th>Description</th>
+									<th class="text-center">UOM</th>
+								</tr>
+							</thead>
+							<tbody>
+								{foreach from=$items item=r name=i}
+									<tr>
+										<td>{$smarty.foreach.i.iteration}.</td>
+										<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if} /></td>
+										<td>{$r.sku_item_code}</td>
+										<td>{$r.sku_description} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</td>
+										<td class="min-w-80">
+											<select class="form-control select2 min-w-100" name="uom[{$r.id}]" id="uom_{$r.id}" onchange="uom_changed('{$r.id}');" {if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}disabled{/if}>
+												{foreach from=$uom key=row item=id}
+													<option value="{$uom.$row.id}" {if $uom.$row.id eq $r.uom_id}selected{/if} fraction="{$uom.$row.fraction}">{$uom.$row.code}</option>
+												{/foreach}
+											</select>
+											{if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}
+												<input type="hidden" name="uom[{$r.id}]" value="{$r.uom_id}">asdsa
+											{/if}
+										</td>
+									</tr>
+									<tr>
+										<td align="right" colspan="5">
+											Ctn
+											<input type="number" name="ctn[{$r.id}]" class="items r form-control form-control-sm max-w-100 min-w-80" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.ctn}" {if $r.uom_fraction eq '1'}disabled{/if} />
+											Pcs
+											<input type="number" name="pcs[{$r.id}]" class="items r form-control form-control-sm max-w-100 min-w-80" {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.pcs}" />
+										</td>
+										<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
+										<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
+										<input type="hidden" name="doc_allow_decimal[{$r.id}]" value="{$r.doc_allow_decimal}" />
+									</tr>
 								{/foreach}
-							</select>
-							{if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}
-								<input type="hidden" name="uom[{$r.id}]" value="{$r.uom_id}">
-							{/if}
-						</td>
-					</tr>
-					<tr>
-						<td align="right" colspan="5">
-							Ctn
-							<input type="text" name="ctn[{$r.id}]" class="items r" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.ctn}" {if $r.uom_fraction eq '1'}disabled{/if} />
-							Pcs
-							<input type="text" name="pcs[{$r.id}]" class="items r {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.pcs}" />
-						</td>
-						<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
-						<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
-						<input type="hidden" name="doc_allow_decimal[{$r.id}]" value="{$r.doc_allow_decimal}" />
-					</tr>
-				{/foreach}
-			</table>
+							</tbody>
+						</table>
+					</div>
+				{/if}
+
+			{if $non_sku_items.code}
+				<div class="card-title pb-2 border-bottom">SKU Not In ARMS</div>
+				<div class="badge badge-pill badge-light p-2">{count var=$non_sku_items.code} item(s)</div>
+				<div class="table-responsive mt-2">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th><input type="checkbox" class="isi_toggle_chx" /> DEL</th>
+								<th>Description</th>
+								<th>Qty(pcs)</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$non_sku_items.code key=code item=r name=isi}
+								{assign var=n value=$smarty.foreach.isi.iteration-1}
+								<tr>
+									<td>{$smarty.foreach.isi.iteration}.</td>
+									<td>
+										<input type="checkbox" name="isi_item_chx[{$n}]" class="isi_item_chx" /><input type="hidden" name="isi_code[{$n}]" value="{$non_sku_items.code.$n}" />
+									</td>
+									<td>
+										<input type="text" class="form-control form-control-sm" name="isi_desc[{$n}]" size="35" value="{$non_sku_items.description.$n}" onchange="this.value = this.value.toUpperCase().trim();" />
+									</td>
+									<td>
+										<input type="number" name="isi_qty[{$n}]" class="items r form-control form-control-sm" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" value="{$non_sku_items.qty.$n}" />
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			{/if}
+			</form>
+			<div class="d-flex justify-content-end align-items-center mt-2">
+				<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			</div>
+		{else}
+			<div class="alert alert-danger">No Item</div>
 		{/if}
-
-	{if $non_sku_items.code}
-		<p><span><h4><br />SKU Not In ARMS</h4></span></p>
-		{count var=$non_sku_items.code} item(s)<br />
-		<table width="100%" border="1" cellspacing="0" class="small">
-			<tr>
-				<th>#</th>
-				<th>DEL<br /><input type="checkbox" class="isi_toggle_chx" /></th>
-				<th>Description</th>
-				<th>Qty<br />(pcs)</th>
-			</tr>
-		{foreach from=$non_sku_items.code key=code item=r name=isi}
-			{assign var=n value=$smarty.foreach.isi.iteration-1}
-			<tr>
-				<td>{$smarty.foreach.isi.iteration}.</td>
-				<td align="center"><input type="checkbox" name="isi_item_chx[{$n}]" class="isi_item_chx" /><input type="hidden" name="isi_code[{$n}]" value="{$non_sku_items.code.$n}" /></td>
-				<td><input type="text" name="isi_desc[{$n}]" size="35" value="{$non_sku_items.description.$n}" onchange="this.value = this.value.toUpperCase().trim();" /></td>
-				<td align="center"><input type="text" name="isi_qty[{$n}]" class="items r" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" value="{$non_sku_items.qty.$n}" /></td>
-			</tr>
-		{/foreach}
-		</table>
-	{/if}
-	
-	</form>
-	
-	<div style="float:right;" class="btn_padding">
-        <input type="button" value="Delete" onClick="submit_items('delete');" />
-		<input type="button" id="submit_btn2" value="Save" onClick="submit_items('save');" />
 	</div>
-
-{else}
-	No Item
-{/if}
 </div>
+
 <script>
 {literal}
     $('input.item_chx').click(function(){

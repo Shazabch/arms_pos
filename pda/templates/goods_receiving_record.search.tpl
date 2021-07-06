@@ -53,7 +53,7 @@ function check_form(){
 <!-- Error Message -->
 {if $err}
     {foreach from=$err item=e}
-    <div class="alert alert-danger mg-b-0" role="alert">
+    <div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -91,7 +91,7 @@ function check_form(){
 
 {if $grr_list}
 <!--Table-->
-<div class="col-xl-12">
+<div class="col-xl-12 animated fadeInDown">
 	<div class="card">
 		<div class="card-body">
 			<div class="table-responsive">

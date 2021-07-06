@@ -69,7 +69,7 @@ function toggle_bb_list(){
 <!-- /Error Message -->
 
 <!-- Search form -->
-<div class="row mt-2 animated fadeInDown">
+<div class="row mt-2 animated fadeInLeft">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form >

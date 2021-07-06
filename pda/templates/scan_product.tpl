@@ -81,7 +81,7 @@ function check_barcode_type(obj){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white animated fadeInLeft">
 		<li class="breadcrumb-item">
 			<a href="home.php">Dashboard</a>
 		</li>

@@ -59,7 +59,7 @@ function check_form(){
 <!-- /Error Message -->
 
 <!-- Search form -->
-<div class="row mt-2 animated fadeInDown">
+<div class="row mt-2 animated fadeInLeft">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<form name="f_a" method="post" onSubmit="return check_form();">
