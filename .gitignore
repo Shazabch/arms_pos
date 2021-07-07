@@ -2,3 +2,8 @@
 *.csv
 templates_c/
 pda/templates_c/
+counter_config.txt
+counter_config.txt
+counter_config.txt
+cron.check_member_pos.log
+cron.send_email.log
