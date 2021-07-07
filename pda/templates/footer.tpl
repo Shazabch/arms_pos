@@ -12,7 +12,7 @@
 
 		<script type="text/javascript">
 			{literal}
-				jQuery.noConflict();
+				var jq=jQuery.noConflict();
 				 jQuery(document).ready(function(){
 			      console.log("ready ji");
 			      });

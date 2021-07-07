@@ -38,62 +38,92 @@ function submit_items(act){
 }
 {/literal}
 </script>
-
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=promotion">{$module_name}</a></span>
-<div style="margin-bottom: 10px"></div>
-
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=promotion">{$module_name}</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
 {include file='promotion.top_include.tpl'}<br><br>
-<div class="stdframe" style="background:#fff">
-{if $items}
-	<div style="float:right;" class="btn_padding">
-		<input type="button" value="Delete" onClick="submit_items('delete');" />
-		{*<input type="button" id="submit_btn1" value="Save" onClick="submit_items('save');" />*}
-	</div>
-	{if $total_rows>$records_per_page}
-		Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.<br />
-		<b>Page :&nbsp;&nbsp;</b>
-		{foreach from=$page_list item=p}
-		{if $p eq $page}
-		{$p}&nbsp;
-		{else}
-		<a href="?a=view_items&page={$p}">{$p}&nbsp;</a>
-		{/if}
-		{/foreach}
-	{/if}
-	<form name="f_a" method="post" onSubmit="return false;">
-	<div style="clear:both;"></div>
 
-	<input type="hidden" name="a" />
-	<table width="100%" border="1" class="small">
-		<tr>
-			<th>#</th>
-			<th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-			<th>ARMS Code</th>
-			<th>Description</th>
-		</tr>
-		{foreach from=$items item=r name=i}
-		<tr>
-			<td>{$smarty.foreach.i.iteration+$start_row-1}.</td>
-			<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
-			<td>{$r.sku_item_code}</td>
-			<td>{$r.description}</td>
-		</tr>
-		{/foreach}
-	</table>
-	</form>
-	
-	<div style="float:right;" class="btn_padding">
-		<input type="button" value="Delete" onClick="submit_items('delete');" />
-		{*<input type="button" id="submit_btn2" value="Save" onClick="submit_items('save');" />*}
+
+<div class="card animated fadeInLeft">
+	<div class="card-body" style="background:#fff">
+		{if $items}
+			<div class="d-flex justify-content-end align-items-center">
+					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+					{*<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
+			</div>
+			{if $total_rows>$records_per_page}
+				<div class="row my-2 border-bottom pb-2">
+					<div class="col">
+						<ul class="pagination pagination-circled mb-0">
+							{foreach from=$page_list item=p}
+								{if $p eq $page}
+									<li class="page-item active"><a class="page-link" href="javascript:void(0)">{$p}</a></li>
+								{else}
+									<li class="page-item"><a class="page-link" href="?a=view_items&page={$p}">{$p}</a></li>
+								{/if}
+							{/foreach}
+						</ul>
+					</div>
+					<div class="col-3  d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex align-items-center">
+						<div class="text-right text-muted py-auto my-auto">
+							Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
+						</div>
+					</div>
+				</div>
+			{/if}
+			
+
+			<form name="f_a" method="post" onSubmit="return false;">
+			<input type="hidden" name="a" />
+				<div class="table-responsive">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+								<th>ARMS Code</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$items item=r name=i}
+								<tr>
+									<td>{$smarty.foreach.i.iteration+$start_row-1}.</td>
+									<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+									<td>{$r.sku_item_code}</td>
+									<td>{$r.description}</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</form>
+			
+			<div class="d-flex justify-content-end align-items-center mt-2">
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				{*<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
+			</div>
+		{else}
+			<div class="alert alert-danger">No Items</div>
+		{/if}
 	</div>
-{else}
-	No Item
-{/if}
 </div>
 <script>
 {literal}

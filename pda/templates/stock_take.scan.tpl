@@ -53,7 +53,8 @@ function save_data(){
 	  alert("Invalid Quantity");
 	  return false;
 	}
-	$('#submit_btn').attr('disabled', 'disabled');
+	jq('#submit_btn').attr('disabled', 'disabled');
+	
 	document.scan.submit();
 }
 
@@ -193,7 +194,7 @@ function qty_keypress(event){
 								<label class="font-weight-bold mg-b-0">Selling Price</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
-								<input class="form-control" type="text" value="{$si_info.selling_price}" readonly>
+								<input class="form-control" type="text"  name="sell_price" value="{$si_info.selling_price}" readonly>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
