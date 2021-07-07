@@ -53,7 +53,7 @@ function save_data(){
 	  alert("Invalid Quantity");
 	  return false;
 	}
-	jq('#submit_btn').attr('disabled', 'disabled');
+	$('#submit_btn').attr('disabled', 'disabled');
 	
 	document.scan.submit();
 }

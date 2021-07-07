@@ -22,17 +22,17 @@
 {literal}
 
 function change_row_color(ele){
-    if(jq(ele).attr('checked')){
-		jq(ele).parent().parent().css('background-color','yellow');
+    if($(ele).attr('checked')){
+		$(ele).parent().parent().css('background-color','yellow');
 	}else{
-        jq(ele).parent().parent().css('background-color','#fff');
+        $(ele).parent().parent().css('background-color','#fff');
 	}
 }
 
 function submit_items(act){
 	if(act=='delete'){
         // check selected item
-		if(jq('input.item_chx:checked').get().length<=0){
+		if($('input.item_chx:checked').get().length<=0){
 			alert('Please checked at least one item.');
 			return false;
 		}
@@ -40,8 +40,8 @@ function submit_items(act){
 		
         document.f_a['a'].value = 'delete_items';
 	}else{
-		jq('#submit_btn1').attr('disabled', 'disabled');
-		jq('#submit_btn2').attr('disabled', 'disabled');
+		$('#submit_btn1').attr('disabled', 'disabled');
+		$('#submit_btn2').attr('disabled', 'disabled');
         document.f_a['a'].value = 'save_items';
 	}
 	document.f_a.submit();

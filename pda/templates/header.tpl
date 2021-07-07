@@ -43,8 +43,6 @@
 		<!-- <link rel="stylesheet" href="{#SITE_CSS#}" type="text/css">
 		<link rel="stylesheet" href="/templates/pda.css?v=1" type="text/css">
 		<link rel="shortcut icon" href="/favicon.ico">
-
-		<script src="include/jquery.js" language=javascript type="text/javascript"></script>
 		{literal}
 		<style>
 		.small input, .small select { font: 10px Arial !important; }
