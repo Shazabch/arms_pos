@@ -1,1 +1,4 @@
-/templates_c/*
+
+*.csv
+templates_c/
+pda/templates_c/
