@@ -105,6 +105,7 @@ function submit_items(act){
 		<!--Table-->
 		<div class="col-xl-12 mt-2">
 			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" />
 				<div class="card">
 					<div class="card-body">
 						<div class="table-responsive">
@@ -146,8 +147,8 @@ function submit_items(act){
 		</div>
 		<!-- /Table -->
 		<div class="d-flex justify-content-end align-items-center py-2">
-			<button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-			<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+			<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 		</div>
 		{else}
 			<div class="alert alert-danger">

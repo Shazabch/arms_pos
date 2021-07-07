@@ -221,8 +221,8 @@ function check_delete_status(){
 		</td>
 	</tr>
 </table>
-<div class="alert alert-info col-md-4"><i class="fas fa-bullhorn"></i> Document Date in YYYY-MM-DD format.</div>
-<div class="card">
+<div class="alert alert-info col-md-4 animated fadeInLeft"><i class="fas fa-bullhorn"></i> Document Date in YYYY-MM-DD format.</div>
+<div class="card animated fadeInLeft">
 	<div class="card-body">
 		<div class="d-flex justify-content-between align-items-center py-2">
 			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>

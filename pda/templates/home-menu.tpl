@@ -381,7 +381,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="" class="stretched-link"></a>
+				<a  href="goods_return_advice.php" class="stretched-link"></a>
 			</div>
 		</div>
 	{/if}

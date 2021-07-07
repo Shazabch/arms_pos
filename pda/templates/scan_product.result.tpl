@@ -468,7 +468,7 @@ function row_recalc(id){
 													&nbsp;
 												{/if}
 											</td>
-											<td align="center"><input type="text" class="form-control" name="pcs[{$r.id}]" class="items r item_qty {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
+											<td align="center"><input type="text" name="pcs[{$r.id}]" class="items r item_qty form-control min-w-100 {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
 											<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
 											<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
 											<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
@@ -499,7 +499,7 @@ function row_recalc(id){
 												</td>
 											{else}
 												{if $module_name neq 'Sales Order'}
-												<td align="center"><input type="text" class="form-control" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
+												<td align="center"><input type="text" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
 												{/if}
 												{if $module_name eq 'Purchase Order'}
 												<td align="center">

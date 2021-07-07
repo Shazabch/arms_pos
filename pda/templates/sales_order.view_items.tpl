@@ -190,21 +190,22 @@ function update_all_item_amt(){
 </nav>
 <!-- /BreadCrumbs -->
 
-{include file='sales_order.top_include.tpl'}<br><br>
+{include file='sales_order.top_include.tpl'}<br>
 
-<div class="card">
+<div class="card animated fadeInLeft">
 	<div class="card-body">
 	{if $items}
 		<div class="d-flex justify-content-between align-items-center py-2">
 			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
 			<div class="">
-				<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 			</div>
 		</div>
 		<form name="f_a" method="post" onSubmit="return false;">
 			<input type="hidden" name="a" />
-			<table id="so_items" class="table text-md-nowrap mb-0">
+			<div class="table-responsive">
+				<table id="so_items" class="table text-md-nowrap mb-0">
 			    <thead>
 			    	<tr>
 				        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
@@ -273,18 +274,20 @@ function update_all_item_amt(){
 				    {/foreach}
 			    </tbody>
 			</table>
+			</div>
+			
 		</form>
 		
 		<div class="d-flex justify-content-end align-items-center py-2">
-				<button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-info btn-sm mr-1" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
-				<button class="btn btn-success btn-sm mr-1" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 		</div>
 	{else}
-		No Item
+		<div class="alert alert-danger">No Item</div>
 	{/if}
 	</div>
 </div>
+{include file='footer.tpl'}
 <script>
 {literal}
     $('input.item_chx').click(function(){
@@ -299,4 +302,3 @@ function update_all_item_amt(){
 	update_all_item_amt();
 {/literal}
 </script>
-{include file='footer.tpl'}

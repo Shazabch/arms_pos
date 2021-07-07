@@ -195,7 +195,7 @@ function branch_check(obj){
 							</div>
 						</div>
 						{if $do_type eq 'open'}
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">Deliver To</label>
 							</div>
@@ -207,7 +207,7 @@ function branch_check(obj){
 							</div>
 						</div>
 						{elseif $do_type eq 'credit_sales'}
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">Deliver To</label>
 							</div>
@@ -224,7 +224,7 @@ function branch_check(obj){
 							</div>
 						</div>
 						{else}
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">Deliver To</label>
 							</div>

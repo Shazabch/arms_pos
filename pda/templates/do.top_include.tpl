@@ -1,7 +1,7 @@
 {if $smarty.request.do_tab eq 'setting'}
      <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> Change Setting</a>
 {else}
-    <a href="do.php?a=show_setting" class="btn btn-primary btn-sm animated fadeInDown"><i class="fas fa-cog"></i> Change Setting</a>
+    <a href="do.php?a=show_setting" class="btn btn-info btn-sm animated fadeInDown"><i class="fas fa-cog"></i> Change Setting</a>
 {/if}
 
 {if !$smarty.request.do_tab or $smarty.request.do_tab eq 'scan_item'}

@@ -81,14 +81,14 @@ function submit_items(act){
 
 {include file='goods_return_advice.top_include.tpl'}<br><br>
 
-<div class="card">
+<div class="card animated fadeInLeft">
 	<div class="card-body">
 	{if $items}
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
 			<div>
-		    	<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-		    	<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		    	<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+		    	<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 			</div>
 		</div>
 
@@ -118,8 +118,8 @@ function submit_items(act){
 								</td>
 					            <td>{$r.sku_item_code}</td>
 					            <td>{$r.sku_description}</td>
-					            <td><input type="number" name="item_qty[{$r.id}]" value="{$r.qty}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" class="r form-control form-control-sm min-w-80" /></td>
-					            <td><input type="text" name="item_price[{$r.id}]" value="{$r.cost}" size="10" onchange="this.value=float(round(this.value, {$config.global_cost_decimal_points}));" class="r form-control form-control-sm min-w-80 " /></td>
+					            <td><input type="number" name="item_qty[{$r.id}]" value="{$r.qty}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" class="r form-control  min-w-80" /></td>
+					            <td><input type="text" name="item_price[{$r.id}]" value="{$r.cost}" size="10" onchange="this.value=float(round(this.value, {$config.global_cost_decimal_points}));" class="r form-control  min-w-80 " /></td>
 					        </tr>
 							<tr>
 								<td nowrap colspan="6" style="padding:5px">
@@ -143,13 +143,12 @@ function submit_items(act){
 		</form>
 		
 		<div class="d-flex justify-content-end align-items-center mt-2">
-		    <button class="btn btn-danger btn-sm mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-		    <button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		    <button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+		    <button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 		</div>
 	{else}
-		No Item
+		<div class="alert alert-danger"> No Item</div>
 	{/if}
-	<br style="clear:both;">
 	</div>
 </div>
 <script>
