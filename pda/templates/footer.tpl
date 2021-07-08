@@ -68,6 +68,9 @@
 		<!-- Internal form-elements js -->
 		<script src="../../assets/js/form-elements.js"></script>
 
+		<!-- Sweet Alert  -->
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
 

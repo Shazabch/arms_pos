@@ -34,16 +34,30 @@ function submit_items(act){
 			notify('error','Please checked at least one item.','center');
 			return false;
 		}
-		
-		if(!confirm('Click OK to confirm delete.')) return false;
-		
-        document.f_a['a'].value = 'delete_items';
+		Swal.fire({
+		  title: 'Are you sure?',
+		  text: "You won't be able to revert this!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+
+		   document.f_a['a'].value = 'delete_items';
+		   document.f_a.submit();
+		   
+		  }
+		})
+
 	}else{
 		$('#submit_btn1').attr('disabled', 'disabled');
 		$('#submit_btn2').attr('disabled', 'disabled');
         document.f_a['a'].value = 'save_items';
+        document.f_a.submit();
 	}
-	document.f_a.submit();
+	
 }
 {/literal}
 </script>
