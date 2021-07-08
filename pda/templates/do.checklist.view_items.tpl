@@ -54,72 +54,99 @@ function delete_row(){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard </a> > <a href="home.php?a=menu&id=do">DO</a></span>
-<div style="margin-bottom:10px;"></div>
-{include file='do.checklist.top_include.tpl'}<br /><br />
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=do">DO</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-
-
+<!-- Error Message -->
 {if $err}
-<div id=err><div class=errmsg><ul>
-{foreach from=$err item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
 {/if}
-<div class="stdframe" style="background:#fff">
-<table style="display:none;">
-	<tr class="temp_row">
-		<td class="tmp_row_no"></td>
-		<td><input type="checkbox" name="item_chx[]" class="tmp_item_chx" /></td>
-		<td align="center"><input type="text" name="barcode[]" value="" size="20" /></td>
-		<td align="center"><input type="text" name="qty[]" class="r" value="{$r.qty}" size="5" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
-	</tr>
-</table>
+<!-- /Error Message -->
 
-{if $items}
+{include file='do.checklist.top_include.tpl'}<br />
 
-<div style="float:right;" class="btn_padding">
-	<!--input type="button" value="Add Row" onClick="add_row();" /-->
-	<input type="button" value="Delete" onClick="delete_row();" />
-	<input type="button" value="Save" onClick="submit_items('save');" />
-</div>
-<form name="f_a" method="post" onSubmit="return false;">
-<div style="clear:both;"></div>
+<div class="card animated fadeInLeft">
+	<div class="card-body">
+		<table style="display:none;">
+			<tr class="temp_row">
+				<td class="tmp_row_no"></td>
+				<td><input type="checkbox" name="item_chx[]" class="tmp_item_chx" /></td>
+				<td align="center"><input type="text" class="form-control min-w-100" name="barcode[]" value="" size="20" /></td>
+				<td align="center"><input type="text" name="qty[]" class="r form-control min-w-100" value="{$r.qty}" size="5" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
+			</tr>
+		</table>
 
-<input type="hidden" name="a" value="save_checklist_items" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="branch_id" value="{$form.branch_id}" />
-<table width="100%" id="item_tbl" class="item_tbl" border="1" class="small" cellspacing="0">
-	<tr>
-		<th>#</th>
-		<th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-		<th>barcode</th>
-		<th>Qty<br />(pcs)</th>
-	</tr>
-	{foreach from=$items key=row item=r name=i}
-		<tr>
-			<td class="row_no">{$smarty.foreach.i.iteration}.</td>
-			<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
-			<td align="center"><input type="text" name="barcode[{$r.id}]" value="{$r.barcode}" size="20" /></td>
-			<td align="center"><input type="text" name="qty[{$r.id}]" class="r" value="{$r.qty}" size="5" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
-		</tr>
-	{/foreach}
-</table>
-</form>
+		{if $items}
+		<div class="d-flex justify-content-end align-items-center">
+			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<!-- <button class="btn btn-primary mr-1" value="Add Row" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button> -->
+			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> Delete</button>
+		</div>
 
-<div style="float:right;" class="btn_padding">
-	<!--input type="button" value="Add Row" onClick="add_row();" /-->
-	<input type="button" value="Delete" onClick="delete_row();" />
-	<input type="button" value="Save" onClick="save();" />
-</div>
+		<form name="f_a" method="post" onSubmit="return false;">
 
-{else}
-<p align="center" >- No item -</p>
-{/if}
+		<input type="hidden" name="a" value="save_checklist_items" />
+		<input type="hidden" name="id" value="{$form.id}" />
+		<input type="hidden" name="branch_id" value="{$form.branch_id}" />
+			<div class="table-responsive">
+				<table id="item_tbl" class="item_tbl table mb-0 text-md-nowrap">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+							<th>barcode</th>
+							<th>Qty <small>(pcs)</small></th>
+						</tr>
+					</thead>
+					{foreach from=$items key=row item=r name=i}
+						<tr>
+							<td class="row_no">{$smarty.foreach.i.iteration}.</td>
+							<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+							<td ><input type="text" name="barcode[{$r.id}]" class="form-control min-w-100" value="{$r.barcode}" size="20" /></td>
+							<td ><input type="text" name="qty[{$r.id}]" class="r form-control min-w-100" value="{$r.qty}" size="5" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
+						</tr>
+					{/foreach}
+				</table>
+			</div>
+		</form>
+
+		<div class="d-flex justify-content-end align-items-center mt-2">
+			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<!-- <button class="btn btn-primary mr-1" value="Add Row" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button> -->
+			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> Delete</button>
+		</div>
+
+		{else}
+		<p align="center" >- No item -</p>
+		<div class="alert alert-danger">
+			No Item
+		</div>
+		{/if}
+	</div>
 </div>
 
 <script>

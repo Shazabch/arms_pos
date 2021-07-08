@@ -26,43 +26,69 @@ function check_key(obj, event){
 }
 {/literal}
 </script>
-<h1>
-{$smarty.session.scan_product.name}
-</h1>
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=do">DO</a><span>
-<div style="margin-bottom:10px;"></div>
-{include file='do.checklist.top_include.tpl'}<br /><br />
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="home.php?a=menu&id=do">DO</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-
-
+<!-- Error Message -->
 {if $err}
-<div id=err><div class=errmsg><ul>
-{foreach from=$err item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
+
+{include file='do.checklist.top_include.tpl'}<br />
+{if $item_added}
+<div class="alert alert-success animated fadeInDown my-1">
+	<img src="/ui/approved.png" title="Item Added" border=0> Barcode has been added.
+</div>
 {/if}
 
-{if $item_added}<img src="/ui/approved.png" title="Item Added" border=0> Barcode has been added.<br /><br />{/if}
-<div class="stdframe" style="background:#fff">
-<form name="f_a" method="post" onSubmit="return false;">
-	<input type="hidden" name="a" value="add_checklist_item" />
-	<table width="100%" id="item_tbl" class="item_tbl" border="0" class="small">
-		<tr>
-			<td><b>Barcode</b></td>
-			<td><input type="text" name="barcode" value="{$form.barcode}" size="20" onkeypress="check_key(this, event);" /></td>
-		</tr>
-		<tr>
-			<td><b>Qty</b></td>
-			<td><input type="text" name="qty" value="{$form.qty}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" onkeypress="check_key(this, event);" size="10" /></td>
-		</tr>
-		<tr>
-			<td align="center" colspan="2"><input type="button" value="Add" onClick="add_item();" /></td>
-		</tr>
-	</table>
-</form>
+<div class="card">
+	<div class="card-body">
+		<form name="f_a" method="post" onSubmit="return false;">
+			<input type="hidden" name="a" value="add_checklist_item" />
+			<div class="table-responsive">
+				<table id="item_tbl" class="item_tbl table mb-0 text-md-nowrap">
+					<tr>
+						<td><b>Barcode</b></td>
+						<td><input type="text" name="barcode" class="form-control min-w-100" value="{$form.barcode}" size="20" onkeypress="check_key(this, event);" /></td>
+					</tr>
+					<tr>
+						<td><b>Qty</b></td>
+						<td><input type="text" name="qty" class="form-control min-w-100" value="{$form.qty}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" onkeypress="check_key(this, event);" size="10" /></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><input type="button" class="btn btn-primary" value="Add" onClick="add_item();" /></td>
+					</tr>
+				</table>
+			</div>
+		</form>
 
-<font size="3">{$items_details.total_item|qty_nf} Item(s), {$items_details.total_pcs|qty_nf} pcs</font>
+	<div class="badge badge-pill badge-light p-2">{$items_details.total_item|qty_nf} Item(s), {$items_details.total_pcs|qty_nf} pcs</div>
+	</div>
 </div>
 <script>
 	document.f_a['barcode'].focus();
