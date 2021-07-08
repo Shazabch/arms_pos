@@ -96,8 +96,8 @@ function submit_items(act){
 			<div class="d-flex justify-content-between align-items-center mb-2">
 				<div class="badge badge-pill badge-light p-2 ">{count var=$items} item(s)</div>
 				<div>
-					<button class="btn btn-danger"><i class="fas fa-trash-alt" onClick="submit_items('delete');"></i> Delete</button>
-					<button class="btn btn-success" id="submit_btn1"><i class="fas fa-save" onClick="submit_items('save');"></i> Save</button>
+					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+					<button class="btn btn-success" id="submit_btn1" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 				</div>
 			</div>
 			<form name="f_a" method="post" onSubmit="return false;">
@@ -146,8 +146,8 @@ function submit_items(act){
 				</div>
 			</form>
 			<div class="d-flex justify-content-end align-items-center mt-2">
-				<button class="btn btn-danger mr-1"><i class="fas fa-trash-alt" onClick="submit_items('delete');"></i> Delete</button>
-				<button class="btn btn-success" id="submit_btn2"><i class="fas fa-save" onClick="submit_items('save');"></i> Save</button>
+				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success" id="submit_btn2" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 			</div>
 		{else}
 			<div class="alert alert-danger">No Item</div>
