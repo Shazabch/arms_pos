@@ -12,10 +12,10 @@
 {literal}
 
 function change_row_color(ele){
-	if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
+	if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
 	}else{
-		$(ele).parent().parent().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
 	}
 }
 
@@ -97,7 +97,12 @@ function submit_items(act){
 						<thead>
 							<tr>
 								<th>#</th>
-								<th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+								<th>
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-delasd">
+										<label for="checkbox-delasd" class="custom-control-label mt-1">Del</label>
+									</div>
+								</th>
 								<th>ARMS Code</th>
 								<th>Description</th>
 							</tr>
@@ -106,7 +111,12 @@ function submit_items(act){
 							{foreach from=$items item=r name=i}
 								<tr>
 									<td>{$smarty.foreach.i.iteration+$start_row-1}.</td>
-									<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+									<td>
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+											<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+										</div>
+									</td>
 									<td>{$r.sku_item_code}</td>
 									<td>{$r.description}</td>
 								</tr>
@@ -131,8 +141,9 @@ function submit_items(act){
 		change_row_color($(this).get(0));
 	});
 	
-	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+	$('input.toggle_chx').on('click', function(){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

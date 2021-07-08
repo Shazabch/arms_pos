@@ -41,12 +41,12 @@ var is_under_gst = '{$form.is_under_gst|default:0}';
 {literal}
 
 function change_row_color(ele){
-    if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
-		$(ele).parent().parent().next().css('background-color','yellow');
+    if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
+		$(ele).parent().parent().parent().next().addClass('bg-warning');
 	}else{
-        $(ele).parent().parent().css('background-color','#fff');
-        $(ele).parent().parent().next().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
+        $(ele).parent().parent().parent().next().removeClass('bg-warning');
 	}
 }
 
@@ -239,7 +239,12 @@ function check_delete_status(){
 						<thead>
 							<tr>
 								<th rowspan="2">#</th>
-								<th width="20" rowspan="2">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+								<th width="20" rowspan="2">
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="toggle_chx custom-control-input" id="checkbox-[{$r.id}]">
+										<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1">Del</label>
+									</div>
+								</th>
 								<th rowspan="2">Doc No & Date</th>
 								<th rowspan="2">Doc Type</th>
 								<th colspan="2" class="text-center">Qty</th>
@@ -254,7 +259,10 @@ function check_delete_status(){
 								<tr>
 									<td>{$smarty.foreach.i.iteration}.</td>
 									<td>
-										<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" />
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+											<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+										</div>
 										<input type="hidden" name="gi_id[{$r.id}]" value="{$r.id}" />
 									</td>
 									<td>
@@ -329,12 +337,13 @@ function check_delete_status(){
 <br />
 <script>
 {literal}
-    $('input.item_chx').live('click', function(){
+    $('input.item_chx').on('click', function(){
         change_row_color($(this).get(0));
 	});
 	
-	$('input.toggle_chx').live('click', function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+	$('input.toggle_chx').on('click', function(){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

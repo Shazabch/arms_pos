@@ -24,10 +24,10 @@
 {literal}
 
 function change_row_color(ele){
-    if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
+   if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
 	}else{
-        $(ele).parent().parent().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
 	}
 }
 
@@ -100,7 +100,12 @@ function submit_items(act){
 				    <thead>
 				    	<tr>
 					    	<th>#</th>
-					        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+					        <th>
+					        	<div class="custom-checkbox custom-control">
+									<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
+									<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+								</div>
+					        </th>
 					        <th>ARMS Code</th>
 					        <th>Description</th>
 					        <th>Qty<br />(pcs)</th>
@@ -110,7 +115,12 @@ function submit_items(act){
 				    {foreach from=$items item=r name=i}
 				        <tr>
 				        	<td>{$smarty.foreach.i.iteration}.</td>
-				            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+				            <td>
+				            	<div class="custom-checkbox custom-control">
+									<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+									<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+								</div>
+				            </td>
 				            <td>{$r.sku_item_code}</td>
 				            <td>{$r.sku_description}</td>
 				            <td><input type="text" class="form-control form-control-sm min-w-80"name="item_qty[{$r.id}]" value="{$r.pcs}" size="{if $r.doc_allow_decimal}6{else}3{/if}" onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}" /></td>
@@ -134,8 +144,9 @@ function submit_items(act){
         change_row_color($(this).get(0));
 	});
 	
-	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+	$('input.toggle_chx').on('click', function(){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

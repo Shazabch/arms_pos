@@ -49,8 +49,12 @@
 		</style>
 		{/literal} -->
 		<!-- /Old Theme -->
+		<!-- Forms JS -->
 		<script src="include/forms.js" language=javascript type="text/javascript"></script>
 
+		<!-- JQuery min js -->
+		<script src="../../assets/plugins/jquery/jquery.min.js"></script>
+		
 		<!-- Favicon -->
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 

@@ -39,12 +39,12 @@ var global_qty_decimal_points = '{$config.global_qty_decimal_points}';
 {literal}
 
 function change_row_color(ele){
-    if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
-		$(ele).parent().parent().next().css('background-color','yellow');
+    if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
+		$(ele).parent().parent().parent().next().addClass('bg-warning');
 	}else{
-        $(ele).parent().parent().css('background-color','#fff');
-		$(ele).parent().parent().next().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
+        $(ele).parent().parent().parent().next().removeClass('bg-warning');
 	}
 }
 
@@ -232,7 +232,12 @@ function check_by_bom_group(obj, bom_id){
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+									<th>
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="toggle_chx custom-control-input" id="checkbox-del0">
+											<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+										</div>
+									</th>
 									<th>ARMS Code</th>
 									<th>Description</th>
 									<th class="text-center">UOM</th>
@@ -242,7 +247,12 @@ function check_by_bom_group(obj, bom_id){
 								{foreach from=$items item=r name=i}
 									<tr>
 										<td>{$smarty.foreach.i.iteration}.</td>
-										<td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if} /></td>
+										<td>
+											<div class="custom-checkbox custom-control">
+												<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="custom-control-input item_chx" id="checkbox-[{$r.id}]" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if}>
+												<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1">Del</label>
+											</div>
+										</td>
 										<td>{$r.sku_item_code}</td>
 										<td>{$r.sku_description} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</td>
 										<td class="min-w-80">
@@ -281,7 +291,12 @@ function check_by_bom_group(obj, bom_id){
 						<thead>
 							<tr>
 								<th>#</th>
-								<th><input type="checkbox" class="isi_toggle_chx" /> DEL</th>
+								<th>
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="isi_toggle_chx custom-control-input" id="checkbox-d">
+										<label for="checkbox-d" class="custom-control-label mt-1">Del</label>
+									</div>
+								</th>
 								<th>Description</th>
 								<th>Qty(pcs)</th>
 							</tr>
@@ -292,7 +307,13 @@ function check_by_bom_group(obj, bom_id){
 								<tr>
 									<td>{$smarty.foreach.isi.iteration}.</td>
 									<td>
-										<input type="checkbox" name="isi_item_chx[{$n}]" class="isi_item_chx" /><input type="hidden" name="isi_code[{$n}]" value="{$non_sku_items.code.$n}" />
+										<input type="checkbox" name="isi_item_chx[{$n}]" class="isi_item_chx" />
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" data-checkboxes="mygroup" name="isi_item_chx[{$n}]" class="isi_item_chx custom-control-input" id="checkbox-[{$n}]">
+											<label for="checkbox-[{$n}]" class="custom-control-label mt-1"></label>
+										</div>
+										<input type="hidden" name="isi_code[{$n}]" value="{$non_sku_items.code.$n}" />
+
 									</td>
 									<td>
 										<input type="text" class="form-control form-control-sm" name="isi_desc[{$n}]" size="35" value="{$non_sku_items.description.$n}" onchange="this.value = this.value.toUpperCase().trim();" />
@@ -328,13 +349,15 @@ function check_by_bom_group(obj, bom_id){
 	});
 	
 	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});
 
 	$('input.isi_toggle_chx').click(function(){
-		$('input.isi_item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+		var checked=$(this).is(':checked');
+		$('input.isi_item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

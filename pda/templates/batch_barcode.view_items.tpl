@@ -19,10 +19,10 @@
 {literal}
 
 function change_row_color(ele){
-    if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
+    if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
 	}else{
-        $(ele).parent().parent().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
 	}
 }
 
@@ -91,15 +91,15 @@ function submit_items(act){
 {/if}
 <!-- /Error Message -->
 
-{include file='batch_barcode.top_include.tpl'}<br><br>
+{include file='batch_barcode.top_include.tpl'}<br>
 <div class="card animated fadeInDown">
 	<div class="card-body">
 		{if $items}
 		<div class="d-flex justify-content-between align-items-center py-2">
 			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
 			<div class="">
-				<button class="btn btn-danger btn-sm" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+				<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
 			</div>
 		</div>
 		<!--Table-->
@@ -114,11 +114,9 @@ function submit_items(act){
 									<tr>
 										<th>#</th>
 								        <th>
-								        	<div class="checkbox">
-												<div class="custom-checkbox custom-control">
-													<input type="checkbox" data-checkboxes="mygroup" class="toggle_chx custom-control-input" id="checkbox-2">
-													<label for="checkbox-2" class="custom-control-label">DEL</label>
-												</div>
+								        	<div class="custom-checkbox custom-control">
+												<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-2">
+												<label for="checkbox-2" class="custom-control-label">DEL</label>
 											</div>
 								        </th>
 								        <th>ARMS Code</th>
@@ -130,7 +128,12 @@ function submit_items(act){
 									{foreach from=$items key=row item=r name=i}
 								        <tr>
 								        	<td>{$smarty.foreach.i.iteration}.</td>
-								            <td><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+								            <td>
+								            	<div class="custom-checkbox custom-control">
+													<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+													<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+												</div>
+								            </td>
 								            <td>{$r.sku_item_code}</td>
 								            <td>{$r.sku_description}</td>
 											<td>
@@ -165,8 +168,9 @@ function submit_items(act){
         change_row_color($(this).get(0));
 	});
 	
-	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+	$('input.toggle_chx').on('click', function(){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

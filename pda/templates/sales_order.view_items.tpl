@@ -26,15 +26,23 @@ var global_cost_decimal_points = '{$config.global_cost_decimal_points}';
 {literal}
 
 function change_row_color(ele){
-	var ele_parent = $(ele).parent().parent();
-	var tr_ele = ele_parent[0];
-	if(tr_ele != undefined){
-		if($(ele).attr('checked')){
-			if(tr_ele.className)   $("."+tr_ele.className).css('background-color','yellow');
-		}else{
-			if(tr_ele.className)   $("."+tr_ele.className).css('background-color','#fff');
-		}
+	if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
+		$(ele).parent().parent().parent().next().addClass('bg-warning');
+	}else{
+        $(ele).parent().parent().parent().removeClass('bg-warning');
+        $(ele).parent().parent().parent().next().removeClass('bg-warning');
 	}
+
+	// var ele_parent = $(ele).parent().parent().parent();
+	// var tr_ele = ele_parent[0];
+	// if(tr_ele != undefined){
+	// 	if($(ele).is(":checked")){
+	// 		if(tr_ele.className)   $("."+tr_ele.className).addClass('bg-warning');
+	// 	}else{
+	// 		if(tr_ele.className)   $("."+tr_ele.className).removeClass('bg-warning');
+	// 	}
+	// }
 }
 
 function submit_items(act){
@@ -208,7 +216,12 @@ function update_all_item_amt(){
 				<table id="so_items" class="table text-md-nowrap mb-0">
 			    <thead>
 			    	<tr>
-				        <th width="20">DEL<br /><input type="checkbox" class="toggle_chx" /></th>
+				        <th>
+				        	<div class="custom-checkbox custom-control">
+								<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
+								<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+							</div>
+				        </th>
 				        <th>UOM</th>
 				        <th>Ctn</th>
 						<th>Pcs</th>
@@ -222,7 +235,13 @@ function update_all_item_amt(){
 			    	{foreach from=$items item=r name=i}
 						<tr id="tr_so_item,{$r.id}" class="tr_so_item_{$r.id}">
 							<input type="hidden" name="so_item[{$r.id}]" />
-							<td rowspan="5" colspan="1"><input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" /></td>
+							<td rowspan="5" colspan="1">
+								<div class="custom-checkbox custom-control">
+									<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+									<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+								</div>
+							</td>
+
 						</tr>
 						<tr class="tr_so_item_{$r.id}">
 							<td colspan="6">
@@ -295,7 +314,9 @@ function update_all_item_amt(){
 	});
 	
 	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+		var checked=$(this).is(':checked');
+		console.log(checked);
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});

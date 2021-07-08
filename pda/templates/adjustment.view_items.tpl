@@ -20,10 +20,10 @@
 {literal}
 
 function change_row_color(ele){
-    if($(ele).attr('checked')){
-		$(ele).parent().parent().css('background-color','yellow');
+    if($(ele).is(":checked")){
+		$(ele).parent().parent().parent().addClass('bg-warning');
 	}else{
-        $(ele).parent().parent().css('background-color','#fff');
+        $(ele).parent().parent().parent().removeClass('bg-warning');
 	}
 }
 
@@ -122,7 +122,12 @@ function submit_items(act){
 					    <thead>
 					    	<tr>
 						    	<th rowspan="2">#</th>
-						        <th rowspan="2"><input type="checkbox" class="toggle_chx" /> DEL</th>
+						        <th rowspan="2" class="text-left">
+						        	<div class="custom-checkbox custom-control">
+										<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input toggle_chx" id="checkbox-delete1">
+										<label for="checkbox-delete1" class="custom-control-label mt-2">Del</label>
+									</div>
+						        </th>
 						        <th rowspan="2">ARMS Code</th>
 						        <th rowspan="2">Description</th>
 						        <th colspan="2" class="text-center">Qty (pcs)</th>
@@ -139,8 +144,11 @@ function submit_items(act){
 					    {foreach from=$items item=r name=i}
 					        <tr>
 					        	<td>{$smarty.foreach.i.iteration}.</td>
-					            <td>
-									<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx" />
+					            <td class="text-left">
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" name="item_chx[{$r.id}]" data-checkboxes="mygroup" class="custom-control-input item_chx" id="checkbox-[{$r.id}]">
+										<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+									</div>
 									<input type="hidden" name="item[{$r.id}]" value="{$r.id}" />
 								</td>
 					            <td>{$r.sku_item_code}</td>
@@ -177,7 +185,8 @@ function submit_items(act){
 	});
 	
 	$('input.toggle_chx').click(function(){
-		$('input.item_chx').attr('checked',$(this).attr('checked')).each(function(i){
+		var checked=$(this).is(':checked');
+		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
 	});
