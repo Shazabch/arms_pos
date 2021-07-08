@@ -54,7 +54,7 @@ function submit_items(act){
 	if(act=='delete'){
 		// check selected item
 		if($('input.item_chx:checked').get().length<=0){
-			alert('no item checked to proceed delete action.');
+			notify('error','Please checked at least one item.','center');
 			return false;
 		}
 	

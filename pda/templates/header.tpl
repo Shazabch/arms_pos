@@ -69,6 +69,9 @@
 		<!--  Left-Sidebar css -->
 		<link rel="stylesheet" href="../../assets/css/sidemenu.css">
 
+		<!--Internal   Notify -->
+		<link href="../../assets/plugins/notify/css/notifIt.css" rel="stylesheet"/>
+
 		<!--- Style css --->
 		<link href="../../assets/css/style.css" rel="stylesheet">
 

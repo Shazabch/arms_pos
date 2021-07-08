@@ -1,3 +1,16 @@
+// My Custom Notifications
+
+function notify(type,message,position)
+{
+	notif({
+		msg: message === undefined ? "default message": message,
+		position: position === undefined ? "center": position,
+		type: type === undefined ? "" : type,
+		time: 1000
+	});
+}
+
+// Theme Notifications
 function not1() {
 	notif({
 		msg: "Default <b>Top</b> Notification",

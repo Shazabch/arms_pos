@@ -52,7 +52,7 @@ function submit_items(act){
 	if(act=='delete'){
         // check selected item
 		if($('input.item_chx:checked').get().length<=0 && $('input.isi_item_chx:checked').get().length<=0){
-			alert('Please checked at least one item.');
+			notify('error','Please checked at least one item.','center');
 			return false;
 		}
 		if(!confirm('Click OK to confirm delete.')) return false;

@@ -58,6 +58,10 @@
 		<script src="../../assets/plugins/sidebar/sidebar.js"></script>
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
+		<!--Internal  Notify js -->
+		<script src="../../assets/plugins/notify/js/notifIt.js"></script>
+		<script src="../../assets/plugins/notify/js/notifit-custom.js"></script>
+
 		<!-- eva js -->
 		<script src="../../assets/js/eva-icons.min.js"></script>
 
@@ -66,6 +70,7 @@
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
+
 
 
 	</body>
