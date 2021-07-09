@@ -447,7 +447,7 @@ function row_recalc(id){
 										{/if}
 									</td>
 									{if  $module_name eq 'Purchase Order' && $deliver_to}
-										<td align="center">
+										<td >
 											<table>
 												{foreach from=$deliver_to.branch_code item=bcode}
 													<tr>
@@ -486,11 +486,11 @@ function row_recalc(id){
 														{/foreach}
 													</table>
 												</td>
-												<td align="center">
+												<td>
 													<table>
 														{foreach from=$deliver_to.branch_id item=bid}
 															<tr>
-																<td align="center">
+																<td>
 																	<input class="items r item_qty form-control" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}][{$bid}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
 																</td>
 															</tr>

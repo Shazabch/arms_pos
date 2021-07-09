@@ -131,7 +131,17 @@ function submit_items(act){
 				{*<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
 			</div>
 		{else}
-			<div class="alert alert-danger">No Items</div>
+			<div class="row">
+				<div class="col-lg-12" style="max-height: 80vh;">
+					<div class=" mg-b-20 text-center">
+						<div class=" h-100">
+							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
+							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
+							<a href="#" class="text-muted">No Item</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		{/if}
 	</div>
 </div>
