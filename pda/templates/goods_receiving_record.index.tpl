@@ -85,7 +85,7 @@ function search_vendor(event){
 		if(opt){ // got row found
             $(opt).attr('selected', true);
 		}else{ // no data found
-			alert(desc+' not foundnot found in Vendor list');
+			notify('error',desc+' not foundnot found in Vendor list','center')
 		}
 	}
 }

@@ -105,7 +105,7 @@ function add_items(){
 		
 		if(total_qty<=0){
 			if (module != "Promotion") {
-				alert('Please key in quantity');
+				notify('error','Please key in quantity','center')
 				return false;
 			}
 		}
@@ -113,7 +113,7 @@ function add_items(){
 		var check_count = $('input.item_checkbox:checked').length;
 		
 		if(check_count == 0){
-			alert('Please tick at least one item to add.');
+			notify('error','Please tick at least one item to add','center')
 			return false;
 		}
 	}

@@ -33,24 +33,24 @@ var global_qty_decimal_points = '{$config.global_qty_decimal_points}';
 {literal}
 function save_data(){
 	if(document.scan['code'].value==''){
-		alert('Please enter Code.');
+		notify('error','Please enter Code','center')
 		return false;
 	}else if(document.scan['description'].value=='')
 	{
-	  alert('Please key in Description');
+		notify('error','Please key in Description','center')
 		return false;
 	}else if(document.scan['sell_price'].value=='')
 	{
-	  alert('Please key in Selling Price');
+	  notify('error','Please key in Selling Price','center')
 		return false;
 	}
 	else if(document.scan['qty'].value=='')
 	{
-	  alert('Please key in Quantity');
+	  notify('error','Please key in Quantity','center')
 		return false;
 	}else if(document.scan['qty'].value > 1000000)
 	{
-	  alert("Invalid Quantity");
+	  notify('error','Invalid Quantity','center')
 	  return false;
 	}
 	$('#submit_btn').attr('disabled', 'disabled');

@@ -30,7 +30,7 @@ var IMPORT_BATCH = {
         
         // only accept csv file
 		if(filename.indexOf('.csv')<0){
-			alert('Please select a valid csv file');
+			notify('error','Please select a valid csv file','center')
 			return false;
 		}
 		return true;

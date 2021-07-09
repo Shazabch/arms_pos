@@ -26,12 +26,12 @@
 {literal}
 function submit_form(){
 	if(document.f_a['order_date'].value==''){
-		alert('Please enter Order Date.');
+		notify('error','Please enter Order Date','center')
 		return false;
 	}
 
 	if(document.f_a['debtor_id'].value==''){
-		alert('Please select To Debtor.');
+		notify('error','Please select To Debtor','center')
 		return false;
 	}
 	
@@ -58,7 +58,7 @@ function search_debtor(event){
 		if(opt){ // got row found
             $(opt).attr('selected', true);
 		}else{ // no data found
-			alert(desc+' not found in Debtor list');
+			notify('error',desc+' not found in Debtor list','center')
 		}
 	}
 }

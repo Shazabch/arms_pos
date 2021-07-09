@@ -14,7 +14,7 @@
 function submit_form(){
 
 	if(document.f_a['owner_id'].value==''){
-		alert('Please select Vendor.');
+		notify('error','Please select Vendor','center')
 		return false;
 	}
 	

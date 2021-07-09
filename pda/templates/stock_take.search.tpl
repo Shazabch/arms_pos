@@ -19,22 +19,22 @@ var php_self = '{$smarty.server.PHP_SELF}';
 {literal}
 function submit_form(){
 	if(document.f_a['date'].value==''){
-		alert('Please enter Date.');
+		notify('error','Please enter Date','center')
 		document.f_a['date'].focus();
 		return false;
 	}else if(document.f_a['location'].value==''){
-		alert('Please key in Location');
+		notify('error','Please key in Location','center')
 		document.f_a['location'].focus();
 		return false;
 	}else if(document.f_a['shelf'].value==''){
-		alert('Please key in Shelf');
+		notify('error','Please key in Shelf','center')
 		document.f_a['shelf'].focus();
 		return false;
 	}
   
 	var result =  validateTimestamp(document.f_a['date'].value);
 	if(!result){
-		alert("Invalid Date Format");
+		notify('error','Invalid Date Format','center')
 		return;
 	}
 

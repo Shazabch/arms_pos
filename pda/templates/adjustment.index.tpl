@@ -25,17 +25,17 @@
 {literal}
 function submit_form(){
 	if(document.f_a['adjustment_date'].value==''){
-		alert('Please enter Adjustment Date.');
+		notify('error','Please enter Adjustment Date','center')
 		return false;
 	}
 
 	if(document.f_a['adjustment_type'].value==''){
-		alert('Please enter Adjustment Type.');
+		notify('error','Please enter Adjustment Type','center')
 		return false;
 	}
 	
 	if(document.f_a['dept_id'].value==''){
-		alert('Please select Department.');
+		notify('error','Please select Department','center')
 		return false;
 	}
 	
@@ -62,7 +62,7 @@ function search_dept(event){
 		if(opt){ // got row found
             $(opt).attr('selected', true);
 		}else{ // no data found
-			alert(desc+' not found in Department list');
+			notify('error',desc+' not found in Department list','center')
 		}
 	}
 }

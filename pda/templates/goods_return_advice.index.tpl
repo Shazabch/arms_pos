@@ -23,7 +23,7 @@
 function submit_form(){
 
 	if(document.f_a['vendor_id'].value==''){
-		alert('Please select Vendor.');
+		notify('error','Please select Vendor','center')
 		return false;
 	}
 	
@@ -50,7 +50,7 @@ function search_vendor(event){
 		if(opt){ // got row found
             $(opt).attr('selected', true);
 		}else{ // no data found
-			alert(desc+' not found in vendor list');
+			notify('error',desc+' not found in vendor list','center')
 		}
 	}
 }
