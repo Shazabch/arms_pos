@@ -200,27 +200,34 @@ function toggle_all_check(obj){
 								</select>
 							</div>
 						</div>
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Inter-</label>
+								<label class="font-weight-bold mg-b-0">Inter-Branch</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0" id="branch_check_id">
-								<label class="ckbox"><input type="checkbox" id="all_branch_id" onclick="toggle_all_check(this)"><span>All</span></label>
-							</div>
-						</div>
-						<div class="row row-xs align-items-center mg-b-20">
-							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Branch</label>
-							</div>
-							<div class="col-md-6 mg-t-5 mg-md-t-0">
+								<div class="checkbox mb-2">
+									<div class="custom-checkbox custom-control">
+										<input type="checkbox" class="custom-control-input ckbox" id="all_branch_id" onclick="toggle_all_check(this)">
+										<label for="all_branch_id" class="custom-control-label mt-1">All</label>
+									</div>
+								</div>
 								{assign var=a value=$form.interbranch}
+								
 								{foreach from=$branches key=bid item=bcode}
-
-								{if $bcode==$BRANCH_CODE}
-								<label class="ckbox mb-2"><input type="checkbox" checked disabled><span></span></label>
-								{/if}
-
-								<label class="ckbox mb-2"><input type="checkbox" {if $bcode==$BRANCH_CODE}style="display:none;" {else} {/if} type="checkbox" name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if}><span>&nbsp;&nbsp;{$bcode}</span></label>
+									{if $bcode==$BRANCH_CODE}
+									<div class="checkbox mb-2">
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" class="ckbox custom-control-input" id="checkbox-dis" checked disabled>
+											<label for="checkbox-dis" class="custom-control-label mt-1">{$bcode}</label>
+										</div>
+									</div>
+									{/if}
+									<div class="checkbox mb-2" {if $bcode==$BRANCH_CODE} style="display:none;" {/if}>
+										<div class="ckbox custom-checkbox custom-control">
+											<input type="checkbox" {if $bcode==$BRANCH_CODE} style="display:none;" {else} class="custom-control-input br_checkbox"  {/if}  name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if}>
+											<label for="interbranch_{$bid}" class="custom-control-label mt-1">{$bcode}</label>
+										</div>
+									</div>
 								{/foreach}
 							</div>
 						</div>
