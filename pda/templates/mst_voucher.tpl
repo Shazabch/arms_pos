@@ -27,13 +27,13 @@ var duration_valid = '{if $config.voucher_active_month_duration}{$config.voucher
 {literal}
 function submit_form(){
 	if(document.f_a['valid_from'].value==''){
-		alert('Please key in date start.');
+		notify('error','Please key in date start','center')
 		return false;
 	}else if(document.f_a['valid_to'].value==''){
-      	alert('Please key in date end');
+		notify('error','Please key in date end','center')
   		return false;
 	}else if($.trim(document.f_a['codes'].value)==''){
-      	alert('Please key in code');
+		notify('error','Please key in code','center')
   		return false;
 	}
 	document.f_a.submit_btn.disabled = true;
@@ -159,7 +159,7 @@ function toggle_all_check(obj){
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<div id='date_end_id'>
-									<input class="form-control" type="text" name="valid_to" value="{$smarty.request.valid_to|date_format:"%Y-%m-%d"}" id="inp_valid_to" maxlength="10">
+									<input type="text" class="form-control" name="valid_to" value="{$smarty.request.valid_to|date_format:"%Y-%m-%d"}" id="inp_valid_to" maxlength="10" />
 									<small class="help-block text-muted">(YYYY-MM-DD)</small>
 								</div>
 								<div id='date_duration_id'>
