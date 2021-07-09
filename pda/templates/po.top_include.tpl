@@ -2,22 +2,20 @@
 23/9/2019 11:38 AM William 
 - Added new module Purchase Order.
 *}
-<span class="small">
 {if $smarty.request.po_tab eq 'setting'}
-	[Setting]
+	<a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> Setting</a>
 {else}
-	<a href="po.php?a=show_setting">[Setting]</a>
+	<a href="po.php?a=show_setting"class="btn btn-info btn-sm animated fadeInDown"><i class="fas fa-cog"></i> Setting</a>
 {/if}
 
 {if !$smarty.request.po_tab or $smarty.request.po_tab eq 'scan_item'}
-	[Scan Item]
+	<a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> Scan Item</a>
 {else}
-	<a href="po.php">[Scan Item]</a>
+	 <a href="po.php"  class="btn btn-indigo btn-sm animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> Scan Item</a>
 {/if}
 
 {if $smarty.request.po_tab eq 'view_items'}
-    [View Items List]
+    <a class="btn btn-light btn-sm animated fadeInDown disabled"><i class="fas fa-th-list"></i> View Items List</a>
 {else}
-    <a href="po.php?a=view_items">[View Items List]</a>
+    <a href="po.php?a=view_items" class="btn btn-success btn-sm animated fadeInDown"><i class="fas fa-th-list"></i> View Items List</a>
 {/if}
-</span>

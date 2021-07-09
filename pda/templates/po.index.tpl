@@ -339,13 +339,13 @@ function date_format_check(obj){
 							</div>
 							{if ($sessioninfo.branch_id eq 1 && (!$form.id && !$form.deliver_to)) || ($sessioninfo.branch_id eq 1 && ($form.id && $form.deliver_to)) || ($sessioninfo.branch_id eq 1 && $err) }
 
+								<div class="col-md-8 mg-t-5 mg-md-t-0">
 								{foreach from=$branches item=branch}
-									<div class="col-md-8 mg-t-5 mg-md-t-0">
 										<div class="row align-items-center px-2">
-											<div class="col-md-3 mt-1">
+											<div class="col-md-3 mt-2">
 												<label class="ckbox"><input type="checkbox" onClick="active_btn({$branch.id},this)" id="db_{$branch.id}" name="deliver_to[]" value="{$branch.id}" class="branch" {if is_array($form.deliver_to) and in_array($branch.id,$form.deliver_to)}checked{/if} {if $disable_sett} disabled{/if}><span>{$branch.code}</span></label>
 											</div>
-											<div class="col-md-9 mt-1" id="date_list_{$branch.id}" {if !is_array($form.deliver_to) or !in_array($branch.id,$form.deliver_to)}style="display:none"{/if}>
+											<div class="col-md-9 mt-2" id="date_list_{$branch.id}" {if !is_array($form.deliver_to) or !in_array($branch.id,$form.deliver_to)}style="display:none"{/if}>
 												<div class="row">
 													<div class="col-md-6 mt-2 mt-md-0 mt-xl-0 mt-xxl-0">
 														<div class="row row-xs align-items-center">
@@ -370,8 +370,8 @@ function date_format_check(obj){
 												</div>
 											</div>
 										</div>
-									</div>
 								{/foreach}
+								</div>
 							{else}
 								{if $disable_sett}
 									{$form.po_branch_code}

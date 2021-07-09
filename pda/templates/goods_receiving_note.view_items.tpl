@@ -234,7 +234,7 @@ function check_by_bom_group(obj, bom_id){
 									<th>#</th>
 									<th>
 										<div class="custom-checkbox custom-control">
-											<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="toggle_chx custom-control-input" id="checkbox-del0">
+											<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
 											<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
 										</div>
 									</th>
@@ -249,8 +249,8 @@ function check_by_bom_group(obj, bom_id){
 										<td>{$smarty.foreach.i.iteration}.</td>
 										<td>
 											<div class="custom-checkbox custom-control">
-												<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="custom-control-input item_chx" id="checkbox-[{$r.id}]" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if}>
-												<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1">Del</label>
+												<input type="checkbox" name="item_chx[{$r.id}]" class="custom-control-input item_chx" id="checkbox-[{$r.id}]" {if $r.bom_ref_num > 0}onchange="check_by_bom_group(this, {$r.bom_ref_num});"{/if}>
+												<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
 											</div>
 										</td>
 										<td>{$r.sku_item_code}</td>
