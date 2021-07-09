@@ -106,45 +106,41 @@ function submit_items(act){
 		<div class="col-xl-12 mt-2">
 			<form name="f_a" method="post" onSubmit="return false;">
 				<input type="hidden" name="a" />
-				<div class="card">
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-hover mb-0 text-md-nowrap">
-								<thead>
-									<tr>
-										<th>#</th>
-								        <th>
-								        	<div class="custom-checkbox custom-control">
-												<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-2">
-												<label for="checkbox-2" class="custom-control-label">DEL</label>
-											</div>
-								        </th>
-								        <th>ARMS Code</th>
-								        <th>Description</th>
-										<th>Qty</th>
-									</tr>
-								</thead>
-								<tbody>
-									{foreach from=$items key=row item=r name=i}
-								        <tr>
-								        	<td>{$smarty.foreach.i.iteration}.</td>
-								            <td>
-								            	<div class="custom-checkbox custom-control">
-													<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
-													<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
-												</div>
-								            </td>
-								            <td>{$r.sku_item_code}</td>
-								            <td>{$r.sku_description}</td>
-											<td>
-												<input type="text" name="qty[{$r.id}]" class="qty items r form-control form-control-sm" size="3" value="{$r.qty}" />
-											</td>
-								        </tr>
-								    {/foreach}
-								</tbody>
-							</table>
-						</div>
-					</div>
+				<div class="table-responsive">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
+							<tr>
+								<th>#</th>
+						        <th>
+						        	<div class="custom-checkbox custom-control">
+										<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-2">
+										<label for="checkbox-2" class="custom-control-label">DEL</label>
+									</div>
+						        </th>
+						        <th>ARMS Code</th>
+						        <th>Description</th>
+								<th>Qty</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$items key=row item=r name=i}
+						        <tr>
+						        	<td>{$smarty.foreach.i.iteration}.</td>
+						            <td>
+						            	<div class="custom-checkbox custom-control">
+											<input type="checkbox" name="item_chx[{$r.id}]" class="item_chx custom-control-input" id="checkbox-[{$r.id}]">
+											<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1"></label>
+										</div>
+						            </td>
+						            <td>{$r.sku_item_code}</td>
+						            <td>{$r.sku_description}</td>
+									<td>
+										<input type="text" name="qty[{$r.id}]" class="qty items r form-control form-control-sm" size="3" value="{$r.qty}" />
+									</td>
+						        </tr>
+						    {/foreach}
+						</tbody>
+					</table>
 				</div>
 			</form>
 		</div>
