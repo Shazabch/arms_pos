@@ -116,8 +116,8 @@ function toggle_bb_list(){
 							{foreach from=$bb_list item=r}
 							<tr>
 								<td>
-									<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>&nbsp;
-									<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-toggle="tooltip" title="Delete" onclick="return delete_confirmation();"><i class="text-danger fas fa-trash-alt"></i></a>
+									<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-placement="right" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>&nbsp;
+									<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-placement="right" data-toggle="tooltip" title="Delete" onclick="return delete_confirmation();"><i class="text-danger fas fa-trash-alt"></i></a>
 								</td>
 								<td>#{$r.id}</td>
 								<td>{$r.total_items}</td>

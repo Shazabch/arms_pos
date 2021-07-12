@@ -92,7 +92,7 @@ function check_form(){
 					<tbody>
 						{foreach from=$gra_list item=gra}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_gra&id={$gra.id}&branch_id={$gra.branch_id}" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_gra&id={$gra.id}&branch_id={$gra.branch_id}" data-placement="right" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
 							<td>GRA#{$gra.id}</td>
 							<td>{$gra.vendor_code} - {$gra.vendor_desc}</td>
 						</tr>

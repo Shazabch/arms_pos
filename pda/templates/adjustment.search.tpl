@@ -102,7 +102,7 @@ function check_form(){
 					<tbody>
 						{foreach from=$adj_list item=adj}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_adjustment&id={$adj.id}&branch_id={$adj.branch_id}&find_adjustment={$smarty.request.find_adjustment}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_adjustment&id={$adj.id}&branch_id={$adj.branch_id}&find_adjustment={$smarty.request.find_adjustment}" data-placement="right" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
 							<td>{$adj.report_prefix}{$adj.id|string_format:"%05d"}</td>
 							<td>{$adj.adjustment_date}</td>
 							<td>{$adj.adjustment_type}</td>
