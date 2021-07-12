@@ -97,9 +97,9 @@ function check_form(){
 						<tr>
 							<td>
 								{if $po.deliver_to}
-									<a href="po.php?a=change_po&id={$po.id}&branch_id={$po.branch_id}"><img src="/ui/ed.gif" border="0" title="Open" /></a>
+									<a href="po.php?a=change_po&id={$po.id}&branch_id={$po.branch_id}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>
 								{else}
-									<a href="po.php?a=change_po&id={$po.id}&branch_id={$po.branch_id}"><img src="/ui/ed.gif" border="0" title="Open" /></a>
+									<a href="po.php?a=change_po&id={$po.id}&branch_id={$po.branch_id}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>
 								{/if}
 							</td>
 							<td>PO#{$po.id}</td>

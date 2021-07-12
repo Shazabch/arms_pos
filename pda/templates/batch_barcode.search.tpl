@@ -100,7 +100,7 @@ function toggle_bb_list(){
 
 <div id="batch_barcode_list" {if !$smarty.request.find_batch_barcode || !$bb_list}style="display:none;"{/if}>
 	<!--Table-->
-	<div class="col-xl-12 animated fadeInDown">
+	<div class="col-xl-12 animated fadeInDown mt-3">
 		<div class="card">
 			<div class="card-body">
 				<div class="table-responsive">
@@ -116,8 +116,8 @@ function toggle_bb_list(){
 							{foreach from=$bb_list item=r}
 							<tr>
 								<td>
-									<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}"><img src="/ui/ed.gif" border="0" title="Open" /></a>&nbsp;
-									<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" onclick="return delete_confirmation();"><img src="/ui/del.gif" border="0" title="Delete" /></a>
+									<a href="{$smarty.server.PHP_SELF}?a=change_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>&nbsp;
+									<a href="{$smarty.server.PHP_SELF}?a=delete_batch_barcode&id={$r.id}&branch_id={$r.branch_id}&find_batch_barcode={$smarty.request.find_batch_barcode}" data-toggle="tooltip" title="Delete" onclick="return delete_confirmation();"><i class="text-danger fas fa-trash-alt"></i></a>
 								</td>
 								<td>#{$r.id}</td>
 								<td>{$r.total_items}</td>

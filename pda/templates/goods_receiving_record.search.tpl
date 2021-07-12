@@ -106,7 +106,7 @@ function check_form(){
 					<tbody>
 						{foreach from=$grr_list item=grr}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_grr&id={$grr.id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_grr&id={$grr.id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
 							<td>GRR#{$grr.id}</td>
 							<td>{$grr.vendor_code} - {$grr.vendor_desc}</td>
 						</tr>

@@ -110,7 +110,7 @@ function check_form(){
 									{if $do.do_type eq 'transfer' && $do.deliver_branch}
 										{* do nth because cannot let user to edit multiple branches DO *}
 									{else}
-										<a href="do.php?a={if $is_checklist}scan_checklist_item{else}change_do{/if}&id={$do.id}&branch_id={$do.branch_id}"><img src="/ui/ed.gif" title="Open" /></a>
+										<a href="do.php?a={if $is_checklist}scan_checklist_item{else}change_do{/if}&id={$do.id}&branch_id={$do.branch_id}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a>
 									{/if}
 								</td>
 					            <td>DO#{$do.id}</td>

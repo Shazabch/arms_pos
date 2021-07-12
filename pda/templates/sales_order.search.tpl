@@ -100,7 +100,7 @@ function check_form(){
 					<tbody>
 						{foreach from=$so_list item=so}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_so&id={$so.id}&branch_id={$so.branch_id}"><img src="/ui/ed.gif" border="0" title="Open" /></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_so&id={$so.id}&branch_id={$so.branch_id}" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
 							<td>SO#{$so.id}</td>
 							<td>{$so.debtor_code} - {$so.debtor_desc}</td>
 						</tr>
