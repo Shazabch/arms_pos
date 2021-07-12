@@ -713,7 +713,7 @@
 	</nav>
 <div class="container p-0 mt-5">
 	<div class="d-flex flex-column justify-content-center align-items-center">
-	{if file_exists('promotion.php') and $smarty.request.id eq 'promotion'}
+	{if $smarty.session.promotion.id>0}
 		<div class="col-sm-12 col-xl-4 col-lg-12 col-md-12 animated zoomIn">
 			<div class="card ">
 				<div class="card-body">
