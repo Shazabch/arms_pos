@@ -141,7 +141,7 @@ function toggle_all_check(obj){
 			<form name="f_a" method="post" onSubmit="return false;">
 				<div class="card-body">
 					<div class="pd-15 pd-sm-20">
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">Date Start</label>
 							</div>
@@ -150,7 +150,7 @@ function toggle_all_check(obj){
 								<small class="help-block text-muted">(YYYY-MM-DD)</small>
 							</div>
 						</div>
-						<div class="row row-xs align-items-center mg-b-20">
+						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
 								<select class="form-control w-75" name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);'>
 									<option value='valid_to'>Date End</option>
