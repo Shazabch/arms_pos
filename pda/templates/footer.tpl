@@ -11,7 +11,9 @@
 
 		<script type="text/javascript">
 			{literal}
-				
+				$(document).ready(function() {
+    $('.select2').select2();
+});
 			{/literal}	
 		</script>
 
