@@ -12,6 +12,43 @@
 *}
 
 {include file=header.tpl}
+{literal}
+<style>
+#result {
+	width:100%;
+	margin:0 auto;
+	margin-top:1px;
+	align: left;
+}
+#result .item {
+	
+	padding-bottom:10px;
+	border-top:1px solid #999;
+	padding: 10px;
+}
+#result .item em {
+	color:#0066CC;
+	padding-left:5px;
+	font-style: normal;
+}
+#result .block
+{
+	float:left;
+}
+#result .bignumber
+{
+	float:left;
+	font-size:12px;
+}
+#result .br
+{
+	color:#fff;
+	background:#060;
+	padding:0 3px;
+	font-weight: bold;
+}
+</style>
+{/literal}
 <script>
 var php_self = '{$smarty.server.PHP_SELF}';
 {literal}
@@ -62,6 +99,9 @@ function checkKey(event){
 
 </script>
 {/literal}
+
+<!-- Replacement Iten Popup -->
+
 <!-- BreadCrumbs -->
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
@@ -90,7 +130,7 @@ function checkKey(event){
 						<div class="row row-xs">
 							<input type="hidden" name="a" value="">
 							<div class="col-md-10 mg-t-10 mg-md-t-0">
-								<input class="form-control" type="text" name="code" onKeyPress="checkKey(event);">
+								<input class="form-control" type="text"  name="code" onKeyPress="checkKey(event);">
 							</div>
 							<div class="col-md-2 mt-4 mt-xl-0">
 								<input type="submit" class="btn btn-main-primary btn-block" value="Find" onclick="fsubmit();">
@@ -100,7 +140,7 @@ function checkKey(event){
 					<div class="checkbox">
 						<div class="custom-checkbox custom-control">
 							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" name="show_child" value="1" id="checkbox-2">
-							<label for="checkbox-2" class="custom-control-label mt-1">Show child items</label>
+							<label for="checkbox-2" class="custom-control-label mt-1" name="show_child" value="1">Show child items</label>
 						</div>
 					</div>
 				</div>
