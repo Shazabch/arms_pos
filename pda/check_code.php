@@ -5,6 +5,15 @@
 
 2/27/2013 3:20 PM Fithri
 - show stock balance - deduct unfinalized qty (stock with un-finalize sales)
+
+5/20/2021 4:23 PM Andy
+- Enhanced to check full barcode for link code.
+
+06/10/2021 06:00 PM Ed Au
+- Enhance to add POS Photo, Unfinalise POS Qty, Sales Order Reserve Qty and change Unfinalsed Stock Balance formula
+
+17/06/2020 2.25 PM Ed Au
+- Enhance to search with SKU Descripton
 */
 include("common.php");
 if (!intranet_or_login()) js_redirect($LANG['ACCESS_DENIED_NEED_LOGIN_OR_INTRANET'], "/index.php");
@@ -40,10 +49,18 @@ if (isset($_REQUEST['a'])){
 				$sku_item_id_list[$r['sku_item_id']] = $r['sku_item_id'];
 			}
 			
+			
+			
+			
+			
 			if($sku_item_id_list) $extra_filter = " or sku_items.id in (".join(",", $sku_item_id_list).")";
+			
+			//if($config['check_code_search_desc']) $extra_filter .= " or sku_items.description like '%".$sdesc."%'";
+			if($config['check_code_search_desc']) $extra_filter .= " or sku_items.description like ".ms('%'.replace_special_char($sdesc).'%')."";
 
+			
 			// searching sql
-			$where = "sku_items.active=1 and (sku_items.link_code = ".ms($linkcode)." or sku_items.sku_item_code = ".ms(preg_match("/^2/",$sdesc)?substr($sdesc,0,12):$sdesc)." or sku_items.sku_item_code like ".ms("%$sdesc%")." or sku_items.artno like ".ms($sdesc.'%')." or sku_items.mcode = ".ms(preg_match("/^2/",$sdesc)?substr($sdesc,0,12):$sdesc)." $extra_filter)";
+			$where = "sku_items.active=1 and (sku_items.link_code = ".ms($linkcode)." or sku_items.link_code = ".ms($sdesc)." or sku_items.sku_item_code = ".ms(preg_match("/^2/",$sdesc)?substr($sdesc,0,12):$sdesc)." or sku_items.sku_item_code like ".ms("%$sdesc%")." or sku_items.artno like ".ms($sdesc.'%')." or sku_items.mcode = ".ms(preg_match("/^2/",$sdesc)?substr($sdesc,0,12):$sdesc)." $extra_filter)";
 
 			if($show_child){ // found need to show child and replacement items
 				$con->sql_query("select sku_items.id, sku_items.sku_id
@@ -120,15 +137,31 @@ if (isset($_REQUEST['a'])){
 						$r['batch_items'][$b['code']] = $b['code'];
 					}
 					
-					//unfinalized stock balance
-					$res2 = $con->sql_query("select ifnull(sum(pi.qty),0) as qty from pos p left join pos_items pi on p.id=pi.pos_id and p.branch_id = pi.branch_id and p.counter_id = pi.counter_id and p.date = pi.date where p.branch_id = ".mi($bid)." and p.date > '$last_finalized_date' and p.cancel_status = 0 and pi.sku_item_id = ".$r['id']);
-					//print $abc.'<br /><br />';
-					$r2 = $con->sql_fetchassoc($res2);
-					$r['unfinalize_qty'] = $r['qty'] - $r2['qty'];
+					if($config['check_code_show_balance']){
+						//unfinalized stock balance
+						$res2 = $con->sql_query("select ifnull(sum(pi.qty),0) as qty from pos p left join pos_items pi on p.id=pi.pos_id and p.branch_id = pi.branch_id and p.counter_id = pi.counter_id and p.date = pi.date where p.branch_id = ".mi($bid)." and p.date > '$last_finalized_date' and p.cancel_status = 0 and pi.sku_item_id = ".$r['id']);
+						$r2 = $con->sql_fetchassoc($res2);
+						$con->sql_freeresult($res2);
+						
+						// Sales Order Reserve Qty`
+						$res4=$con->sql_query("select ifnull(sum(soi.pcs + (uom.fraction * soi.ctn)),0) as  reserve_qty
+						from sales_order_items soi
+						left join sales_order so on so.id = soi.sales_order_id and soi.branch_id = so.branch_id
+						left join uom on uom.id = soi.uom_id
+						where so.approved = 1 and so.delivered = 0 and so.exported_to_pos = 0 and so.active = 1 and so.status = 1 and
+						soi.sku_item_id =".$r['id']." and soi.branch_id=".$bid);
+						$r4 = $con->sql_fetchassoc($res4);
+						$con->sql_freeresult($res4);
 
+						$r['unfinalise_pos_qty']=$r2['qty'];
+						$r['sales_order_reserve_qty']=$r4['reserve_qty'];
+						$r['unfinalize_qty'] = $r['qty'] - $r2['qty']-$r4['reserve_qty'];
+					}
+					
+					$r['photo_promotion']=get_sku_promotion_photos($r['id'],$r);
 					$items[] = $r;
 				}
-				$con->sql_freeresult();
+				$con->sql_freeresult($res1);
 				$smarty->assign("items", $items);
 				$smarty->assign("show_unfinalize_sb", (BRANCH_CODE != 'HQ'));
 			}else $msg = "<p>Search of <b>$_REQUEST[code]</b> return 0 result.</p>";

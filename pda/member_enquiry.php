@@ -2,6 +2,9 @@
 /*
 1/29/2021 9:00 AM William
 - Enhanced to add member no, phone to member table.
+
+5/4/2021 1:25 PM Andy
+- Added "Purchase History".
 */
 include("common.php");
 include("class.scan_product.php");
@@ -47,7 +50,8 @@ class MEMBER_ENQUIRY_Module extends Scan_Product{
 			if($count > 0){
 				if($count == 1){
 					$mdata=$con->sql_fetchassoc($q1);
-					$this->get_member_info($mdata['nric']);
+					//$this->get_member_info($mdata['nric']);
+					header("location:".$_SERVER['PHP_SELF']."?a=get_member_info&nric=".urlencode($mdata['nric']));
 					exit;
 				}else{
 					$member_list = array();
@@ -175,6 +179,63 @@ class MEMBER_ENQUIRY_Module extends Scan_Product{
 	function add_items(){
 		global $con,$config,$sessioninfo;
 
+	}
+	
+	function view_purchase_history(){
+		global $con, $smarty, $appCore;
+		
+		$nric = trim($_REQUEST['nric']);
+		
+		if($nric){
+			// Get Member Data
+			$member_data = $appCore->memberManager->getMember($nric, false);
+		}
+		
+		// Member Not Found
+		if(!$member_data){
+			$err = array();
+			$err[] = "Invalid Nric.";
+			$smarty->assign('err', $err);
+			$smarty->assign('form', $form);
+			$smarty->display('member_enquiry.tpl');
+			exit;
+		}
+		
+		$filter = array();
+		//$member_data['membership_guid'] = '';
+		if($member_data['membership_guid']){
+			// If got Member GUID, filter using it will be faster
+			$filter[] = "p.membership_guid=".ms($member_data['membership_guid']);
+		}else{
+			// No Member GUID, filter using member_no
+			$card_no_list = $appCore->memberManager->getMemberCardNoList($nric);
+			if($card_no_list){
+				$filter[] = "p.member_no in (".join(",", array_map("ms", $card_no_list)).")";
+			}else{
+				$filter[] = "0";	// filter by zero will always return no result
+			}
+		}
+		$filter[] = "p.cancel_status=0";
+		$str_filter = "where ".join(' and ', $filter);
+		
+		$member_data['pos_list'] = array();
+		
+		// Get Purchase History
+		$q1 = $con->sql_query($sql = "select p.branch_id,p.counter_id,p.id,p.date,p.receipt_ref_no,amount,
+			(select sum(pp.amount) from pos_payment pp where pp.branch_id=p.branch_id and pp.counter_id=p.counter_id and pp.date=p.date and pp.pos_id=p.id and pp.type in ('Discount', 'Mix & Match Total Disc') and pp.adjust=0) as total_disc_amt
+			from pos p
+			$str_filter
+			order by p.date desc, p.id desc
+			limit 100");
+		//print $sql;
+		while($r = $con->sql_fetchassoc($q1)){
+			$r['final_amt'] = round($r['amount'] - $r['total_disc_amt'], 2);
+			$member_data['pos_list'][] = $r;
+		}
+		$con->sql_freeresult($q1);
+		//print_r($member_data);
+		$smarty->assign('member_data', $member_data);
+		$smarty->display('member_enquiry.view_purchase_history.tpl');
 	}
 }
 $MEMBER_ENQUIRY_Module = new MEMBER_ENQUIRY_Module('Member Enquiry');

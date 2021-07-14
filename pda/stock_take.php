@@ -36,6 +36,9 @@
 
 9/9/2020 2:48 PM William
 - Bug Fixed to add insert id manually for stock_take_pre table that use auto increment.
+
+9/21/2020 9:18 AM William
+- Enhanced to block create and save when config "monthly_closing_block_document_action" is active and document date has closed.
 */
 
 include("common.php");
@@ -136,7 +139,7 @@ class ST_module extends Scan_Product{
 	}
 
 	function save_items(){
-        global $con, $smarty;
+        global $con, $smarty, $config, $appCore, $LANG;
 		$branch_id = $_SESSION['st']['branch_id'];
 		$date = $_SESSION['st']['date'];
 		$location = $_SESSION['st']['location'];
@@ -145,6 +148,32 @@ class ST_module extends Scan_Product{
        if(!$branch_id || !$date || !$location || !$shelf){
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
+		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($date);
+			if($is_month_closed){
+				$err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+
+				$q1 = $con->sql_query("select *, stp.id as item_id, si.sku_item_code, si.mcode, si.artno, si.description
+									   from stock_take_pre stp
+									   left join sku_items si on si.id = stp.sku_item_id
+									   where stp.branch_id = ".mi($branch_id)." and stp.date = ".ms($date)." and stp.location = ".ms($location)." and stp.shelf = ".ms($shelf)."
+									   order by stp.id");
+			
+				$item_list = array();
+				while($r = $con->sql_fetchassoc($q1)){
+					$item_list[] = $r;
+				}
+				$con->sql_freeresult($q1);
+				
+				$smarty->assign('items', $item_list);
+				$smarty->assign('err',$err);
+				$smarty->display('stock_take.view_items.tpl');
+				exit;
+			}
 		}
 
         if($_REQUEST['qty']){
@@ -156,7 +185,7 @@ class ST_module extends Scan_Product{
 	}
 	
 	function delete_items(){
-		global $con, $smarty;
+		global $con, $smarty, $config, $appCore, $LANG;
 		$branch_id = $_SESSION['st']['branch_id'];
 		$date = $_SESSION['st']['date'];
 		$location = $_SESSION['st']['location'];
@@ -165,6 +194,32 @@ class ST_module extends Scan_Product{
         if(!$branch_id || !$date || !$location || !$shelf){
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
+		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($date);
+			if($is_month_closed){
+				$err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+
+				$q1 = $con->sql_query("select *, stp.id as item_id, si.sku_item_code, si.mcode, si.artno, si.description
+									   from stock_take_pre stp
+									   left join sku_items si on si.id = stp.sku_item_id
+									   where stp.branch_id = ".mi($branch_id)." and stp.date = ".ms($date)." and stp.location = ".ms($location)." and stp.shelf = ".ms($shelf)."
+									   order by stp.id");
+			
+				$item_list = array();
+				while($r = $con->sql_fetchassoc($q1)){
+					$item_list[] = $r;
+				}
+				$con->sql_freeresult($q1);
+				
+				$smarty->assign('items', $item_list);
+				$smarty->assign('err',$err);
+				$smarty->display('stock_take.view_items.tpl');
+				exit;
+			}
 		}
 		
 		if($_REQUEST['item_chx']){
@@ -198,11 +253,15 @@ class ST_module extends Scan_Product{
 	}
   
 	function save_setting($err=""){
-		global $con,$smarty,$sessioninfo;
-
-		$this->is_date();
-
+		global $con,$smarty,$sessioninfo,$config,$appCore,$LANG;
+		
+		//check monthly closed
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($_REQUEST['date_t']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
 		if(!$err){
+			$this->is_date();
 			$_SESSION['st']['branch_id'] = $sessioninfo['branch_id'];
 			$_SESSION['st']['date'] = $_REQUEST['date_t'];
 			$_SESSION['st']['location'] = $_REQUEST['location'];
@@ -210,8 +269,18 @@ class ST_module extends Scan_Product{
 			$_SESSION['st']['title'] = get_branch_code($_SESSION['st']['branch_id'])." / ".$_SESSION['st']['date']." / ".$_SESSION['st']['location']." / ".$_SESSION['st']['shelf'];
 			
 			log_br($sessioninfo['id'], 'PDA Stock Take', 0, "save setting (Branch#".$sessioninfo['branch_id']);
-		}else $smarty->assign("errm", $err);
-
+		}else{
+			$shelf = $_REQUEST['shelf'] ? $_REQUEST['shelf'] : $_SESSION['st']['shelf'];
+			$location = $_REQUEST['location'] ? $_REQUEST['location'] : $_SESSION['st']['location'];
+			$_REQUEST['date_t'] = $_REQUEST['date_t'] ? $_REQUEST['date_t'] : $_SESSION['st']['date'];
+			
+			$smarty->assign("form",$_REQUEST);
+			$smarty->assign("shelf", $shelf);
+			$smarty->assign("location", $location);
+			$smarty->assign("errm", $err);
+			$smarty->display("stock_take.tpl");
+			exit;
+		}
 		//$smarty->display('stock_take.scan.tpl');
 		
 		header("Location: $_SERVER[PHP_SELF]?a=show_scan");
@@ -224,7 +293,17 @@ class ST_module extends Scan_Product{
 	}
   
 	function save_scanning(){
-		global $con,$smarty,$sessioninfo,$appCore;
+		global $con,$smarty,$sessioninfo,$appCore,$config,$LANG;
+		
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($_SESSION['st']['date']);
+			if($is_month_closed){
+				$err = array();
+				$err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+				$this->save_setting($err);
+				exit;
+			}
+		}
 
 		if(!$_REQUEST['sku_item_id']){
 			$err = array();

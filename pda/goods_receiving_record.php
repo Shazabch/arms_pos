@@ -23,6 +23,9 @@
 1/15/2020 10:35 AM Justin
 - Enhanced to insert ID manually for some tables that uses auto increment.
 - Bug fixed on search GRR No couldn't find the actual GRR while user provides document no.
+
+9/21/2020 9：56 AM William
+- Enhanced to block closed month document create and save when config "monthly_closing" and "monthly_closing_block_document_action" is active.
 */
 include("common.php");
 include("class.scan_product.php");
@@ -176,6 +179,10 @@ class GRR_Module extends Scan_Product{
 				}
 			}
 		}
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($_REQUEST['rcv_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
 
 		if(!$upd['transport'])  $err[] = "* Lorry No is required";
 		if(!$upd['rcv_by'])  $err[] = "* Received by is required";
@@ -292,7 +299,7 @@ class GRR_Module extends Scan_Product{
 	function add_items(){}
 	
 	function save_items(){
-        global $con, $smarty, $appCore;
+        global $con, $smarty, $appCore, $config, $LANG;
 		$grr_id = $_REQUEST['grr_id'] = mi($_SESSION['grr']['id']);
         $branch_id = $_REQUEST['branch_id'] = mi($_SESSION['grr']['branch_id']);
 		$form = $_REQUEST;
@@ -301,8 +308,17 @@ class GRR_Module extends Scan_Product{
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
 		}
-
+		
+		$err = array();
 		$err = $this->validate_data($form);
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$q1=$con->sql_query("select rcv_date from grr where id=$grr_id and branch_id=$branch_id");
+			$r = $con->sql_fetchassoc($q1);
+			$con->sql_freeresult($q1);
+			
+			$is_month_closed = $appCore->is_month_closed($r['rcv_date']);
+			if($is_month_closed)  $err['top'][] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
 		//print_r($err);
 		if($err){
 			foreach($_REQUEST['doc_no'] as $gi_id=>$doc_no){
@@ -401,7 +417,7 @@ class GRR_Module extends Scan_Product{
 	}
 	
 	function delete_items(){
-		global $con, $smarty;
+		global $con, $smarty, $config, $appCore, $LANG;
 
 		$id = mi($_SESSION['grr']['id']);
         $branch_id = mi($_SESSION['grr']['branch_id']);
@@ -410,6 +426,42 @@ class GRR_Module extends Scan_Product{
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
 		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$q1=$con->sql_query("select rcv_date from grr where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchassoc($q1);
+			$con->sql_freeresult($q1);
+			
+			$is_month_closed = $appCore->is_month_closed($r['rcv_date']);
+			if($is_month_closed)  $err['top'][] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
+		if($err){
+			foreach($_REQUEST['doc_no'] as $gi_id=>$doc_no){
+				$item = array();
+				$item['id'] = $gi_id;
+				$item['doc_no'] = $_REQUEST['doc_no'][$gi_id];
+				$item['doc_date'] = $_REQUEST['doc_date'][$gi_id];
+				$item['prev_doc_no'] = $_REQUEST['prev_doc_no'][$gi_id];
+				$item['type'] = $_REQUEST['type'][$gi_id];
+				$item['prev_type'] = $_REQUEST['prev_type'][$gi_id];
+				$item['ctn'] = $_REQUEST['ctn'][$gi_id];
+				$item['pcs'] = $_REQUEST['pcs'][$gi_id];
+				$item['amount'] = $_REQUEST['amount'][$gi_id];
+				$item['gst_amount'] = $_REQUEST['gst_amount'][$gi_id];
+				$item['remark'] = $_REQUEST['remark'][$gi_id];
+				$items[] = $item;
+			}
+
+			$smarty->assign('items',$items);
+			$smarty->assign('err',$err);
+			$smarty->assign('grr_tab', 'view_items');
+			$smarty->display('goods_receiving_record.view_items.tpl');
+			exit;
+		}
+		
+		
 		if($_REQUEST['item_chx']){
 			// update all PO's delivered become 0 if any
             $sql = $con->sql_query("select * from grr_items where grr_id = ".mi($id)." and branch_id = ".mi($branch_id)." and id in (".join(',',array_keys($_REQUEST['item_chx'])).") and type = 'PO'");

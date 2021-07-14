@@ -9,6 +9,9 @@
 
 12/10/2019 2:00 PM William
 - Fixed pda po module not checking block item in PO block list.
+
+9/21/2020 10:33 PM William
+- Enhanced to block closed month document create and save when config "monthly_closing" and "monthly_closing_block_document_action" is active.
 */
 include("common.php");
 include("class.scan_product.php");
@@ -170,7 +173,7 @@ class PO_Module extends Scan_Product{
 	
 	//create new po, not include po items
 	function save_setting(){
-		global $con, $smarty, $sessioninfo, $config, $LANG;
+		global $con, $smarty, $sessioninfo, $config, $LANG, $appCore;
 		$form = $_REQUEST;
 		$id = mi($form['id']);
 		$branch_id = mi($form['branch_id']);
@@ -212,6 +215,10 @@ class PO_Module extends Scan_Product{
 		}
 		
 		// validating
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($upd['po_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
 		if(!$upd['vendor_id']) $err[] = "Invalid Vendor";
 		if(!$upd['department_id']) $err[] = "Invalid Department";
 		if(!$upd['po_date']) $err[] = "Invalid PO Date";
@@ -380,7 +387,20 @@ class PO_Module extends Scan_Product{
         $id = mi($_SESSION['po']['id']);
         $branch_id = mi($_SESSION['po']['branch_id']);
         $po_branch_id = mi($_SESSION['po']['po_branch_id']);
-        $upd = array();
+        
+		//check is_month_closed
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$err = $this->check_closed_month($id, $branch_id);
+			if($err){
+				if($_REQUEST['auto_add_item'])   $this->err = $err;
+				else   $ret['error'] = $err;
+				
+				$this->get_item_info();
+				return $ret;
+			}
+		}
+		
+		$upd = array();
         $upd['po_id'] = $id;
         $upd['branch_id'] = $branch_id;
         $upd['user_id'] = $sessioninfo['id'];
@@ -490,10 +510,10 @@ class PO_Module extends Scan_Product{
 					if($con->sql_numrows($result)==0){
 						if (BRANCH_CODE!='HQ'){
 							$branch_chk = " po_items.branch_id=$branch_id and ";
-						}
-						elseif ($form['po_branch_id'] && !is_array($form['deliver_to'])){
-							$bid=intval($form['po_branch_id']);
-							$branch_chk = " po_items.branch_id=$bid and ";
+						}else{
+							if($po_branch_id)  $bid=intval($po_branch_id);
+							else  $bid=$branch_id;
+							$branch_chk=" po_items.branch_id=$bid and ";	
 						}
 						
 						//get from po
@@ -736,50 +756,7 @@ class PO_Module extends Scan_Product{
 			exit;
 		}
 		
-        $q1 =$con->sql_query("select pi.*,si.sku_item_code,si.description as sku_description, si.doc_allow_decimal from po_items pi 
-		left join sku_items si on si.id=pi.sku_item_id where pi.po_id=$id and pi.branch_id=$branch_id and (cost_indicate <> 'PA' or cost_indicate is null) order by pi.id") or die(mysql_error());
-		while($r1 = $con->sql_fetchassoc($q1)){
-			$q3 = $con->sql_query($qry ="select po_branch_id,deliver_to from po where id=$id and branch_id=".mi($branch_id));
-			$r3 = $con->sql_fetchassoc($q3);
-			$con->sql_freeresult($q3);
-			if($sessioninfo['branch_id'] == 1 && !$r3['po_branch_id'] && $r3['deliver_to']){ //for hq branch
-				$q2= $con->sql_query("select deliver_to from po where id=$id and branch_id=".mi($branch_id));
-				$r2= $con->sql_fetchassoc($q2);
-				$con->sql_freeresult($q2);
-				if($r2['deliver_to']){
-					$branch_id = unserialize($r2['deliver_to']);
-					foreach($branch_id as $bid){
-						$branch_code[] = get_branch_code($bid);
-						$multi_bid[] = $bid;
-					}
-					$r1['branch_code'] = $branch_code;
-					$r1['multi_bid'] = $multi_bid;
-				}
-				
-				if($r1['qty_loose_allocation']){
-					$qty_loose_allocation = unserialize($r1['qty_loose_allocation']);
-					if($qty_loose_allocation){
-						foreach($qty_loose_allocation as $bid=>$value){
-							$qty_pcs[$bid] = $value;
-						}
-					}
-					$r1['qty_pcs'] = $qty_pcs;
-				}
-				
-				if($r1['foc_loose_allocation']){
-					$foc_loose_allocation = unserialize($r1['foc_loose_allocation']);
-					if($foc_loose_allocation){
-						foreach($foc_loose_allocation as $bid=>$value){
-							$foc_pcs[$bid] = $value;
-						}
-					}
-					$r1['foc_pcs'] = $foc_pcs;
-				}
-				unset($branch_code,$multi_bid,$qty_pcs,$foc_pcs);
-			}
-			$items[] = $r1;
-		}
-		$con->sql_freeresult($q1);
+		$items = $this->get_po_items($id, $branch_id);
         $smarty->assign('items',$items);
 		$_REQUEST['po_tab'] = 'view_items';
 		$smarty->display('po.view_items.tpl');
@@ -787,7 +764,7 @@ class PO_Module extends Scan_Product{
 	
 	//delete po items
 	function delete_items(){
-		global $con, $smarty;
+		global $con, $smarty, $config;
 		$id = mi($_SESSION['po']['id']);
         $branch_id = mi($_SESSION['po']['branch_id']);
 
@@ -795,6 +772,19 @@ class PO_Module extends Scan_Product{
 			header("Location: po.php");
 			exit;
 		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']) $err = $this->check_closed_month($id, $branch_id);
+		if($err){
+			$items = $this->get_po_items($id, $branch_id);
+			$_REQUEST['po_tab'] = 'view_items';
+			$smarty->assign('err',$err);
+			$smarty->assign('items',$items);
+			$smarty->display('po.view_items.tpl');
+			exit;
+		}
+
 		if($_REQUEST['item_chx']){
             $con->sql_query("delete from po_items where po_id=$id and branch_id=$branch_id and id in (".join(',',array_keys($_REQUEST['item_chx'])).")") or die(mysql_error());
 		}
@@ -805,13 +795,25 @@ class PO_Module extends Scan_Product{
 	
 	//Save changed po items
 	function save_items(){
-        global $con, $sessioninfo, $smarty;
+        global $con, $sessioninfo, $smarty, $config;
 		$form = $_REQUEST;
 		$id = mi($_SESSION['po']['id']);
         $branch_id = mi($_SESSION['po']['branch_id']);
 		
         if(!$id||!$branch_id){
 			header("Location: po.php");
+			exit;
+		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']) $err = $this->check_closed_month($id, $branch_id);
+		if($err){
+			$items = $this->get_po_items($id, $branch_id);
+			$_REQUEST['po_tab'] = 'view_items';
+			$smarty->assign('err',$err);
+			$smarty->assign('items',$items);
+			$smarty->display('po.view_items.tpl');
 			exit;
 		}
 		
@@ -904,6 +906,77 @@ class PO_Module extends Scan_Product{
 		$con->sql_freeresult($q2);
 		$deliver_bid = unserialize($r2['deliver_to']);
 		return $deliver_bid;
+	}
+	
+	function get_po_items($id, $branch_id){
+		global $con, $smarty, $sessioninfo;
+		
+		$items = array();
+        $q1 =$con->sql_query("select pi.*,si.sku_item_code,si.description as sku_description, si.doc_allow_decimal from po_items pi 
+		left join sku_items si on si.id=pi.sku_item_id where pi.po_id=$id and pi.branch_id=$branch_id and (cost_indicate <> 'PA' or cost_indicate is null) order by pi.id") or die(mysql_error());
+		while($r1 = $con->sql_fetchassoc($q1)){
+			$q3 = $con->sql_query($qry ="select po_branch_id,deliver_to from po where id=$id and branch_id=".mi($branch_id));
+			$r3 = $con->sql_fetchassoc($q3);
+			$con->sql_freeresult($q3);
+			if($sessioninfo['branch_id'] == 1 && !$r3['po_branch_id'] && $r3['deliver_to']){ //for hq branch
+				$q2= $con->sql_query("select deliver_to from po where id=$id and branch_id=".mi($branch_id));
+				$r2= $con->sql_fetchassoc($q2);
+				$con->sql_freeresult($q2);
+				if($r2['deliver_to']){
+					$branch_id = unserialize($r2['deliver_to']);
+					foreach($branch_id as $bid){
+						$branch_code[] = get_branch_code($bid);
+						$multi_bid[] = $bid;
+					}
+					$r1['branch_code'] = $branch_code;
+					$r1['multi_bid'] = $multi_bid;
+				}
+				
+				if($r1['qty_loose_allocation']){
+					$qty_loose_allocation = unserialize($r1['qty_loose_allocation']);
+					if($qty_loose_allocation){
+						foreach($qty_loose_allocation as $bid=>$value){
+							$qty_pcs[$bid] = $value;
+						}
+					}
+					$r1['qty_pcs'] = $qty_pcs;
+				}
+				
+				if($r1['foc_loose_allocation']){
+					$foc_loose_allocation = unserialize($r1['foc_loose_allocation']);
+					if($foc_loose_allocation){
+						foreach($foc_loose_allocation as $bid=>$value){
+							$foc_pcs[$bid] = $value;
+						}
+					}
+					$r1['foc_pcs'] = $foc_pcs;
+				}
+				unset($branch_code,$multi_bid,$qty_pcs,$foc_pcs);
+			}
+			$items[] = $r1;
+		}
+		$con->sql_freeresult($q1);
+		
+		
+		return $items;
+	}
+	
+	function check_closed_month($id, $branch_id){
+		global $con, $smarty, $sessioninfo, $appCore, $LANG;
+		
+		$err = array();
+		$id = mi($id);
+		$branch_id = mi($branch_id);
+		
+		if($id && $branch_id){
+			$q1=$con->sql_query("select po_date from po where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchassoc($q1);
+			$con->sql_freeresult($q1);
+			$is_month_closed = $appCore->is_month_closed($r['po_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
+		
+		return $err;
 	}
 }
 $po_module = new PO_Module('PO');

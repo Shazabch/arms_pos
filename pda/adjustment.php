@@ -14,6 +14,9 @@
 
 1/9/2020 1:17 PM William
 - Enhanced to insert id manually for adjustment tables that uses auto increment.
+
+9/18/2020 11:46 PM William
+- Enhanced to block closed month document create and save when config "monthly_closing" and "monthly_closing_block_document_action" is active.
 */
 include("common.php");
 include("class.scan_product.php");
@@ -195,14 +198,14 @@ class Adjustment_Module extends Scan_Product{
 	}
 	
 	function save_setting(){
-		global $con, $smarty, $sessioninfo, $config, $appCore;
+		global $con, $smarty, $sessioninfo, $config, $appCore, $LANG;
 
 		$id = mi($_REQUEST['id']);
 		$branch_id = mi($_REQUEST['branch_id']);
 		$debtor_id = mi($_REQUEST['debtor_id']);
 		$order_date = $_REQUEST['order_date'];
 
-        $upd = array();
+        $upd = $form = $err = array();
 
         $upd['adjustment_date'] = $_REQUEST['adjustment_date'];
 		$upd['adjustment_type'] = $_REQUEST['adjustment_type'];
@@ -212,6 +215,18 @@ class Adjustment_Module extends Scan_Product{
 		$upd['approved'] = 0;
 		$upd['last_update'] = "CURRENT_TIMESTAMP";
 		
+		$form = $upd;
+		if($id && $branch_id){
+			$form['id'] = $id;
+			$form['branch_id'] = $branch_id;
+		}
+		
+		//check is_month_closed
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($form['adjustment_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
+		
 		// validating
         if(!$upd['adjustment_date'])   $err[] = "Date cannot be empty";
 		if(!$upd['adjustment_type'])  $err[] = "Adjustment Type cannot be empty";
@@ -219,8 +234,17 @@ class Adjustment_Module extends Scan_Product{
 		
 		if($err){
 			$this->default_load();
-			$smarty->assign('form',$upd);
+			if($id > 0){
+				$con->sql_query("select a.*, b.code as branch_code, b.description, b.report_prefix
+								 from adjustment a
+								 left join branch b on b.id = a.branch_id
+								 where a.id=$id and a.branch_id=$branch_id");
+				$form = $con->sql_fetchrow();
+			}
+			$smarty->assign('form', $form);
+			$smarty->assign('form',$form);
 			$smarty->assign('err',$err);
+			$smarty->assign('adj_tab', 'setting');
 			$smarty->display('adjustment.index.tpl');
 			exit;
 		}
@@ -317,14 +341,28 @@ class Adjustment_Module extends Scan_Product{
 	}
 	
 	function add_items(){
-		global $con, $config, $sessioninfo, $appCore;
+		global $con, $config, $sessioninfo, $appCore, $LANG, $smarty;
 
 	    $id = mi($_SESSION['adj']['id']);
         $branch_id = mi($_SESSION['adj']['branch_id']);
 
-		$q1 = $con->sql_query("select adjustment_type from adjustment where id = ".mi($id)." and branch_id = ".mi($branch_id));
+		$q1 = $con->sql_query("select adjustment_type, adjustment_date from adjustment where id = ".mi($id)." and branch_id = ".mi($branch_id));
 		$adj_info = $con->sql_fetchassoc($q1);
 		$con->sql_freeresult($q1);
+		
+		//check is_month_closed
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($adj_info['adjustment_date']);
+			if($is_month_closed){
+				$con->sql_query("select count(*) as total_item,sum(ai.qty) as total_pcs
+				from adjustment_items ai where ai.adjustment_id=$id and ai.branch_id=$branch_id");
+				$smarty->assign('items_details',$con->sql_fetchrow());
+				
+				if($_REQUEST['auto_add_item'])   $this->err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+				else   $ret['error'][] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+				return $ret;
+			}
+		}
 		
 		$adj_type = "";
 		if($config['adjustment_type_list']){
@@ -387,7 +425,7 @@ class Adjustment_Module extends Scan_Product{
 	}
 	
 	function save_items(){
-        global $con, $smarty;
+        global $con, $smarty, $config, $appCore, $LANG;
 		$id = mi($_SESSION['adj']['id']);
         $branch_id = mi($_SESSION['adj']['branch_id']);
 
@@ -395,6 +433,24 @@ class Adjustment_Module extends Scan_Product{
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
 		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']) $err = $this->check_closed_month($id, $branch_id);
+		if($err){
+			// load item list
+			$con->sql_query("select ai.*,si.sku_item_code,si.description as sku_description, si.doc_allow_decimal
+							 from adjustment_items ai
+							 left join sku_items si on si.id=ai.sku_item_id
+							 where ai.adjustment_id=$id and ai.branch_id=$branch_id order by ai.id");
+			$smarty->assign('items',$con->sql_fetchrowset());
+		
+			$smarty->assign('adj_tab', 'view_items');
+			$smarty->assign('err',$err);
+			$smarty->display('adjustment.view_items.tpl');
+			exit;
+		}
+		
         if($_REQUEST['item']){
 			foreach($_REQUEST['item'] as $dummy=>$aid){
 				$qty = $_REQUEST['p_item_qty'][$aid] - $_REQUEST['n_item_qty'][$aid];
@@ -405,7 +461,7 @@ class Adjustment_Module extends Scan_Product{
 	}
 	
 	function delete_items(){
-		global $con, $smarty;
+		global $con, $smarty, $config;
 		$id = mi($_SESSION['adj']['id']);
         $branch_id = mi($_SESSION['adj']['branch_id']);
 
@@ -413,6 +469,24 @@ class Adjustment_Module extends Scan_Product{
 			header("Location: $_SERVER[PHP_SELF]");
 			exit;
 		}
+		
+		//check monthly closed
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']) $err = $this->check_closed_month($id, $branch_id);
+		if($err){
+			// load item list
+			$con->sql_query("select ai.*,si.sku_item_code,si.description as sku_description, si.doc_allow_decimal
+							 from adjustment_items ai
+							 left join sku_items si on si.id=ai.sku_item_id
+							 where ai.adjustment_id=$id and ai.branch_id=$branch_id order by ai.id");
+			$smarty->assign('items',$con->sql_fetchrowset());
+		
+			$smarty->assign('adj_tab', 'view_items');
+			$smarty->assign('err',$err);
+			$smarty->display('adjustment.view_items.tpl');
+			exit;
+		}
+		
 		if($_REQUEST['item_chx']){
             $con->sql_query("delete from adjustment_items where 
 							 adjustment_id=$id and branch_id=$branch_id 
@@ -510,6 +584,24 @@ class Adjustment_Module extends Scan_Product{
 			$con->sql_query("select count(*) as total_item, sum(qty) as total_pcs from adjustment_items where adjustment_id=".mi($_SESSION['adj']['id'])." and branch_id=".mi($_SESSION['adj']['branch_id'])) or die(mysql_error());
 			$smarty->assign('items_details',$con->sql_fetchrow());
 		}elseif($code) $this->err[] = "The item (".$code.") not found!";
+	}
+	
+	function check_closed_month($id, $branch_id){
+		global $con, $smarty, $sessioninfo, $appCore, $LANG;
+		
+		$err = array();
+		$id = mi($id);
+		$branch_id = mi($branch_id);
+		
+		if($id && $branch_id){
+			$q1=$con->sql_query("select adjustment_date from adjustment where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchassoc($q1);
+			$con->sql_freeresult($q1);
+			$is_month_closed = $appCore->is_month_closed($r['adjustment_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
+		
+		return $err;
 	}
 }
 

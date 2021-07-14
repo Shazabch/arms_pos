@@ -82,6 +82,10 @@
 
 9/10/2020 11:32 AM Andy
 - Fixed add grn item doesn't get the correct last grn cost.
+
+9/21/2020 10:19 AM William
+- Enhanced to block closed month document create and save when config "monthly_closing" and "monthly_closing_block_document_action" is active.
+- Bug fixed "save_setting" error message show the array variable.
 */
 include("common.php");
 include("class.scan_product.php");
@@ -379,16 +383,24 @@ class GRN_Module extends Scan_Product{
 	}
 	
 	function save_setting(){
-		global $con, $smarty, $sessioninfo, $config, $appCore;
+		global $con, $smarty, $sessioninfo, $config, $appCore, $LANG;
 
 		$id = mi($_REQUEST['id']);
 		$branch_id = mi($_REQUEST['branch_id']);
 		$grr_id = mi($_REQUEST['grr_id']);
 		$grr_item_id = mi($_REQUEST['grr_item_id']);
 
-		if(!$grr_id || !$branch_id) $err['top'][] = "Invalid GRR";
-
+		if(!$grr_id || !$branch_id) $err[] = "Invalid GRR";
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$is_month_closed = $appCore->is_month_closed($_REQUEST['rcv_date']);
+			if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+		}
 		if($err){
+			if($config['use_grn_future']) $grr = load_grr_item_header($grr_id, $branch_id);
+			else $grr = load_grr_item_header($grr_item_id, $branch_id);
+			
+			$smarty->assign('grn_tab', 'setting');
+			$smarty->assign('grr', $grr);
 			$smarty->assign('form',$_REQUEST);
 			$smarty->assign('err',$err);
 			$smarty->display('goods_receiving_note.index.tpl');
@@ -551,6 +563,15 @@ class GRN_Module extends Scan_Product{
 
 			$form['type'] = $doc_type;
 		}
+		
+		// Get GRR Info
+		$con->sql_query("select rcv_date from grr where branch_id=".mi($branch_id)." and id=".mi($form['grr_id']));
+		$grr = $con->sql_fetchassoc();
+		$con->sql_freeresult();
+		
+		$form['rcv_date'] = $grr['rcv_date'];
+		
+		//print_r($form);exit;
 
         $_SESSION['grn'] = $form;
 	}
@@ -601,7 +622,30 @@ class GRN_Module extends Scan_Product{
 
 		$items = $_REQUEST['pcs'];
 		$sku_items = $invalid_bom = array();
-
+		
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$q1=$con->sql_query("select grr_id from grn where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchrow($q1);
+			$con->sql_freeresult($q1);
+			$grr_id = mi($r['grr_id']);
+			if($grr_id){
+				$q2=$con->sql_query("select rcv_date from grr where id=$grr_id and branch_id=$branch_id");
+				$r2 = $con->sql_fetchrow($q2);
+				$con->sql_freeresult($q2);
+				
+				$is_month_closed = $appCore->is_month_closed($r2['rcv_date']);
+				if($is_month_closed){
+					
+			
+					if($_REQUEST['auto_add_item'])   $this->err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+					else   $ret['error'][] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+					
+					$this->get_item_info();
+					return $ret;
+				}
+			}
+		}
+	
 		if($items || $_REQUEST['is_isi']){
 		    $total_ctn = 0;
 		    $total_pcs = 0;
@@ -881,18 +925,65 @@ class GRN_Module extends Scan_Product{
 			}
 		}else{
             $ret['error'][] = "No items found";
+			$this->get_item_info();
 		}
 
 		return $ret;
 	}
 	
 	function save_items(){
-        global $con, $smarty;
+        global $con, $smarty, $config, $appCore, $LANG;
 		$id = $_SESSION['grn']['id'];
         $branch_id = $_SESSION['grn']['branch_id'];
 
         if(!$id || !$branch_id){
 			header("Location: $_SERVER[PHP_SELF]");
+			exit;
+		}
+		
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$q1=$con->sql_query("select grr_id from grn where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchrow($q1);
+			$con->sql_freeresult($q1);
+			$grr_id = mi($r['grr_id']);
+			if($grr_id){
+				$q2=$con->sql_query("select rcv_date from grr where id=$grr_id and branch_id=$branch_id");
+				$r2 = $con->sql_fetchrow($q2);
+				$con->sql_freeresult($q2);
+				
+				$is_month_closed = $appCore->is_month_closed($r2['rcv_date']);
+				if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+			}
+		}
+		
+		if($err){
+			if($config['use_grn_future']){
+				$con->sql_query("select non_sku_items from grn where id = ".mi($id)." and branch_id = ".mi($branch_id));
+				$non_sku_items = $con->sql_fetchfield(0);
+
+				if(unserialize($non_sku_items)) $smarty->assign("non_sku_items", unserialize($non_sku_items));
+				$extra_filter = " and gi.item_group != 0";
+			}
+
+			// load item list
+			$con->sql_query("select gi.*, si.sku_item_code, si.description as sku_description, uom.code as uom_code, uom.fraction as uom_fraction, si.doc_allow_decimal, pkuom.fraction as master_uom_fraction
+							 from grn_items gi
+							 left join sku_items si on si.id = gi.sku_item_id
+							 left join uom on uom.id = gi.uom_id
+							 left join uom pkuom on pkuom.id = si.packing_uom_id
+							 where gi.grn_id = ".mi($id)." and gi.branch_id = ".mi($branch_id).$extra_filter."
+							 order by gi.id");
+
+			$items = $con->sql_fetchrowset();
+			$con->sql_freeresult();
+
+			$this->default_load();
+			
+			$smarty->assign('err',$err);
+			$smarty->assign('items',$items);
+			$smarty->assign('grn_tab', 'view_items');
+			$smarty->display('goods_receiving_note.view_items.tpl');
 			exit;
 		}
 
@@ -931,12 +1022,58 @@ class GRN_Module extends Scan_Product{
 	}
 	
 	function delete_items(){
-		global $con, $smarty;
+		global $con, $smarty, $appCore, $config, $LANG;
 		$id = $_SESSION['grn']['id'];
         $branch_id = $_SESSION['grn']['branch_id'];
 
         if(!$id || !$branch_id){
 			header("Location: $_SERVER[PHP_SELF]");
+			exit;
+		}
+		
+		$err = array();
+		if($config['monthly_closing'] && $config['monthly_closing_block_document_action']){
+			$q1=$con->sql_query("select grr_id from grn where id=$id and branch_id=$branch_id");
+			$r = $con->sql_fetchrow($q1);
+			$con->sql_freeresult($q1);
+			$grr_id = mi($r['grr_id']);
+			if($grr_id){
+				$q2=$con->sql_query("select rcv_date from grr where id=$grr_id and branch_id=$branch_id");
+				$r2 = $con->sql_fetchrow($q2);
+				$con->sql_freeresult($q2);
+				
+				$is_month_closed = $appCore->is_month_closed($r2['rcv_date']);
+				if($is_month_closed)  $err[] = $LANG['MONTH_DOCUMENT_IS_CLOSED'];
+			}
+		}
+		
+		if($err){
+			if($config['use_grn_future']){
+				$con->sql_query("select non_sku_items from grn where id = ".mi($id)." and branch_id = ".mi($branch_id));
+				$non_sku_items = $con->sql_fetchfield(0);
+
+				if(unserialize($non_sku_items)) $smarty->assign("non_sku_items", unserialize($non_sku_items));
+				$extra_filter = " and gi.item_group != 0";
+			}
+
+			// load item list
+			$con->sql_query("select gi.*, si.sku_item_code, si.description as sku_description, uom.code as uom_code, uom.fraction as uom_fraction, si.doc_allow_decimal, pkuom.fraction as master_uom_fraction
+							 from grn_items gi
+							 left join sku_items si on si.id = gi.sku_item_id
+							 left join uom on uom.id = gi.uom_id
+							 left join uom pkuom on pkuom.id = si.packing_uom_id
+							 where gi.grn_id = ".mi($id)." and gi.branch_id = ".mi($branch_id).$extra_filter."
+							 order by gi.id");
+
+			$items = $con->sql_fetchrowset();
+			$con->sql_freeresult();
+
+			$this->default_load();
+			
+			$smarty->assign('err',$err);
+			$smarty->assign('items',$items);
+			$smarty->assign('grn_tab', 'view_items');
+			$smarty->display('goods_receiving_note.view_items.tpl');
 			exit;
 		}
 
@@ -1118,6 +1255,34 @@ class GRN_Module extends Scan_Product{
 			$gi['id'] = -1;
 		}
 		return $gi;
+	}
+	
+	function get_item_info(){
+		global $con, $smarty, $config, $LANG;
+		
+		if($config['use_grn_future']) $extra_filter = " and gi.item_group != 0";
+		
+		// get item info
+		$con->sql_query("select count(*) as total_item, sum(gi.ctn) as total_ctn, sum(gi.pcs) as total_pcs from grn_items gi where gi.grn_id = ".mi($_SESSION['grn']['id'])." and gi.branch_id = ".mi($_SESSION['grn']['branch_id']).$extra_filter);
+		
+		$grn = $con->sql_fetchrow();
+		$con->sql_freeresult();
+			
+		
+		if($config['use_grn_future']){
+			$con->sql_query("select non_sku_items from grn where id = ".mi($_SESSION['grn']['id'])." and branch_id = ".mi($_SESSION['grn']['branch_id']));
+			$non_sku_items = $con->sql_fetchfield(0);
+			$con->sql_freeresult();
+			if(unserialize($non_sku_items)){
+				$non_si = unserialize($non_sku_items);
+				$grn['total_item'] += count($non_si['code']);
+				foreach($non_si['code'] as $row=>$code){
+					$grn['total_pcs'] += $non_si['qty'][$row];
+				}
+			}
+		}
+
+		$smarty->assign('items_details', $grn);
 	}
 }
 
