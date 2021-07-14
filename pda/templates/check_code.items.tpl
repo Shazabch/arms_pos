@@ -14,78 +14,154 @@
 
 11/06/2020 9:55 AM Sheila
 - Fixed table css
+
+06/10/2021 06:00 PM Ed Au
+- Enhance to add POS Photo, Unfinalise POS Qty, Sales Order Reserve Qty and change Unfinalsed Stock Balance formula
 *}
 
 {assign var=n value=1}
 {if $msg}
-<div class="alert alert-info rounded px-2 col-sm-12 col-lg-8 col-xl-8 animated fadeInDown">{$msg}</div>	
+	<div class="alert alert-info animated fadeInDown">{$msg}</div>
 {/if}	
 {foreach from=$items item=item max=50}
-<div class="d-flex flex-row">
-	<div class="col-sm-12 col-lg-8 col-xl-8 animated fadeInLeft">
-		<div class="card">
-			<div class="card-body text-center pricing">
-				<div class="card-category bg-danger-opacity fs-08 text-left pl-1"><span>{$n++}.</span> <span>{$item.description}</span></div>
-				<dl class="row text-left pt-2 fs-08">
-						<dt class="col-4">ARMS Code: </dt>
-						<dd class="col-8">{$item.sku_item_code}</dd>
-
-						<dt class="col-4">{$config.link_code_name}: </dt>
-						<dd class="col-8">{$item.link_code}</dd>
-
-						<dt class="col-4">Artno/MCode: </dt>
-						<dd class="col-8">{$item.artno|default:"-"}/{$item.mcode|default:"-"}</dd>
-
-						<dt class="col-4">Vendor: </dt>
-						<dd class="col-8">{$item.vendor}</dd>
-
-						<dt class="col-4">Brand: </dt>
-						<dd class="col-8">{$item.brand}</dd>
-
-						<dt class="col-4">SKU Type: </dt>
-						<dd class="col-8">{$item.sku_type}</dd>
-
-						<dt class="col-4">Selling Price: </dt>
-						<dd class="col-8">{$config.arms_currency.symbol}{$item.selling_price|number_format:2}</dd>
-
-						{if $item.price}
-							{foreach from=$item.price key=branch item=price}
-								<dt class="col-4">{$branch}</dt>
-								<dd class="col-8">{$config.arms_currency.symbol}{$price.price|number_format:2}</dd>
-							{/foreach}
-						{/if}
-
-						{if $config.check_code_show_balance}
-						<dt class="col-4">Location:</dt>
-						<dd class="col-8">{$item.location}</dd>
-
-						<dt class="col-4">Stock Balance:</dt>
-						<dd class="col-8">{$item.qty}</dd>
-
-						<dt class="col-4">Unfinalised Stock Balance:</dt>
-						<dd class="col-8">{$item.unfinalize_qty}</dd>
-						{/if}
-
-						{if $config.enable_replacement_items and $item.ri_id}
-						<dt class="col-4">Replacement Item Group:</dt>
-						<dd class="col-8"><a href="javascript:void(show_replacement_items('{$item.id}'));">{$item.ri_group_name|default:'-'}</a></dd>
-						{/if}
-
-						{if $item.batch_items}
-							<dt class="col-4">Batch No: </dt>
-							<dd class="col-8">{$item.batch_no}</dd>
-
-							<dt class="col-4"> Expired Date: </dt>
-							<dd class="col-8">{$item.expired_date}</dd>
-
-							{foreach from=$item.batch_items key=branch item=batch_item name=bn_list}
-								<dt class="col-4">{if $branch ne $BRANCH_CODE}</dt>
-								<dd class="col-8">{$branch}</dd>{/if}
-							{/foreach}
-						{/if}
-				</dl>
+<div class="card animated fadeInLeft">
+	<div class="card-body">
+		<div class="card-category bg-danger-opacity fs-08 text-left pl-1"><span>{$n++}.</span> <span>{$item.description}</span></div>
+		<div class="row mt-3">
+			<div class="col-md-8">
+				 <div class="table-responsive">
+					<table class="table table-sm table-borderless">
+						<tbody>
+							<tr>
+								<th>ARMS Code:</th>
+								<td>{$item.sku_item_code}</td>
+							</tr>
+							<tr>
+								<th>{$config.link_code_name}:</th>
+								<td>{$item.link_code}</td>
+							</tr>
+							<tr>
+								<th>Artno/MCode:</th>
+								<td>{$item.artno|default:"-"}/{$item.mcode|default:"-"}</td>
+							</tr>
+							<tr>
+								<th>Vendor:</th>
+								<td>{$item.vendor}</td>
+							</tr>
+							<tr>
+								<th>Brand:</th>
+								<td>{$item.brand}</td>
+							</tr>
+							<tr>
+								<th>SKU Type:</th>
+								<td>{$item.sku_type}</td>
+							</tr>
+							<tr>
+								<th>Selling Price:</th>
+								<td>{$config.arms_currency.symbol}{$item.selling_price|number_format:2}</td>
+							</tr>
+							<tr>
+								<th></th>
+								<td>
+									{if $item.price}
+										{foreach from=$item.price key=branch item=price}
+											<small>{$branch}</small> - {$config.arms_currency.symbol}{$price.price|number_format:2} <br>
+										{/foreach}
+									{/if}	
+								</td>
+							</tr>
+							{if $config.check_code_show_balance}
+								<tr>
+									<th>Location:</th>
+									<td>{$item.location}</td>
+								</tr>
+								<tr>
+									<th>Stock Balance:</th>
+									<td>{$item.qty}</td>
+								</tr>
+								<tr>
+									<th>Unfinalised POS Qty:</th>
+									<td>{$item.unfinalise_pos_qty}</td>
+								</tr>
+								<tr>
+									<th>Sales Order Reserve Qty:</th>
+									<td>{$item.sales_order_reserve_qty}</td>
+								</tr>
+								<tr>
+									<th>Unfinalised Stock Balance:</th>
+									<td>{$item.unfinalize_qty}</td>
+								</tr>
+							{/if}
+							{if $config.enable_replacement_items and $item.ri_id}
+							<tr>
+								<th>Replacement Item Group:</th>
+								<td><a href="javascript:void(show_replacement_items('{$item.id}'));">{$item.ri_group_name|default:'-'}</a></td>
+							</tr>
+							{/if}
+							{if $item.batch_items}
+							<tr>
+								<th>Batch No:</th>
+								<td>
+									{$item.batch_no}&nbsp;&nbsp; Expired Date: {$item.expired_date}
+									{foreach from=$item.batch_items key=branch item=batch_item name=bn_list}
+										{if $branch ne $BRANCH_CODE}&nbsp; {$branch} {/if}
+									{/foreach}
+								</td>
+							</tr>
+							{/if}
+						</tbody>
+					</table>
+				</div>	
+			</div>
+			<div class="col-md-4 d-flex justify-content-end align-items-start">
+				{if $item.got_pos_photo > 0}
+					{*{capture assign=p}../{$item.photo_promotion[0]}{/capture}*}
+						{*<img width="200" height="145" id="sku_photo_display" align="absmiddle" vspace="4" hspace="4" src="thumb.php?w=200&h=145&img={$p|urlencode}" border="1">*}
+					<div class="border" style="width : 200px; height: 200px;">
+						<img src="../{$item.photo_promotion[0]}" id="sku_photo_display" style="width: auto; height: 100%;">
+					</div>
+				{else}
+					<div class="border d-flex justify-content-center align-items-center" style="width : 200px; height: 200px;">
+						<div class="text-muted">No image</div>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
 </div>
+
 {/foreach}
+
+{literal}
+<style>
+
+
+.div_sku_image{
+    position: relative;
+	width: 200px; 
+	height: 200px;
+	
+}
+
+.div_sku_image img{
+    position: absolute;
+	border: 1px solid black;
+	width:auto;
+	height:100%;
+	
+}
+
+
+.div_no_image{
+	position: absolute;
+	width: 200px; 
+	height: 200px;
+	border: 1px solid black;
+	text-align:center;
+	line-height:200px;
+	font-weight:bold;
+	
+}
+
+</style>
+{/literal}
