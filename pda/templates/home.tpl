@@ -251,7 +251,7 @@
 		<div class="card text-center">
 			<div class="card-body">
 				<div class="feature widget-2 text-center mt-0 mb-3">
-					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
+					<i class="ti-user  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
 				<h6 class="mb-1 text-muted">Member Enquiry</h6>
 				<a href="member_enquiry.php" class="stretched-link"></a>

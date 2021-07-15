@@ -750,10 +750,21 @@
 {/if}
 
 {if isset($config.pda_custom_modules) and $smarty.request.id eq 'custom'}
-	<p class="menu-title">CUSTOM MODULES</p>
-	<span class="breadcrumbs"><a href="home.php">< Dashboard</a></span>
-	<div style="margin-bottom: 10px"></div>
-	<div class="home-row">
+	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-1">CUSTOM MODULES</h4>
+			</div>
+		</div>
+	</div>
+	<nav aria-label="breadcrumb m-0 mb-2">
+		<ol class="breadcrumb bg-white animated fadeInDown">
+			<li class="breadcrumb-item">
+				<a href="home.php">Dashboard</a>
+			</li>
+		</ol>
+	</nav>
+	<div class="container p-0 mt-5">
 		{include file=$config.pda_custom_modules}
 	</div>
 {/if}

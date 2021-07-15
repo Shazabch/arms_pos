@@ -42,62 +42,107 @@ function check_member(event){
 {/literal}
 
 <!-- Replacement Iten Popup -->
-<h1>
-Member Enquiry
-</h1>
+<!-- BreadCrumbs -->
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-1">Member Enquiry</h4>
+		</div>
+	</div>
+</div>
+<nav aria-label="breadcrumb m-0 mb-2">
+	<ol class="breadcrumb bg-white animated fadeInDown">
+		<li class="breadcrumb-item">
+			<a href="home.php">Dashboard</a>
+		</li>
+	</ol>
+</nav>
+<!-- /BreadCrumbs -->
 
-<span class="breadcrumbs"><a href="home.php"> < Dashboard</a></span>
-<div style="margin-bottom: 10px"></div>
+<!-- Error Message -->
+{if $err}
+	{foreach from=$err item=e}
+	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$e}
+	</div>
+    {/foreach}
+{/if}
+<!-- /Error Message -->
 
-<div class="stdframe" style="background:#fff">
-	<h2>Scan or Enter member no/member name/nric/phone</h2>
-	<br/>
-	<form name="f_a" method="post" onSubmit="return false;">
-		<input type="hidden" name="a" />
-		<table width="100%">
-			<tr>
-				<td><input class="txt-width" name="member_no" value="{$form.member_no}" onKeyPress="check_member(event);"></td>
-				<td><input type="button" value="Find" onclick="fsubmit();"></td>
-			</tr>
-		</table>
-		<br />
-		<span style="color:red;">
-			{if $err}
-				<ul>
-				{foreach from=$err item=e}
-					<li>{$e}</li>
-				{/foreach}
-				</ul>
-			{/if}
-		</span>
-	</form>
-	<br />
+<!-- Search form -->
+<div class="row mt-2 animated fadeInDown">
+	<div class="col-lg-12 col-md-12">
+		<div class="card">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" />
+				<div class="card-body">
+					<div class="pd-10 pd-sm-20">
+						<div class="row row-xs">
+							<div class="col-md-4">
+								<label>Scan or Enter member no/member name/nric/phone</label>
+							</div>
+							<div class="col-md-5 mg-t-10 mg-md-t-0">
+								<input class="form-control" name="member_no" value="{$form.member_no}" onKeyPress="check_member(event);">
+							</div>
+							<div class="col-md-2 mt-4 mt-xl-0">
+								<input type="button" class="btn btn-main-primary btn-block" value="Enter" onclick="fsubmit();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- / Search form -->
 
 	<div id="result">
 	{if $member_list}
-		<table width="100%" border="1" cellspacing="0" cellpadding="4">
-			<tr>
-				<th>&nbsp;</th>
-				<th>Member No/NRIC/Name</th>
-				<th>Phone</th>
-			</tr>
-			{foreach from=$member_list item=r}
-				<tr>
-					<td width="20">
-						<a href="member_enquiry.php?a=get_member_info&nric={$r.nric}"><img src="/ui/view.png" border="0" title="View" /></a>
-					</td>
-					<td>
-						{if $r.card_no}<span>{$r.card_no}</span></br>{/if}
-						{if $r.nric}<span>{$r.nric}</span></br>{/if}
-						{if $r.name}<span>{$r.name}</span>{/if}
-					</td>
-					<td>{$r.phone_3}</td>
-				</tr>
-			{/foreach}
-		</table>
+	<!--Table-->
+	<div class="col-xl-12 animated fadeInDown">
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0 text-md-nowrap">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Member No/NRIC/Name</th>
+								<th>Phone</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$member_list item=r}
+								<tr>
+									<td>
+										<a href="member_enquiry.php?a=get_member_info&nric={$r.nric}"><i class="fas fa-eye"></i></a>
+									</td>
+									<td>
+										{if $r.card_no}
+											{$r.card_no}<br>
+										{/if}
+										{if $r.nric}
+											{$r.nric}<br>
+										{/if}
+										{if $r.name}
+											{$r.name}
+										{/if}
+									</td>
+									<td>{$r.phone_3}</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Table -->
 	{/if}
 	</div>
-</div>
 
 <script>
 	document.f_a.member_no.focus();
