@@ -23,9 +23,9 @@
 
 function change_row_color(ele){
     if($(ele).is(":checked")){
-		$(ele).parent().parent().parent().addClass('bg-warning');
+		$(ele).parent().parent().parent().addClass('table-warning');
 	}else{
-        $(ele).parent().parent().parent().removeClass('bg-warning');
+        $(ele).parent().parent().parent().removeClass('table-warning');
 	}
 }
 
