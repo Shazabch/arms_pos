@@ -38,6 +38,10 @@ function submit_items(act){
 }
 {/literal}
 </script>
+<!-- Get Current url before the 1st occuring of ? | For Pagination -->
+{php}
+$this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
+{/php}
 <!-- BreadCrumbs -->
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
@@ -76,7 +80,7 @@ function submit_items(act){
 								{if $p eq $page}
 									<li class="page-item active"><a class="page-link" href="javascript:void(0)">{$p}</a></li>
 								{else}
-									<li class="page-item"><a class="page-link" href="?a=view_items&page={$p}">{$p}</a></li>
+									<li class="page-item"><a class="page-link" href="{$ur}?a=view_items&page={$p}">{$p}</a></li>
 								{/if}
 							{/foreach}
 						</ul>
