@@ -1,5 +1,6 @@
 
 *.csv
+sku_photos
 templates_c/
 pda/templates_c/
 counter_config.txt
