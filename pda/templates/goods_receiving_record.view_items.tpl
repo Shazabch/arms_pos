@@ -42,11 +42,11 @@ var is_under_gst = '{$form.is_under_gst|default:0}';
 
 function change_row_color(ele){
     if($(ele).is(":checked")){
-		$(ele).parent().parent().parent()..addClass('table-warning');
-		$(ele).parent().parent().parent().next()..addClass('table-warning');
+		$(ele).parent().parent().parent().addClass('table-warning');
+		$(ele).parent().parent().parent().next().addClass('table-warning');
 	}else{
-        $(ele).parent().parent().parent()..removeClass('table-warning');
-        $(ele).parent().parent().parent().next()..removeClass('table-warning');
+        $(ele).parent().parent().parent().removeClass('table-warning');
+        $(ele).parent().parent().parent().next().removeClass('table-warning');
 	}
 }
 
