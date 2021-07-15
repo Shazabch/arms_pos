@@ -135,7 +135,7 @@ function submit_items(act){
 						            <td>{$r.sku_item_code}</td>
 						            <td>{$r.sku_description}</td>
 									<td>
-										<input type="text" name="qty[{$r.id}]" class="qty items r form-control form-control-sm" size="3" value="{$r.qty}" />
+										<input type="text" name="qty[{$r.id}]" class="qty items r form-control form-control-sm min-w-100" size="3" value="{$r.qty}" />
 									</td>
 						        </tr>
 						    {/foreach}
