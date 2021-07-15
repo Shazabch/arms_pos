@@ -27,20 +27,20 @@ var global_cost_decimal_points = '{$config.global_cost_decimal_points}';
 
 function change_row_color(ele){
 	if($(ele).is(":checked")){
-		$(ele).parent().parent().parent().addClass('bg-warning');
-		$(ele).parent().parent().parent().next().addClass('bg-warning');
+		$(ele).parent().parent().parent()..addClass('table-warning');
+		$(ele).parent().parent().parent().next()..addClass('table-warning');
 	}else{
-        $(ele).parent().parent().parent().removeClass('bg-warning');
-        $(ele).parent().parent().parent().next().removeClass('bg-warning');
+        $(ele).parent().parent().parent()..removeClass('table-warning');
+        $(ele).parent().parent().parent().next()..removeClass('table-warning');
 	}
 
 	// var ele_parent = $(ele).parent().parent().parent();
 	// var tr_ele = ele_parent[0];
 	// if(tr_ele != undefined){
 	// 	if($(ele).is(":checked")){
-	// 		if(tr_ele.className)   $("."+tr_ele.className).addClass('bg-warning');
+	// 		if(tr_ele.className)   $("."+tr_ele.className)..addClass('table-warning');
 	// 	}else{
-	// 		if(tr_ele.className)   $("."+tr_ele.className).removeClass('bg-warning');
+	// 		if(tr_ele.className)   $("."+tr_ele.className)..removeClass('table-warning');
 	// 	}
 	// }
 }
