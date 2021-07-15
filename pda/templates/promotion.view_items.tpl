@@ -85,7 +85,7 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 							{/foreach}
 						</ul>
 					</div>
-					<div class="col-3  d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex align-items-center">
+					<div class="col d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-end align-items-center">
 						<div class="text-right text-muted py-auto my-auto">
 							Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
 						</div>
@@ -129,7 +129,11 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 					</table>
 				</div>
 			</form>
-			
+			<div class="d-flex d-sm-none justify-content-start align-items-center mt-2">
+				<div class="text-left text-muted py-auto my-auto fs-08">
+					Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
+				</div>
+			</div>
 			<div class="d-flex justify-content-end align-items-center mt-2">
 				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
 				{*<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
