@@ -86,7 +86,7 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 						</ul>
 					</div>
 					<div class="col d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-end align-items-center">
-						<div class="text-right text-muted py-auto my-auto">
+						<div class="text-right text-muted py-auto my-auto fs-08">
 							Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
 						</div>
 					</div>

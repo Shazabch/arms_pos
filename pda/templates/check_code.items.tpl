@@ -113,7 +113,7 @@
 					</table>
 				</div>	
 			</div>
-			<div class="col-md-4 d-flex justify-content-end align-items-start">
+			<div class="col-md-4 d-flex justify-content-end sm-justify-content-center align-items-start">
 				{if $item.got_pos_photo > 0}
 					{*{capture assign=p}../{$item.photo_promotion[0]}{/capture}*}
 						{*<img width="200" height="145" id="sku_photo_display" align="absmiddle" vspace="4" hspace="4" src="thumb.php?w=200&h=145&img={$p|urlencode}" border="1">*}

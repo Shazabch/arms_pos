@@ -71,6 +71,7 @@
 
 @media all and (max-width:480px) {
    .btn-block-sm { width: 100%; display:block; }
+   .sm-justify-content-center{justify-content: center !important;}
 }
 
 @media (max-width: 480px){
