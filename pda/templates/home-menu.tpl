@@ -18,16 +18,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">DO</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.DO}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">DO</li>
+			<li class="breadcrumb-item active">{$LNG.DO}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -41,7 +41,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last DO</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_DO}</h5>
 						</div>
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 							<i class="fas fa-exchange-alt text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Transfer DO</h5>
+							<h5 class="">{$LNG.CREATE_NEW_TRANSFER_DO}</h5>
 						</div>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 							<i class="fas fa-money-check-alt text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Cash Sales DO</h5>
+							<h5 class="">{$LNG.CREATE_NEW_CASH_SALES_DO}</h5>
 						</div>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 							<i class="fas fa-credit-card text-pink"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Credit Sales DO</h5>
+							<h5 class="">{$LNG.CREATE_NEW_CREDIT_SALES_DO}</h5>
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 							<i class="fas fa-truck-loading text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open DO By DO No</h5>
+							<h5 class="">{$LNG.OPEN_DO_BY_DO_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -117,7 +117,7 @@
 							<i class="fas fa-tasks text-purple"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open DO Checklist</h5>
+							<h5 class="">{$LNG.OPEN_DO_CHECKLIST}</h5>
 						</div>
 					</div>
 				</div>
@@ -132,7 +132,7 @@
 							<i class="fas fa-clipboard-check text-orange"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">DO Picking Verification</h5>
+							<h5 class="">{$LNG.DO_PICKING_VERIFICATION}</h5>
 						</div>
 					</div>
 				</div>
@@ -146,16 +146,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">SALES ORDER</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SALES_ORDER}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">SALES ORDER</li>
+			<li class="breadcrumb-item active">{$LNG.SALES_ORDER}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -169,7 +169,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last Sales Order</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_SALES_ORDER}</h5>
 						</div>
 					</div>
 				</div>
@@ -185,7 +185,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Sales Order</h5>
+							<h5 class="">{$LNG.CREATE_NEW_SALES_ORDER}</h5>
 						</div>
 					</div>
 				</div>
@@ -200,7 +200,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open by Order No</h5>
+							<h5 class="">{$LNG.OPEN_BY_ORDER_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -215,16 +215,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">GRR</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.GRR}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">GRR</li>
+			<li class="breadcrumb-item active">{$LNG.GRR}</li>
 		</ol>
 	</nav>
 
@@ -239,7 +239,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last GRR</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_ORDER}</h5>
 						</div>
 					</div>
 				</div>
@@ -255,7 +255,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New GRR</h5>
+							<h5 class="">{$LNG.CREATE_NEW_GRR}</h5>
 						</div>
 					</div>
 				</div>
@@ -270,7 +270,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open GRR By GRR No</h5>
+							<h5 class="">{$LNG.OPEN_BY_GRR_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -285,16 +285,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">GRN</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.GRN}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">GRN</li>
+			<li class="breadcrumb-item active">{$LNG.GRN}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -308,7 +308,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last GRN</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_GRN}</h5>
 						</div>
 					</div>
 				</div>
@@ -324,7 +324,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New GRN</h5>
+							<h5 class="">{$LNG.CREATE_NEW_GRN}</h5>
 						</div>
 					</div>
 				</div>
@@ -339,7 +339,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open by GRN No / GRR No</h5>
+							<h5 class="">{$LNG.OPEN_BY_GRN_GRR_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -354,16 +354,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">GRA</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.GRA}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">GRA</li>
+			<li class="breadcrumb-item active">{$LNG.GRA}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -377,7 +377,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="goods_return_advice.php">Continue Last GRA</h5>
+							<h5 class="goods_return_advice.php">{$LNG.CONTINUE_LAST_GRA}</h5>
 						</div>
 					</div>
 				</div>
@@ -393,7 +393,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New GRA</h5>
+							<h5 class="">{$LNG.CREATE_NEW_GRA}</h5>
 						</div>
 					</div>
 				</div>
@@ -408,7 +408,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open by GRA No</h5>
+							<h5 class="">{$LNG.OPEN_BY_GRA_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -423,16 +423,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">ADJUSTMENT</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.ADJUSTMENT}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">ADJUSTMENT</li>
+			<li class="breadcrumb-item active">{$LNG.ADJUSTMENT}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -446,7 +446,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last Adjustment</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_ADJUSTMENT}</h5>
 						</div>
 					</div>
 				</div>
@@ -462,7 +462,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Adjustment</h5>
+							<h5 class="">{$LNG.CREATE_NEW_ADJUSTMENT}</h5>
 						</div>
 					</div>
 				</div>
@@ -477,9 +477,9 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open by Adjustment No</h5>
 						</div>
 					</div>
+							<h5 class="">{$LNG.OPEN_BY_ADJUSTMENT_NO}</h5>
 				</div>
 				<a href="adjustment.php?a=open" class="stretched-link"></a>
 			</div>
@@ -492,16 +492,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">PO</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.PO}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">PO</li>
+			<li class="breadcrumb-item active">{$LNG.PO}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -515,7 +515,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last PO</h5>
+							<h5 class="">{$CONTINUE_LAST_PO}</h5>
 						</div>
 					</div>
 				</div>
@@ -531,7 +531,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New PO</h5>
+							<h5 class="">{$LNG.CREATE_NEW_PO}</h5>
 						</div>
 					</div>
 				</div>
@@ -546,7 +546,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class=""> Open PO by PO No</h5>
+							<h5 class="">{$LNG.OPEN_BY_PO_NO}</h5>
 						</div>
 					</div>
 				</div>
@@ -561,16 +561,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">STOCK TAKE</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.STOCK_TAKE}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">STOCK TAKE</li>
+			<li class="breadcrumb-item active">{$LNG.STOCK_TAKE}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -584,7 +584,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last Stock Take</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_STOCK_TAKE}</h5>
 						</div>
 					</div>
 				</div>
@@ -600,7 +600,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open Stock Take</h5>
+							<h5 class="">{$LNG.OPEN_STOCK_TAKE}</h5>
 						</div>
 					</div>
 				</div>
@@ -630,16 +630,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">BATCH BARCODE</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.BATCH_BARCODE}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">BATCH BARCODE</li>
+			<li class="breadcrumb-item active">{$LNG.BATCH_BARCODE}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -653,7 +653,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last Batch</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_BATCH}</h5>
 						</div>
 					</div>
 				</div>
@@ -669,7 +669,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Batch</h5>
+							<h5 class="">{$LNG.CREATE_NEW_BATCH}</h5>
 						</div>
 					</div>
 				</div>
@@ -684,7 +684,7 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Open Batch Barcode List</h5>
+							<h5 class="">{$LNG.OPEN_BATCH_BARCODE_LIST}</h5>
 						</div>
 					</div>
 				</div>
@@ -699,16 +699,16 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">PROMOTION</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.PROMOTION}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
-			<li class="breadcrumb-item active">PROMOTION</li>
+			<li class="breadcrumb-item active">{$LNG.PROMOTION}</li>
 		</ol>
 	</nav>
 <div class="container p-0 mt-5">
@@ -722,7 +722,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Continue Last Promotion</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_PROMOTION}</h5>
 						</div>
 					</div>
 				</div>
@@ -738,7 +738,7 @@
 							<i class="fas fa-plus text-info"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">Create New Promotion</h5>
+							<h5 class="">{$LNG.CREATE_NEW_PROMOTION}</h5>
 						</div>
 					</div>
 				</div>
@@ -753,14 +753,14 @@
 	<div class="breadcrumb-header justify-content-between mt-3 mb-2">
 		<div class="my-auto">
 			<div class="d-flex">
-				<h4 class="content-title mb-0 my-auto ml-1">CUSTOM MODULES</h4>
+				<h4 class="content-title mb-0 my-auto ml-1">{$LNG.CUSTOM_MODULES}</h4>
 			</div>
 		</div>
 	</div>
 	<nav aria-label="breadcrumb m-0 mb-2">
 		<ol class="breadcrumb bg-white animated fadeInDown">
 			<li class="breadcrumb-item">
-				<a href="home.php">Dashboard</a>
+				<a href="home.php">{$LNG.DASHBOARD}</a>
 			</li>
 		</ol>
 	</nav>

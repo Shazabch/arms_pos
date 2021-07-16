@@ -130,7 +130,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-bar-chart project bg-warning-transparent mx-auto text-warning "></i>
 				</div>
-				<h6 class="mb-1 text-muted">{$LNG.ADJUSTMENT}</h6>
+				<h6 class="mb-1 text-muted">{$LNG.SALES_ORDER}</h6>
 				<a href="home.php?a=menu&id=sales_order" class="stretched-link"></a>
 			</div>
 		</div>
