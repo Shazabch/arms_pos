@@ -58,17 +58,6 @@
 *}
 
 {include file='header.tpl'}
-<!-- <nav aria-label="breadcrumb">
-	<ol class="breadcrumb bg-white">
-		<li class="breadcrumb-item">
-			<a href="#">Home</a>
-		</li>
-		<li class="breadcrumb-item">
-			<a href="#">Library</a>
-		</li>
-		<li class="breadcrumb-item active">Data</li>
-	</ol>
-</nav> -->
 
 <div class="breadcrumb-header justify-content-between mt-3 animated fadeInDown">
 	<div class="my-auto">
