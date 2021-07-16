@@ -143,14 +143,14 @@ function check_delete_status(){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LANG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
 		{if $smarty.request.find_grr}
 		<li class="breadcrumb-item">
-			<a href="goods_receiving_record.php?a=open&find_grr={$smarty.request.find_grr}">Back to search</a>
+			<a href="goods_receiving_record.php?a=open&find_grr={$smarty.request.find_grr}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -181,22 +181,22 @@ function check_delete_status(){
 		</td>
 		<td>
 			<div class="row">
-				<label class="col-2">No:</label>
+				<label class="col-2">{$LNG.NO}:</label>
 				<input type="text" class="form-control form-control-sm min-w-100 col" name="doc_no[__id__]" size="8">
 			</div>
 			<div class="row mt-1">
-				<label class="col-2">Date:</label>
+				<label class="col-2">{$LNG.DATE}:</label>
 				<input type="text" class="form-control form-control-sm min-w-100 col" name="doc_date[__id__]" size="8">
 			</div>
 			<input type="hidden" name="prev_doc_no[__id__]" />
 			<input type="hidden" name="prev_type[__id__]" />
 		</td>
 		<td>
-			<select name="type[__id__]" class="item_type form-control form-control-sm min-w-100 select2" onchange="check_type(__id__);">
-				<option value="PO" selected>PO</option>
-				<option value="INVOICE">INV</option>
-				<option value="DO">DO</option>
-				<option value="OTHER">OTH</option>
+			<select name="type[__id__]" class="item_type form-control form-control-sm min-w-100 " onchange="check_type(__id__);">
+				<option value="PO" selected>{$LNG.PO}</option>
+				<option value="INVOICE">{$LNG.INV}</option>
+				<option value="DO">{$LNG.DO}</option>
+				<option value="OTHER">{$LNG.OTH}</option>
 			</select>
 		</td>
 		<td><input type="text" name="ctn[__id__]" value="" size="5" class="r form-control form-control-sm min-w-100" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" readonly /></td>
@@ -205,17 +205,17 @@ function check_delete_status(){
 	<tr id="temp_gi_row2" class="temp_gi_row2">
 		<td colspan="6">
 			<div class="d-flex flex-row justify-content-end align-items-center">
-				<label class="mr-2">Amount</label>
+				<label class="mr-2">{$LNG.AMOUNT}</label>
 				<input type="text" name="amount[__id__]" value="" size="6" class="r form-control min-w-100 max-w-200" onChange="mf(this);" readonly />
 			</div>			
 			{if $form.is_under_gst}
 				<div class="d-flex flex-row justify-content-end align-items-center mt-1">
-					<label class="mr-2">GST Amount</label>
+					<label class="mr-2">{$LNG.GST_AMOUNT}</label>
 					<input type="text" name="gst_amount[__id__]" value="" size="6" class="r form-control min-w-100 max-w-200" onChange="mf(this);" readonly />
 				</div>	
 			{/if}
 			<div class="d-flex flex-row justify-content-end align-items-center mt-1">
-				<label class="mr-2">Remark</label>
+				<label class="mr-2">{$LNG.REMARK}</label>
 				<input type="text" name="remark[__id__]" class="form-control min-w-100 max-w-200" value="" size="20" />
 			</div>	
 		</td>
@@ -225,11 +225,11 @@ function check_delete_status(){
 <div class="card animated fadeInLeft">
 	<div class="card-body">
 		<div class="d-flex justify-content-between align-items-center py-2">
-			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>
 			<div class="">
-				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-info" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
-				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-info" onClick="add_row();"><i class="fas fa-plus"></i> {$LNG.ADD_ROW}</button>
+				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		</div>
 		<form name="f_a" method="post" onSubmit="return false;">
@@ -242,16 +242,16 @@ function check_delete_status(){
 								<th width="20" rowspan="2">
 									<div class="custom-checkbox custom-control">
 										<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="toggle_chx custom-control-input" id="checkbox-[{$r.id}]">
-										<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1">Del</label>
+										<label for="checkbox-[{$r.id}]" class="custom-control-label mt-1">{$LNG.DEL}</label>
 									</div>
 								</th>
-								<th rowspan="2">Doc No & Date</th>
-								<th rowspan="2">Doc Type</th>
-								<th colspan="2" class="text-center">Qty</th>
+								<th rowspan="2">{$LNG.DOC_NO_DATE}</th>
+								<th rowspan="2">{$LNG.DOC_TYPE}</th>
+								<th colspan="2" class="text-center">{$LNG.QTY}</th>
 							</tr>
 							<tr class="text-center">
-								<th>Ctn</th>
-								<th>Pcs</th>
+								<th>{$LNG.CTN}</th>
+								<th>{$LNG.PCS}</th>
 							</tr>
 						</thead>
 						<tbody id="gi_list">
@@ -267,11 +267,11 @@ function check_delete_status(){
 									</td>
 									<td>
 										<div class="row">
-											<label class="col-2">No:</label>
+											<label class="col-2">{$LNG.NO}:</label>
 											<input type="text" class="form-control form-control-sm min-w-100 col" name="doc_no[{$r.id}]" value="{$r.doc_no}" size="8">
 										</div>
 										<div class="row mt-1">
-											<label class="col-2">Date:</label>
+											<label class="col-2">{$LNG.DATE}:</label>
 											<input type="text" class="form-control form-control-sm col min-w-100" name="doc_date[{$r.id}]" value="{$r.doc_date}" size="8">
 										</div>				
 										<input type="hidden" name="prev_doc_no[{$r.id}]" value="{$r.prev_doc_no|default:$r.doc_no}" />
@@ -279,10 +279,10 @@ function check_delete_status(){
 									</td>
 									<td>
 										<select name="type[{$r.id}]" class="item_type txt-width form-control form-control-sm min-w-100 select2" onchange="check_type({$r.id});">
-											<option value="PO" {if $r.type eq 'PO'}selected{/if}>PO</option>
-											<option value="INVOICE" {if $r.type eq 'INVOICE'}selected{/if}>INV</option>
-											<option value="DO" {if $r.type eq 'DO'}selected{/if}>DO</option>
-											<option value="OTHER" {if $r.type eq 'OTHER'}selected{/if}>OTH</option>
+											<option value="PO" {if $r.type eq 'PO'}selected{/if}>{$LNG.PO}</option>
+											<option value="INVOICE" {if $r.type eq 'INVOICE'}selected{/if}>{$LNG.INV}</option>
+											<option value="DO" {if $r.type eq 'DO'}selected{/if}>{$LNG.DO}</option>
+											<option value="OTHER" {if $r.type eq 'OTHER'}selected{/if}>{$LNG.OTH}</option>
 										</select>
 									</td>
 									<td align="center"><input type="text" name="ctn[{$r.id}]" value="{$r.ctn}" size="5" class="r form-control form-control-sm min-w-100" onChange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" {if $r.type eq 'PO'}readonly{/if} /></td>
@@ -291,17 +291,17 @@ function check_delete_status(){
 								<tr>
 									<td colspan="6">
 										<div class="d-flex flex-row justify-content-end align-items-center">
-											<label class="mr-2">Amount</label>
+											<label class="mr-2">{$LNG.AMOUNT}</label>
 											<input type="text" name="amount[{$r.id}]" value="{$r.amount}" class="r form-control min-w-100 max-w-200" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if} />
 										</div>
 										{if $form.is_under_gst}
 											<div class="d-flex flex-row justify-content-end align-items-center mt-1">
-												<label class="mr-2">GST Amount</label>
+												<label class="mr-2">{$LNG.GST_AMOUNT}</label>
 												<input type="text" name="gst_amount[{$r.id}]" value="{$r.gst_amount}" class="r form-control min-w-100 max-w-200" onChange="mf(this);" {if $r.type eq 'PO'}readonly{/if}  />
 											</div>
 										{/if}
 										<div class="d-flex flex-row justify-content-end align-items-center mt-1">
-											<label class="mr-2">Remark</label>
+											<label class="mr-2">{$LNG.REMARK}</label>
 											<input type="text" name="remark[{$r.id}]" value="{$r.remark}" class="txt-width-30 form-control min-w-100 max-w-200" />
 										</div>	
 									</td>
@@ -328,9 +328,9 @@ function check_delete_status(){
 				</div>
 			</form>
 			<div class="d-flex justify-content-end align-items-center py-2">
-					<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-					<button class="btn btn-info mr-1" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button>
-					<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+					<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+					<button class="btn btn-info mr-1" onClick="add_row();"><i class="fas fa-plus"></i> {$LNG.ADD_ROW}</button>
+					<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 	</div>
 </div>

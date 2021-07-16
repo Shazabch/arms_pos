@@ -239,7 +239,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">{$LNG.CONTINUE_LAST_ORDER}</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_GRR}</h5>
 						</div>
 					</div>
 				</div>
@@ -477,9 +477,9 @@
 							<i class="fas fa-search text-success"></i>
 						</div>
 						<div class="ml-3 my-auto">
+							<h5 class="">{$LNG.OPEN_BY_ADJUSTMENT_NO}</h5>
 						</div>
 					</div>
-							<h5 class="">{$LNG.OPEN_BY_ADJUSTMENT_NO}</h5>
 				</div>
 				<a href="adjustment.php?a=open" class="stretched-link"></a>
 			</div>

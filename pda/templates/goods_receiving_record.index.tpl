@@ -148,21 +148,21 @@ function search_document(event){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}(GRR#{$form.id}){else}New GRR{/if}</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}({$LNG.GRR}#{$form.id}){else}{$LNG.NEW_GRR}{/if}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
 		{if $form.find_grr}
 			<li class="breadcrumb-item">
-				<a href="goods_receiving_record.php?a=open&find_grr={$form.find_grr}">Back to Search</a>
+				<a href="goods_receiving_record.php?a=open&find_grr={$form.find_grr}">{$LNG.BACK_TO_SEARCH}</a>
 			</li>
 		{/if}
 	</ol>
@@ -189,11 +189,11 @@ function search_document(event){
 
 {if $smarty.request.id && $smarty.request.t}
 <div class="alert alert-success animated fadeInDown">
-	<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> GRR#{$smarty.request.id} 
+	<img src="../ui/icons/accept.png" align="absmiddle" title="Required Field"> {$LNG.GRR}#{$smarty.request.id} 
 	{if $smarty.request.t eq 'insert'}
-		Inserted
+		{$LNG.INSERTED}
 	{else}
-		Updated
+		{$LNG.UPDATED}
 	{/if}
 </div>
 {/if}
@@ -212,7 +212,7 @@ function search_document(event){
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="doc_no" name="doc_no" value="" onKeyUp="search_document(event);" size="10">
@@ -220,18 +220,18 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">PO / Do</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.PO} / {$LNG.DO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<div class="row ml-3 mt-2">
-									<label class="font-weight-boldrdiobox mr-3"><input type="radio"  name="doc_type" value="PO" checked> <span>PO</span></label>
-									<label class="font-weight-boldrdiobox"><input type="radio"  name="doc_type" value="DO"> <span>DO</span></label>
+									<label class="font-weight-boldrdiobox mr-3"><input type="radio"  name="doc_type" value="PO" checked> <span>{$LNG.PO}</span></label>
+									<label class="font-weight-boldrdiobox"><input type="radio"  name="doc_type" value="DO"> <span>{$LNG.DO}</span></label>
 								</div>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Received Date</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.RECEIVED_DATE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="rcv_date" name="rcv_date" value="{$form.rcv_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="9">
@@ -240,7 +240,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Vendor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2"  name="vendor_id">
@@ -253,7 +253,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Vendor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
@@ -261,7 +261,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Department</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="department_id">
@@ -275,7 +275,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Lorry No</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.LORRY_NO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10>
@@ -283,7 +283,7 @@ function search_document(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Received By</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.RECEIVED_BY}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="rcv_by">
