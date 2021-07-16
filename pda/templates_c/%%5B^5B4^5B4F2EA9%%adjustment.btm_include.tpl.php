@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-07-01 16:55:33
+<?php /* Smarty version 2.6.18, created on 2021-07-16 20:51:13
          compiled from adjustment.btm_include.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'adjustment.btm_include.tpl', 1, false),)), $this); ?>

@@ -1,17 +1,17 @@
 {if $smarty.request.do_tab eq 'setting'}
-     <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> Change Setting</a>
+     <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}</a>
 {else}
-    <a href="do.php?a=show_setting" class="btn btn-info btn-sm animated fadeInDown"><i class="fas fa-cog"></i> Change Setting</a>
+    <a href="do.php?a=show_setting" class="btn btn-info btn-sm animated fadeInDown"><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}</a>
 {/if}
 
 {if !$smarty.request.do_tab or $smarty.request.do_tab eq 'scan_item'}
-	<a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> Scan Item</a>
+	<a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> {$LNG.SCAN_ITEM}</a>
 {else}
-	<a href="do.php" class="btn btn-indigo btn-sm animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> Scan Item</a>
+	<a href="do.php" class="btn btn-indigo btn-sm animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> {$LNG.SCAN_ITEM}</a>
 {/if}
 
 {if $smarty.request.do_tab eq 'view_items'}
-    <a class="btn btn-light btn-sm animated fadeInDown disabled"><i class="fas fa-th-list"></i> View Items List</a>
+    <a class="btn btn-light btn-sm animated fadeInDown disabled"><i class="fas fa-th-list"></i> {$LNG.VIEW_ITEMS_LIST}</a>
 {else}
-    <a href="do.php?a=view_items" class="btn btn-success btn-sm animated fadeInDown" ><i class="fas fa-th-list"></i> View Items List</a>
+    <a href="do.php?a=view_items" class="btn btn-success btn-sm animated fadeInDown" ><i class="fas fa-th-list"></i> {$LNG.VIEW_ITEMS_LIST}</a>
 {/if}

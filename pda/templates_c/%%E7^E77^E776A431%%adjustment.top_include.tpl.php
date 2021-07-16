@@ -1,22 +1,25 @@
-<?php /* Smarty version 2.6.18, created on 2021-07-01 16:55:33
+<?php /* Smarty version 2.6.18, created on 2021-07-16 20:51:17
          compiled from adjustment.top_include.tpl */ ?>
-
-<span class="small">
 <?php if ($this->_tpl_vars['adj_tab'] == 'setting'): ?>
-    [Change Setting]
+    <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> <?php echo $this->_tpl_vars['LNG']['CHANGE_SETTING']; ?>
+</a>
 <?php else: ?>
-    <a href="adjustment.php?a=show_setting">[Change Setting]</a>
+    <a href="adjustment.php?a=show_setting" class="btn btn-info btn-sm animated fadeInDown"><i class="fas fa-cog"></i> <?php echo $this->_tpl_vars['LNG']['CHANGE_SETTING']; ?>
+</a>
 <?php endif; ?>
 
 <?php if (! $this->_tpl_vars['adj_tab'] || $this->_tpl_vars['adj_tab'] == 'scan_item'): ?>
-	[Scan Item]
+    <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> <?php echo $this->_tpl_vars['LNG']['SCAN_ITEM']; ?>
+</a>
 <?php else: ?>
-	<a href="adjustment.php">[Scan Item]</a>
+	<a href="adjustment.php" class="btn btn-indigo btn-sm animated fadeInDown"><i class="mdi mdi-barcode-scan"></i> <?php echo $this->_tpl_vars['LNG']['SCAN_ITEM']; ?>
+</a>
 <?php endif; ?>
 
 <?php if ($this->_tpl_vars['adj_tab'] == 'view_items'): ?>
-    [View Items List]
+    <a class="btn btn-light btn-sm animated fadeInDown disabled"><i class="fas fa-th-list"></i> <?php echo $this->_tpl_vars['LNG']['VIEW_ITEMS_LIST']; ?>
+</a>
 <?php else: ?>
-    <a href="adjustment.php?a=view_items">[View Items List]</a>
-<?php endif; ?>
-</span>
+    <a href="adjustment.php?a=view_items" class="btn btn-success btn-sm animated fadeInDown"><i class="fas fa-th-list"></i> <?php echo $this->_tpl_vars['LNG']['VIEW_ITEMS_LIST']; ?>
+</a>
+<?php endif; ?>
