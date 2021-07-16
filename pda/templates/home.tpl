@@ -62,7 +62,7 @@
 <div class="breadcrumb-header justify-content-between mt-3 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ Please Choose Module</span>
+			<h4 class="content-title mb-0 my-auto">{$LNG.DASHBOARD}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0">/ {$LNG.CHOOSE_MODULE_MSG}</span>
 		</div>
 	</div>
 </div>
@@ -74,7 +74,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-package project bg-primary-transparent mx-auto text-primary "></i>
 				</div>
-				<h6 class="mb-1 text-muted">GRR</h6>
+				<h6 class="mb-1 text-muted">{$LNG.GRR}</h6>
 				<a href="home.php?a=menu&id=grr" class="stretched-link"></a>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-pie-chart project bg-pink-transparent mx-auto text-pink "></i>
 				</div>
-				<h6 class="mb-1 text-muted">GRN</h6>
+				<h6 class="mb-1 text-muted">{$LNG.GRN}</h6>
 				<a href="home.php?a=menu&id=grn" class="stretched-link"></a>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
-				<h6 class="mb-1 text-muted">GRA</h6>
+				<h6 class="mb-1 text-muted">{$LNG.GRA}</h6>
 				<a href="home.php?a=menu&id=gra" class="stretched-link"></a>
 			</div>
 		</div>
@@ -116,7 +116,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-arrows-corner project bg-success-transparent mx-auto text-success "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Adjustment</h6>
+				<h6 class="mb-1 text-muted">{$LNG.ADJUSTMENT}</h6>
 				<a href="home.php?a=menu&id=adjustment" class="stretched-link"></a>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-bar-chart project bg-warning-transparent mx-auto text-warning "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Sales Order</h6>
+				<h6 class="mb-1 text-muted">{$LNG.ADJUSTMENT}</h6>
 				<a href="home.php?a=menu&id=sales_order" class="stretched-link"></a>
 			</div>
 		</div>
@@ -144,7 +144,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-truck  project bg-purple-transparent mx-auto text-purple "></i>
 				</div>
-				<h6 class="mb-1 text-muted">DO</h6>
+				<h6 class="mb-1 text-muted">{$LNG.DO}</h6>
 				<a href="home.php?a=menu&id=do" class="stretched-link"></a>
 			</div>
 		</div>
@@ -158,7 +158,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-bag  project bg-secondary-transparent mx-auto text-secondary "></i>
 				</div>
-				<h6 class="mb-1 text-muted">PO</h6>
+				<h6 class="mb-1 text-muted">{$LNG.PO}</h6>
 				<a href="home.php?a=menu&id=po" class="stretched-link"></a>
 			</div>
 		</div>
@@ -172,7 +172,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-money  project bg-primary-transparent mx-auto text-primary "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Stock Take</h6>
+				<h6 class="mb-1 text-muted">{$LNG.STOCK_TAKE}</h6>
 				<a href="home.php?a=menu&id=stock_take" class="stretched-link"></a>
 			</div>
 		</div>
@@ -186,7 +186,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-stats-up  project bg-success-transparent mx-auto text-success "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Promotion</h6>
+				<h6 class="mb-1 text-muted">{$LNG.PROMOTION}</h6>
 				<a href="home.php?a=menu&id=promotion" class="stretched-link"></a>
 			</div>
 		</div>
@@ -200,7 +200,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-layout-column4-alt  project bg-pink-transparent mx-auto text-pink "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Batch Barcode</h6>
+				<h6 class="mb-1 text-muted">{$LNG.BATCH_BARCODE}</h6>
 				<a href="home.php?a=menu&id=batch_barcode" class="stretched-link"></a>
 			</div>
 		</div>
@@ -214,7 +214,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-gift  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Voucher Activation</h6>
+				<h6 class="mb-1 text-muted">{$LNG.VOUCHER_ACTIVATION}</h6>
 				<a href="mst_voucher.php" class="stretched-link"></a>
 			</div>
 		</div>
@@ -228,7 +228,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-check-box  project bg-orange-transparent mx-auto text-orange "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Check Code</h6>
+				<h6 class="mb-1 text-muted">{$LNG.CHECK_CODE}</h6>
 				<a href="check_code.php" class="stretched-link"></a>
 			</div>
 		</div>
@@ -242,7 +242,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-user  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Member Enquiry</h6>
+				<h6 class="mb-1 text-muted">{$LNG.MEMBER_ENQUIRY}</h6>
 				<a href="member_enquiry.php" class="stretched-link"></a>
 			</div>
 		</div>
@@ -256,7 +256,7 @@
 				<div class="feature widget-2 text-center mt-0 mb-3">
 					<i class="ti-pulse  project bg-teal-transparent mx-auto text-teal "></i>
 				</div>
-				<h6 class="mb-1 text-muted">Custom Modules</h6>
+				<h6 class="mb-1 text-muted">{$LNG.CUSTOM_MODULES}</h6>
 				<a href="home.php?a=menu&id=custom" class="stretched-link"></a>
 			</div>
 		</div>
@@ -269,14 +269,14 @@
 		<li>DO
 		    <ul>
 		        {if $smarty.session.do.id>0 and $smarty.session.do.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="do.php">Continue Last DO</a></li>
+		            <li><a href="do.php">{$LNG.CONTINUE_LAST_DO}</a></li>
 		        {/if}
-			    <li><a href="do.php?a=new_do">Create New Transfer DO</a></li>
-			    <li><a href="do.php?a=new_do&do_type=open">Create New Cash Sales DO</a></li>
-			    <li><a href="do.php?a=new_do&do_type=credit_sales">Create New Credit Sales DO</a></li>
-				<li><a href="do.php?a=open">Open DO by Do No</a></li>
-				<li><a href="do.php?a=open_checklist">Open DO Checklist</a></li>
-				<li><a href="do.picking_verification.php?a=open">DO Picking Verification</a></li>
+			    <li><a href="do.php?a=new_do">{$LNG.CREATE_NEW_TRANSFER_DO}</a></li>
+			    <li><a href="do.php?a=new_do&do_type=open">{$LNG.CREATE_NEW_CASH_SALES_DO}</a></li>
+			    <li><a href="do.php?a=new_do&do_type=credit_sales">{$LNG.CREATE_NEW_CREDIT_SALES_DO}</a></li>
+				<li><a href="do.php?a=open">{$LNG.OPEN_DO_BY_DO_NO}</a></li>
+				<li><a href="do.php?a=open_checklist">{$LNG.OPEN_DO_CHECKLIST}</a></li>
+				<li><a href="do.picking_verification.php?a=open">{$LNG.DO_PICKING_VERIFICATION}</a></li>
 		     </ul>
 		</li>
 	{/if}
@@ -284,10 +284,10 @@
 		<li>Sales Order
 			<ul>
 			    {if $smarty.session.so.id>0 and $smarty.session.so.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="sales_order.php">Continue Last Sales Order</a></li>
+		            <li><a href="sales_order.php">{$LNG.CONTINUE_LAST_SALES_ORDER}</a></li>
 		        {/if}
-			    <li><a href="sales_order.php?a=new_so">Create New Sales Order</a></li>
-			    <li><a href="sales_order.php?a=open">Open by Order No</a></li>
+			    <li><a href="sales_order.php?a=new_so">{$LNG.CREATE_NEW_SALES_ORDER}</a></li>
+			    <li><a href="sales_order.php?a=open">{$LNG.OPEN_BY_ORDER_NO}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -296,10 +296,10 @@
 		<li>GRR
 			<ul>
 				{if $smarty.session.grr.id>0 and $smarty.session.grr.branch_id eq $sessioninfo.branch_id}
-					<li><a href="goods_receiving_record.php">Continue Last GRR</a></li>
+					<li><a href="goods_receiving_record.php">{$LNG.}</a></li>
 				{/if}
-				<li><a href="goods_receiving_record.php?a=new_grr">Create New GRR</a></li>
-				<li><a href="goods_receiving_record.php?a=open">Open by GRR No</a></li>
+				<li><a href="goods_receiving_record.php?a=new_grr">{$LNG.CREATE_NEW_GRR}</a></li>
+				<li><a href="goods_receiving_record.php?a=open">{$LNG.OPEN_BY_GRR_NO}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -308,10 +308,10 @@
 	<li>GRN
 		<ul>
 			{if $smarty.session.grn.id>0 and $smarty.session.grn.branch_id eq $sessioninfo.branch_id}
-				<li><a href="goods_receiving_note.php">Continue Last GRN</a></li>
+				<li><a href="goods_receiving_note.php">{$LNG.CONTINUE_LAST_GRN}</a></li>
 			{/if}
-			<li><a href="goods_receiving_note.php?a=show_grr_list">Create New GRN</a></li>
-			<li><a href="goods_receiving_note.php?a=open">Open by GRN No / GRR No</a></li>
+			<li><a href="goods_receiving_note.php?a=show_grr_list">{$LNG.CREATE_NEW_GRN}</a></li>
+			<li><a href="goods_receiving_note.php?a=open">{$LNG.OPEN_BY_GRN_GRR_NO}</a></li>
 		</ul>
 	</li>
 	{/if}
@@ -320,10 +320,10 @@
 	<li>GRA
 		<ul>
 			{if $smarty.session.gra.id>0 and $smarty.session.gra.branch_id eq $sessioninfo.branch_id}
-				<li><a href="goods_return_advice.php">Continue Last GRA</a></li>
+				<li><a href="goods_return_advice.php">{$LNG.CONTINUE_LAST_GRA}</a></li>
 			{/if}
-			<li><a href="goods_return_advice.php?a=new_gra">Create New GRA</a></li>
-			<li><a href="goods_return_advice.php?a=open">Open by GRA No</a></li>
+			<li><a href="goods_return_advice.php?a=new_gra">{$LNG.CREATE_NEW_GRA}</a></li>
+			<li><a href="goods_return_advice.php?a=open">{$LNG.OPEN_BY_GRA_NO}</a></li>
 		</ul>
 	</li>
 	{/if}
@@ -332,10 +332,10 @@
 		<li>Adjustment
 			<ul>
 			    {if $smarty.session.adj.id>0 and $smarty.session.adj.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="adjustment.php">Continue Last Adjustment</a></li>
+		            <li><a href="adjustment.php">{#LNG.CONTINUE_LAST_ADJUSTMENT}</a></li>
 		        {/if}
-			    <li><a href="adjustment.php?a=new_adj">Create New Adjustment</a></li>
-			    <li><a href="adjustment.php?a=open">Open by Adjustment No</a></li>
+			    <li><a href="adjustment.php?a=new_adj">{#LNG.CREATE_NEW_ADJUSTMENT}</a></li>
+			    <li><a href="adjustment.php?a=open">{#LNG.OPEN_BY_ADJUSTMENT_NO}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -343,10 +343,10 @@
 		<li>PO
 			<ul>
 		        {if $smarty.session.po.id>0 and $smarty.session.po.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="po.php">Continue Last PO</a></li>
+		            <li><a href="po.php">{$LNG.CONTINUE_LAST_PO}</a></li>
 		        {/if}
-			    <li><a href="po.php?a=new_po">Create New PO</a></li>
-				<li><a href="po.php?a=open">Open PO by Po No</a></li>
+			    <li><a href="po.php?a=new_po">{$LNG.CREATE_NEW_PO}</a></li>
+				<li><a href="po.php?a=open">{$LNG.OPEN_BY_PO_NO}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -354,9 +354,9 @@
 		<li>Stock Take
 			<ul>
 			    {if $smarty.session.st.date and $smarty.session.st.location and $smarty.session.st.shelf and $smarty.session.st.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="stock_take.php?a=show_scan">Continue Last Stock Take</a></li>
+		            <li><a href="stock_take.php?a=show_scan">{$LNG.CONTINUE_LAST_STOCK_TAKE}</a></li>
 		        {/if}
-			    <li style="display:none;"><a href="stock_take.php?a=stock_take">Open Stock Take</a></li>
+			    <li style="display:none;"><a href="stock_take.php?a=stock_take">{$LNG.OPEN_STOCK_TAKE}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -364,10 +364,10 @@
 		<li>Batch Barcode
 			<ul>
 			    {if $smarty.session.batch_barcode.id && $smarty.session.batch_barcode.branch_id eq $sessioninfo.branch_id}
-		            <li><a href="batch_barcode.php">Continue Last Batch</a></li>
+		            <li><a href="batch_barcode.php">{$LNG.CONTINUE_LAST_BATCH}</a></li>
 		        {/if}
-			    <li><a href="batch_barcode.php?a=new_batch_barcode">Create New Batch</a></li>
-			    <li><a href="batch_barcode.php?a=open">Open Batch Barcode List</a></li>
+			    <li><a href="batch_barcode.php?a=new_batch_barcode">{$LNG.CREATE_NEW_BATCH}</a></li>
+			    <li><a href="batch_barcode.php?a=open">{$LNG.OPEN_BATCH_BARCODE_LIST}</a></li>
 			</ul>
 		</li>
 	{/if}
@@ -375,17 +375,17 @@
 		<li>Promotion
 			<ul>
 			    {if $smarty.session.promotion.id>0}
-				<li><a href="promotion.php">Continue Last Promotion</a></li>
+				<li><a href="promotion.php">{$LNG.CONTINUE_LAST_PROMOTION}</a></li>
 				{/if}
-			    <li><a href="promotion.php?a=create">Create New Promotion</a></li>
+			    <li><a href="promotion.php?a=create">{$LNG.CREATE_NEW_PROMOTION}</a></li>
 			</ul>
 		</li>
 	{/if}
 	{if $sessioninfo.privilege.MST_VOUCHER and file_exists('mst_voucher.php')}
-		<li><a href="mst_voucher.php">Voucher</a></li>
+		<li><a href="mst_voucher.php">{$LNG.VOUCHER}</a></li>
 	{/if}
 	{if file_exists('check_code.php')}
-		<li><a href="check_code.php">Check Code</a></li>
+		<li><a href="check_code.php">{$LNG.CHECK_CODE}</a></li>
 	{/if}
 	
 	{if isset($config.pda_custom_modules)}
