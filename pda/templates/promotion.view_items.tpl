@@ -53,7 +53,7 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id=promotion">{$module_name}</a>
@@ -69,7 +69,7 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 	<div class="card-body" style="background:#fff">
 		{if $items}
 			<div class="d-flex justify-content-end align-items-center">
-					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
+					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
 					{*<button class="btn btn-success btn-sm" onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
 			</div>
 			{if $total_rows>$records_per_page}
@@ -87,7 +87,7 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 					</div>
 					<div class="col d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-end align-items-center">
 						<div class="text-right text-muted py-auto my-auto fs-08">
-							Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
+							{$LNG.SHOWING_ITEMS} <b>{$start_row}-{$end_row}</b> {$LNG.FROM_TOTAL_OF} <b>{$total_rows}</b> {$LNG.ITEMS}
 						</div>
 					</div>
 				</div>
@@ -107,8 +107,8 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 										<label for="checkbox-delasd" class="custom-control-label mt-1">Del</label>
 									</div>
 								</th>
-								<th>ARMS Code</th>
-								<th>Description</th>
+								<th>{$LNG.ARMS_CODE}</th>
+								<th>{$LNG.DESCRIPTION}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -131,12 +131,12 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 			</form>
 			<div class="d-flex d-sm-none justify-content-start align-items-center mt-2">
 				<div class="text-left text-muted py-auto my-auto fs-08">
-					Showing items <b>{$start_row}-{$end_row}</b> from total of <b>{$total_rows}</b> items.
+					{$LNG.SHOWING_ITEMS} <b>{$start_row}-{$end_row}</b> {$LNG.FROM_TOTAL_OF} <b>{$total_rows}</b> {$LNG.ITEMS}
 				</div>
 			</div>
 			<div class="d-flex justify-content-end align-items-center mt-2">
-				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				{*<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Delete</button>*}
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				{*<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.DELETE}</button>*}
 			</div>
 		{else}
 			<div class="row">
@@ -144,8 +144,8 @@ $this->assign('ur',strtok($_SERVER["REQUEST_URI"],'?'));
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

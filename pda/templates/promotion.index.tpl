@@ -28,14 +28,14 @@ function submit_form(){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">NEW PROMOTION</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.NEW_PROMOTION}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id=promotion">{$module_name}</a>
@@ -63,7 +63,7 @@ function submit_form(){
 <div class="row animated fadeInLeft">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
-			<div class="card-header"><h4 class="border-bottom pb-2">Setting - {if $form.promotion_no}(Promotion/{$form.promotion_no}){else}{if $form.id}(Promotion#{$form.id}){else}New Promotion{/if}{/if}</h4></div>
+			<div class="card-header"><h4 class="border-bottom pb-2">{$LNG.SETTING} - {if $form.promotion_no}({$LNG.PROMOTION}/{$form.promotion_no}){else}{if $form.id}({$LNG.PROMOTION}#{$form.id}){else}{$LNG.NEW_PROMOTION}{/if}{/if}</h4></div>
 			<!-- Form -->
 			<form name="f_a" method="post" onSubmit="return false;">
 				<input type="hidden" name="a" value="save_setting" />
@@ -72,7 +72,7 @@ function submit_form(){
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Title</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.TITLE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" size="30" name="title" value="{$form.title}">
@@ -80,7 +80,7 @@ function submit_form(){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Owner</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.OWNER}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="owner_id">
@@ -91,7 +91,7 @@ function submit_form(){
 								</select>
 							</div>
 						</div>
-						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
+						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onclick="submit_form();">
 					</div>
 				</div>
 			</form>
