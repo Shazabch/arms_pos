@@ -561,7 +561,7 @@ function row_recalc(id){
 									<td colspan="6">
 										{$LNG.STOCK_BALANCE}: <span>{$r.stock_balance}</span></br>
 										{$LNG.COST}: <input style="width: 50%" type="text" class="form-control min-w-100" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-										{$LNG.RESERVE_QTY}[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
+										{$LNG.RESERVE_QTY}: <span>{$r.reserve_qty|default:'0'}<a data-toggle="modal" href="#reserve-qty-modal"><i class="fas fa-question-circle ml-2"></i></a></span>
 									</td>
 								</tr>
 								{/if}
@@ -597,6 +597,23 @@ function row_recalc(id){
 		<input name="add_btn" class="btn btn-primary btn-block" type="submit" value="Add">
 	</div>
 </form>
+<!-- Reserve QTY Modal -->
+<div class="modal fade" id="reserve-qty-modal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header card-category">
+				<h6 class="modal-title">Reserve Quantity <i class="fas fa-question-circle"></i></h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p>{$LNG.RESERVE_QTY_MODAL_MSG}</p>
+			</div>
+			<div class="modal-footer ">
+				<button class="btn ripple btn-info mx-auto" data-dismiss="modal" type="button">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End QTY Modal-->
 {*<div style="float:right;"><input type="button" value="Add" onClick="add_items();" /></div>*}
 </div>
 <script>

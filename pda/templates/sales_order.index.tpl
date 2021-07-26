@@ -68,14 +68,14 @@ function search_debtor(event){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.order_no}(SO/{$form.order_no}){else}{if $form.id}(SO#{$form.id}){else}New SO{/if}{/if}</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SETTING} - {if $form.order_no}(SO/{$form.order_no}){else}{if $form.id}(SO#{$form.id}){else}New SO{/if}{/if}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a  href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
@@ -118,7 +118,7 @@ function search_debtor(event){
 						<input type="hidden" name="branch_id" value="{$branch_id}" />
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Order Date</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.ORDER_DATE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="inp_date" name="order_date" value="{$form.order_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10">
@@ -127,7 +127,7 @@ function search_debtor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">From</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.FROM}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								{$branches.$branch_id.code} - {$branches.$branch_id.description}
@@ -135,7 +135,7 @@ function search_debtor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Batch Code</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.BATCH_CODE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" size="15" name="batch_code" value="{$form.batch_code}">
@@ -143,7 +143,7 @@ function search_debtor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Customer PO</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.CUSTOMER_PO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" size="15" name="cust_po" value="{$form.cust_po}">
@@ -151,7 +151,7 @@ function search_debtor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">To Debtor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.TO_DEBTOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="debtor_id">
@@ -164,13 +164,13 @@ function search_debtor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Debtor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_DEBTOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_debtor_desc" onKeyUp="search_debtor(event);">
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
 				</div>
 			</form>

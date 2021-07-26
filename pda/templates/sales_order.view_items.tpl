@@ -189,7 +189,7 @@ function update_all_item_amt(){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
@@ -204,10 +204,10 @@ function update_all_item_amt(){
 	<div class="card-body">
 	{if $items}
 		<div class="d-flex justify-content-between align-items-center py-2">
-			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>
 			<div class="">
-				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		</div>
 		<form name="f_a" method="post" onSubmit="return false;">
@@ -219,15 +219,15 @@ function update_all_item_amt(){
 				        <th>
 				        	<div class="custom-checkbox custom-control">
 								<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
-								<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+								<label for="checkbox-del0" class="custom-control-label mt-1">{$LNG.DEL}</label>
 							</div>
 				        </th>
-				        <th>UOM</th>
-				        <th>Ctn</th>
-						<th>Pcs</th>
-						<th>Selling Price</th>
-						<th>Dis</th>
-						<th>Amt</th>
+				        <th>{$LNG.UOM}</th>
+				        <th>{$LNG.CTN}</th>
+						<th>{$LNG.PCS}</th>
+						<th>{$LNG.SELLING_PRICE}</th>
+						<th>{$LNG.DIS}</th>
+						<th>{$LNG.AMT}</th>
 				    </tr>
 			    </thead>
 				{*<pre>{$items|@print_r}</pre>*}
@@ -280,14 +280,14 @@ function update_all_item_amt(){
 				        </tr>
 						<tr class="tr_so_item_{$r.id}">
 							<td colspan="6">
-								Remark: <textarea name="remark[{$r.id}]" class="form-control  min-w-100" style="resize: none;background-color: transparent;">{$r.remark|escape}</textarea>
+								{$LNG.REMARK}: <textarea name="remark[{$r.id}]" class="form-control  min-w-100" style="resize: none;background-color: transparent;">{$r.remark|escape}</textarea>
 							</td>
 						</tr>
 						<tr class="tr_so_item_{$r.id}">
 							<td colspan="6">
-								Stock Balance: <span>{$r.stock_balance}</span></br>
+								{$LNG.STOCK_BALANCE}: <span>{$r.stock_balance}</span></br>
 								Cost: <input style="width: 50%" type="text" readonly name="cost_price[{$r.id}]" class="form-control  min-w-100" value="{$r.cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-								Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
+								{$LNG.RESERVE_QTY}: <span>{$r.reserve_qty|default:'0'}<a data-toggle="modal" href="#reserve-qty-modal"><i class="fas fa-question-circle ml-2"></i></a></span>
 							</td>
 						</tr>
 				    {/foreach}
@@ -298,8 +298,8 @@ function update_all_item_amt(){
 		</form>
 		
 		<div class="d-flex justify-content-end align-items-center py-2">
-				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 		</div>
 	{else}
 		<div class="row">
@@ -307,8 +307,8 @@ function update_all_item_amt(){
 				<div class=" mg-b-20 text-center">
 					<div class=" h-100">
 						<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-						<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-						<a href="#" class="text-muted">No Item</a>
+						<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+						<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 					</div>
 				</div>
 			</div>
@@ -316,6 +316,23 @@ function update_all_item_amt(){
 	{/if}
 	</div>
 </div>
+<!-- Reserve QTY Modal -->
+<div class="modal fade" id="reserve-qty-modal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header card-category">
+				<h6 class="modal-title">Reserve Quantity <i class="fas fa-question-circle"></i></h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p>{$LNG.RESERVE_QTY_MODAL_MSG}</p>
+			</div>
+			<div class="modal-footer ">
+				<button class="btn ripple btn-info mx-auto" data-dismiss="modal" type="button">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End QTY Modal-->
 {include file='footer.tpl'}
 <script>
 {literal}
