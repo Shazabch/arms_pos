@@ -76,7 +76,7 @@ function form_keypress(event){
 {/literal}
 </script>
 
-<span class="breadcrumbs"><a href="home.php">Dashboard</a> > <a href="home.php?a=menu&id=custom">{$module_name}</a></span>
+<span class="breadcrumbs"><a href="home.php">{$LNG.DASHBOARD}</a> > <a href="home.php?a=menu&id=custom">{$module_name}</a></span>
 <div style="margin-bottom: 10px"></div>
 
 {if $err}
@@ -94,7 +94,7 @@ function form_keypress(event){
 <table class="small">
 	{if $BRANCH_CODE eq "HQ" && $config.single_server_mode}
 		<tr>
-			<td valign="top"><b>Branch</b></td>
+			<td valign="top"><b>{$LNG.BRANCH}</b></td>
 			<td>
 				<select name="branch_id" size="7">
 					{foreach from=$branches item=r}
@@ -107,26 +107,26 @@ function form_keypress(event){
 		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 	{/if}
 	<tr>
-		<td valign="top"><b>Date</b></td>
+		<td valign="top"><b>{$LNG.DATE}</b></td>
 		<td>
 			<input type="text" name="date" size="10" value="{$form.date|default:$smarty.now|date_format:'%Y-%m-%d'}"  onkeypress="form_keypress(event);" /> (YYYY-MM-DD)
 		</td>
 	</tr>
 	<tr>
-		<td><b>Location</b></td>
+		<td><b>{$LNG.LOCATION}</b></td>
 		<td>
 			<input name="location" value="{$form.location}" onkeypress="form_keypress(event);" />
 		</td>
 	</tr>
 	<tr>
-		<td><b>Shelf</b></td>
+		<td><b>{$LNG.SHELF}</b></td>
 		<td>
 			<input name="shelf" value="{$form.shelf}" onkeypress="form_keypress(event);" />
 		</td>
 	</tr>
 </table>
 <div align=center>
-	<input type="button" value="Search" onClick="submit_form();" /> 
+	<input type="button" value="{$LNG.SEARCH}" onClick="submit_form();" /> 
 </div>
 </form>
 </div>

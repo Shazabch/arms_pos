@@ -60,13 +60,13 @@ function submit_items(act){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="stock_take.php?a=show_scan">Stock Take</a>
+			<a href="stock_take.php?a=show_scan">{$LNG.STOCK_TAKE}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="stock_take.php?a=view_items">View Items</a>
+			<a href="stock_take.php?a=view_items">{$LNG.VIEW_ITEMS}</a>
 		</li>
 	</ol>
 </nav>
@@ -89,10 +89,10 @@ function submit_items(act){
 	<div class="card-body" style="background:#fff">
 		{if $items}
 			<div class="d-flex justify-content-between align-items-center">
-				<div class="badge badge-pill badge-light p-2">{count var=$items} item(s)</div>
+				<div class="badge badge-pill badge-light p-2">{count var=$items} {$LNG.ITEMS}</div>
 				<div>
-					<button class="btn btn-danger" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-					<button class="btn btn-success" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+					<button class="btn btn-danger" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+					<button class="btn btn-success" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 				</div>
 			</div>
 			<form name="f_a" method="post" onSubmit="return false;">
@@ -107,12 +107,12 @@ function submit_items(act){
 						        <th>
 						        	<div class="custom-checkbox custom-control">
 										<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
-										<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+										<label for="checkbox-del0" class="custom-control-label mt-1">{$LNG.DEL}</label>
 									</div>
 						        </th>
-						        <th>ARMS Code</th>
-						        <th>Description</th>
-						        <th class="center">Qty <small>(pcs)</small></th>
+						        <th>{$LNG.ARMS_CODE}</th>
+						        <th>{$LNG.DESCRIPTION}</th>
+						        <th class="center">{$LNG.QTY} <small>({$LNG.PCS})</small></th>
 						    </tr>
 					    </thead>
 					    <tbody>
@@ -143,8 +143,8 @@ function submit_items(act){
 				</div>
 			</form>
 			<div class="d-flex justify-content-end align-items-center mt-2">
-				<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success" id="submit_btn2" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success" id="submit_btn2" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		{else}
 			<div class="row">
@@ -152,8 +152,8 @@ function submit_items(act){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

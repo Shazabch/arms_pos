@@ -128,16 +128,16 @@ function qty_keypress(event){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">Stock Take</a>
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$LNG.STOCK_TAKE}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="stock_take.php?a=show_scan">Scan Item</a>
+			<a href="stock_take.php?a=show_scan">{$LNG.SCAN_ITEM}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="stock_take.php?a=view_items">View Items</a>
+			<a href="stock_take.php?a=view_items">{$LNG.VIEW_ITEMS}</a>
 		</li>
 	</ol>
 </nav>
@@ -155,7 +155,7 @@ function qty_keypress(event){
 {/if}
 <!-- /Error Message -->
 {if $smarty.request.auto_add}
-	<div class="alert alert-success my-1"><img src="/ui/approved.png" title="Item Added"> Item added</div> 
+	<div class="alert alert-success my-1"><img src="/ui/approved.png" title="Item Added"> {$LNG.ITEM_ADDED}</div> 
 {/if}
 <!-- row -->
 <div class="row animated fadeInLeft">
@@ -168,13 +168,13 @@ function qty_keypress(event){
 					<div class=" ml-4 checkbox">
 						<div class="custom-checkbox custom-control">
 							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2" value="1" name="auto_add_item" {if $smarty.request.auto_add}checked{/if}>
-							<label for="checkbox-2" class="custom-control-label mt-1">Auto add item with one qty</label>
+							<label for="checkbox-2" class="custom-control-label mt-1">{$LNG.AUTO_ADD_ITEM_WITH_ONE_QTY}</label>
 						</div>
 					</div>
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Code</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.CODE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="code" onKeyPress="checkkey(event)" value="{$si_info.code}">
@@ -183,7 +183,7 @@ function qty_keypress(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Description</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DESCRIPTION}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="description" size=30 value="{$si_info.description}" readonly>
@@ -191,7 +191,7 @@ function qty_keypress(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Selling Price</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SELLING_PRICE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text"  name="sell_price" value="{$si_info.selling_price}" readonly>
@@ -199,14 +199,14 @@ function qty_keypress(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Qty</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.QTY}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="qty"  size="10" class="qty" onkeypress="qty_keypress(event);">
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block-sm" id="submit_btn" value="Save" onClick="save_data();">Save</button>
-						<button class="btn btn-success btn-block-sm mt-2 mt-md-0 mt-xl-0 mt-lg-0" onClick="back_stock_take();">Finish</button>
+						<button class="btn btn-primary btn-block-sm" id="submit_btn" value="Save" onClick="save_data();">{$LNG.SAVE}</button>
+						<button class="btn btn-success btn-block-sm mt-2 mt-md-0 mt-xl-0 mt-lg-0" onClick="back_stock_take();">{$LNG.FINISH}</button>
 					</div>
 				</div>
 			</form>
