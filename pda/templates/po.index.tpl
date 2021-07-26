@@ -229,14 +229,14 @@ function date_format_check(obj){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">New Purchase Order</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.NEW_PURCHASE_ORDER}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a  href="home.php?a=menu&id=po">{$module_name}</a>
@@ -273,14 +273,14 @@ function date_format_check(obj){
 			<!-- Form -->
 			<form name="f_a" method="post" onSubmit="return false;">
 				<div class="card-body">
-					<div class="main-content-label mg-b-5 pb-2 border-bottom"><h4>Setting - New PO</h4></div>
+					<div class="main-content-label mg-b-5 pb-2 border-bottom"><h4>{$LNG.SETTING} - {$LNG.NEW_PO}</h4></div>
 					<div class="pd-15 pd-sm-20">
 						<input type="hidden" name="a" value="save_setting" />
 						<input type="hidden" name="id" value="{$form.id}" />
 						<input type="hidden" name="branch_id" value="{$branch_id}" />
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Vendor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="vendor_id" {if $disable_sett} disabled{/if}>
@@ -294,7 +294,7 @@ function date_format_check(obj){
 						{if !$disable_sett}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Vendor</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
@@ -303,7 +303,7 @@ function date_format_check(obj){
 						{/if}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Department</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="dept_id" {if $disable_sett} disabled{/if}>
@@ -317,7 +317,7 @@ function date_format_check(obj){
 						{if !$disable_sett}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Dept</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
@@ -326,7 +326,7 @@ function date_format_check(obj){
 						{/if}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">PO Date</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.PO_DATE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="po_date" onchange="date_format_check(this)" value="{$form.po_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10"  {if $disable_sett} disabled{/if}>
@@ -335,7 +335,7 @@ function date_format_check(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Deliver Branch</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DELIVER_BRANCH}</label>
 							</div>
 							{if ($sessioninfo.branch_id eq 1 && (!$form.id && !$form.deliver_to)) || ($sessioninfo.branch_id eq 1 && ($form.id && $form.deliver_to)) || ($sessioninfo.branch_id eq 1 && $err) }
 
@@ -350,7 +350,7 @@ function date_format_check(obj){
 													<div class="col-md-6 mt-2 mt-md-0 mt-xl-0 mt-xxl-0">
 														<div class="row row-xs align-items-center">
 															<div class="col-md-4">
-																<label class="font-weight-bold mg-b-0">Delivery Date</label>
+																<label class="font-weight-bold mg-b-0">{$LNG.DELIVERY_DATE}</label>
 															</div>
 															<div class="col-md-8 mg-t-5 mg-md-t-0">
 																<input class="form-control" type="text" name="delivery_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_updated({$branch.id},this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" value="{$form.delivery_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if}>
@@ -360,7 +360,7 @@ function date_format_check(obj){
 													<div class="col-md-6 mt-2 mt-md-0 mt-xl-0 mt-xxl-0">
 														<div class="row row-xs align-items-center">
 															<div class="col-md-4">
-																<label class="font-weight-bold mg-b-0">Cancellation Date</label>
+																<label class="font-weight-bold mg-b-0">{$LNG.CANCELLATION_DATE}</label>
 															</div>
 															<div class="col-md-8 mg-t-5 mg-md-t-0">
 																<input class="form-control" type="text" name="cancel_date[{$branch.id}]" {if in_array($branch.id,$form.deliver_to) && !$err}disabled{/if} onchange="date_format_check(this)" value="{$form.cancel_date[$branch.id]}" size="10" {if !$disable_sett} placeholder="YYYY-MM-DD"{/if}>
@@ -383,7 +383,7 @@ function date_format_check(obj){
 						{if ($sessioninfo.branch_id eq 1 && $form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && !$form.id && !$form.deliver_to) || ($sessioninfo.branch_id neq 1 && $form.id && !$form.deliver_to) }
 							<div class="row row-xs align-items-center mg-b-20">
 								<div class="col-md-2">
-									<label class="font-weight-bold mg-b-0">Delivery Date</label>
+									<label class="font-weight-bold mg-b-0">{$LNG.DELIVERY_DATE}</label>
 								</div>
 								<div class="col-md-6 mg-t-5 mg-md-t-0">
 									<input class="form-control" type="text" name="delivery_date" value="{$form.delivery_date}" onchange="date_updated('',this);{if !$config.po_agreement_cancellation_days}date_format_check(this){/if}" size="10" {if $disable_sett} disabled{/if}>
@@ -392,7 +392,7 @@ function date_format_check(obj){
 							</div>
 							<div class="row row-xs align-items-center mg-b-20">
 								<div class="col-md-2">
-									<label class="font-weight-bold mg-b-0">Cancellation Date</label>
+									<label class="font-weight-bold mg-b-0">{$LNG.CANCELLATION_DATE}</label>
 								</div>
 								<div class="col-md-6 mg-t-5 mg-md-t-0">
 									<input class="form-control" type="text" name="cancel_date" value="{$form.cancel_date}" onchange="date_format_check(this)" size="10" {if $disable_sett} disabled{/if}>
@@ -402,7 +402,7 @@ function date_format_check(obj){
 						{/if}
 
 						{if !$disable_sett}
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 						{/if}
 					</div>
 				</div>

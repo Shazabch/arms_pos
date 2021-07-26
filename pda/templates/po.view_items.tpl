@@ -49,13 +49,13 @@ function submit_items(act){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id=po">{$module_name}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="po.php?a=open">Back to Search</a>
+			<a href="po.php?a=open">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 	</ol>
 </nav>
@@ -80,10 +80,10 @@ function submit_items(act){
 	<div class="card-body">
 		{if $items}
 			<div class="d-flex justify-content-between align-items-center">
-				<div class="badge badge-pill badge-light p-2">{count var=$items} item(s)</div>
+				<div class="badge badge-pill badge-light p-2">{count var=$items} {$LNG.ITEMS}</div>
 				<div>
-					<button class="btn btn-danger" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-					<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+					<button class="btn btn-danger" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+					<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 				</div>
 			</div>
 			<form name="f_a" method="post" onSubmit="return false;">
@@ -96,15 +96,15 @@ function submit_items(act){
 						        <th>
 						        	<div class="custom-checkbox custom-control">
 										<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
-										<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+										<label for="checkbox-del0" class="custom-control-label mt-1">{$LNG.DEL}</label>
 									</div>
 						        </th>
-						        <th>Description</th>
+						        <th>{$LNG.DESCRIPTION}</th>
 								{if $sessioninfo.branch_id eq 1 && $items[0].branch_code}
-									<th>Branch</th>
+									<th>{$LNG.BRANCH}</th>
 								{/if}
-						        <th>Qty<small>(pcs)</small></th>
-								<th>Foc<small>(pcs)</small></th>
+						        <th>{$LNG.QTY}<small>({$LNG.PCS})</small></th>
+								<th>{$LNG.FOC}<small>({$LNG.PCS})</small></th>
 						    </tr>
 						</thead>
 					    {assign var="no" value=1}
@@ -158,9 +158,9 @@ function submit_items(act){
 				</div>
 			</form>
 			
-			<div class="d-flex justify-content-end">
-		        <button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<div class="d-flex justify-content-end mt-2">
+		        <button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		{else}
 			<div class="row">
@@ -168,8 +168,8 @@ function submit_items(act){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

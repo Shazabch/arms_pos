@@ -515,7 +515,7 @@
 							<i class="fas fa-clock text-warning"></i>
 						</div>
 						<div class="ml-3 my-auto">
-							<h5 class="">{$CONTINUE_LAST_PO}</h5>
+							<h5 class="">{$LNG.CONTINUE_LAST_PO}</h5>
 						</div>
 					</div>
 				</div>
