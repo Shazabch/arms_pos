@@ -65,10 +65,10 @@ function delete_row(){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id=do">DO</a>
+			<a href="home.php?a=menu&id=do">{$LNG.DO}</a>
 		</li>
 	</ol>
 </nav>
@@ -102,9 +102,9 @@ function delete_row(){
 
 		{if $items}
 		<div class="d-flex justify-content-end align-items-center">
-			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			<!-- <button class="btn btn-primary mr-1" value="Add Row" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button> -->
-			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> Delete</button>
+			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
 		</div>
 
 		<form name="f_a" method="post" onSubmit="return false;">
@@ -117,9 +117,9 @@ function delete_row(){
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>DEL<br /><input type="checkbox" class="toggle_chx" /></th>
-							<th>barcode</th>
-							<th>Qty <small>(pcs)</small></th>
+							<th>{$LNG.DEL}<br /><input type="checkbox" class="toggle_chx" /></th>
+							<th>{$LNG.BARCODE}</th>
+							<th>{$LNG.QTY} <small>({$LNG.PCS})</small></th>
 						</tr>
 					</thead>
 					{foreach from=$items key=row item=r name=i}
@@ -135,9 +135,9 @@ function delete_row(){
 		</form>
 
 		<div class="d-flex justify-content-end align-items-center mt-2">
-			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<button class="btn btn-success mr-1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			<!-- <button class="btn btn-primary mr-1" value="Add Row" onClick="add_row();"><i class="fas fa-plus"></i> Add Row</button> -->
-			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> Delete</button>
+			<button class="btn btn-danger" value="Delete" onClick="delete_row();"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
 		</div>
 
 		{else}
@@ -146,8 +146,8 @@ function delete_row(){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

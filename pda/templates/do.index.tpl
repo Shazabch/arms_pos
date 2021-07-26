@@ -124,19 +124,19 @@ function branch_check(obj){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">{if $do_type eq 'open'}Cash Sales
-{elseif $do_type eq 'credit_sales'}Credit Sales
-{else}Transfer {/if} DO</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{if $do_type eq 'open'} {$LNG.CASH_SALES}
+{elseif $do_type eq 'credit_sales'}{$LNG.CREDIT_SALES}
+{else}{$LNG.TRANSFER} {/if} {$LNG.DO}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id=do">DO</a>
+			<a href="home.php?a=menu&id=do">{$LNG.DO}</a>
 		</li>
 	</ol>
 </nav>
@@ -157,7 +157,7 @@ function branch_check(obj){
 
 {if $form.id&&$form.branch_id}{include file='do.top_include.tpl'}<br /><br />{/if}
 
-<h3 class="animated fadeInDown">Setting - {if $form.do_no}(DO/{$form.do_no}){else}{if $form.id}(DO#{$form.id}){else}New DO{/if}{/if}</h3>
+<h3 class="animated fadeInDown">{$LNG.SETTING} - {if $form.do_no}({$LNG.DO}/{$form.do_no}){else}{if $form.id}({$LNG.DO}#{$form.id}){else}{$LNG.NEW_DO}{/if}{/if}</h3>
 
 {if $form.id}
     {assign var=branch_id value=$form.branch_id}
@@ -179,7 +179,7 @@ function branch_check(obj){
 						<input type="hidden" name="do_type" value="{$do_type}" />
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">DO Date</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DO_DATE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="inp_do_date" name="do_date" value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size="10">
@@ -188,7 +188,7 @@ function branch_check(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Deliver From</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DELIVER_FROM}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								{$branches.$branch_id.code} - {$branches.$branch_id.description}
@@ -197,36 +197,36 @@ function branch_check(obj){
 						{if $do_type eq 'open'}
 						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Deliver To</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DELIVER_TO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
-								<label>Company Name</label>
+								<label>{$LNG.COMPANY_NAME}</label>
 								<input type="text" class="form-control " onchange="this.value=this.value.toUpperCase();" value="{$form.open_info.name}" name="open_info[name]">
-								<label>Address</label>
+								<label>{$LNG.ADDRESS}</label>
 								<textarea class="form-control " rows="2" cols="8" name="open_info[address]">{$form.open_info.address}</textarea>
 							</div>
 						</div>
 						{elseif $do_type eq 'credit_sales'}
 						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Deliver To</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DELIVER_TO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
-								<label>Debtor</label>
+								<label>{$LNG.DEBTOR}</label>
 								<select class="form-control select2" name="debtor_id">
 									<option value="" label="-- Please Select --"></option>
 										{foreach from=$debtors item=r}
 											<option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if}>{$r.code}</option>
 										{/foreach}
 								</select>
-								<label>Search Debtor</label>
+								<label>{$LNG.SEARCH_DEBTOR}</label>
 								<input type="text" class="form-control " name="search_debtor_desc" onKeyUp="search_debtor(event);">
 							</div>
 						</div>
 						{else}
 						<div class="row row-xs  mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Deliver To</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DELIVER_TO}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="do_branch_id" onChange="branch_check(this);">
@@ -248,14 +248,14 @@ function branch_check(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Branch</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_BRANCH}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_branch_desc" onKeyUp="search_branch(event);">
 							</div>
 						</div>
 						{/if}
-						<input class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" type="button" value="Save" onClick="submit_form();">
+						<input class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" type="button" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
 				</div>
 			</form>

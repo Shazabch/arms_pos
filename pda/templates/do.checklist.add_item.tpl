@@ -37,10 +37,10 @@ function check_key(obj, event){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id=do">DO</a>
+			<a href="home.php?a=menu&id=do">{$LNG.DO}</a>
 		</li>
 	</ol>
 </nav>
@@ -62,7 +62,7 @@ function check_key(obj, event){
 {include file='do.checklist.top_include.tpl'}<br />
 {if $item_added}
 <div class="alert alert-success animated fadeInDown my-1">
-	<img src="/ui/approved.png" title="Item Added" border=0> Barcode has been added.
+	<img src="/ui/approved.png" title="Item Added" border=0> {$LNG.BARCODE_ADDED}
 </div>
 {/if}
 
@@ -73,7 +73,7 @@ function check_key(obj, event){
 			<div class="table-responsive">
 				<table id="item_tbl" class="item_tbl table mb-0 text-md-nowrap">
 					<tr>
-						<td><b>Barcode</b></td>
+						<td><b>{$LNG.BARCODE}</b></td>
 						<td><input type="text" name="barcode" class="form-control min-w-100" value="{$form.barcode}" size="20" onkeypress="check_key(this, event);" /></td>
 					</tr>
 					<tr>
@@ -81,7 +81,7 @@ function check_key(obj, event){
 						<td><input type="text" name="qty" class="form-control min-w-100" value="{$form.qty}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points}));" onkeypress="check_key(this, event);" size="10" /></td>
 					</tr>
 					<tr>
-						<td align="center" colspan="2"><input type="button" class="btn btn-primary" value="Add" onClick="add_item();" /></td>
+						<td align="center" colspan="2"><input type="button" class="btn btn-primary" value="{$LNG.ADD}" onClick="add_item();" /></td>
 					</tr>
 				</table>
 			</div>

@@ -33,17 +33,17 @@ function check_form(){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Open DO Picking Verification</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.OPEN_DO_PICKING_VERIFICATION}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id=do">DO</a>
+			<a href="home.php?a=menu&id=do">{$LNG.DO}</a>
 		</li>
 	</ol>
 </nav>
@@ -70,7 +70,7 @@ function check_form(){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>DO No.</label>
+								<label>{$LNG.DO_NO}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text"  name="do_no" class="txt-width-50" value="{$smarty.request.do_no}">
@@ -97,35 +97,35 @@ function check_form(){
 					<thead>
 						<tr>
 							<th></th>
-					        <th>DO No.</th>
-					        <th>Deliver To</th>
-					        <th>Type</th>
+					        <th>{$LNG.DO_NO}</th>
+					        <th>{$LNG.DELIVER_TO}</th>
+					        <th>{$LNG.TYPE}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$do_list item=do}
 					        <tr>
 					            <td>
-									<a href="do.picking_verification.php?a=scan_item&id={$do.id}&branch_id={$do.branch_id}"><img src="/ui/ed.gif" title="Open" /></a>
+									<a href="do.picking_verification.php?a=scan_item&id={$do.id}&branch_id={$do.branch_id}"><img src="/ui/ed.gif" title="{$LNG.OPEN}" /></a>
 								</td>
-					            <td>DO#{$do.id}</td>
+					            <td>{$LNG.DO}#{$do.id}</td>
 					            <td>
 								{if $do.do_type eq 'open'}
 								    {$do.open_info.name}
 								{elseif $do.do_type eq 'credit_sales'}
-								    Debtor: {$do.debtor_code}
+								    {$LNG.DEBTOR}: {$do.debtor_code}
 								{else}
 									{if $do.deliver_branch}
-										<font color="red">DO consist of Multiple branches, <br />disabled for editing</font>
+										<font color="red">{$LNG.DO_CONSIST_OF_MULTI_BRANCHES}, <br />{$LNG.DISABLED_FOR_EDITING}</font>
 									{else}
 										{$do.do_branch_code}
 									{/if}
 								{/if}
 								</td>
 					            <td>
-				                    {if $do.do_type eq 'open'}Cash Sales
-									{elseif $do.do_type eq 'credit_sales'}Credit Sales
-									{else}Transfer {/if}
+				                    {if $do.do_type eq 'open'}{$LNG.CASH_SALES}
+									{elseif $do.do_type eq 'credit_sales'}{$LNG.CREDIT_SALES}
+									{else}{$LNG.TRANSFER} {/if}
 								</td>
 					        </tr>
 					    {/foreach}
