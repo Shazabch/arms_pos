@@ -66,7 +66,7 @@ function submit_form(obj){
 <!-- /Error Message -->
 {if $form.id && $form.branch_id}{include file='goods_receiving_note.top_include.tpl'}{/if}
 
-<div class="card animated fadeInLeft">
+<div class="card animated fadeInLeft mt-2">
 	<div class="card-body">
 		<div class="card-title border-bottom pb-2">{$LNG.GENERAL_INFORMATION}</div>
 		<form name="f_a" method="post" onSubmit="return false;">
