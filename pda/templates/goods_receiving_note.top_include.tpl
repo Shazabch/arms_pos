@@ -13,5 +13,5 @@
 {if $grn_tab eq 'view_items'}
     <a class="btn btn-light btn-sm animated fadeInDown disabled"><i class="fas fa-th-list"></i> {$LNG.VIEW_ITEMS_LIST}t</a>
 {else}
-    <a href="goods_receiving_note.php?a=view_items&find_grn={$form.find_grn}" class="btn btn-success btn-sm animated fadeInDown"><i class="fas fa-th-list"></i> View Items List{$LNG.VIEW_ITEMS_LIST}</a>
+    <a href="goods_receiving_note.php?a=view_items&find_grn={$form.find_grn}" class="btn btn-success btn-sm animated fadeInDown"><i class="fas fa-th-list"></i> {$LNG.VIEW_ITEMS_LIST}</a>
 {/if}

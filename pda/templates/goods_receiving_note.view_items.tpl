@@ -185,14 +185,14 @@ function check_by_bom_group(obj, bom_id){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
 		{if $smarty.request.find_grn}
 		<li class="breadcrumb-item">
-			<a href="goods_receiving_note.php?a=open&find_grn={$smarty.request.find_grn}">Back to Search</a>
+			<a href="goods_receiving_note.php?a=open&find_grn={$smarty.request.find_grn}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -218,15 +218,15 @@ function check_by_bom_group(obj, bom_id){
 	<div class="card-body">
 	{if count($items) > 0 || count($non_sku_items.code) > 0}
 	<div class="d-flex justify-content-end align-items-center">
-		<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-		<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+		<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+		<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 	</div>
 
 		<form name="f_a" method="post" onSubmit="return false;">
 		<input type="hidden" name="a" />
 		<input type="hidden" name="find_grn" value="{$smarty.request.find_grn}" />
 				{if count($items) > 0}
-					<div class="badge badge-pill badge-light p-2">{count var=$items} item(s)</div>
+					<div class="badge badge-pill badge-light p-2">{count var=$items} {$LNG.ITEMS}</div>
 					<div class="table-responsive">
 						<table class="table table-hover mb-0 text-md-nowrap">
 							<thead>
@@ -235,12 +235,12 @@ function check_by_bom_group(obj, bom_id){
 									<th>
 										<div class="custom-checkbox custom-control">
 											<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-del0">
-											<label for="checkbox-del0" class="custom-control-label mt-1">Del</label>
+											<label for="checkbox-del0" class="custom-control-label mt-1">{$LNG.DEL}</label>
 										</div>
 									</th>
-									<th>ARMS Code</th>
-									<th>Description</th>
-									<th class="text-center">UOM</th>
+									<th>{$LNG.ARMS_CODE}</th>
+									<th>{$LNG.DESCRIPTION}</th>
+									<th class="text-center">{$LNG.UOM}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -254,7 +254,7 @@ function check_by_bom_group(obj, bom_id){
 											</div>
 										</td>
 										<td>{$r.sku_item_code}</td>
-										<td>{$r.sku_description} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</td>
+										<td>{$r.sku_description} {if $r.bom_ref_num > 0}<font color="grey">({$LNG.BOM})</font>{/if}</td>
 										<td class="min-w-80">
 											<select class="form-control select2 min-w-100" name="uom[{$r.id}]" id="uom_{$r.id}" onchange="uom_changed('{$r.id}');" {if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}disabled{/if}>
 												{foreach from=$uom key=row item=id}
@@ -262,7 +262,7 @@ function check_by_bom_group(obj, bom_id){
 												{/foreach}
 											</select>
 											{if (!$config.doc_allow_edit_uom && $r.master_uom_fraction ne 1) || $config.doc_disable_edit_uom}
-												<input type="hidden" name="uom[{$r.id}]" value="{$r.uom_id}">asdsa
+												<input type="hidden" name="uom[{$r.id}]" value="{$r.uom_id}">
 											{/if}
 										</td>
 									</tr>
@@ -284,8 +284,8 @@ function check_by_bom_group(obj, bom_id){
 				{/if}
 
 			{if $non_sku_items.code}
-				<div class="card-title pb-2 border-bottom">SKU Not In ARMS</div>
-				<div class="badge badge-pill badge-light p-2">{count var=$non_sku_items.code} item(s)</div>
+				<div class="card-title pb-2 border-bottom">{$LNG.SKU_NOT_IN_ARMS}</div>
+				<div class="badge badge-pill badge-light p-2">{count var=$non_sku_items.code} {$LNG.ITEMS}</div>
 				<div class="table-responsive mt-2">
 					<table class="table table-hover mb-0 text-md-nowrap">
 						<thead>
@@ -294,11 +294,11 @@ function check_by_bom_group(obj, bom_id){
 								<th>
 									<div class="custom-checkbox custom-control">
 										<input type="checkbox" data-checkboxes="mygroup" name="item_chx[{$r.id}]" class="isi_toggle_chx custom-control-input" id="checkbox-d">
-										<label for="checkbox-d" class="custom-control-label mt-1">Del</label>
+										<label for="checkbox-d" class="custom-control-label mt-1">{$LNG.DEL}</label>
 									</div>
 								</th>
-								<th>Description</th>
-								<th>Qty(pcs)</th>
+								<th>{$LNG.DESCRIPTION}</th>
+								<th>{$LNG.QTY}({$LNG.PCS})</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -329,8 +329,8 @@ function check_by_bom_group(obj, bom_id){
 			{/if}
 			</form>
 			<div class="d-flex justify-content-end align-items-center mt-2">
-				<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success mr-1" id="submit_btn1" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		{else}
 			<div class="row">
@@ -338,8 +338,8 @@ function check_by_bom_group(obj, bom_id){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

@@ -36,14 +36,14 @@ function check_form(){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Open By GRN No. / GRR No. </h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.OPEN_BY_GRN_GRR_NO}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
@@ -72,7 +72,7 @@ function check_form(){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>GRN No. / GRR No.</label>
+								<label>{$LNG.GRN_NO} / {$LNG.GRR_NO}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text" name="find_grn" class="txt-width-50" value="{$smarty.request.find_grn}">
@@ -99,17 +99,17 @@ function check_form(){
 					<thead>
 						<tr>
 							<th></th>
-							<th>GRN NO.</th>
-							<th>GRR NO.</th>
-							<th>Vendor</th>
+							<th>{$LNG.GRN_NO}</th>
+							<th>{$LNG.GRR_NO}</th>
+							<th>{$LNG.VENDOR}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$grn_list item=grn}
 						<tr>
 							<td><a href="{$smarty.server.PHP_SELF}?a=change_grn&id={$grn.id}&branch_id={$grn.branch_id}&find_grn={$smarty.request.find_grn}" data-placement="right" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
-							<td>GRN#{$grn.id}</td>
-							<td>GRR#{$grn.grr_id}</td>
+							<td>{$LNG.GRN}#{$grn.id}</td>
+							<td>{$LNG.GRR}#{$grn.grr_id}</td>
 							<td>{$grn.vendor_code} - {$grn.vendor_desc}</td>
 						</tr>
 						{/foreach}

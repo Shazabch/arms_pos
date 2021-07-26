@@ -324,20 +324,20 @@ function row_recalc(id){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">SCAN RESULT</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SCAN_RESULT}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="{$smarty.server.PHP_SELF}">Back to Search</a>
+			<a href="{$smarty.server.PHP_SELF}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 	</ol>
 </nav>
@@ -355,7 +355,7 @@ function row_recalc(id){
 {/if}
 <!-- /Error Message -->
 
-<div class="alert alert-success border">{count var=$items} item(s) found.</div>
+<div class="alert alert-success border">{count var=$items} {$LNG.ITEMS_FOUND}</div>
 <form name="f_a" method="post" onSubmit="return add_items();">
 	<input type="hidden" name="scan_product" value="1" />
 	<input type="hidden" name="scan_product_result" value="1" />
@@ -364,7 +364,7 @@ function row_recalc(id){
 		{if $is_item_check}
 					<div class="custom-checkbox custom-control">
 							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1"  name="allow_duplicate">
-							<label for="checkbox-1" class="custom-control-label mt-1">Automatically add qty when item duplicate</label>
+							<label for="checkbox-1" class="custom-control-label mt-1">{$LNG.AUTO_ADD_QTY_WHEN_ITEM_DUPLICATE}</label>
 					</div>
 		{/if}
 	</div>
@@ -377,36 +377,36 @@ function row_recalc(id){
 						<thead>
 							<tr>
 								{if $module_name eq 'GRN' && !$is_isi}
-									<th rowspan="2">Description</th>
-									<th colspan="2" class="text-center">Qty</th>
+									<th rowspan="2">{$LNG.DESCRIPTION}</th>
+									<th colspan="2" class="text-center">{$LNG.QTY}</th>
 								{else}
 									{if $is_item_check}
 										<th>#</th>
-										<th>Description</th>
-										<th>Qty</th>
+										<th>{$LNG.DESCRIPTION}</th>
+										<th>{$LNG.QTY}</th>
 									{else}
 										{if $module_name neq 'Sales Order'}
-											<th>Description</th>
+											<th>{$LNG.DESCRIPTION}</th>
 										{/if}
-										{if $module_name eq 'Purchase Order' && $deliver_to}<th>Branch</th>{/if}
-										{if $module_name neq 'Promotion' && $module_name neq  'Sales Order'}<th>Qty<br />(pcs)</th>{/if}
-										{if $module_name eq 'Purchase Order'}<th>Foc<br />(pcs)</th>{/if}
-										{if $module_name eq 'GRA'}<th>Cost Price</th>{/if}
+										{if $module_name eq 'Purchase Order' && $deliver_to}<th>{$LNG.BRANCH}</th>{/if}
+										{if $module_name neq 'Promotion' && $module_name neq  'Sales Order'}<th>{$LNG.QTY}<br />({$LNG.PCS})</th>{/if}
+										{if $module_name eq 'Purchase Order'}<th>{$LNG.FOC}<br />({$LNG.PCS})</th>{/if}
+										{if $module_name eq 'GRA'}<th>{$LNG.COST_PRICE}</th>{/if}
 									{/if}
 								{/if}
 								{if $module_name eq 'Sales Order'}
-									<th>UOM</th>
-									<th class="text-center">Ctn</th>
-									<th class="text-center">Pcs</th>
-									<th class="text-center">Selling Price</th>
-									<th class="text-center">Dis</th>
-									<th>Amt</th>
+									<th>{$LNG.UOM}</th>
+									<th class="text-center">{$LNG.CTN}</th>
+									<th class="text-center">{$LNG.PCS}</th>
+									<th class="text-center">{$LNG.SELLING_PRICE}</th>
+									<th class="text-center">{$LNG.DIS}</th>
+									<th>{$LNG.AMT}</th>
 								{/if}
 							</tr>
 							{if $module_name eq 'GRN' && !$is_isi}
 								<tr>
-									<td class="text-center">Ctn</td>
-									<td class="text-center">Pcs</td>
+									<td class="text-center">{$LNG.CTN}</td>
+									<td class="text-center">{$LNG.PCS}</td>
 								</tr>
 							{/if}
 						</thead>
@@ -425,7 +425,7 @@ function row_recalc(id){
 											<input type="hidden" name="is_isi" value="{$is_isi}" />
 											<input type="text" class="form-control" name="isi_desc" size="40" value="{$smarty.request.isi_desc}" onchange="this.value = this.value.toUpperCase().trim();" />
 										{else}
-											<span style="white-space: normal; color:blue;{if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id]) }text-decoration:line-through;{/if}" >{$r.item_code_remark} {if $r.bom_ref_num > 0}<font color="grey">(BOM)</font>{/if}</span><br />
+											<span style="white-space: normal; color:blue;{if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id]) }text-decoration:line-through;{/if}" >{$r.item_code_remark} {if $r.bom_ref_num > 0}<font color="grey">({$LNG.BOM})</font>{/if}</span><br />
 											<span style="white-space: normal;" {if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id])}style="text-decoration:line-through;"{/if}>{$r.description}</span>
 											{if $module_name eq 'Purchase Order' && $blocked_po[$r.id]}<br /><span style="color:red;">({$LANG.PO_ITEM_IS_BLOCKED})</span>{/if}
 											{if $module_name eq 'GRN' && $blocked_doc[$r.id]}<br /><span style="color:red;">({$LANG.DOC_ITEM_IS_BLOCKED|sprintf:"GRN"})</span>{/if}
@@ -554,14 +554,14 @@ function row_recalc(id){
 								</tr>
 								<tr class="{if $i%2 neq 1}tr_even{/if}">
 									<td colspan="6">
-										Remark: <textarea class="inp_so min-w-100 form-control" style="resize: none;" name="remark[{$r.id}]"></textarea>
+										{$LNG.REMARK}: <textarea class="inp_so min-w-100 form-control" style="resize: none;" name="remark[{$r.id}]"></textarea>
 									</td>
 								</tr>
 								<tr class="{if $i%2 neq 1}tr_even{/if}">
 									<td colspan="6">
-										Stock Balance: <span>{$r.stock_balance}</span></br>
-										Cost: <input style="width: 50%" type="text" class="form-control min-w-100" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
-										Reserve Qty[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
+										{$LNG.STOCK_BALANCE}: <span>{$r.stock_balance}</span></br>
+										{$LNG.COST}: <input style="width: 50%" type="text" class="form-control min-w-100" readonly name="cost_price[{$r.id}]" value="{$r.so_cost_price|number_format:$config.global_cost_decimal_points:".":""}" /></br>
+										{$LNG.RESERVE_QTY}[<a href="javascript:void(alert('Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.'))"><i class="fas fa-question"></i></a>]: <span>{$r.reserve_qty|default:'0'}</span>
 									</td>
 								</tr>
 								{/if}
@@ -569,7 +569,7 @@ function row_recalc(id){
 								{if $module_name eq 'GRA'}
 									<tr>
 										<td align="right" nowrap colspan="3">
-											Inv/DO No. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
+											{$LNG.INV}/{$DO_NO}. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
 											{if $form.is_under_gst}
 												&nbsp;&nbsp;
 												GST Code

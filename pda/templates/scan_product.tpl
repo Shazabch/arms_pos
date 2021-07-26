@@ -76,21 +76,21 @@ function check_barcode_type(obj){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name} NEW BATCH</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name} {$LNG.NEW_BATCH}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInLeft">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
 		</li>
 		{if $form.search_var}
 		<li class="breadcrumb-item">
-			<a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">Back to search</a>
+			<a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">{$LNG.BACK_TO _SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -131,33 +131,33 @@ function check_barcode_type(obj){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>Scan</label>
+								<label>{$LNG.SCAN}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text"name="product_code">
 								{if $config.enable_grn_barcoder}
-								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="0" {if $use_barcode_type eq 0}checked{/if} onChange="check_barcode_type(this);"> <span>GRN Barcoder</span></label>
+								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="0" {if $use_barcode_type eq 0}checked{/if} onChange="check_barcode_type(this);"> <span>{$LNG.GRN_BARCODER}</span></label>
 								{/if}
-								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="1" {if $use_barcode_type eq 1}checked{/if} onChange="check_barcode_type(this);"> <span class="fs-08">ARMS Code / MCode / Art.No / {$config.link_code_name}</span></label>
+								<label class="rdiobox mt-2"><input type="radio" name="grn_barcode_type" value="1" {if $use_barcode_type eq 1}checked{/if} onChange="check_barcode_type(this);"> <span class="fs-08">{$LNG.ARMS_CODE} / {$LNG.MCODE} / {$LNG.ART_NO} / {$config.link_code_name}</span></label>
 							</div>
 							<div class="col-md-2 mt-2 mt-md-0 mt-xl-0 mt-lg-0">
-								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+								<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.ENTER}">
 							</div>
 						</div>
 						<div class="container-flex mt-3">
 							{*if $auto_add && !$err}<br /><img src="/ui/approved.png" title="Item Added" border=0> Item added<br /><br />{/if*}
 							<div class="d-flex flex-row mb-2 mt-3">
 								<label class="ckbox mr-2"><input type="checkbox" value="1" name="auto_add_item" {if $auto_add}checked{/if} {if ($form.find_grn || !$is_grn_module) && $use_barcode_type ne 1 && !$is_grn_module}disabled{/if}><span></span></label>
-								<span class="">Add item when match one result {if is_item_check}(Allow Duplicate){/if}</span>
+								<span class="">{$LNG.ADD_ITEM_WHEN_MATCH_ONE_RESULT} {if is_item_check}({$LNG.ALLOW_DUPLICATE}){/if}</span>
 							</div>
 							
 
-								<a href="batch_barcode.php?a=import_csv" class="text-warning"><i class="fas fa-file-import"></i> Import SKU by CSV</a>
+								<a href="batch_barcode.php?a=import_csv" class="text-warning"><i class="fas fa-file-import mr-1"></i>{$LNG.IMPORT_SKU_BY_CSV}</a>
 
 							{if $smarty.session.scan_product.type == 'GRA'}
 							<div class="row row-xs align-items-center mg-b-20 mt-2">
 								<div class="col-md-2">
-									<label class="font-weight-bold mg-b-0">Return Type:</label>
+									<label class="font-weight-bold mg-b-0">{$LNG.RETURN_TYPE}:</label>
 								</div>
 								<div class="col-md-6 mg-t-5 mg-md-t-0">
 									<select class="form-control select2" name="return_type">

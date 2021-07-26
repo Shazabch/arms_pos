@@ -39,14 +39,14 @@ function toggle_grr_list(){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Search GRR No.</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SEARCH_BY_GRR_NO}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
@@ -63,7 +63,7 @@ function toggle_grr_list(){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>GRR No</label>
+								<label>{$LNG.GRR_NO}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text" name="find_grr" class="txt-width-50" value="{$smarty.request.find_grr}">
@@ -92,7 +92,7 @@ function toggle_grr_list(){
 	</div>
 </div>
 <!-- / Form -->
-	<button class="btn btn-indigo btn-rounded btn-sm mb-2 animated fadeInDown" onclick="toggle_grr_list();">Show/Hide GRR List</button>
+	<button class="btn btn-indigo btn-rounded btn-sm mb-2 animated fadeInDown" onclick="toggle_grr_list();">{$LNG.SHOW_HIDE_GRR_LIST}</button>
 <!-- Table -->
 <div class="col-xl-12 p-0 animated fadeInDown" id="grr_list" {if !$smarty.request.find_grr}style="display:none;"{/if}>
 	<div class="card">
@@ -105,8 +105,8 @@ function toggle_grr_list(){
 						{/if}
 						<tr>
 							<th>&nbsp;</th>
-							<th>GRR No.</th>
-							<th colspan="{$colspan}">Vendor</th>
+							<th>{$LNG.GRR_NO}</th>
+							<th colspan="{$colspan}">{$LNG.VENDOR}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -147,9 +147,9 @@ function toggle_grr_list(){
 								<tr>
 									<td>
 										{if $grr.grn_used}
-											<img src="../ui/lock.gif" border=0 title="GRR is used"></a>
+											<img src="../ui/lock.gif" border=0 title="{$LNG.GRR_IS_USED}"></a>
 										{else}
-											<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
+											<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="{$LNG.CREATE_GRN_FOR_GRR}"></a>
 										{/if}
 									</td>
 									<td>{$grr.type}</td>
@@ -170,8 +170,8 @@ function toggle_grr_list(){
 	<div class="card mg-b-20 text-center">
 		<div class="card-body h-100">
 			<img src="../../assets/img/svgicons/no-data.svg" alt="" class="wd-35p">
-			<h5 class="mg-b-10 mg-t-15 tx-18"><img src="../ui/bananaman.gif"> Horray!</h5>
-			<a href="#" class="text-muted">There are no GRR at the moment.</a>
+			<h5 class="mg-b-10 mg-t-15 tx-18"><img src="../ui/bananaman.gif"> {$LNG.HORRAY}!</h5>
+			<a href="#" class="text-muted">{$LNG.NO_GRR_PRESENT}</a>
 		</div>
 	</div>
 </div>
