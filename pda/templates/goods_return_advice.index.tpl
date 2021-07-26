@@ -59,14 +59,14 @@ function search_vendor(event){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Settings - {if $form.gra_no}(GRA/{$form.gra_no}){else}{if $form.id}(GRA#{$form.id}){else}New GRA{/if}{/if}</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SETTING} - {if $form.gra_no}(GRA/{$form.gra_no}){else}{if $form.id}(GRA#{$form.id}){else}New GRA{/if}{/if}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
@@ -106,7 +106,7 @@ function search_vendor(event){
 						<input type="hidden" name="branch_id" value="{$branch_id}" />
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="form-label mg-b-0">Vendor</label>
+								<label class="form-label mg-b-0">{$LNG.VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="vendor_id">
@@ -119,7 +119,7 @@ function search_vendor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="form-label mg-b-0">Search Vendor</label>
+								<label class="form-label mg-b-0">{$LNG.SEARCH_VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_vendor_desc" onKeyUp="search_vendor(event);">
@@ -127,19 +127,19 @@ function search_vendor(event){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="form-label mg-b-0">SKU Type</label>
+								<label class="form-label mg-b-0">{$LNG.SKU_TYPE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="sku_type">
 									<option value="" label="--Please Select--"></option>
-									<option value="OUTRIGHT" {if $form.sku_type eq 'OUTRIGHT'}selected {/if}>Outright</option>
-		                			<option value="CONSIGN" {if $form.sku_type eq 'CONSIGN'}selected {/if}>Consignment</option>
+									<option value="OUTRIGHT" {if $form.sku_type eq 'OUTRIGHT'}selected {/if}>{$LNG.OUTRIGHT}</option>
+		                			<option value="CONSIGN" {if $form.sku_type eq 'CONSIGN'}selected {/if}>{$LNG.CONSIGNMENT}</option>
 								</select>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="form-label mg-b-0">Department</label>
+								<label class="form-label mg-b-0">{$LNG.DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="dept_id">
@@ -150,7 +150,7 @@ function search_vendor(event){
 								</select>
 							</div>
 						</div>
-						<input type="button" class="btn btn-main-primary" value="Save" name="submit_btn" value="Save" onClick="submit_form();">
+						<input type="button" class="btn btn-main-primary" value="Save" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
 				</div>
 			</form>

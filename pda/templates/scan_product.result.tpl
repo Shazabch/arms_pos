@@ -593,7 +593,7 @@ function row_recalc(id){
 		</div>
 	</div>
 	<!-- /Table -->
-	<div class="text-right mb-2">
+	<div class="mb-2 ml-3">
 		<input name="add_btn" class="btn btn-primary btn-block-sm" type="submit" value="Add">
 	</div>
 </form>

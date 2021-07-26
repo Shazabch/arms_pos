@@ -130,7 +130,7 @@ function check_barcode_type(obj){
 				<div class="card-body">
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
-							<div class="col-md-2">
+							<div class="col-md-2 pt-2">
 								<label>{$LNG.SCAN}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
