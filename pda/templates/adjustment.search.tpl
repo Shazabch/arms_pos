@@ -29,14 +29,14 @@ function check_form(){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Open By Adjustment</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.OPEN_BY_ADJUSTMENT_NO}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a  href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
@@ -67,13 +67,13 @@ function check_form(){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>Adjustment No.</label>
+								<label>{$LNG.ADJUSTMENT_NO}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" name="find_adjustment" class="txt-width-50" onChange="mi(this);" value="{$smarty.request.find_adjustment}">
 							</div>
 							<div class="col-md-2 mt-4 mt-xl-0">
-								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+								<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.ENTER}">
 							</div>
 						</div>
 					</div>
@@ -94,15 +94,15 @@ function check_form(){
 					<thead>
 						<tr>
 							<th></th>
-							<th>ADJ NO.</th>
-							<th>Date</th>
-							<th>ADJ Type</th>
+							<th>{$LNG.ADJUSTMENT_NO}</th>
+							<th>{$LNG.DATE}</th>
+							<th>{$LNG.ADJUSTMENT_TYPE}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$adj_list item=adj}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_adjustment&id={$adj.id}&branch_id={$adj.branch_id}&find_adjustment={$smarty.request.find_adjustment}" data-placement="right" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_adjustment&id={$adj.id}&branch_id={$adj.branch_id}&find_adjustment={$smarty.request.find_adjustment}" data-placement="right" data-toggle="tooltip" title="{$LNG.OPEN}"><i class="fas fa-pen"></i></a></td>
 							<td>{$adj.report_prefix}{$adj.id|string_format:"%05d"}</td>
 							<td>{$adj.adjustment_date}</td>
 							<td>{$adj.adjustment_type}</td>

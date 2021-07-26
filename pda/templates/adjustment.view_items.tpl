@@ -72,19 +72,19 @@ function submit_items(act){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
 		{if $form.adj_no}
 		<li class="breadcrumb-item">
-			<a href="adjustment.php?a=open&adj_no={$form.adj_no}">Back to search</a>
+			<a href="adjustment.php?a=open&adj_no={$form.adj_no}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 		{if $form.find_adjustment}
 		<li class="breadcrumb-item">
-			<a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">Back to search</a>
+			<a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -109,10 +109,11 @@ function submit_items(act){
 	<div class="card-body">
 		{if $items}
 			<div class="d-flex justify-content-between align-items-center mb-2">
-				<div class="badge badge-pill badge-light p-2 ">{count var=$items} item(s)</div>
+				<div class="badge badge-pill badge-light p-2 ">{count var=$items} {$LNG.ITEMS}</div>
 				<div>
-					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-					<button class="btn btn-success" id="submit_btn1" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+					<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i>
+					{$LNG.DELETE}</button>
+					<button class="btn btn-success" id="submit_btn1" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 				</div>
 			</div>
 			<form name="f_a" method="post" onSubmit="return false;">
@@ -125,12 +126,12 @@ function submit_items(act){
 						        <th rowspan="2" class="text-left">
 						        	<div class="custom-checkbox custom-control">
 										<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input toggle_chx" id="checkbox-delete1">
-										<label for="checkbox-delete1" class="custom-control-label mt-2">Del</label>
+										<label for="checkbox-delete1" class="custom-control-label mt-2">{$LNG.DEL}</label>
 									</div>
 						        </th>
-						        <th rowspan="2">ARMS Code</th>
-						        <th rowspan="2">Description</th>
-						        <th colspan="2" class="text-center">Qty (pcs)</th>
+						        <th rowspan="2">{$LNG.ARMS_CODE}</th>
+						        <th rowspan="2">{$LNG.DESCRIPTION}</th>
+						        <th colspan="2" class="text-center">{$LNG.QTY} ({$LNG.PCS})</th>
 						    </tr>
 							<tr>
 								{if !$form.adj_type || $form.adj_type eq "+"}
@@ -169,8 +170,8 @@ function submit_items(act){
 				</div>
 			</form>
 			<div class="d-flex justify-content-end align-items-center mt-2">
-				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success" id="submit_btn2" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success" id="submit_btn2" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		{else}
 			<div class="row">
@@ -178,8 +179,8 @@ function submit_items(act){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

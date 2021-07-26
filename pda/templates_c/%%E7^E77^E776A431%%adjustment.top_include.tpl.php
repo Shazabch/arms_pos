@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-07-16 20:51:17
+<?php /* Smarty version 2.6.18, created on 2021-07-26 16:50:30
          compiled from adjustment.top_include.tpl */ ?>
 <?php if ($this->_tpl_vars['adj_tab'] == 'setting'): ?>
     <a class="btn btn-light btn-sm disabled animated fadeInDown"><i class="fas fa-cog"></i> <?php echo $this->_tpl_vars['LNG']['CHANGE_SETTING']; ?>

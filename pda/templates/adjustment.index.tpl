@@ -77,21 +77,21 @@ function adj_type_changed(obj){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Setting - {if $form.id}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}({$form.report_prefix}{$form.id}){else}New {$module_name}{/if}{/if}</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SETTING} - {if $form.id}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}({$form.report_prefix}{$form.id}){else}New {$module_name}{/if}{/if}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a  href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
 		{if $form.find_adjustment}
 		<li class="breadcrumb-item">
-			<a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">Back To Search</a>
+			<a href="adjustment.php?a=open&find_adjustment={$form.find_adjustment}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -139,7 +139,7 @@ function adj_type_changed(obj){
 						<input type="hidden" name="branch_id" value="{$branch_id}" />
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Date</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DATE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="inp_date" name="adjustment_date" value="{$form.adjustment_date|default:$smarty.now|date_format:'%Y-%m-%d'}" size="10">
@@ -148,7 +148,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Type</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.TYPE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" size="30" name="adjustment_type" value="{$form.adjustment_type}">
@@ -156,7 +156,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Preset Type</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.PRESET_TYPE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="preset_type" onChange="adj_type_changed(this);">
@@ -169,7 +169,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Department</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="dept_id">
@@ -182,7 +182,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Search Department</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
@@ -190,7 +190,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Remark</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.REMARK}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<textarea class="form-control" name="remark" placeholder="Textarea" rows="2">{$form.remark}</textarea>
@@ -198,7 +198,7 @@ function adj_type_changed(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Branch</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.BRANCH}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								{if $form.id}
@@ -219,7 +219,7 @@ function adj_type_changed(obj){
 								{/if}
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onClick="submit_form();">
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
 				</div>
 			</form>
