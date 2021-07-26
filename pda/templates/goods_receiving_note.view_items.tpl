@@ -268,9 +268,9 @@ function check_by_bom_group(obj, bom_id){
 									</tr>
 									<tr>
 										<td align="right" colspan="5">
-											Ctn
+											{$LNG.CTN}
 											<input type="number" name="ctn[{$r.id}]" class="items r form-control form-control-sm max-w-100 min-w-80" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.ctn}" {if $r.uom_fraction eq '1'}disabled{/if} />
-											Pcs
+											{$LNG.PCS}
 											<input type="number" name="pcs[{$r.id}]" class="items r form-control form-control-sm max-w-100 min-w-80" {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$r.pcs}" />
 										</td>
 										<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />

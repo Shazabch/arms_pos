@@ -293,7 +293,7 @@ function search_document(event){
 								</select>
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Save" onclick="submit_form();">
+						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onclick="submit_form();">
 					</div>
 				</div>
 			</form>

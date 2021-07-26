@@ -70,7 +70,7 @@ function toggle_grr_list(){
 							</div>
 							<input type="hidden" name="a" value="show_grr_list" />
 							<div class="col-md-2 mt-4 mt-xl-0">
-								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+								<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.ENTER}">
 							</div>
 						</div>
 					</div>
@@ -154,7 +154,7 @@ function toggle_grr_list(){
 									</td>
 									<td>{$grr.type}</td>
 									<td>{$grr.doc_no}</td>
-									<td>Remark: {$grr.remark|default:"-"}</td>
+									<td>{$LNG.REMARK}: {$grr.remark|default:"-"}</td>
 								</tr>
 							{/if}
 						{/foreach}

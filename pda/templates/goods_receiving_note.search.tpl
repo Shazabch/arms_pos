@@ -78,7 +78,7 @@ function check_form(){
 								<input class="form-control" type="text" name="find_grn" class="txt-width-50" value="{$smarty.request.find_grn}">
 							</div>
 							<div class="col-md-2 mt-4 mt-xl-0">
-								<input type="submit" class="btn btn-main-primary btn-block" value="Enter">
+								<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.ENTER}">
 							</div>
 						</div>
 					</div>
@@ -107,7 +107,7 @@ function check_form(){
 					<tbody>
 						{foreach from=$grn_list item=grn}
 						<tr>
-							<td><a href="{$smarty.server.PHP_SELF}?a=change_grn&id={$grn.id}&branch_id={$grn.branch_id}&find_grn={$smarty.request.find_grn}" data-placement="right" data-toggle="tooltip" title="Open"><i class="fas fa-pen"></i></a></td>
+							<td><a href="{$smarty.server.PHP_SELF}?a=change_grn&id={$grn.id}&branch_id={$grn.branch_id}&find_grn={$smarty.request.find_grn}" data-placement="right" data-toggle="tooltip" title="{$LNG.OPEN}"><i class="fas fa-pen"></i></a></td>
 							<td>{$LNG.GRN}#{$grn.id}</td>
 							<td>{$LNG.GRR}#{$grn.grr_id}</td>
 							<td>{$grn.vendor_code} - {$grn.vendor_desc}</td>
