@@ -83,7 +83,8 @@ function search_vendor(event){
 		}
 		
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='vendor_id']").val(opt.value);
+			$("select[name='vendor_id']").trigger('change');
 		}else{ // no data found
 			notify('error',desc+' not foundnot found in Vendor list','center')
 		}
@@ -216,6 +217,7 @@ function search_document(event){
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="doc_no" name="doc_no" value="" onKeyUp="search_document(event);" size="10">
+								<span id="loading_area" class="form-text text-muted"></span>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
@@ -251,14 +253,14 @@ function search_document(event){
 								</select>
 							</div>
 						</div>
-						<div class="row row-xs align-items-center mg-b-20">
+						<!-- <div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
 							</div>
-						</div>
+						</div> -->
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.DEPARTMENT}</label>
@@ -293,7 +295,7 @@ function search_document(event){
 								</select>
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onclick="submit_form();">
+						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onclick="submit_form();">
 					</div>
 				</div>
 			</form>

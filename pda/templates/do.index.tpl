@@ -105,7 +105,8 @@ function search_branch(event){
 			}
 		}
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='do_branch_id']").val(opt.value);
+			$("select[name='do_branch_id']").trigger('change');
 		}else{ // no data found
 			alert(desc+' not found in Branch list');
 		}
