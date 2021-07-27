@@ -78,7 +78,7 @@ function check_form(){
 {if $gra_list}
 <!--Table-->
 <div class="col-xl-12">
-	<div class="card">
+	<div class="card animated fadeInDown">
 		<div class="card-body">
 			<div class="table-responsive">
 				<table class="table table-hover mb-0 text-md-nowrap">
