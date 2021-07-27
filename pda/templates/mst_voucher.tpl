@@ -65,10 +65,12 @@ function calculate_date_end(){
 	var date_arr = $('#inp_valid_from').attr('value').split("-");
 	var t = new Date(parseInt(date_arr[0]),(parseInt(date_arr[1])-1),parseInt(date_arr[2]));
 	
-	if ($('#rdo_end_id').attr('value') == 'valid_to')
+	if ($('#rdo_end_id').val() == 'valid_to'){
 		var duration=parseInt(duration_valid);
-	else
-		var duration=parseInt($('#inp_valid_duration').attr('value'));
+	}
+	else{
+		var duration=parseInt($('#inp_valid_duration').val());
+	}
 
 	t.setMonth(t.getMonth()+duration);
 
@@ -107,9 +109,17 @@ function toggle_all_check(obj){
 	</ol>
 </nav>
 <!-- /BreadCrumbs -->
+{if $err}
+	<ul style="color:red;">
+	    {foreach from=$err item=e}
+	        <li>{$e}</li>
+	    {/foreach}
+	</ul>
+{/if}
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
+	<span class="badge badge-pill badge-primary p-2">Error</span>
 	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
@@ -168,6 +178,9 @@ function toggle_all_check(obj){
 									        <option value="{$smarty.section.mon.index}">{$smarty.section.mon.index}</option>
 					              		{/section}
 								    </select>
+								    {*
+										<input type="text" name="valid_duration" value="{$smarty.request.valid_duration}" id="inp_valid_duration" size=12 />
+									*}
 								    <small>Months</small>
 								</div>
 							</div>
@@ -231,7 +244,7 @@ function toggle_all_check(obj){
 								{/foreach}
 							</div>
 						</div>
-						<input type="submit" class="btn btn-success btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Activate" onclick="submit_form();">
+						<input type="button" class="btn btn-success btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Activate" onclick="submit_form();">
 					</div>
 				</div>
 			</form>
