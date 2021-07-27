@@ -26,23 +26,23 @@ var global_cost_decimal_points = '{$config.global_cost_decimal_points}';
 {literal}
 
 function change_row_color(ele){
-	if($(ele).is(":checked")){
-		$(ele).parent().parent().parent().addClass('table-warning');
-		$(ele).parent().parent().parent().next().addClass('table-warning');
-	}else{
-        $(ele).parent().parent().parent().removeClass('table-warning');
-        $(ele).parent().parent().parent().next().removeClass('table-warning');
-	}
-
-	// var ele_parent = $(ele).parent().parent().parent();
-	// var tr_ele = ele_parent[0];
-	// if(tr_ele != undefined){
-	// 	if($(ele).is(":checked")){
-	// 		if(tr_ele.className)   $("."+tr_ele.className).addClass('table-warning');
-	// 	}else{
-	// 		if(tr_ele.className)   $("."+tr_ele.className).removeClass('table-warning');
-	// 	}
+	// if($(ele).is(":checked")){
+	// 	$(ele).parent().parent().parent().addClass('table-warning');
+	// 	$(ele).parent().parent().parent().next().addClass('table-warning');
+	// }else{
+ //        $(ele).parent().parent().parent().removeClass('table-warning');
+ //        $(ele).parent().parent().parent().next().removeClass('table-warning');
 	// }
+
+	var ele_parent = $(ele).parent().parent().parent();
+	var tr_ele = ele_parent[0];
+	if(tr_ele != undefined){
+		if($(ele).is(":checked")){
+			if(tr_ele.className)   $("."+tr_ele.className).css('background-color','#FFEEBA');
+		}else{
+			if(tr_ele.className)   $("."+tr_ele.className).css('background-color','#fff');
+		}
+	}
 }
 
 function submit_items(act){
@@ -342,7 +342,6 @@ function update_all_item_amt(){
 	
 	$('input.toggle_chx').click(function(){
 		var checked=$(this).is(':checked');
-		console.log(checked);
 		$('input.item_chx').prop('checked',checked).each(function(i){
 			change_row_color($(this).get(0));
 		});
