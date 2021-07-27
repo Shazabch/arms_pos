@@ -81,7 +81,8 @@ function search_debtor(event){
 			}
 		}
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='debtor_id']").val(opt.value);
+			$("select[name='debtor_id']").trigger('change');
 		}else{ // no data found
 			alert(desc+' not found in Debtor list');
 		}
@@ -220,8 +221,8 @@ function branch_check(obj){
 											<option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if}>{$r.code}</option>
 										{/foreach}
 								</select>
-								<label>{$LNG.SEARCH_DEBTOR}</label>
-								<input type="text" class="form-control " name="search_debtor_desc" onKeyUp="search_debtor(event);">
+								<!-- <label>{$LNG.SEARCH_DEBTOR}</label>
+								<input type="text" class="form-control " name="search_debtor_desc" onKeyUp="search_debtor(event);"> -->
 							</div>
 						</div>
 						{else}
@@ -247,14 +248,14 @@ function branch_check(obj){
 								</select>
 							</div>
 						</div>
-						<div class="row row-xs align-items-center mg-b-20">
+						<!-- <div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_BRANCH}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_branch_desc" onKeyUp="search_branch(event);">
 							</div>
-						</div>
+						</div> -->
 						{/if}
 						<input class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" type="button" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
