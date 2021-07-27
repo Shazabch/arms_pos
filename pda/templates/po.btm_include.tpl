@@ -1,1 +1,1 @@
-<font size="3">{$items_details.total_item|qty_nf} {$LNG.ITEMS}, {$items_details.total_pcs|qty_nf} {$LNG.PCS}</font>
+<span class="badge badge-pill badge-primary p-2 tx-12">{$items_details.total_item|qty_nf} {$LNG.ITEMS}, {$items_details.total_pcs|qty_nf} {$LNG.PCS}</span>

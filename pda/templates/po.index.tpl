@@ -79,7 +79,8 @@ function search_vendor(event){
 		}
 		
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='vendor_id']").val(opt.value);
+			$("select[name='vendor_id']").trigger('change');
 		}else{ // no data found
 			alert(desc+' not foundnot found in Vendor list');
 		}
@@ -103,7 +104,8 @@ function search_dept(event){
 			}
 		}
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='dept_id']").val(opt.value);
+			$("select[name='dept_id']").trigger('change');
 		}else{ // no data found
 			alert(desc+' not found in Department list');
 		}
@@ -292,14 +294,14 @@ function date_format_check(obj){
 							</div>
 						</div>
 						{if !$disable_sett}
-						<div class="row row-xs align-items-center mg-b-20">
+						<!-- <div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_VENDOR}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_vendor_desc" id="search_vendor_desc" onKeyUp="search_vendor(event);">
 							</div>
-						</div>
+						</div> -->
 						{/if}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
@@ -315,14 +317,14 @@ function date_format_check(obj){
 							</div>
 						</div>
 						{if !$disable_sett}
-						<div class="row row-xs align-items-center mg-b-20">
+						<!-- <div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
 							</div>
-						</div>
+						</div> -->
 						{/if}
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
@@ -402,7 +404,7 @@ function date_format_check(obj){
 						{/if}
 
 						{if !$disable_sett}
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
+						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 						{/if}
 					</div>
 				</div>
