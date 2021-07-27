@@ -48,7 +48,6 @@ function submit_form(){
 
 <!-- Error Message -->
 {if $err}
-Error
 	{foreach from=$err item=e}
 	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
