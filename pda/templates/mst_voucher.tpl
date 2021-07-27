@@ -97,14 +97,14 @@ function toggle_all_check(obj){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Voucher Activation</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.VOUCHER_ACTIVATION}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 	</ol>
 </nav>
@@ -119,7 +119,6 @@ function toggle_all_check(obj){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<span class="badge badge-pill badge-primary p-2">Error</span>
 	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
@@ -153,7 +152,7 @@ function toggle_all_check(obj){
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Date Start</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DATE_START}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="inp_valid_from" name="valid_from" value="{$smarty.request.valid_from|default:$smarty.now|date_format:"%Y-%m-%d"}" onchange="calculate_date_end();" maxlength="10">
@@ -163,8 +162,8 @@ function toggle_all_check(obj){
 						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
 								<select class="form-control w-75" name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);'>
-									<option value='valid_to'>Date End</option>
-			    					<option value='valid_duration'>Duration</option>
+									<option value='valid_to'>{$LNG.DATE_END}</option>
+			    					<option value='valid_duration'>{$LNG.DURATION}</option>
 								</select>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
@@ -181,13 +180,13 @@ function toggle_all_check(obj){
 								    {*
 										<input type="text" name="valid_duration" value="{$smarty.request.valid_duration}" id="inp_valid_duration" size=12 />
 									*}
-								    <small>Months</small>
+								    <small>{$LNG.MONTHS}</small>
 								</div>
 							</div>
 						</div>
 						<div class="row row-xs align-items-center mg-b-20" id="date_duration_id2">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Date End</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.DATE_END}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" id="show_date_end" readonly="1" size=12>
@@ -195,7 +194,7 @@ function toggle_all_check(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Code</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.CODE}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<textarea class="form-control" name="codes" rows="10" cols="16">{$smarty.request.codes}</textarea>
@@ -203,7 +202,7 @@ function toggle_all_check(obj){
 						</div>
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Active Remark</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.ACTIVE_REMARK}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<select class="form-control select2" name="active_remark">
@@ -215,13 +214,13 @@ function toggle_all_check(obj){
 						</div>
 						<div class="row row-xs mg-b-20">
 							<div class="col-md-2">
-								<label class="font-weight-bold mg-b-0">Inter-Branch</label>
+								<label class="font-weight-bold mg-b-0">{$LNG.INTER_BRANCH}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0" id="branch_check_id">
 								<div class="checkbox mb-2">
 									<div class="custom-checkbox custom-control">
 										<input type="checkbox" class="custom-control-input ckbox" id="all_branch_id" onclick="toggle_all_check(this)">
-										<label for="all_branch_id" class="custom-control-label mt-1">All</label>
+										<label for="all_branch_id" class="custom-control-label mt-1">{$LNG.ALL}</label>
 									</div>
 								</div>
 								{assign var=a value=$form.interbranch}
@@ -244,7 +243,7 @@ function toggle_all_check(obj){
 								{/foreach}
 							</div>
 						</div>
-						<input type="button" class="btn btn-success btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="Activate" onclick="submit_form();">
+						<input type="button" class="btn btn-success btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.ACTIVATE}" onclick="submit_form();">
 					</div>
 				</div>
 			</form>
