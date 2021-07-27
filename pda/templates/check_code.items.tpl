@@ -33,7 +33,7 @@
 					<table class="table table-sm table-borderless">
 						<tbody>
 							<tr>
-								<th>ARMS Code:</th>
+								<th>{$LNG.ARMS_CODE}:</th>
 								<td>{$item.sku_item_code}</td>
 							</tr>
 							<tr>
@@ -41,23 +41,23 @@
 								<td>{$item.link_code}</td>
 							</tr>
 							<tr>
-								<th>Artno/MCode:</th>
+								<th>{$LNG.ART_NO}/{$LNG.MCODE}:</th>
 								<td>{$item.artno|default:"-"}/{$item.mcode|default:"-"}</td>
 							</tr>
 							<tr>
-								<th>Vendor:</th>
+								<th>{$LNG.VENDOR}:</th>
 								<td>{$item.vendor}</td>
 							</tr>
 							<tr>
-								<th>Brand:</th>
+								<th>{$LNG.BRAND}:</th>
 								<td>{$item.brand}</td>
 							</tr>
 							<tr>
-								<th>SKU Type:</th>
+								<th>{$LNG.SKU_TYPE}:</th>
 								<td>{$item.sku_type}</td>
 							</tr>
 							<tr>
-								<th>Selling Price:</th>
+								<th>{$LNG.SELLING_PRICE}:</th>
 								<td>{$config.arms_currency.symbol}{$item.selling_price|number_format:2}</td>
 							</tr>
 							<tr>
@@ -72,35 +72,35 @@
 							</tr>
 							{if $config.check_code_show_balance}
 								<tr>
-									<th>Location:</th>
+									<th>{$LNG.LOCATION}:</th>
 									<td>{$item.location}</td>
 								</tr>
 								<tr>
-									<th>Stock Balance:</th>
+									<th>{$LNG.STOCK_BALANCE}:</th>
 									<td>{$item.qty}</td>
 								</tr>
 								<tr>
-									<th>Unfinalised POS Qty:</th>
+									<th>{$LNG.UNFINALIZED_POS_QTY}:</th>
 									<td>{$item.unfinalise_pos_qty}</td>
 								</tr>
 								<tr>
-									<th>Sales Order Reserve Qty:</th>
+									<th>{$LNG.SALES_ORDER_RESERVE_QTY}:</th>
 									<td>{$item.sales_order_reserve_qty}</td>
 								</tr>
 								<tr>
-									<th>Unfinalised Stock Balance:</th>
+									<th>{$LNG.UNFINALIZED_STOCK_BALANCE}:</th>
 									<td>{$item.unfinalize_qty}</td>
 								</tr>
 							{/if}
 							{if $config.enable_replacement_items and $item.ri_id}
 							<tr>
-								<th>Replacement Item Group:</th>
+								<th>{$LNG.REPLACEMENT_ITEM_GROUP}</th>
 								<td><a href="javascript:void(show_replacement_items('{$item.id}'));">{$item.ri_group_name|default:'-'}</a></td>
 							</tr>
 							{/if}
 							{if $item.batch_items}
 							<tr>
-								<th>Batch No:</th>
+								<th>{$LNG.BATCH_NO}:</th>
 								<td>
 									{$item.batch_no}&nbsp;&nbsp; Expired Date: {$item.expired_date}
 									{foreach from=$item.batch_items key=branch item=batch_item name=bn_list}
@@ -122,7 +122,7 @@
 					</div>
 				{else}
 					<div class="border d-flex justify-content-center align-items-center" style="width : 200px; height: 200px;">
-						<div class="text-muted">No image</div>
+						<div class="text-muted">{$LNG.NO_IMAGE}</div>
 					</div>
 				{/if}
 			</div>

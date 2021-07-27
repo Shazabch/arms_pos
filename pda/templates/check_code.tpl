@@ -100,20 +100,20 @@ function checkKey(event){
 </script>
 {/literal}
 
-<!-- Replacement Iten Popup -->
+
 
 <!-- BreadCrumbs -->
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Check Code</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.CHECK_CODE}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 	</ol>
 </nav>
@@ -126,21 +126,21 @@ function checkKey(event){
 			<form name="f1" class="input" onsubmit="return false;">
 				<div class="card-body">
 					<div class="pd-10 pd-sm-20">
-						<label>Scan or Enter the code{if $config.enable_sn_bn}, Batch or Serial No{/if} to Search</label>
+						<label>{$LNG.SCAN_OR_ENTER_CODE}{if $config.enable_sn_bn}, {$LNG.BATCH_OR_SERIAL_NO}{/if} {$LNG.TO_SEARCH}</label>
 						<div class="row row-xs">
 							<input type="hidden" name="a" value="">
 							<div class="col-md-10 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text"  name="code" onKeyPress="checkKey(event);">
 							</div>
 							<div class="col-md-2 mt-4 mt-xl-0">
-								<input type="submit" class="btn btn-main-primary btn-block" value="Find" onclick="fsubmit();">
+								<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.FIND}" onclick="fsubmit();">
 							</div>
 						</div>
 					</div>
 					<div class="checkbox">
 						<div class="custom-checkbox custom-control">
 							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" name="show_child" value="1" id="checkbox-2">
-							<label for="checkbox-2" class="custom-control-label mt-1" name="show_child" value="1">Show child items</label>
+							<label for="checkbox-2" class="custom-control-label mt-1" name="show_child" value="1">{$LNG.SHOW_CHILD_ITEMS}</label>
 						</div>
 					</div>
 				</div>
