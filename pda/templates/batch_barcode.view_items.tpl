@@ -64,14 +64,14 @@ function submit_items(act){
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Back to home</a>
+			<a href="home.php">{$LNG.BACK_TO_HOME}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$module_name}</a>
 		</li>
 		{if $smarty.request.find_batch_barcode}
 		<li class="breadcrumb-item">
-			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">Back to search</a>
+			<a href="home.php?a=menu&id={$module_name|lower|replace:' ':'_'}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
@@ -96,10 +96,10 @@ function submit_items(act){
 	<div class="card-body">
 		{if $items}
 		<div class="d-flex justify-content-between align-items-center py-2">
-			<div class="badge badge-pill badge-light p-2 border">{count var=$items} item(s)</div>
+			<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>
 			<div class="">
-				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-				<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-success " onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 			</div>
 		</div>
 		<!--Table-->
@@ -114,12 +114,12 @@ function submit_items(act){
 						        <th>
 						        	<div class="custom-checkbox custom-control">
 										<input type="checkbox" class="toggle_chx custom-control-input" id="checkbox-2">
-										<label for="checkbox-2" class="custom-control-label">DEL</label>
+										<label for="checkbox-2" class="custom-control-label">{$LNG.DEL}</label>
 									</div>
 						        </th>
-						        <th>ARMS Code</th>
-						        <th>Description</th>
-								<th>Qty</th>
+						        <th>{$LNG.ARMS_CODE}</th>
+						        <th>{$LNG.DESCRIPTION}</th>
+								<th>{$LNG.QTY}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -146,8 +146,8 @@ function submit_items(act){
 		</div>
 		<!-- /Table -->
 		<div class="d-flex justify-content-end align-items-center py-2">
-			<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> Delete</button>
-			<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> Save</button>
+			<button class="btn btn-danger mr-1" value="Delete" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+			<button class="btn btn-success" value="Save" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
 		</div>
 		{else}
 			<div class="row">
@@ -155,8 +155,8 @@ function submit_items(act){
 					<div class=" mg-b-20 text-center">
 						<div class=" h-100">
 							<img src="../../assets/img/svgicons/note_taking.svg" alt="" class="wd-35p" style="max-height: 50vh;">
-							<h5 class="mg-b-10 mg-t-15 tx-18">Its Empty In Here</h5>
-							<a href="#" class="text-muted">No Item</a>
+							<h5 class="mg-b-10 mg-t-15 tx-18">{$LNG.ITS_EMPTY_HERE}</h5>
+							<a href="#" class="text-muted">{$LNG.NO_ITEM}</a>
 						</div>
 					</div>
 				</div>

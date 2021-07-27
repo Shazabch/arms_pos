@@ -49,18 +49,18 @@ var IMPORT_BATCH = {
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Import Batch Barcode</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.IMPORT_BATCH_BARCODE}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		{if $smarty.request.find_batch_barcode}
 		<li class="breadcrumb-item">
-			<a  href="{$smarty.request.PHPSELF}?a=open&find_batch_barcode={$smarty.request.find_batch_barcode}">Back to search</a>
+			<a  href="{$smarty.request.PHPSELF}?a=open&find_batch_barcode={$smarty.request.find_batch_barcode}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 		<li class="breadcrumb-item">
@@ -73,15 +73,15 @@ var IMPORT_BATCH = {
 	<div class="alert alert-info mb-0 mt-2 pb-0 p-2 mb-2" role="alert">
 	  <h5 class="alert-heading"><i class="fas fa-bullhorn"></i> Note</h5>
 	  <ul>
-	  	<li>Please ensure the file extension <b>".csv"</b></li>
-	  	<li>Please ensure the import file contains header.</li>
+	  	<li>{$LNG.PLZ_ENSURE_FILE_EXTENSION} <b>".{$LNG.CSV}"</b></li>
+	  	<li>{$LNG.PLZ_ENSURE_IMPORT_FILE_CONTAINS_HEADER}</li>
 	  </ul>
 	</div>
 	<div class="card ">
 		<div class="card-header border-bottom">
 			<div class="d-flex justify-content-between align-items-center">
-				<h3>New</h3>
-				<a onclick="window.location='/pda/batch_barcode.php';" class="btn btn btn-primary">Back</a>
+				<h3>{$LNG.NEW}</h3>
+				<a onclick="window.location='/pda/batch_barcode.php';" class="btn btn-primary">{$LNG.BACK}</a>
 			</div>
 		</div>
 		<div class="card-body">
@@ -91,18 +91,18 @@ var IMPORT_BATCH = {
 					<input type="hidden" name="a" value="show_result" />
 					<input type="hidden" name="file_name" value="{$file_name}" />
 					<div class="form-group mt-2">
-						<label class="font-weight-bold">Upload CSV</label><a href="{$smarty.server.PHP_SELF}?a=download_sample_batch&method=1" class="fs-07"><i class="ml-3 text-muted fas fa-file-download"></i> Download Sample</a>
+						<label class="font-weight-bold">{$LNG.UPLOAD_CSV}</label><a href="{$smarty.server.PHP_SELF}?a=download_sample_batch&method=1" class="fs-07"><i class="ml-3 text-muted fas fa-file-download"></i> {$LNG.DOWNLOAD_SAMPLE}</a>
 						<input type="file" class="form-control mt-2" data-height="200" name="import_csv" />
 					</div>
 					<div class="form-group mt-2">
 						<div class="checkbox">
 							<div class="custom-checkbox custom-control">
 								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2" name="allow_duplicate" value="1" {if $form.allow_duplicate}checked{/if}>
-								<label for="checkbox-2" class="custom-control-label mt-1">Automatically add qty when item duplicate</label>
+								<label for="checkbox-2" class="custom-control-label mt-1">{$LNG.AUTO_ADD_QTY_WHEN_ITEM_DUPLICATE}</label>
 							</div>
 						</div>
 					</div>
-					<input type="Submit" class="btn btn-success" value="Show Result">
+					<input type="Submit" class="btn btn-success" value="{$LNG.SHOW_RESULT}">
 				</form>
 			</div>
 		</div>
@@ -113,7 +113,7 @@ var IMPORT_BATCH = {
 	<div class="card">
 		<div class="card-header pb-0">
 			<div class="d-flex justify-content-between">
-				<h4 class="card-title mg-b-0">Sample</h4>
+				<h4 class="card-title mg-b-0">{$LNG.SAMPLE}</h4>
 			</div>
 		</div>
 		<div class="card-body">
@@ -145,15 +145,15 @@ var IMPORT_BATCH = {
 {if $item_lists && ($method == '1' || $partial_ok =='1')}
 <div id="div_result">
 	<div class="mx-3">
-		{if $partial_ok neq '1'}Result Status:{else}Item Failed to Import:{/if}
+		{if $partial_ok neq '1'}{$LNG.RESULT_STATUS}:{else}{$LNG.ITEM_FAILED_TO_IMPORT}:{/if}
 			{if $result.import_row}
 				<div class="alert alert-success fade show">
-					Total {$result.import_row} of {$result.ttl_row} item(s) will be imported.<br />
+					{$LNG.TOTAL} {$result.import_row} {$LNG.OF} {$result.ttl_row} {$LNG.ITEMS_WILL_BE_IMPORTED}<br />
 				</div>
 			{/if}
 			{if $result.error_row > 0}
 				<div class="alert alert-danger fade show">
-					Total {$result.error_row} of {$result.ttl_row} item(s) will fail to import due to some error found, please check the error message at the end of <span style="color:red">highlighted</span> row.<br />
+					{$LNG.TOTAL} {$result.error_row} {$LNG.OF} {$result.ttl_row} {$LNG.FAILED_IMPORT_ERR_MSG}<br />
 				</div>
 			{/if}
 
