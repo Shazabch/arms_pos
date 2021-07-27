@@ -24,7 +24,7 @@
 </style>
 {/literal}
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.MEMBER_ENQUIRY}</h4>
@@ -32,7 +32,7 @@
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -46,7 +46,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<div class="card shadow animated fadeInDown">
+			<div class="card shadow ">
 				<div class="card-body">
 					<div class="d-flex justify-content-center align-items-center">
 						<div class="shadow" style="width: 150px; height: 150px;">
@@ -81,7 +81,7 @@
 			</div>
 			<!-- QR Code -->
 			{if $member_data.member_no_qrcode}
-			<div class="card shadow mt-3 animated fadeInDown">
+			<div class="card shadow mt-3 ">
 				<div class="card-body">
 					<div class="d-flex justify-content-center align-items-center">
 						<div class="border" style="width: 150px; height: 150px;">
@@ -95,7 +95,7 @@
 			<!-- /QR CODE -->
 		</div>
 		<div class="col-lg-8">
-			<div class="card shadow animated fadeInDown">
+			<div class="card shadow ">
 				<div class="card-body">
 					<div class="mt-3">
 						<table class="table table-borderless">
@@ -146,7 +146,7 @@
 </div>
 <!-- /Member Information -->
 <div class="container">
-	<div class="card shadow animated fadeInLeft">
+	<div class="card shadow ">
 		<div class="card-body">
 			<div class="card-title">{$LNG.FAVOURITE_PRODUCT}</div>
 			{if $product_history}

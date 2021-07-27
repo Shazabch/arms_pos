@@ -228,7 +228,7 @@ function date_format_check(obj){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.NEW_PURCHASE_ORDER}</h4>
@@ -236,7 +236,7 @@ function date_format_check(obj){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -252,7 +252,7 @@ function date_format_check(obj){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -269,7 +269,7 @@ function date_format_check(obj){
 {/if}
 
 <!-- row -->
-<div class="row animated fadeInLeft">
+<div class="row ">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<!-- Form -->

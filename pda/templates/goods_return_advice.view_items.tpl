@@ -56,7 +56,7 @@ function submit_items(act){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">
@@ -70,7 +70,7 @@ function submit_items(act){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -83,7 +83,7 @@ function submit_items(act){
 
 {include file='goods_return_advice.top_include.tpl'}<br><br>
 
-<div class="card animated fadeInLeft">
+<div class="card ">
 	<div class="card-body">
 	{if $items}
 		<div class="d-flex justify-content-between align-items-center">

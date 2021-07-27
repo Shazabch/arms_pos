@@ -118,7 +118,7 @@ function qty_keypress(event){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.st.title}</h4>
@@ -126,7 +126,7 @@ function qty_keypress(event){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -145,7 +145,7 @@ function qty_keypress(event){
 <!-- Error Message -->
 {if $errm}
 	{foreach from=$errm item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -155,10 +155,10 @@ function qty_keypress(event){
 {/if}
 <!-- /Error Message -->
 {if $smarty.request.auto_add}
-	<div class="alert alert-success my-1 animated fadeInDown"><img src="/ui/approved.png" title="Item Added"> {$LNG.ITEM_ADDED}</div> 
+	<div class="alert alert-success my-1 "><img src="/ui/approved.png" title="Item Added"> {$LNG.ITEM_ADDED}</div> 
 {/if}
 <!-- row -->
-<div class="row animated fadeInLeft">
+<div class="row ">
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<!-- Form -->

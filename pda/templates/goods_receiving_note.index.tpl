@@ -28,7 +28,7 @@ function submit_form(obj){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.SETTING} - {if $form.id}(GRN#{$form.id}){else} {$LNG.NEW} {$LNG.GRN} {/if}</h4>
@@ -36,7 +36,7 @@ function submit_form(obj){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -54,7 +54,7 @@ function submit_form(obj){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -66,7 +66,7 @@ function submit_form(obj){
 <!-- /Error Message -->
 {if $form.id && $form.branch_id}{include file='goods_receiving_note.top_include.tpl'}{/if}
 
-<div class="card animated fadeInLeft mt-2">
+<div class="card  mt-2">
 	<div class="card-body">
 		<div class="card-title border-bottom pb-2">{$LNG.GENERAL_INFORMATION}</div>
 		<form name="f_a" method="post" onSubmit="return false;">

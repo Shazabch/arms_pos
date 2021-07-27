@@ -21,10 +21,10 @@
 
 {assign var=n value=1}
 {if $msg}
-	<div class="alert alert-info animated fadeInDown">{$msg}</div>
+	<div class="alert alert-info ">{$msg}</div>
 {/if}	
 {foreach from=$items item=item max=50}
-<div class="card animated fadeInLeft">
+<div class="card ">
 	<div class="card-body">
 		<div class="card-category bg-danger-opacity fs-08 text-left pl-1"><span>{$n++}.</span> <span>{$item.description}</span></div>
 		<div class="row mt-3">

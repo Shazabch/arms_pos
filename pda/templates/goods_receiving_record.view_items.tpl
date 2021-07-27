@@ -133,7 +133,7 @@ function check_delete_status(){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
@@ -141,7 +141,7 @@ function check_delete_status(){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -160,7 +160,7 @@ function check_delete_status(){
 <!-- Error Message -->
 {if $err.top}
 	{foreach from=$err.top item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown mb-2" role="alert">
+	<div class="alert alert-danger mg-b-0  mb-2" role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -221,8 +221,8 @@ function check_delete_status(){
 		</td>
 	</tr>
 </table>
-<div class="alert alert-info col-md-4 animated fadeInLeft"><i class="fas fa-bullhorn"></i> Document Date in YYYY-MM-DD format.</div>
-<div class="card animated fadeInLeft">
+<div class="alert alert-info col-md-4 "><i class="fas fa-bullhorn"></i> Document Date in YYYY-MM-DD format.</div>
+<div class="card ">
 	<div class="card-body">
 		<div class="d-flex justify-content-between align-items-center py-2">
 			<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>

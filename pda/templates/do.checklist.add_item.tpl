@@ -27,7 +27,7 @@ function check_key(obj, event){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
@@ -35,7 +35,7 @@ function check_key(obj, event){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -49,7 +49,7 @@ function check_key(obj, event){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -61,7 +61,7 @@ function check_key(obj, event){
 
 {include file='do.checklist.top_include.tpl'}<br />
 {if $item_added}
-<div class="alert alert-success animated fadeInDown my-1">
+<div class="alert alert-success  my-1">
 	<img src="/ui/approved.png" title="Item Added" border=0> {$LNG.BARCODE_ADDED}
 </div>
 {/if}

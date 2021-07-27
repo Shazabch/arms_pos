@@ -54,7 +54,7 @@ function submit_items(act){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
@@ -62,7 +62,7 @@ function submit_items(act){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.BACK_TO_HOME}</a>
 		</li>
@@ -81,7 +81,7 @@ function submit_items(act){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -92,7 +92,7 @@ function submit_items(act){
 <!-- /Error Message -->
 
 {include file='batch_barcode.top_include.tpl'}<br>
-<div class="card animated fadeInDown">
+<div class="card ">
 	<div class="card-body">
 		{if $items}
 		<div class="d-flex justify-content-between align-items-center py-2">

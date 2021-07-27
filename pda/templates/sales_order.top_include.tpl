@@ -1,5 +1,5 @@
 
-<div class="mt-2 animated fadeInDown">
+<div class="mt-2 ">
 {if $so_tab eq 'setting'}
     <button class="btn btn-light btn-rounded btn-sm mr-1 disabled"><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}</button>
 {else}

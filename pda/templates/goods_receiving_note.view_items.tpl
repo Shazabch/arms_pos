@@ -175,7 +175,7 @@ function check_by_bom_group(obj, bom_id){
 {/literal}
 </script>
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$smarty.session.scan_product.name}</h4>
@@ -183,7 +183,7 @@ function check_by_bom_group(obj, bom_id){
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -202,7 +202,7 @@ function check_by_bom_group(obj, bom_id){
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
-	<div class="alert alert-danger mg-b-0 animated fadeInDown" role="alert">
+	<div class="alert alert-danger mg-b-0 " role="alert">
 		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -214,7 +214,7 @@ function check_by_bom_group(obj, bom_id){
 
 {include file='goods_receiving_note.top_include.tpl'}<br><br>
 
-<div class="card animated fadeInLeft">
+<div class="card ">
 	<div class="card-body">
 	{if count($items) > 0 || count($non_sku_items.code) > 0}
 	<div class="d-flex justify-content-end align-items-center">

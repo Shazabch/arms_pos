@@ -5,7 +5,7 @@
 
 {include file=header.tpl}
 <!-- BreadCrumbs -->
-<div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
+<div class="breadcrumb-header justify-content-between mt-3 mb-2 ">
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.MEMBER_ENQUIRY}</h4>
@@ -13,7 +13,7 @@
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
-	<ol class="breadcrumb bg-white animated fadeInDown">
+	<ol class="breadcrumb bg-white ">
 		<li class="breadcrumb-item">
 			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
@@ -27,7 +27,7 @@
 </nav>
 <!-- /BreadCrumbs -->
 
-<div class="card animated fadeInLeft shadow">
+<div class="card  shadow">
 	<div class="card-body">
 		<div class="alert alert-info rounded"><i class="fas fa-sticky-note mr-1"></i>{$LNG.ONLY_100_LATEST_TRANSACTIONS_WILL_SHOW}</div>
 		<div class="table-responsive">
