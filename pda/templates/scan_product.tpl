@@ -90,7 +90,7 @@ function check_barcode_type(obj){
 		</li>
 		{if $form.search_var}
 		<li class="breadcrumb-item">
-			<a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">{$LNG.BACK_TO _SEARCH}</a>
+			<a href="{$smarty.server.PHP_SELF}?a=open&find_{$module_name|lower}={$form.search_var}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
 		{/if}
 	</ol>
