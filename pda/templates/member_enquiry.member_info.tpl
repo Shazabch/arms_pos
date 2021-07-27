@@ -27,17 +27,17 @@
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Member Enquiry</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.MEMBER_ENQUIRY}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="member_enquiry.php">Member Enquiry</a>
+			<a href="member_enquiry.php">{$LNG.MEMBER_ENQUIRY}</a>
 		</li>
 	</ol>
 </nav>
@@ -57,26 +57,26 @@
 						<table class="table table-sm table-borderless mt-3">
 							<tbody>
 								<tr>
-									<th>Name</th>
+									<th>{$LNG.NAME}</th>
 									<td>{$member_data.name}</td>
 								</tr>
 								<tr>
-									<th>NRIC</th>
+									<th>{$LNG.NRIC}</th>
 									<td>{$member_data.nric}</td>
 								</tr>
 								<tr>
-									<th>Gender</th>
+									<th>{$LNG.GENDER}</th>
 									<td>{$member_data.gender}</td>
 								</tr>
 								<tr>
-									<th>Birthday</th>
+									<th>{$LNG.BIRTHDAY}</th>
 									<td>{$member_data.dob}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					{*[<a href="{$smarty.server.PHP_SELF}?a=view_purchase_history&nric={$member_data.nric|urlencode}">View Purchase History</a>]*}
-					<button onClick="document.location='{$smarty.server.PHP_SELF}?a=view_purchase_history&nric={$member_data.nric|urlencode}'" class="btn btn-info btn-block">Purchase History</button>
+					<button onClick="document.location='{$smarty.server.PHP_SELF}?a=view_purchase_history&nric={$member_data.nric|urlencode}'" class="btn btn-info btn-block">{$LNG.PURCHASE_HISTORY}</button>
 				</div>
 			</div>
 			<!-- QR Code -->
@@ -88,7 +88,7 @@
 							<img src="../thumb.php?img={$member_data.member_no_qrcode|urlencode}&h=100&w=100"/>
 						</div>
 					</div>
-					<h6 class="fs-08 text-center font-weight-bold mt-3">Member QR Code</h6>
+					<h6 class="fs-08 text-center font-weight-bold mt-3">{$LNG.MEMBER_QR_CODE}</h6>
 				</div>
 			</div>
 			{/if}
@@ -101,25 +101,25 @@
 						<table class="table table-borderless">
 							<tbody>
 								<tr>
-									<th>Point Accumulated</th>
+									<th>{$LNG.POINT_ACCUMULATED}</th>
 									<td>
 										{if !$member_data.parent_nric}
 											{$member_data.points} <span id="span_points_{$member_data.nric}" style="color:red; font-size:16px; font-weight:bold;{if !$member_data.points_changed} display:none;{/if}">*</span>
 										{else}
-											<a href="member_enquiry.php?a=get_member_info&nric={$member_data.parent_nric}"  target="_blank">Refer to Principal Card</a>
+											<a href="member_enquiry.php?a=get_member_info&nric={$member_data.parent_nric}"  target="_blank">{$LNG.REFER_TO_PRINCIPLE_CARD}</a>
 										{/if}
 									</td>
 								</tr>
 								<tr>
-									<th>Point Update</th>
+									<th>{$LNG.POINT_UPDATE}</th>
 									<td>{if $member_data.points_update > 0}{$member_data.points_update}{/if}</td>
 								</tr>
 								<tr>
-									<th>Current {$config.membership_cardname} Number</th>
+									<th>{$LNG.CURRENT} {$config.membership_cardname} {$LNG.NUMBER}</th>
 									<td>{$member_data.card_no}</td>
 								</tr>
 								<tr>
-									<th>Issue Branch</th>
+									<th>{$LNG.ISSUE_BRANCH}</th>
 									<td>{$member_data.branch_code}</td>
 								</tr>
 								{if $config.membership_pmr}
@@ -131,7 +131,7 @@
 													{$member_data.pmr|nl2br}
 												</span>
 											{else}
-												<div class="alert alert-light">- NO Data -</div>
+												<div class="alert alert-light">- {$LNG.NO_DATA} -</div>
 											{/if}	
 										</td>
 									</tr>
@@ -148,18 +148,18 @@
 <div class="container">
 	<div class="card shadow animated fadeInLeft">
 		<div class="card-body">
-			<div class="card-title">Favourite Product</div>
+			<div class="card-title">{$LNG.FAVOURITE_PRODUCT}</div>
 			{if $product_history}
-			<div class="alert alert-info"><i class="fas fa-star"></i> Only the top 100 products will be show</div>
+			<div class="alert alert-info"><i class="fas fa-star"></i> {$LNG.TOP_100_PRODUCTS_WILL_SHOW_MSG}</div>
 			<div class="table-responsive">
 				<table class="table mb-0 text-md-nowrap">
 					<thead class="">
-						<th>Artno/MCode/<br />ARMS Code<br />{$config.link_code_name}<br />
+						<th>{$LNG.ART_NO}/MCODE/<br />{$LNG.ARMS_CODE}<br />{$config.link_code_name}<br />
 							Item Description
 						</th>
-						<th>Total Qty</th>
-						<th>Total Price</th>
-						<th>Last Purchase</th>
+						<th>{$LNG.TOTAL_QTY}</th>
+						<th>{$LNG.TOTAL_PRICE}</th>
+						<th>{$LNG.LAST_PURCHASE}</th>
 					</thead>
 					<tbody>
 						{foreach from=$product_history item=h}
@@ -168,11 +168,11 @@
 							<tr>
 								<td>
 									{if $h.artno neq ''}
-										ArtNo: {$h.artno|default:"&nbsp;"}<br>
+										{$LNG.ART_NO}: {$h.artno|default:"&nbsp;"}<br>
 									{elseif $h.mcode neq ''}
-										MCode: {$h.mcode|default:"&nbsp;"}<br>
+										{$LNG.MCODE}: {$h.mcode|default:"&nbsp;"}<br>
 									{else}
-										ARMS Code: {$h.sku_item_code}<br>
+										{$LNG.ARMS_CODE}: {$h.sku_item_code}<br>
 									{/if}
 									{if $h.link_code}{$config.link_code_name}: {$h.link_code}<br>{/if}
 									<span class="span_sku_desc small">{$h.receipt_description}</span>
@@ -184,7 +184,7 @@
 							</tr>
 						{/foreach}
 						<tr>
-							<td><b>Total</b></td>
+							<td><b>{$LNG.TOTAL}</b></td>
 							<td>{$total_qty|number_format:2}</td>
 							<td>{$total_p|number_format:2}</td>
 							<td>&nbsp;</td>
@@ -194,7 +194,7 @@
 			</div>
 			{else}
 				<div class="bg-light p-3 text-center rounded">
-					No Data
+					{$LNG.NO_DATA}
 				</div>
 			{/if}
 		</div>

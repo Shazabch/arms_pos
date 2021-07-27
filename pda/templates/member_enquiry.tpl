@@ -46,14 +46,14 @@ function check_member(event){
 <div class="breadcrumb-header justify-content-between mt-3 mb-2 animated fadeInDown">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-1">Member Enquiry</h4>
+			<h4 class="content-title mb-0 my-auto ml-1">{$LNG.MEMBER_ENQUIRY}</h4>
 		</div>
 	</div>
 </div>
 <nav aria-label="breadcrumb m-0 mb-2">
 	<ol class="breadcrumb bg-white animated fadeInDown">
 		<li class="breadcrumb-item">
-			<a href="home.php">Dashboard</a>
+			<a href="home.php">{$LNG.DASHBOARD}</a>
 		</li>
 	</ol>
 </nav>
@@ -82,13 +82,13 @@ function check_member(event){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-4">
-								<label>Scan or Enter member no/member name/nric/phone</label>
+								<label>{$LNG.SCAN_OR_ENTER} {$LNG.MEMBER_NO}/{$LNG.MEMBER_NAME}/{$LNG.NRIC}/{$LNG.PHONE}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" name="member_no" value="{$form.member_no}" onKeyPress="check_member(event);">
 							</div>
 							<div class="col-md-2 mt-4 mt-xl-0">
-								<input type="button" class="btn btn-main-primary btn-block" value="Enter" onclick="fsubmit();">
+								<input type="button" class="btn btn-main-primary btn-block" value="{$LNG.ENTER}" onclick="fsubmit();">
 							</div>
 						</div>
 					</div>
@@ -110,8 +110,8 @@ function check_member(event){
 						<thead>
 							<tr>
 								<th></th>
-								<th>Member No/NRIC/Name</th>
-								<th>Phone</th>
+								<th>{$LNG.MEMBER_NO}/{$LNG.NRIC}/{$LNG.NAME}</th>
+								<th>{$LNG.PHONE}</th>
 							</tr>
 						</thead>
 						<tbody>
