@@ -60,7 +60,8 @@ function search_dept(event){
 			}
 		}
 		if(opt){ // got row found
-            $(opt).attr('selected', true);
+			$("select[name='dept_id']").val(opt.value);
+			$("select[name='dept_id']").trigger('change');
 		}else{ // no data found
 			notify('error',desc+' not found in Department list','center')
 		}
@@ -180,14 +181,14 @@ function adj_type_changed(obj){
 								</select>
 							</div>
 						</div>
-						<div class="row row-xs align-items-center mg-b-20">
+						<!-- <div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.SEARCH_DEPARTMENT}</label>
 							</div>
 							<div class="col-md-6 mg-t-5 mg-md-t-0">
 								<input class="form-control" type="text" name="search_dept_desc" onKeyUp="search_dept(event);">
 							</div>
-						</div>
+						</div> -->
 						<div class="row row-xs align-items-center mg-b-20">
 							<div class="col-md-2">
 								<label class="font-weight-bold mg-b-0">{$LNG.REMARK}</label>
@@ -219,7 +220,7 @@ function adj_type_changed(obj){
 								{/if}
 							</div>
 						</div>
-						<input type="submit" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
+						<input type="button" class="btn btn-main-primary btn-block-sm pd-x-30 mg-r-5 mg-t-5" name="submit_btn" value="{$LNG.SAVE}" onClick="submit_form();">
 					</div>
 				</div>
 			</form>
