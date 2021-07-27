@@ -155,7 +155,7 @@ function qty_keypress(event){
 {/if}
 <!-- /Error Message -->
 {if $smarty.request.auto_add}
-	<div class="alert alert-success my-1"><img src="/ui/approved.png" title="Item Added"> {$LNG.ITEM_ADDED}</div> 
+	<div class="alert alert-success my-1 animated fadeInDown"><img src="/ui/approved.png" title="Item Added"> {$LNG.ITEM_ADDED}</div> 
 {/if}
 <!-- row -->
 <div class="row animated fadeInLeft">
@@ -205,12 +205,14 @@ function qty_keypress(event){
 								<input class="form-control" type="text" name="qty"  size="10" class="qty" onkeypress="qty_keypress(event);">
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block-sm" id="submit_btn" value="Save" onClick="save_data();">{$LNG.SAVE}</button>
-						<button class="btn btn-success btn-block-sm mt-2 mt-md-0 mt-xl-0 mt-lg-0" onClick="back_stock_take();">{$LNG.FINISH}</button>
 					</div>
 				</div>
 			</form>
 			<!-- / Form -->
+			<div class="row mx-3 my-2">
+			<button class="btn btn-primary btn-block-sm mr-2" id="submit_btn" value="Save" onClick="save_data();">{$LNG.SAVE}</button>
+			<button class="btn btn-success btn-block-sm mt-2 mt-md-0 mt-xl-0 mt-lg-0" onClick="back_stock_take();">{$LNG.FINISH}</button>
+			</div>
 		</div>
 	</div>
 </div>
