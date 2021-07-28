@@ -65,15 +65,15 @@ function do_branch_login(){
 }
 {/literal}
 </script>
-<div class="container-fluid d-flex  align-items-center justify-content-center" style="height: 100vh; width: 80vw;">
-	<div class="col-12">
-		<div class="card rounded-0">
+<div class="container-fluid d-flex  align-items-center justify-content-center vww-80 p-0" style="height: 100vh;">
+	<div class="col-md-12">
+		<div class="card rounded-0 ">
 			<div class="card-body p-0">
 				<div class="row">
-					<div class="col-lg-6 px-5 pt-5 pb-3">
+					<div class="col-lg-6 px-responsive-1 pt-5 pb-3">
 						<div class="d-flex justify-content-center align-items-center">
 							<div class="container-fluid">
-								<div class="d-flex justify-content-between align-items-center mb-5">
+								<div class="d-flex justify-content-between align-items-center mb-5 card-category px-3">
 									<h4 class="text-navy-blue font-weight-bold">{#SITE_NAME#}</h4>
 									<h5 class="bg-success text-white p-2 rounded shadow font-weight-bold">{$BRANCH_CODE}</h5>
 								</div>

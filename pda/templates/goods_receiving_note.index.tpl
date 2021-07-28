@@ -43,7 +43,7 @@ function submit_form(obj){
 		<li class="breadcrumb-item">
 			<a  href="home.php?a=menu&id={$module_name|lower}">{$module_name}</a>
 		</li>
-		{if $form.find_grn || $form.find_grr} >
+		{if $form.find_grn || $form.find_grr}
 		<li class="breadcrumb-item">
 			<a href="goods_receiving_note.php?{if $form.find_grn}a=open&find_grn={$form.find_grn}{else}a=show_grr_list&find_grr={$form.find_grr}{/if}">{$LNG.BACK_TO_SEARCH}</a>
 		</li>
