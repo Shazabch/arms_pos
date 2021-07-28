@@ -152,7 +152,7 @@ function do_branch_login(){
 								</div>
 							{else}
 								<img src="../../assets/img/brand/fvc.png">
-								<h2 class="text-center text-white font-weight-bold mt-2 tx-spacing-8">ARMS®</h2>
+								<h2 class="text-center text-white font-weight-bold mt-2 tx-spacing-8">ARMS</h2>
 							{/if}
 						</div>
 					</div>
