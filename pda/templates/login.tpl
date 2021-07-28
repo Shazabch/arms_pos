@@ -89,10 +89,10 @@ function do_branch_login(){
 								{/if}
 								<form class="mt-4" method="post" name="f_l" action="/pda/login.php" onSubmit="return do_branch_login();">
 									<div class="row row-xs align-items-end mg-b-20">
-										<div class="col-lg-2">
+										<div class="col-lg-3">
 											<label class="form-labels">{$LNG.BRANCH}</label>
 										</div>
-										<div class="col-lg-10">
+										<div class="col-lg-9">
 											<select id="branch" name="login_branch" class="form-control form-control-b-line">
 												{section name=i loop=$branch}
 													{section name=i loop=$branch}
@@ -104,18 +104,18 @@ function do_branch_login(){
 										</div>
 									</div>
 									<div class="row row-xs align-items-end mg-b-20">
-										<div class="col-lg-2">
+										<div class="col-lg-3">
 											<label class="form-label">{$LNG.USERNAME}</label>
 										</div>
-										<div class="col-lg-10">
+										<div class="col-lg-9">
 											<input type="text" class="form-control form-control-b-line" name="u" size="20">
 										</div>
 									</div>
 									<div class="row row-xs align-items-end mg-b-20">
-										<div class="col-lg-2">
+										<div class="col-lg-3">
 											<label class="form-label">{$LNG.PASSWORD}</label>
 										</div>
-										<div class="col-lg-10">
+										<div class="col-lg-9">
 											<input type="password" class="form-control form-control-b-line" name="p" size="20">
 										</div>
 									</div>
