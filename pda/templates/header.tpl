@@ -39,10 +39,11 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		{if dirname($smarty.server.REQUEST_URI) ne '/'}<base href="http{if $smarty.server.HTTPS}s{/if}://{$smarty.server.HTTP_HOST}/pda/">{/if}
 		<title>{$BRANCH_CODE} | {#SITE_NAME#} | {$PAGE_TITLE}</title>
+		<link rel="shortcut icon" href="/favicon.ico">
+
 		<!-- Old Theme -->
 		<!-- <link rel="stylesheet" href="{#SITE_CSS#}" type="text/css">
 		<link rel="stylesheet" href="/templates/pda.css?v=1" type="text/css">
-		<link rel="shortcut icon" href="/favicon.ico">
 		{literal}
 		<style>
 		.small input, .small select { font: 10px Arial !important; }
