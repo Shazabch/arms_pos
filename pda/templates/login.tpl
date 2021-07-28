@@ -65,67 +65,78 @@ function do_branch_login(){
 }
 {/literal}
 </script>
-<div class="container-fluid">
-	<div class="row no-gutter">
-		<!-- The image half -->
-		<div class="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
-			<div class="row wd-100p mx-auto text-center">
-				<div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
-					<img src="../../../assets/img/backgrounds/login-bg.png" class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
-				</div>
-			</div>
-		</div>
-		<!-- The content half -->
-		<div class="col-md-6 col-lg-6 col-xl-5 bg-white">
-			<div class="login d-flex align-items-center py-2">
-				<!-- Demo content-->
-				<div class="container p-0">
-					<div class="row">
-						<div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
-							<div class="card-sigin">
-								<div class="mb-5 d-flex"> <a href="#"><img src="../../assets/img/brand/logo.png" class="sign-favicon ht-40" alt="logo"></a><h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"><span></span></h1></div>
-								<div class="card-sigin">
-									<div class="main-signup-header">
-										<h2>Welcome back!</h2>
-										<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
-										{if $errmsg}
-											<div class="alert alert-danger mb-2" role="alert">
-												<button aria-label="Close" class="close" data-dismiss="alert" type="button">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												{$errmsg}
-											</div>
-										{/if}
-										<form method="post" name="f_l" action="/pda/login.php" onSubmit="return do_branch_login();">
-											<div class="form-group">
-												<label>Branch</label> 
-												<select id="branch" name="login_branch" class="form-control form-select">
-													{section name=i loop=$branch}
-														{section name=i loop=$branch}
-															{assign var=bcode value=$branch[i].code}
-															<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}</option>
-														{/section}
-													{/section}
-												</select>
-											</div>
-											<div class="form-group">
-												<label>Username</label> 
-												<input class="form-control"name="u" size="20" type="text">
-											</div>
-											<div class="form-group">
-												<label>Password</label> 
-												<input class="form-control" name="p" size="20" type="password">
-											</div>
-											<button type="submit" class="btn btn-main-primary btn-block">Sign In</button>
-										</form>
-									</div>
+<div class="container-fluid d-flex  align-items-center justify-content-center" style="height: 100vh; width: 80vw;">
+	<div class="col-12">
+		<div class="card rounded-0">
+			<div class="card-body p-0">
+				<div class="row">
+					<div class="col-lg-6 px-5 pt-5 pb-3">
+						<div class="d-flex justify-content-center align-items-center">
+							<div class="container-fluid">
+								<div class="d-flex justify-content-between align-items-center mb-5">
+									<h4 class="text-navy-blue font-weight-bold">{#SITE_NAME#}</h4>
+									<h5 class="bg-success text-white p-2 rounded shadow font-weight-bold">{$BRANCH_CODE}</h5>
 								</div>
+								<h3 class="text-navy-blue font-weight-bold">Sign In</h3>
+								<p class="text-muted">Please sign in to continue.</p>
+								{if $errmsg}
+									<div class="alert alert-danger mb-2" role="alert">
+										<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										{$errmsg}
+									</div>
+								{/if}
+								<form class="mt-4" method="post" name="f_l" action="/pda/login.php" onSubmit="return do_branch_login();">
+									<div class="row row-xs align-items-end mg-b-20">
+										<div class="col-lg-2">
+											<label class="form-labels">Branch</label>
+										</div>
+										<div class="col-lg-10">
+											<select id="branch" name="login_branch" class="form-control form-control-b-line">
+												{section name=i loop=$branch}
+													{section name=i loop=$branch}
+														{assign var=bcode value=$branch[i].code}
+														<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if} {if !$config.single_server_mode}branch_url="{$branch[i].code|strtolower|string_format:$config.no_ip_string}" {if $config.branch_at_hq.$bcode}branch_at_hq="1"{/if}{/if}>{$branch[i].code}</option>
+													{/section}
+												{/section}
+											</select>
+										</div>
+									</div>
+									<div class="row row-xs align-items-end mg-b-20">
+										<div class="col-lg-2">
+											<label class="form-label">Username</label>
+										</div>
+										<div class="col-lg-10">
+											<input type="text" class="form-control form-control-b-line" name="u" size="20">
+										</div>
+									</div>
+									<div class="row row-xs align-items-end mg-b-20">
+										<div class="col-lg-2">
+											<label class="form-label">Password</label>
+										</div>
+										<div class="col-lg-10">
+											<input type="password" class="form-control form-control-b-line" name="p" size="20">
+										</div>
+									</div>
+									<div class="row row-xs align-items-center mg-b-20 mt-5">
+										<div class="col-lg-12">
+											<input type="submit" class="btn btn-main-primary btn-block" value="Sign In" name="">
+										</div>
+									</div>	
+								</form>
 							</div>
 						</div>
 					</div>
-				</div><!-- End -->
+					<div class="col-lg-6 bg-navy-blue d-none d-lg-flex justify-content-center align-items-center">
+						<div>
+							<img src="../../assets/img/brand/fvc.png">
+							<h2 class="text-center text-white font-weight-bold mt-2 tx-spacing-8">ARMS®</h2>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div><!-- End -->
+		</div>
 	</div>
 </div>
 <div align="center">

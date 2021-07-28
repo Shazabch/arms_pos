@@ -30,6 +30,12 @@
 {
 	width: 15%;
 }
+.bg-navy-blue{
+	background-color: #223B7C;
+}
+.text-navy-blue{
+	color: #223B7C;
+}
 .bg-danger-opacity
 {
 	background-color: rgba(255, 21, 40, 0.22);
@@ -64,9 +70,14 @@
 {
 	max-width: 200px !important;
 }
-
 .border-2{
 	border-width: 8px;
+}
+.form-control-b-line{
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #223B7C;
 }
 
 @media all and (max-width:480px) {
