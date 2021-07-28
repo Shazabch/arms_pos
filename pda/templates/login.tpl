@@ -77,8 +77,8 @@ function do_branch_login(){
 									<h4 class="text-navy-blue font-weight-bold">{#SITE_NAME#}</h4>
 									<h5 class="bg-success text-white p-2 rounded shadow font-weight-bold">{$BRANCH_CODE}</h5>
 								</div>
-								<h3 class="text-navy-blue font-weight-bold">Sign In</h3>
-								<p class="text-muted">Please sign in to continue.</p>
+								<h3 class="text-navy-blue font-weight-bold">{$LNG.SIGN_IN}</h3>
+								<p class="text-muted">{$LNG.SIGN_IN_MSG}</p>
 								{if $errmsg}
 									<div class="alert alert-danger mb-2" role="alert">
 										<button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -90,7 +90,7 @@ function do_branch_login(){
 								<form class="mt-4" method="post" name="f_l" action="/pda/login.php" onSubmit="return do_branch_login();">
 									<div class="row row-xs align-items-end mg-b-20">
 										<div class="col-lg-2">
-											<label class="form-labels">Branch</label>
+											<label class="form-labels">{$LNG.BRANCH}</label>
 										</div>
 										<div class="col-lg-10">
 											<select id="branch" name="login_branch" class="form-control form-control-b-line">
@@ -105,7 +105,7 @@ function do_branch_login(){
 									</div>
 									<div class="row row-xs align-items-end mg-b-20">
 										<div class="col-lg-2">
-											<label class="form-label">Username</label>
+											<label class="form-label">{$LNG.USERNAME}</label>
 										</div>
 										<div class="col-lg-10">
 											<input type="text" class="form-control form-control-b-line" name="u" size="20">
@@ -113,7 +113,7 @@ function do_branch_login(){
 									</div>
 									<div class="row row-xs align-items-end mg-b-20">
 										<div class="col-lg-2">
-											<label class="form-label">Password</label>
+											<label class="form-label">{$LNG.PASSWORD}</label>
 										</div>
 										<div class="col-lg-10">
 											<input type="password" class="form-control form-control-b-line" name="p" size="20">
@@ -121,7 +121,7 @@ function do_branch_login(){
 									</div>
 									<div class="row row-xs align-items-center mg-b-20 mt-5">
 										<div class="col-lg-12">
-											<input type="submit" class="btn btn-main-primary btn-block" value="Sign In" name="">
+											<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.SIGN_IN}" name="">
 										</div>
 									</div>	
 								</form>
