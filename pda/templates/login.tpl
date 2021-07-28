@@ -130,8 +130,30 @@ function do_branch_login(){
 					</div>
 					<div class="col-lg-6 bg-navy-blue d-none d-lg-flex justify-content-center align-items-center">
 						<div>
-							<img src="../../assets/img/brand/fvc.png">
-							<h2 class="text-center text-white font-weight-bold mt-2 tx-spacing-8">ARMS®</h2>
+							{if $config.login_page_header}
+								<div style="width: 70%; margin: 0px auto;">
+									<table class="table table-borderless text-white bg-transparent">
+										<tr>
+											{foreach from=$config.login_page_header key=dummy1 item=r}
+												{if $r.type eq 'image'}
+													<td align="center" rowspan="{$header_info.rowspan_count}">
+														<img src="../{$r.path}" align="absmiddle" {if $r.width}width="{$r.width}"{/if} {if $r.height}height="{$r.height}"{/if} />
+													</td>
+												{elseif $r.type eq 'text'}
+													<td valign="top" {if !$header_info.show_image_first}align="center"{/if}><h4>{$r.html}</h4></td>
+												{/if}
+												{if $r.next_row}
+													</tr>
+													<tr>
+												{/if}
+											{/foreach}
+										</tr>
+									</table>
+								</div>
+							{else}
+								<img src="../../assets/img/brand/fvc.png">
+								<h2 class="text-center text-white font-weight-bold mt-2 tx-spacing-8">ARMS®</h2>
+							{/if}
 						</div>
 					</div>
 				</div>
