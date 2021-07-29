@@ -121,7 +121,7 @@ function do_branch_login(){
 									</div>
 									<div class="row row-xs align-items-center mg-b-20 mt-5">
 										<div class="col-lg-12">
-											<input type="submit" class="btn btn-main-primary btn-block" value="{$LNG.SIGN_IN}" name="">
+											<input type="submit" class="btn btn-main-primary bg-navy-blue btn-block" value="{$LNG.SIGN_IN}" name="">
 										</div>
 									</div>	
 								</form>
