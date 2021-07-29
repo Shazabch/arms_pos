@@ -161,29 +161,6 @@ function do_branch_login(){
 		</div>
 	</div>
 </div>
-<div align="center">
-{if $config.login_page_header}
-	<div style="width: 60%; margin: 0px auto;" class="login-header">
-		<table cellpadding="0" cellspacing="5" border="0">
-			<tr>
-				{foreach from=$config.login_page_header key=dummy1 item=r}
-					{if $r.type eq 'image'}
-						<td align="center" rowspan="{$header_info.rowspan_count}">
-							<img src="../{$r.path}" align="absmiddle" {if $r.width}width="{$r.width}"{/if} {if $r.height}height="{$r.height}"{/if} />
-						</td>
-					{elseif $r.type eq 'text'}
-						<td valign="top" {if !$header_info.show_image_first}align="center"{/if}><h4>{$r.html}</h4></td>
-					{/if}
-					{if $r.next_row}
-						</tr>
-						<tr>
-					{/if}
-				{/foreach}
-			</tr>
-		</table>
-	</div>
-{/if}
-</div>
 <script type="text/javascript">
 {literal}
 document.f_l['u'].focus();
