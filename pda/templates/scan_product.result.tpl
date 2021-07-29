@@ -568,8 +568,8 @@ function row_recalc(id){
 								
 								{if $module_name eq 'GRA'}
 									<tr>
-										<td align="right" nowrap colspan="3">
-											{$LNG.INV}/{$DO_NO}. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
+										<td  nowrap colspan="3">
+											{$LNG.INV}/{$LNG.DO_NO}. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
 											{if $form.is_under_gst}
 												&nbsp;&nbsp;
 												GST Code

@@ -3,7 +3,7 @@
 {if $promotion_tab eq 'setting'}
     <a class="btn btn-light btn-sm disabled "><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}</a>
 {else}
-    <a href="promotion.php?a=show_setting" class="btn btn-info btn-sm "><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}g</a>
+    <a href="promotion.php?a=show_setting" class="btn btn-info btn-sm "><i class="fas fa-cog"></i> {$LNG.CHANGE_SETTING}</a>
 {/if}
 
 {if !$promotion_tab or $promotion_tab eq 'scan_item'}

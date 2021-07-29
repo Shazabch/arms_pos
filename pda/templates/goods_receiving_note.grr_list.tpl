@@ -131,11 +131,11 @@ function toggle_grr_list(){
 												{/if}
 											{/foreach}
 											{if $grr.status}
-												<img src="../ui/lock.gif" border="0" title="GRR is being used">
+												<i class="fas fa-lock text-warning" data-placement="right" data-toggle="tooltip" title="{$LNG.GRR_IS_USED}"></i>
 											{elseif !$have_inv && !$have_do && !$have_oth}
-												<img src="../ui/lock.gif" border="0" title="GRR does not contain Invoice, DO or Other">
+												<i class="fas fa-lock text-warning" data-placement="right" data-toggle="tooltip" title="{$LNG.GRR_DOES_NOT_CONTAIN_INV_DO_OTH}"></i>
 											{else}
-												<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="Create GRN for this GRR"></a>
+												<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><i class="far fa-calendar-plus" data-toggle="tooltip" data-placement="right" title="{$LNG.CREATE_GRN_FOR_GRR}"></i></a>
 											{/if}
 										</td>
 									{/if}
@@ -147,9 +147,9 @@ function toggle_grr_list(){
 								<tr>
 									<td>
 										{if $grr.grn_used}
-											<img src="../ui/lock.gif" border=0 title="{$LNG.GRR_IS_USED}"></a>
+											<i class="fas fa-lock text-warning" data-placement="right" data-toggle="tooltip" title="{$LNG.GRR_IS_USED}"></i>
 										{else}
-											<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><img src="../ui/add_form.gif" border="0" title="{$LNG.CREATE_GRN_FOR_GRR}"></a>
+											<a href="{$smarty.server.PHP_SELF}?a=change_grr&grr_id={$grr.grr_id}&grr_item_id={$grr.grr_item_id}&branch_id={$grr.branch_id}&find_grr={$smarty.request.find_grr}"><i class="far fa-calendar-plus" data-toggle="tooltip" data-placement="right" title="{$LNG.CREATE_GRN_FOR_GRR}"></i></a>
 										{/if}
 									</td>
 									<td>{$grr.type}</td>
