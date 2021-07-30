@@ -82,7 +82,7 @@ function search_vendor(event){
 			$("select[name='vendor_id']").val(opt.value);
 			$("select[name='vendor_id']").trigger('change');
 		}else{ // no data found
-			alert(desc+' not foundnot found in Vendor list');
+			alert(desc+' {/literal}{$LNG.NOT_FOUND_IN_VENDOR_LIST}{literal}');
 		}
 	}
 }
@@ -107,24 +107,24 @@ function search_dept(event){
 			$("select[name='dept_id']").val(opt.value);
 			$("select[name='dept_id']").trigger('change');
 		}else{ // no data found
-			alert(desc+' not found in Department list');
+			alert(desc+' {/literal}{$LNG.NOT_FOUND_IN_DEPT_LIST}{literal}');
 		}
 	}
 }
 
 function submit_form(){
 	if(document.f_a['po_date'].value==''){
-		alert('Please enter PO Date.');
+		alert('{/literal}{$LNG.ENTER_PO_DATE_ERR}{literal}');
 		return false;
 	}
 
 	if(document.f_a['vendor_id'].value==''){
-		alert('Please select Vendor Id.');
+		alert('{/literal}{$LNG.SELECT_VENDOR_ID_ERR}{literal}');
 		return false;
 	}
 	
 	if(document.f_a['dept_id'].value==''){
-		alert('Please select Department Id.');
+		alert('{/literal}{$LNG.SELECT_DEPT_ID_ERR}{literal}');
 		return false;
 	}
 	
@@ -148,26 +148,26 @@ function submit_form(){
 		  }
 		});
 		if(bid_checked < 1){
-			alert('Please select Branch.');
+			alert('{/literal}{$LNG.SELECT_BRANCH_ERR}{literal}');
 			return false;
 		}
 		//checking branch deliver date
 		if(delivery_date_err > 0){
-			alert('Please enter the delivery date.');
+			alert('{/literal}{$LNG.ENTER_DELIVERY_DATE_ERR}{literal}');
 			return false;
 		}
 		//checking cancellation date
 		if(cancel_date_err > 0){
-			alert('Please enter the cancellation date');
+			alert('{/literal}{$LNG.ENTER_CANCELLATION_DATE_ERR}{literal}');
 			return false;
 		}
 	}else{
 		if(document.f_a['delivery_date'].value == ''){
-			alert('Please enter the delivery date.');
+			alert('{/literal}{$LNG.ENTER_DELIVERY_DATE_ERR}{literal}');
 			return false;
 		}
 		if(document.f_a['cancel_date'].value == ''){
-			alert('Please enter the cancellation date');
+			alert('{/literal}{$LNG.ENTER_CANCELLATION_DATE_ERR}{literal}');
 			return false;
 		}
 	}
@@ -220,7 +220,7 @@ function date_format_check(obj){
 		var result = date_val.match(date_format);
 		if(result == null){
 			obj.value = "";
-			alert("The date format incorrect.");
+			alert("{/literal}{$LNG.INVALID_DATE_FORMAT_ERR}{literal}");
 		}
 		return result;
 	}

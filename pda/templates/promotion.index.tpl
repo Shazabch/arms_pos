@@ -14,7 +14,7 @@
 function submit_form(){
 
 	if(document.f_a['owner_id'].value==''){
-		notify('error','Please select Vendor','center')
+		notify('error','{/literal}{$LNG.SELECT_VENDOR_ERR}{literal}','center')
 		return false;
 	}
 	

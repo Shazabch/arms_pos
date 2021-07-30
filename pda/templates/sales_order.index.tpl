@@ -26,12 +26,12 @@
 {literal}
 function submit_form(){
 	if(document.f_a['order_date'].value==''){
-		notify('error','Please enter Order Date','center')
+		notify('error','{/literal}{$LNG.ENTER_ORDER_DATE_ERR}{literal}','center')
 		return false;
 	}
 
 	if(document.f_a['debtor_id'].value==''){
-		notify('error','Please select To Debtor','center')
+		notify('error','{/literal}{$LNG.SELECT_DEBTOR_ERR}{literal}','center')
 		return false;
 	}
 	
@@ -59,7 +59,7 @@ function search_debtor(event){
 			$("select[name='debtor_id']").val(opt.value);
 			$("select[name='debtor_id']").trigger('change');
 		}else{ // no data found
-			notify('error',desc+' not found in Debtor list','center')
+			notify('error',desc+' {/literal}{$LNG.NOT_FOUND_IN_DEBTOR_LIST}{literal}','center')
 		}
 	}
 }

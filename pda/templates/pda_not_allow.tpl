@@ -12,8 +12,8 @@
 		<div class="card mg-b-20 text-center">
 			<div class="card-body h-100">
 				<img src="../../assets/img/svgicons/imac.svg" alt="" class="wd-40p">
-				<h5 class="mg-b-10 mg-t-15 tx-18 text-danger">PDA modules is not enabled</h5>
-				<a href="#" class="text-muted">Please contact your ARMS Account Manager for more details.</a>
+				<h5 class="mg-b-10 mg-t-15 tx-18 text-danger">{$LNG.PDA_NOT_ENABLED_MSG}</h5>
+				<a href="#" class="text-muted">{$LNG.CONTACT_ACCOUNT_MANAGER_MSG}</a>
 			</div>
 		</div>
 	</div>

@@ -33,10 +33,10 @@ function submit_items(act){
 	if(act=='delete'){
         // check selected item
 		if($('input.item_chx:checked').get().length<=0){
-			notify('error','Please checked at least one item.','center');
+			notify('error','{/literal}{$LNG.PLEASE_CHECK_AT_LEAST_ONE_ITEM}{literal}','center');
 			return false;
 		}
-		if(!confirm('Click OK to confirm delete.')) return false;
+		if(!confirm('{/literal}{$LNG.DELETE_CONFIRMATION_MSG}{literal}')) return false;
 		
         document.f_a['a'].value = 'delete_items';
 	}else{

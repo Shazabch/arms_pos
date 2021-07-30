@@ -31,17 +31,17 @@ function submit_items(act){
 	if(act=='delete'){
         // check selected item
 		if($('input.item_chx:checked').get().length<=0){
-			notify('error','Please checked at least one item.','center');
+			notify('error','{/literal}{$LNG.PLEASE_CHECK_AT_LEAST_ONE_ITEM}{literal}','center');
 			return false;
 		}
 		Swal.fire({
-		  title: 'Are you sure?',
-		  text: "You won't be able to revert this!",
+		  title: '{/literal}{$LNG.ARE_YOU_SURE}{literal}?',
+		  text: "{/literal}{$LNG.WONT_REVERT_THIS}{literal}",
 		  icon: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Yes, delete it!'
+		  confirmButtonText: '{/literal}{$LNG.YES_DELETE_IT}{literal}!'
 		}).then((result) => {
 		  if (result.isConfirmed) {
 

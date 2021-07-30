@@ -27,13 +27,13 @@ var duration_valid = '{if $config.voucher_active_month_duration}{$config.voucher
 {literal}
 function submit_form(){
 	if(document.f_a['valid_from'].value==''){
-		notify('error','Please key in date start','center')
+		notify('error','{/literal}{$LNG.ENTER_DATE_START_ERR}{literal}','center')
 		return false;
 	}else if(document.f_a['valid_to'].value==''){
-		notify('error','Please key in date end','center')
+		notify('error','{/literal}{$LNG.ENTER_DATE_END_ERR}{literal}','center')
   		return false;
 	}else if($.trim(document.f_a['codes'].value)==''){
-		notify('error','Please key in code','center')
+		notify('error','{/literal}{$LNG.ENTER_CODE_ERR}{literal}','center')
   		return false;
 	}
 	document.f_a.submit_btn.disabled = true;

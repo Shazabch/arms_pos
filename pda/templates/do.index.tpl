@@ -35,27 +35,27 @@ var do_branch_id = "";
 {literal}
 function submit_form(){
 	if(document.f_a['do_date'].value==''){
-		alert('Please enter DO Date.');
+		alert('{/literal}{$LNG.ENTER_DO_DATE_ERR}{literal}');
 		return false;
 	}
 
 	if(do_type=='open'){
 	    if(document.f_a['open_info[name]'].value==''){
-			alert('Please key in Company Name');
+			alert('{/literal}{$LNG.ENTER_COMPANY_NAME_ERR}{literal}');
 			return false;
 		}
 		if(document.f_a['open_info[address]'].value==''){
-            alert('Please key in Address');
+            alert('{/literal}{$LNG.ENTER_ADDRESS_ERR}{literal}');
 			return false;
 		}
 	}else if(do_type=='credit_sales'){
         if(document.f_a['debtor_id'].value==''){
-			alert('Please select Debtor.');
+			alert('{/literal}{$LNG.SELECT_DEBTOR_ERR}{literal}');
 			return false;
 		}
 	}else{  // transfer
         if(document.f_a['do_branch_id'].value==''){
-			alert('Please select Deliver To Branch.');
+			alert('{/literal}{$LNG.SELECT_DELIVER_TO_BRANCH}{literal}');
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ function search_debtor(event){
 			$("select[name='debtor_id']").val(opt.value);
 			$("select[name='debtor_id']").trigger('change');
 		}else{ // no data found
-			alert(desc+' not found in Debtor list');
+			alert(desc+' {/literal}{$LNG.NOT_FOUND_IN_DEBTOR_LIST}{literal}');
 		}
 	}
 }
@@ -109,14 +109,14 @@ function search_branch(event){
 			$("select[name='do_branch_id']").val(opt.value);
 			$("select[name='do_branch_id']").trigger('change');
 		}else{ // no data found
-			alert(desc+' not found in Branch list');
+			alert(desc+'{/literal}{$LNG.NOT_FOUND_IN_BRANCH_LIST}{literal}');
 		}
 	}
 }
 
 function branch_check(obj){
 	if(obj.value == branch_id){
-		alert("Cannot deliver to same branch!");
+		alert("{/literal}{$LNG.CANNOT_DELIVER_TO_SAME_BRANCH}{literal}");
 		obj.value = do_branch_id;
 	}
 }

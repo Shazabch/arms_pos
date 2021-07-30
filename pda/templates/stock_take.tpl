@@ -33,17 +33,17 @@ function submit_form(){
 	document.f_a['location'].value = document.f_a['location'].value.trim();
 	document.f_a['shelf'].value = document.f_a['shelf'].value.trim();
 	if(document.f_a['date_t'].value==''){
-		notify('error','Please enter Date','center')
+		notify('error','{/literal}{$LNG.ENTER_DATE_ERR}{literal}','center')
 		document.f_a['date_t'].focus();
 		return false;
 	}else if(document.f_a['location'].value=='')
 	{
-			notify('error','Please key in Location','center')
+			notify('error','{/literal}{$LNG.ENTER_LOCATION_ERR}{literal}','center')
       document.f_a['location'].focus();
   		return false;
   }else if(document.f_a['shelf'].value=='')
 	{
-			notify('error','Please key in Shelf','center')
+			notify('error','{/literal}{$LNG.ENTER_SHELF_ERR}{literal}','center')
       document.f_a['shelf'].focus();
   		return false;
   }
@@ -51,7 +51,7 @@ function submit_form(){
   var result =  validateTimestamp(document.f_a['date_t'].value);
   if(!result)
   {
-  		notify('error','Invalid Date Format','center')
+  		notify('error','{/literal}{$LNG.INVALID_DATE_FORMAT_ERR}{literal}','center')
       return;
   }
   document.f_a.submit();

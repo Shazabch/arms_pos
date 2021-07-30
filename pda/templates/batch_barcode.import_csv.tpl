@@ -30,13 +30,13 @@ var IMPORT_BATCH = {
         
         // only accept csv file
 		if(filename.indexOf('.csv')<0){
-			notify('error','Please select a valid csv file','center')
+			notify('error','{/literal}{$LNG.SELECT_VALID_CSV}{literal}','center')
 			return false;
 		}
 		return true;
     },
     import_csv: function(m) {
-        if(!confirm('Are you sure? \nIMPORTANT: This action cannot be UNDO.')) return false;
+        if(!confirm('{/literal}{$LNG.ARE_YOU_SURE}{literal}? \n{/literal}{$LNG.WONT_REVERT_THIS}{literal}')) return false;
 		
         $('import_btn').disabled = true;
 		document.f_a['a'].value = 'import_batch';
@@ -195,11 +195,14 @@ var IMPORT_BATCH = {
 </div>
 {else}
 	{if $errm}
-		<ul style="color:red;">
-			{foreach from=$errm item=e}
-				<li>{$e}</li>
-			{/foreach}
-		</ul>
+		{foreach from=$errm item=e}
+		<div class="alert alert-danger mg-b-0 animated fadeInDown mb-3" role="alert">
+			<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			{$e}
+		</div>
+	    {/foreach}
 	{/if}
 {/if}
 

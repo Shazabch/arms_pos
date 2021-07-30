@@ -23,7 +23,7 @@ function fsubmit()
 	if(scan_code == '') return false;
 
 	document.getElementById("result").style.display = "";
-	document.getElementById("result").innerHTML = "Loading... Please wait";
+	document.getElementById("result").innerHTML = "{/literal}{$LNG.LOADING_MSG}{literal}";
 	
 	document.f_a.a.value = "check_member";
 	document.f_a.submit();

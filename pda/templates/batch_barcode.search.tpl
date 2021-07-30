@@ -24,7 +24,7 @@ function check_form(){
 }
 
 function delete_confirmation(){
-	if(!confirm("Are you sure want to delete?")) return false;
+	if(!confirm("{/literal}{$LNG.DELETE_CONFIRMATION_MSG}{literal}?")) return false;
 	else return true;
 }
 

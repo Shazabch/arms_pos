@@ -54,13 +54,13 @@ function submit_items(act){
 	if(act=='delete'){
 		// check selected item
 		if($('input.item_chx:checked').get().length<=0){
-			notify('error','Please checked at least one item.','center');
+			notify('error','{/literal}{$LNG.PLEASE_CHECK_AT_LEAST_ONE_ITEM}{literal}','center');
 			return false;
 		}
 	
 		check_delete_status();
 		
-		if(!confirm('Click OK to confirm delete.')) return false;
+		if(!confirm('{/literal}{$LNG.DELETE_CONFIRMATION_MSG}{literal}')) return false;
         document.f_a['a'].value = 'delete_items';
 	}else{
 		$('#submit_btn1').attr('disabled', 'disabled');
@@ -127,7 +127,7 @@ function check_delete_status(){
 	});
 	
 	if(need_prompt_unsaved){
-		alert('Attention: You have new unsaved item, proceeding to delete will lost the new item.');
+		alert('{/literal}{$LNG.UNSAVED_MSG}{literal}');
 	}
 }
 {/literal}

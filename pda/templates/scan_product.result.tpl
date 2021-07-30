@@ -105,7 +105,7 @@ function add_items(){
 		
 		if(total_qty<=0){
 			if (module != "Promotion") {
-				notify('error','Please key in quantity','center')
+				notify('error','{/literal}{$LNG.ENTER_QTY_ERR}{literal}','center')
 				return false;
 			}
 		}
@@ -113,7 +113,7 @@ function add_items(){
 		var check_count = $('input.item_checkbox:checked').length;
 		
 		if(check_count == 0){
-			notify('error','Please tick at least one item to add','center')
+			notify('error','{/literal}{$LNG.TICK_ONE_ITEM_TO_ADD_ERR}{literal}','center')
 			return false;
 		}
 	}

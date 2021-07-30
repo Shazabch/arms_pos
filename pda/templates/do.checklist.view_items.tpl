@@ -47,7 +47,7 @@ function reset_row_no(){
 }
 
 function delete_row(){
-	if(!confirm("Are you sure want to delete?\nNOTE: this will delete the items permanently.")) return;
+	if(!confirm("{/literal}{$LNG.DELETE_CONFIRMATION_MSG}{literal}\n {/literal}{$LNG.WONT_REVERT_THIS}{literal}")) return;
 	document.f_a['a'].value = "delete_checklist_items";
 	
 	document.f_a.submit();

@@ -64,7 +64,7 @@ function fsubmit()
 	if(scan_code == '') return false;
 
 	document.getElementById("result").style.display = "";
-	document.getElementById("result").innerHTML = "Loading... Please wait";
+	document.getElementById("result").innerHTML = "{/literal}{$LNG.LOADING_MSG}{literal}";
 
 	// due to windows phone x.x cannot be use '$'
     /*$.ajax({

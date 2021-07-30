@@ -86,7 +86,7 @@ function search_vendor(event){
 			$("select[name='vendor_id']").val(opt.value);
 			$("select[name='vendor_id']").trigger('change');
 		}else{ // no data found
-			notify('error',desc+' not foundnot found in Vendor list','center')
+			notify('error',desc+' {/literal}{$LNG.NOT_FOUND_IN_VENDOR_LIST}{literal}','center')
 		}
 	}
 }
@@ -98,7 +98,7 @@ function search_document(event){
 
 	if(doc_no=='' || k!=13) return;
 
-	$('#loading_area').text("Searching...");
+	$('#loading_area').text("{/literal}{$LNG.SEARCHING_MSG}{literal}");
 	$.get("goods_receiving_record.php", { a: "search_document", doc_no: doc_no, doc_type: doc_type },
 		function(data){
 			if(data.err_msg!=undefined) alert(data.err_msg);
@@ -118,7 +118,7 @@ function search_document(event){
 					if(opt){ // got row found
 						$(opt).attr('selected', true);
 					}
-				}else alert("No department was found for this "+doc_type+".");
+				}else alert("{/literal}{$LNG.NO_DEPARTMENT_FOUND_FOR_THIS}{literal} "+doc_type+".");
 				
 				if(doc_type=="PO"){
 					if(data.vendor_id!=undefined){
@@ -136,7 +136,7 @@ function search_document(event){
 						if(opt){ // got row found
 							$(opt).attr('selected', true);
 						}
-					}else alert("No vendor was found for this "+doc_type+".");
+					}else alert("{/literal}{$LNG.NO_VENDOR_FOUND_FOR_THIS}{literal} "+doc_type+".");
 				}else{
 					$(document.f_a['vendor_id'].options[0]).attr('selected', true);
 				}
