@@ -12,18 +12,18 @@
 <div id=front_end>
 
 	{if $smarty.server.PHP_SELF ne '/front_end.check_code.php'}
-	<div style="margin: 0 0 0 90%; position: absolute;">
-	<a class="login-link" href="/front_end.check_code.php" title="Check Code">
-	{*<img src="/ui/fe_checker.png" border=0 target=_fe>*}
-	<img src="/ui/icon-flat/icon-checker.png" border=0 target=_fe>
-	<br>Check Code</a>
+	<div class="position-absolute text-center text-warning" data-placement="left" data-toggle="tooltip-primary" title="Check Code" style="right: 20px; top: 20px; z-index: 9999999;">
+		<div class="card p-2">
+			<a href="/front_end.check_code.php" data-placement="left" data-toggle="tooltip-primary" title="Check Code" class="link-stretched text-reset"><i class="fas fa-sticky-note fa-3x" target=_fe></i></a>
+			<span class="fs-07 mt-1 font-weight-bold">Check Code</span>
+		</div>
 	</div>
 	{/if}
-
-	<div style="margin: 100px 0 0 90%; position: absolute;">
-	<a class="login-link" href="/price_check" title="Price Checker">
-	<img src="/ui/icon-flat/price_checker.png" border=0 target=_fe>
-	<br>Price Checker</a>
+	<div class="position-absolute text-center text-info" data-placement="left" data-toggle="tooltip-primary" title="Check Code" style="right: 20px; top: 115px; z-index: 999999;">
+		<div class="card p-2">
+			<a href="/price_check" data-placement="left" data-toggle="tooltip-primary" title="Price Checker" class="link-stretched text-reset"><i class="fas fa-tag fa-3x" target=_fe></i></a>
+			<span class="fs-07 mt-1 font-weight-bold">Price Check</span>
+		</div>
 	</div>
 
 	{if $smarty.server.PHP_SELF ne '/login.php'}
