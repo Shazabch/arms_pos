@@ -10,7 +10,7 @@
 - Enhanced to check config.enable_pda for pda modules.
 */
 include(dirname(__file__)."/../include/common.php");
-include(dirname(__file__)."/../languages/en.php");
+include(dirname(__file__)."/languages/en.php");
 
 // create cache folder is not found
 if(!is_dir(dirname(__file__).'/templates_c'))   mkdir(dirname(__file__).'/templates_c', 0777);
