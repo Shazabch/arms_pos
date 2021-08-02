@@ -108,7 +108,7 @@
 				<div class="main-header sticky side-header nav nav-item" style="padding-left: 0;">
 					<div class="container-fluid">
 						<div class="main-header-left ">
-							<a href="home.php"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
+							<a href="home.php"><img src="../../assets/img/brand/logo.png" class="logo-0" alt="logo"></a>
 							<div class="responsive-logo">
 								<a href="home.php"><img src="../../assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
 								<a href="home.php"><img src="../../assets/img/brand/logo-white.png" class="dark-logo-1" alt="logo"></a>
