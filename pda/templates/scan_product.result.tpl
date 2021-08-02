@@ -423,7 +423,7 @@ function row_recalc(id){
 							        <td colspan="{if $module_name eq 'Sales Order'}6{else}1{/if}" {if $deliver_to}valign="top"{/if}>
 										{if $module_name eq 'GRN' && $config.use_grn_future && $is_isi}
 											<input type="hidden" name="is_isi" value="{$is_isi}" />
-											<input type="text" class="form-control" name="isi_desc" size="40" value="{$smarty.request.isi_desc}" onchange="this.value = this.value.toUpperCase().trim();" />
+											<input type="text" class="form-control min-w-100" name="isi_desc" size="40" value="{$smarty.request.isi_desc}" onchange="this.value = this.value.toUpperCase().trim();" />
 										{else}
 											<span style="white-space: normal; color:blue;{if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id]) }text-decoration:line-through;{/if}" >{$r.item_code_remark} {if $r.bom_ref_num > 0}<font color="grey">({$LNG.BOM})</font>{/if}</span><br />
 											<span style="white-space: normal;" {if ($module_name eq 'Purchase Order' && $blocked_po[$r.id]) || ($module_name eq 'GRN' && $blocked_doc[$r.id])}style="text-decoration:line-through;"{/if}>{$r.description}</span>
@@ -459,16 +459,16 @@ function row_recalc(id){
 									{/if}
 									{if $module_name eq 'GRN'}
 										{if $is_isi}
-											<td align="center"><input type="text" name="isi_pcs" class="items r form-control" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); positive_check(this);" value="{$smarty.request.isi_pcs}" /></td>
+											<td align="center"><input type="text" name="isi_pcs" class="items r form-control min-w-100" size="3" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); positive_check(this);" value="{$smarty.request.isi_pcs}" /></td>
 										{else}
 											<td align="center">
 												{if ($module_name eq 'GRN' && $config.doc_allow_edit_uom && $r.uom_fraction ne 1) || ($module_name ne 'GRN' && $r.uom_fraction ne 1)}
-													<input type="text" name="ctn[{$r.id}]" class="items r form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.ctn[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} />
+													<input type="text" name="ctn[{$r.id}]" class="items r form-control min-w-100" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.ctn[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} />
 												{else}
 													&nbsp;
 												{/if}
 											</td>
-											<td align="center"><input type="text" name="pcs[{$r.id}]" class="items r item_qty form-control min-w-100 {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
+											<td align="center"><input type="text" name="pcs[{$r.id}]" class="items r item_qty form-control min-w-100 min-w-100 {if $r.bom_ref_num > 0}bom_ref_num_grp_{$r.bom_ref_num}{/if}" item_id="{$r.id}" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onchange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this); {if $r.bom_ref_num > 0}bom_ratio_calculation({$r.id});{/if}" value="{$smarty.request.pcs[$r.id]}" {if $blocked_doc[$r.id]} disabled{/if} /></td>
 											<input type="hidden" name="uom_fraction[{$r.id}]" value="{$r.uom_fraction|default:1}" />
 											<input type="hidden" name="bom_ref_num[{$r.id}]" value="{$r.bom_ref_num}" />
 											<input type="hidden" name="bom_qty_ratio[{$r.id}]" value="{$r.bom_qty_ratio}" />
@@ -481,7 +481,7 @@ function row_recalc(id){
 													<table class="table">
 														{foreach from=$deliver_to.branch_id item=bid}
 															<tr>
-																<td align="center"><input type="text" name="item_qty[{$r.id}][{$bid}]" class="items r item_qty form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" {if $blocked_po[$r.id]}disabled{/if} /></td>
+																<td align="center"><input type="text" name="item_qty[{$r.id}][{$bid}]" class="items r item_qty form-control min-w-100" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" {if $blocked_po[$r.id]}disabled{/if} /></td>
 															</tr>
 														{/foreach}
 													</table>
@@ -491,7 +491,7 @@ function row_recalc(id){
 														{foreach from=$deliver_to.branch_id item=bid}
 															<tr>
 																<td>
-																	<input class="items r item_qty form-control" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}][{$bid}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
+																	<input class="items r item_qty form-control min-w-100" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}][{$bid}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
 																</td>
 															</tr>
 														{/foreach}
@@ -499,11 +499,11 @@ function row_recalc(id){
 												</td>
 											{else}
 												{if $module_name neq 'Sales Order'}
-												<td align="center"><input type="text" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty form-control" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
+												<td align="center"><input type="text" name="item_qty[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} class="items r item_qty form-control min-w-100" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);" value="{$smarty.request.item_qty[$r.id]}" /></td>
 												{/if}
 												{if $module_name eq 'Purchase Order'}
 												<td align="center">
-													<input class="items r item_qty form-control" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
+													<input class="items r item_qty form-control min-w-100" {if $blocked_po[$r.id]}disabled{/if} type="text" name="foc_qty[{$r.id}]" {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} />
 												</td>
 												{/if}
 											{/if}
@@ -511,10 +511,10 @@ function row_recalc(id){
 										<input type="hidden" name="item_qty[{$r.id}]" value="1" />
 										{/if}
 										{if $module_name eq 'GRA'}
-										<td align="center"><input type="text" name="item_price[{$r.id}]" class="items r item_price form-control" size="6" value="{$r.return_cost}" /></td>
+										<td align="center"><input type="text" name="item_price[{$r.id}]" class="items r item_price form-control min-w-100" size="6" value="{$r.return_cost}" /></td>
 										{/if}
 									{elseif $is_item_check}
-										<td align="center"><input type="text" class="items form-control form-control" size="3" name="qty[{$r.id}]" value="1" /></td>
+										<td align="center"><input type="text" class="items form-control min-w-100" size="3" name="qty[{$r.id}]" value="1" /></td>
 									{/if}
 							    </tr>
 								{if $module_name eq 'Sales Order'}
@@ -529,13 +529,13 @@ function row_recalc(id){
 										</select>
 									</td>
 									<td>
-										<input type="number" class="items r item_qty inp_so form-control min-w-80" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+										<input type="number" class="items r item_qty inp_so form-control min-w-100" disabled name="ctn[{$r.id}]"  {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
 											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if}positive_check(this);row_recalc({$r.id});" 
 											value="{$smarty.request.ctn[$r.id]}" 
 										/>
 									</td>
 									<td>
-										<input type="text" class="items r item_qty inp_so form-control min-w-80" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
+										<input type="text" class="items r item_qty inp_so form-control min-w-100" name="pcs[{$r.id}]" {if $blocked_po[$r.id]}disabled{/if} {if $r.doc_allow_decimal}size="6"{else}size="3"{/if} 
 											onChange="{if $r.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points}));{else}mi(this);{/if} positive_check(this);row_recalc({$r.id});" 
 											value="{$smarty.request.pcs[$r.id]}" 
 										/>
@@ -569,7 +569,7 @@ function row_recalc(id){
 								{if $module_name eq 'GRA'}
 									<tr>
 										<td  nowrap colspan="3">
-											{$LNG.INV}/{$LNG.DO_NO}. <input type="text" name="doc_no[{$r.id}]" class="form-control" size="15" value="" /> 
+											{$LNG.INV}/{$LNG.DO_NO}. <input type="text" name="doc_no[{$r.id}]" class="form-control min-w-100" size="15" value="" /> 
 											{if $form.is_under_gst}
 												&nbsp;&nbsp;
 												GST Code
