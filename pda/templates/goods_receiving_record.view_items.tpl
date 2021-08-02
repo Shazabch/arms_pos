@@ -224,13 +224,11 @@ function check_delete_status(){
 <div class="alert alert-info col-md-4 "><i class="fas fa-bullhorn"></i> Document Date in YYYY-MM-DD format.</div>
 <div class="card ">
 	<div class="card-body">
-		<div class="d-flex justify-content-between align-items-center py-2">
-			<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>
-			<div class="">
-				<button class="btn btn-danger" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
-				<button class="btn btn-info" onClick="add_row();"><i class="fas fa-plus"></i> {$LNG.ADD_ROW}</button>
+		<div class="badge badge-pill badge-light p-2 border">{count var=$items} {$LNG.ITEMS}</div>
+		<div class="d-flex justify-content-end align-items-center py-2">
+				<button class="btn btn-danger mr-1" onClick="submit_items('delete');"><i class="fas fa-trash-alt"></i> {$LNG.DELETE}</button>
+				<button class="btn btn-info mr-1" onClick="add_row();"><i class="fas fa-plus"></i> {$LNG.ADD_ROW}</button>
 				<button class="btn btn-success" onClick="submit_items('save');"><i class="fas fa-save"></i> {$LNG.SAVE}</button>
-			</div>
 		</div>
 		<form name="f_a" method="post" onSubmit="return false;">
 				<input type="hidden" name="a" />
