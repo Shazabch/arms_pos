@@ -109,13 +109,7 @@ function toggle_all_check(obj){
 	</ol>
 </nav>
 <!-- /BreadCrumbs -->
-{if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
-{/if}
+
 <!-- Error Message -->
 {if $err}
 	{foreach from=$err item=e}
@@ -148,6 +142,8 @@ function toggle_all_check(obj){
 		<div class="card">
 			<!-- Form -->
 			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="a" value="activate_voucher" />
+				<input type="hidden" name="branch_id" value="{$branch_id}" />
 				<div class="card-body">
 					<div class="pd-15 pd-sm-20">
 						<div class="row row-xs mg-b-20">
