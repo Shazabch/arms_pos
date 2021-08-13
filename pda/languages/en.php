@@ -1,5 +1,8 @@
 <?php
-
+/*
+8/11/2021 William
+- Added new LNG 'SO_NO'.
+*/
 $LNG = array(
     "DASHBOARD" => "Dashboard",
     "CHOOSE_MODULE_MSG" => "Please Choose Module",
@@ -15,6 +18,7 @@ $LNG = array(
     "ADJUSTMENT_NO" => "Adjustment No",
     "ADJUSTMENT_TYPE" => "Adjustment Type",
     "SALES_ORDER" => "Sales Order",
+	"SO_NO" => "SO No",
     "DO" => "DO",
     "DO_DATE" => "DO Date",
     "NEW_DO" => "New DO",
@@ -96,10 +100,10 @@ $LNG = array(
     "QTY" => "QTY",
     "CTN" => "CTN",
     "PCS" => "PCS",
-    "INV" => "INV",  //INVENTORY
+    "INV" => "INV",
     "ENTER" => "Enter",
-    "OTH" => "OTH", //OTHER
-    "NO" => "NO", //NUMBER
+    "OTH" => "OTH",
+    "NO" => "NO",
     "DATE" => "Date",
     "AMOUNT" => "Amount",
     "REMARK" => "Remark",
@@ -168,7 +172,7 @@ $LNG = array(
     "SEARCH_DEBTOR" => "Search Debtor",
     "ORDER_NO" => "Order No",
     "TO" => "To",
-    "SO" => "SO", // SALES ORDER
+    "SO" => "SO",
     "RESERVE_QTY_MODAL_MSG" => "Approved Sales Order Quantity from other Sales Order which not yet Delivered and Exported to POS.",
     "DELIVER_FROM" => "Deliver From",
     "DELIVER_TO" => "Deliver To",
@@ -201,8 +205,8 @@ $LNG = array(
     "NEW_PROMOTION" => "New Promotion",
     "TITLE" => "Title",
     "OWNER" => "Owner",
-    "SHOWING_ITEMS" => "Showing Items", //PAGINATION
-    "FROM_TOTAL_OF" => "From Total of", //PAHINATION
+    "SHOWING_ITEMS" => "Showing Items",
+    "FROM_TOTAL_OF" => "From Total of",
     "SHOW_HIDE_BATCH_BARCODE_LIST" => "Show/Hide Batch Barcode List",
     "ID" => "ID",
     "TOTAL_ITEMS" => "Total Items",
@@ -319,21 +323,6 @@ $LNG = array(
     "ENTER_LOCATION_ERR" => "Please key in Location",
     "ENTER_SHELF_ERR" => "Please key in Shelf",
     "SELECT_OWNER_ERR" => "Please select Owner",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
-    "" => "",
     );
 
 $smarty->assign('LNG', $LNG);

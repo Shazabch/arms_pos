@@ -12,6 +12,9 @@
 
 11/09/2020 4:49 PM Sheila
 - removed hardcoded width of textfields
+
+8/11/2021 William
+- Change LNG DO_NO to SO_NO.
 *}
 
 {include file='header.tpl'}
@@ -66,7 +69,7 @@ function check_form(){
 					<div class="pd-10 pd-sm-20">
 						<div class="row row-xs">
 							<div class="col-md-2">
-								<label>{$LNG.DO_NO}</label>
+								<label>{$LNG.SO_NO}</label>
 							</div>
 							<div class="col-md-5 mg-t-10 mg-md-t-0">
 								<input class="form-control" type="text" name="order_no" class="txt-width-50" onChange="mi(this);" value="{$smarty.request.order_no}">

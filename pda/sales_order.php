@@ -28,6 +28,9 @@
 1/29/2021 5:18 PM William
 - Enhanced to add selling price, discount, ctn, uom, remark to search scan result and view sales order item screen.
 
+8/11/2021 10:59 AM William
+- Bug fixed sales order view item screen title incorrect.
+
 */
 include("common.php");
 include("class.scan_product.php");
@@ -41,7 +44,7 @@ class SO_Module extends Scan_Product{
         global $sessioninfo;
         
         $_SESSION['scan_product']['type'] = 'SO';
-		$_SESSION['scan_product']['name'] = isset($_SESSION['so']['id']) ? 'DO#'.$_SESSION['so']['id']."(DD)" : '';
+		$_SESSION['scan_product']['name'] = isset($_SESSION['so']['id']) ? 'SO#'.$_SESSION['so']['id']."(DD)" : '';
 		
 	    if(isset($_REQUEST['branch_id'])){
 			if($_REQUEST['branch_id'] != $sessioninfo['branch_id']){    // prevent edit other branch
