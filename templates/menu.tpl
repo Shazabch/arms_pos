@@ -53,7 +53,7 @@
 	<!-- Administrator -->
 	{if $sessioninfo.privilege.USERS_ADD or $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE or $sessioninfo.privilege.MST_APPROVAL or $sessioninfo.privilege.POS_IMPORT or $sessioninfo.privilege.SKU_EXPORT or $sessioninfo.level>=9999}
 	<li class="slide">
-		<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account side-menu__icon"></i><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
+		<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Administrator</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			{if $sessioninfo.privilege.USERS_MNG or $sessioninfo.privilege.USERS_ACTIVATE}
 				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Users</span><i class="sub-angle fe fe-chevron-down"></i></a>
@@ -775,7 +775,450 @@
 	        </ul>
     	</li>
     {/if}
+	<!--master files start-->
 
+			{if $sessioninfo.privilege.MASTERFILE}
+		<li class="slide">
+				<a href="#" class="side-menu__item" data-toggle="slide"><i class="mdi mdi-account side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Master files</span><i class="angle fe fe-chevron-down"></i></a>
+			<ul class="slide-menu">
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category</span><i class="sub-angle fe fe-chevron-down"></i></a>
+	 					<ul class="sub-slide-menu">
+			 				<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_category.php">Category Listing</a></li>
+							{*<li><a href="masterfile_category_markup.php">Category Markup %</a></li>*}
+	 					</ul>
+				</li>
+								{if $sessioninfo.privilege.MST_SKU_UPDATE or $sessioninfo.privilege.MST_SKU_APPLY or $sessioninfo.privilege.MST_SKU}
+				<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">SKU</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.php">SKU Listing</a></li>
+								{if $sessioninfo.privilege.MST_SKU_UPDATE_PRICE}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sku_items_price.php">Change Selling Price</a></li>{/if}
+								{if !$config.menu_hide_bom_application}	
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="bom.php">BOM Editor</a></li>{/if}
+				
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_group.php">SKU Group</a></li>
+				
+				
+								{if $BRANCH_CODE eq 'HQ' and $config.po_enable_ibt and $config.enable_sku_monitoring2 and $sessioninfo.privilege.MST_SKU_MORN_GRP and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku_monitoring_group.php")}
+				   			 <li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_monitoring_group.php">SKU Monitoring Group</a></li>
+								{/if}
+								{if $BRANCH_CODE eq 'HQ' and $config.enable_replacement_items and $sessioninfo.privilege.MST_SKU_RELP_ITEM and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_replacement_items.php")}
+				    		<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_replacement_items.php">Replacement Items</a></li>
+								{/if}
+								{if $config.enable_sn_bn && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku_items.serial_no.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_items.serial_no.php">Serial No Listing</a></li>
+								{/if}
+								{if $config.enable_sn_bn && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku_items.batch_no_setup.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_items.batch_no_setup.php">SKU Batch No Setup</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.price_list.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.price_list.php">SKU Price List</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku_items.po_reorder_qty_by_branch.php") && $sessioninfo.privilege.MST_PO_REORDER_QTY_BY_BRANCH}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_items.po_reorder_qty_by_branch.php">PO Reorder Qty by Branch</a></li>
+								{/if}
+								{if $config.enable_gst && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_gst.price_wizard.php") && ($sessioninfo.privilege.MST_SKU_UPDATE_PRICE || $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE)}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_gst.price_wizard.php">GST Price Wizard</a></li>
+								{/if}
+				
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_stock_balance_listing.php">SKU Stock Balance Listing (Download)</a></li>
+
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku_tag.php") && $sessioninfo.privilege.MST_SKU_TAG}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku_tag.php">SKU Tag</a></li>
+								{/if}
+				
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.update_brand_vendor.php") && $sessioninfo.privilege.MST_SKU_UPDATE}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_brand_vendor.php?method=brand">Update SKU Brand by CSV</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_brand_vendor.php?method=vendor">Update SKU Vendor by CSV</a></li>
+								{/if}
+				
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.update_po_reorder_qty.php") && $sessioninfo.privilege.MST_SKU_UPDATE}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_po_reorder_qty.php">Update SKU Stock Reorder Min & Max Qty by CSV</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.update_category.php") && $sessioninfo.privilege.MST_SKU_UPDATE}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_category.php">Update SKU Category by CSV</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.update_category_discount.php") && $sessioninfo.privilege.MST_SKU_UPDATE && $sessioninfo.privilege.CATEGORY_DISCOUNT_EDIT}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_category_discount.php">Update SKU Category Discount by CSV</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sku.update_sku.php") && $sessioninfo.privilege.MST_SKU_UPDATE}
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.update_sku.php">Update SKU Info by CSV</a></li>
+								{/if}
+						</ul>
+		{/if}
+		<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="masterfile_uom.php"><span class="sub-side-menu__label">UOM</span></a>
+		<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="masterfile_brand.php"><span class="sub-side-menu__label">Brand</span></a>
+		<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="masterfile_brgroup.php"><span class="sub-side-menu__label">Brand Group</span></a>
+		
+		
+		<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Vendor</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_vendor.php">Add / Edit</a></li>
+								{if $sessioninfo.privilege.MST_VENDOR_QUOTATION_COST and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_vendor.quotation_cost.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_vendor.quotation_cost.php">Quotation Cost</a></li>
+								{/if}
+						</ul>
+		</li>
+		
+		{if $sessioninfo.privilege.MST_BRANCH}
+		<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Branch</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch.php">Add / Edit</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch_group.php">Branches Group</a></li>
+								{if $config.masterfile_branch_enable_additional_sp && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_branch.additional_selling_price.php")}
+							<li><a href="masterfile_branch.additional_selling_price.php">Branches Additional Selling Price</a></li>
+								{/if}
+						</ul>
+		</li>
+		{/if}
+		
+		{if $sessioninfo.privilege.MST_DEBTOR or $sessioninfo.privilege.MST_DEBTOR_PRICE_LIST}
+		<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Debtor</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+								{if $sessioninfo.privilege.MST_DEBTOR and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_debtor.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_debtor.php">Add / Edit</a></li>
+								{/if}
+								{if $sessioninfo.privilege.MST_DEBTOR_PRICE_LIST and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_debtor_price.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_debtor_price.php">Debtor Price List</a></li>
+								{/if}
+								{if $sessioninfo.privilege.MST_DEBTOR_CSV_UPDATE_PRICE and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_import_debtor_price.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_import_debtor_price.php">Import / Update Debtor Price by CSV</a></li>
+								{/if}
+						</ul>
+		</li>
+		{/if}
+		{if $sessioninfo.privilege.MST_TRANSPORTER and $config.enable_transporter_masterfile}
+		<li class="sub-slide"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Transporter</span><i class="sub-angle fe fe-chevron-down"></i></a>
+		
+		{/if}
+		{if $sessioninfo.privilege.MST_TRANSPORTER_v2 and $config.enable_reorder_integration}
+		<li class="sub-slide"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Transporter V2</span><i class="sub-angle fe fe-chevron-down"></i></a>
+				<ul style="min-width:160px;">
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter">Transporter</a></li>
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter_vehicle">Vehicle</a></li>
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter_driver">Driver</a></li>
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter_route_area">Route Area</a></li>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Maintenance</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_area">Area</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_route">Route</a></li>							
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_type">Type</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_vehicle_brand">Vehicle Brand</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_vehicle_status">Vehicle Status</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_shipper.php?a=transporter_vehicle_type">Vehicle Type</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		{/if}
+		{if $config.use_consignment_bearing and $sessioninfo.privilege.MST_CONTABLE and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_consignment_bearing.php")}
+		<li class="sub-slide"><a href="masterfile_consignment_bearing.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Consignment Bearing</span><i class="sub-angle fe fe-chevron-down"></i></a>   
+		
+		{/if}
+		{if $BRANCH_CODE eq 'HQ' and $sessioninfo.privilege.MST_BANK_INTEREST and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_bank_interest.php") and $config.enable_sku_monitoring2}
+		    <li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_bank_interest.php">Bank Interest</a></li>
+		{/if}
+		{if $sessioninfo.privilege.MST_COUPON}
+		<li class="sub-slide-menu"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Coupon</span><i class="sub-angle fe fe-chevron-down"></i></a>
+				<ul class="sub-slide-menu">
+				   			 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_coupon.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_coupon.php">
+							{if $BRANCH_CODE eq 'HQ'}Create / Print{else}View{/if}
+							</a>
+						</li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.coupon.transaction.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="report.coupon.transaction.php">Transaction Report</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.coupon.details.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="report.coupon.details.php">Details Report</a></li>
+							{/if}
+				</ul>
+			</li>
+		{/if}
+
+		{if $sessioninfo.privilege.MST_VOUCHER}
+		<li class="sub-slide"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Master Transport V2</span><i class="sub-angle fe fe-chevron-down"></i></a>
+		        <ul class="sub-slide-menu">
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.setup.php") and $sessioninfo.privilege.MST_VOUCHER_SETUP}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_voucher.setup.php">Setup</a></li>
+					{/if}
+					
+		            {if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_voucher.php">Listing</a></li>
+					{/if}
+                    {if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.register.php") and $sessioninfo.privilege.MST_VOUCHER_REGISTER and $BRANCH_CODE eq 'HQ'}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_voucher.register.php">Registration</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.activate.php") and $sessioninfo.privilege.MST_VOUCHER_ACTIVATE}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_voucher.activate.php">Activation</a></li>
+					{/if}
+
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.voucher.transaction.php")}
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.transaction.php">Transaction Report</a></li>{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.voucher.details.php")}
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.details.php">Details Report</a></li>{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.voucher.activation.php")}
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.activation.php">Activation & Cancellation Report</a></li>{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.voucher.collection.php")}
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.collection.php">Account-receivable Report</a></li>{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.voucher.payment.php")}
+					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.payment.php">Account-payable Report</a></li>{/if}
+					
+					{if $config.enable_voucher_auto_redemption and ((file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.setup.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_SETUP) or (file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.generate.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_GENERATE))}
+						<li><a href="#" class=submenu>Auto Redemption</a>
+					        <ul>
+					        	{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.setup.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_SETUP}
+					        		<li><a href="masterfile_voucher.auto_redemption.setup.php">Setup</a></li>
+					        	{/if}
+					        	
+					        	{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.generate.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_GENERATE}
+					        		<li><a href="masterfile_voucher.auto_redemption.generate.php">Generate Voucher</a></li>
+					        		<li><a href="masterfile_voucher.auto_redemption.generate.php?a=his_list">History Listing</a></li>
+					        	{/if}
+					        </ul>
+					    </li>
+					{/if}
+				</ul>
+			</li>
+		{/if}
+		{if $config.enable_supermarket_code and $config.consignment_modules and $BRANCH_CODE eq 'HQ' and $sessioninfo.privilege.MST_SUPERMARKET_CODE and file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_supermarket_code.php")}
+		<li class="sub-slide"><a href="masterfile_supermarket_code.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Super market code</span></a>
+		
+		{/if}
+		{if $config.masterfile_enable_sa && $sessioninfo.privilege.MST_SALES_AGENT}
+		<li class="sub-slide"><a href="" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Sales Agent</span><i class="sub-angle fe fe-chevron-down"></i></a>
+				<ul class="sub-slide-menu">
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sa.php">Create / Edit</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa_commission.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sa_commission.php">Commission Table</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.position_setup.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sa.position_setup.php">Position Table</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_setup.php")}
+						<li class="sub-slide-sub"><a href="#" class=submenu>KPI</a>
+							<ul class="sub-slide-menu-sub">
+								{if $sessioninfo.privilege.MST_SALES_AGENT_KPI_SETUP && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_setup.php")}
+									<li><a class="sub-slide-item" href="masterfile_sa.kpi_setup.php">KPI Table</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_result.php")}
+									<li><a class="sub-slide-item" href="masterfile_sa.kpi_result.php">KPI Result</a></li>
+								{/if}
+							</ul>
+						</li>
+					{/if}
+					<li class="sub-slide"><a href="" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.view_sa_commission.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="report.view_sa_commission.php">View Sales Agent Commission</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sa_commission_calculation.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="report.sa_commission_calculation.php">Sales Agent Commission Calculation Report</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sa_performance.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="report.sa_performance.php">Sales Agent Performance Report</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sa_commission_statement_by_company.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="report.sa_commission_statement_by_company.php">Sales Agent Commission Statement by Company Report</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sa_daily_details.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="report.sa_daily_details.php">Sales Agent Daily Details Report</a></li>
+							{/if}
+						</ul>
+					</li>
+				</ul>
+			</li>
+		{/if}
+		{*{if $config.masterfile_enable_return_policy}
+			<li><a href="#" class=submenu>Return Policy</a>
+				<ul class="sub-slide-menu">
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_return_policy.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_return_policy.php">Create / Edit</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_return_policy_configure.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_return_policy_configure.php">Configure</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.rp_item_return.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.rp_item_return.php">Return Policy Item Returned Report</a></li>
+					{/if}
+					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.rp_pending_item.php")}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.rp_pending_item.php">Return Policy Pending Item Report</a></li>
+					{/if}
+				</ul>
+			</li>
+		{/if}
+		*}
+		{if $config.enable_gst && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_gst.php")}
+			<li><a href="masterfile_gst.php">Masterfile GST Tax Code</a>
+		{/if}
+	</ul>
+
+	</li>
+	{/if}
+
+	<!--master files ends-->
+
+
+			<!--membership files start-->
+
+			{if $sessioninfo.privilege.MEMBERSHIP || $sessioninfo.privilege.RPT_MEMBERSHIP}
+			<li class="slide">
+				<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Membership</span><i class="angle fe fe-chevron-down"></i></a>
+			<ul class="slide-menu">
+				{if $config.membership_allow_add_at_backend}
+				{if $sessioninfo.privilege.MEMBERSHIP_ADD}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.php?a=add"><span class="sub-side-menu__label">Add New Member</span></a>
+		
+					
+				{/if}
+				{/if}
+				{if $sessioninfo.privilege.MEMBERSHIP_EDIT or $sessioninfo.privilege.MEMBERSHIP_ADD}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.php?t=update"><span class="sub-side-menu__label">Update Information</span></a>
+					
+				{/if}
+				{if $sessioninfo.privilege.MEMBERSHIP_VERIFY}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.php?t=verify"><span class="sub-side-menu__label">Verification</span></a>
+					
+				{/if}
+				{if $sessioninfo.privilege.MEMBERSHIP_EDIT or $sessioninfo.privilege.MEMBERSHIP_ADD}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.listing.php"><span class="sub-side-menu__label">Member Listing</span></a>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.php?t=history"><span class="sub-side-menu__label">Check Points &amp; History</span></a>
+					
+				{/if}
+				{if $sessioninfo.privilege.MEMBERSHIP_TERMINATE}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="membership.terminate.php"><span class="sub-side-menu__label">Terminate</span></a>
+					
+				{/if}
+				{if $sessioninfo.privilege.RPT_MEMBERSHIP}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership report</span><i class="sub-angle fe fe-chevron-down"></i></a>
+					<ul class="sub-slide-menu">
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.mem_counter.php">Membership Counters Report</a></li>
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.mem_verification.php">Membership Verification Report</a></li>
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.redemption_points_history.php") && $config.membership_redemption_module}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.redemption_points_history.php">Membership Points History Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_expiration.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_expiration.php">Membership Expiration Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_renewal.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_renewal.php">Membership Renewal Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_fees_collection_summary.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_fees_collection_summary.php">Membership Fees Collection Summary Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_daily_collection.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_daily_collection.php">Membership Daily Collection Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_points_detail.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_points_detail.php">Membership Points Detail Report</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.membership_issued_points.php")}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="report.membership_issued_points.php">Membership Issued Points Report</a></li>
+						{/if}
+					</ul>
+				</li>
+				{/if}
+				{if $config.membership_redemption_module}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership redemption</span><i class="sub-angle fe fe-chevron-down"></i></a>
+					<ul class="sub-slide-menu">
+						{if $sessioninfo.privilege.MEMBERSHIP_SETREDEEM}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption_setup.php">Redemption Item Setup</a></li>
+						{/if}
+						{if $sessioninfo.privilege.MEMBERSHIP_ITEM_CFRM && $config.membership_redemption_use_enhanced}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption_item_approval.php">Redemption Item Approval</a></li>
+						{/if}
+						{if $sessioninfo.privilege.MEMBERSHIP_REDEEM}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption.php">Make Redemption</a></li>
+						{/if}
+						{if $sessioninfo.privilege.MEMBERSHIP_REDEEM or $sessioninfo.privilege.MEMBERSHIP_CANCEL_RE}
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption_history.php">Redemption History</a></li>
+						{/if}
+						{if $sessioninfo.privilege.MEMBERSHIP_REDEEM_RPT}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption_summary.php">Redemption Summary</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.redemption_ranking.php">Redemption Ranking</a></li>
+						{/if}
+					</ul>
+				</li>
+				{/if}
+				{if $config.membership_control_counter_adjust_point}
+					<li><a href="membership.delivery.php">Delivery</a></li>
+				{/if}
+				
+				{if $config.membership_enable_staff_card}
+					{if $sessioninfo.privilege.MEMBERSHIP_STAFF}
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership staff card</span><i class="sub-angle fe fe-chevron-down"></i></a>
+							<ul class="sub-slide-menu">
+								{if $sessioninfo.privilege.MEMBERSHIP_STAFF_SET_QUOTA and file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.staff.setup_quota.php")}
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.staff.setup_quota.php">Setup Quota</a></li>
+								{/if}
+								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.staff.usage_report.php")}
+									<li class="sub-slide-sub"><a  class="sub-slide-item" href="membership.staff.usage_report.php">Quota Usage Report</a></li>
+								{/if}
+							</ul>
+						</li>
+					{/if}
+				{/if}
+				
+				{if $sessioninfo.privilege.MEMBERSHIP_OVERVIEW}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership overview</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						<ul class="sub-slide-menu">
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.overview.general.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.overview.general.php">Composition</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.overview.sales.php")}
+								<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.overview.sales.php">Sales</a></li>
+							{/if}
+						</ul>
+					</li>
+				{/if}
+				
+				{if $config.membership_mobile_settings and ($sessioninfo.privilege.MEMBERSHIP_MOBILE_ADS_SETUP)}
+					<li><a href="#" class="submenu">Mobile App</a>
+						<ul>
+							{if $sessioninfo.privilege.MEMBERSHIP_MOBILE_ADS_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.mobile_app.ads.php")}
+								<li><a href="membership.mobile_app.ads.php">Advertisement Setup</a></li>
+							{/if}
+							{if $sessioninfo.privilege.MEMBERSHIP_MOBILE_NOTICE_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.mobile_app.notice_board.php")}
+								<li><a href="membership.mobile_app.notice_board.php">Notice Board Setup</a></li>
+							{/if}
+						</ul>
+					</li>
+				{/if}
+				
+				{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.package.setup.php") and ($sessioninfo.privilege.MEMBERSHIP_PACK_SETUP or $sessioninfo.privilege.MEMBERSHIP_PACK_REDEEM or $sessioninfo.privilege.MEMBERSHIP_PACK_REPORT)}
+				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership package</span><i class="sub-angle fe fe-chevron-down"></i></a>
+					<ul class="sub-slide-menu">
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.package.setup.php") and $sessioninfo.privilege.MEMBERSHIP_PACK_SETUP}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.package.setup.php">Package Setup</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.package.details.php") and ($sessioninfo.privilege.MEMBERSHIP_PACK_REDEEM)}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.package.details.php?a=scan_member">Package Redemption</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.package.rating_report.php") and ($sessioninfo.privilege.MEMBERSHIP_PACK_REPORT)}
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="membership.package.rating_report.php">Package Rating Analysis Report</a></li>
+						{/if}
+					</ul>
+				</li>
+				{/if}
+				
+				{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.promotion.php") and ($sessioninfo.privilege.MEMBERSHIP_CREDIT_PROMO or $sessioninfo.privilege.MEMBERSHIP_CREDIT_SETTINGS)}
+				<li><a href="#" class="submenu">Membership Credit</a>
+					<ul>
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.promotion.php") and $sessioninfo.privilege.MEMBERSHIP_CREDIT_PROMO}
+							<li><a href="membership.credit.promotion.php">Credit Promotion</a></li>
+						{/if}
+						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.settings.php") and $sessioninfo.privilege.MEMBERSHIP_CREDIT_SETTINGS}
+							<li><a href="membership.credit.settings.php">Credit Settings</a></li>
+						{/if}
+					</ul>
+				</li>
+				{/if}
+			</ul>
+			{/if}
+				<!--membership files ends-->
 {/if}
 <!-- Session info if ends here -->
 
@@ -816,7 +1259,7 @@
 					<div class="main-header-right">
 						<ul class="nav">
 							<li >
-								<div class="dropdown  nav-itemd-none d-md-flex">
+								<div class="dropdown  nav-item d-none d-md-flex">
 									<div class="d-sm-none d-md-block">
 										{if $sessioninfo}
 											Logged in as 

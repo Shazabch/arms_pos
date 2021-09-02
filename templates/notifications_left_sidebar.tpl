@@ -360,7 +360,7 @@ You have GRN waiting for verification.<br>
 							{/if}
 						</strong><br>
 						<span class="text-secondary" class="fs-06">Received Date : 
-							<span class="text-muted"></span> {$grn.rcv_date}
+							<span class="text-danger"></span> {$grn.rcv_date}
 						</span>
 					</a>
 				</li>

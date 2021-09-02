@@ -222,32 +222,46 @@ Item : {$redemption_items[i].sku_item_code} [ {$redemption_items[i].days_left} d
 {/if}
 
 <!-- GRN Distribution Status -->
-{if $grn_deliver_monitor.grn}
-	<h5>
-	{*<img src="/ui/store.png" align="absmiddle" border="0">*}
-	<i class="icofont-building icofont"></i>GRN Distribution Status</h5>
-	<div class="ntc">The following GRN are slow in DO to others branches (below {$grn_deliver_monitor.info.min_do_qty_percent}% after {$grn_deliver_monitor.info.monitor_after_day} days)</div>
-	<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
+<div class="card">
+	<div class="card-body text-center ">
+		{if $grn_deliver_monitor.grn}
+<div class="card-category fs-09">
+	&nbsp;
+		<i class="far fa-building"></i> GRN Distribution Status
+</div>
+	<div class="ntc fs-07 mb-2 text-muted">The following GRN are slow in DO to others branches (below {$grn_deliver_monitor.info.min_do_qty_percent}% after {$grn_deliver_monitor.info.monitor_after_day} days)</div>
+	<div style="padding:5px;height:200px;overflow:auto;">
 	
 	{foreach from=$grn_deliver_monitor.grn item=grn}
-		<div style="border-bottom:1px solid #eee" id="div_grn_distribution-{$grn.branch_id}-{$grn.id}">
-			{if $sessioninfo.level>=9999}
-				<a href="javascript:void(delete_grn_distribution('{$grn.branch_id}', '{$grn.id}'))">
-					<img src="/ui/del.png" align="absmiddle" border="0" title="Delete this notify" id="img_delete_grn_distribution-{$grn.branch_id}-{$grn.id}" />
-				</a>
-			{/if} 
-			<a href="/goods_receiving_note.php?a=view&id={$grn.id}&branch_id={$grn.branch_id}" target="_blank">{$grn.report_prefix}{$grn.id|string_format:'%05d'}</a>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<font class="small">
-				<a href="goods_receiving_note.distribution_report.php?load_report=1&grn_bid_id={$grn.branch_id}_{$grn.id}" target="_blank">
-					Delivered {$grn.do_per|num_format:2}%
-				</a>
-			</font> 
-			<br />
-			<font color="#666666" class="small">
-				Received Date : {$grn.rcv_date}<br>
-			</font>
-		</div>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 300px;">
+		
+			<div id="div_grn_distribution-{$grn.branch_id}-{$grn.id}">
+				{if $sessioninfo.level>=9999}
+				<li class="fs-08">
+					<a href="javascript:void(delete_grn_distribution('{$grn.branch_id}', '{$grn.id}'))">
+					
+						
+					</a>
+				</li>
+				{/if} 
+				<strong class="fs-08 text-dark ">
+					<i class="fas fa-trash-alt fa-lg text-danger" aria-hidden="true" title="Delete this notify" id="img_delete_grn_distribution-{$grn.branch_id}-{$grn.id}" ></i>&nbsp;&nbsp;
+					<a class="text-reset" href="/goods_receiving_note.php?a=view&id={$grn.id}&branch_id={$grn.branch_id}" target="_blank">{$grn.report_prefix}{$grn.id|string_format:'%05d'}</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+					<a class="text-reset" href="goods_receiving_note.distribution_report.php?load_report=1&grn_bid_id={$grn.branch_id}_{$grn.id}" target="_blank">
+						Delivered {$grn.do_per|num_format:2}%
+					</a>
+				
+			</strong>
+				<br />
+				<font color="grey" class="text-secondary fs-06">
+					Received Date : {$grn.rcv_date}<br>
+				</font>
+			</div>
+		
+		
+		</ul>
 	{/foreach}
 	{if $grn_deliver_monitor.have_more}
 		<div style="text-align:center;">
@@ -256,6 +270,8 @@ Item : {$redemption_items[i].sku_item_code} [ {$redemption_items[i].days_left} d
 	{/if}
 	</div>
 {/if}
+	</div>
+</div>
 
 <!-- Stock Reorder -->
 {if $stock_reorder_data}
