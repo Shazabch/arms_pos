@@ -1337,7 +1337,7 @@
 					 {/if}
 					 
 					 {if $sessioninfo.privilege.REPORTS_CUSTOM_BUILDER_CREATE || ($sessioninfo.privilege.REPORTS_CUSTOM_VIEW && ($available_custom_report_list.group|@count > 0 || $available_custom_report_list.nogroup|@count > 0)) }
-					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><img src="/ui/icons/group.png" align=absmiddle border=0><span class="sub-side-menu__label">Custom reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Custom reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						 <ul class="sub-slide-menu">
 							 {if $sessioninfo.privilege.REPORTS_CUSTOM_BUILDER_CREATE and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom_report.builder.php")}
 								 <li class="sub-slide-sub"><a class="sub-slide-item" href="custom_report.builder.php">Report Builder</a></li>
@@ -1370,9 +1370,9 @@
 					 {if $config.show_old_report}
 						 {capture assign=report_html}{strip}
 							 {if $sessioninfo.privilege.REPORTS_SALES}
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.brand.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Daily Brand Sales Report</a></li>
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.vendor.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Daily Vendor Sales Report</a></li>
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.department.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Department Monthly Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.brand.php">Daily Brand Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.vendor.php">Daily Vendor Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.department.php">Department Monthly Sales Report</a></li>
 							 {/if}
 						 {/strip}{/capture}
 						 {if $report_html}
@@ -1502,21 +1502,21 @@
 			{if $sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE}
 				{if $config.counter_collection_server}
 					{if $sessioninfo.privilege.POS_BACKEND}
-						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/sales_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'Sales Live'))">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*} Sales Live</a></li>
-						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/pos_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'POS Live'))">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*} Pos Live</a></li>
+						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/sales_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'Sales Live'))">Sales Live</a></li>
+						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/pos_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'POS Live'))">Pos Live</a></li>
 					{/if}
 					{if ($sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE)}
 						<li class="sub-slide"><a  class="sub-slide-menu__item" href="javascript:void(open_cc('{$config.counter_collection_server}',{$sessioninfo.id},{$sessioninfo.branch_id}))">Counter Collection</a></li>
 					{/if}
 				{else}
 					{if $sessioninfo.privilege.POS_BACKEND}
-					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_live.php"><span class="sub-side-menu__label">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*}POS live</span></a>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_live.php"><span class="sub-side-menu__label">POS live</span></a>
 						
 						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/pos_monitoring.php")}
 						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_monitoring.php"><span class="sub-side-menu__label">POS Monitoring (DEV)</span></a>
 							
 						{/if}
-						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="sales_live.php"><span class="sub-side-menu__label">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*}Sales live</span></a>
+						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="sales_live.php"><span class="sub-side-menu__label">Sales live</span></a>
 
 					{/if}
 					{if ($sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE)}
@@ -1749,12 +1749,12 @@
 		{if $sessioninfo.privilege.MKT}
 		<li><a href="#" class=submenu>Marketing Tools</a>
 			<ul>
-				<li><a href="mkt_annual.php"><img src=/ui/icons/calendar.png align=absmiddle border=0> Annual Planner and Review</a>
+				<li><a href="mkt_annual.php">Annual Planner and Review</a>
 				{if $BRANCH_CODE eq 'HQ'}
-				<li><a href="mkt_settings.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Settings</a>
-				<li><a href="mkt0.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Create New Offers</a>
+				<li><a href="mkt_settings.php">Settings</a>
+				<li><a href="mkt0.php">Create New Offers</a>
 				{/if}
-				<li><a href="mkt_review_keyin.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Daily Sales Keyin</a>
+				<li><a href="mkt_review_keyin.php">Daily Sales Keyin</a>
 				<li><a href="mkt1.php"><sup>1</sup> Branch Sales Target and Expenses</a>
 				<li><a href="mkt2.php"><sup>2</sup> Department Target Review</a>
 				<li><a href="mkt3.php"><sup>3</sup> Brand/Item Proposal (by Branch)</a>

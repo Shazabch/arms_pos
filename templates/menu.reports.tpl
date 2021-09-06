@@ -63,7 +63,7 @@
 - Enhanced the report name to include "Concessionaire".
 *}
 {if $sessioninfo.privilege.REPORTS_SALES}
-<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><img src="/ui/icons/table.png" align=absmiddle border=0><span class="sub-side-menu__label">Sales Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
+<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Sales Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
 
 	<ul class="sub-slide-menu">
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.actual_and_target_sales_by_week.php">{*hb06 -*} Actual and Target Sales by Day / Week</a></li>
@@ -78,17 +78,17 @@
 		{if $config.use_consignment_bearing && file_exists("`$smarty.server.DOCUMENT_ROOT`/report.consignment_bearing.php")}<li class="sub-slide-sub"><a class="sub-slide-item" href="report.consignment_bearing.php">Consignment Bearing Report</a></li>{/if}
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.consignment_sales_by_sku.php")}
 		<li class="sub-slide-sub"><a  class="sub-slide-item" href="report.consignment_sales_by_sku.php">Consignment Sales by SKU Report</a></li>{/if}
-		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.brand.php"><img src=/ui/print.png align=absmiddle border=0>&nbsp; Daily Brand Sales Report</a></li>*}
-		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.brand_sales.php"><img src="/ui/print.png" align="absmiddle" border="0">&nbsp; Daily Brand Sales Report</a></li>
+		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.brand.php">Daily Brand Sales Report</a></li>*}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.brand_sales.php">Daily Brand Sales Report</a></li>
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.category_cash_credit_sales.php")}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.category_cash_credit_sales.php">Daily Category from Cash/Credit Sales Report</a></li>{/if}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.category.php">Daily Category Sales Report (POS + DO Sales)</a></li>
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.daily_consignment_outright_sales_by_category.php">{*hb02  -*} Daily Consignment/Outright/Concessionaire Sales by Category</a></li>
-		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.department.php"><img src=/ui/print.png align=absmiddle border=0>&nbsp; Department Monthly Sales Report</a></li>*}
-		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.dept_sales.php"><img src=/ui/print.png align=absmiddle border=0>&nbsp; Daily Department Sales Report</a></li>
+		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.department.php">Department Monthly Sales Report</a></li>*}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.dept_sales.php">Daily Department Sales Report</a></li>
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.daily_sales_by_sku.php?view_type=price">Daily Price Code Sales by SKU</a></li>
-		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.vendor.php"><img src=/ui/print.png align=absmiddle border=0>&nbsp; Daily Vendor Sales Report</a></li>*}
-		<li><a href="report.vendor_sales.php"><img src=/ui/print.png align=absmiddle border=0>&nbsp; Daily Vendor Sales Report</a></li>
+		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.vendor.php">Daily Vendor Sales Report</a></li>*}
+		<li><a href="report.vendor_sales.php">Daily Vendor Sales Report</a></li>
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.daily_brand_sales_by_dept.php")}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.daily_brand_sales_by_dept.php">Daily / Monthly Brand Sales by Department Report</a></li>{/if}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.hourly_sales_by_category.php">{*hb09 -*} Hourly Sales by Category</a></li>
@@ -119,7 +119,7 @@
 {/if}
 {if $sessioninfo.privilege.REPORTS_PERFORMANCE}
 <!-- Performance-->
-<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><img src="/ui/icons/chart_curve.png" align=absmiddle border=0><span class="sub-side-menu__label"> Performance Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
+<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label"> Performance Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
 
 	<ul class="sub-slide-menu">
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.block_sku_report.php">Block SKU Report</a></li>
@@ -154,7 +154,7 @@
 {/if}
 {if $sessioninfo.privilege.REPORTS_MEMBERSHIP}
 <!-- Member -->
-<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><img src="/ui/icons/group.png" align=absmiddle border=0><span class="sub-side-menu__label">Membership Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
+<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Membership Report</span><i class="sub-angle fe fe-chevron-down"></i></a>
 
 	<ul class="sub-slide-menu">
 	<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.hourly_member_sales_comparison_by_month.php">{*mhb02 -*} Hourly Member Sales Comparison by Month / Day</a></li>
