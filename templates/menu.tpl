@@ -16,6 +16,7 @@
 		<a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="../../assets/img/brand/favicon.png" class="logo-icon" alt="logo"></a>
 		<a class="logo-icon mobile-logo icon-dark active" href="index.html"><img src="../../assets/img/brand/favicon-white.png" class="logo-icon dark-theme" alt="logo"></a>
 	</div>
+	
 	<div class="main-sidemenu">
 		<div class="app-sidebar__user clearfix">
 			<div class="dropdown user-pro-body">
@@ -38,6 +39,16 @@
 						{/if}
 					</span>
 				</div>
+			</div>
+
+			<div class="search-bar">
+				<div class="input-group rounded">
+					<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+					  aria-describedby="search-addon" />
+					<span class="input-group-text border-0" id="search-addon">
+					  <i class="fas fa-search"></i>
+					</span>
+				  </div>
 			</div>
 		</div>
 <ul class="side-menu">
@@ -218,18 +229,22 @@
 					</li>
 				{/if}
 				{if $config.enable_gst && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_gst_settings.php") && $sessioninfo.level>=9999}
-					<li><a  href="masterfile_gst_settings.php">GST Settings</a></li>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide"  href="masterfile_gst_settings.php">GST Settings</a></li>
 				{/if}
 			{/if}
 			{if $config.enable_tax and $sessioninfo.level>=9999}
-				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Tax</span><i class="sub-angle fe fe-chevron-down"></i></a>
-					<ul class="sub-slide-menu">
-					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_settings.php") }
-						<li><a class="sub-slide-item"  href="admin.tax_settings.php">Tax Settings</a></li>
-					{/if}
-					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_listing.php") }
-						<li><a class="sub-slide-item"  href="admin.tax_listing.php">Tax Listing</a></li>
-					{/if}
+				<li class="slide">
+					<ul class="sub-slide">
+						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Tax</span><i class="sub-angle fe fe-chevron-down"></i></a>
+							<ul class="sub-slide-menu">
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_settings.php") }
+								<li><a class="sub-slide-item"  href="admin.tax_settings.php">Tax Settings</a></li>
+							{/if}
+							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.tax_listing.php") }
+								<li><a class="sub-slide-item"  href="admin.tax_listing.php">Tax Listing</a></li>
+							{/if}
+							</ul>
+						</li>
 					</ul>
 				</li>
 			{/if}
@@ -415,33 +430,33 @@
 		            <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">PO (Purchase Order)</span><i class="sub-angle fe fe-chevron-down"></i></a>
 		                <ul class="sub-slide-menu">
 		                    {if $sessioninfo.privilege.PO or $sessioninfo.privilege.PO_VIEW_ONLY}
-		                        <li><!--a href="purchase_order.php">Purchase Order</a-->
+		                        <li class="sub-slide-sub"><!--a href="purchase_order.php">Purchase Order</a-->
 		                        <a class="sub-slide-item" href="po.php">Purchase Order</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_APPROVAL}
-		                        <li><a class="sub-slide-item"  href="po_approval.php">PO Approval</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po_approval.php">PO Approval</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_FROM_REQUEST}
-		                        <li><a class="sub-slide-item"  href="po_request.process.php">Create PO from Request</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po_request.process.php">Create PO from Request</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_REQUEST}
-		                        <li><a class="sub-slide-item"  href="po_request.request.php">PO Request</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po_request.request.php">PO Request</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_REQUEST_APPROVAL}
-		                        <li><a class="sub-slide-item"  href="po_request.approval.php">PO Request Approval</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po_request.approval.php">PO Request Approval</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_TICKET && $config.po_allow_vendor_request}
-		                        <li><a class="sub-slide-item"  href="vendor_po_request.php">Vendor PO Access</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="vendor_po_request.php">Vendor PO Access</a></li>
 		                    {/if}
 		                    {if $sessioninfo.privilege.PO_REPORT}<li><a class="sub-slide-item"  href="purchase_order.summary.php">PO Summary</a></li>{/if}
 		                    {if file_exists("`$smarty.server.DOCUMENT_ROOT`/po_qty_performance.php") and $sessioninfo.privilege.PO_REPORT}
-		                        <li><a class="sub-slide-item"  href="po_qty_performance.php">PO Quantity Performance</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po_qty_performance.php">PO Quantity Performance</a></li>
 		                    {/if}
 		                    {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.stock_reorder.php") and $sessioninfo.privilege.PO and $sessioninfo.privilege.PO_REPORT}
-		                        <li><a class="sub-slide-item"  href="report.stock_reorder.php">Stock Reorder Report</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="report.stock_reorder.php">Stock Reorder Report</a></li>
 		                    {/if}
 							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/sku_purchase_history.php") and $sessioninfo.privilege.PO and $sessioninfo.privilege.PO_REPORT}
-		                        <li><a class="sub-slide-item"  href="sku_purchase_history.php">SKU Purchase History</a></li>
+		                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="sku_purchase_history.php">SKU Purchase History</a></li>
 		                    {/if}
 		                </ul>
 		            </li>
@@ -450,7 +465,7 @@
 	            {if $config.enable_po_agreement and $sessioninfo.privilege.PO_SETUP_AGREEMENT and $BRANCH_CODE eq 'HQ' and file_exists("`$smarty.server.DOCUMENT_ROOT`/po.po_agreement.setup.php")}
 	                <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Purchase Agreement</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                    <ul class="sub-slide-menu">
-	                        <li><a class="sub-slide-item"  href="po.po_agreement.setup.php">Add/Edit Purchase Agreement</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="po.po_agreement.setup.php">Add/Edit Purchase Agreement</a></li>
 	                    </ul>
 	                </li>
 	            {/if}
@@ -459,9 +474,9 @@
 	            {if $sessioninfo.privilege.GRA}
 	                <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">GRA (Goods Return Advice)</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                    <ul class="sub-slide-menu">
-	                        <li><a class="sub-slide-item"  href="goods_return_advice.php">GRA</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="goods_return_advice.php">GRA</a></li>
 	                        {if $sessioninfo.privilege.GRA_APPROVAL}
-	                            <li><a class="sub-slide-item"  href="/goods_return_advice.approval.php">GRA Approval</a></li>
+	                            <li class="sub-slide-sub"><a class="sub-slide-item"  href="/goods_return_advice.approval.php">GRA Approval</a></li>
 	                        {/if}
 	                    </ul>
 	                </li>
@@ -471,11 +486,11 @@
 	            <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">GRR / GRN / GRA Reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
 		            <ul class="sub-slide-menu">
 		            {if $sessioninfo.privilege.GRR_REPORT}
-		            <li><a class="sub-slide-item"  href="goods_receiving_record.report.php">GRR Report</a></li>
-		            <li><a class="sub-slide-item"  href="goods_receiving_record.status.php">GRR Status Report</a></li>
+		            <li class="sub-slide-sub"><a class="sub-slide-item"  href="goods_receiving_record.report.php">GRR Report</a></li>
+		            <li class="sub-slide-sub"><a class="sub-slide-item"  href="goods_receiving_record.status.php">GRR Status Report</a></li>
 		            {/if}
 		            {if $sessioninfo.privilege.GRN_REPORT}
-		                <li><a class="sub-slide-item"  href="goods_receiving_note.summary.php">GRN Summary</a></li>
+		                <li ><a class="sub-slide-item"  href="goods_receiving_note.summary.php">GRN Summary</a></li>
 		                <li><a class="sub-slide-item"  href="goods_receiving_note.category_summary.php">GRN Summary by Category</a></li>
 		                {if file_exists("`$smarty.server.DOCUMENT_ROOT`/goods_receiving_note.distribution_report.php")}
 		                    <li><a class="sub-slide-item"  href="goods_receiving_note.distribution_report.php">GRN Distribution Report</a></li>
@@ -503,12 +518,12 @@
 				{if $sessioninfo.privilege.CN and !$config.consignment_modules and file_exists("`$smarty.server.DOCUMENT_ROOT`/cnote.php")}
 	              <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Credit Note</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                <ul class="sub-slide-menu">
-	                    <li><a class="sub-slide-item"  href="cnote.php">Credit Note</a></li>
+	                    <li class="sub-slide-sub"><a class="sub-slide-item"  href="cnote.php">Credit Note</a></li>
 	                    {if $sessioninfo.privilege.CN_APPROVAL}
-	                        <li><a class="sub-slide-item"  href="/cnote.approval.php">Credit Note Approval</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="/cnote.approval.php">Credit Note Approval</a></li>
 	                    {/if}
 						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/cnote.summary.php")}
-							<li><a class="sub-slide-item"  href="cnote.summary.php">CN Summary</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item"  href="cnote.summary.php">CN Summary</a></li>
 						{/if}
 	                </ul>
 	              </li>
@@ -519,7 +534,7 @@
 	                <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Vendor Portal</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                    <ul class="sub-slide-menu">
 	                        {if $sessioninfo.privilege.REPORTS_REPACKING and file_exists("`$smarty.server.DOCUMENT_ROOT`/report.repacking.php")}
-	                            <li><a class="sub-slide-item"  href="report.repacking.php">Repacking Report</a></li>
+	                            <li class="sub-slide-sub"><a class="sub-slide-item"  href="report.repacking.php">Repacking Report</a></li>
 	                        {/if}
 	                    </ul>
 	                </li>
@@ -535,7 +550,7 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Custom Accounting Export</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.CUSTOM_ACC_AND_GST_SETTING and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom.acc_and_gst_setting.php")}
-								<li><a class="sub-slide-item"  href="custom.acc_and_gst_setting.php">Custom Account & GST Setting</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="custom.acc_and_gst_setting.php">Custom Account & GST Setting</a></li>
 							{/if}
 							
 							{if $sessioninfo.privilege.CUSTOM_ACC_EXPORT_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom.setup_acc_export.php")}
@@ -554,10 +569,10 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">ARMS Accounting Integration &nbsp;</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.ARMS_ACCOUNTING_SETTING and file_exists("`$smarty.server.DOCUMENT_ROOT`/arms_accounting.setting.php")}
-								<li><a class="sub-slide-item"  href="arms_accounting.setting.php">Setting</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="arms_accounting.setting.php">Setting</a></li>
 							{/if}
 							{if $sessioninfo.privilege.ARMS_ACCOUNTING_STATUS and file_exists("`$smarty.server.DOCUMENT_ROOT`/arms_accounting.status.php")}
-								<li><a class="sub-slide-item"  href="arms_accounting.status.php">Integration Status</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="arms_accounting.status.php">Integration Status</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -568,7 +583,7 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">OS Trio Accounting Integration &nbsp;</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.OSTRIO_ACCOUNTING_STATUS and file_exists("`$smarty.server.DOCUMENT_ROOT`/ostrio_accounting.status.php")}
-								<li><a class="sub-slide-item"  href="ostrio_accounting.status.php">Integration Status</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="ostrio_accounting.status.php">Integration Status</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -579,7 +594,7 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Speed99 Integration &nbsp;</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.SPEED99_INTEGRATION_STATUS and file_exists("`$smarty.server.DOCUMENT_ROOT`/speed99.integration_status.php")}
-								<li><a class="sub-slide-item"  href="speed99.integration_status.php">Integration Status</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="speed99.integration_status.php">Integration Status</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -590,7 +605,7 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Komaiso Integration &nbsp;</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.KOMAISO_INTEGRATION_STATUS and file_exists("`$smarty.server.DOCUMENT_ROOT`/komaiso.integration_status.php")}
-								<li><a class="sub-slide-item"  href="komaiso.integration_status.php">Integration Status</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="komaiso.integration_status.php">Integration Status</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -601,10 +616,10 @@
 						<ul class="sub-slide-menu">
 
 							{if $sessioninfo.privilege.ATTENDANCE_TIME_OVERVIEW and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.overview.php")}
-								<li><a class="sub-slide-item"  href="attendance.overview.php">Time Attendance Overview</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.overview.php">Time Attendance Overview</a></li>
 							{/if}
 							{if $sessioninfo.privilege.ATTENDANCE_TIME_SETTING and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.settings.php")}
-								<li><a class="sub-slide-item"  href="attendance.settings.php">Settings</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.settings.php">Settings</a></li>
 							{/if}
 							
 							{if ($sessioninfo.privilege.ATTENDANCE_SHIFT_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.shift_table_setup.php")) or ($sessioninfo.privilege.ATTENDANCE_SHIFT_ASSIGN and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.shift_assignment.php"))}
@@ -612,10 +627,10 @@
 									<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">Shift</span><i class="sub-angle fe fe-chevron-down"></i></a>
 									<ul class="sub-slide-menu-sub">
 										{if $sessioninfo.privilege.ATTENDANCE_SHIFT_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.shift_table_setup.php")}
-											<li><a class="sub-slide-item"  href="attendance.shift_table_setup.php">Shift Table Setup</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.shift_table_setup.php">Shift Table Setup</a></li>
 										{/if}
 										{if $sessioninfo.privilege.ATTENDANCE_SHIFT_ASSIGN and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.shift_assignment.php")}
-											<li><a class="sub-slide-item"  href="attendance.shift_assignment.php">Shift Assignments</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.shift_assignment.php">Shift Assignments</a></li>
 										{/if}
 									</ul>
 								</li>
@@ -626,10 +641,10 @@
 									<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">Holiday</span><i class="sub-angle fe fe-chevron-down"></i></a>
 									<ul class="sub-slide-menu-sub">
 										{if $sessioninfo.privilege.ATTENDANCE_PH_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.ph_setup.php")}
-											<li><a class="sub-slide-item"  href="attendance.ph_setup.php">Holiday Setup</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.ph_setup.php">Holiday Setup</a></li>
 										{/if}
 										{if $sessioninfo.privilege.ATTENDANCE_PH_ASSIGN and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.ph_assignment.php")}
-											<li><a class="sub-slide-item"  href="attendance.ph_assignment.php">Holiday Assignments</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.ph_assignment.php">Holiday Assignments</a></li>
 										{/if}
 									</ul>
 								</li>
@@ -640,10 +655,10 @@
 									<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">Leave</span><i class="sub-angle fe fe-chevron-down"></i></a>
 									<ul class="sub-slide-menu-sub">
 										{if $sessioninfo.privilege.ATTENDANCE_LEAVE_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.leave_setup.php")}
-											<li><a class="sub-slide-item"  href="attendance.leave_setup.php">Leave Table Setup</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.leave_setup.php">Leave Table Setup</a></li>
 										{/if}
 										{if $sessioninfo.privilege.ATTENDANCE_LEAVE_ASSIGN and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.leave_assignment.php")}
-											<li><a class="sub-slide-item"  href="attendance.leave_assignment.php">Leave Assignments</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.leave_assignment.php">Leave Assignments</a></li>
 										{/if}
 									</ul>
 								</li>
@@ -659,10 +674,10 @@
 									<a class="sub-side-menu__item sub-slide-item" data-toggle="sub-slide-sub" href="#"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
 									<ul class="sub-slide-menu-sub">
 										{if $sessioninfo.privilege.ATTENDANCE_CLOCK_REPORT and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.report.daily.php")}
-											<li><a class="sub-slide-item"  href="attendance.report.daily.php">Daily Attendance Report</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.report.daily.php">Daily Attendance Report</a></li>
 										{/if}
 										{if $sessioninfo.privilege.ATTENDANCE_CLOCK_REPORT and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.report.monthly_ledger.php")}
-											<li><a class="sub-slide-item"  href="attendance.report.monthly_ledger.php">Monthly Attendance Ledger</a></li>
+											<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.report.monthly_ledger.php">Monthly Attendance Ledger</a></li>
 										{/if}
 									</ul>
 								</li>
@@ -683,9 +698,9 @@
 	            {if $sessioninfo.privilege.GRN}
 	                <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">GRN (Goods Receiving Note)</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                    <ul class="sub-slide-menu">
-	                        <li><a class="sub-slide-item"  href="/goods_receiving_note.php">GRN</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="/goods_receiving_note.php">GRN</a></li>
 	                        {if $sessioninfo.privilege.GRN_APPROVAL}
-	                        <li><a class="sub-slide-item"  href="/goods_receiving_note_approval.php">GRN Approval</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="/goods_receiving_note_approval.php">GRN Approval</a></li>
 	                        {/if}
 	                    </ul>
 	                </li>
@@ -696,11 +711,11 @@
 				<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Stock Take</span><i class="sub-angle fe fe-chevron-down"></i></a>
 	                	
 	                    <ul class="sub-slide-menu">
-	                        <li><a class="sub-slide-item"  href="admin.stock_take.php">Stock Take</a></li>
-	                        <li><a class="sub-slide-item"  href="admin.stock_take.php?a=import_page">Import / Reset Stock Take</a></li>
-	                        <li><a class="sub-slide-item"  href="admin.stock_take.php?a=change_batch">Change Batch</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.stock_take.php">Stock Take</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.stock_take.php?a=import_page">Import / Reset Stock Take</a></li>
+	                        <li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.stock_take.php?a=change_batch">Change Batch</a></li>
 	                        {if file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.stock_take_zerolize_negative_stocks.php") && $config.consignment_modules}
-	                            <li><a class="sub-slide-item"  href="admin.stock_take_zerolize_negative_stocks.php">Zerolize Negative Stocks</a></li>
+	                            <li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.stock_take_zerolize_negative_stocks.php">Zerolize Negative Stocks</a></li>
 	                        {/if}
 	                    </ul>
 	                </li>
@@ -709,13 +724,13 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Cycle Count</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if ($sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT or $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT) and file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.cycle_count.assignment.php")}
-								<li><a class="sub-slide-item"  href="admin.cycle_count.assignment.php">Cycle Count Assignment</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.cycle_count.assignment.php">Cycle Count Assignment</a></li>
 							{/if}
 							{if ($sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_APPROVAL) and file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.cycle_count.approval.php")}
-								<li><a class="sub-slide-item"  href="admin.cycle_count.approval.php">Cycle Count Approval</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.cycle_count.approval.php">Cycle Count Approval</a></li>
 							{/if}
 							{if ($sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_SCHEDULE_LIST) and file_exists("`$smarty.server.DOCUMENT_ROOT`/admin.cycle_count.schedule_list.php")}
-								<li><a class="sub-slide-item"  href="admin.cycle_count.schedule_list.php">Monthly Schedule List</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="admin.cycle_count.schedule_list.php">Monthly Schedule List</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -750,15 +765,15 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Custom Accounting Export</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.CUSTOM_ACC_AND_GST_SETTING and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom.acc_and_gst_setting.php")}
-								<li><a class="sub-slide-item"  href="custom.acc_and_gst_setting.php">Custom Account & GST Setting</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="custom.acc_and_gst_setting.php">Custom Account & GST Setting</a></li>
 							{/if}
 							
 							{if $sessioninfo.privilege.CUSTOM_ACC_EXPORT_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom.setup_acc_export.php")}
-								<li><a class="sub-slide-item"  href="custom.setup_acc_export.php">Setup Custom Accounting Export</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="custom.setup_acc_export.php">Setup Custom Accounting Export</a></li>
 							{/if}
 							
 							{if $sessioninfo.privilege.CUSTOM_ACC_EXPORT and file_exists("`$smarty.server.DOCUMENT_ROOT`/custom.acc_export.php")}
-								<li><a class="sub-slide-item"  href="custom.acc_export.php">Custom Accounting Export</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="custom.acc_export.php">Custom Accounting Export</a></li>
 							{/if}
 						</ul>
 					</li>
@@ -768,7 +783,7 @@
 					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Time Attendance</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							{if $sessioninfo.privilege.ATTENDANCE_SHIFT_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/attendance.shift_table_setup.php")}
-								<li><a class="sub-slide-item"  href="attendance.shift_table_setup.php">Shift Table Setup</a></li>
+								<li class="sub-slide-sub"><a class="sub-slide-item"  href="attendance.shift_table_setup.php">Shift Table Setup</a></li>
 							{/if}			
 						</ul>
 					</li>
@@ -894,7 +909,7 @@
 		{/if}
 		{if $sessioninfo.privilege.MST_TRANSPORTER_v2 and $config.enable_reorder_integration}
 		<li class="sub-slide"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Transporter V2</span><i class="sub-angle fe fe-chevron-down"></i></a>
-				<ul style="min-width:160px;">
+				<ul class="sub-slide-menu">
 					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter">Transporter</a></li>
 					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter_vehicle">Vehicle</a></li>
 					<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_shipper.php?a=transporter_driver">Driver</a></li>
@@ -923,16 +938,16 @@
 		<li class="sub-slide-menu"><a href="masterfile_transporter.php" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">Coupon</span><i class="sub-angle fe fe-chevron-down"></i></a>
 				<ul class="sub-slide-menu">
 				   			 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_coupon.php")}
-						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="masterfile_coupon.php">
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_coupon.php">
 							{if $BRANCH_CODE eq 'HQ'}Create / Print{else}View{/if}
 							</a>
 						</li>
 							{/if}
 							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.coupon.transaction.php")}
-						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="report.coupon.transaction.php">Transaction Report</a></li>
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.coupon.transaction.php">Transaction Report</a></li>
 							{/if}
 							{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.coupon.details.php")}
-						<li class="sub-slide-sub"><a class="sub-slide-menu__item" href="report.coupon.details.php">Details Report</a></li>
+						<li class="sub-slide-sub"><a class="sub-slide-item" href="report.coupon.details.php">Details Report</a></li>
 							{/if}
 				</ul>
 			</li>
@@ -967,15 +982,16 @@
 					<li class="sub-slide-sub"><a class="sub-slide-item" href="report.voucher.payment.php">Account-payable Report</a></li>{/if}
 					
 					{if $config.enable_voucher_auto_redemption and ((file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.setup.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_SETUP) or (file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.generate.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_GENERATE))}
-						<li><a href="#" class=submenu>Auto Redemption</a>
-					        <ul>
+						<li>
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Auto Redemption</span><i class="angle fe fe-chevron-down"></i></a>
+					        <ul class="slide-menu">
 					        	{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.setup.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_SETUP}
-					        		<li><a href="masterfile_voucher.auto_redemption.setup.php">Setup</a></li>
+					        		<li class="slide-item"><a class="sub-side-menu__item" href="masterfile_voucher.auto_redemption.setup.php">Setup</a></li>
 					        	{/if}
 					        	
 					        	{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_voucher.auto_redemption.generate.php") and $sessioninfo.privilege.MST_VOUCHER_AUTO_REDEMP_GENERATE}
-					        		<li><a href="masterfile_voucher.auto_redemption.generate.php">Generate Voucher</a></li>
-					        		<li><a href="masterfile_voucher.auto_redemption.generate.php?a=his_list">History Listing</a></li>
+					        		<li class="slide-item"><a class="sub-side-menu__item" href="masterfile_voucher.auto_redemption.generate.php">Generate Voucher</a></li>
+					        		<li class="slide-item"><a class="sub-side-menu__item" href="masterfile_voucher.auto_redemption.generate.php?a=his_list">History Listing</a></li>
 					        	{/if}
 					        </ul>
 					    </li>
@@ -1206,13 +1222,14 @@
 				{/if}
 				
 				{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.promotion.php") and ($sessioninfo.privilege.MEMBERSHIP_CREDIT_PROMO or $sessioninfo.privilege.MEMBERSHIP_CREDIT_SETTINGS)}
-				<li><a href="#" class="submenu">Membership Credit</a>
-					<ul>
+				<li class="slide">
+					<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-account-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Membership Credit</span><i class="angle fe fe-chevron-down"></i></a>
+					<ul class="slide-menu">
 						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.promotion.php") and $sessioninfo.privilege.MEMBERSHIP_CREDIT_PROMO}
-							<li><a href="membership.credit.promotion.php">Credit Promotion</a></li>
+							<li class="sub-slide"><a class="sub-side-menu__item" href="membership.credit.promotion.php">Credit Promotion</a></li>
 						{/if}
 						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/membership.credit.settings.php") and $sessioninfo.privilege.MEMBERSHIP_CREDIT_SETTINGS}
-							<li><a href="membership.credit.settings.php">Credit Settings</a></li>
+							<li class="sub-slide"><a class="sub-side-menu__item" href="membership.credit.settings.php">Credit Settings</a></li>
 						{/if}
 					</ul>
 				</li>
@@ -1286,7 +1303,8 @@
 								 {if $config.enable_one_color_matrix_ibt && file_exists("`$smarty.server.DOCUMENT_ROOT`/report.broken_size_clr_by_branch.php")}
 									 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.broken_size_clr_by_branch.php">Broken Size & Color by Branch Report</a></li>
 								 {/if}
-								 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.mprice_sales.php")}<li><a href="report.mprice_sales.php">MPrice Sales Report</a></li>{/if}
+								 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.mprice_sales.php")}
+								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.mprice_sales.php">MPrice Sales Report</a></li>{/if}
 								 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.multi_branch_sales.php")}
 									 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.multi_branch_sales.php">Multi Branch Sales Report</a></li>
 								 {/if}
@@ -1321,7 +1339,8 @@
 								 {/if}
 								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.slow_moving_item.php">Slow Moving Items</a></li>
 								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.stock_aging.php">Stock Aging Report</a></li>
-								 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.stock_balance_detail_by_day.php")}<li><a href="report.stock_balance_detail_by_day.php">Stock Balance Detail by SKU Report</a></li>{/if}
+								 {if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.stock_balance_detail_by_day.php")}
+								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.stock_balance_detail_by_day.php">Stock Balance Detail by SKU Report</a></li>{/if}
 								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.stock_balance.php">Stock Balance Report by Department</a></li>
 								 <li class="sub-slide-sub"><a class="sub-slide-item" href="report.stock_balance_summary.php">Stock Balance Summary</a></li>
 							 </ul>
@@ -1370,9 +1389,9 @@
 					 {if $config.show_old_report}
 						 {capture assign=report_html}{strip}
 							 {if $sessioninfo.privilege.REPORTS_SALES}
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.brand.php">Daily Brand Sales Report</a></li>
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.vendor.php">Daily Vendor Sales Report</a></li>
-								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.department.php">Department Monthly Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.brand.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Daily Brand Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.vendor.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Daily Vendor Sales Report</a></li>
+								 <li class="sub-slide"><a class="sub-slide-menu__item" href="sales_report.department.php">{*<img src="/ui/print.png" align="absmiddle" border="0">*}Department Monthly Sales Report</a></li>
 							 {/if}
 						 {/strip}{/capture}
 						 {if $report_html}
@@ -1445,7 +1464,7 @@
 					 {/if}
 					 {if $sessioninfo.level>=500}
 					 {if $sessioninfo.privilege.PO_REPORT}
-					 <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Vendor Purchase Ranking</span></a>
+					 <li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="vendor_po.summary.php"><span class="sub-side-menu__label">Vendor Purchase Ranking</span></a>
 					 {/if}
 					 {/if}
 				
@@ -1502,21 +1521,21 @@
 			{if $sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE}
 				{if $config.counter_collection_server}
 					{if $sessioninfo.privilege.POS_BACKEND}
-						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/sales_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'Sales Live'))">Sales Live</a></li>
-						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/pos_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'POS Live'))">Pos Live</a></li>
+						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/sales_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'Sales Live'))">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*} Sales Live</a></li>
+						<li class="sub-slide"><a class="sub-slide-menu__item" href="javascript:void(open_from_dc('{$config.counter_collection_server}/pos_live.php?',{$sessioninfo.id},{$sessioninfo.branch_id}, 'POS Live'))">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*} Pos Live</a></li>
 					{/if}
 					{if ($sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE)}
 						<li class="sub-slide"><a  class="sub-slide-menu__item" href="javascript:void(open_cc('{$config.counter_collection_server}',{$sessioninfo.id},{$sessioninfo.branch_id}))">Counter Collection</a></li>
 					{/if}
 				{else}
 					{if $sessioninfo.privilege.POS_BACKEND}
-					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_live.php"><span class="sub-side-menu__label">POS live</span></a>
+					<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_live.php"><span class="sub-side-menu__label">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*}POS live</span></a>
 						
 						{if file_exists("`$smarty.server.DOCUMENT_ROOT`/pos_monitoring.php")}
 						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="pos_monitoring.php"><span class="sub-side-menu__label">POS Monitoring (DEV)</span></a>
 							
 						{/if}
-						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="sales_live.php"><span class="sub-side-menu__label">Sales live</span></a>
+						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="sales_live.php"><span class="sub-side-menu__label">{*<img src="/ui/icons/chart_curve.png" align=absmiddle border=0>&nbsp;*}Sales live</span></a>
 
 					{/if}
 					{if ($sessioninfo.privilege.POS_BACKEND or $sessioninfo.privilege.CC_FINALIZE or $sessioninfo.privilege.CC_UNFINALIZE)}
@@ -1700,7 +1719,8 @@
 			
 			{/if}
 			{if $sessioninfo.privilege.FRONTEND_ANNOUNCEMENT and file_exists("`$smarty.server.DOCUMENT_ROOT`/front_end.announcement.php")}
-			<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="front_end.announcement.php"><span class="sub-side-menu__label">POS Announcement</span></a> 		
+			<li class="sub-slide">
+				<a class="sub-side-menu__item" data-toggle="sub-slide" href="front_end.announcement.php"><span class="sub-side-menu__label">POS Announcement</span></a> 		
 		
 			{/if}
 			{if $sessioninfo.privilege.FRONTEND_POPULAR_ITEMS_SETUP and file_exists("`$smarty.server.DOCUMENT_ROOT`/pos.popular_items_listing_setup.php")}
@@ -1712,34 +1732,38 @@
 		{/if}
 	
 		{if $config.enable_suite_device and ($sessioninfo.privilege.SUITE_MANAGE_DEVICE)}
-			<li><a href="#" class=submenu><i class="icofont-contrast icofont"></i>Suite</a>
-				<ul style="min-width:160px;">
-					{if $sessioninfo.privilege.SUITE_MANAGE_DEVICE and file_exists("`$smarty.server.DOCUMENT_ROOT`/suite.manage_device.php")}
-						<li><a href="#" class="submenu">Device</a>
-							<ul>
-								<li><a href="suite.manage_device.php">Suite Device Setup</a></li>
-							</ul>
-						</li>
-					{/if}
-					{if $sessioninfo.privilege.SUITE_POS_DEVICE_MANAGEMENT and file_exists("`$smarty.server.DOCUMENT_ROOT`/suite.pos_device_management.php")}
-					<li><a href="suite.pos_device_management.php">POS Device Management</a></li>
-					{/if}
+			<li class="slide">
+				<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-monitor side-menu__icon"></i><span class="side-menu__label">Suite</span><i class="angle fe fe-chevron-down"></i></a>
+				<ul class="slide-menu">
+						{if $sessioninfo.privilege.SUITE_MANAGE_DEVICE and file_exists("`$smarty.server.DOCUMENT_ROOT`/suite.manage_device.php")}
+						<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Device</span><i class="sub-angle fe fe-chevron-down"></i></a>
+									<ul class="sub-slide-menu">
+										<li class="sub-slide-sub"><a class="sub-slide-item" href="suite.manage_device.php">Suite Device Setup</a></li>
+									</ul>
+								</li>
+							{/if}
+							{if $sessioninfo.privilege.SUITE_POS_DEVICE_MANAGEMENT and file_exists("`$smarty.server.DOCUMENT_ROOT`/suite.pos_device_management.php")}
+							<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="suite.pos_device_management.php">POS Device Management</a></li>
+							{/if}
+						
+					
 				</ul>
 			</li>
 		{/if}
 		
 		{if $config.arms_marketplace_settings and ($config.arms_marketplace_settings.branch_code eq $BRANCH_CODE || $BRANCH_CODE eq 'HQ') and ($sessioninfo.privilege.MARKETPLACE_MANAGE_SKU or $sessioninfo.privilege.MARKETPLACE_SETTINGS or ($config.arms_marketplace_settings.branch_code eq $BRANCH_CODE and $sessioninfo.privilege.MARKETPLACE_LOGIN))}
-			<li><a href="#" class="submenu"><i class="icofont-food-cart icofont"></i>Marketplace</a>
-				<ul style="min-width:100px;">
+			<li class="slide">
+				<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-cash-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Marketplace</span><i class="angle fe fe-chevron-down"></i></a>
+				<ul class="slide-menu">
 					{* if file_exists("`$smarty.server.DOCUMENT_ROOT`/marketplace.home.php") and ($config.arms_marketplace_settings.branch_code eq $BRANCH_CODE or $BRANCH_CODE eq 'HQ') and $sessioninfo.privilege.MARKETPLACE_LOGIN}
-						<li><a href="marketplace.home.php?a=goto_marketplace" target="_blank">Go to Marketplace</a></li>
+						<li class="slide-item"><a href="marketplace.home.php?a=goto_marketplace" target="_blank">Go to Marketplace</a></li>
 					{/if *}
 					
 					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/marketplace.settings.php") and $sessioninfo.privilege.MARKETPLACE_SETTINGS}
-						<li><a href="marketplace.settings.php">Settings</a></li>
+						<li class="slide-item"><a href="marketplace.settings.php">Settings</a></li>
 					{/if}
 					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/marketplace.manage_sku.php") and $sessioninfo.privilege.MARKETPLACE_MANAGE_SKU}
-						<li><a href="marketplace.manage_sku.php">Manage SKU</a></li>
+						<li class="slide-item"><a  href="marketplace.manage_sku.php">Manage SKU</a></li>
 					{/if}
 				</ul>
 			</li>
@@ -1747,60 +1771,64 @@
 		
 		
 		{if $sessioninfo.privilege.MKT}
-		<li><a href="#" class=submenu>Marketing Tools</a>
-			<ul>
-				<li><a href="mkt_annual.php">Annual Planner and Review</a>
+		<li class="slide">
+			<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-cash-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Marketing Tools</span><i class="angle fe fe-chevron-down"></i></a>
+			<ul class="slide-menu">
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_annual.php"><img src=/ui/icons/calendar.png align=absmiddle border=0> Annual Planner and Review</a>
 				{if $BRANCH_CODE eq 'HQ'}
-				<li><a href="mkt_settings.php">Settings</a>
-				<li><a href="mkt0.php">Create New Offers</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_settings.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Settings</a>
+				<li class="slide-item"><a href="mkt0.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Create New Offers</a>
 				{/if}
-				<li><a href="mkt_review_keyin.php">Daily Sales Keyin</a>
-				<li><a href="mkt1.php"><sup>1</sup> Branch Sales Target and Expenses</a>
-				<li><a href="mkt2.php"><sup>2</sup> Department Target Review</a>
-				<li><a href="mkt3.php"><sup>3</sup> Brand/Item Proposal (by Branch)</a>
-				<li><a href="mkt4.php"><sup>4</sup> Brand/Item Planner (by HQ)</a>
-				<li><a href="mkt5.php"><sup>5</sup> Publishing Planner (by HQ)</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_review_keyin.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Daily Sales Keyin</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt1.php"><sup>1</sup> Branch Sales Target and Expenses</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt2.php"><sup>2</sup> Department Target Review</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt3.php"><sup>3</sup> Brand/Item Proposal (by Branch)</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt4.php"><sup>4</sup> Brand/Item Planner (by HQ)</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt5.php"><sup>5</sup> Publishing Planner (by HQ)</a>
 				<!--li><a href="mkt_status.php"><sup>5.2</sup> Offer Publishing Planner (by HQ)</a-->
-				<li><a href="mkt6.php"><sup>6</sup> A&amp;P Materials Review</a>
+				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt6.php"><sup>6</sup> A&amp;P Materials Review</a>
 			</ul>
 		</li>
 		{/if}
 		
 		{if $config.enable_web_bridge and $sessioninfo.privilege.WB}
-			<li><a href="#" class="submenu">Web Bridge</a>
-				<ul style="min-width:160px;">
+			<li class="slide">
+				<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-cash-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Web Bridge</span><i class="angle fe fe-chevron-down"></i></a>
+				<ul class="slide-menu">
 					{if ($sessioninfo.privilege.WB_AP_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.settings.php")) or ($sessioninfo.privilege.WB_AP_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.php"))}
-						<li><a href="#" class="submenu">AP Trans</a>
-							<ul>
+						<li class="slide-item">
+							<a href="" class="sub-side-menu__item">AP Trans</a>
+							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_AP_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.settings.php")}
-									<li><a href="web_bridge.ap_trans.settings.php">Settings</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.ap_trans.settings.php">Settings</a></li>
 								{/if}
 								{if $sessioninfo.privilege.WB_AP_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.php")}
-									<li><a href="web_bridge.ap_trans.php">AP Trans</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.ap_trans.php">AP Trans</a></li>
 								{/if}
 							</ul>
 						</li>
 					{/if}
 					{if ($sessioninfo.privilege.WB_AR_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.settings.php")) or ($sessioninfo.privilege.WB_AR_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.php"))}
-						<li><a href="#" class="submenu">AR Trans</a>
-							<ul>
+						<li class="slide-item"><a href="#" class="sub-side-menu__item">AR Trans</a>
+							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_AR_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.settings.php")}
-									<li><a href="web_bridge.ar_trans.settings.php">Settings</a></li>
+									<li class="sub-slide-menu"><a class="sub-slide-item" href="web_bridge.ar_trans.settings.php">Settings</a></li>
 								{/if}				
 								{if $sessioninfo.privilege.WB_AR_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.php")}
-									<li><a href="web_bridge.ar_trans.php">AR Trans</a></li>
+									<li class="sub-slide-menu"><a class="sub-slide-item" href="web_bridge.ar_trans.php">AR Trans</a></li>
 								{/if}
 							</ul>
 						</li>
 					{/if}
 					{if ($sessioninfo.privilege.WB_CC_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.settings.php")) or ($sessioninfo.privilege.WB_CC_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.php"))}
-						<li><a href="#" class="submenu">CC Trans</a>
-							<ul>
+						<li class="slide-item">
+							<a href="#" class="sub-side-menu__item">CC Trans</a>
+							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_CC_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.settings.php")}
-									<li><a href="web_bridge.cc_trans.settings.php">Settings</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.cc_trans.settings.php">Settings</a></li>
 								{/if}
 								{if $sessioninfo.privilege.WB_CC_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.php")}
-									<li><a href="web_bridge.cc_trans.php">CC Trans</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.cc_trans.php">CC Trans</a></li>
 								{/if}
 							</ul>
 						</li>

@@ -71,7 +71,8 @@
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.branches_sales_comparison_by_day.php">{*hq02 -*} Branches Sales Comparison by Day / Week</a></li>
 		<!--<li><a href="/report.branches_sales_comparison_by_day.php?view_type=week">{*hq03 -*} Branches Sales Comparison by Week</a></li>-->
 		{/if}
-		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.discounted_sales.php")}<li><a href="report.discounted_sales.php">Brand / Vendor Discounted Sales Report</a></li>{/if}
+		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.discounted_sales.php")}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.discounted_sales.php">Brand / Vendor Discounted Sales Report</a></li>{/if}
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.cash_credit_sales.php")}
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.cash_credit_sales.php">Cash/Credit Sales Report</a></li>
 		{/if}
