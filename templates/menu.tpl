@@ -1774,19 +1774,19 @@
 		<li class="slide">
 			<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-cash-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Marketing Tools</span><i class="angle fe fe-chevron-down"></i></a>
 			<ul class="slide-menu">
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_annual.php"><img src=/ui/icons/calendar.png align=absmiddle border=0> Annual Planner and Review</a>
+				<li class="slide-item"><a  href="mkt_annual.php"> Annual Planner and Review</a>
 				{if $BRANCH_CODE eq 'HQ'}
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_settings.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Settings</a>
-				<li class="slide-item"><a href="mkt0.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Create New Offers</a>
+				<li class="slide-item"><a href="mkt_settings.php">&nbsp; Settings</a>
+				<li class="slide-item"><a href="mkt0.php">&nbsp; Create New Offers</a>
 				{/if}
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt_review_keyin.php"><img src=/ui/ed.png align=absmiddle border=0>&nbsp; Daily Sales Keyin</a>
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt1.php"><sup>1</sup> Branch Sales Target and Expenses</a>
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt2.php"><sup>2</sup> Department Target Review</a>
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt3.php"><sup>3</sup> Brand/Item Proposal (by Branch)</a>
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt4.php"><sup>4</sup> Brand/Item Planner (by HQ)</a>
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt5.php"><sup>5</sup> Publishing Planner (by HQ)</a>
+				<li class="slide-item"><a href="mkt_review_keyin.php">&nbsp; Daily Sales Keyin</a>
+				<li class="slide-item"><a  href="mkt1.php"><sup>1</sup> Branch Sales Target and Expenses</a>
+				<li class="slide-item"><a  href="mkt2.php"><sup>2</sup> Department Target Review</a>
+				<li class="slide-item"><a  href="mkt3.php"><sup>3</sup> Brand/Item Proposal (by Branch)</a>
+				<li class="slide-item"><a  href="mkt4.php"><sup>4</sup> Brand/Item Planner (by HQ)</a>
+				<li class="slide-item"><a  href="mkt5.php"><sup>5</sup> Publishing Planner (by HQ)</a>
 				<!--li><a href="mkt_status.php"><sup>5.2</sup> Offer Publishing Planner (by HQ)</a-->
-				<li class="slide-item"><a class="sub-slide-menu__item" href="mkt6.php"><sup>6</sup> A&amp;P Materials Review</a>
+				<li class="slide-item"><a  href="mkt6.php"><sup>6</sup> A&amp;P Materials Review</a>
 			</ul>
 		</li>
 		{/if}
@@ -1796,8 +1796,9 @@
 				<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-cash-multiple side-menu__icon" style="margin-top: 0%; padding-top: 0%;"></i><span class="side-menu__label">Web Bridge</span><i class="angle fe fe-chevron-down"></i></a>
 				<ul class="slide-menu">
 					{if ($sessioninfo.privilege.WB_AP_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.settings.php")) or ($sessioninfo.privilege.WB_AP_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.php"))}
-						<li class="slide-item">
-							<a href="" class="sub-side-menu__item">AP Trans</a>
+						<li class="sub-slide">
+							<a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">AP Trans</span><i class="sub-angle fe fe-chevron-down"></i></a>
+						
 							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_AP_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ap_trans.settings.php")}
 									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.ap_trans.settings.php">Settings</a></li>
@@ -1809,20 +1810,21 @@
 						</li>
 					{/if}
 					{if ($sessioninfo.privilege.WB_AR_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.settings.php")) or ($sessioninfo.privilege.WB_AR_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.php"))}
-						<li class="slide-item"><a href="#" class="sub-side-menu__item">AR Trans</a>
+						<li class="sub-slide">
+							<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">AR Trans</span><i class="sub-angle fe fe-chevron-down"></i></a>
 							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_AR_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.settings.php")}
-									<li class="sub-slide-menu"><a class="sub-slide-item" href="web_bridge.ar_trans.settings.php">Settings</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.ar_trans.settings.php">Settings</a></li>
 								{/if}				
 								{if $sessioninfo.privilege.WB_AR_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.ar_trans.php")}
-									<li class="sub-slide-menu"><a class="sub-slide-item" href="web_bridge.ar_trans.php">AR Trans</a></li>
+									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.ar_trans.php">AR Trans</a></li>
 								{/if}
 							</ul>
 						</li>
 					{/if}
 					{if ($sessioninfo.privilege.WB_CC_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.settings.php")) or ($sessioninfo.privilege.WB_CC_TRANS and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.php"))}
-						<li class="slide-item">
-							<a href="#" class="sub-side-menu__item">CC Trans</a>
+						<li class="sub-slide">
+							<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">CC Trans</span><i class="sub-angle fe fe-chevron-down"></i></a>
 							<ul class="sub-slide-menu">
 								{if $sessioninfo.privilege.WB_CC_TRANS_SETT and file_exists("`$smarty.server.DOCUMENT_ROOT`/web_bridge.cc_trans.settings.php")}
 									<li class="sub-slide-sub"><a class="sub-slide-item" href="web_bridge.cc_trans.settings.php">Settings</a></li>
