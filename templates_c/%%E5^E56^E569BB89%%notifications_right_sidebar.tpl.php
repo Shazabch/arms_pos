@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:07
+<?php /* Smarty version 2.6.18, created on 2021-09-08 19:24:32
          compiled from notifications_right_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 239, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 243, false),array('function', 'count', 'notifications_right_sidebar.tpl', 282, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 249, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 253, false),array('function', 'count', 'notifications_right_sidebar.tpl', 298, false),)), $this); ?>
 
 <!-- Price Change Notify -->
 <?php if ($this->_tpl_vars['price_history']): ?>
@@ -399,49 +399,64 @@ Item : <?php echo $this->_tpl_vars['redemption_items'][$this->_sections['i']['in
 <?php endif; ?>
 
 <!-- GRN Distribution Status -->
-<?php if ($this->_tpl_vars['grn_deliver_monitor']['grn']): ?>
-	<h5>
-		<i class="icofont-building icofont"></i>GRN Distribution Status</h5>
-	<div class="ntc">The following GRN are slow in DO to others branches (below <?php echo $this->_tpl_vars['grn_deliver_monitor']['info']['min_do_qty_percent']; ?>
+<div class="card">
+	<div class="card-body text-center ">
+		<?php if ($this->_tpl_vars['grn_deliver_monitor']['grn']): ?>
+<div class="card-category fs-09">
+	&nbsp;
+		<i class="far fa-building"></i> GRN Distribution Status
+</div>
+	<div class="ntc fs-07 mb-2 text-muted">The following GRN are slow in DO to others branches (below <?php echo $this->_tpl_vars['grn_deliver_monitor']['info']['min_do_qty_percent']; ?>
 % after <?php echo $this->_tpl_vars['grn_deliver_monitor']['info']['monitor_after_day']; ?>
  days)</div>
-	<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
+	<div style="padding:5px;height:200px;overflow:auto;">
 	
 	<?php $_from = $this->_tpl_vars['grn_deliver_monitor']['grn']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
     foreach ($_from as $this->_tpl_vars['grn']):
 ?>
-		<div style="border-bottom:1px solid #eee" id="div_grn_distribution-<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
+		<ul class="list-unstyled leading-loose text-left overflow-auto" style="max-height: 300px;">
+		
+			<div id="div_grn_distribution-<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
 -<?php echo $this->_tpl_vars['grn']['id']; ?>
 ">
-			<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
-				<a href="javascript:void(delete_grn_distribution('<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
+				<?php if ($this->_tpl_vars['sessioninfo']['level'] >= 9999): ?>
+				<li class="fs-08">
+					<a href="javascript:void(delete_grn_distribution('<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
 ', '<?php echo $this->_tpl_vars['grn']['id']; ?>
 '))">
-					<img src="/ui/del.png" align="absmiddle" border="0" title="Delete this notify" id="img_delete_grn_distribution-<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
+					
+						
+					</a>
+				</li>
+				<?php endif; ?> 
+				<strong class="fs-08 text-dark ">
+					<i class="fas fa-trash-alt fa-lg text-danger" aria-hidden="true" title="Delete this notify" id="img_delete_grn_distribution-<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
 -<?php echo $this->_tpl_vars['grn']['id']; ?>
-" />
-				</a>
-			<?php endif; ?> 
-			<a href="/goods_receiving_note.php?a=view&id=<?php echo $this->_tpl_vars['grn']['id']; ?>
+" ></i>&nbsp;&nbsp;
+					<a class="text-reset" href="/goods_receiving_note.php?a=view&id=<?php echo $this->_tpl_vars['grn']['id']; ?>
 &branch_id=<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
 " target="_blank"><?php echo $this->_tpl_vars['grn']['report_prefix']; ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['grn']['id'])) ? $this->_run_mod_handler('string_format', true, $_tmp, '%05d') : smarty_modifier_string_format($_tmp, '%05d')); ?>
 </a>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<font class="small">
-				<a href="goods_receiving_note.distribution_report.php?load_report=1&grn_bid_id=<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+					<a class="text-reset" href="goods_receiving_note.distribution_report.php?load_report=1&grn_bid_id=<?php echo $this->_tpl_vars['grn']['branch_id']; ?>
 _<?php echo $this->_tpl_vars['grn']['id']; ?>
 " target="_blank">
-					Delivered <?php echo ((is_array($_tmp=$this->_tpl_vars['grn']['do_per'])) ? $this->_run_mod_handler('num_format', true, $_tmp, 2) : smarty_num_format($_tmp, 2)); ?>
+						Delivered <?php echo ((is_array($_tmp=$this->_tpl_vars['grn']['do_per'])) ? $this->_run_mod_handler('num_format', true, $_tmp, 2) : smarty_num_format($_tmp, 2)); ?>
 %
-				</a>
-			</font> 
-			<br />
-			<font color="#666666" class="small">
-				Received Date : <?php echo $this->_tpl_vars['grn']['rcv_date']; ?>
+					</a>
+				
+			</strong>
+				<br />
+				<font color="grey" class="text-secondary fs-06">
+					Received Date : <?php echo $this->_tpl_vars['grn']['rcv_date']; ?>
 <br>
-			</font>
-		</div>
+				</font>
+			</div>
+		
+		
+		</ul>
 	<?php endforeach; endif; unset($_from); ?>
 	<?php if ($this->_tpl_vars['grn_deliver_monitor']['have_more']): ?>
 		<div style="text-align:center;">
@@ -450,6 +465,8 @@ _<?php echo $this->_tpl_vars['grn']['id']; ?>
 	<?php endif; ?>
 	</div>
 <?php endif; ?>
+	</div>
+</div>
 
 <!-- Stock Reorder -->
 <?php if ($this->_tpl_vars['stock_reorder_data']): ?>

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:02
+<?php /* Smarty version 2.6.18, created on 2021-09-08 19:28:49
          compiled from notifications.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'intval', 'notifications.tpl', 417, false),array('modifier', 'upper', 'notifications.tpl', 481, false),array('modifier', 'string_format', 'notifications.tpl', 497, false),)), $this); ?>

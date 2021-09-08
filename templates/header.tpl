@@ -183,9 +183,9 @@
 {if dirname($smarty.server.REQUEST_URI) ne '/'}<base href="http{if $smarty.server.HTTPS}s{/if}://{$smarty.server.HTTP_HOST}/">{/if}
 <!-- {*<link rel="stylesheet" href="{#SITE_CSS#}" type="text/css">*}
 <link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
-<link rel="stylesheet" media="print" href="/templates/print.css" type="text/css"> -->
+<link rel="stylesheet" media="print" href="/templates/print.css" type="text/css">
 <link rel="shortcut icon" href="/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
 
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
@@ -201,7 +201,10 @@
 
 		<!--- Style css --->
 		<link href="../assets/css/style.css" rel="stylesheet">
-
+		
+		<!-- Internal Select2 css -->
+		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+		
 		<!--- Dark-mode css --->
 		<link href="../assets/css/style-dark.css" rel="stylesheet">
 

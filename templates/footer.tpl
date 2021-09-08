@@ -136,7 +136,49 @@
 
 			{/literal}	
 		</script>
+	
+		<script>
+		{literal}
+			jQuery(document).ready(function(){
+				jQuery("#search-input").on("keyup", function() {
+					var value = jQuery(this).val().toLowerCase();
+					if(value =="")
+					{
+						jQuery('#search-content').html('');
+						jQuery('#search-content').removeClass('p-3');
+						console.clear();
+						return false;
+					}
+					console.clear();
+					jQuery('#search-content').html('');
+					jQuery('#search-content').addClass('p-3');
+					jQuery("#menu-list").find('a').filter(function() {
+						if(jQuery(this).text().toLowerCase().indexOf(value) > -1)
+						{
+							console.log(jQuery(this).text());
+							if(jQuery(this).attr('href') != "#")
+							{
+								jQuery('#search-content')
+								.append(jQuery('<a href="'+jQuery(this).attr('href')+'">'+jQuery(this).text()+'</a>')
+										.addClass("btn btn-sm btn-primary mb-2")
+									)
+								}
+						}
+					});
+				});
+
+			});
 		
+		{/literal}
+		</script>
+			<script type="text/javascript">
+				{literal}
+					jQuery(document).ready(function() {
+						jQuery('.select2').select2();
+					});
+				{/literal}
+
+			</script>
 
 
 		<!-- Back-to-top -->
@@ -157,6 +199,9 @@
 
 		<!-- Sticky js -->
 		<script src="../assets/js/sticky.js"></script>
+
+		<!-- Internal Select2.min js -->
+		<script src="../assets/plugins/select2/js/select2.min.js"></script>
 
 		<!-- eva-icons js -->
 		<script src="../assets/js/eva-icons.min.js"></script>

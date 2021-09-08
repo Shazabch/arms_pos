@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:01
+<?php /* Smarty version 2.6.18, created on 2021-09-08 19:28:49
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 172, false),)), $this); ?>
@@ -25,9 +25,9 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 <?php if (dirname ( $_SERVER['REQUEST_URI'] ) != '/'): ?><base href="http<?php if ($_SERVER['HTTPS']): ?>s<?php endif; ?>://<?php echo $_SERVER['HTTP_HOST']; ?>
 /"><?php endif; ?>
 <!-- <link rel="stylesheet" href="/templates/default.css?v=7" type="text/css">
-<link rel="stylesheet" media="print" href="/templates/print.css" type="text/css"> -->
+<link rel="stylesheet" media="print" href="/templates/print.css" type="text/css">
 <link rel="shortcut icon" href="/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
 
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
@@ -43,7 +43,10 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 
 		<!--- Style css --->
 		<link href="../assets/css/style.css" rel="stylesheet">
-
+		
+		<!-- Internal Select2 css -->
+		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+		
 		<!--- Dark-mode css --->
 		<link href="../assets/css/style-dark.css" rel="stylesheet">
 

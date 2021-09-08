@@ -1,9 +1,5 @@
-<!-- <div id=goto_branch_popup class="curtain_popup" style="width:300px;height:100px;display:none;">
-	<div style="text-align:right"><img src=/ui/closewin.png onclick="default_curtain_clicked()"></div>
-	<h3>Select Branch to login</h3>
-	<span id=goto_branch_list></span> <button onclick="goto_branch_select()">Login</button>
-</div> -->
 
+ 
 <!-- Page -->
 <div class="page">
 
@@ -41,23 +37,28 @@
 				</div>
 			</div>
 
-			<div class="search-bar">
-				<div class="input-group rounded">
-					<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-					  aria-describedby="search-addon" />
-					<span class="input-group-text border-0" id="search-addon">
-					  <i class="fas fa-search"></i>
-					</span>
-				  </div>
-			</div>
+			
 		</div>
-<ul class="side-menu">
+<ul class="side-menu" id="menu-list">
+<li class="slide">
+	<div class="search-bar">
+		<div class="input-group rounded">
+			<input type="search" id="search-input" class="form-control rounded" placeholder="Search Menu" aria-label="Search"
+			  aria-describedby="search-addon" />
+			<span class="input-group-text border-0" id="search-addon">
+			  <i class="fas fa-search"></i>
+			</span>
+		  </div>
+	</div>
+	<div id="search-content" class="d-flex flex-column bg-gray-100"></div>
+</li>
+
 {if $sessioninfo}
 	<li class="slide">
 		<a class="side-menu__item" data-toggle="slide" href="#"><i class="mdi mdi-home side-menu__icon"></i><span class="side-menu__label">Home</span><i class="angle fe fe-chevron-down"></i></a>
 		<ul class="slide-menu">
 			<li><a class="sub-slide-item" href="home.php" >Dashboard</a></li>
-			<li><a class="sub-slide-item" href="product-details.html" >Go To Branch</a></li>
+			<li><a class="sub-slide-item" href="javascript:void(goto_branch(0))" >Go To Branch</a></li>
 			<li><a class="sub-slide-item" href="/login.php?logout=1" onclick="return confirm('{$LANG.CONFIRM_LOGOUT}')">Logout</a></li>
 		</ul>
 	</li>
@@ -84,7 +85,9 @@
 					</ul>
 				</li>
 			{/if}
-			{if $sessioninfo.privilege.MST_APPROVAL}<li><a href="approval_flow.php" class="slide-item">Approval Flows</a></li>{/if}
+			{if $sessioninfo.privilege.MST_APPROVAL}
+			<li>
+				<a href="approval_flow.php" class="slide-item">Approval Flows</a></li>{/if}
 			{if $sessioninfo.level>=9999 and $BRANCH_CODE eq 'HQ'}
 			<li class="sub-slide"><a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Selling Price</span><i class="sub-angle fe fe-chevron-down"></i></a>
 				<ul class="sub-slide-menu">
@@ -1979,7 +1982,27 @@
 				</div>
 			</div>
 			<!-- /main-header -->
-
+			
 			<!-- container -->
 			<div class="container-fluid">
+
+				<div class="modal p" id="goto_branch_popup">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content tx-size-sm">
+							<div class="modal-body tx-center ">
+								<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> 
+								
+								<div class="px-5 py-5">	
+									<h3 class="text-primary mt-1 text-md mb-2">Select Branch to login</h3>
+									<span id="goto_branch_list" ></span> 
+									<button onclick="goto_branch_select()" class="btn btn-primary btn-block mt-3">Login</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- Here Wil Be the Main Pgae starts  -->
+				
+
+
+			</div>
