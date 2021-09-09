@@ -76,7 +76,8 @@
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.cash_credit_sales.php")}
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.cash_credit_sales.php">Cash/Credit Sales Report</a></li>
 		{/if}
-		{if $config.use_consignment_bearing && file_exists("`$smarty.server.DOCUMENT_ROOT`/report.consignment_bearing.php")}<li class="sub-slide-sub"><a class="sub-slide-item" href="report.consignment_bearing.php">Consignment Bearing Report</a></li>{/if}
+		{if $config.use_consignment_bearing && file_exists("`$smarty.server.DOCUMENT_ROOT`/report.consignment_bearing.php")}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.consignment_bearing.php">Consignment Bearing Report</a></li>{/if}
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.consignment_sales_by_sku.php")}
 		<li class="sub-slide-sub"><a  class="sub-slide-item" href="report.consignment_sales_by_sku.php">Consignment Sales by SKU Report</a></li>{/if}
 		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.brand.php">Daily Brand Sales Report</a></li>*}
@@ -89,7 +90,7 @@
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.dept_sales.php">Daily Department Sales Report</a></li>
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.daily_sales_by_sku.php?view_type=price">Daily Price Code Sales by SKU</a></li>
 		{*<li class="sub-slide-sub"><a class="sub-slide-item" href="sales_report.vendor.php">Daily Vendor Sales Report</a></li>*}
-		<li><a href="report.vendor_sales.php">Daily Vendor Sales Report</a></li>
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.vendor_sales.php">Daily Vendor Sales Report</a></li>
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.daily_brand_sales_by_dept.php")}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.daily_brand_sales_by_dept.php">Daily / Monthly Brand Sales by Department Report</a></li>{/if}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.hourly_sales_by_category.php">{*hb09 -*} Hourly Sales by Category</a></li>
@@ -101,7 +102,8 @@
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.monthly_gp_report_by_vendor.php">Monthly GP Report by PO Owner / Buyer</a></li>
 		{/if}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="/report.monthly_sales_comparison_by_category.php">{*hb01 -*} Monthly Sales Comparison by Category</a></li>
-		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.monthly_sales_by_dept.php")}<li><a href="report.monthly_sales_by_dept.php">Monthly Sales Discounted by Department Report</a></li>{/if}
+		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.monthly_sales_by_dept.php")}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.monthly_sales_by_dept.php">Monthly Sales Discounted by Department Report</a></li>{/if}
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.monthly_vendor_sales.php")}
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.monthly_vendor_sales.php">Monthly Vendor Sales Report</a></li>
 		{/if}
@@ -109,7 +111,8 @@
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.category_old_vs_new_sku_items.php">Old vs New SKU Items by Category Report</a></li>
 		{/if}
 		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.purchase_vs_sales.php">Purchase vs Sales Report</a></li>
-		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sales_report_by_day_month.php")}<li><a href="report.sales_report_by_day_month.php">Sales Report by Day / Month</a></li>{/if}
+		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.sales_report_by_day_month.php")}
+		<li class="sub-slide-sub"><a class="sub-slide-item" href="report.sales_report_by_day_month.php">Sales Report by Day / Month</a></li>{/if}
 		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/report.category_brand_color_size.php")}
 			<li class="sub-slide-sub"><a class="sub-slide-item" href="report.category_brand_color_size.php">Sales Trend by Category + Brand for Colour/Size Report</a></li>
 		{/if}
@@ -150,7 +153,7 @@
 	    <li class="sub-slide-sub"><a class="sub-slide-item" href="report.sku_item_sales_of_brand_comparison_by_branch.php">{*ph03 -*} SKU Items Sales of Brand Comparison by Branch</a></li>
 	    <li class="sub-slide-sub"><a class="sub-slide-item" href="report.sku_item_sales_of_vendor_comparison_by_branch.php">{*ph04 -*} SKU Items Sales of Vendor Comparison by Branch</a></li>
 	    {/if}
-	    <li><a href="report.vendor_sales_ranking_comparison_by_branch.php">{*ph05 -*} Vendor Sales Ranking Comparison by Branch</a></li>
+	    <li class="sub-slide-sub"><a class="sub-slide-item" href="report.vendor_sales_ranking_comparison_by_branch.php">{*ph05 -*} Vendor Sales Ranking Comparison by Branch</a></li>
 	</ul>
 {/if}
 {if $sessioninfo.privilege.REPORTS_MEMBERSHIP}

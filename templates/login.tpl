@@ -162,9 +162,15 @@ function do_debtor_login(){
 											<!-- Tabs -->
 											<ul class="nav panel-tabs">
 												<li class="tab-button"><a href="#admin-tab" class="active" data-toggle="tab"> Admin</a></li>
+												{if $config.po_allow_vendor_request}
 												<li class="tab-button"><a href="#vendor-tab" data-toggle="tab"> Vendor</a></li>
+												{/if}
+												{if $config.enable_debtor_portal and $smarty.request.dp eq 1}
 												<li class="tab-button"><a href="#debtor-tab" data-toggle="tab"> Debtor</a></li>
+												{/if}
+												{if $config.masterfile_enable_sa}
 												<li class="tab-button"><a href="#sales-agent-tab" data-toggle="tab"> Sales Agent</a></li>
+												{/if}
 											</ul>
 										</div>
 									</div>
@@ -178,6 +184,18 @@ function do_debtor_login(){
 										<div class="alert alert-danger mb-2 text-left" role="alert">
 											<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
 											<span class="alert-inner--text"> {$errmsg2}</span>
+										</div>
+									{/if}
+									{if $deb_login_err}
+										<div class="alert alert-danger mb-2 text-left" role="alert">
+											<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+											<span class="alert-inner--text"> {$deb_login_err}</span>
+										</div>
+									{/if}
+									{if $errmsg3}
+										<div class="alert alert-danger mb-2 text-left" role="alert">
+											<span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+											<span class="alert-inner--text"> {$errmsg3} </span>
 										</div>
 									{/if}
 									<div class="panel-body tabs-menu-body p-0">
@@ -253,22 +271,25 @@ function do_debtor_login(){
 												</form>
 											</div>
 											{/if}
+											{if $config.enable_debtor_portal and $smarty.request.dp eq 1}
 											<div class="tab-pane" id="debtor-tab">
-												<form action="#">
+												<form method="post" name="f_d">
 													<div class="row row-xs align-items-end mg-b-20">
 														<div class="col-lg-3">
 															<label class="form-label">Branch</label>
 														</div>
 														<div class="col-lg-9">
-															<select class="form-control form-control-b-line select2-no-search">
-																<option label="Choose one">
-																</option>
-																<option value="Firefox">
-																	HQ 1
-																</option>
-																<option value="Chrome">
-																	HQ 2
-																</option>
+															<select class="form-control form-control-b-line select2-no-search" id="sel_dp_branch" {if $config.single_server_mode}name="login_branch"{else}onchange="form.action=this.value+'/login.php'" {/if}>
+																{section name=i loop=$branch}
+																	{if $config.single_server_mode}
+																		
+																		<option value="{$branch[i].code}" {if $branch[i].code eq BRANCH_CODE}selected{/if}>{$branch[i].code}</option>
+																	{else}
+																		<option value="{if $branch[i].code ne BRANCH_CODE}{$branch[i].code|strtolower|string_format:$config.no_ip_string}{/if}" {if $branch[i].code eq BRANCH_CODE}selected{/if}>{$branch[i].code}>
+																			
+																		</option>
+																	{/if}
+																	{/section}		
 															</select>
 														</div>
 													</div>
@@ -277,48 +298,38 @@ function do_debtor_login(){
 															<label class="form-label">Enter Ticket No</label>
 														</div>
 														<div class="col-lg-9">
-															<input class="form-control form-control-b-line" placeholder="" type="text">
+															<input class="form-control form-control-b-line" placeholder="" type="password" name="debtor_key">
 														</div>
 													</div>
-													<button class="btn btn-main-primary bg-navy-blue btn-block">Sign In</button>
+													<button class="btn btn-main-primary bg-navy-blue btn-block" onclick="do_debtor_login();" >Sign In</button>
 												</form>
+												
 											</div>
+											{/if}
+											{if $config.masterfile_enable_sa}
 											<div class="tab-pane" id="sales-agent-tab">
-												<form action="#">
-													<div class="row row-xs align-items-end mg-b-20">
-														<div class="col-lg-3">
-															<label class="form-label">Branch</label>
-														</div>
-														<div class="col-lg-9">
-															<select class="form-control form-control-b-line select2-no-search">
-																<option label="Choose one">
-																</option>
-																<option value="Firefox">
-																	HQ 1
-																</option>
-																<option value="Chrome">
-																	HQ 2
-																</option>
-															</select>
-														</div>
-													</div>
+												<form method="post" name="f_c">
+													
 													<div class="row row-xs align-items-end mg-b-20">
 														<div class="col-lg-3">
 															<label class="form-label">Enter Ticket No</label>
 														</div>
 														<div class="col-lg-9">
-															<input class="form-control form-control-b-line" placeholder="" type="text">
+															<input class="form-control form-control-b-line" placeholder="" type="password" name="sa_ticket">
 														</div>
 													</div>
-													<button class="btn btn-main-primary bg-navy-blue btn-block">Sign In</button>
+													<button class="btn btn-main-primary bg-navy-blue btn-block" onclick="do_sa_login" value="login">Sign In</button>
 												</form>
 											</div>
+											{/if}
+
 										</div>
 									</div>
 								</div>
 								<div class="main-signin-footer mt-1">
 									<p><a href="password_reset.php" class="text-navy-blue">Forgot password?</a></p>
 								</div>
+					
 							</div>
 						</div>
 					</div>

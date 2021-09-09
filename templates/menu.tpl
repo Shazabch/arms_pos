@@ -885,7 +885,7 @@
 							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch.php">Add / Edit</a></li>
 							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch_group.php">Branches Group</a></li>
 								{if $config.masterfile_branch_enable_additional_sp && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_branch.additional_selling_price.php")}
-							<li><a href="masterfile_branch.additional_selling_price.php">Branches Additional Selling Price</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch.additional_selling_price.php">Branches Additional Selling Price</a></li>
 								{/if}
 						</ul>
 		</li>
@@ -1019,13 +1019,16 @@
 						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sa.position_setup.php">Position Table</a></li>
 					{/if}
 					{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_setup.php")}
-						<li class="sub-slide-sub"><a href="#" class=submenu>KPI</a>
+						<li class="sub-slide-sub">
+							<a href="#" class="sub-side-menu_item sub-slide-item" data-toggle="sub-slide-sub"><span class="sub-side-menu_label">KPI</span><i class="sub-angle fe fe-chevron-down"></i></a>
+							
+							
 							<ul class="sub-slide-menu-sub">
 								{if $sessioninfo.privilege.MST_SALES_AGENT_KPI_SETUP && file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_setup.php")}
-									<li><a class="sub-slide-item" href="masterfile_sa.kpi_setup.php">KPI Table</a></li>
+									<li class=""><a class="sub-slide-item" href="masterfile_sa.kpi_setup.php">KPI Table</a></li>
 								{/if}
 								{if file_exists("`$smarty.server.DOCUMENT_ROOT`/masterfile_sa.kpi_result.php")}
-									<li><a class="sub-slide-item" href="masterfile_sa.kpi_result.php">KPI Result</a></li>
+									<li class=""><a class="sub-slide-item" href="masterfile_sa.kpi_result.php">KPI Result</a></li>
 								{/if}
 							</ul>
 						</li>
