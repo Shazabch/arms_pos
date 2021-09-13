@@ -116,14 +116,14 @@ function search_document(event){
 					}
 					
 					if(opt){ // got row found
-						$(opt).attr('selected', true);
+						$("select[name='department_id']").val(opt.value);
+						$("select[name='department_id']").trigger('change');
 					}
 				}else alert("{/literal}{$LNG.NO_DEPARTMENT_FOUND_FOR_THIS}{literal} "+doc_type+".");
 				
 				if(doc_type=="PO"){
 					if(data.vendor_id!=undefined){
 						var opt = undefined;
-
 						var opt_length = document.f_a['vendor_id'].length;
 						//var i = $(document.f_a['vendor_id']).children();  // get all options
 						for(var i=1; i<opt_length; i++){    // loop options, skip the first
@@ -134,7 +134,8 @@ function search_document(event){
 						}
 						
 						if(opt){ // got row found
-							$(opt).attr('selected', true);
+						$("select[name='vendor_id']").val(opt.value);
+						$("select[name='vendor_id']").trigger('change');
 						}
 					}else alert("{/literal}{$LNG.NO_VENDOR_FOUND_FOR_THIS}{literal} "+doc_type+".");
 				}else{
