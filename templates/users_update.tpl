@@ -329,8 +329,26 @@ function toggle_curtain() {
 		<img src="ui/clock.gif" border="0" />
 	</p>
 </div>
-<form name=f_u method=post action="users.php" onsubmit="return false;">
-<h1>Update Profile</h1>
+
+<div class="container">
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">Update Profile</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="card">
+		<div class="card-body">
+			<form class="from-horizontal" method="post" action="users.php"  name="f_u" onsubmit="return false;">
+				<div class="form-group" >
+
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <input type=hidden name=a value="u">
 <input type=hidden name=t value="">
 {if $eform_user}
