@@ -374,7 +374,7 @@ where si.id in (".join(',',array_keys($item_need_add)).")");
 					if($_SESSION['gra']['sku_type']=='CONSIGN')
 						$item['amount'] = $item['qty'] * $item['selling_price'];
 					else
-						$item['amount'] = $item['qty'] * $item['cost'];
+						$item['amount'] = (int)$item['qty'] * (int)$item['cost'];
 					$item['gst']=0;
 					$item['amount_gst']=0;
 
