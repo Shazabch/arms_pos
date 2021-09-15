@@ -467,17 +467,15 @@
 
 {include file=user_privilege_table.tpl}
 
-<div class="card mx-3 ">
-	<div class="card-body">
-		<p align=center>
-			<input class="btn btn-warning btn-block hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
+		<div align="center" class="mb-3">
+			<input class="btn btn-warning  hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
 			{if $eform_user}
-				<input class="btn btn-block" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
+				<input class="btn" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
 			{/if}
-			<input class="btn btn-primary btn-block mt-2" name=submitbtn type=submit value="Update">
-			</p>
-	</div>
-</div>
+			<input class="btn btn-primary" name=submitbtn type=submit value="Update">
+		</div>
+	
+
 </form>
 {/if}
 
