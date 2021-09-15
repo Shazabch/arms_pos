@@ -347,9 +347,8 @@ var APPROVAL_FLOW = {
 		if(!id)	id = 0;
 		
 		$('div_approval_flow_popup_content').update(_loading_);
-		
-		curtain(true);
-		center_div($('div_approval_flow_popup').show());
+
+		jQuery('#div_approval_flow_popup').modal('show');
 
 		var params = {
 			'a': 'open_approval_flow',
@@ -846,169 +845,188 @@ var APPROVAL_FLOW = {
 </script>
 {/literal}
 
-<div id="div_approval_flow_popup" class="curtain_popup" style="position:absolute;z-index:10000;width:750px;height:620px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding: 0 !important;">
-	<div id="div_approval_flow_popup_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Approval Flow Settings</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
+<div class="modal" id="div_approval_flow_popup">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header" id="div_approval_flow_popup_header">
+					<h6 class="modal-title">Approval Flow Settings</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+			<div class="modal-body tx-center">
+				<div id="div_approval_flow_popup_content"></div>
+			</div>
+		</div>
 	</div>
-	<div id="div_approval_flow_popup_content" style="padding:2px;"></div>
 </div>
 
-<h1>Approval Flows</h1>
 
-<div><a href="javascript:void(APPROVAL_FLOW.add())"><img src=ui/new.png title="New" align=absmiddle border=0> Add Flow</a></div><br>
-
-<form id=f_f>
-<b>Flow Type</b> <select name=type onchange=reload_table()>
-{section name=i loop=$flow_set}
-<option value="{$flow_set[i].type}">{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
-{/section}
-</select>
-&nbsp;&nbsp;
-<b>Branch</b> <select name=branch_id onchange=reload_table()>
-<option value=0>All</option>
-{section name=i loop=$branches}
-<option value={$branches[i].id}>{$branches[i].code}</option>
-{/section}
-</select>
-<div style="padding-top:4px;">
-<b>Department</b> <select name=sku_category_id onchange=reload_table()>
-<option value=0>All</option>
-{section name=i loop=$dept}
-<option value={$dept[i].id}>{$dept[i].description}</option>
-{/section}
-</select>
-&nbsp;&nbsp;
-<b>SKU Type</b> <select name=sku_type onchange=reload_table()>
-<option value="ALL">All</option>
-{foreach from=$sku_type_list key=st_code item=st}
-	<option value="{$st_code}" {if $form.sku_type eq $st_code}selected {/if}>{$st.description}</option>
-{/foreach}
-</select>
-
-<input type=button name="Refresh" value="Refresh" onclick="reload_table()">
-</div>
-</form>
-
-<ul>
-<li> A <strike>strikethrough</strike> indicate inactive user.</li>
-</ul>
-<br />
-
-<script type="text/javascript">APPROVAL_FLOW.initialize();</script>
-
-{include file=approval_flow_table.tpl}
-
-<br>
-
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:150;display:none;width:650px;">
-<div class="blur"><div class="shadow"><div class="content">
-
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
-
-<form method=post name=f_b target=_irs onSubmit="return check_b()">
-<div id=bmsg style="padding:10 0 10 0px;"></div>
-<input type=hidden name=a value="a">
-<input type=hidden name=id value="">
-<input type=hidden name=_approvals value="">
-<input type=hidden name=_notify_users value="">
-
-<table id="tb" >
-<tr>
-<td><b>Branch</b></td>
-<td><select name=branch_id>
-{section name=i loop=$branches}
-<option value={$branches[i].id}>{$branches[i].code}</option>
-{/section}
-</select></td>
-</tr><tr>
-<td><b>Flow Type</b></td>
-<td><select name=type onchange="sel_type(this.value)">
-{section name=i loop=$flow_set}
-<option value={$flow_set[i].type}>{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
-{/section}
-</select><span id=tremark class=small style="color:#00f"></span></td>
-</tr><tr id=dpt>
-<td><b>Department</b></td>
-<td><select name=sku_category_id>
-{section name=i loop=$dept}
-<option value={$dept[i].id}>{$dept[i].description}</option>
-{/section}
-</select></td>
-</tr><tr id=st>
-<td><b>SKU Type</b></td>
-<td><select name="sku_type">
-	{foreach from=$sku_type_list key=st_code item=st}
-		<option value="{$st_code}">{$st.description}</option>
-	{/foreach}
-</select></td>
-</tr><tr>
-<td><b>Approval Order</b></td>
-<td>
-  <span id="span_aorder_sel">
-  <select name="aorder" onChange="aorder_changed();">
-  {if !$config.approval_flow_use_all_order}
-    <option value="1">{$aorder.1.description}</option> {* Follow Sequences *}
-    <option value="3">{$aorder.3.description}</option> {* Anyone *}
-  {else}
-	  {foreach from=$aorder key=id item=r}
-	    <option value="{$id}">{$r.description}</option>
-	  {/foreach}
-  {/if}
-  
-  </select>
-  </span>
-  <span id="span_aorder_str">
-  </span>
-</td>
-</tr>
-<tr><td colspan=2><br>
-<table class=small id="tbl_approver">
-<tr>
-<td>
-<b>Approvals</b><br>
-<select name=sel_approvals[] multiple size=10 style="width:160px">
-</select>
-</td>
-<td align=center>
-<input type=button value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br><br>
-<input type=button value="Dn" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
-<input type=button id="move_approvals" value="<<" onclick="mv(src_approvals, f_b.elements['sel_approvals[]'])"><br><br>
-<input type=button id="move_fyi" value=">>" onclick="mv(f_b.elements['sel_approvals[]'], src_approvals)"><br><br>
-<input type=button value="Reset" onclick="resetlist()">
-</td>
-<td>
-<b>User pool</b><br>
-<select name=src_approvals multiple size=10 style="width:160px">
-</select>
-</td>
-<td align=center>
-<input type=button value="<<" onclick="mv(f_b.elements['sel_notify[]'], src_approvals)"><br><br>
-<input type=button value=">>" onclick="mv(src_approvals, f_b.elements['sel_notify[]'])"><br><br>
-</td>
-<td>
-<b>Notify Users</b><br>
-<select name=sel_notify[] multiple size=10 style="width:160px">
-</select>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-<!-- bottom -->
-<div align=center id=abtn style="display:none;">
-<input type=submit value="Add"> <input type=button value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
-</div>
-<div align=center id=ebtn style="display:none;">
-<input type=submit value="Update"> <input type=button value="Save As" onclick="save_as()"> <input type=button value="Restore" onclick="ed(lastn)"> <input type=button value="Close" onclick="f_b.reset(); hidediv('ndiv');">
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Approval Flows</h4>
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
 
-</form>
-</div></div></div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div>
+			<a href="javascript:void(APPROVAL_FLOW.add())" class="btn btn-sm btn-success"><i class="fas fa-calendar-plus"></i> Add Flow</a>
+		</div><br>
 
+		<form id=f_f>
+		<b class="form-label">Flow Type</b> <select name=type onchange="reload_table()" class="form-control">
+		{section name=i loop=$flow_set}
+		<option value="{$flow_set[i].type}">{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
+		{/section}
+		</select>
+		<b>Branch</b> <select name=branch_id onchange="reload_table()" class="form-control">
+		<option value=0>All</option>
+		{section name=i loop=$branches}
+		<option value={$branches[i].id}>{$branches[i].code}</option>
+		{/section}
+		</select>
+		<div>
+		<b>Department</b> <select name=sku_category_id onchange="reload_table()" class="form-control">
+		<option value=0>All</option>
+		{section name=i loop=$dept}
+		<option value={$dept[i].id}>{$dept[i].description}</option>
+		{/section}
+		</select>
+		<b>SKU Type</b> <select name=sku_type onchange="reload_table()" class="form-control">
+		<option value="ALL">All</option>
+		{foreach from=$sku_type_list key=st_code item=st}
+			<option value="{$st_code}" {if $form.sku_type eq $st_code}selected {/if}>{$st.description}</option>
+		{/foreach}
+		</select>
+
+		<input type=button class="btn btn-primary mt-2" name="Refresh" value="Refresh" onclick="reload_table()">
+		</div>
+		</form>
+	</div>
+</div>
+
+<div class="card mt-3 mx-3">
+	<div class="card-body">
+				<div class="alert alert-info">
+					<span>A <strike>strikethrough</strike> indicate inactive user.</span>
+				</div>
+		<script type="text/javascript">APPROVAL_FLOW.initialize();</script>
+
+		{include file=approval_flow_table.tpl}
+
+		<br>
+
+		<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:150;display:none;width:650px;">
+		<div class="blur"><div class="shadow"><div class="content">
+
+		<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+
+		<form method=post name=f_b target=_irs onSubmit="return check_b()">
+		<div id=bmsg style="padding:10 0 10 0px;"></div>
+		<input type=hidden name=a value="a">
+		<input type=hidden name=id value="">
+		<input type=hidden name=_approvals value="">
+		<input type=hidden name=_notify_users value="">
+
+		<div class="table-responsive">
+			<table id="tb" class="table table-hover mb-0 text-md-nowrap">
+				<tr>
+				<td><b>Branch</b></td>
+				<td><select name="branch_id" class="form-control">
+				{section name=i loop=$branches}
+				<option value={$branches[i].id}>{$branches[i].code}</option>
+				{/section}
+				</select></td>
+				</tr><tr>
+				<td><b>Flow Type</b></td>
+				<td><select name=type onchange="sel_type(this.value)" class="form-control">
+				{section name=i loop=$flow_set}
+				<option value={$flow_set[i].type}>{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
+				{/section}
+				</select><span id=tremark class=small style="color:#00f"></span></td>
+				</tr><tr id=dpt>
+				<td><b>Department</b></td>
+				<td><select name=sku_category_id class="form-control">
+				{section name=i loop=$dept}
+				<option value={$dept[i].id}>{$dept[i].description}</option>
+				{/section}
+				</select></td>
+				</tr><tr id=st>
+				<td><b>SKU Type</b></td>
+				<td><select name="sku_type" class="form-control">
+					{foreach from=$sku_type_list key=st_code item=st}
+						<option value="{$st_code}">{$st.description}</option>
+					{/foreach}
+				</select></td>
+				</tr><tr>
+				<td><b>Approval Order</b></td>
+				<td>
+				  <span id="span_aorder_sel">
+				  <select name="aorder" onChange="aorder_changed();" class="form-control">
+				  {if !$config.approval_flow_use_all_order}
+				    <option value="1">{$aorder.1.description}</option> {* Follow Sequences *}
+				    <option value="3">{$aorder.3.description}</option> {* Anyone *}
+				  {else}
+					  {foreach from=$aorder key=id item=r}
+					    <option value="{$id}">{$r.description}</option>
+					  {/foreach}
+				  {/if}
+				  
+				  </select>
+				  </span>
+				  <span id="span_aorder_str">
+				  </span>
+				</td>
+				</tr>
+				<tr><td colspan=2><br>
+				<table class=small id="tbl_approver">
+				<tr>
+				<td>
+				<b>Approvals</b><br>
+				<select name=sel_approvals[] multiple size=10 style="width:160px" class="form-control">
+				</select>
+				</td>
+				<td align=center>
+				<input type=button value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br><br>
+				<input type=button value="Dn" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
+				<input type=button id="move_approvals" value="<<" onclick="mv(src_approvals, f_b.elements['sel_approvals[]'])"><br><br>
+				<input type=button id="move_fyi" value=">>" onclick="mv(f_b.elements['sel_approvals[]'], src_approvals)"><br><br>
+				<input type=button value="Reset" onclick="resetlist()">
+				</td>
+				<td>
+				<b>User pool</b><br>
+				<select name=src_approvals multiple size=10 style="width:160px" class="form-control">
+				</select>
+				</td>
+				<td align=center>
+				<input type=button value="<<" onclick="mv(f_b.elements['sel_notify[]'], src_approvals)"><br><br>
+				<input type=button value=">>" onclick="mv(src_approvals, f_b.elements['sel_notify[]'])"><br><br>
+				</td>
+				<td>
+				<b>Notify Users</b><br>
+				<select name=sel_notify[] multiple size=10 style="width:160px" class="form-control">
+				</select>
+				</td>
+				</tr>
+				</table>
+				</td>
+				</tr>
+			</table>	
+		</div>
+		<!-- bottom -->
+		<div align=center id=abtn style="display:none;">
+		<input type=submit class="btn btn-success" value="Add"> <input type=button  class="btn btn-danger" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
+		</div>
+		<div align=center id=ebtn style="display:none;">
+		<input type=submit class="btn btn-primary" value="Update"> <input type=button class="btn btn-success" value="Save As" onclick="save_as()"> <input type=button class="btn btn-indigo" value="Restore" onclick="ed(lastn)"> <input type=button value="Close" onclick="f_b.reset(); hidediv('ndiv');">
+		</div>
+
+		</form>
+		</div></div></div>
+
+		</div>
+	</div>
 </div>
 
 <div style="display:none"><iframe name=_irs width=500 height=400 frameborder=1></iframe></div>

@@ -317,10 +317,6 @@ function toggle_all_check(obj, type, class_name){
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Create Profile</h4>
 			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
-			<div class=errmsg>
-				{if $errmsg.a}<ul>{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}</ul>{/if}
-				{if $msg.a}<ul class=msg>{foreach item=m from=$msg.a}<li>{$m}{/foreach}</ul>{/if}
-			</div>
 		</div>
 	</div>
 </div>
