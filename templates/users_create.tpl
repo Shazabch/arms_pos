@@ -317,13 +317,31 @@ function toggle_all_check(obj, type, class_name){
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Create Profile</h4>
 			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
-			<div class=errmsg>
-				{if $errmsg.a}<ul>{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}</ul>{/if}
-				{if $msg.a}<ul class=msg>{foreach item=m from=$msg.a}<li>{$m}{/foreach}</ul>{/if}
-			</div>
 		</div>
 	</div>
 </div>
+
+{if $errmsg.a}<ul>
+	{foreach item=m from=$errmsg.a}
+	<div class="alert alert-danger mg-b-0 m-2" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$m}
+	</div>
+	{/foreach}
+{/if}
+
+{if $msg.a}
+	{foreach item=m from=$msg.a}
+	<div class="alert alert-info mg-b-0 m-2" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$m}
+	</div>
+	{/foreach}
+{/if}
 
 <!--Form Started here-->
 

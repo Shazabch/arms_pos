@@ -15,89 +15,93 @@
 <form name="f_af" onSubmit="return false;">
 	<input type="hidden" name="id" value="{$form.id}" />
 	
-	<table width="100%">
-		<tr>
-			{* Branch *}
-			<td width="100"><b>Branch</b></td>
-			<td>
-				<select name="branch_id">
-					<option value="">-- Please Select --</option>
-					{foreach from=$branch_list key=bid item=b}
-						{if $bid eq $form.branch_id or $b.active}
-							<option value="{$bid}" {if $bid eq $form.branch_id}selected {/if}>{$b.code}</option>
-						{/if}
-					{/foreach}
-				</select> <span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-			
-			{* Flow Type *}
-			<td width="100"><b>Flow Type</b></td>
-			<td>
-				<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();">
-					<option value="">-- Please Select --</option>
-					{foreach from=$flow_set item=r}
-						<option value="{$r.type}" {if $r.type eq $form.type}selected {/if}>{if $r.description}{$r.description}{else}{$r.type}{/if}</option>
-					{/foreach}
-				</select> <span id="rq_img2"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-		</tr>
-		
-		<tr>
-			{* Department *}
-			<td width="100"><b>Department</b></td>
-			<td>
-				<select name="sku_category_id">
-					<option value="">-- Please Select --</option>
-					{foreach from=$dept_list key=dept_id item=r}
-						{if $dept_id eq $form.sku_category_id or $r.active}
-							<option value="{$dept_id}" {if $dept_id eq $form.sku_category_id}selected {/if}>{$r.description}</option>
-						{/if}
-					{/foreach}
-				</select> <span id="rq_img3"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-			
-			{* SKU Type *}
-			<td width="100"><b>SKU Type</b></td>
-			<td>
-				<select name="sku_type">
-					<option value="">-- Please Select --</option>
-					{foreach from=$sku_type_list key=st item=r}
-						<option value="{$st}" {if $form.sku_type eq $st}selected {/if}>{$r.description}</option>
-					{/foreach}
-				</select> <span id="rq_img4"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-		</tr>
-		
-		{* Approval Order *}
-		<tr>
-			<td width="100"><b>Approval Order</b></td>
-			<td>
-				<select name="aorder" onChange="APPROVAL_FLOW.aorder_changed();">
-					<option value="">-- Please Select --</option>
-					{foreach from=$aorder key=aorder_id item=r}
-						<option value="{$aorder_id}" {if $aorder_id eq $form.aorder}selected {/if}>{$r.description}</option>
-					{/foreach}
-				</select> <span id="rq_img5"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-		</tr>
-		
-		{* Search User *}
-		<tr>
-			<td colspan="4">
-				<b>Search Username : </b>
-				<input type="text" readonly id="inp_selected_username" style="width:60px;"/>
-				<input type="text" id="inp_search_username" style="width:200px;" placeholder="Please search username" onFocus="this.select();" />
-				<input type="hidden" id="inp_selected_user_id" />
+	<div class="table-responsive">
+		<table class="table table-hover mb-0 text-md-nowrap table-sm table-borderless">
+			<tr>
+				{* Branch *}
+				<td width="100"><b>Branch </b><span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td>
+					<select name="branch_id" class="form-control">
+						<option value="">-- Please Select --</option>
+						{foreach from=$branch_list key=bid item=b}
+							{if $bid eq $form.branch_id or $b.active}
+								<option value="{$bid}" {if $bid eq $form.branch_id}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+					</select>
+				</td>
 				
-				<input class="btn btn-primary" type="button" value="Add to Approval" id="btn_add_appvoral" onClick="APPROVAL_FLOW.add_autocomplete_user_clicked('approval');" />
-				<input class="btn btn-primary" type="button" value="Add to Notify" id="btn_add_notify" onClick="APPROVAL_FLOW.add_autocomplete_user_clicked('notify');" />
-				<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+				{* Flow Type *}
+				<td width="100"><b>Flow Type </b><span id="rq_img2"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td>
+					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control">
+						<option value="">-- Please Select --</option>
+						{foreach from=$flow_set item=r}
+							<option value="{$r.type}" {if $r.type eq $form.type}selected {/if}>{if $r.description}{$r.description}{else}{$r.type}{/if}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				{* Department *}
+				<td width="100"><b>Department </b><span id="rq_img3"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td>
+					<select name="sku_category_id" class="form-control">
+						<option value="">-- Please Select --</option>
+						{foreach from=$dept_list key=dept_id item=r}
+							{if $dept_id eq $form.sku_category_id or $r.active}
+								<option value="{$dept_id}" {if $dept_id eq $form.sku_category_id}selected {/if}>{$r.description}</option>
+							{/if}
+						{/foreach}
+					</select>
+				</td>
 				
-				<br />
-				<div id="div_autocomplete_username" class="autocomplete" style="display:none;height:150px !important;width:200px !important;overflow:auto !important;z-index:100"></div>
-			</td>
-		</tr>
-	</table>
+				{* SKU Type *}
+				<td width="100"><b>SKU Type </b><span id="rq_img4"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td>
+					<select name="sku_type" class="form-control">
+						<option value="">-- Please Select --</option>
+						{foreach from=$sku_type_list key=st item=r}
+							<option value="{$st}" {if $form.sku_type eq $st}selected {/if}>{$r.description}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			
+			{* Approval Order *}
+			<tr>
+				<td width="100"><b>Approval Order </b><span id="rq_img5"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td>
+					<select name="aorder" onChange="APPROVAL_FLOW.aorder_changed();" class="form-control">
+						<option value="">-- Please Select --</option>
+						{foreach from=$aorder key=aorder_id item=r}
+							<option value="{$aorder_id}" {if $aorder_id eq $form.aorder}selected {/if}>{$r.description}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			
+			{* Search User *}
+			<tr>
+				<td colspan="4">
+					<b>Search Username : </b>
+					<div class="d-flex my-2">
+						<input type="text" class="form-control mr-2" readonly id="inp_selected_username" style="width:80px;"/>
+					<input type="text" class="form-control" id="inp_search_username" style="width:300px;" placeholder="Please search username" onFocus="this.select();" />
+					<input type="hidden" id="inp_selected_user_id" />
+					</div>
+					
+					<input class="btn btn-success btn-sm" type="button" value="Add to Approval" id="btn_add_appvoral" onClick="APPROVAL_FLOW.add_autocomplete_user_clicked('approval');" />
+					<input class="btn btn-primary btn-sm" type="button" value="Add to Notify" id="btn_add_notify" onClick="APPROVAL_FLOW.add_autocomplete_user_clicked('notify');" />
+					<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+					
+					<br />
+					<div id="div_autocomplete_username" class="autocomplete" style="display:none;height:150px !important;width:200px !important;overflow:auto !important;z-index:100"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
 	
 	{* Approvals *}
 	<div id="div_approvals">
