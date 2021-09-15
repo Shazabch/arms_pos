@@ -311,76 +311,77 @@ function toggle_all_check(obj, type, class_name){
 {* <p>You currently have {$active_count} active user. The system currently allow up to {$MAX_ACTIVE_USER} active users</p> *}
 
 {if $show_add_user}
-<div class="container ">
+
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Create Profile</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Create Profile</h4>
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
 			<div class=errmsg>
-{if $errmsg.a}<ul>{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}</ul>{/if}
-{if $msg.a}<ul class=msg>{foreach item=m from=$msg.a}<li>{$m}{/foreach}</ul>{/if}
-</div>
+				{if $errmsg.a}<ul>{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}</ul>{/if}
+				{if $msg.a}<ul class=msg>{foreach item=m from=$msg.a}<li>{$m}{/foreach}</ul>{/if}
+			</div>
 		</div>
-</div>
+	</div>
 </div>
 
 <!--Form Started here-->
 
-<div class="card">
+<div class="card mx-3">
 	<div class="card-body">
 		<form class="from-horizontal" method="post" name="f_a" onsubmit="return check_a()">
-			<div class="form-group" >
+			<div class="" >
 
 				<div class="form-check">
-						<input id="as_template" class="form-check-input" type="checkbox" name="template" value=1 {if $smarty.request.template}checked{/if} onClick="shide(this.checked)"> 
-						<b><label for="as_template" class="form-check-label">Create as template</label></b>
+					<input id="as_template" class="form-check-input" type="checkbox" name="template" value=1 {if $smarty.request.template}checked{/if} onClick="shide(this.checked)"> 
+					<b><label for="as_template" class="form-check-label">Create as template</label></b>
 				</div> 
 
 				<div class="row">
-					<div class="col-6">
+					<div class="col-md-6">
 						<label class="mt-3">username <span class="text-danger">*</span></label>
 						<input type="text" class="form-control" name="newuser" value="{$smarty.request.newuser}" onBlur="uname_blur(this)">
 						<small class="text-muted ">
 							<span id="v1">only a-z, 0-9 and underscore '_' allowed, minimum {$MIN_USERNAME_LENGTH} characters</span>
 						</small>
 					</div>
-							{if $config.enable_suite_device}
-					<div class="col-6">
+					{if $config.enable_suite_device}
+					<div class="col-md-6">
 						<label class="mt-3">Fnb username</label>
 						<input type="text" class="form-control" name="fnb_username" value="{$smarty.request.fnb_username}">
 						<small class="text-muted">
 							<span>(For Fnb Cashier use)</span>
 						</small>
 					</div>
-							{/if}
-							{if !$config.consignment_modules}
-					<div class="col-6 hide_by_temp">
+					{/if}
+					{if !$config.consignment_modules}
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">Login Barcode</label>	
 						<input type="text" class="form-control" name="ic_no" value="{$smarty.request.barcode}">
 						<small class="text-muted">
 							<span>(For POS Counter use)</span> <span id="v1">only numeric {if $MIN_BARCODE_LENGTH}, minimum {$MIN_BARCODE_LENGTH} digit{/if}</span>
 						</small>
 					</div>
-							{/if}
-							{if $config.user_profile_need_ic}
-					<div class="col-6 hide_by_temp">
+					{/if}
+					{if $config.user_profile_need_ic}
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">IC NO.<span class="text-danger">*</span></label>	
 						<input type="text" class="form-control" name="ic_no" value="{$smarty.request.ic_no}">
 					</div>
-							{/if}
-					<div class="col-6 hide_by_temp">
+					{/if}
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">Full name <span class="text-danger">*</span></label>	
 						<input type="text" class="form-control" name="fullname" value="{$smarty.request.fullname}" onBlur="uc(this)">
 					</div>
-					<div class="col-6 hide_by_temp">
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">Position <span class="text-danger">*</span></label>	
 						<input type="text" class="form-control" name="position" value="{$smarty.request.position}" onBlur="uc(this)">
 					</div>
-					<div class="col-6 hide_by_temp">
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">User Department </label>	
 						<input type="text" class="form-control" name="user_dept"  value="{$smarty.request.user_dept}" onBlur="uc(this)">
 					</div>
-					<div class="col-6 hide_by_temp">
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">Location </label>
 						<select class="form-control" name=default_branch_id onchange="uname_blur(newuser)">
 							{section name=i loop=$branches}
@@ -388,161 +389,154 @@ function toggle_all_check(obj, type, class_name){
 							{/section}
 						</select>
 					</div>	
-			</div>
-			<div class="row hide_by_temp">
-				<div class="col">
-					<label class="mt-3"><b>SKU Department</b></label>
-					<div id="departments_id">
-						<div class="form-check ml-3">
-							<input id="dept_all_id" class="form-check-input" type="checkbox" onclick="toggle_all_check(this,'departments','departments')" > 
-							<label class="form-check-label" for="dept_all_id"> All Departments </label>
-							{assign var=root value=''}
-							{section name=i loop=$departments}
-							{if $root ne $departments[i].root}
-							{assign var=root value=`$departments[i].root`}
-						</div> 	
-					<div id="root[{$departments[i].root_id}]" class="mt-3 container-fluid">
-						<label class="form-label" ><b>{$root}</b></label>	
-						<div class="row px-3">
-							<div class="checkbox mr-2">
-								<div class="custom-checkbox custom-control">
-									<input type="checkbox" class="departments custom-control-input" id="dept_{$departments[i].root_id}_id" onclick="toggle_all_check(this,'departments','root_{$departments[i].root_id}')">
-									<label for="dept_{$departments[i].root_id}_id" class="custom-control-label mt-1">All</label>
-								</div>
+				</div>
+				<div class="row hide_by_temp">
+					<div class="col">
+						<label class="mt-3"><b>SKU Department</b></label>
+						<div id="departments_id">
+							<div class="form-check ml-3">
+								<input id="dept_all_id" class="form-check-input" type="checkbox" onclick="toggle_all_check(this,'departments','departments')" > 
+								<label class="form-check-label" for="dept_all_id"> All Departments </label>
+								{assign var=root value=''}
+								{section name=i loop=$departments}
+								{if $root ne $departments[i].root}
+								{assign var=root value=`$departments[i].root`}
+							</div> 	
+							<div id="root[{$departments[i].root_id}]" class="mt-3 container-fluid">
+								<label class="form-label" ><b>{$root}</b></label>	
+								<div class="row px-3">
+									<div class="checkbox mr-2">
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" class="departments custom-control-input" id="dept_{$departments[i].root_id}_id" onclick="toggle_all_check(this,'departments','root_{$departments[i].root_id}')">
+											<label for="dept_{$departments[i].root_id}_id" class="custom-control-label mt-1">All</label>
+										</div>
+									</div>
+									{/if}
+									{assign var=id value=`$departments[i].id`}
+									<div class="checkbox mr-2">
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" class="departments root_{$departments[i].root_id} custom-control-input" id="dept{$departments[i].id}" name="departments[{$departments[i].id}]" {if $smarty.request.departments.$id}checked{/if}>
+											<label for="dept{$departments[i].id}" class="custom-control-label mt-1">{$departments[i].description}</label>
+										</div>
+									</div>
+									{/section}
+								</div> 					
 							</div>
-							{/if}
-							{assign var=id value=`$departments[i].id`}
-							<div class="checkbox mr-2">
-								<div class="custom-checkbox custom-control">
-									<input type="checkbox" class="departments root_{$departments[i].root_id} custom-control-input" id="dept{$departments[i].id}" name="departments[{$departments[i].id}]" {if $smarty.request.departments.$id}checked{/if}>
-									<label for="dept{$departments[i].id}" class="custom-control-label mt-1">{$departments[i].description}</label>
-								</div>
+						</div>
+					</div>
+				</div>
+				<div class="row ">
+					<!--Vendors section start-->
+					<div class="col-md-6 hide-by-temp">
+						<label class="mt-3 tx-bold">Vendors</label>
+						<div class="form-check " id="vendors_all_id">
+						<input id="vendors_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'vendors','vendors')" > 
+						<label class="form-check-label" for="vendors_all_id"> All </label>	
+						</div> 		
+					
+						<div class="" id="vendors_id">
+							<div class="conatainer rounded bg-light p-3 mt-2 overflow-auto" style="height: 25vh;" >
+								{section name=i loop=$vendors}
+								{assign var=id value=`$vendors[i].id`}
+								<input type=checkbox class="vendors p-4" name=vendors[{$vendors[i].id}] {if $smarty.request.vendors.$id}checked{/if}> {$vendors[i].description}<br>
+								{/section}
 							</div>
-							{/section}
-						</div> 					
+								<small class="mt-1"><b>Note:</b> <span class="text-muted ">All vendors remain unticked will be considered have privilege on all vendors</span></small>
+						</div>	
 					</div>
-					</div>
-				</div>
-			</div>
-			<div class="row ">
-				<!--Vendors section start-->
-				<div class="col-6 hide-by-temp">
-					<label class="mt-3">Vendors</label>
-					<div class="form-check " id="vendors_all_id">
-					<input id="vendors_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'vendors','vendors')" > 
-					<label class="form-check-label" for="vendors_all_id"> All </label>	
-					</div> 		
-				
-					<div class="" id="vendors_id">
-						<div class="conatainer rounded bg-light p-3" style="height: 25vh;" >
-							{section name=i loop=$vendors}
-							{assign var=id value=`$vendors[i].id`}
-							<input type=checkbox class="vendors p-4" name=vendors[{$vendors[i].id}] {if $smarty.request.vendors.$id}checked{/if}> {$vendors[i].description}<br>
-							{/section}
-						</div>
-							<small><b>Note:</b> <span class="text-muted ">All vendors remain unticked will be considered have privilege on all vendors</span></small>
-					</div>	
-				</div>
-				<!--vendors  section end -->
+					<!--vendors  section end -->
 
-				<!--Brands Section start-->
-				<div class="col-6 hide-by-temp">
-					<label class="mt-3">Brands</label>
-					<div class="form-check " id="brands_all_id">
-					<input id="brands_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'brands','brands')" > 
-					<label class="form-check-label" for="brands_all_id"> All </label>	
-					</div> 		
-				
-					<div class="" id="brands_id">
-						<div class="conatainer rounded bg-light p-3" style="height: 25vh;" >
-							<input type=checkbox class="brands p-4" name="brands[0]" {if $smarty.request.brands[0]}checked{/if}> Unbranded<br>
-							{section name=i loop=$brands}
-							{assign var=id value=`$brands[i].id`}
-							<input type=checkbox class="brands p-4" name="brands[{$brands[i].id}]" {if $smarty.request.brands.$id}checked{/if}> {$brands[i].description}<br>
-							{/section}
-						</div>
-							<small><b>Note:</b> <span class="text-muted ">All brands remain unticked will be considered have privilege on all brands</span></small>
-					</div>		
-				</div>
-				<!--Brands Section ends -->
-
-			</div>
-			<div class="row mt-3">
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">User Level </label>
-					<select class="form-control" name="level" >
-						{foreach from=$user_level item=level key=n}
-						<option value="{if $smarty.request.level eq $level}selected{/if}" >{$n}</option>
-						{/foreach}
-					</select>
-				</div>
-			
-
-				{if $config.consignment_modules && $config.masterfile_branch_region}
-				<tr>
-					<td valign=top><b>Regions</b></td>
-					<td id="regions">
-					<div style="padding-bottom:10px;">
-						<input type="checkbox" id="region_all_id" onclick="toggle_all_check(this,'regions','regions')">
-						<label for="region_all_id"><b>All Regions</b></label>
-						{foreach from=$config.masterfile_branch_region key=code item=r}
-							<input type="checkbox" class="regions" name="regions[{$code}]" {if $smarty.request.regions.$code}checked {/if}> 
-							<b>{$r.name}</b>
-						{/foreach}
-					</div>
-					</td>
-				</tr>
-			{/if}
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">Login ID <span class="text-danger">*</span></label>	
-					<input type="text" class="form-control" name="newlogin" value="{$smarty.request.newlogin}" onBlur="uc(this)">
-				</div>
-
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">Password <span class="text-danger">*</span></label>	
-					<input type="password" class="form-control" name="newpassword" value="{$smarty.request.newpassword}" onBlur="uc(this)">
-					<small><span id="v2" class="text-muted">(password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</span></small>
-				</div>
-			
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">Retype Password <span class="text-danger">*</span></label>	
-					<input type="password" class="form-control" name="newpassword2" value="{$smarty.request.newpassword2}" onBlur="uc(this)">
+					<!--Brands Section start-->
+					<div class="col-md-6 hide-by-temp">
+						<label class="mt-3 tx-bold">Brands</label>
+						<div class="form-check " id="brands_all_id">
+							<input id="brands_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'brands','brands')" > 
+							<label class="form-check-label" for="brands_all_id"> All </label>	
+						</div> 		
 					
-				</div>
-				
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">Email </label>	
-					<input  class="form-control" name="newemail" value="{$smarty.request.newemail}" onBlur="lc(this)">
-					
-				</div>
-
-				<div class="col-6 hide_by_temp">
-					<label class="mt-3">Discount Limits</label>
-					[<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))">?</a>]
-					<div class="input-group" > 
-					<input name="disc_limit" class="form-control" maxlength="3" value="{$smarty.request.disc_limit}" >
-						<div class="input-group-append">
-							<div class="input-group-text">%</div>
-						</div>
+						<div class="" id="brands_id">
+							<div class="conatainer rounded bg-light p-3 mt-2 overflow-auto" style="height: 25vh;" >
+								<input type=checkbox class="brands p-4" name="brands[0]" {if $smarty.request.brands[0]}checked{/if}> Unbranded<br>
+								{section name=i loop=$brands}
+								{assign var=id value=`$brands[i].id`}
+								<input type=checkbox class="brands p-4" name="brands[{$brands[i].id}]" {if $smarty.request.brands.$id}checked{/if}> {$brands[i].description}<br>
+								{/section}
+							</div>
+								<small class="mt-1"><b>Note:</b> <span class="text-muted ">All brands remain unticked will be considered have privilege on all brands</span></small>
+						</div>		
 					</div>
-					<div class="checkbox">
-						<div class="custom-checkbox custom-control">
-							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1" name="item_disc_only_allow_percent">
-							<label for="checkbox-1" class="custom-control-label mt-1 text-muted">
-								Force this user to only allow discount by percentage for Item Discount
+					<!--Brands Section ends -->
+
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">User Level </label>
+						<select class="form-control" name="level" >
+							{foreach from=$user_level item=level key=n}
+							<option value="{if $smarty.request.level eq $level}selected{/if}" >{$n}</option>
+							{/foreach}
+						</select>
+					</div>
+
+					{if $config.consignment_modules && $config.masterfile_branch_region}
+					<tr>
+						<td valign=top><b>Regions</b></td>
+						<td id="regions">
+						<div style="padding-bottom:10px;">
+							<input type="checkbox" id="region_all_id" onclick="toggle_all_check(this,'regions','regions')">
+							<label for="region_all_id"><b>All Regions</b></label>
+							{foreach from=$config.masterfile_branch_region key=code item=r}
+								<input type="checkbox" class="regions" name="regions[{$code}]" {if $smarty.request.regions.$code}checked {/if}> 
+								<b>{$r.name}</b>
+							{/foreach}
+						</div>
+						</td>
+					</tr>
+					{/if}
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">Login ID <span class="text-danger">*</span></label>	
+						<input type="text" class="form-control" name="newlogin" value="{$smarty.request.newlogin}" onBlur="uc(this)">
+					</div>
+
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">Password <span class="text-danger">*</span></label>	
+						<input type="password" class="form-control" name="newpassword" value="{$smarty.request.newpassword}" onBlur="uc(this)">
+						<small><span id="v2" class="text-muted">(password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</span></small>
+					</div>
+				
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">Retype Password <span class="text-danger">*</span></label>	
+						<input type="password" class="form-control" name="newpassword2" value="{$smarty.request.newpassword2}" onBlur="uc(this)">
+					</div>
+					
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">Email </label>	
+						<input  class="form-control" name="newemail" value="{$smarty.request.newemail}" onBlur="lc(this)">			
+					</div>
+
+					<div class="col-md-6 hide_by_temp">
+						<label class="mt-3">Discount Limits</label>
+						<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))"><i class="fas fa-question"></i></a>
+						<div class="input-group" > 
+						<input name="disc_limit" class="form-control" maxlength="3" value="{$smarty.request.disc_limit}" >
+							<div class="input-group-append">
+								<div class="input-group-text">%</div>
+							</div>
+						</div>
+						<div class="checkbox">
+							<div class="custom-checkbox custom-control">
+								<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1" name="item_disc_only_allow_percent">
+								<label for="checkbox-1" class="custom-control-label mt-1 text-muted">
+									<span class="tx-12">Force this user to only allow discount by percentage for Item Discount</span>
 								</label>
-						</div>
+							</div>
+						</div>					
 					</div>
-				
-				</div>
-
-				
-
 				</div>	
 				<!--Allow mprice starts-->
 
 				<div class="row mt-3 {if !$mprice_list}style="display:none"{/if}">
-					<div class="col-6">
+					<div class="col-md-6">
 						<label class="mt-3"><b>Allow Mprice</b></label>
 						<div class="row px-3">
 							<div class="checkbox mr-2">
@@ -562,47 +556,48 @@ function toggle_all_check(obj, type, class_name){
 							{/foreach}
 						</div> 
 					</div>
-					<div class="col-6">
-						<label class="mt-3"><b class="ml-2">Privilege</b></label>
-						<div class="checkbox mr-2">
-							<div class="custom-checkbox custom-control">
-								<input type="checkbox" class="custom-control-input" name="use_template" id="as_usetpl"  onClick="ctoggle(this.checked)">
-								<label  class="custom-control-label mt-1 ml-4"  for="as_usetpl">Use Template</label>
-								<select class="form-control" name="template_id" onChange="stoggle(this.value)">
+					<div class="col-md-6">
+						<div class="ml-2">
+							<label class="mt-3"><b>Privilege</b></label>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="checkbox">
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" class="custom-control-input" name="use_template" id="as_usetpl"  onClick="ctoggle(this.checked)">
+											<label  class="custom-control-label"  for="as_usetpl">Use Template</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<select class="form-control select2" name="template_id" onChange="stoggle(this.value)">
 									<option value="0">----------</option>
 									{section name=i loop=$templates}
 									<option value={$templates[i].id}>{$templates[i].u}</option>
 									{/section}
 								</select>
+								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>	
 				<!--Mprice ends here-->
 				
-					{include file=user_privilege_table.tpl user_privilege=$smarty.request.user_privilege}
+				{include file=user_privilege_table.tpl user_privilege=$smarty.request.user_privilege}
 				
 				<div class="row mt-2 text-center">
 					<div class="col">
-						<button class="btn btn-primary btn-block " name="submitbtn" value="Add"> Add</button>
-						
+						<button class="btn btn-primary btn-block " name="submitbtn" value="Add"> Add</button>	
 					</div>
 				</div>
 				
-						{include file=footer.tpl}
-						<script>
-						shide($('as_template').checked);
-						</script>
+				{include file=footer.tpl}
+				<script>
+				shide($('as_template').checked);
+				</script>
 
-
-				
-							</div>
-						</div>
-				
 			</div>
 		</form>
-	</div>
+	</div>				
 </div>
 {/if}
 
