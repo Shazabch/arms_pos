@@ -5,8 +5,8 @@
 			<!-- main-content closed -->
 
 			<!-- Footer opened -->
-			<div class="main-footer ht-40">
-				<div class="container-fluid pd-t-0-f ht-100p">
+			<div class="main-footer">
+				<div class="container-fluid pd-t-0-f py-3">
 					<div style="height:25px">Copyright &copy; 2007-{$smarty.now|date_format:"%Y"} <a class="footer-linkx" href="http://arms.my" target=_blank>ARMS Software International Sdn Bhd</a></div> 
 					{*	More info at *}
 					{*	{if strpos($smarty.server.SERVER_NAME, 'arms-go') !==false} *}
