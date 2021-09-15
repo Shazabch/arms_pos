@@ -1176,10 +1176,10 @@ Revision History
 			}
 			$where = join(' and ', $where);
 			
-			print "<ul>";
+			print "<ul class=\"bg-white list-group list-group-flush rounded-40 shadow bd bd-t-0\">";
 			$con->sql_query("select id,u,l,fullname from user where $where order by u,l,fullname");
 			while ($user=$con->sql_fetchrow()) {
-				print "<li title=\"$user[id]\" u=\"".htmlspecialchars($user['u'])."\">$user[u] - $user[l] - $user[fullname]</li>";
+				print "<li class=\"list-group-item list-group-item-action\" style=\"cursor:pointer\" title=\"$user[id]\" u=\"".htmlspecialchars($user['u'])."\">$user[u] - $user[l] - $user[fullname]</li>";
 			}
 			print "</ul>";
 			exit;
