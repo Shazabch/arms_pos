@@ -325,6 +325,28 @@ function toggle_all_check(obj, type, class_name){
 	</div>
 </div>
 
+{if $errmsg.a}<ul>
+	{foreach item=m from=$errmsg.a}
+	<div class="alert alert-danger mg-b-0 m-2" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$m}
+	</div>
+	{/foreach}
+{/if}
+
+{if $msg.a}
+	{foreach item=m from=$msg.a}
+	<div class="alert alert-info mg-b-0 m-2" role="alert">
+		<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{$m}
+	</div>
+	{/foreach}
+{/if}
+
 <!--Form Started here-->
 
 <div class="card mx-3">
