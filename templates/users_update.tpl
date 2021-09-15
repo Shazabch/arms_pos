@@ -338,7 +338,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card">
+	<div class="card mx-3">
 		<div class="card-body">
 			<form class="from-horizontal" name=f_u method=post action="users.php" onsubmit="return false;">
 					<input type=hidden name=a value="u">
@@ -398,12 +398,7 @@
 		</div>
 	</div>
 </div>
-	
-	
-
-	
-	<div id=udiv class="stdframe">
-	</div>
+<div id=udiv class="stdframe"></div>
 	
 	{include file=footer.tpl}
 	
