@@ -90,51 +90,51 @@
     {if !$user.template}
 	<div class="card mx-3">
 		<div class="card-body">
-			<form class="form-horizontal" method="post" name="f_c">
-				<table width=100% border=0>
-					<tr>
-						{if $BRANCH_CODE eq 'HQ'}
-							{if $sessioninfo.privilege.USERS_MNG}
-								<td align=center width=50%>
-									<input type=hidden name=a value=c>
-									<input type=hidden name=user_id value={$user.id}>
-									<h5>Copy User Privilege</h5>
-									Select template/user to copy from<br>
-									<select name=template_id onChange="copy_template(document.f_c)">
+				<form class="form-horizontal">
+					<div class="row">
+						<div class="col-md-4">
+							{if $BRANCH_CODE eq 'HQ'}
+								{if $sessioninfo.privilege.USERS_MNG}
+									<input type="hidden" name="a" value=c>
+									<input type="hidden" name="user_id" value="{$user.id}">
+									<label><b>Copy User Privilege</b></label>
+									<small class="text-muted">Select template/user to copy from</small>
+									<select class="form-control" name="template_id" onChange="copy_template(document.f_c)">
 										<option value=0>----------</option>
 										{section name=i loop=$templates}
-											<option value={$templates[i].id}>{$templates[i].u} {if $templates[i].template}(Template){/if}</option>
+											<option value="{$templates[i].id}">{$templates[i].u} {if $templates[i].template}(Template){/if}</option>
 										{/section}
 									</select>
-								</td>
-							{/if}
-						{/if}
-						<td align=center width=25%>
-							<div {if $eform_user}style="display:none;"{/if}>
-							<h5 ><font color=black>
-							{if !$user.active}
-								This user is currently <font color=#ff0000>INACTIVE</font><br><br><input onclick="run('a=k&user_id={$user.id}');" type=button value="Activate"> <input onclick="run('a=r&user_id={$user.id}');" type=button value="Reset Password">
-							{else}
-							   This user is currently ACTIVE<br><br><input onclick="run('a=d&user_id={$user.id}');" type=button value="Deactivate">
-							{/if}
-							</font></h5>
-							<div>
-						</td>
-						<td align=center width=25%>
-							<div {if $eform_user}style="display:none;"{/if}>
-							<h5><font color=black>
-							{if $user.locked}
-								This user is currently <font color=#ff0000>LOCKED</font><br><br><input onclick="run('a=j&user_id={$user.id}');" type=button value="Unlock">
-							{else}
-								This user is UNLOCKED<br><br><input onclick="run('a=l&user_id={$user.id}');" type=button value="Lock">
-							{/if}
-							</font></h5>
+								{/if}
+               				 {/if}
+						</div>
+						<div class="col-md-4">
+							<div class="form-group"  {if $eform_user}style="display:none;"{/if}> 
+							
+								{if !$user.active}
+									<label><b>This user is currently <span class="text-danger">INACTIVE</span></b></label>
+									<input class="form-control" onclick="run('a=k&user_id={$user.id}');" type=button value="Activate"> 
+									<input class="form-control" onclick="run('a=r&user_id={$user.id}');" type=button value="Reset Password">
+								{else}
+								   <label><b>This user is currently ACTIVE</b></label>
+								   <input class="form-control" onclick="run('a=d&user_id={$user.id}');" type=button value="Deactivate">
+								{/if}
+				
 							</div>
-						</td>
-	
-					</tr>
-				</table>
-			</form>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group" {if $eform_user}style="display:none;"{/if}> 
+								{if $user.locked}
+									<label><b>This user is currently <span class="text-danger">LOCKED</span></b></label>
+									<input class="form-control" onclick="run('a=j&user_id={$user.id}');" type=button value="Unlock">
+								{else}
+									<label><b>This user is UNLOCKED</b></label>
+									<input class="form-control" onclick="run('a=l&user_id={$user.id}');" type=button value="Lock">
+								{/if}
+							</div>
+						</div>
+					</div>
+				</form>
 			<hr noshade size=1>
 		{/if}
 	{/if}
@@ -175,7 +175,7 @@
 	<form class="form-horizontal">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form-group row">
+				<div class="form-group row ml-1">
 					<b><label>Last Login : </label></b>
 					<p>&nbsp;{$user.lastlogin|date_format:"%e/%m/%y %H:%M:%S"}</p>
 				</div>
@@ -183,13 +183,13 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form-group row">
+				<div class="form-group row ml-1">
 					<b><label>User ID : </label></b>
 					<p>&nbsp;{$user.id}</p>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="form-group row">
+				<div class="form-group row ml-1">
 					<b><label>Username : </label></b>
 					<p>&nbsp;{$user.u}</p>
 				</div>
@@ -205,28 +205,25 @@
 					{/if}
 				</div>
 			</div>
-
+			{if $config.user_profile_need_ic}
 			<div class="col-md-6">
 				<div class="form-group">
-					{{if $config.user_profile_need_ic}
 						<label class="mt-3">IC No.<span class="text-danger">*</span></label>
 						<input type="text" class="form-control" name="ic_no" value="{$user.ic_no}">
-					{/if}
 				</div>
 			</div>
-
+			{/if}
+			{if !$config.consignment_modules}
 			<div class="col-md-6">
 				<div class="form-group">
-					{if !$config.consignment_modules}
 						<label class="mt-3">Login Barcode</label>
 						<input type="text" class="form-control" name="ic_no" value="{$user.barcode}" onBlur="uc(this)">
 						<small class="text-muted">
 							<span>(For POS Counter use) only numeric)</span>
 						</small>
-					{/if}
 				</div>
 			</div>
-
+			{/if}
 			<div class="col-md-6">
 				<div class="form-group">
 						<label class="mt-3">Full Name<span class="text-danger">*</span></label>
@@ -303,11 +300,11 @@
 						<label class="form-check-label" for="vendors_all_id"> All </label>	
 					</div> 		
 				
-					<div class="" id="vendors_id">
+					<div class="" id="vendors_id" {if not $user.vendors}style="display:none"{/if}>
 						<div class="conatainer rounded bg-light p-3 mt-2 overflow-auto" style="height: 25vh;" >
 							{section name=i loop=$vendors}
 							{assign var=id value=`$vendors[i].id`}
-							<input type=checkbox class="vendors p-4" name=vendors[{$vendors[i].id}] {if $smarty.request.vendors.$id}checked{/if}> {$vendors[i].description}<br>
+							<input type=checkbox class="vendors p-4" name="vendors[{$vendors[i].id}]" {if $user.vendors.$id}checked {/if}> {$vendors[i].description}<br>
 							{/section}
 						</div>
 							<small class="mt-1"><b>Note:</b> <span class="text-muted ">All vendors remain unticked will be considered have privilege on all vendors</span></small>
@@ -316,16 +313,16 @@
 				<!--vendors  section end -->
 
 				<!--Brands Section start-->
-				<div class="col-md-6 hide-by-temp">
+				<div class="col-md-6">
 					<label class="mt-3 tx-bold">Brands</label>
 					<div class="form-check " id="brands_all_id">
-						<input id="brands_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'brands','brands')" > 
+						<input id="brands_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'brands','brands')" {if not $user.brands}checked{/if} > 
 						<label class="form-check-label" for="brands_all_id"> All </label>	
 					</div> 		
 				
-					<div class="" id="brands_id">
+					<div class="" id="brands_id" {if not $user.brands}style="display:none"{/if}>
 						<div class="conatainer rounded bg-light p-3 mt-2 overflow-auto" style="height: 25vh;" >
-							<input type=checkbox class="brands p-4" name="brands[0]" {if $smarty.request.brands[0]}checked{/if}> Unbranded<br>
+							<input type="checkbox" class="brands p-4" name="brands[0]" {if $user.brands[0]}checked {/if}> Unbranded<br>
 							{section name=i loop=$brands}
 							{assign var=id value=`$brands[i].id`}
 							<input type=checkbox class="brands p-4" name="brands[{$brands[i].id}]" {if $smarty.request.brands.$id}checked{/if}> {$brands[i].description}<br>
@@ -337,120 +334,130 @@
 				<!--Brands Section ends -->
 
 			</div>
-	</form>
+			<div class="row">
+				{if $config.consignment_modules && $config.masterfile_branch_region}
+				<div class="col-md-6">
+					<div class="form-group">
+							<label class="mt-3"><b>Regions</b></label>
+							<div id="regions">
+								<div style="padding-bottom:10px;">
+									<input class="form-control" type="checkbox" id="region_all_id" onclick="toggle_all_check(this,'regions','regions')">
+									<label for="region_all_id"><b>All Regions</b></label>
+									{foreach from=$config.masterfile_branch_region key=code item=r}
+										<input class="form-control" type="checkbox" class="regions" name="regions[{$code}]" {if $user.regions.$code}checked {/if}> 
+										<b>{$r.name}</b>
+									{/foreach}
+								</div>
+							</div>
+				
+					</div>
+				</div>
+				{/if}
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					{if $BRANCH_CODE eq 'HQ' && $can_edit_level}
+					<div class="form-group">
+						<label class="mt-3">User Level</label>
+						<select class="form-control" name="level">
+							{foreach from=$user_level item=level key=n}
+								<option value={$level} {if $user.level eq $level}selected{/if}>{$n}</option>
+							{/foreach}
+						</select>
+					</div>
+					{else}
+					<input class="form-control" type="hidden" name="level" value="{$user.level}">
+					
+					{/if}
+				</div>
+				
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mt-3">Login ID <span class="text-danger"> *</span></label>
+						<input class="form-control" name="newlogin "value="{$user.l}">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mt-3">Password</label>
+						<input class="form-control" name="newpassword" type="password" size=20>
+						 <small class="text-muted">(password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</small>
+					</div>
+					
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="mt-3">Retype Password</label>
+						<input class="form-control" alt="Reconfirm password" name="newpassword2" type="password">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+							<label class="mt-3">Email<span class="text-danger">*</span></label>
+							<input class="form-control" name="newemail" size=20 value="{$user.email}" onchange="lc(this)">
+							<small class="text-muted">(optional, but email is required for password reset)</small>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<label class="mt-3">Discount Limits</label>
+					<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))"><i class="fas fa-question"></i></a>
+					<div class="input-group" > 
+					<input name="disc_limit" class="form-control" maxlength="3" value="{$user.discount_limit}" >
+						<div class="input-group-append">
+							<div class="input-group-text">%</div>
+						</div>
+					</div>
+					<div class="checkbox">
+						<div class="custom-checkbox custom-control">
+							<input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1" name="item_disc_only_allow_percent" {if $user.item_disc_only_allow_percent}checked {/if} value="1">
+							<label for="checkbox-1" class="custom-control-label mt-1 text-muted">
+								<span class="tx-12">Force this user to only allow discount by percentage for Item Discount</span>
+							</label>
+						</div>
+					</div>	
+			</div>
+			<div class="col-md-6">
+				<div class="from-group" {if !$mprice_list}style="display:none;"{/if}>
+		
+						<label class="mt-3">Allow Mprice</label>
+						<div class="row px-3 mt-3">
+							<div class="checkbox mr-2">
+								{assign var=mp value=$user.allow_mprice}
+								<div class="custom-checkbox custom-control">
+									<input type="checkbox" id="checkbox-0" class="custom-control-input" name="allow_mprice[not_allow]"  onclick="check_user_profile_allow_mprice_list(this)" {if $mp.not_allow}checked{/if}>
+									<label for="checkbox-0"  class="custom-control-label mt-1">Not Allow</label>
+								</div>
+							</div>
+							{foreach from=$mprice_list item=val}
+							<div  class="checkbox mr-2 user_profile_mprice_list" {if $mp.not_allow}style="display:none;"{else}style=""{/if} >
+								<div class="custom-checkbox custom-control">
+									<input type="checkbox" id="allow_mprice[{$val}]" class="custom-control-input" name="allow_mprice[{$val}]" {if $mp.$val}checked{/if}>
+									<label for="allow_mprice[{$val}]" class="custom-control-label mt-1">{$val}</label>
+								</div>
+							</div>
+							{/foreach}
+						</div> 
+				
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="mt-3">Phone No</label>
+	
+						<input class="form-control" name="phone_1" maxlength="20" value="{$user.phone_1}" onchange="toggle_sms_notification();" />
+						<small class="text-muted">(<b>eg:</b> 0123456789)</small>
+						{if $config.notification_send_sms}
+						<label>
+							<input type="checkbox" name="sms_notification" {if $user.sms_notification}checked{/if} value="1" {if !$user.phone_1}disabled{/if} >
+							Receive Notification by SMS
+						</label>
+						{/if}
+					
+				</div>
+			</div>
+		</div>
 
-	<table >
-	
-	<tr>
-		<td></td>
-		<td id="vendors_id" {if not $user.vendors}style="display:none"{/if}>
-			<div style="height:200px;width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
-			{section name=i loop=$vendors}
-			{assign var=id value=`$vendors[i].id`}
-			<input type=checkbox class="vendors" name=vendors[{$vendors[i].id}] {if $user.vendors.$id}checked {/if}> {$vendors[i].description}<br>
-			{/section}
-			</div>
-			<div style="float:left">
-				&nbsp;&nbsp;<b>Note:</b> All vendors remain unticked will be considered have privilege on all vendors
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td valign=top><b>Brands</b></td>
-		<td id="brands_all_id">
-			<input type=checkbox id="brands_all_id" onclick="toggle_all_check(this,'brands','brands')" {if not $user.brands}checked{/if}> 
-			<label for="brands_all_id">All</label><br>	
-		</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td id="brands_id" {if not $user.brands}style="display:none"{/if}>
-			<div style="height:200px;width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
-			<input type=checkbox class="brands" name=brands[0] {if $user.brands[0]}checked {/if}> Unbranded<br>
-	
-			{section name=i loop=$brands}
-			{assign var=id value=`$brands[i].id`}
-			<input type=checkbox class="brands" name=brands[{$brands[i].id}] {if $user.brands.$id}checked {/if}> {$brands[i].description}<br>
-			{/section}
-			</div>
-			<div style="float:left">
-				&nbsp;&nbsp;<b>Note:</b> All brands remain unticked will be considered have privilege on all brands
-			</div>
-		</td>
-	</tr>
-	{if $config.consignment_modules && $config.masterfile_branch_region}
-		<tr>
-			<td valign=top><b>Regions</b></td>
-			<td id="regions">
-			<div style="padding-bottom:10px;">
-				<input type="checkbox" id="region_all_id" onclick="toggle_all_check(this,'regions','regions')">
-				<label for="region_all_id"><b>All Regions</b></label>
-				{foreach from=$config.masterfile_branch_region key=code item=r}
-					<input type="checkbox" class="regions" name="regions[{$code}]" {if $user.regions.$code}checked {/if}> 
-					<b>{$r.name}</b>
-				{/foreach}
-			</div>
-			</td>
-		</tr>
-	{/if}
-	
-	{if $BRANCH_CODE eq 'HQ' && $can_edit_level}
-		<tr>
-			<td><b>User Level</b></td>
-			<td>
-				<select name=level>
-					{foreach from=$user_level item=level key=n}
-						<option value={$level} {if $user.level eq $level}selected{/if}>{$n}</option>
-					{/foreach}
-				</select>
-			</td>
-		</tr>
-	{else}
-		<input type="hidden" name="level" value="{$user.level}">
-	{/if}
-	<tr>
-	<td><b>Login ID</b></td><td><input name=newlogin size=20 value="{$user.l}"> <img src=ui/rq.gif align=absbottom title="Required Field"></td>
-	</tr><tr>
-	<td><b>Password</b></td><td><input name=newpassword type=password size=20> (password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</td>
-	</tr><tr>
-	<td><b>Retype Password</b></td><td><input alt="Reconfirm password" name=newpassword2 type=password size=20></td>
-	</tr><tr>
-	<td><b>Email</b></td><td><input name=newemail size=20 value="{$user.email}" onchange="lc(this)"> (optional, but email is required for password reset)</td>
-	</tr>
-	<tr>
-		<td>
-			<b>Discount Limit</b>
-			[<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))">?</a>]
-		</td>
-		<td>
-			<input name=disc_limit size=1 maxlength="3" value="{$user.discount_limit}"> % 
-			{if $config.user_profile_show_item_discount_only_allow_percent}
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="checkbox" name="item_disc_only_allow_percent" {if $user.item_disc_only_allow_percent}checked {/if} value="1" />
-				Force this user to only allow discount by percentage for Item Discount
-			{/if}
-		</td>
-	</tr>
-	
-	<tr {if !$mprice_list}style="display:none;"{/if}>
-	<td><b>Allow Mprice</b></td>
-	<td>
-		<ul style="list-style:none; margin:0; padding:0;">
-		{assign var=mp value=$user.allow_mprice}
-			<li style="float:left; padding-right:10px; margin:0;"><input type="checkbox" type="margin-left:0;" name="allow_mprice[not_allow]" onclick="check_user_profile_allow_mprice_list(this)" {if $mp.not_allow}checked{/if}> Not Allow</li>
-			{foreach from=$mprice_list item=val}
-			<li class="user_profile_mprice_list" {if $mp.not_allow}style="display:none;float:left; padding-right:10px; margin:0;"{else}style="float:left; padding-right:10px; margin:0;"{/if}  ><input type="checkbox" style="margin-left:0;" name="allow_mprice[{$val}]" {if $mp.$val}checked{/if} /> {$val}</li>
-			{/foreach}
-		</ul>
-	</td>
-	</tr><tr>
-	<td><b>Phone No</b></td>
-	<td>
-		<input name="phone_1" size="20" maxlength="20" value="{$user.phone_1}" onchange="toggle_sms_notification();" />&nbsp;&nbsp;&nbsp;(<b>eg:</b> 0123456789)
-		{if $config.notification_send_sms}<label><input type="checkbox" name="sms_notification" {if $user.sms_notification}checked{/if} value="1" {if !$user.phone_1}disabled{/if} >Receive Notification by SMS</label>{/if}&nbsp;
-	</td>
-	</tr>
-	</table>
+	</form>
 	<hr noshade size=1>
 	{/if}
 		</div>
@@ -460,13 +467,17 @@
 
 {include file=user_privilege_table.tpl}
 
-<p align=center>
-<input class="btn btn-warning hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
-{if $eform_user}
-	<input class="btn" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
-{/if}
-<input class="btn btn-primary" name=submitbtn type=submit value="Update">
-</p>
+<div class="card mx-3 ">
+	<div class="card-body">
+		<p align=center>
+			<input class="btn btn-warning btn-block hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
+			{if $eform_user}
+				<input class="btn btn-block" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
+			{/if}
+			<input class="btn btn-primary btn-block mt-2" name=submitbtn type=submit value="Update">
+			</p>
+	</div>
+</div>
 </form>
 {/if}
 
