@@ -45,18 +45,20 @@
 	</div>
 </div>
 {/if}
-<div class="mt-3">
+<div class="">
 	<table class="table">
 		<thead>
-			<th colspan="2"><h6><b>User Privileges</b></h6></th>
+			<th colspan="2" class="mt-2"><h6><b>User Privileges</b></h6></th>
 			{section name=c loop=$branches}
-			<th>
-				<a href="javascript:void(checkallcol('user_privilege', '{$branches[c].id}', true))"><i class="mdi mdi-checkbox-blank-outline" title="check all"></i></a><br>
-				<a href="javascript:void(checkallcol('user_privilege', '{$branches[c].id}', false))"><i class="mdi mdi-checkbox-marked" title="check all"></i></a><br>
+		<div class="mt-4">
+			<th >
+				<a href="javascript:void(checkallcol('user_privilege', '{$branches[c].id}', true))"><i class="fas fa-check-square" title="check all"></i></a><br>
+				<a href="javascript:void(checkallcol('user_privilege', '{$branches[c].id}', false))"><i class="far fa-square" title="uncheckall"></i></i></a><br>
 				<p class="text-md" title="{$branches[c].description}">{$branches[c].code}</p>
 			</th>
+		</div>
 			{/section}
-			<th><h6><b>Description</b></h6></th>
+			<th class="mt-2"><h6><b>Description</b></h6></th>
 		</thead>
 			{foreach from=$privileges key=grp item=pg}
 				<tr>
