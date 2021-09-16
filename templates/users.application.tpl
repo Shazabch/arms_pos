@@ -32,19 +32,28 @@ function list_sel(n)
 {/literal}
 </script>
 
-
-<h1>User EForm Application Lists</h1>
-<form name="f_l" onsubmit="list_sel(0,0);return false;">
-	<div class=tab style="white-space:nowrap;">
-		&nbsp;&nbsp;&nbsp;
-		<a href="javascript:list_sel(0)" id="lst0" class="btn btn-outline-indigo btn-rounded active">New Application</a>
-		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-indigo btn-rounded">Rejected</a>
-		<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-indigo btn-rounded">Approved</a>
-		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-indigo btn-rounded">Activated</a>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">User EForm Application Lists</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
-	<div id="application_list" >
+</div>
+<div class="card mx-2">
+	<div class="card-body">
+		<form name="f_l" onsubmit="list_sel(0,0);return false;">
+			<div class=tab style="white-space:nowrap;">
+				&nbsp;&nbsp;&nbsp;
+				<a href="javascript:list_sel(0)" id="lst0" class="btn btn-outline-indigo btn-rounded active">New Application</a>
+				<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-indigo btn-rounded">Rejected</a>
+				<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-indigo btn-rounded">Approved</a>
+				<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-indigo btn-rounded">Activated</a>
+			</div>
+			<div id="application_list" >
+			</div>
+		</form>
 	</div>
-</form>
+</div>
 
 {include file=footer.tpl}
 <script>
