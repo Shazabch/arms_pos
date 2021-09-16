@@ -190,6 +190,9 @@
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
 
+		<!-- Internal Select2 css -->
+		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+
 		<!--  Right-sidemenu css -->
 		<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
@@ -201,9 +204,6 @@
 
 		<!--- Style css --->
 		<link href="../assets/css/style.css" rel="stylesheet">
-		
-		<!-- Internal Select2 css -->
-		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
 		
 		<!--- Dark-mode css --->
 		<link href="../assets/css/style-dark.css" rel="stylesheet">

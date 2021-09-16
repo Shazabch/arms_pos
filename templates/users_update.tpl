@@ -356,7 +356,7 @@
 							<div class="col-3">
 								{if $BRANCH_CODE eq 'HQ'}
 									<label class="mt-3">Branch</label>
-									<select class="form-control" name="branch_id" onChange="refresh2();">
+									<select class="form-control select2" name="branch_id" onChange="refresh2();">
 										<option value=0>- All -</option>
 										{section name=i loop=$branches}
 										<option value={$branches[i].id} {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
@@ -369,7 +369,7 @@
 							
 							<div class="col-3">
 								<label class="mt-3">Status</label>
-								<select class="form-control" name="status" onChange="refresh2();">
+								<select class="form-control select2" name="status" onChange="refresh2();">
 									<option value=-1>- All -</option>
 									<option value=1 {if $smarty.request.status eq '1'}selected{/if}>Active</option>
 									<option value=0 {if $smarty.request.status eq '0'}selected{/if}>Inactive</option>
@@ -377,7 +377,7 @@
 							</div>
 							<div class="col-6">
 								<label class="mt-3">Select username</label> 
-								<select class=" form-control select2" name="user_id" onChange="refresh();document.f_u.search_username.value = '';" {if $eform_user}id="select_disabled"{/if}>
+								<select class="form-control select2" name="user_id" onChange="refresh();document.f_u.search_username.value = '';" {if $eform_user}id="select_disabled"{/if}>
 									<option value=0>----------</option>
 									{section name=i loop=$users}
 									<option id="opt_uid-{$users[i].id}" value={$users[i].id} {if ($smarty.request.user_id eq $users[i].id) || $eform_user eq $users[i].id}selected{/if}>{$users[i].u} {if $users[i].template}(Template){else}({$users[i].branch_code}){/if}{if !$users[i].active} - inactive{/if}</option>
