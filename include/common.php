@@ -1862,7 +1862,7 @@ function deep_sort(&$data, $sort_last_level=true)
 function sel($array,$name,$all=true, $all_value = '')
 {
 	$ret = '';
-	print "<select name=$name>";
+	print "<select name=$name class=\"form-control select2\">";
 	if ($all)
 	{
 	    $ret = $all_value;

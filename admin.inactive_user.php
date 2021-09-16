@@ -39,35 +39,49 @@ function do_submit(){
 	document.f_a.submit();
 }
 </script>
-
-<h1><?php print $page_title; ?></h1>
+<div class="container">
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary"><?php print $page_title; ?></h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+	<div class="card mx-3">
+		<div class="card-body">
 <p>
 <form name=f_a class="stdframe" style="background:#fff">
 <input type=hidden name=load value=1>
 <?
 	if (BRANCH_CODE=='HQ'){
 		$con->sql_query("select id as value, branch.code as title from branch order by sequence, code");
-		print "<b>Branch  </b>";
+		print "<label>Branch  </label>";
 		sel($con->sql_fetchrowset(), "branch_id");
-		print "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
 	}
 
 ?>
-
-<b>More Than</b> 
-<input type="text" class=r name="day" value="<?=$_REQUEST['day']?>" id="day" size=6 onclick="this.select();mi(this);"> (Days)
-
-&nbsp;&nbsp; <input type=button value='Show Report' onclick="do_submit();">
+<br>
+<div class="form-label">More Than</div>
+<input type="text" class="r form-control" name="day" value="<?=$_REQUEST['day']?>" id="day" size=6 onclick="this.select();mi(this);">
+ <small><b>(Days)</b></small>
+<br>
+<br>
+<input class="btn btn-primary text-center" value='Show Report' onclick="do_submit();">
 
 <p>
-<b>Note:</b><br />
-* No-Activity: Did not login from the past stated day(s)<br />
-* <font color="red">Locked:</font> Failed to login for 3 times.
+<div class="mt-3">
+<b class="">Note:</b>
+</div>
+<div class="form-label">*<span class="text-dark"><b> No-Activity:</b></span>Did not login from the past stated day(s)</div>
+ 
+<div class="form-label">*<span class="text-danger"> <b>Locked:</b></span> Failed to login for 3 times.</div>
 </p>
 
 </form>
 </p>
-
+		</div>
+	</div>
+</div>
 <?
 	if ($_REQUEST['load']){
 		$day=mi($_REQUEST['day']);

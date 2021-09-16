@@ -4,29 +4,39 @@
 *}
 
 {if !$list}
-<p align=left>- No record -</p>
+<p align="left">- No record -</p>
 {else}
-<table id=tbl_list class="tb" cellspacing=0 cellpadding=2 border=0 width=100%>
-<tr bgcolor=#e2e3e5 height=24>
-	<th width=30>No</th>
-	<th width=100>Outlet</th>
-	<th width=250>Name</th>	
-	<th width=200>Position</th>	
-	<th width=80>Status</th>	
-	<th width=100>Last Login</th>
-</tr>
-
-{section name=i loop=$list}
-<tr>
-	<td align=center>{$smarty.section.i.iteration}</td>
-	<td align=center>{$list[i].b_code}</td>
-	<td>{$list[i].name|default:$list[i].u}</td>
-	<td>{$list[i].position|default:"&nbsp;-"}</td>	
-	<td align=center {if $list[i].status eq 'Locked'}style="color:red;"{/if}>{$list[i].status}</td>		
-	<td>{$list[i].lastlogin}</td>	
-</tr>
-{/section}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="tbl_list" class="report_table table mb-0 text-md-nowrap table-sm table-hover "  width="100%">
+				<thead>
+					<tr class="text-center">
+						<th>No</th>
+						<th>Outlet</th>
+						<th>Name</th>	
+						<th>Position</th>	
+						<th>Status</th>	
+						<th>Last Login</th>
+					</tr>
+				</thead>
+				
+				{section name=i loop=$list}
+				<tbody>
+					<tr class="text-center">
+						<td >{$smarty.section.i.iteration}</td>
+						<td>{$list[i].b_code}</td>
+						<td>{$list[i].name|default:$list[i].u}</td>
+						<td>{$list[i].position|default:"&nbsp;-"}</td>	
+						<td {if $list[i].status eq 'Locked'}style="color:red;"{/if}>{$list[i].status}</td>		
+						<td>{$list[i].lastlogin}</td>	
+					</tr>
+				</tbody>
+				{/section}
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 <script>
 ts_makeSortable($('tbl_list'));
