@@ -22,7 +22,7 @@
 				<div class="row mt-2">
 					<div class="col-4">
 						<label>Source Branch</label>
-						<select class="form-control"  name="source_branch" id="sc">
+						<select class="form-control select2"  name="source_branch" id="sc">
 							{section name=i loop=$branches}
 							<option value="{$branches[i].id}">{$branches[i].code}</option>
 							{/section}
@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-4">
 						<label>Destination Branch</label>
-						<select class="form-control" name="destination_branch" id="dc">
+						<select class="form-control select2" name="destination_branch" id="dc">
 							{section name=i loop=$branches}
 							<option value={$branches[i].id}>{$branches[i].code}</option>
 							{/section}

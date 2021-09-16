@@ -401,7 +401,7 @@ function toggle_all_check(obj, type, class_name){
 					</div>
 					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">Location </label>
-						<select class="form-control" name=default_branch_id onchange="uname_blur(newuser)">
+						<select class="form-control select2" name=default_branch_id onchange="uname_blur(newuser)">
 							{section name=i loop=$branches}
 							<option value={$branches[i].id} {if $smarty.request.default_branch_id == $branches[i].id}selected{/if}>{$branches[i].code}</option>
 							{/section}
@@ -489,7 +489,7 @@ function toggle_all_check(obj, type, class_name){
 				<div class="row mt-3">
 					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3">User Level </label>
-						<select class="form-control" name="level" >
+						<select class="form-control select2" name="level" >
 							{foreach from=$user_level item=level key=n}
 							<option value="{if $smarty.request.level eq $level}selected{/if}" >{$n}</option>
 							{/foreach}

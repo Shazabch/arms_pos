@@ -99,7 +99,7 @@
 									<input type="hidden" name="user_id" value="{$user.id}">
 									<label><b>Copy User Privilege</b></label>
 									<small class="text-muted">Select template/user to copy from</small>
-									<select class="form-control" name="template_id" onChange="copy_template(document.f_c)">
+									<select class="form-control select2" name="template_id" onChange="copy_template(document.f_c)">
 										<option value=0>----------</option>
 										{section name=i loop=$templates}
 											<option value="{$templates[i].id}">{$templates[i].u} {if $templates[i].template}(Template){/if}</option>
@@ -248,7 +248,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 						<label class="mt-3">Location</label>
-						<select class="form-control" name="default_branch_id" onchange="uname_blur(newuser)">
+						<select class="form-control select2" name="default_branch_id" onchange="uname_blur(newuser)">
 							{section name=i loop=$branches}
 							<option value="{$branches[i].id}" {if $user.default_branch_id == $branches[i].id}selected{/if}>{$branches[i].code}</option>
 							{/section}
@@ -359,7 +359,7 @@
 					{if $BRANCH_CODE eq 'HQ' && $can_edit_level}
 					<div class="form-group">
 						<label class="mt-3">User Level</label>
-						<select class="form-control" name="level">
+						<select class="form-control select2" name="level">
 							{foreach from=$user_level item=level key=n}
 								<option value={$level} {if $user.level eq $level}selected{/if}>{$n}</option>
 							{/foreach}
