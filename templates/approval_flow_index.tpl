@@ -933,28 +933,28 @@ var APPROVAL_FLOW = {
 			<table id="tb" class="table table-hover mb-0 text-md-nowrap">
 				<tr>
 				<td><b>Branch</b></td>
-				<td><select name="branch_id" class="form-control">
+				<td><select name="branch_id" class="form-control select2">
 				{section name=i loop=$branches}
 				<option value={$branches[i].id}>{$branches[i].code}</option>
 				{/section}
 				</select></td>
 				</tr><tr>
 				<td><b>Flow Type</b></td>
-				<td><select name=type onchange="sel_type(this.value)" class="form-control">
+				<td><select name=type onchange="sel_type(this.value)" class="form-control select2">
 				{section name=i loop=$flow_set}
 				<option value={$flow_set[i].type}>{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
 				{/section}
 				</select><span id=tremark class=small style="color:#00f"></span></td>
 				</tr><tr id=dpt>
 				<td><b>Department</b></td>
-				<td><select name=sku_category_id class="form-control">
+				<td><select name=sku_category_id class="form-control select2">
 				{section name=i loop=$dept}
 				<option value={$dept[i].id}>{$dept[i].description}</option>
 				{/section}
 				</select></td>
 				</tr><tr id=st>
 				<td><b>SKU Type</b></td>
-				<td><select name="sku_type" class="form-control">
+				<td><select name="sku_type" class="form-control select2">
 					{foreach from=$sku_type_list key=st_code item=st}
 						<option value="{$st_code}">{$st.description}</option>
 					{/foreach}
@@ -963,7 +963,7 @@ var APPROVAL_FLOW = {
 				<td><b>Approval Order</b></td>
 				<td>
 				  <span id="span_aorder_sel">
-				  <select name="aorder" onChange="aorder_changed();" class="form-control">
+				  <select name="aorder" onChange="aorder_changed();" class="form-control select2">
 				  {if !$config.approval_flow_use_all_order}
 				    <option value="1">{$aorder.1.description}</option> {* Follow Sequences *}
 				    <option value="3">{$aorder.3.description}</option> {* Anyone *}
@@ -984,7 +984,7 @@ var APPROVAL_FLOW = {
 				<tr>
 				<td>
 				<b>Approvals</b><br>
-				<select name=sel_approvals[] multiple size=10 style="width:160px" class="form-control">
+				<select name=sel_approvals[] multiple size=10 style="width:160px" class="form-control select2">
 				</select>
 				</td>
 				<td align=center>
@@ -996,7 +996,7 @@ var APPROVAL_FLOW = {
 				</td>
 				<td>
 				<b>User pool</b><br>
-				<select name=src_approvals multiple size=10 style="width:160px" class="form-control">
+				<select name=src_approvals multiple size=10 style="width:160px" class="form-control select2">
 				</select>
 				</td>
 				<td align=center>
@@ -1005,7 +1005,7 @@ var APPROVAL_FLOW = {
 				</td>
 				<td>
 				<b>Notify Users</b><br>
-				<select name=sel_notify[] multiple size=10 style="width:160px" class="form-control">
+				<select name=sel_notify[] multiple size=10 style="width:160px" class="form-control select2">
 				</select>
 				</td>
 				</tr>

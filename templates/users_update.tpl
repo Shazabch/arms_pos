@@ -377,7 +377,7 @@
 							</div>
 							<div class="col-6">
 								<label class="mt-3">Select username</label> 
-								<select class="form-control" name="user_id" onChange="refresh();document.f_u.search_username.value = '';" {if $eform_user}id="select_disabled"{/if}>
+								<select class=" form-control select2" name="user_id" onChange="refresh();document.f_u.search_username.value = '';" {if $eform_user}id="select_disabled"{/if}>
 									<option value=0>----------</option>
 									{section name=i loop=$users}
 									<option id="opt_uid-{$users[i].id}" value={$users[i].id} {if ($smarty.request.user_id eq $users[i].id) || $eform_user eq $users[i].id}selected{/if}>{$users[i].u} {if $users[i].template}(Template){else}({$users[i].branch_code}){/if}{if !$users[i].active} - inactive{/if}</option>

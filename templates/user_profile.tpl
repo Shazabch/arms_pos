@@ -100,7 +100,7 @@
 									<label><b>Copy User Privilege</b></label>
 									<small class="text-muted">Select template/user to copy from</small>
 									<select class="form-control" name="template_id" onChange="copy_template(document.f_c)">
-										<option value=0>----------</option>
+										<option value="0">----------</option>
 										{section name=i loop=$templates}
 											<option value="{$templates[i].id}">{$templates[i].u} {if $templates[i].template}(Template){/if}</option>
 										{/section}
@@ -143,7 +143,7 @@
 	{if !$user.template}
 	<form method=post name=f_e onsubmit="return check_e(0)">
 	{else}
-	<form method=post name=f_e onsubmit="return check_e(1)">
+<form method=post name=f_e onsubmit="return check_e(1)">
 	{/if}
 	<input type=hidden name=template value={$user.template}>
 	<input type=hidden name=a value=m>
@@ -465,7 +465,7 @@
        
 
 
-{include file=user_privilege_table.tpl}
+	{include file=user_privilege_table.tpl}
 
 		<div align="center" class="mb-3">
 			<input class="btn btn-warning  hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
@@ -477,7 +477,7 @@
 	
 
 </form>
-{/if}
+	{/if}
 
 <script>
 if(document.f_e != null)

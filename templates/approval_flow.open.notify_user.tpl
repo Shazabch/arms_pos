@@ -1,11 +1,10 @@
 <tr id="tr-notify-{$user_id}" class="tr-notify">
 	<td nowrap>
 		{* check all *}
-		<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_user_approval_notify_settings('notify','{$user_id}', true);" />
-		<br>
+		<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_user_approval_notify_settings('notify','{$user_id}', true);"></i>
+
 		{* un-check all *}
-		<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_user_approval_notify_settings('notify','{$user_id}', false);" />
-		
+		<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_user_approval_notify_settings('notify','{$user_id}', false);"></i>
 		<input type="hidden" name="notify_user_id[{$user_id}]" value="{$user_id}" />
 	</td>
 	<td nowrap>

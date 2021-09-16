@@ -19,9 +19,9 @@
 		<table class="table mb-0 text-md-nowrap table-sm table-borderless">
 			<tr>
 				{* Branch *}
-				<td width="100"><b>Branch </b><span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td width="100"><label><b>Branch</b><span id="rq_img1" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="branch_id" class="form-control">
+					<select name="branch_id" class="form-control select2">
 						<option value="">-- Please Select --</option>
 						{foreach from=$branch_list key=bid item=b}
 							{if $bid eq $form.branch_id or $b.active}
@@ -32,9 +32,9 @@
 				</td>
 				
 				{* Flow Type *}
-				<td width="100"><b>Flow Type </b><span id="rq_img2"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td width="100"><label><b>Flow Type</b><span id="rq_img2" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control">
+					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control select2">
 						<option value="">-- Please Select --</option>
 						{foreach from=$flow_set item=r}
 							<option value="{$r.type}" {if $r.type eq $form.type}selected {/if}>{if $r.description}{$r.description}{else}{$r.type}{/if}</option>
@@ -45,9 +45,9 @@
 			
 			<tr>
 				{* Department *}
-				<td width="100"><b>Department </b><span id="rq_img3"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td width="100"><label><b>Department</b><span id="rq_img3" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="sku_category_id" class="form-control">
+					<select name="sku_category_id" class="form-control select2">
 						<option value="">-- Please Select --</option>
 						{foreach from=$dept_list key=dept_id item=r}
 							{if $dept_id eq $form.sku_category_id or $r.active}
@@ -58,9 +58,9 @@
 				</td>
 				
 				{* SKU Type *}
-				<td width="100"><b>SKU Type </b><span id="rq_img4"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td width="100"><label><b>SKU Type</b><span id="rq_img4" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="sku_type" class="form-control">
+					<select name="sku_type" class="form-control select2">
 						<option value="">-- Please Select --</option>
 						{foreach from=$sku_type_list key=st item=r}
 							<option value="{$st}" {if $form.sku_type eq $st}selected {/if}>{$r.description}</option>
@@ -71,7 +71,7 @@
 			
 			{* Approval Order *}
 			<tr>
-				<td width="100"><b>Approval Order </b><span id="rq_img5"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+				<td width="100"><label><b>Approval Order</b><span id="rq_img5" class="text-danger"> *</span></label></td>
 				<td>
 					<select name="aorder" onChange="APPROVAL_FLOW.aorder_changed();" class="form-control">
 						<option value="">-- Please Select --</option>
@@ -102,19 +102,20 @@
 			</tr>
 		</table>
 	</div>
-	
+	<hr>
 	{* Approvals *}
-	<div id="div_approvals">
-		<h3>Approvals
+	<div id="div_approvals" class="">
+		<h3 class="mt-3">Approvals
 			<span id="span_approval_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 		</h3>
 		<div class="table-responsive">
 			<table width="100%" class="report_table table mb-0 text-md-nowrap table-sm table-borderless" id="tbl_approvals">
-				<tr class="header">
+				<tr class="header mt-2">
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>
-					<th>Username</th>
-					<th >Default Branch</th>
+					
+					<th class="mt-2"> <br>Username</th>
+					<th class="mt-2" > <br> Default Branch</th>
 					<th >
 			
 						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','pm', true);"></i>
@@ -123,9 +124,8 @@
 						PM
 					</th>
 					<th >
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', false);" />
+						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', true);"></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', false);"></i>
 						<br />
 						<span style="white-space:nowrap;">
 							Email
@@ -135,9 +135,8 @@
 						</span>						
 					</th>
 					<th>
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', false);" />
+						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', true);" ></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', false);"></i>
 						<br />
 						<span style="white-space:nowrap;">
 							SMS
@@ -149,8 +148,8 @@
 					<th>
 						<img src="ui/icons/textfield_rename.png" title="Assign all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_min_doc_amt();" />
 						<br />
-						Min. Document Amt
-						<img src="ui/icons/information.png" align="absmiddle" onClick="alert('This will not affect those module without amount, eg: SKU APPLICATION, PROMOTION');" />
+						<label class="mt-2">Min. Document Amt</label>
+						<img class="" src="ui/icons/information.png" align="absmiddle" onClick="alert('This will not affect those module without amount, eg: SKU APPLICATION, PROMOTION');" />
 					</th>
 				</tr>
 				
@@ -168,31 +167,29 @@
 		</div>
 		
 	</div>
-	
+	<hr>
 	{* Notify Users *}
-	<div id="div_approvals">
-		<h3>Notify Users
+	<div id="div_approvals" >
+		<h3 class="mt-5">Notify Users
 			<span id="span_notify_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 		</h3>
-		<div style="height:150px;background-color:white;border:2px inset black;overflow:auto;">
-			<table width="100%" class="report_table" id="tbl_notify">
+		<div class="table-responsive overflow-auto  py-2">
+			<table width="100%" class="report_table table mb-0 text-md-nowrap table-sm table-borderless" id="tbl_notify">
 				
-				<tr class="header">
-					<th width="20">&nbsp;</th>
-					<th width="50">&nbsp;</th>
-					<th>Username</th>
-					<th width="70">Default Branch</th>
-					<th width="50">
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','pm', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','pm', false);" />
+				<tr class="header mt-2">
+					<th class="mt-1">&nbsp;</th>
+					<th class="mt-1">&nbsp;</th>
+					<th class="mt-1"><br>Username</th>
+					<th class="mt-1"><br>Default Branch</th>
+					<th class="mt-1">
+						<i class="fas fa-check-square text-primary" title="Check all"  onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','pm', true);" ></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','pm', false);"></i>
 						<br />
 						PM
 					</th>
-					<th width="50">
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','email', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','email', false);" />
+					<th class="mt-1">
+						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','email', true);"></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','email', false);"></i>
 						<br />
 						<span style="white-space:nowrap;">
 							Email
@@ -201,10 +198,9 @@
 							{/if}
 						</span>						
 					</th>
-					<th width="50">
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','sms', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','sms', false);" />
+					<th class="mt-1">
+						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','sms', true);"></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('notify','sms', false);"></i>
 						<br />
 						<span style="white-space:nowrap;">
 							SMS
@@ -223,7 +219,7 @@
 			</table>
 		</div>
 	</div>
-
+<hr>
 	{* Owner *}
 	<h3>Owner: 
 		<input type="checkbox" name="approval_settings[owner][pm]" value="1" title="PM" {if $form.approval_settings.owner.pm}checked {/if} /> PM
@@ -238,7 +234,6 @@
 			{if !$form.id}
 				<input class="btn btn-primary" type="button"value="Add" onClick="APPROVAL_FLOW.update_clicked();" /> 
 			{else}
-		
 				<input class="btn btn-primary" type="button" value="Update" onClick="APPROVAL_FLOW.update_clicked();" /> 
 				<input class="btn btn-success" type="button" value="Save As" onClick="APPROVAL_FLOW.save_as_clicked();" /> 	
 			{/if}
