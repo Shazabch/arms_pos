@@ -875,25 +875,25 @@ var APPROVAL_FLOW = {
 		</div><br>
 
 		<form id=f_f>
-		<b class="form-label">Flow Type</b> <select name=type onchange="reload_table()" class="form-control">
+		<b class="form-label">Flow Type</b> <select name=type onchange="reload_table()" class="form-control select2">
 		{section name=i loop=$flow_set}
 		<option value="{$flow_set[i].type}">{if $flow_set[i].description}{$flow_set[i].description}{else}{$flow_set[i].type}{/if}</option>
 		{/section}
 		</select>
-		<b>Branch</b> <select name=branch_id onchange="reload_table()" class="form-control">
+		<b>Branch</b> <select name=branch_id onchange="reload_table()" class="form-control select-2">
 		<option value=0>All</option>
 		{section name=i loop=$branches}
 		<option value={$branches[i].id}>{$branches[i].code}</option>
 		{/section}
 		</select>
 		<div>
-		<b>Department</b> <select name=sku_category_id onchange="reload_table()" class="form-control">
+		<b>Department</b> <select name=sku_category_id onchange="reload_table()" class="form-control select-2">
 		<option value=0>All</option>
 		{section name=i loop=$dept}
 		<option value={$dept[i].id}>{$dept[i].description}</option>
 		{/section}
 		</select>
-		<b>SKU Type</b> <select name=sku_type onchange="reload_table()" class="form-control">
+		<b>SKU Type</b> <select name=sku_type onchange="reload_table()" class="form-control select-2">
 		<option value="ALL">All</option>
 		{foreach from=$sku_type_list key=st_code item=st}
 			<option value="{$st_code}" {if $form.sku_type eq $st_code}selected {/if}>{$st.description}</option>
@@ -933,7 +933,7 @@ var APPROVAL_FLOW = {
 			<table id="tb" class="table table-hover mb-0 text-md-nowrap">
 				<tr>
 				<td><b>Branch</b></td>
-				<td><select name="branch_id" class="form-control select2">
+				<td><select name="branch_id" class="form-control select-2">
 				{section name=i loop=$branches}
 				<option value={$branches[i].id}>{$branches[i].code}</option>
 				{/section}
