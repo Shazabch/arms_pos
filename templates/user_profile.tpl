@@ -112,12 +112,12 @@
 							<div class="form-group"  {if $eform_user}style="display:none;"{/if}> 
 							
 								{if !$user.active}
-									<label><b>This user is currently <span class="text-danger">INACTIVE</span></b></label>
-									<input class="form-control" onclick="run('a=k&user_id={$user.id}');" type=button value="Activate"> 
-									<input class="form-control" onclick="run('a=r&user_id={$user.id}');" type=button value="Reset Password">
+									<label><b>This user is currently <span class="badge badge-pill badge-danger">INACTIVE</span></b></label><br>
+									<a href="javascript:void(0)" class="btn btn-success btn-block" onclick="run('a=k&user_id={$user.id}');"><i class="fas fa-user-check mr-1"></i>Activate</a>
+									<a href="javascript:void(0)" class="btn btn-outline-indigo btn-block mt-1" onclick="run('a=r&user_id={$user.id}');"><i class="fas fa-clock mr-1"></i>Reset Password</a>
 								{else}
-								   <label><b>This user is currently ACTIVE</b></label>
-								   <input class="form-control" onclick="run('a=d&user_id={$user.id}');" type=button value="Deactivate">
+								   <label><b>This user is currently <span class="badge badge-pill badge-success">ACTIVE</span></b></label><br>
+								   <a href="javascript:void(0)" onclick="run('a=d&user_id={$user.id}');" class="btn btn-danger btn-block"><i class="fas fa-user-times mr-1"></i>Deactivate</a>
 								{/if}
 				
 							</div>
@@ -125,11 +125,11 @@
 						<div class="col-md-4">
 							<div class="form-group" {if $eform_user}style="display:none;"{/if}> 
 								{if $user.locked}
-									<label><b>This user is currently <span class="text-danger">LOCKED</span></b></label>
-									<input class="form-control" onclick="run('a=j&user_id={$user.id}');" type=button value="Unlock">
+									<label><b>This user is currently <span class="badge badge-pill badge-danger">LOCKED</span></b></label>
+									<a href="javascript:void(0)" onclick="run('a=j&user_id={$user.id}');" class="btn btn-block btn-outline-primary"><i class="fas fa-unlock mr-1"></i> Unlock</a>
 								{else}
-									<label><b>This user is UNLOCKED</b></label>
-									<input class="form-control" onclick="run('a=l&user_id={$user.id}');" type=button value="Lock">
+									<label><b>This user is <span class="badge badge-pill badge-primary">UNLOCKED</span></b></label>
+									<a href="javascript:void(0)" onclick="run('a=l&user_id={$user.id}');" class="btn btn-block btn-outline-danger"><i class="fas fa-lock mr-1"></i> Lock</a>
 								{/if}
 							</div>
 						</div>
