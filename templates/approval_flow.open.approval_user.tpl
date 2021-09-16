@@ -22,6 +22,6 @@
 	<td align="center"><input type="checkbox" name="approval_settings[approval][{$user_id}][email]" class="chx-approval chx-approval-email" value="1" title="Email" {if $form.approval_settings.approval.$user_id.email}checked {/if}/></td>
 	<td align="center"><input type="checkbox" name="approval_settings[approval][{$user_id}][sms]" class="chx-approval chx-approval-sms" value="1" title="SMS" {if $form.approval_settings.approval.$user_id.sms}checked {/if} /></td>
 	<td align="center">
-		<input type="input" size="10" name="approval_settings[approval][{$user_id}][min_doc_amt]" class="chx-approval-min_doc_amt" value="{$form.approval_settings.approval.$user_id.min_doc_amt|default:0|number_format:2:".":""|ifzero:''}" title="Minimum Document Amount" style="text-align:right;" onChange="APPROVAL_FLOW.min_doc_amt_changed('approval', '{$user_id}');" />
+		<input type="input" size="10" name="approval_settings[approval][{$user_id}][min_doc_amt]" class="chx-approval-min_doc_amt form-control" value="{$form.approval_settings.approval.$user_id.min_doc_amt|default:0|number_format:2:".":""|ifzero:''}" title="Minimum Document Amount" style="text-align:right;" onChange="APPROVAL_FLOW.min_doc_amt_changed('approval', '{$user_id}');" />
 	</td>
 </tr>

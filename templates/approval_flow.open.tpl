@@ -16,7 +16,7 @@
 	<input type="hidden" name="id" value="{$form.id}" />
 	
 	<div class="table-responsive">
-		<table class="table table-hover mb-0 text-md-nowrap table-sm table-borderless">
+		<table class="table mb-0 text-md-nowrap table-sm table-borderless">
 			<tr>
 				{* Branch *}
 				<td width="100"><b>Branch </b><span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
@@ -108,21 +108,21 @@
 		<h3>Approvals
 			<span id="span_approval_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 		</h3>
-		<div style="height:150px;background-color:white;border:2px inset black;overflow:auto;">
-			<table width="100%" class="report_table" id="tbl_approvals">
+		<div class="table-responsive">
+			<table width="100%" class="report_table table mb-0 text-md-nowrap table-sm table-borderless" id="tbl_approvals">
 				<tr class="header">
-					<th width="20">&nbsp;</th>
-					<th width="50">&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
 					<th>Username</th>
-					<th width="70">Default Branch</th>
-					<th width="50">
-						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','pm', true);" />
-						<br>
-						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','pm', false);" />
+					<th >Default Branch</th>
+					<th >
+			
+						<i class="fas fa-check-square text-primary" title="Check all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','pm', true);"></i>
+						<i class="far fa-square text-primary" title="Uncheck all" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','pm', false);"></i>
 						<br />
 						PM
 					</th>
-					<th width="50">
+					<th >
 						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', true);" />
 						<br>
 						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','email', false);" />
@@ -134,7 +134,7 @@
 							{/if}
 						</span>						
 					</th>
-					<th width="50">
+					<th>
 						<img src="ui/checkall.gif" title="Check all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', true);" />
 						<br>
 						<img src="ui/uncheckall.gif" title="Uncheck all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_approval_notify_settings('approval','sms', false);" />
@@ -146,7 +146,7 @@
 							{/if}
 						</span>
 					</th>
-					<th width="100">
+					<th>
 						<img src="ui/icons/textfield_rename.png" title="Assign all" class="clickable" onClick="APPROVAL_FLOW.update_all_user_min_doc_amt();" />
 						<br />
 						Min. Document Amt
@@ -243,7 +243,7 @@
 				<input class="btn btn-success" type="button" value="Save As" onClick="APPROVAL_FLOW.save_as_clicked();" /> 	
 			{/if}
 			
-			<input class="btn btn-error" type="button" value="Close" onclick="default_curtain_clicked();" />
+			<input class="btn btn-danger" type="button" value="Close" data-dismiss="modal" />
 		</div>
 		
 		<span id="span_approval_flow_processing" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Processing. . .</span>

@@ -53,7 +53,7 @@
 		{foreach from=$flows item=r}
 			<tr>
 				<td nowrap>
-					<a href="javascript:void(APPROVAL_FLOW.open('{$r.id}'))"><i class="fas fa-edit text-info"></i></a>
+					<a href="javascript:void(APPROVAL_FLOW.open('{$r.id}'))"><i class="fas fa-edit text-info" title="Edit"></i></a>
 					<a href="javascript:void(act({$r.id},{if $r.active}0))"><i class="fas fa-times-circle text-danger" title="Deactivate"></i>{else}1))"><i class="fas fa-play text-success" title="activate"></i>{/if}</a>
 					{*<a href="javascript:void(ed({$r.id}))"><img src=ui/ed.png title="Edit" border=0></a>*}
 				</td>
