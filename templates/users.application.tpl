@@ -15,9 +15,11 @@ function list_sel(n)
 		if ($('lst'+i)!=undefined)
 		{
 			if (i==n)
-			    $('lst'+i).className='active';
+			    //$('lst'+i).className='active';
+			    jQuery('.lst'+i).addClass('active');
 			else
-			    $('lst'+i).className='';
+			    //$('lst'+i).className='';
+				jQuery('.lst'+i).removeClass('btn');
 		}
 	}
 	$('application_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
@@ -33,12 +35,12 @@ function list_sel(n)
 
 <h1>User EForm Application Lists</h1>
 <form name="f_l" onsubmit="list_sel(0,0);return false;">
-	<div class=tab style="height:20px;white-space:nowrap;">
+	<div class=tab style="white-space:nowrap;">
 		&nbsp;&nbsp;&nbsp;
-		<a href="javascript:list_sel(0)" id="lst0" class="active">New Application</a>
-		<a href="javascript:list_sel(2)" id="lst2">Rejected</a>
-		<a href="javascript:list_sel(1)" id="lst1">Approved</a>
-		<a href="javascript:list_sel(3)" id="lst3">Activated</a>
+		<a href="javascript:list_sel(0)" id="lst0" class="btn btn-outline-indigo btn-rounded active">New Application</a>
+		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-indigo btn-rounded">Rejected</a>
+		<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-indigo btn-rounded">Approved</a>
+		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-indigo btn-rounded">Activated</a>
 	</div>
 	<div id="application_list" >
 	</div>

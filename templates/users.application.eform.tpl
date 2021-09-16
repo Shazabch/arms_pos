@@ -154,100 +154,120 @@ function uname_blur(u)
 {/literal}
 </script>
 
-<table width="50%%" id="tbl_header">
-	<tr>
-		<td width="10%"><img style="max-width: 600px;max-height: 80px;" src="{get_logo_url}" height="80" hspace="5" vspace="5"></td>
-		<td>
-			<b>{$branch[0].address}</b><br>
-			Tel: {$branch[0].phone_1}{if $branch[0].phone_2} / {$branch[0].phone_2}{/if}
-			{if $branch[0].phone_3}
-			<br>Fax: {$branch[0].phone_3}
-			{/if}
-			{if $config.enable_gst and $branch[0].gst_register_no}
-				 &nbsp;&nbsp;&nbsp; GST No: {$branch[0].gst_register_no}
-			{/if}
-		</td>
-	</tr>
-</table>
-<h1>User EForm Application</h1>
+<div class="table-responsive">
+	<div class="card mx-3">
+		<div class="card-body">
+			<table width="50%%" id="tbl_header">
+				<tr>
+					<td width="10%"><img style="max-width: 600px;max-height: 80px;" src="{get_logo_url}" height="80" hspace="5" vspace="5"></td>
+					<td>
+						<b>{$branch[0].address}</b><br>
+						Tel: {$branch[0].phone_1}{if $branch[0].phone_2} / {$branch[0].phone_2}{/if}
+						{if $branch[0].phone_3}
+						<br>Fax: {$branch[0].phone_3}
+						{/if}
+						{if $config.enable_gst and $branch[0].gst_register_no}
+							 &nbsp;&nbsp;&nbsp; GST No: {$branch[0].gst_register_no}
+						{/if}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">User EForm Application</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 <div class=errmsg>
 {if $errmsg.a}<ul>{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}</ul>{/if}
 </div>
-{if !$is_submitted}
+<div class="card mx-3 px-4 py-3">
+	<div class="card-body">
+		{if !$is_submitted}
 <div class="stdframe" style="margin-bottom:20px;">
 	<form method=post name=f_a onsubmit="return check_a()" enctype="multipart/form-data">
 		<input type=hidden name=a value="add_eform_user">
 		<div id="panel1">
-			<table id="top_form" width="100%" style="float:left">
-				<tr>
-					<td width="30%"><b>Location</b></td>
-					<td width="70%">
-						{$branch[0].code}
-						<input type="hidden" name="branch_id" value="{$branch[0].id}">
-					</td>
-				</tr>
-				<tr >
-					<td><b>Photo </b><br><em>(png,jpg,jpeg)</em></td>
-					<td><input type="file" name=photo > </td>
-				</tr>
-				<tr >
-					<td><b>Full Name</b></td>
-					<td><input name=fullname size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.fullname}" > <img src=ui/rq.gif align=absbottom title="Required Field"></td>
-				</tr>
-				{if $config.user_profile_need_ic}
-					<tr >
-					    <td><b>IC No.</b></td>
-					    <td>
-							<input name="ic_no" size="45" maxlength="20" value="{$smarty.request.ic_no}" />
-				            <img src="ui/rq.gif" align="absbottom" title="Required Field" />
+			<div class="table-responsive">
+				<table id="top_form" width="100%" style="float:left">
+					<tr>
+						<td width="30%"><label>Location</label></td>
+						<td width="70%">
+							{$branch[0].code}
+							<input class="form-control" type="hidden" name="branch_id" value="{$branch[0].id}">
 						</td>
 					</tr>
-				{/if}
-				<tr >
-					<td><b>Address</b></td>
-					<td><input name=address size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.address}" > <img src=ui/rq.gif align=absbottom title="Required Field"></td>
-				</tr>
-				<tr >
-					<td><b>Position</b></td>
-					<td><input name=position size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.position}"> <img src=ui/rq.gif align=absbottom title="Required Field"></td>
-				</tr>
-				<tr >
-					<td><b>Mobile Number</b></td>
-					<td><input name=mobile_number size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.mobile_number}"> <img src=ui/rq.gif align=absbottom title="Required Field"></td>
-				</tr>
-				<tr >
-					<td><b>Resume</b><br><em>(PDF)</em></td>
-					<td><input type="file" name=resume> </td>
-				</tr>
-			</table>
+					<tr >
+						<td><label>Photo </label><br><small>(png,jpg,jpeg)</small></td>
+						<td><input class="form-control" type="file" name=photo > </td>
+					</tr>
+					<tr >
+						<td><label>Full Name<span class="text-danger"> *</span></label></td>
+						<td><input class="form-control" name=fullname size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.fullname}" > </td>
+					</tr>
+					{if $config.user_profile_need_ic}
+						<tr >
+							<td><label>IC No.<span class="text-danger">*</span></label></td>
+							<td>
+								<input class="form-control" name="ic_no" size="45" maxlength="20" value="{$smarty.request.ic_no}" />
+							</td>
+						</tr>
+					{/if}
+					<tr >
+						<td><label>Address<span class="text-danger"> *</span></label></td>
+						<td><input class="form-control" name=address size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.address}" > </td>
+					</tr>
+					<tr >
+						<td><label>Position<span class="text-danger"> *</span></label></td>
+						<td><input class="form-control" name=position size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.position}"> 
+					</tr>
+					<tr >
+						<td><label>Mobile Number<span class="text-danger"> *</span></label></td>
+						<td><input class="form-control" name=mobile_number size=45 maxlength=100 onBlur="uc(this)" value="{$smarty.request.mobile_number}"> 
+					</tr>
+					<tr >
+						<td><label>Resume</label><br><small>(PDF)</small></td>
+						<td><input class="form-control" type="file" name=resume> </td>
+					</tr>
+				</table>
+			</div>
 		</div>
 		<div id="panel2">
 			<b><em>Login Credentials</em></b>
+		<div class="table-responsive ml-2" >
 			<table id="top_form" width="100%" style="float:left">
 				<tr >
-					<td width="30%"><b>Username</b></td>
-					<td width="70%"><input name=username size=45 maxlength=50 value="{$smarty.request.username}" onBlur="uname_blur(this)"> <img src=ui/rq.gif align=absbottom title="Required Field"><br><span style="white-space:normal;">only a-z, 0-9 and underscore '_' allowed, minimum {$MIN_USERNAME_LENGTH} characters</span></td>
+					<td><label>Username<span class="text-danger"> *</span></label></td>
+					<td><input class="form-control" name=username size=45 maxlength=50 value="{$smarty.request.username}" onBlur="uname_blur(this)">
+						<small>only a-z, 0-9 and underscore '_' allowed, minimum {$MIN_USERNAME_LENGTH} characters</small></td>
 				</tr>
 				<tr>
-					<td><b>Login ID</b></td>
-					<td><input name=login size=45 maxlength=16 value="{$smarty.request.login}"> <span id=v4><img src=ui/rq.gif align=absbottom title="Required Field"></span></td>
+					<td><label>Login ID<span class="text-danger"> *</span></label></td>
+					<td><input class="form-control" name=login size=45 maxlength=16 value="{$smarty.request.login}"> <span id=v4></span></td>	
 				</tr>
 				<tr >
-					<td><b>Email</b></td>
-					<td><input type="email" name=email size=45 maxlength=100 onBlur="lc(this)" value="{$smarty.request.email}"> <span id=v5><img src=ui/rq.gif align=absbottom title="Required Field"></span></td>
+					<td><label>Email<span class="text-danger"> *</span></label></td>
+					<td><input class="form-control" type="email" name=email size=45 maxlength=100 onBlur="lc(this)" value="{$smarty.request.email}"> <span id=v5></span></td>
 				</tr>
 				<tr>
-					<td><b>Password</b></td>
-					<td><input name=password type=password size=45 > <span ><img src=ui/rq.gif align=absbottom title="Required Field"> <br><span style="white-space:normal;">(password should consists of numbers and alphabates,with at least {$MIN_PASSWORD_LENGTH} character)</span></span></td>
+					<td><label>Password<span class="text-danger"> *</span></label></td>
+					<td><input class="form-control" name=password type=password size=45 > 
+					<small>(password should consists of numbers and alphabates,with at least {$MIN_PASSWORD_LENGTH} character)</small>
 				</tr>
 				<tr>
-					<td><b>Retype Password</b></td>
-					<td><input name=password2 type=password size=45>  <span id=v5><img src=ui/rq.gif align=absbottom title="Required Field"></span></td>
+					<td><label>Retype Password<span class="text-danger"> *</span></label></td>
+					<td><input class="form-control" name=password2 type=password size=45>  <span id=v5></span></td>
 				</tr>
 			</table>
 		</div>
+		</div>
 		<br style="clear: both;">
-		<p><input class="btn btn-primary" name=submitbtn type=submit value="Submit" id="submitbtn"></p>
+		<p><input class="btn btn-primary mt-3" name=submitbtn type=submit value="Submit" id="submitbtn"></p>
 	</form>
 	{if $qr_code}
 	<table id="top_form" width="50%" style="float:right;">
@@ -272,6 +292,8 @@ function uname_blur(u)
 {/if}
 
 
+	</div>
+</div>
 {include file=footer.tpl}
 <script>
 </script>
