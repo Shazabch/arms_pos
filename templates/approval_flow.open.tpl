@@ -21,7 +21,7 @@
 				{* Branch *}
 				<td width="100"><label><b>Branch</b><span id="rq_img1" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="branch_id" class="form-control select2">
+					<select name="branch_id" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$branch_list key=bid item=b}
 							{if $bid eq $form.branch_id or $b.active}
@@ -34,7 +34,7 @@
 				{* Flow Type *}
 				<td width="100"><label><b>Flow Type</b><span id="rq_img2" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control select2">
+					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$flow_set item=r}
 							<option value="{$r.type}" {if $r.type eq $form.type}selected {/if}>{if $r.description}{$r.description}{else}{$r.type}{/if}</option>
@@ -47,7 +47,7 @@
 				{* Department *}
 				<td width="100"><label><b>Department</b><span id="rq_img3" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="sku_category_id" class="form-control select2">
+					<select name="sku_category_id" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$dept_list key=dept_id item=r}
 							{if $dept_id eq $form.sku_category_id or $r.active}
@@ -60,7 +60,7 @@
 				{* SKU Type *}
 				<td width="100"><label><b>SKU Type</b><span id="rq_img4" class="text-danger"> *</span></label></td>
 				<td>
-					<select name="sku_type" class="form-control select2">
+					<select name="sku_type" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$sku_type_list key=st item=r}
 							<option value="{$st}" {if $form.sku_type eq $st}selected {/if}>{$r.description}</option>
@@ -110,7 +110,7 @@
 		</h3>
 		<div class="table-responsive">
 			<table width="100%" class="report_table table mb-0 text-md-nowrap table-sm table-borderless" id="tbl_approvals">
-				<tr class="header mt-2">
+				<tr class="header mt-2 border-bottom">
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>
 					
@@ -170,13 +170,13 @@
 	<hr>
 	{* Notify Users *}
 	<div id="div_approvals" >
-		<h3 class="mt-5">Notify Users
+		<h3 class="mt-3">Notify Users
 			<span id="span_notify_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 		</h3>
 		<div class="table-responsive overflow-auto  py-2">
 			<table width="100%" class="report_table table mb-0 text-md-nowrap table-sm table-borderless" id="tbl_notify">
 				
-				<tr class="header mt-2">
+				<tr class="header mt-2 border-bottom">
 					<th class="mt-1">&nbsp;</th>
 					<th class="mt-1">&nbsp;</th>
 					<th class="mt-1"><br>Username</th>
