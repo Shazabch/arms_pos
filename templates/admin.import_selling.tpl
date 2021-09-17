@@ -249,13 +249,14 @@ The following error(s) has occured:
 		</div>
 	</div>
 </div>
+{if $import_type eq 'by_type'}
 <div class="card mx-3">
 	<div class="card-body">
-		{if $import_type eq 'by_type'}
-	{if $import_method eq 'selling'}
+		
+{if $import_method eq 'selling'}
 		{if $import_success}
 		<p class="text-success">Import Success! {$total_affected} item(s) imported</p>{/if}
-	{else}
+		{else}
 		{if $import_success}
 			<p class="text-success">Import Success! 
 			Batch Price Change ID created: 
@@ -273,8 +274,9 @@ The following error(s) has occured:
 			{/foreach}
 		</ul>
 	{/if}
-{/if}
+
 
 	</div>
 </div>
+{/if}
 {include file='footer.tpl'}
