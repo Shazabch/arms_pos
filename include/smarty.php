@@ -298,7 +298,7 @@ function smarty_dropdown($params, &$smarty)
 	}
 	
 
-	print "<select name=\"$params[name]\"";
+	print "<select name=\"$params[name]\" class=\"form-control select2\" ";
 	foreach ($params as $p=>$v)
 	{
 		// append class, style, onchange, onclick, onXXX

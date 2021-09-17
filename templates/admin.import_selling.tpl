@@ -101,51 +101,69 @@ function check_form(form,type){
 </script>
 
 {if !$config.consignment_modules}
-	<div style="border:2px solid red;padding:5px;background-color:yellow;color:red;font-weight:bold;font-size:120%;">
-		Warning: 
+	
+		<div class="alert alert-danger mx-3 mt-2" >
+			<b>Warning: </b>
 		<ul>
 			<li> Please prevent to import at business hour. It will slow down all branches counter performance.</li>
 			<li> It is recommended to import maximum 200 sku in a batch, and wait for 5 minutes for counter to sync.</li>
 			<li> Import with "No Auto Sync to Counters" will requires counters to resync masterfile for related branches.</li>
 		</ul>
+		</div>
 		
-	</div>
+	
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 
 {if $import_type eq 'by_branch'}
 {if $err}
-The following error(s) has occured:
-	<ul class="err" style="color:red;">
+<div class="card mx-3">
+	<div class="card-body">
+		<b class="text-danger">The following error(s) has occured:</b>
+	<ul class="err text-muted mt-1" >
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
+</div>
 {/if}
 {/if}
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+			
 <form name="f_a" id="import_selling" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this,'branch');">
 	<input type="hidden" name="a" value="import_selling" />
 	<input type="hidden" name="import_method" value="selling" />
 	
-	<b>Branch</b>
+	<label class="mt-1"><b>Branch</b>
 	{foreach from=$branches key=bid item=b}
-		<span style="white-space:nowrap;margin-right:10px;">
+		<span style="white-space:nowrap;margin-right:20px;">
 		    <input type="checkbox" name="branch_id[]" class="branches_chkbx" {if is_array($smarty.request.branch_id) and in_array($bid, $smarty.request.branch_id)}checked {/if} value="{$bid}" />
 			{$b.code}
 		</span>
 	{/foreach}
-	<br><br>
-	<b>Upload CSV</b> (<a href="?a=view_sample">View Sample</a>) <input type="file" name="import_csv" onChange="check_file(this);" />
-	<br />
-	<b>* To update GST info for SKU items without new selling price, please <a href="?a=view_sample&gst_only=1">click here</a> to view the sample.</b>
-	<br />
-	<br><span style="color:red;">Warning: This action cannot be undo.</span><br>
+	</label><br>
+<label class="mt-1"><b>Upload CSV</b> (<a href="?a=view_sample">View Sample</a>) <input type="file" name="import_csv"  onChange="check_file(this);" /></label>
+
+	<label class="mt-1"><b>* To update GST info for SKU items without new selling price, please <a href="?a=view_sample&gst_only=1">click here</a> to view the sample.</b></label>
+
+	<div class="alert alert-danger " style="max-width: 305px;">
+		<b>Warning:</b> This action cannot be undo.
+	</div>
 	<input class="btn btn-primary" type="submit" value="Import" onclick="document.f_a['import_method'].value='selling';" /> 
 	{if $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE}
 		<input class="btn btn-primary" type="submit" value="Generate Batch Price Change" onclick="document.f_a['import_method'].value='batch_selling';" />
-	{/if}	
-	<input type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
+	{/if}	<br>
+	<input class="mt-3" type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
  </form>
 {if $import_type eq 'by_branch'}
 	{if $import_method eq 'selling'}
@@ -170,8 +188,17 @@ The following error(s) has occured:
 	{/if}
 {/if}
 
-<br/><br/>
-<h1>Import Selling Price by Type</h1>
+		</div>
+	</div>
+</div>
+
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Import Selling Price by Type</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 {if $import_type eq 'by_type'}
 {if $err}
 The following error(s) has occured:
@@ -182,44 +209,55 @@ The following error(s) has occured:
 	</ul>
 {/if}
 {/if}
-<form name="f_b" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this,'price_type');">
-	<input type="hidden" name="a" value="import_selling_by_type" />
-	<input type="hidden" name="import_method" value="selling" />
-	<b>Price Type</b>
-	<span style="white-space:nowrap;margin-right:10px;">
-		<input type="checkbox" name="price_type[]" value="normal" />
-		normal
-	</span>
-	{if $config.sku_multiple_selling_price}
-		{foreach from=$config.sku_multiple_selling_price item=s}
-			<span style="white-space:nowrap;margin-right:10px;">
-				<input type="checkbox" name="price_type[]" value="{$s}" />
-				{$s}
-			</span>
-		{/foreach}
-	{/if}
-	<br><br>
-	<p style="color:#0000ff;">
-		Note:<br/>
-		Example for changing price type:  5.00/BB 
-	</p>
-	<br/>
-	<b>Upload CSV</b> (<a href="?a=view_sample_by_type">View Sample</a>) <input type="file" name="import_csv" onChange="check_file(this);" />
-	<br />
-	<br><span style="color:red;">Warning: This action cannot be undo.</span><br>
-	<input class="btn btn-primary" type="submit" value="Import" onclick="document.f_b['import_method'].value='selling';" /> 
-	{if $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE}
-		<input class="btn btn-primary" type="submit" value="Generate Batch Price Change" onclick="document.f_b['import_method'].value='batch_selling';" />
-	{/if}
-	<input type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
-</form>
-
-{if $import_type eq 'by_type'}
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+			<form name="f_b" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this,'price_type');">
+				<input type="hidden" name="a" value="import_selling_by_type" />
+				<input type="hidden" name="import_method" value="selling" />
+				<b class="">Price Type</b><br>
+				<span style="white-space:nowrap;margin-right:10px;">
+					<input type="checkbox" name="price_type[]" value="normal" />
+					normal
+				</span>
+				{if $config.sku_multiple_selling_price}
+					{foreach from=$config.sku_multiple_selling_price item=s}
+						<span style="white-space:nowrap;margin-right:10px;">
+							<input type="checkbox" name="price_type[]" value="{$s}" />
+							{$s}
+						</span>
+					{/foreach}
+				{/if}
+				<br><br>
+				<p class="text-dark">
+					<b>Note:</b>
+					Example for changing price type:  5.00/BB 
+				</p>
+				<b>Upload CSV</b> (<a href="?a=view_sample_by_type">View Sample</a>) <input type="file" name="import_csv" onChange="check_file(this);" />
+				<br />
+				<br>
+				<div class="alert alert-danger" style="max-width: 305px;">
+					<b>Warning:</b> This action cannot be undo.
+				</div>
+				<input class="btn btn-primary" type="submit" value="Import" onclick="document.f_b['import_method'].value='selling';" /> 
+				{if $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE}
+					<input class="btn btn-primary" type="submit" value="Generate Batch Price Change" onclick="document.f_b['import_method'].value='batch_selling';" />
+				{/if}<br>
+				<input  class="mt-2" type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
+			</form>
+			
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		{if $import_type eq 'by_type'}
 	{if $import_method eq 'selling'}
-		{if $import_success}<p style="color:blue;">Import Success! {$total_affected} item(s) imported</p>{/if}
+		{if $import_success}
+		<p class="text-success">Import Success! {$total_affected} item(s) imported</p>{/if}
 	{else}
 		{if $import_success}
-			<p style="color:blue;">Import Success! 
+			<p class="text-success">Import Success! 
 			Batch Price Change ID created: 
 			{foreach from=$fp_id_list name=fp key=dummy item=id}
 				<a href="masterfile_sku_items.future_price.php?a=view&id={$id}&branch_id={$sessioninfo.branch_id}" target="_blank">#{$id}</a>
@@ -229,7 +267,7 @@ The following error(s) has occured:
 		{/if}
 	{/if}
 	{if $msg.warning}
-		<ul>
+		<ul class="text-muted">
 			{foreach from=$msg.warning item=m}
 				<li>{$m}</li>
 			{/foreach}
@@ -237,4 +275,6 @@ The following error(s) has occured:
 	{/if}
 {/if}
 
+	</div>
+</div>
 {include file='footer.tpl'}

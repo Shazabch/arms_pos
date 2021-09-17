@@ -46,42 +46,64 @@ function check_form(){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 
 {if $err}
-The following error(s) has occured:
-	<ul class="err" style="color:red;">
-		{foreach from=$err item=e}
-			<li> {$e}</li>
-		{/foreach}
-	</ul>
+	<div class="card mx-3">
+		<div class="card-body">
+			<b class="text-danger">The following error(s) has occured:</b>
+			<ul class="err text-muted" >
+				{foreach from=$err item=e}
+					<li> {$e}</li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
 {/if}
 
-<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form();">
-	<input type="hidden" name="a" value="update_pt" />
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form();">
+			<input type="hidden" name="a" value="update_pt" />
+			
+			<b>Branch</b>
+			{foreach from=$branches key=bid item=b}
+				<span style="white-space:nowrap;margin-right:10px;">
+					<input type="checkbox" name="branch_id[]" {if is_array($smarty.request.branch_id) and in_array($bid, $smarty.request.branch_id)}checked {/if} value="{$bid}" />
+					{$b.code}
+				</span>
+			{/foreach}
+			<br><br>
+			<b>Upload CSV</b> (<a href="?a=view_sample">View Sample</a>)
+			 <input type="file" name="import_csv" onChange="check_file();" />
+			<br />
+			<div class="alert alert-danger mt-2" style="max-width: 305px;">
+				Warning: This action cannot be undo.
+			</div>
+			<input type="submit" class="btn btn-primary" value="Import" />
+		 </form>
+	</div>
+</div>
+{if $import_success}
+<div class="card mx-3">
+	<div class="card-body">
 	
-	<b>Branch</b>
-	{foreach from=$branches key=bid item=b}
-		<span style="white-space:nowrap;margin-right:10px;">
-		    <input type="checkbox" name="branch_id[]" {if is_array($smarty.request.branch_id) and in_array($bid, $smarty.request.branch_id)}checked {/if} value="{$bid}" />
-			{$b.code}
-		</span>
-	{/foreach}
-	<br><br>
-	<b>Upload CSV</b> (<a href="?a=view_sample">View Sample</a>) <input type="file" name="import_csv" onChange="check_file();" />
-	<br />
-	<br><span style="color:red;">Warning: This action cannot be undo.</span><br>
-	<input type="submit" value="Import" />
- </form>
-
-{if $import_success}<p style="color:blue;">Import Success! {$total_affected} item(s) imported</p>{/if}
+<p class="text-success">Import Success! {$total_affected} item(s) imported</p>
+{/if}
 {if $msg.warning}
-	<ul>
+	<ul class="text-muted">
 		{foreach from=$msg.warning item=m}
 			<li>{$m}</li>
 		{/foreach}
 	</ul>
+	</div>
+</div>
 {/if}
-
 
 {include file='footer.tpl'}

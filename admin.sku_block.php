@@ -186,14 +186,24 @@ function check_action(obj)
 	}
 }
 </script>
-<form enctype="multipart/form-data" method=post>
-<h1>Block / Unblock SKU in PO (CSV)</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Block / Unblock SKU in PO (CSV)</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+		<form enctype="multipart/form-data" method="post">
+
 <?
 	print "<ul>$msg</ul>";
 ?>
 
-Action 
-<select name=action onchange="check_action(this);">
+<label>Action </label>
+<select name="action" class="form-control select2" onchange="check_action(this);">
 <option <? if ($_REQUEST['action'] == 'Block') print "selected";?>>Block</option>
 <option <? if ($_REQUEST['action'] == 'Unblock') print "selected";?>>Unblock</option>
 <option <? if ($_REQUEST['action'] == 'Active') print "selected";?>>Active</option>
@@ -208,7 +218,7 @@ else
 {
 	print "<span id=branch ";
 	if ($_REQUEST['action'] == 'Active' || $_REQUEST['action'] == 'Inactive') print "style='display:none'";
-	print " >&nbsp;&nbsp;&nbsp;&nbsp; Branch <select name=branch_id>";
+	print " >&nbsp;&nbsp;&nbsp; Branch <select name=branch_id class=\"form-control select2\">";
 	print "<option value='All' ";
 	if ($_REQUEST['branch_id'] == 'All') print "selected";
 	print ">All</option>";
@@ -224,9 +234,12 @@ else
 ?>
 <br /><br />
 Please select CSV list <input type=file name=f size=30>
-<input type=submit value="Run">
-<a href="?a=view_sample" target="_blank">View sample</a> (Accept ARMS Code, MCode)
+<input type=submit class="btn btn-primary" value="Run">
+&nbsp;&nbsp;<a href="?a=view_sample" target="_blank"> View sample</a> (Accept ARMS Code, MCode)
 </form>
+		</div>
+	</div>
+</div>
 <?
 	$smarty->display("footer.tpl");
 	exit;
