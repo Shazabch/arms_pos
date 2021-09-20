@@ -418,7 +418,7 @@
 			                {if $config.enable_sn_bn && file_exists('masterfile_sku_items.serial_no.import_do_items.php')}
 			                <li><a class="sub-slide-item" class="slide-item" href="masterfile_sku_items.serial_no.import_do_items.php">Serial No - IBT Validation</a></li>
 			                {/if}
-			                *}
+			                *}	
 							
 							{if $config.enable_one_color_matrix_ibt and BRANCH_CODE eq 'HQ' and file_exists('do.matrix_ibt_process.php')}
 								<li><a class="sub-slide-item" class="slide-item" href="do.matrix_ibt_process.php">Matrix IBT Process</a></li>

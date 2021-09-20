@@ -105,136 +105,199 @@ function hide_export_txt_btn(){
 }
 </script>
 {/literal}
-<h1>Export SKU Items</h1>
-{if $status}<p>{$status}</p>{/if}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Export SKU Items</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 
-<iframe style="display:none;" name="if1">
-</iframe>
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+					{if $status}<p>{$status}</p>{/if}
 
-<form name="f_a" target="if1" onSubmit="return false;" class="stdframe">
-<input type=hidden name=a value=export >
-<input type=hidden name=branch_id value="{$sessioninfo.branch_id}" />
-<input type="hidden" name="export_type" />
+		<iframe style="display:none;" name="if1">
+		</iframe>
 
-<span class="menu_spacing">
-<b class="menu_spacing">Branch</b>
-	{if $BRANCH_CODE eq 'HQ'}
-		<select name=branch_sel onchange="bsel(this.value)">
-		{foreach from=$branch item=b}
-			<option value="{$b.id},{$b.update1},{$b.update2}" {if $b.id eq $sessioninfo.branch_id}selected {/if}>{$b.code}</option>
-		{/foreach}
-		</select>
-	{else}
-		<input readonly value="{$BRANCH_CODE}">
-	{/if}
-</span>
-<span class="menu_spacing">
-{*<b class="menu_spacing">Department</b>
-	<select name=dept>
-		<option value="all">-- All --</option>
-		{foreach from=$dept item=r}
-			<option value="{$r.id}" {if $smarty.request.dept eq $r.id} selected {/if}>{$r.description}</option>
-		{/foreach}
-	</select>
-</span>*}
-<span>
-	{include file='category_autocomplete.tpl' all=1  allow_select_line=1 skip_dept_filter=1}
-</span>
-<br /><br />
-<span class="menu_spacing">
-<b class="menu_spacing">Vendor</b>
-	<select name="vendor_id">
-		<option value="">-- All --</option>
-		{foreach from=$vendors item=r}
-			<option value="{$r.id}">{$r.description}</option>
-		{/foreach}
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Brand</b>
-	<select name="brand_id">
-		<option value="">-- All --</option>
-		<option value="0">UNBRANDED</option>
-		{foreach from=$brands item=r}
-			<option value="{$r.id}">{$r.description}</option>
-		{/foreach}
-	</select>
-</span>
-<br><br>
-<span class="menu_spacing">
-<b class="menu_spacing">Input Tax</b>
-	<select name="input_tax">
-		<option value="">-- All --</option>
-		{foreach from=$input_tax_list key=rid item=r}
-			<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
-		{/foreach}
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Output Tax</b>
-	<select name="output_tax">
-		<option value="">-- All --</option>
-		{foreach from=$output_tax_list key=rid item=r}
-			<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
-		{/foreach}
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Selling Price Inclusive Tax</b>
-	<select name="inclusive_tax">
-		<option value="">-- All --</option>
-		<option value="yes">YES</option>
-		<option value="no">NO</option>
-	</select>
-</span>
-<br><br>
-<span class="menu_spacing">
-<b class="menu_spacing">SKU Type</b>
-	<select name="sku_type">
-		<option value="">-- All --</option>
-		{foreach from=$sku_type item=r}
-		    <option value="{$r.sku_type}">{$r.sku_type}</option>
-		{/foreach}
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Scale Type</b>
-	<select name="scale_type">
-		<option value="">-- All --</option>
-		{foreach from=$scale_type_list key=st_value item=st_name}
-		{if $st_value >= 0}
-			<option value="{$st_value}">{$st_name}</option>
-		{/if}
-		{/foreach}
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Active</b>
-	<select name="active">
-		<option value="">-- All --</option>
-		<option value="1">Yes</option>
-		<option value="0">No</option>
-	</select>
-</span>
-<span class="menu_spacing">
-<b class="menu_spacing">Parent Child?</b>
-	<select name="parent_child_filter">
-		<option value="">-- All --</option>
-		<option value="1">Yes</option>
-		<option value="0">No</option>
-    </select>
-</span>
-<br><br>
-<b class="menu_spacing">Price Markup%</b><span class="menu_spacing"><input size=3 name="price_markup"></span>
-<b class="menu_spacing">Cost Markup%</b><span class="menu_spacing"><input size=3 name="cost_markup"></span>
-<br><br>
+		<form name="f_a" target="if1" onSubmit="return false;" class="stdframe">
+		<input type=hidden name=a value=export >
+		<input type=hidden name=branch_id value="{$sessioninfo.branch_id}" />
+		<input type="hidden" name="export_type" />
+
+		<span class="menu_spacing">
+		<label class="menu_spacing">Branch</label>
+			{if $BRANCH_CODE eq 'HQ'}
+				<select class="form-control" name=branch_sel onchange="bsel(this.value)">
+				{foreach from=$branch item=b}
+					<option value="{$b.id},{$b.update1},{$b.update2}" {if $b.id eq $sessioninfo.branch_id}selected {/if}>{$b.code}</option>
+				{/foreach}
+				</select>
+			{else}
+				<input class="form-control" readonly value="{$BRANCH_CODE}">
+			{/if}
+		</span>
+			
+		<div class="row">
+			<div class="">
+				<span class="menu_spacing">
+					{*<label class="menu_spacing">Department</label>
+						<select class="form-control" name=dept>
+							<option value="all">-- All --</option>
+							{foreach from=$dept item=r}
+								<option value="{$r.id}" {if $smarty.request.dept eq $r.id} selected {/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+					</span>*}
+			</div>
+
+		</div>
+
+		<div class="col">
+			<span>
+				{include file='category_autocomplete.tpl' all=1  allow_select_line=1 skip_dept_filter=1}
+			</span>
+		</div>
+	</div>
+	</div>
+<div class="card mx-3">
+<div class="card-body">
+<div class="row">
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Vendor</label>
+				<select class="form-control" name="vendor_id">
+					<option value="">-- All --</option>
+					{foreach from=$vendors item=r}
+						<option value="{$r.id}">{$r.description}</option>
+					{/foreach}
+				</select>
+		</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Brand</label>
+			<select class="form-control" name="brand_id">
+					<option value="">-- All --</option>
+					<option value="0">UNBRANDED</option>
+				{foreach from=$brands item=r}
+					<option value="{$r.id}">{$r.description}</option>
+				{/foreach}
+			</select>
+		</span>	
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Input Tax</label>
+				<select class="form-control" name="input_tax">
+					<option value="">-- All --</option>
+					{foreach from=$input_tax_list key=rid item=r}
+						<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
+					{/foreach}
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Output Tax</label>
+				<select class="form-control" name="output_tax">
+					<option value="">-- All --</option>
+					{foreach from=$output_tax_list key=rid item=r}
+						<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
+					{/foreach}
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Selling Price Inclusive Tax</label>
+				<select class="form-control" name="inclusive_tax">
+					<option value="">-- All --</option>
+					<option value="yes">YES</option>
+					<option value="no">NO</option>
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">SKU Type</label>
+				<select class="form-control" name="sku_type">
+					<option value="">-- All --</option>
+					{foreach from=$sku_type item=r}
+						<option value="{$r.sku_type}">{$r.sku_type}</option>
+					{/foreach}
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Scale Type</label>
+				<select class="form-control" name="scale_type">
+					<option value="">-- All --</option>
+					{foreach from=$scale_type_list key=st_value item=st_name}
+					{if $st_value >= 0}
+						<option value="{$st_value}">{$st_name}</option>
+					{/if}
+					{/foreach}
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Active</label>
+				<select class="form-control" name="active">
+					<option value="">-- All --</option>
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</select>
+			</span>
+	</div>
+	<div class="col-md-4">
+		<span class="menu_spacing">
+			<label class="menu_spacing">Parent Child?</label>
+				<select class="form-control" name="parent_child_filter">
+					<option value="">-- All --</option>
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</select>
+			</span>
+	</div>
+
+</div>
+<div class="row">
+	<div class="col-md-4">
+
+		<div class="form-group">
+			<label class="menu_spacing">Price Markup%</label>
+			<span class="menu_spacing"><input size=3 name="price_markup"></span>
+		</div>
+</div>
+<div class="col-md-4">
+
+		<div class="form-group">
+			<label class="menu_spacing">Cost Markup%</label>
+			<span class="menu_spacing"><input size=3 name="cost_markup"></span>
+		</div>
+
+</div>
+</div>
+</div>
+</div>
+<div class="card mx-3">
+<div class="card-body">
 <table>
-	<td><h4>Advanced Settings</h4></td>
-	<tr><td><b>Items Last Update Date</b> (yyyy-mm-dd)</td><td><input name=items_last_update size=10 value="{$lastid[0]}"> (left empty will not export any items by last update, put '0' will export all items)</td></tr>
-	<tr><td><b>Price Change Date</b> (yyyy-mm-dd)</td><td><input name=price_last_update size=10 value="{$lastid[1]}"> (left empty or zero will not export any items with price change)</td></tr>
-	<tr><td><label for="show_cat_id"><b>Show Category</b></label></td><td><input type="checkbox" name="show_cat" id="show_cat_id" onclick="hide_show_category()"></td></tr>
+	<td><b>Advanced Settings</b></td>
+	<tr><td><label class="fs-09" >Items Last Update Date &nbsp; (yyyy-mm-dd) </label></td><td>
+	<input class="form-control" name=items_last_update size=10 value="{$lastid[0]}"> <small>(left empty will not export any items by last update, put '0' will export all items)</small></td></tr>
+	<br>
+	<tr><td><label class="fs-09">Price Change Date &nbsp; (yyyy-mm-dd)</label> </td><td>
+	<input class="form-control" name=price_last_update size=10 value="{$lastid[1]}"> <small>(left empty or zero will not export any items with price change)</small></td></tr>
+	
+	<tr><td><label for="show_cat_id"><label class="fs-09">Show Category</label></label></td><td>
+	<input type="checkbox" name="show_cat" id="show_cat_id" onclick="hide_show_category()"></td></tr>
 	{if $config.sku_enable_additional_description}
-	<tr><td><label for="show_cat_id"><b>Show Additional Description</b></label></td><td><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()"></td></tr>
+	<tr><td><label for="show_cat_id"><label class="fs-09">Show Additional Description</label></label></td><td><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()"></td></tr>
 	{/if}
 </table>
 <span>
@@ -245,109 +308,126 @@ function hide_export_txt_btn(){
 </span>
 </form>
 
-<br><br>&nbsp;&nbsp; <b>Note:</b> Below is the example of output. The first line title is not included in the output format (TXT).
-<p class="table-parent-div">
-<table id="tbl-export-sku" class="tbl-general" cellpadding="5px">
-<tr style="background-color:#dddddd;">
-	<th>SKU ITEM ID</th> 
-	<th>ARMS CODE</th> 
-	<th>ARTNO</th>
-	<th>MCODE</th>
-	<th>BARCODE</th>
-	<th>PRODUCT DESCRIPTION</th> 
-	<th>RECEIPT DESCRIPTION</th> 
-	<th>SELLING PRICE</th>
-	<th>COST PRICE</th>
-	<th>PRICE TYPE</th>
-	<th>SKU TYPE</th>
-	<th class="dept">DEPARTMENT</th>
-	<th class="dept">THIRD LEVEL OF CATEGORY</th> 
-	<th>SKU / PRC</th>
-	<th>UOM CODE</th>
-	<th>FRACTION</th>
-	<th>INPUT TAX</th>
-	<th>OUTPUT TAX</th>
-	<th>SELLING PRICE INCLUSIVE TAX</th>
-	<th>SCALE TYPE</th>
-	<th>ACTIVE</th>
-	<th>BRAND</th>
-	<th>VENDOR</th>
-	<th>STOCK REORDER MIN QTY</th>
-	<th>STOCK REORDER MAX QTY</th>
-	<th>STOCK REORDER MOQ QTY</th>
-	<th>STOCK REORDER NOTIFY USER NAME</th>
-	<th>PARENT ARMS CODE</th>
-	<th>PARENT ARTNO</th>
-	<th>PARENT MCODE</th>
-	{if $config.sku_enable_additional_description}<th class="additional_desc">ADDITIONAL DESCRIPTION</th>{/if}
-</tr>
-<tr>
-	<td>73994</td>     
-	<td>280572570000</td>        
-	<td>SFSF9800105</td>         
-	<td>2322030100122</td>       
-	<td>232203010012 </td>
-	<td>FOREST TARGET MINI BRIEFCASE</td>
-	<td>FOREST TARGET MINI BRIEF</td>                
-	<td>19.90</td>     
-	<td>17.91 </td>    
-	<td>B5</td>        
-	<td>CONSIGN</td>   
-	<td class="dept">SPORT</td>
-	<td class="dept">SPORT WEAR</td>                    
-	<td>SKU</td>
-	<td>EACH</td>
-	<td>1</td>
-	<td>TX (6%)</td>
-	<td>SR (6%)</td>
-	<td>YES</td>
-	<td>NO</td>
-	<td>YES</td>
-	<td>AMBER</td>
-	<td>TWINLIGHT SDN BHD</td>
-	<td>10</td>
-	<td>20</td>
-	<td>0</td>
-	<td></td>
-	<td>280572570000</td>
-	<td>SFSF9800105</td>
-	<td>2322030100122</td>
-	{if $config.sku_enable_additional_description}<td class="additional_desc">OUTRIGHT ITEM</td>{/if}
-<tr>
-	<td>285204</td>    
-	<td>281144810024</td>        
-	<td>TP1</td>                 
-	<td>&nbsp;</td>                    
-	<td></td>                   
-	<td>"PAID" TAPE 18MMX 50M RED & YELLOW</td>          
-	<td>"PAID" TAPE 18MMX 50M RED & YE</td>          
-	<td>2.10</td>      
-	<td>2.20</td>    
-	<td>&nbsp;</td>             
-	<td>OUTRIGHT</td>  
-	<td class="dept">ADMIN</td>                         
-	<td class="dept">TAPE</td>
-	<td>PRC</td>
-	<td>CTN24</td>
-	<td>24</td>
-	<td>BL(6%)</td>
-	<td>SR(6%)</td>
-	<td>NO</td>
-	<td>FIXED PRICE</td>
-	<td>NO</td>
-	<td>SCOTHY</td>
-	<td>STATIONY SDN BHD</td>
-	<td></td>
-	<td></td>
-	<td>0</td>
-	<td>Alex</td>
-	<td>281144810023</td>
-	<td>TYR15</td>
-	<td>3284852965</td>
-	{if $config.sku_enable_additional_description}<td class="additional_desc"></td>{/if}
-</tr>
-</table>
-</p>
+<br><br>
+<div class="alert alert-secondary" style="max-width: 660px;">
+	<b>Note:</b> Below is the example of output. The first line title is not included in the output format (TXT).
+</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+			
+<div class="table-responsive">
+	<table id="tbl-export-sku" class="report_table table mb-0 text-md-nowrap  table-hover " >
+	<thead class="bg-gray-100">
+		<tr>
+			<th>SKU ITEM ID</th> 
+			<th>ARMS CODE</th> 
+			<th>ARTNO</th>
+			<th>MCODE</th>
+			<th>BARCODE</th>
+			<th>PRODUCT DESCRIPTION</th> 
+			<th>RECEIPT DESCRIPTION</th> 
+			<th>SELLING PRICE</th>
+			<th>COST PRICE</th>
+			<th>PRICE TYPE</th>
+			<th>SKU TYPE</th>
+			<th class="dept">DEPARTMENT</th>
+			<th class="dept">THIRD LEVEL OF CATEGORY</th> 
+			<th>SKU / PRC</th>
+			<th>UOM CODE</th>
+			<th>FRACTION</th>
+			<th>INPUT TAX</th>
+			<th>OUTPUT TAX</th>
+			<th>SELLING PRICE INCLUSIVE TAX</th>
+			<th>SCALE TYPE</th>
+			<th>ACTIVE</th>
+			<th>BRAND</th>
+			<th>VENDOR</th>
+			<th>STOCK REORDER MIN QTY</th>
+			<th>STOCK REORDER MAX QTY</th>
+			<th>STOCK REORDER MOQ QTY</th>
+			<th>STOCK REORDER NOTIFY USER NAME</th>
+			<th>PARENT ARMS CODE</th>
+			<th>PARENT ARTNO</th>
+			<th>PARENT MCODE</th>
+			{if $config.sku_enable_additional_description}<th class="additional_desc">ADDITIONAL DESCRIPTION</th>{/if}
+		</tr>
+	</thead>
+	<tbody class="fs-08">
+		<tr>
+			<td>73994</td>     
+			<td>280572570000</td>        
+			<td>SFSF9800105</td>         
+			<td>2322030100122</td>       
+			<td>232203010012 </td>
+			<td>FOREST TARGET MINI BRIEFCASE</td>
+			<td>FOREST TARGET MINI BRIEF</td>                
+			<td>19.90</td>     
+			<td>17.91 </td>    
+			<td>B5</td>        
+			<td>CONSIGN</td>   
+			<td class="dept">SPORT</td>
+			<td class="dept">SPORT WEAR</td>                    
+			<td>SKU</td>
+			<td>EACH</td>
+			<td>1</td>
+			<td>TX (6%)</td>
+			<td>SR (6%)</td>
+			<td>YES</td>
+			<td>NO</td>
+			<td>YES</td>
+			<td>AMBER</td>
+			<td>TWINLIGHT SDN BHD</td>
+			<td>10</td>
+			<td>20</td>
+			<td>0</td>
+			<td></td>
+			<td>280572570000</td>
+			<td>SFSF9800105</td>
+			<td>2322030100122</td>
+			{if $config.sku_enable_additional_description}<td class="additional_desc">OUTRIGHT ITEM</td>{/if}
+		<tr>
+			<td>285204</td>    
+			<td>281144810024</td>        
+			<td>TP1</td>                 
+			<td>&nbsp;</td>                    
+			<td></td>                   
+			<td>"PAID" TAPE 18MMX 50M RED & YELLOW</td>          
+			<td>"PAID" TAPE 18MMX 50M RED & YE</td>          
+			<td>2.10</td>      
+			<td>2.20</td>    
+			<td>&nbsp;</td>             
+			<td>OUTRIGHT</td>  
+			<td class="dept">ADMIN</td>                         
+			<td class="dept">TAPE</td>
+			<td>PRC</td>
+			<td>CTN24</td>
+			<td>24</td>
+			<td>BL(6%)</td>
+			<td>SR(6%)</td>
+			<td>NO</td>
+			<td>FIXED PRICE</td>
+			<td>NO</td>
+			<td>SCOTHY</td>
+			<td>STATIONY SDN BHD</td>
+			<td></td>
+			<td></td>
+			<td>0</td>
+			<td>Alex</td>
+			<td>281144810023</td>
+			<td>TYR15</td>
+			<td>3284852965</td>
+			{if $config.sku_enable_additional_description}<td class="additional_desc"></td>{/if}
+		</tr>
+	</tbody>
+	</table>
+</div>
+		</div>
+	</div>
+</div>
 
 <!--iframe name=_ifr width=1 height=1 style="visibility:hidden"></iframe-->
 {include file=footer.tpl}
