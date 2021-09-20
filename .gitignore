@@ -12,3 +12,4 @@ templates_c/%%E5^E56^E569BB89%%notifications_right_sidebar.tpl.php
 privilege_manager_filemtime.txt
 cron.send_email.log
 cron.check_member_pos.log
+config.php
