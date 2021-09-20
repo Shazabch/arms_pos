@@ -129,13 +129,13 @@ function hide_export_txt_btn(){
 		<span class="menu_spacing">
 		<label class="menu_spacing">Branch</label>
 			{if $BRANCH_CODE eq 'HQ'}
-				<select class="form-control" name=branch_sel onchange="bsel(this.value)">
+				<select class="form-control select2" name=branch_sel onchange="bsel(this.value)">
 				{foreach from=$branch item=b}
 					<option value="{$b.id},{$b.update1},{$b.update2}" {if $b.id eq $sessioninfo.branch_id}selected {/if}>{$b.code}</option>
 				{/foreach}
 				</select>
 			{else}
-				<input class="form-control" readonly value="{$BRANCH_CODE}">
+				<input class="form-control select2" readonly value="{$BRANCH_CODE}">
 			{/if}
 		</span>
 			
@@ -143,7 +143,7 @@ function hide_export_txt_btn(){
 			<div class="">
 				<span class="menu_spacing">
 					{*<label class="menu_spacing">Department</label>
-						<select class="form-control" name=dept>
+						<select class="form-control select2" name=dept>
 							<option value="all">-- All --</option>
 							{foreach from=$dept item=r}
 								<option value="{$r.id}" {if $smarty.request.dept eq $r.id} selected {/if}>{$r.description}</option>
@@ -167,7 +167,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Vendor</label>
-				<select class="form-control" name="vendor_id">
+				<select class="form-control select2" name="vendor_id">
 					<option value="">-- All --</option>
 					{foreach from=$vendors item=r}
 						<option value="{$r.id}">{$r.description}</option>
@@ -178,7 +178,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Brand</label>
-			<select class="form-control" name="brand_id">
+			<select class="form-control select2" name="brand_id">
 					<option value="">-- All --</option>
 					<option value="0">UNBRANDED</option>
 				{foreach from=$brands item=r}
@@ -190,7 +190,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Input Tax</label>
-				<select class="form-control" name="input_tax">
+				<select class="form-control select2" name="input_tax">
 					<option value="">-- All --</option>
 					{foreach from=$input_tax_list key=rid item=r}
 						<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
@@ -201,7 +201,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Output Tax</label>
-				<select class="form-control" name="output_tax">
+				<select class="form-control select2" name="output_tax">
 					<option value="">-- All --</option>
 					{foreach from=$output_tax_list key=rid item=r}
 						<option value="{$r.id}">{$r.code} ({$r.rate}%)</option>
@@ -212,7 +212,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Selling Price Inclusive Tax</label>
-				<select class="form-control" name="inclusive_tax">
+				<select class="form-control select2" name="inclusive_tax">
 					<option value="">-- All --</option>
 					<option value="yes">YES</option>
 					<option value="no">NO</option>
@@ -222,7 +222,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">SKU Type</label>
-				<select class="form-control" name="sku_type">
+				<select class="form-control select2" name="sku_type">
 					<option value="">-- All --</option>
 					{foreach from=$sku_type item=r}
 						<option value="{$r.sku_type}">{$r.sku_type}</option>
@@ -233,7 +233,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Scale Type</label>
-				<select class="form-control" name="scale_type">
+				<select class="form-control select2" name="scale_type">
 					<option value="">-- All --</option>
 					{foreach from=$scale_type_list key=st_value item=st_name}
 					{if $st_value >= 0}
@@ -246,7 +246,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Active</label>
-				<select class="form-control" name="active">
+				<select class="form-control select2" name="active">
 					<option value="">-- All --</option>
 					<option value="1">Yes</option>
 					<option value="0">No</option>
@@ -256,7 +256,7 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 		<span class="menu_spacing">
 			<label class="menu_spacing">Parent Child?</label>
-				<select class="form-control" name="parent_child_filter">
+				<select class="form-control select2" name="parent_child_filter">
 					<option value="">-- All --</option>
 					<option value="1">Yes</option>
 					<option value="0">No</option>
@@ -270,14 +270,14 @@ function hide_export_txt_btn(){
 
 		<div class="form-group">
 			<label class="menu_spacing">Price Markup%</label>
-			<span class="menu_spacing"><input size=3 name="price_markup"></span>
+			<span class="menu_spacing"><input class="form-control" size=3 name="price_markup"></span>
 		</div>
 </div>
 <div class="col-md-4">
 
 		<div class="form-group">
 			<label class="menu_spacing">Cost Markup%</label>
-			<span class="menu_spacing"><input size=3 name="cost_markup"></span>
+			<span class="menu_spacing"><input class="form-control" size=3 name="cost_markup"></span>
 		</div>
 
 </div>
@@ -288,28 +288,28 @@ function hide_export_txt_btn(){
 <div class="card-body">
 <table>
 	<td><b>Advanced Settings</b></td>
-	<tr><td><label class="fs-09" >Items Last Update Date &nbsp; (yyyy-mm-dd) </label></td><td>
-	<input class="form-control" name=items_last_update size=10 value="{$lastid[0]}"> <small>(left empty will not export any items by last update, put '0' will export all items)</small></td></tr>
+	<tr><td><label class="fs-08" >Items Last Update Date &nbsp; (yyyy-mm-dd) </label></td><td>
+	<input class="form-control" name=items_last_update size=10 value="{$lastid[0]}"> <small class="fs-06 fs-md-07">(left empty will not export any items by last update, put '0' will export all items)</small></td></tr>
 	<br>
-	<tr><td><label class="fs-09">Price Change Date &nbsp; (yyyy-mm-dd)</label> </td><td>
-	<input class="form-control" name=price_last_update size=10 value="{$lastid[1]}"> <small>(left empty or zero will not export any items with price change)</small></td></tr>
+	<tr><td><label class="fs-08">Price Change Date &nbsp; (yyyy-mm-dd)</label> </td><td>
+	<input class="form-control" name=price_last_update size=10 value="{$lastid[1]}"> <small class="fs-06 fs-md-07">(left empty or zero will not export any items with price change)</small></td></tr>
 	
-	<tr><td><label for="show_cat_id"><label class="fs-09">Show Category</label></label></td><td>
+	<tr><td><label for="show_cat_id"><label class="fs-08">Show Category</label></label></td><td>
 	<input type="checkbox" name="show_cat" id="show_cat_id" onclick="hide_show_category()"></td></tr>
 	{if $config.sku_enable_additional_description}
-	<tr><td><label for="show_cat_id"><label class="fs-09">Show Additional Description</label></label></td><td><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()"></td></tr>
+	<tr><td><label for="show_cat_id"><label class="fs-08">Show Additional Description</label></label></td><td><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()"></td></tr>
 	{/if}
 </table>
 <span>
 	<span id="span_export_txt" class="menu_spacing">
 		<input class="btn btn-primary" type="button" value="Get SKU by TXT" onClick="get_data('txt');" />
 	</span>
-	<input class="btn btn-primary" type="button" value="Get SKU by CSV" onClick="get_data('csv');" />
+	<input class="btn btn-primary mt-2 mt-md-0" type="button" value="Get SKU by CSV" onClick="get_data('csv');" />
 </span>
 </form>
 
 <br><br>
-<div class="alert alert-secondary" style="max-width: 660px;">
+<div class="alert alert-primary" style="max-width: 660px;">
 	<b>Note:</b> Below is the example of output. The first line title is not included in the output format (TXT).
 </div>
 		</div>

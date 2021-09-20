@@ -248,133 +248,182 @@ var STOCK_CHECK_IMPORT = {
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="container-fluid">
+	
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
+
 {if $err}
-    <br>
-    <h4>Stock cannot be import</h4>
-    <div class="errmsg">
-        <ul>
-            {foreach from=$err item=e}
-                <li>{$e}</li>
-            {/foreach}
-        </ul>
-		
-    </div>
+   <div class="card mx-3">
+	   <div class="card-body">
+		<b class="text-danger">Stock cannot be import</b>
+		<div class="errmsg">
+			<ul class="text-muted">
+				{foreach from=$err item=e}
+					<li>{$e}</li>
+				{/foreach}
+			</ul>
+			
+		</div>
+	   </div>
+   </div>
+  
 	{if $pc_file_path && file_exists($pc_file_path)}
-		<b><a href="{$pc_file_path}" download>Click here to download</a> for those missing SKU items which did not stock take completely.</b>
-		<br /><br />
+		<div class="card mx-3">
+			<div class="card-body">
+				<b><a href="{$pc_file_path}" download>Click here to download</a> for those missing SKU items which did not stock take completely.</b>
+		
+			</div>
+
+		</div>
 	{/if}
     <a href="{$smarty.server.PHP_SELF}">Click here to go back.</a>
 {elseif $succ}
-    <h4>Import successfully</h4>
-    <ul>
+    <b class="text-success">Import successfully</b>
+    <ul class="text-muted">
         {foreach from=$succ item=s}
             <li>{$s}</li>
         {/foreach}
     </ul>
     <a href="{$smarty.server.PHP_SELF}">Click here to continue.</a>
 {else}
-    <h2>Import</h2>
+    <div class="card mx-3">
+		<div class="card-body">
+			<label><h5>Import</h5></label>
     <form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return STOCK_CHECK_IMPORT.check_form();" method="post">
         <input type="hidden" name="a" value="import_data">
         <table class="form_table">
 			{if $BRANCH_CODE eq "HQ"}
-				<tr>
-					<th>Branch</th>
-					<td>
-						<select name="branch_id">
+					<label>Branch</label>
+						<select class="form-control" name="branch_id">
 							{foreach from=$branch_list key=k item=i}
 								<option value="{$k}">{$i}</option>
 							{/foreach}
 						</select>
-					</td>
-				</tr>
+				
 			{else}
 				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
 			{/if}
             <tr>
-                <th>Action [<a href="javascript:void(alert('
-					1. No Auto Fill Zero\n
-					- The system will import all Stock Take according to the import file only, without zerolise the rest of the non-scanned Stock Take items.\n\n
-					2. Auto Add Zero for Non-scan Items\n
-					- The system will import all Stock Take according to the import file and then zerolise the rest of the non-scanned Stock Take items.\n\n
-					3. Auto Add Zero for Same SKU Parent\n
-					- The system will auto zerolise the rest of the items under the same SKU family (Parent & Child) base on the items from import file.\n\n
-					'));">?</a>]
-				</th>
-                <td>
-					<select name="fill_zero_options">
+               <label class="mt-2">
+				Action [<a href="javascript:void(alert('
+				1. No Auto Fill Zero\n
+				- The system will import all Stock Take according to the import file only, without zerolise the rest of the non-scanned Stock Take items.\n\n
+				2. Auto Add Zero for Non-scan Items\n
+				- The system will import all Stock Take according to the import file and then zerolise the rest of the non-scanned Stock Take items.\n\n
+				3. Auto Add Zero for Same SKU Parent\n
+				- The system will auto zerolise the rest of the items under the same SKU family (Parent & Child) base on the items from import file.\n\n
+				'));">?</a>]
+			   </label>
+					<select class="form-control" name="fill_zero_options">
 						<option value="no_fill" selected>No auto fill zero</option>
 						<option value="fill_zero">Auto add zero for non-scan items</option>
 						<option value="fill_parent">Auto add zero for same SKU parent</option>
 					</select>
-				</td>
-            </tr>
+				
+            <div class="row mt-2">
+           <div class="col-md-6">
+			<label class="mt-1">
+				Import File Format [<a href="javascript:void(alert('
+				Please do not put header into the CSV file as it will count as one of the data to be imported.\n\n
+				'));">?</a>]
+			   </label>    
+		   </div>
+		   <div class="col-md-6 ">
+			
+			<div class="fs-07">
+				<input class="mt-1" type="radio" name="import_type" value="argos" onclick="showdiv('argos_opt')"> CSV / ARGOS (mcode/arms_code, qty, description, selling_price) <br />
+			<input class="mt-1" type="radio" name="import_type" value="pspv" onclick="showdiv('argos_opt')"> PSPV (mcode/arms_code &nbsp;&nbsp;&nbsp; qty) <br />
+			<input class="mt-1" type="radio" name="import_type" value="atp" checked onclick="hidediv('argos_opt')"> CSV / ATP/Multics (arms_code, mcode/{$config.link_code_name}/Art No, count_by, location, shelf, item_no, qty, selling, cost)<br />
+			{*if $config.stock_check_arms_stock_format*}
+				<input class="mt-1" type="radio" name="import_type" value="arms_stock" onclick="showdiv('argos_opt')"> CSV (ARMS Code, Qty)<br />
+			{*/if*}
+			{if $config.stock_check_artno_stock_format}
+				<input class="mt-1" type="radio" name="import_type" value="artno_stock" onclick="showdiv('argos_opt')"> CSV (Art No, Qty)<br />
+			{/if}
+			<input class="mt-1" type="radio" name="import_type" value="arms_stock_2" onclick="showdiv('argos_opt')"> CSV (ARMS Code/MCode/{$config.link_code_name}, Qty)<br />
+			</div>
+			
+		   </div>
+
+            </div>
             <tr>
-                <th>Import File Format [<a href="javascript:void(alert('
-					Please do not put header into the CSV file as it will count as one of the data to be imported.\n\n
-					'));">?</a>]
-			</th>
-                <td>
-                    <input type="radio" name="import_type" value="argos" onclick="showdiv('argos_opt')"> CSV / ARGOS (mcode/arms_code, qty, description, selling_price) <br />
-                    <input type="radio" name="import_type" value="pspv" onclick="showdiv('argos_opt')"> PSPV (mcode/arms_code &nbsp;&nbsp;&nbsp; qty) <br />
-                    <input type="radio" name="import_type" value="atp" checked onclick="hidediv('argos_opt')"> CSV / ATP/Multics (arms_code, mcode/{$config.link_code_name}/Art No, count_by, location, shelf, item_no, qty, selling, cost)<br />
-                    {*if $config.stock_check_arms_stock_format*}
-                        <input type="radio" name="import_type" value="arms_stock" onclick="showdiv('argos_opt')"> CSV (ARMS Code, Qty)<br />
-                    {*/if*}
-                    {if $config.stock_check_artno_stock_format}
-                        <input type="radio" name="import_type" value="artno_stock" onclick="showdiv('argos_opt')"> CSV (Art No, Qty)<br />
-                    {/if}
-					<input type="radio" name="import_type" value="arms_stock_2" onclick="showdiv('argos_opt')"> CSV (ARMS Code/MCode/{$config.link_code_name}, Qty)<br />
-                </td>
-            </tr>
-            <tr>
-                <th>Cut-off Date(yyyy-mm-dd)*</th>
-                <td><input name="cut_off_date" size="12" value="{$form.cut_off_date}"></td>
+                <label class="mt-3 mt-md-1">Cut-off Date(yyyy-mm-dd)<span class="text-danger">*</span></label>
+                <input class="form-control" name="cut_off_date" size="12" value="{$form.cut_off_date}">
             </tr>
             <tbody id=argos_opt style="display:none">
-                <tr><th>Scanned By *</th><td><input name="scanned_by" maxlength="15" /> (Max 15 Characters)</td></tr>
-                <tr><th>Location *</th><td><input name="location" maxlength="15" /> (Max 15 Characters)</td></tr>
-                <tr><th>Shelf No *</th><td><input name="shelf_no" maxlength="15" /> (Max 15 Characters)</td></tr>
+                <tr><th>Scanned By <span class="text-danger">*</span></th><td><input class="form-control" name="scanned_by" maxlength="15" /> (Max 15 Characters)</td></tr>
+                <tr><th>Location <span class="text-danger">*</span></th><td><input class="form-control" name="location" maxlength="15" /> (Max 15 Characters)</td></tr>
+                <tr><th>Shelf No <span class="text-danger">*</span></th><td><input class="form-control" name="shelf_no" maxlength="15" /> (Max 15 Characters)</td></tr>
             </tbody>
-            <tr>
-                <th>File</th>
-                <td><input type="file" name="import_csv"/>Select File to Import</td>
-            </tr>
-            <tr>
-                <th>Allow Duplicate Entry</th>
-                <td><input type="checkbox" name="allow_duplicate" value="1"> (if found duplicate will sum up qty)</td>
-            </tr>
+            
+			<div class="row mt-4">
+			  <div class="col-md-6">
+				<p class=""><b>File :</b> </p>
+				<input type="file" name="import_csv"/>
+				<br>
+				<p class="fs-09 mt-sm-2">Select File to Import</p>
+			  </div>
+
+			  <div class="col md-2">
+			
+<div class="mt-md-4">
+	Allow Duplicate Entry <br>
+	<input type="checkbox" name="allow_duplicate" value="1"> (if found duplicate will sum up qty)
+</div>
+		
+				  <button class="btn btn-primary  ml-md-2 mt-2 mt-md-0">Upload</button>
+			 
+			</div>
+
+			</div>
+            
+  
+            
         </table><br>
-		<input type="submit" value="Upload">
+		
     </form>
     <br/>
-    <h2>Export Database</h2>
+    <h5>Export Database</h5>
     <form name="f_b" class="stdframe">
 		<input type="hidden" name="a" value="export_data">
-		<div style="color: blue;">* Export format: MCode/Arms Code, Stock Balance, Description, Selling Price</div>
-        <table>
-            <tr>
-                <th>Select data type to export</th>
-                <td>
-                    <select name="export_type">
-                        <option value="pspv">PSPV</option>
-                        <option value="csv">CSV</option>
-                    </select>
-                </td>
-                <td><input type=submit value="Download"></td>
-            </tr>
-        </table>
+		<div><span class="text-danger">*</span> Export format: MCode/Arms Code, Stock Balance, Description, Selling Price</div>
+        <div class="row mt-1">
+            	<div class="col-md-4">
+					<div class="mt-1">
+						<b>Select data type to export</b>
+					</div>
+				</div>
+			
+		</div>
+		<div class="row mt-1">
+			<div class="col-md-4">
+				<select class="form-control select2" name="export_type">
+					<option value="pspv">PSPV</option>
+					<option value="csv">CSV</option>
+				</select>
+			</div>
+			   
+			<div class="col-md-4 mt-2 mt-md-0">
+				<button class="btn btn-primary">Download</button>
+			</div>
+		</div>
     </form>
     <br/>
-    <h2>Edit Database</h2>
+    <h5>Edit Database</h5>
     <form name="f_c" enctype="multipart/form-data" class="stdframe" onsubmit="return false;">
-        <input type="button" onclick="STOCK_CHECK_IMPORT.add_record();"  value="Add Record" style="color:#fff;background:#090;font:20px Arial"><br/>
+		<button class="btn btn-success" onclick="STOCK_CHECK_IMPORT.add_record();">Add Record</button>
+        <br/>
 		<div class="stdframe" id="div_new_record" style="display:none;margin:10px 0;background:#fff">
 			<input type="hidden" name="a" value="add_data">
 			{if $BRANCH_CODE == 'HQ'}
-			Branch
-			<select name="branch_id">
+			<label>Branch</label>
+			<select class="form-control select2" name="branch_id">
 				{foreach from=$branch_list key=k item=i}
 					<option value="{$k}">{$i}</option>
 				{/foreach}
@@ -382,82 +431,101 @@ var STOCK_CHECK_IMPORT = {
 			{else}
 				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
 			{/if}
-			Cut-Off Date (yyyy-mm-dd) <input name="cut_off_date" value=""><br><br>
-			* Leave the cost and selling empty to use latest cost price and selling price
-			<table border="0" cellpadding="4" cellspacing="0" class="tb">
-				<tr>
-					<th>ARMS Code</th>
-					<th>Scanned By</th>
-					<th>Location</th>
-					<th>Shelf No</th>
-					<th>Item No</th>
-					<th>Qty</th>
-					<th>Selling</th>
-					<th>Cost</th>
-				</tr>
-				<tbody id="tbody_rows">
-				</tbody>
-				<tr id="row_template" style="display:none">
-					<td nowrap><img src="/ui/icons/delete.png" onclick="STOCK_CHECK_IMPORT.del_row(this)"><input onchange="STOCK_CHECK_IMPORT.check_item_code(this)" size="15" class="sku_item_code" name="sku_item_code[]"></td>
-					<td><input onchange="uc(this)" size="5" name="scanned_by[]"></td>
-					<td><input onchange="uc(this)" size="8" class="location" name="location[]"></td>
-					<td><input onchange="uc(this)" size="8" class="shelf_no" name="shelf_no[]"></td>
-					<td><input onchange="uc(this)" size="3" class="item_no" name="item_no[]"></td>
-					<td><input onchange="uc(this)" size="5" name="qty[]"></td>
-					<td><input onchange="uc(this)" size="5" name="selling[]"></td>
-					<td><input onchange="uc(this)" size="5" name="cost[]"></td>
-				</tr>
-				<tr>
-					<td colspan="10" align="center">
-					<input onclick="STOCK_CHECK_IMPORT.insert_row()" type="button" value="Insert Row" style="color:#fff;background:#f90;font:20px Arial">
-					<input onclick="STOCK_CHECK_IMPORT.do_save()" type="button" value="Save" style="color:#fff;background:#090;font:20px Arial">
-					<input onclick="STOCK_CHECK_IMPORT.edit_cancel()" type="button" value="Cancel" style="color:#fff;background:#09f;font:20px Arial">
-					</td>
-				</tr>
-			</table>
+			<br/>
+			<label>Cut-Off Date (yyyy-mm-dd) </label>
+			<input class="form-control" name="cut_off_date" value="">
+			<b class="text-danger">*</b> Leave the cost and selling empty to use latest cost price and selling price
+		</div>
+	</div>
+
+<div class="table-responsive">
+	<table border="0" cellpadding="4" class="tb table mb-0 text-md-nowrap  table-hover ">
+<thead class="bg-gray-100 ">
+	<tr style="height:30px;">
+		<th>ARMS Code</th>
+		<th>Scanned By</th>
+		<th>Location</th>
+		<th>Shelf No</th>
+		<th>Item No</th>
+		<th>Qty</th>
+		<th>Selling</th>
+		<th>Cost</th>
+	</tr>
+</thead>
+		<tbody id="tbody_rows">
+		</tbody>
+		<tr id="row_template" style="display:none">
+			
+			<td nowrap class="form-inline"><i class="fas fa-times text-danger mr-2" onclick="STOCK_CHECK_IMPORT.del_row(this)"></i>
+			<input class="form-control" onchange="STOCK_CHECK_IMPORT.check_item_code(this)" size="15" class="sku_item_code" name="sku_item_code[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="5" name="scanned_by[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="8" class="location" name="location[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="8" class="shelf_no" name="shelf_no[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="3" class="item_no" name="item_no[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="5" name="qty[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="5" name="selling[]"></td>
+			<td><input class="form-control" onchange="uc(this)" size="5" name="cost[]"></td>
+		</tr>
+		
+	</table>
+	<div colspan="10" class="text-center my-3">
+		<button class="btn btn-warning mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.insert_row()">Insert Row</button>
+		<button class="btn btn-success mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.do_save()">Save</button>
+		<button class="btn btn-primary mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.edit_cancel()">Cancel</button>
+	</div>
+</div>
 		</div>
 	</form><br>
-	<div class="stdframe">
-		<form name="f_d" onsubmit="STOCK_CHECK_IMPORT.check_search_form(); return false">
-			<input type="hidden" name="a" value="search_data">
-			<table>
-				<tr>
-					{if $BRANCH_CODE eq "HQ"}
-						<th>Branch</th>
-						<td>
-							<select name="search_branch_id" onchange="STOCK_CHECK_IMPORT.get_stock_check_date();">
-								<option value="">-- Please Select --</option>
-								{foreach from=$branch_list key=k item=i}
-									<option value="{$k}" {if $smarty.request.search_branch_id eq $k}selected{/if}>{$i}</option>
-								{/foreach}
-							</select>&nbsp;&nbsp;&nbsp;
-						</td>
-					{else}
-						<input type="hidden" name="search_branch_id" value="{$sessioninfo.branch_id}">
-					{/if}
-					<th>Date</th>
-					<td>
-						<select name="search_date">
-							<option value="">-- Please Select --</option>
-						</select>&nbsp;&nbsp;&nbsp;
-					</td>
-					<th>Search</th>
-					<td>
-						<select name="search_type">
-							{foreach from=$search_type key=k item=i}
-								<option value="{$k}" {if $smarty.request.search_type eq $k}selected{/if}>{$i}</option>
-							{/foreach}
-						</select>&nbsp;
-					</td>
-					<th>for <input name="search_value"></th>
-					<td><input type="submit" value="Find"></td>
-				</tr>
-			</table>
-		</form>
+<div class="">
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="stdframe">
+				<form name="f_d" onsubmit="STOCK_CHECK_IMPORT.check_search_form(); return false">
+					<input type="hidden" name="a" value="search_data">
+					<table>
+						<tr>
+							{if $BRANCH_CODE eq "HQ"}
+								<label>Brand</label>
+									<select class="form-control select2" name="search_branch_id" onchange="STOCK_CHECK_IMPORT.get_stock_check_date();">
+										<option value="">-- Please Select --</option>
+										{foreach from=$branch_list key=k item=i}
+											<option value="{$k}" {if $smarty.request.search_branch_id eq $k}selected{/if}>{$i}</option>
+										{/foreach}
+									</select>
+								
+							{else}
+								<input class="form-control" type="hidden" name="search_branch_id" value="{$sessioninfo.branch_id}">
+							{/if}
+							<label class="mt-2">Date</label>
+								<select class="form-control select2" name="search_date">
+									<option value="">-- Please Select --</option>
+								</select>
+							
+							<label class="mt-2">Search</label>
+								<select class="form-control select2" name="search_type">
+									{foreach from=$search_type key=k item=i}
+										<option value="{$k}" {if $smarty.request.search_type eq $k}selected{/if}>{$i}</option>
+									{/foreach}
+								</select>&nbsp;
+							
+							<label class="mt-2">For</label>
+							<input class="form-control" name="search_value">
+							<br>
+							<button class="btn btn-primary">Find</button>
+						</tr>
+					</table>
+				</form>
+				
+			</div>
+			
+		</div>
 		<div id="div_stock_check_table">
 			{include file="admin.stockchk_import.table.tpl"}
 		</div>
 	</div>
+</div>
+
+</div>
 {/if}
 {include file='footer.tpl'}
 <script type="text/javascript">

@@ -102,6 +102,7 @@ function check_form(form,type){
 
 {if !$config.consignment_modules}
 	
+	<div class="container">
 		<div class="alert alert-danger mx-3 mt-2" >
 			<b>Warning: </b>
 		<ul>
@@ -112,8 +113,9 @@ function check_form(form,type){
 		</div>
 		
 	
+	</div>
 {/if}
-
+<div class="container">
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">
@@ -136,7 +138,7 @@ function check_form(form,type){
 </div>
 {/if}
 {/if}
-<div class="container">
+
 	<div class="card mx-3">
 		<div class="card-body">
 			
@@ -191,7 +193,7 @@ function check_form(form,type){
 		</div>
 	</div>
 </div>
-
+<div class="container">
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">
@@ -209,7 +211,7 @@ The following error(s) has occured:
 	</ul>
 {/if}
 {/if}
-<div class="container">
+
 	<div class="card mx-3">
 		<div class="card-body">
 			<form name="f_b" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this,'price_type');">

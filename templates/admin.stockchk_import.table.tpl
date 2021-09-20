@@ -20,34 +20,42 @@
 				</span>
 			</div><br>
 		{/if}
-		<table id="content_tbl" cellpadding="4" cellspacing="0" border="1">
-			<tr>
-				<th><input type="checkbox" onClick="STOCK_CHECK_IMPORT.toggle_all(this);"></th>
-				<th>Date</th>
-				<th>Branch ID</th>
-				<th>Arms Code</th>
-				<th>Location</th>
-				<th>Shelf No</th>
-				<th>Item No</th>
-				<th>Scanned By</th>
-				<th>Qty</th>
-				<th>Selling</th>
-				<th>Cost</th>
-			</tr>
+	<div class="table-responsive">
+		<table id="content_tbl" class="tb table mb-0 text-md-nowrap  table-hover " cellpadding="4" cellspacing="0" >
+			<thead class="text-gray-200" style="height: 30px;">
+				<tr>
+					<th><input type="checkbox" onClick="STOCK_CHECK_IMPORT.toggle_all(this);"></th>
+					<th>Date</th>
+					<th>Branch ID</th>
+					<th>Arms Code</th>
+					<th>Location</th>
+					<th>Shelf No</th>
+					<th>Item No</th>
+					<th>Scanned By</th>
+					<th>Qty</th>
+					<th>Selling</th>
+					<th>Cost</th>
+				</tr>
+			</thead>
 			{foreach from=$item item=r name=pitem}
 				{assign var=row_ind value=$smarty.foreach.pitem.index}
+			<tbody>
 				<tr>
 					<td><input type="checkbox" class="content_checkbox" value="{$row_ind}"></td>
 					{foreach from=$r key=k item=i name=sku}
 						{if $smarty.foreach.sku.index < 6}
-							<td id="{$k}_{$row_ind}" style="color: #009900">{$i}</td>
+							<td id="{$k}_{$row_ind}" style="color: #009900" class="fs-09">{$i}</td>
 						{else}
 							<td style="background-color: lightyellow"><div id="{$k}_{$row_ind}" class="{$k}" onclick="STOCK_CHECK_IMPORT.edit_data(this, {$row_ind})">{$i}</div></td>
 						{/if}
 					{/foreach}
 				</tr>
+			</tbody>
 			{/foreach}
-		</table><br>
+		</table>
+	</div>
+
+		<br>
 		{if $page_num}
 			<div>
 				<span style="margin-left: 570px">
@@ -56,7 +64,8 @@
 				</span>
 			</div><br>
 		{/if}
-		<input type="button" onclick="STOCK_CHECK_IMPORT.delete_data()" value="Delete Record">
+		<button class="btn btn-secondary ml-3 " onclick="STOCK_CHECK_IMPORT.delete_data()">Delete Record</button>
+		
 	</form>
 {else $error}
 	<p>{$error}</p>

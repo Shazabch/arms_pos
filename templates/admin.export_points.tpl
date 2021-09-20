@@ -60,42 +60,53 @@ MEMBER_EXPORT_POINTS = {
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="container">
+	
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 
 {if $err}
-	The following error(s) has occured:
-	<ul class="errmsg">
-	{foreach from=$err item=e}
-	<li> {$e}
-	{/foreach}
-	</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		The following error(s) has occured:
+		<ul class="errmsg text-danger">
+		{foreach from=$err item=e}
+		<li> {$e}
+		{/foreach}
+		</ul>
+	</div>
+</div>
+
 {/if}
+<div class="container">
+	<div class="card mx-3">
+		<div class="card-body">
+			
 <form method="post" name="f_a" onSubmit="return false;">
 	<input type="hidden" name="export_point" value="1" />
 
 	<table>
 		{if BRANCH_CODE eq 'HQ'}
-			<tr>
-				<td width="100"><b>Branch: </b></td>
-				<td>
-					<select name="branch_id" />
-						<option value="0">-- All --</option>
+				<label><strong>Branch: </strong></label>
+				<select class="form-control" name="branch_id" />
+					<option value="0">-- All --</option>
 						{foreach from=$branch_list key=bid item=b}
-							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-						{/foreach}
-					</select>
-				</td>
-			</tr>
+					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}	
+				</select>		
 		{/if}
-		
-		<tr>
-			<td valign="top"><b>Select Date</b></td>
-			<td>
+		<br>
+			    <label><strong>Select Date : </strong></label>
 				<p>
 					<input type="radio" name="date_filter_type" value="1" {if !$smarty.request.date_filter_type or $smarty.request.date_filter_type eq 1}checked {/if} /> All</p>
 				<p>
 					<input type="radio" name="date_filter_type" value="2" {if $smarty.request.date_filter_type eq 2}checked {/if}/> Single Day
-					<select name="date">
+					<select class="form-control" name="date">
 						<option value="">-- Please Select --</option>
 						{foreach from=$date_list item=d}
 							<option value="{$d}" {if $smarty.request.date eq $d}selected {/if}>{$d}</option>
@@ -107,29 +118,36 @@ MEMBER_EXPORT_POINTS = {
 					From
 					<input type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly size="12" />
 					<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					<br class="d-md-none">
+					<br class="d-md-none">
 					To
 					<input type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="12" />
 					<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
 				</p>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top"><b>Other Settings</b></td>
-			<td>
+		
+		
+			<label><strong>Other Settings : </strong></label><br>
 				<input type='checkbox' name='show_branch' value='1' {if !$smarty.request.export_point or $smarty.request.show_branch}checked {/if} /> Show Branch&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type='checkbox' name='show_date' value='1' {if !$smarty.request.export_point or $smarty.request.show_date}checked {/if} /> Show Date&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="button" value="Export" onClick="MEMBER_EXPORT_POINTS.submit_form();" />
-			</td>
-		</tr>
+	
+				<button class="btn btn-primary mt-1" value="Export" onClick="MEMBER_EXPORT_POINTS.submit_form();">Export</button>
+				
+	
 	</table>
 </form>
 
-{if $msg}{$msg}{/if}
+		</div>
+	</div>
 
+</div>
+{if $msg}
+<div class="card mx-3">
+	<div class="card-body">
+		{$msg}
+	</div>
+</div>
+{/if}
+
+</div>
 <script>MEMBER_EXPORT_POINTS.initialise();</script>
 {include file='footer.tpl'}
