@@ -64,9 +64,7 @@
 }
 
 .div_result{
-	border: solid 1px darkgrey;
-	background: lightyellow;
-	padding:10px;
+
 }
 
 .tr_error{
@@ -147,94 +145,123 @@ var IMPORT_SKU = {
 {/literal}
 </script>
 {if !$config.consignment_modules}
-	<div style="border:2px solid red;padding:5px;background-color:yellow;color:red;font-weight:bold;font-size:120%;">
-		Warning: 
-		<ul>
+	
+	<div class="card mx-3 mt-3">
+		<div class="card-body">
+			<b class="text-danger fs-09">Warning:</b> 
+		<ul class="text-muted">
 			<li> Please prevent to import at business hours, it will directly slow down the performance of all counters across branches.</li>
 			<li> It is recommended to import maximum of 500 SKU in a batch, and wait for 10 minutes while counter do sync process.</li>
 			<li> This action CANNOT be undo.</li>
 		</ul>
-		
-	</div>
-{/if}
-<h1>{$PAGE_TITLE}</h1>
-{if $errm && $method == '1'}
-	<div class="errmsg">
-		<ul>
-			<li>{$errm}</li>
-		</ul>
-	</div>
-{/if}
-
-<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_SKU.check_file(this);" method="post">
-	<input type="hidden" name="a" value="show_result" />
-	<input type="hidden" name="method" value="1" />
-	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* Please ensure the file extension <b>".csv"</b>.<br />
-				* Please ensure the import file contains header.<br />
-				* Left empty for UOM column will result to get default value as "EACH".<br />
-				* Product Description and Receipt Description cannot contain double quotes ", system will automatically remove it when found.<br />
-				* UOM maximum allow 6 characters.<br />
-				* Scale Type: 0 = Not Scale Item, 1 = Fixed Price, 2 = Weight.<br />
-				* Category levels is optional starting from 2, 3, 4 and 5.<br />
-				* Left empty for Is Input Tax, Output Tax column will result to get default value as "inherit".<br />
-				* SKU type: 
-				  {foreach from=$sku_type_list key=st_code item=st name=stl}
-						{$st.description}
-						{if !$smarty.foreach.stl.last} or {/if}
-				  {/foreach}
-				  only(empty field will auto assign to OUTRIGHT).<br />
-				* You can append the Custom MPrice after the last column ({$last_col_name}). Example: "{$last_col_name}", "member1", "member2" and follow by Custom MPrice.<br />
-				* The custom mprice header must match with system mprice settings. (You can refer to SKU Change Selling Price module)<br />
-				* When data import has RSP and RSP Discount, the system will automatically calculate selling price.<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample_sku&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="100%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers[1] item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample[1] item=s}
-				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
-				</tr>
-			{/foreach}
-		</table>
-	</div>
-	{if $error_link neq ''}
-	<div id="div_invalid_1">
-		<div style="border:solid 2px red; padding: 5px; background-color:yellow">
-			<p style="font-weight: bold">Click <a id="invalid_link_1" href='{$error_link}' download>this</a> to download and view the invalid data.</p>
 		</div>
 	</div>
-	{/if}
-</form>
+
+{/if}
+<div class="container-fluid">
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div> 
+</div>
+
+{if $errm && $method == '1'}
+	<div class="alert alert-danger rounded">
+		<div class="errmsg">
+			<ul>
+				<li>{$errm}</li>
+			</ul>
+		</div>
+	</div>
+{/if}
+
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_SKU.check_file(this);" method="post">
+			<input type="hidden" name="a" value="show_result" />
+			<input type="hidden" name="method" value="1" />
+			<input type="hidden" name="file_name" value="{$file_name}" />
+			<table>
+				<div class="alert alert-primary rounded">
+					<b>Note:</b><br />
+						* Please ensure the file extension <b>".csv"</b>.<br />
+						* Please ensure the import file contains header.<br />
+						* Left empty for UOM column will result to get default value as "EACH".<br />
+						* Product Description and Receipt Description cannot contain double quotes ", system will automatically remove it when found.<br />
+						* UOM maximum allow 6 characters.<br />
+						* Scale Type: 0 = Not Scale Item, 1 = Fixed Price, 2 = Weight.<br />
+						* Category levels is optional starting from 2, 3, 4 and 5.<br />
+						* Left empty for Is Input Tax, Output Tax column will result to get default value as "inherit".<br />
+						* SKU type: 
+						  {foreach from=$sku_type_list key=st_code item=st name=stl}
+								{$st.description}
+								{if !$smarty.foreach.stl.last} or {/if}
+						  {/foreach}
+						  only(empty field will auto assign to OUTRIGHT).<br />
+						* You can append the Custom MPrice after the last column ({$last_col_name}). Example: "{$last_col_name}", "member1", "member2" and follow by Custom MPrice.<br />
+						* The custom mprice header must match with system mprice settings. (You can refer to SKU Change Selling Price module)<br />
+						* When data import has RSP and RSP Discount, the system will automatically calculate selling price.<br /><br />
+				</div>
+				<div class="mt-4">
+					<td><b>Upload CSV <br />(<a href="?a=download_sample_sku&method=1">Download Sample</a>)</b></td>
+					<td>
+						&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
+						<input type="Submit" class="btn btn-primary" value="Show Result" />
+					</td>
+				</div>
+			</table>
+			<div class="div_tbl mt-4">
+				<label class="mt-2"><h4>Sample </h4></label>
+				<div class="table-responsive">
+					<table id="si_tbl" class="report_table table mb-0 text-md-nowrap  table-hover" >
+						<thead class="bg-gray-100">
+							<tr >
+								{foreach from=$sample_headers[1] item=i}
+									<th>{$i}</th>
+								{/foreach}
+							</tr>
+						</thead>
+						{foreach from=$sample[1] item=s}
+						<tbody class="fs-08">
+							<tr>
+								{foreach from=$s item=i}
+									<td>{$i}</td>
+								{/foreach}
+								</tr>
+						</tbody>
+						{/foreach}
+					</table>
+				</div>
+			</div>
+			{if $error_link neq ''}
+			<div id="div_invalid_1">
+				
+			<div class="alert alert-danger rounded">
+				<p >Click <a id="invalid_link_1" href='{$error_link}' download>this</a> to download and view the invalid data.</p>
+			</div>
+
+			
+			</div>
+			{/if}
+		</form>
+	</div>
+</div>
 <br>
 
-<span id="span_sr_loading_1" style="display:none;background: yellow;padding:2px;">
+<span id="span_sr_loading_1" style="display:none;" class="bg-warning">
 	<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 </span>
 
 {if $item_lists && $method == '1'}
 	<div class="div_result" id="div_result">
-		{include file="admin.import_sku.result.tpl"}
+		<div class="card mx-3">
+			<div class="card-body">
+				{include file="admin.import_sku.result.tpl"}
+			</div>
+		</div>
 	</div>
 {/if}
 {include file='footer.tpl'}

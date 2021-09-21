@@ -102,22 +102,36 @@ var IMPORT_MEMBERS = {
 {/literal}
 </script>
 {if !$config.consignment_modules}
-	<div style="border:2px solid red;padding:5px;background-color:yellow;color:red;font-weight:bold;font-size:120%;">
-		Warning: 
-		<ul>
-			<li> Please prevent to import at business hours, it will directly slow down the performance of all counters across branches.</li>
-			<li> It is recommended to import maximum of 500 SKU in a batch, and wait for 10 minutes while counter do sync process.</li>
-			<li> This action CANNOT be undo.</li>
-		</ul>
-		
+
+	<div class="card mx-3 mt-3">
+		<div class="card-body">
+			<b class="text-danger fs-09">
+				Warning:
+			</b>
+			<ul class="text-muted">
+				<li> Please prevent to import at business hours, it will directly slow down the performance of all counters across branches.</li>
+				<li> It is recommended to import maximum of 500 SKU in a batch, and wait for 10 minutes while counter do sync process.</li>
+				<li> This action CANNOT be undo.</li>
+			</ul>
+		</div>
 	</div>
+		
+
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 {if $errm && $method == '1'}
-	<div class="errmsg">
-		<ul>
-			<li>{$errm}</li>
-		</ul>
+	<div class="alert alert-danger rounded mx-3">
+		<div class="errmsg">
+			<ul>
+				<li>{$errm}</li>
+			</ul>
+		</div>
 	</div>
 {/if}
 <span id="span_sr_loading_1" style="display:none; background:yellow; padding:2px;">
@@ -127,65 +141,79 @@ var IMPORT_MEMBERS = {
 	<input type="hidden" name="a" value="show_result" />
 	<input type="hidden" name="method" value="1" />
 	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
+	
+	
+			<div class="alert alert-primary rounded mx-3">
+				<b>Note:</b><br />
 				* Please ensure the file extension <b>".csv"</b>.<br/>
 				* Please ensure the import file contains header.<br/>
 				* Verify and Expiry Date format must be in YYYY-MM-DD.<br/>
 				* The system will auto remove the special character and empty space of the import column(Card No, Points, Name, NRIC, Race, DOB, Nationality, Mobile, Phone, Member Type, Fax, City, State, Postcode).</br>
+			</div>
+				<div class="card mx-3">
+					<div class="card-body">
+					<table>
+				<b class="fs-09">Member Type</b>
 				
-				<br />Member Type<br />
-				<table style="background-color:#fff;">
-					{foreach from=$config.membership_type key=k item=desc}
-						<tr>
-							<td>{$k}</td>
-							<td> = </td>
-							<td>{$desc}</td>
-						</tr>
-					{/foreach}
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample_members&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="100%">
-			<tr bgcolor="#ffffff">
+				{foreach from=$config.membership_type key=k item=desc}
+					<tr class="fs-09">
+						<td>{$k}</td>
+						<td> = </td>
+						<td>{$desc}</td>
+					</tr>
+				{/foreach}
+			</table>
+		</td>
+		<table>
+	</tr>
+	<hr>
+	<tr>
+		<td><b class="fs-09">Upload CSV <br />(<a class="fs-08" href="?a=download_sample_members&method=1">Download Sample</a>)</b></td>
+		<td>
+		&nbsp;&nbsp;	<input type="file" class="fs-08"  name="import_csv"/>
+			<input type="Submit" class="btn btn-primary fs-08" value="Show Result" />
+		</td>
+	</tr>
+</table>
+<div class="div_tbl mt-3">
+	<h5>Sample : </h5>
+	<div class="table-responsive">
+		<table id="si_tbl" class="report_table table mb-0 text-md-nowrap  table-hover " >
+		<thead class="bg-gray-100">
+			<tr>
 				{foreach from=$sample_headers[1] item=i}
 					<th>{$i}</th>
 				{/foreach}
 			</tr>
+		</thead>
 			{foreach from=$sample[1] item=s}
-				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
-				</tr>
+				<tbody class="fs-08">
+					<tr>
+						{foreach from=$s item=i}
+							<td>{$i}</td>
+						{/foreach}
+						</tr>
+				</tbody>
 			{/foreach}
 		</table>
 	</div>
-	<div id="div_invalid_1" style="display: none">
-		<div style="border: solid 2px red; padding: 5px; background-color: yellow">
-			<p style="font-weight: bold">* Import Successfully. Click <a id="invalid_link_1" href='#' download>this</a> to download and view the invalid data.</p>
-		</div>
+</div>
+<div id="div_invalid_1" style="display: none">
+	
+	<div class="alety alert-success">
+		<p style="font-weight: bold">* Import Successfully. Click <a id="invalid_link_1" href='#' download>this</a> to download and view the invalid data.</p>
 	</div>
+
+</div>
 </form>
 <br>
 {if $item_lists && $method == '1'}
-	<div class="div_result" id="div_result">
-		{include file="admin.import_members.result.tpl"}
-	</div>
+<div class="div_result" id="div_result">
+	{include file="admin.import_members.result.tpl"}
+</div>
 {/if}
-<br><br>
+					</div>
+				</div>
 
 {include file='footer.tpl'}
 <script type="text/javascript">

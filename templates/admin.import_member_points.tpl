@@ -68,52 +68,92 @@ function condition_clicked(obj){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div> 
 
 {if $err.top}
-The following error(s) has occured:
-	<ul class="err" style="color:red;">
-		{foreach from=$err.top item=e}
-			<li> {$e}</li>
-		{/foreach}
-	</ul>
+<p class="text-danger">The following error(s) has occured:</p>
+	<div class="card mx-3">
+		<div class="card-body">
+			<ul class="err text-muted">
+				{foreach from=$err.top item=e}
+					<li> {$e}</li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
 {/if}
 
-<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this);">
-	<input type="hidden" name="a" value="import_member_points" />
-	<table>
-		<tr>
-			<td colspan="2" style="color:#0000ff;">
-				Note:<br/>
-				Please make sure it is a valid CSV file.<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Date</b></td>
-			<td>
-				<input type="text" name="date" id="date" size="8" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				<input type="checkbox" name="clear_data" value="1" onclick="condition_clicked(this);" /> <b>Clear all imported data on following Date</b><br />
-				&nbsp;(Points will sum up with previous imported points if this option is untick)<br />
-				<input type="checkbox" name="is_curr_points" value="1" onclick="condition_clicked(this);" /> <b>Import as current points</b>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=view_sample_member_points">View Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv" onChange="check_file(this);" />
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td><input type="submit" value="Import" /> <span style="color:red;">Warning: This action cannot be undo.</span></td>
-		</tr>
-	</table>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form(this);">
+			<input type="hidden" name="a" value="import_member_points" />
+			
+					<div class="alert alert-primary rounded ">
+							<b>Note:</b><br/>
+							Please make sure it is a valid CSV file.
+					</div>
+		
+
+					<tr>
+					<b class="form-label">Date</b>
+					
+					</tr>
+					<div class="row">
+						<div class="col-md-5 form-inline">
+							<input class="form-control" type="text" name="date" id="date" size="34" readonly >
+							<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+						</div>
+					</div>
+					<br>
+			
+				<div class="row">
+					<div class="col-md-6">
+						
+							<input type="checkbox" name="clear_data" value="1" onclick="condition_clicked(this);" /> &nbsp; <b>Clear all imported data on following Date</b><br />
+						&nbsp;<small>(Points will sum up with previous imported points if this option is untick)</small><br />
+						
+						
+						<br>
+	
+						
+							<input type="checkbox" name="is_curr_points" value="1" onclick="condition_clicked(this);" /> &nbsp; <b>Import as current points</b>
+						
+					</div>
+					
+						<br>
+					<div class="col-md-6">
+					
+							<td><b class="fs-08 	">Upload CSV <br />(<a href="?a=view_sample_member_points">View Sample</a>)</b></td>
+							<td>
+								&nbsp;<input class="fs-08" type="file" name="import_csv" onChange="check_file(this);" />
+							</td>
+						
+						<br>
+						<div class="row">
+							<tr>
+						
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary fs-08 mt-3">Import</button>
+									</td>
+									<td>
+										<div class="mt-4">
+										&nbsp;&nbsp;	<span class="alert alert-danger rounded fs-08 mt-4"><b>Warning:</b> This action cannot be undo.</span>
+										</div>
+									</td>
+							</tr>
+						</div>
+					</div>
+				</div>
+				
+			
+		</form>
+	</div>
+</div>
 {if $ttl_imported_row}<p style="color:blue;">Import Success! Total {$ttl_imported_row} of {$ttl_row} item(s) imported</p>{/if}
 {if $err.warning}
 	<ul>

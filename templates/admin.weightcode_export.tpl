@@ -47,7 +47,7 @@
 *}
 
 {include file=header.tpl}
-<div class="container">
+<div class="container-fluid">
 	<div class="breadcrumb-header justify-content-between">
 		<div class="my-auto">
 			<div class="d-flex">
@@ -58,7 +58,7 @@
 </div>
 {if $status}<p>{$status}</p>{/if}
 
-<div class="container">
+<div class="container-fluid">
 	<div class="alert alert-primary mx-3 rounded p-2">
 		<p><b>Note:</b> <br />
 			1. Export items with {$config.sku_weight_code_length|default:5} characters Mcode <br />
@@ -68,7 +68,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="card mx-3">
 		<div class="card-body">
 			<form name="f1">

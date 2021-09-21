@@ -102,20 +102,22 @@ function check_form(form,type){
 
 {if !$config.consignment_modules}
 	
-	<div class="container">
-		<div class="alert alert-danger mx-3 mt-2" >
-			<b>Warning: </b>
-		<ul>
+	<div class="container-fluid">
+		<div class="card mx-3 mt-3" >
+			<div class="card-body">
+				<b class="text-danger">Warning: </b>
+		<ul class="text-muted">
 			<li> Please prevent to import at business hour. It will slow down all branches counter performance.</li>
 			<li> It is recommended to import maximum 200 sku in a batch, and wait for 5 minutes for counter to sync.</li>
 			<li> Import with "No Auto Sync to Counters" will requires counters to resync masterfile for related branches.</li>
 		</ul>
+			</div>
 		</div>
 		
 	
 	</div>
 {/if}
-<div class="container">
+<div class="container-fluid">
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">
@@ -193,7 +195,7 @@ function check_form(form,type){
 		</div>
 	</div>
 </div>
-<div class="container">
+<div class="container-fluid">
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">

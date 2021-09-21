@@ -105,15 +105,17 @@ function hide_export_txt_btn(){
 }
 </script>
 {/literal}
-<div class="breadcrumb-header justify-content-between">
-	<div class="my-auto">
-		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Export SKU Items</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+<div class="container-fluid">
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">Export SKU Items</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
 		</div>
-	</div>
-</div> 
+	</div> 
+</div>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="card mx-3">
 		<div class="card-body">
 					{if $status}<p>{$status}</p>{/if}
@@ -315,7 +317,7 @@ function hide_export_txt_btn(){
 		</div>
 	</div>
 </div>
-<div class="container">
+<div class="container-fluid">
 	<div class="card mx-3">
 		<div class="card-body">
 			

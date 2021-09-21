@@ -60,30 +60,35 @@ MEMBER_EXPORT_POINTS = {
 }
 </script>
 {/literal}
-<div class="container">
-	
-<div class="breadcrumb-header justify-content-between">
-	<div class="my-auto">
-		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+<div class="container-fluid">
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
 		</div>
-	</div>
-</div> 
+	</div> 
+</div>
+<div class="container-fluid">
+	
+
 
 {if $err}
-<div class="card mx-3">
-	<div class="card-body">
-		The following error(s) has occured:
-		<ul class="errmsg text-danger">
-		{foreach from=$err item=e}
-		<li> {$e}
-		{/foreach}
-		</ul>
+<div class="container-fluid">
+	<div class="card mx-3">
+		<div class="card-body">
+			The following error(s) has occured:
+			<ul class="errmsg text-danger">
+			{foreach from=$err item=e}
+			<li> {$e}
+			{/foreach}
+			</ul>
+		</div>
 	</div>
 </div>
 
 {/if}
-<div class="container">
+
 	<div class="card mx-3">
 		<div class="card-body">
 			
@@ -141,13 +146,15 @@ MEMBER_EXPORT_POINTS = {
 
 </div>
 {if $msg}
-<div class="card mx-3">
-	<div class="card-body">
-		{$msg}
+<div class="container-fluid">
+	<div class="card mx-3">
+		<div class="card-body">
+			{$msg}
+		</div>
 	</div>
 </div>
 {/if}
 
-</div>
+
 <script>MEMBER_EXPORT_POINTS.initialise();</script>
 {include file='footer.tpl'}

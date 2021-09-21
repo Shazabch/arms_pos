@@ -98,102 +98,104 @@ function hide_card_list(){
 </script>
 
 {if !$config.consignment_modules}
-	<div style="border:2px solid red;padding:5px;background-color:yellow;color:red;font-weight:bold;font-size:120%;">
-		Warning: 
-		<ul>
-			<li> Please prevent to import at business hour. It will slow down the performance of all counters across branches.</li>
-			<li> It is recommended to import maximum 500 members in a batch, and wait for 10 minutes for counter to sync.</li>
-			<li> This action CANNOT be undo.</li>
-		</ul>
-		
+	
+	<div class="card mx-3 mt-3">
+		<div class="card-body">
+			<b class="text-danger">Warning: </b>
+			<ul class="text-muted">
+				<li> Please prevent to import at business hour. It will slow down the performance of all counters across branches.</li>
+				<li> It is recommended to import maximum 500 members in a batch, and wait for 10 minutes for counter to sync.</li>
+				<li> This action CANNOT be undo.</li>
+			</ul>
+		</div>
 	</div>
-{/if}
+		
 
-<h1>{$PAGE_TITLE}</h1>
+{/if}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err.top}
-The following error(s) has occured:
-	<ul class="err" style="color:red;">
+		<div class="alert alert-danger rounded mx-3">
+			<b>The following error(s) has occured:</b>
+	<ul class="err">
 		{foreach from=$err.top item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+		</div>
 {/if}
 
-<form name="f_a" class="stdframe" method="post" onSubmit="return check_form(this);">
-	<input type="hidden" name="a" value="import_members" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="stdframe" method="post" onSubmit="return check_form(this);">
+			<input type="hidden" name="a" value="import_members" />
+		
+			<div class="alert alert-primary rounded ">
 				Note:<br />
 				* You can either pre-activate members by card range or specified card no.<br />
-				* The name of new members will be insert as "NEW MEMBER"<br /><br />
-			</td>
-		</tr>
-		<!--tr>
-			<td>&nbsp;</td>
-			<td>
-				<input type="checkbox" name="clear_data" value="1" /> <b>Clear all imported data on following Date</b>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=view_sample_member_points">View Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv" onChange="check_file(this);" />
-			</td>
-		</tr-->
-		<tr>
-			<td><b>Activate Method</b></td>
-			<td colspan="3">
-				<input type="radio" name="import_type" value="by_range" onclick="check_import_type(this);" {if !$form.import_type || $form.import_type eq 'by_range'}checked{/if} /> By Range
-				<input type="radio" name="import_type" value="by_cn_list" onclick="check_import_type(this);" {if $form.import_type eq 'by_cn_list'}checked{/if}/> By Card No List
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="3">
-				<input type="checkbox" name="skip_duplicate" value="1" {if $form.skip_duplicate}checked{/if} /> Skip duplicated Card No
-			</td>
-		</tr>
-		<tr><td colspan="4">&nbsp;</td></tr>
-		<tbody id="range_import" {if $form.import_type eq 'by_cn_list'}style="display:none;"{/if}>
-			<tr>
-				<td><b>Card Prefix</b></td>
-				<td colspan="3">
-					<input type="text" name="card_prefix" id="card_prefix" size="8" value="{$form.card_prefix}">		
-				</td>
-			</tr>
-			<tr>
-				<td><b>Cards Range</b></td>
-				<td colspan="3">
-					<input type="text" name="card_range_from" id="card_range_from" size="{$config.membership_length|default:12}" value="{$form.card_range_from}" onchange="hide_card_list();"> To
-					<input type="text" name="card_range_to" id="card_range_to" size="{$config.membership_length|default:12}" value="{$form.card_range_to}" onchange="hide_card_list();">				
-				</td>
-			</tr>	
-		</tbody>
-		<tr id="cn_list_import" {if !$form.import_type || $form.import_type eq 'by_range'}style="display:none;"{/if}>
-			<td valign="top" style="padding-top: 4px;"><b>Card No</b></td>
-			<td colspan="3">
-				<textarea name="card_no_list" cols="{$config.membership_length|default:12}" rows="15">{$form.card_no_list}</textarea>
-				(Support multiple Card No)
-			</td>
-		</tr>
-		<tr>
-			<td><b>Issue Date</b></td>
-			<td>
-				<input type="text" name="issue_date" id="issue_date" size="8" value="{$form.issue_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-			</td>
-			<td><b>Expiry Date</b></td>
-			<td>
-				<input type="text" name="expiry_date" id="expiry_date" size="8" value="{$form.expiry_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="3"><input type="submit" value="Import" /></td>
-		</tr>
-	</table>
-</form>
+				* The name of new members will be insert as "NEW MEMBER"
+			</div>
+				
+				<!--tr>
+					<td>&nbsp;</td>
+					<td>
+						<input type="checkbox" name="clear_data" value="1" /> <b>Clear all imported data on following Date</b>
+					</td>
+				</tr>
+				<tr>
+					<td><b>Upload CSV <br />(<a href="?a=view_sample_member_points">View Sample</a>)</b></td>
+					<td>
+						<input type="file" name="import_csv" onChange="check_file(this);" />
+					</td>
+				</tr-->
+				
+						<b class="fs-09">Activate Method</b>
+						<br>
+						<div class="mt-2">
+							<input type="radio" name="import_type" value="by_range" onclick="check_import_type(this);" {if !$form.import_type || $form.import_type eq 'by_range'}checked{/if} /> <span class="fs-09">By Range</span>
+						<input type="radio" name="import_type" value="by_cn_list" onclick="check_import_type(this);" {if $form.import_type eq 'by_cn_list'}checked{/if}/><span class="fs-09"> By Card No List</span>
+				
+				
+						<input type="checkbox" name="skip_duplicate" value="1" {if $form.skip_duplicate}checked{/if} /> <span class="fs-09">Skip duplicated Card No</span>
+						</div>
+				
+				
+				<div id="range_import" class="" {if $form.import_type eq 'by_cn_list'}style="display:none;"{/if}>
+					
+						<label class="mt-2"><b class="fs-09 ">Card Prefix</b></label>
+						<input type="text" class="form-control" name="card_prefix" id="card_prefix" size="8" value="{$form.card_prefix}">
+						
+						<label class="mt-2"><b class="fs-09 mt-2">Cards Range</b></label>
+						<input type="text" class="form-control" name="card_range_from" id="card_range_from" size="{$config.membership_length|default:12}" value="{$form.card_range_from}" onchange="hide_card_list();"> To
+						<input type="text" class="form-control" name="card_range_to" id="card_range_to" size="{$config.membership_length|default:12}" value="{$form.card_range_to}" onchange="hide_card_list();">				
+						
+				</div>
+
+				<div id="cn_list_import" {if !$form.import_type || $form.import_type eq 'by_range'}style="display:none;"{/if}>
+						<label class="mt-2"><b>Card No</b></label>
+						<textarea class="form-control" name="card_no_list" cols="{$config.membership_length|default:12}" rows="3" >{$form.card_no_list}</textarea>
+						(Support multiple Card No)
+				
+				</div>
+				<div class="row">
+					<div class="col-md-6"><label class="mt-2"><b class="fs-09">Issue Date</b></label>
+						<input type="text" class="form-control" name="issue_date" id="issue_date" size="8" value="{$form.issue_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					</div>
+					<div class="col-md-6"><label class="mt-2"><b class="fs-09">Expiry Date</b></label>
+						<input type="text" class="form-control" name="expiry_date" id="expiry_date" size="8" value="{$form.expiry_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+					</div>
+				</div>
+				<button class="btn btn-primary mt-2">Import</button>
+			
+		</form>
+	</div>
+</div>
 {if $ttl_row}<p style="color:blue;">Import Success! Total {$ttl_imported_row} of {$ttl_row} item(s) imported</p>{/if}
 {if $err.warning}
 	<ul>

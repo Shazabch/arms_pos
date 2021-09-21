@@ -19,8 +19,8 @@
 9/17/2020 3:11 PM William
 - Added nl2br for additional description column.
 *}
-<h3>Result Status:</h3>
-<p style="color:blue;">
+<h3> Result Status:</h3>
+<p>
 	{if $result.import_row}
 		Total {$result.import_row} of {$result.ttl_row} item(s) will be imported.<br />
 	{/if}
@@ -29,25 +29,29 @@
 	{/if}
 	* Please ENSURE the result data is fill to the header accordingly before proceed to import.<br />
 	<br />
-	<input type="button" id="import_btn" name="import_btn" value="Import" onclick="IMPORT_SKU.import_sku({$method});" {if !$result.import_row}disabled{/if} />
+	<input type="button" class="btn btn-primary" id="import_btn" name="import_btn" value="Import" onclick="IMPORT_SKU.import_sku({$method});" {if !$result.import_row}disabled{/if} />
 </p>
 <div class="div_tbl">
-	<table id="si_tbl">
-		<tr bgcolor="#ffffff">
-			<th>#</th>
-			{foreach from=$item_header item=i}
-				<th>{$i}</th>
+	<div class="table-responsive">
+		<table id="si_tbl" class="report_table table mb-0 text-md-nowrap  table-hover">
+			<thead class="bg-gray-100">
+				<tr>
+					<th>#</th>
+					{foreach from=$item_header item=i}
+						<th>{$i}</th>
+					{/foreach}
+				</tr>
+			</thead>
+			<tbody>
+			{foreach from=$item_lists item=i name=sku}
+				<tr class="{if $i.error}tr_error{/if}" title="{if $i.error}{$i.error}{/if}">
+					<td>{$smarty.foreach.sku.iteration}.</td>
+					{foreach from=$i key=k item=r}
+						<td {if in_array($k, $align_right)}align="right"{elseif in_array($k, $align_center)}align="center"{elseif $k == 'error'}nowrap{/if}>{$r|nl2br}</td>
+					{/foreach}
+				</tr>
 			{/foreach}
-		</tr>
-		<tbody>
-		{foreach from=$item_lists item=i name=sku}
-			<tr class="{if $i.error}tr_error{/if}" title="{if $i.error}{$i.error}{/if}">
-				<td>{$smarty.foreach.sku.iteration}.</td>
-				{foreach from=$i key=k item=r}
-					<td {if in_array($k, $align_right)}align="right"{elseif in_array($k, $align_center)}align="center"{elseif $k == 'error'}nowrap{/if}>{$r|nl2br}</td>
-				{/foreach}
-			</tr>
-		{/foreach}
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
