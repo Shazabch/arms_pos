@@ -185,10 +185,17 @@ function hide_card_list(){
 				</div>
 				<div class="row">
 					<div class="col-md-6"><label class="mt-2"><b class="fs-09">Issue Date</b></label>
-						<input type="text" class="form-control" name="issue_date" id="issue_date" size="8" value="{$form.issue_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+						<div class="form-inline">
+							<input type="text" class="form-control" name="issue_date" id="issue_date"  value="{$form.issue_date}" readonly>
+							
+							<img align="absmiddle" width="25px" height="25px" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+						</div>
 					</div>
 					<div class="col-md-6"><label class="mt-2"><b class="fs-09">Expiry Date</b></label>
-						<input type="text" class="form-control" name="expiry_date" id="expiry_date" size="8" value="{$form.expiry_date}" readonly><img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+						<div class="form-inline">
+							<input type="text" class="form-control" name="expiry_date" id="expiry_date"  value="{$form.expiry_date}" readonly>
+							<img align="absmiddle" width="25px" height="25px" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+						</div>
 					</div>
 				</div>
 				<button class="btn btn-primary mt-2">Import</button>

@@ -10,9 +10,7 @@
 }
 
 .div_result{
-	border: solid 1px darkgrey;
-	background: lightyellow;
-	padding:10px;
+
 }
 
 .tr_error{
@@ -95,69 +93,93 @@ var IMPORT_DEBTOR = {
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm && $method == '1'}
-	<div class="errmsg">
-		<ul>
-			<li>{$errm}</li>
-		</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<div class="errmsg">
+			<ul>
+				<li>{$errm}</li>
+			</ul>
+		</div>
 	</div>
 {/if}
 <span id="span_sr_loading_1" style="display:none; background:yellow; padding:2px;">
 	<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 </span>
-<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_DEBTOR.check_file(this);" method="post">
-    <input type="hidden" name="a" value="show_result" />
-	<input type="hidden" name="method" value="1" />
-	<input type="hidden" name="file_name" value="{$file_name}" />
-    <table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* Please ensure the file extension <b>".csv"</b>.<br />
-				* Please ensure the import file contains header.<br />
-				* Date formst must be YYYY-MM-DD. <br />
-				* If GST Registration number is provided, but GST Start Date is empty, system will auto assign {$config.global_gst_start_date}.
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample_debtor&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-	</table>
-    <div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="100%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers[1] item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample[1] item=s}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_DEBTOR.check_file(this);" method="post">
+			<input type="hidden" name="a" value="show_result" />
+			<input type="hidden" name="method" value="1" />
+			<input type="hidden" name="file_name" value="{$file_name}" />
+			<table>
+				<div class="alert alert-primary rounded">
+					
+					<b>Note:</b><br />
+					* Please ensure the file extension <b>".csv"</b>.<br />
+					* Please ensure the import file contains header.<br />
+					* Date formst must be YYYY-MM-DD. <br />
+					* If GST Registration number is provided, but GST Start Date is empty, system will auto assign {$config.global_gst_start_date}.
+				</div>
+				
 				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
+					<td><b class="fs-08">Upload CSV <br />(<a href="?a=download_sample_debtor&method=1">Download Sample</a>)</b></td>
+					<td>
+						&nbsp;&nbsp;&nbsp;<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
+						<input type="Submit" class="btn btn-primary fs-07" value="Show Result" />
+					</td>
 				</tr>
-			{/foreach}
-		</table>
+			</table>
+			<div class="div_tbl">
+				<h5 class="bg-gray-100 py-1 px-2">Sample</h5>
+				<div class="table-responsive">
+					<table id="si_tbl" width="100%" class="report_table table mb-0 text-md-nowrap  table-hover"
+					>
+						<thead class="bg-gray-100">
+							<tr>
+								{foreach from=$sample_headers[1] item=i}
+									<th>{$i}</th>
+								{/foreach}
+							</tr>
+						</thead>
+						{foreach from=$sample[1] item=s}
+							<tbody class="fs-08">
+								<tr>
+									{foreach from=$s item=i}
+										<td>{$i}</td>
+									{/foreach}
+									</tr>
+							</tbody>
+						{/foreach}
+					</table>
+				</div>
+			</div>
+			<div id="div_invalid_1" style="display: none">
+				<div class="alert alert-success rounded">
+					
+					<p style="font-weight: bold">* Import Successfully. Click <a id="invalid_link_1" href='#' download>this</a> to download and view the invalid data.</p>
+				
+				</div>
+			</div>
+		</form>
 	</div>
-    <div id="div_invalid_1" style="display: none">
-		<div style="border: solid 2px red; padding: 5px; background-color: yellow">
-			<p style="font-weight: bold">* Import Successfully. Click <a id="invalid_link_1" href='#' download>this</a> to download and view the invalid data.</p>
+</div>
+{if $item_lists && $method == '1'}
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="div_result" id="div_result">
+				{include file="admin.import_debtor.result.tpl"}
+			</div>
 		</div>
 	</div>
-</form>
-<br>
-{if $item_lists && $method == '1'}
-	<div class="div_result" id="div_result">
-		{include file="admin.import_debtor.result.tpl"}
-	</div>
 {/if}
-<br><br>
+
 {include file='footer.tpl'}
 <script type="text/javascript">
 {literal}

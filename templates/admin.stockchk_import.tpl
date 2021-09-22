@@ -248,7 +248,7 @@ var STOCK_CHECK_IMPORT = {
 }
 {/literal}
 </script>
-<div class="container-fluid">
+<div class="">
 	
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
@@ -292,7 +292,8 @@ var STOCK_CHECK_IMPORT = {
     </ul>
     <a href="{$smarty.server.PHP_SELF}">Click here to continue.</a>
 {else}
-    <div class="card mx-3">
+  <div class="">
+	<div class="card mx-3">
 		<div class="card-body">
 			<label><h5>Import</h5></label>
     <form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return STOCK_CHECK_IMPORT.check_form();" method="post">
@@ -352,35 +353,39 @@ var STOCK_CHECK_IMPORT = {
 		   </div>
 
             </div>
-            <tr>
+           <div class="mb-2">
+		
                 <label class="mt-3 mt-md-1">Cut-off Date(yyyy-mm-dd)<span class="text-danger">*</span></label>
                 <input class="form-control" name="cut_off_date" size="12" value="{$form.cut_off_date}">
-            </tr>
-            <tbody id=argos_opt style="display:none">
-                <tr><th>Scanned By <span class="text-danger">*</span></th><td><input class="form-control" name="scanned_by" maxlength="15" /> (Max 15 Characters)</td></tr>
-                <tr><th>Location <span class="text-danger">*</span></th><td><input class="form-control" name="location" maxlength="15" /> (Max 15 Characters)</td></tr>
-                <tr><th>Shelf No <span class="text-danger">*</span></th><td><input class="form-control" name="shelf_no" maxlength="15" /> (Max 15 Characters)</td></tr>
-            </tbody>
+          
+		   </div>
+			
+          
             
 			<div class="row mt-4">
-			  <div class="col-md-6">
-				<p class=""><b>File :</b> </p>
-				<input type="file" name="import_csv"/>
-				<br>
-				<p class="fs-09 mt-sm-2">Select File to Import</p>
-			  </div>
+				<div class="col-md-4">
+					<p class=""><b>File :</b> </p>
+					<input type="file" name="import_csv"/>
+					<br>
+					<p class="fs-09 mt-sm-2">Select File to Import</p>
+					<button class="btn btn-primary  ml-md-0 mt-2 mt-md-0">Upload</button>
+	
+				</div>
 
-			  <div class="col md-2">
-			
-<div class="mt-md-4">
-	Allow Duplicate Entry <br>
-	<input type="checkbox" name="allow_duplicate" value="1"> (if found duplicate will sum up qty)
-</div>
-		
-				  <button class="btn btn-primary  ml-md-2 mt-2 mt-md-0">Upload</button>
-			 
-			</div>
+				<div class="col md-4">
+					<div class="mt-md-4">
+						Allow Duplicate Entry <br>
+						<input type="checkbox" name="allow_duplicate" value="1"> (if found duplicate will sum up qty)
+					</div>
+				</div>
 
+				<div class="col-md-4">
+					<div id=argos_opt style="display:none " class="mt-2" >
+						Scanned By <span class="text-danger">*</span><input class="form-control" name="scanned_by" maxlength="15" /> (Max 15 Characters)
+						Location <span class="text-danger">*</span><input class="form-control" name="location" maxlength="15" /> (Max 15 Characters)
+						Shelf No <span class="text-danger">*</span><input class="form-control" name="shelf_no" maxlength="15" /> (Max 15 Characters)
+					</div>
+				</div>
 			</div>
             
   
@@ -388,20 +393,27 @@ var STOCK_CHECK_IMPORT = {
         </table><br>
 		
     </form>
-    <br/>
-    <h5>Export Database</h5>
+	
+</div>
+</div>
+  </div>
+   
+    <div class="">
+		<div class="card mx-3">
+			<div class="card-body">
+				<h5>Export Database</h5>
     <form name="f_b" class="stdframe">
 		<input type="hidden" name="a" value="export_data">
-		<div><span class="text-danger">*</span> Export format: MCode/Arms Code, Stock Balance, Description, Selling Price</div>
+		<div class="mt-3"><span class="text-danger">*</span> Export format: MCode/Arms Code, Stock Balance, Description, Selling Price</div>
         <div class="row mt-1">
             	<div class="col-md-4">
-					<div class="mt-1">
+					<div class="mt-2">
 						<b>Select data type to export</b>
 					</div>
 				</div>
 			
 		</div>
-		<div class="row mt-1">
+		<div class="row mt-2">
 			<div class="col-md-4">
 				<select class="form-control select2" name="export_type">
 					<option value="pspv">PSPV</option>
@@ -415,81 +427,84 @@ var STOCK_CHECK_IMPORT = {
 		</div>
     </form>
     <br/>
-    <h5>Edit Database</h5>
-    <form name="f_c" enctype="multipart/form-data" class="stdframe" onsubmit="return false;">
-		<button class="btn btn-success" onclick="STOCK_CHECK_IMPORT.add_record();">Add Record</button>
-        <br/>
-		<div class="stdframe" id="div_new_record" style="display:none;margin:10px 0;background:#fff">
-			<input type="hidden" name="a" value="add_data">
-			{if $BRANCH_CODE == 'HQ'}
-			<label>Branch</label>
-			<select class="form-control select2" name="branch_id">
-				{foreach from=$branch_list key=k item=i}
-					<option value="{$k}">{$i}</option>
-				{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;
-			{else}
-				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
-			{/if}
-			<br/>
-			<label>Cut-Off Date (yyyy-mm-dd) </label>
-			<input class="form-control" name="cut_off_date" value="">
-			<b class="text-danger">*</b> Leave the cost and selling empty to use latest cost price and selling price
-		</div>
-	</div>
-
-<div class="table-responsive">
-	<table border="0" cellpadding="4" class="tb table mb-0 text-md-nowrap  table-hover ">
-<thead class="bg-gray-100 ">
-	<tr style="height:30px;">
-		<th>ARMS Code</th>
-		<th>Scanned By</th>
-		<th>Location</th>
-		<th>Shelf No</th>
-		<th>Item No</th>
-		<th>Qty</th>
-		<th>Selling</th>
-		<th>Cost</th>
-	</tr>
-</thead>
-		<tbody id="tbody_rows">
-		</tbody>
-		<tr id="row_template" style="display:none">
-			
-			<td nowrap class="form-inline"><i class="fas fa-times text-danger mr-2" onclick="STOCK_CHECK_IMPORT.del_row(this)"></i>
-			<input class="form-control" onchange="STOCK_CHECK_IMPORT.check_item_code(this)" size="15" class="sku_item_code" name="sku_item_code[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="5" name="scanned_by[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="8" class="location" name="location[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="8" class="shelf_no" name="shelf_no[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="3" class="item_no" name="item_no[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="5" name="qty[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="5" name="selling[]"></td>
-			<td><input class="form-control" onchange="uc(this)" size="5" name="cost[]"></td>
-		</tr>
-		
-	</table>
-	<div colspan="10" class="text-center my-3">
-		<button class="btn btn-warning mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.insert_row()">Insert Row</button>
-		<button class="btn btn-success mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.do_save()">Save</button>
-		<button class="btn btn-primary mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.edit_cancel()">Cancel</button>
-	</div>
 </div>
-		</div>
-	</form><br>
+</div>
 <div class="">
 	<div class="card mx-3">
 		<div class="card-body">
-			<div class="stdframe">
+			<h5>Edit Database</h5>
+			<form name="f_c" enctype="multipart/form-data" class="stdframe" onsubmit="return false;">
+				<button class="btn btn-success" onclick="STOCK_CHECK_IMPORT.add_record();">Add Record</button>
+				<br/>
+				<div class="stdframe" id="div_new_record" style="display:none;margin:10px 0;background:#fff">
+					<input type="hidden" name="a" value="add_data">
+					{if $BRANCH_CODE == 'HQ'}
+					<label>Branch</label>
+					<select class="form-control select2" name="branch_id">
+						{foreach from=$branch_list key=k item=i}
+							<option value="{$k}">{$i}</option>
+						{/foreach}
+					</select>&nbsp;&nbsp;&nbsp;
+					{else}
+						<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
+					{/if}
+					<br/>
+					<label>Cut-Off Date (yyyy-mm-dd) </label>
+					<input class="form-control" name="cut_off_date" value="">
+					<b class="text-danger">*</b> Leave the cost and selling empty to use latest cost price and selling price
+				</div>
+			</div>
+		
+		<div class="table-responsive">
+			<table border="0" cellpadding="4" class="tb table mb-0 text-md-nowrap  table-hover ">
+		<thead class="bg-gray-100 ">
+			<tr style="height:30px;">
+				<th>ARMS Code</th>
+				<th>Scanned By</th>
+				<th>Location</th>
+				<th>Shelf No</th>
+				<th>Item No</th>
+				<th>Qty</th>
+				<th>Selling</th>
+				<th>Cost</th>
+			</tr>
+		</thead>
+				<tbody id="tbody_rows">
+				</tbody>
+				<tr id="row_template" style="display:none">
+					
+					<td nowrap class="form-inline"><i class="fas fa-times text-danger mr-2" onclick="STOCK_CHECK_IMPORT.del_row(this)"></i>
+					<input class="form-control" onchange="STOCK_CHECK_IMPORT.check_item_code(this)" size="15" class="sku_item_code" name="sku_item_code[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="5" name="scanned_by[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="8" class="location" name="location[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="8" class="shelf_no" name="shelf_no[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="3" class="item_no" name="item_no[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="5" name="qty[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="5" name="selling[]"></td>
+					<td><input class="form-control" onchange="uc(this)" size="5" name="cost[]"></td>
+				</tr>
+				
+			</table>
+			<div colspan="10" class="text-center my-3">
+				<button class="btn btn-warning mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.insert_row()">Insert Row</button>
+				<button class="btn btn-success mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.do_save()">Save</button>
+				<button class="btn btn-primary mt-2 mt-md-0" onclick="STOCK_CHECK_IMPORT.edit_cancel()">Cancel</button>
+			</div>
+		</div>
+				
+		
+			</form><br>
+			<div class="stdframe mx-4">
 				<form name="f_d" onsubmit="STOCK_CHECK_IMPORT.check_search_form(); return false">
 					<input type="hidden" name="a" value="search_data">
 					<table>
 						<tr>
 							{if $BRANCH_CODE eq "HQ"}
-								<label>Brand</label>
+								<label>Branch	</label>
 									<select class="form-control select2" name="search_branch_id" onchange="STOCK_CHECK_IMPORT.get_stock_check_date();">
 										<option value="">-- Please Select --</option>
 										{foreach from=$branch_list key=k item=i}
-											<option value="{$k}" {if $smarty.request.search_branch_id eq $k}selected{/if}>{$i}</option>
+										<option value="{$k}" {if $smarty.request.search_branch_id eq $k}selected{/if}>{$i}</option>
 										{/foreach}
 									</select>
 								

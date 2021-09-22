@@ -118,24 +118,38 @@ MEMBER_EXPORT_POINTS = {
 						{/foreach}
 					</select>
 				</p>
-				<p>
-					<input type="radio" name="date_filter_type" value="3" {if $smarty.request.date_filter_type eq 3}checked {/if}/>
+			<div class="row">
+				
+					<div class="col-md-4">
+						<input type="radio" name="date_filter_type" value="3" {if $smarty.request.date_filter_type eq 3}checked {/if}/>
 					From
-					<input type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly size="12" />
+					<div class="form-inline">
+						<input type="text" class="form-control" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly size="12" />
 					<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-					<br class="d-md-none">
-					<br class="d-md-none">
-					To
-					<input type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="12" />
+					</div>
+					</div>
+					
+					
+					<div class="col-md-4">
+						To	
+				<div class="form-inline">
+					<input type="text" class="form-control" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="12" />
 					<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-				</p>
+				</div>
+					</div>
+				
+			</div>
 		
-		
-			<label><strong>Other Settings : </strong></label><br>
-				<input type='checkbox' name='show_branch' value='1' {if !$smarty.request.export_point or $smarty.request.show_branch}checked {/if} /> Show Branch&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type='checkbox' name='show_date' value='1' {if !$smarty.request.export_point or $smarty.request.show_date}checked {/if} /> Show Date&nbsp;&nbsp;&nbsp;&nbsp;
 	
-				<button class="btn btn-primary mt-1" value="Export" onClick="MEMBER_EXPORT_POINTS.submit_form();">Export</button>
+			<div class="row mt-3" >
+				<di class="col">
+					<label ><strong>Other Settings : </strong></label><br>
+					<input type='checkbox' name='show_branch' value='1' {if !$smarty.request.export_point or $smarty.request.show_branch}checked {/if} /> Show Branch&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type='checkbox' name='show_date' value='1' {if !$smarty.request.export_point or $smarty.request.show_date}checked {/if} /> Show Date&nbsp;&nbsp;&nbsp;&nbsp;
+		
+					<button class="btn btn-primary mt-1" value="Export" onClick="MEMBER_EXPORT_POINTS.submit_form();">Export</button>
+				</di>
+			</div>
 				
 	
 	</table>

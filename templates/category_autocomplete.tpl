@@ -21,31 +21,35 @@
 {if !isset($cat_level)}
 	{assign var=cat_level value=1}
 {/if}
-
 <div class="row">
 	<div class="col-md-6">
-		<label >Category</label>
-	<input readonly id=category_id name=category_id size=1 value="{$smarty.request.category_id}" style="width: 5rem;">
-	<input  type=hidden id=category_tree name=category_tree value="{$smarty.request.category_tree}">
-	<input class="form-control" id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus="category_onfocus();" size=50 {if $smarty.request.all_category}disabled{/if}>
-	{if $all}
-	<div class="mt-2">
-		<input type="checkbox" id=all_category name="all_category" onChange="all_category_changed(this);" {if $smarty.request.all_category} checked {/if}> <label for='all_category'><b>All</b></label>
+		<div class="row form-inline ml-1">
+			<label class="" >Category</label>
+			&nbsp;&nbsp;<input class="form-control" readonly id="category_id" name="category_id"  value="{$smarty.request.category_id}" style="width: 5rem;">
+			<input  type=hidden id=category_tree name=category_tree value="{$smarty.request.category_tree}">
+			&nbsp;&nbsp;<input class="form-control " id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus="category_onfocus();" size=50 {if $smarty.request.all_category}disabled{/if}>	
+			
+		</div>
 	</div>
-	{/if}
-	</div>
-	
 	<div class="col-md-6">
 		{if !$skip_category_filter}
-	<label>Category Level</label>
-	<select class="form-control" name="category_level" id="category_level" onchange="category_changed(this);" {if $smarty.request.all_category}disabled{/if}>
-	</select>
-	{/if}
+		<div class="row form-inline ml-1">
+			<label class="">Category Level</label>
+			&nbsp;&nbsp;<select class=" form-control  " name="category_level" id="category_level" onchange="category_changed(this);" {if $smarty.request.all_category}disabled{/if}>
+			</select>
+			{/if}
+
+		{if $all}
+		<div>
+			&nbsp;&nbsp;<input type="checkbox" id=all_category name="all_category" onChange="all_category_changed(this);" {if $smarty.request.all_category} checked {/if}> &nbsp;&nbsp;<label for='all_category'><b>All</b></label>
+		</div>
+		{/if}
+		</div>
 	</div>
-	
 </div>
-<br><span id=str_cat_tree class=small style="color:#00f;margin-left:90px;">{if !$smarty.request.all_category}{$smarty.request.category_tree|default:''}{/if}</span>
-<div id=autocomplete_category_choices class=autocomplete style="width:600px !important"></div>
+
+<br><span id=str_cat_tree class="small" style="color:#00f;margin-left:90px;">{if !$smarty.request.all_category}{$smarty.request.category_tree|default:''}{/if}</span>
+<div id=autocomplete_category_choices class="autocomplete bg-white py-3 rounded bd-x bd-b" style="width:600px !important; z-index: 9999 !important;"></div>
 {literal}
 <script>
 {/literal}

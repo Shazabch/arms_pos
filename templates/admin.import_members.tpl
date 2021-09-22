@@ -16,9 +16,8 @@
 }
 
 .div_result{
-	border: solid 1px darkgrey;
-	background: lightyellow;
-	padding:10px;
+
+
 }
 
 .tr_error{
@@ -206,15 +205,14 @@ var IMPORT_MEMBERS = {
 
 </div>
 </form>
-<br>
-{if $item_lists && $method == '1'}
-<div class="div_result" id="div_result">
-	{include file="admin.import_members.result.tpl"}
-</div>
-{/if}
+
 					</div>
 				</div>
-
+				{if $item_lists && $method == '1'}
+				<div class="div_result" id="div_result">
+					{include file="admin.import_members.result.tpl"}
+				</div>
+				{/if}
 {include file='footer.tpl'}
 <script type="text/javascript">
 {literal}

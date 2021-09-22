@@ -236,16 +236,7 @@ var IMPORT_SKU = {
 					</table>
 				</div>
 			</div>
-			{if $error_link neq ''}
-			<div id="div_invalid_1">
-				
-			<div class="alert alert-danger rounded">
-				<p >Click <a id="invalid_link_1" href='{$error_link}' download>this</a> to download and view the invalid data.</p>
-			</div>
-
-			
-			</div>
-			{/if}
+		
 		</form>
 	</div>
 </div>
@@ -259,6 +250,16 @@ var IMPORT_SKU = {
 	<div class="div_result" id="div_result">
 		<div class="card mx-3">
 			<div class="card-body">
+				{if $error_link neq ''}
+				<div id="div_invalid_1">
+					
+				<div class="alert alert-danger rounded">
+					<p >Click <a id="invalid_link_1" href='{$error_link}' download>this</a> to download and view the invalid data.</p>
+				</div>
+	
+				
+				</div>
+				{/if}
 				{include file="admin.import_sku.result.tpl"}
 			</div>
 		</div>

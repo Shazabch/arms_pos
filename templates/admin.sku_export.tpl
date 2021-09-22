@@ -156,11 +156,11 @@ function hide_export_txt_btn(){
 
 		</div>
 
-		<div class="col">
+		
 			<span>
 				{include file='category_autocomplete.tpl' all=1  allow_select_line=1 skip_dept_filter=1}
 			</span>
-		</div>
+		
 	</div>
 	</div>
 <div class="card mx-3">
@@ -289,17 +289,17 @@ function hide_export_txt_btn(){
 <div class="card mx-3">
 <div class="card-body">
 <table>
-	<td><b>Advanced Settings</b></td>
-	<tr><td><label class="fs-08" >Items Last Update Date &nbsp; (yyyy-mm-dd) </label></td><td>
-	<input class="form-control" name=items_last_update size=10 value="{$lastid[0]}"> <small class="fs-06 fs-md-07">(left empty will not export any items by last update, put '0' will export all items)</small></td></tr>
+	<b>Advanced Settings</b><br>
+	<label class="mt-2" ><b class="text-muted">Items Last Update Date</b> &nbsp; (yyyy-mm-dd) </label>
+	<input class="form-control" name=items_last_update size=10 value="{$lastid[0]}"> <small >(left empty will not export any items by last update, put '0' will export all items)</small>
 	<br>
-	<tr><td><label class="fs-08">Price Change Date &nbsp; (yyyy-mm-dd)</label> </td><td>
-	<input class="form-control" name=price_last_update size=10 value="{$lastid[1]}"> <small class="fs-06 fs-md-07">(left empty or zero will not export any items with price change)</small></td></tr>
-	
-	<tr><td><label for="show_cat_id"><label class="fs-08">Show Category</label></label></td><td>
-	<input type="checkbox" name="show_cat" id="show_cat_id" onclick="hide_show_category()"></td></tr>
+	<label class="mt-2" ><b class="text-muted">Price Change Date</b> &nbsp; (yyyy-mm-dd)</label> 
+	<input class="form-control" name=price_last_update size=10 value="{$lastid[1]}"> <small >(left empty or zero will not export any items with price change)</small>
+	<br>
+	<label for="show_cat_id" class="mt-2"><b class="text-muted">Show Category</b></label>
+	&nbsp;<input type="checkbox" name="show_cat" id="show_cat_id" onclick="hide_show_category()">
 	{if $config.sku_enable_additional_description}
-	<tr><td><label for="show_cat_id"><label class="fs-08">Show Additional Description</label></label></td><td><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()"></td></tr>
+	<label for="show_cat_id" class="mt-2"><b class="text-muted">Show Additional Description</b></label><input type="checkbox" name="show_additional_desc" id="checkbox_additional_desc" onclick="hide_export_txt_btn()">
 	{/if}
 </table>
 <span>

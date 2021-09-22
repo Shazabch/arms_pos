@@ -1028,7 +1028,7 @@ Revision History
 
 		case 'ajax_search_category':
 		    $no_findcat_expand = mi($_REQUEST['no_findcat_expand']);
-			print "<ul>";
+			print "<ul class=\"list-group list-group-flush\">";
 
 			//check consignment bearing
 			if (isset($_REQUEST['bearing'])){
@@ -1105,7 +1105,7 @@ Revision History
 			}
 			if ($con->sql_numrows($a)<=0)
 			{
-			    print "<li title=\"0\"><span class=informal>No matches for $v</span></li>";
+			    print "<li class=\"list-group-item\" title=\"0\"><span class=informal>No matches for $v</span></li>";
 			    exit;
 			}
 			/*if ($con->sql_numrows($a)>50)
@@ -1149,7 +1149,7 @@ Revision History
 
 	    	    //$min_photo = get_required_photo_count($r['id'],'CONSIGN');
 	    	    $hc = $have_child ? "1" : "0";
-				print "<li title=\"$r[id],$hc\">";
+				print "<li class=\"list-group-item list-group-item-action\" style=\"cusror:pointer;\" title=\"$r[id],$hc\">";
 				print "$lbl";
 				if ($have_child && !$no_findcat_expand) print "<img src=ui/findcat_expand.png align=absmiddle border=0 class=clickable title=\"expand child categories\" onclick=show_child($r[id]) hspace=5>";
 				print "</li>";
