@@ -350,25 +350,29 @@ function start_auto_fill(){
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content tx-size-sm">
 			<div class="modal-body tx-center pd-y-20 pd-x-20">
-				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> 
+				<button aria-label="Close" class="close text-danger" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> 
 				
-					<label><h4>Auto Fill in base on last year sales amount.</h4></label>
+					<label class=""><h4>Auto Fill in base on last year sales amount.</h4></label>
 					<form name="f_auto_fill">
-					<b>Sales Target: </b>
-					<input type="text" class="form-control" id="input_sales_target" size="5" style="text-align:right;" onChange="this.value=round(this.value)"> %
-					<br /><b>Overwrite: </b>
+					<b class="form-label">Sales Target: </b>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">%</span>
+						</div><input aria-describedby="basic-addon1" id="input_sales_target" class="form-control" onChange="this.value=round(this.value)" type="text">
+					</div>
+					<b>Overwrite: </b>
 					<input type="radio" name="radio_replace_type" value="month" checked /> Current Month Only
 					<input type="radio" name="radio_replace_type" value="year" /> Current Year
 					<br />
-					<b>Round up to nearest: </b>
-					<select name="select_round_up">
+					<b class="form-label mt-2">Round up to nearest: </b>
+					<select class="form-control select2" name="select_round_up">
 						<option value="10">10</option>
 						<option value="50">50</option>
 						<option value="100" selected>100</option>
 						<option value="500">500</option>
 						<option value="1000">1000</option>
 					</select><br />
-					<input type="button" value="Start Generate" onClick="start_auto_fill();" />
+					<input type="button" class="btn btn-primary mt-2" value="Start Generate" onClick="start_auto_fill();" />
 					</form>
 					<p>
 					Example:<br />
@@ -475,7 +479,8 @@ function start_auto_fill(){
 					{/if}
 					<th class="{$sku.code}" align="left">
 					<a href="javascript:clearRow('{$c.id}','{$sku.code}')">
-					<img src="ui/del.png" title="Clear this row" border="0"/>
+						<i class="fas fa-times text-danger" title="Clear this row"></i>
+				
 					</a>
 					{$sku.code}
 					</th>
