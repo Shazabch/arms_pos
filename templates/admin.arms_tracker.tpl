@@ -52,7 +52,7 @@ function done_addpic(id,html)
 
 function addpic(td_obj,id)
 {
-	$('attach_popup').innerHTML = '<form onsubmit="hidediv(\'attach_popup\')" target=_ifaddpic method=post enctype="multipart/form-data"><input type=hidden name=id value="'+id+'"><input type=hidden name=a value=add_pic><h4>Screenshot/XLS/PDF Attachment</h4>Select files to upload:<br>1.<input type=file name="screenshot[]"><br>2.<input type=file name="screenshot[]"><br>3.<input type=file name="screenshot[]"><br><input type=submit value="Submit"><input type=reset value="Close" onclick="hidediv(\'attach_popup\')"></form><iframe width=1 height=1 style="visibility:hidden" name=_ifaddpic></iframe>';
+	$('attach_popup').innerHTML = '<form onsubmit="hidediv(\'attach_popup\')" target=_ifaddpic method=post enctype="multipart/form-data"><input type=hidden class="form-control" name=id value="'+id+'"><input type=hidden class="form-control" name=a value=add_pic><h4>Screenshot/XLS/PDF Attachment</h4><span class="mt-2">Select files to upload:</span><br><br />1.<input class="mt-2" type=file name="screenshot[]"><br>2.<input class="mt-2" type=file name="screenshot[]"><br>3.<input class="mt-2" type=file name="screenshot[]"><br><br /><input type=submit class="btn btn-primary fs-07" value="Submit">&nbsp;&nbsp;&nbsp;<input type=reset class="btn btn-danger fs-07" value="Close" onclick="hidediv(\'attach_popup\')"></form><iframe width=1 height=1 style="visibility:hidden" name=_ifaddpic></iframe>';
 	showdiv('attach_popup');
 	Position.clone(td_obj, $('attach_popup'), {setHeight: false, setWidth:false});
 	
@@ -70,7 +70,10 @@ function verify(id,el){
 	new Ajax.Request('{/literal}{$smarty.server.PHP_SELF}{literal}',
 	{
     	parameters:'a=verify&id='+id,
-    	onComplete:function() { el.src = '/ui/lock.png'; }
+		onComplete:function() { 
+			el.removeClassName('fas fa-check-circle'),
+			el.addClassName('fas fa-lock') }
+    	
 	} );
 	//do_refresh();
 }
@@ -80,7 +83,7 @@ function solve(id,el){
 	new Ajax.Request('{/literal}{$smarty.server.PHP_SELF}{literal}',
 	{
     	parameters:'a=solve&id='+id,
-    	onComplete:function() { el.src = '/ui/approved.png'; }
+    	onComplete:function() { el.addClassName('text-warning') }
 	} );
 	//do_refresh();
 }
@@ -93,15 +96,16 @@ function edit_this(obj,id)
 	g_id=id;
 	td_obj=$('td_'+id);
 	$('edit_value').value =td_obj.innerHTML.replace(/^&nbsp;/,'');
-	Position.clone(td_obj, $('edit_popup'), {setHeight: false, setWidth:false});
-	Position.clone(td_obj, $('edit_value'), {setHeight: false, setWidth:false});
-	Element.show('edit_popup');
+	//Position.clone(td_obj, $('edit_popup'), {setHeight: false, setWidth:false});
+	//Position.clone(td_obj, $('edit_value'), {setHeight: false, setWidth:false});
+	
+	jQuery('#edit_popup').modal('show');
 	$('edit_value').select();
 	$('edit_value').focus();
 }
 
 function save_popup(){
-	Element.hide('edit_popup');
+	jQuery('#edit_popup').modal('hide');
 	//td_obj.innerHTML=$('edit_value').value;	
 	var new_value=$('edit_value').value;
 	if(td_obj.innerHTML!=new_value && new_value!=''){		
@@ -122,7 +126,7 @@ function do_add_new(p,total){
 	//alert(counter);
 	var no=float(total)+counter;
 	//alert(no);
-	var row_html='<td align=center><img src=/ui/remove16.png title="Cancel" onclick="Element.remove(this.parentNode.parentNode);control_row(\'r\');"></td><td align=left colspan=6><input type=hidden name=new_p['+no+'] value='+p+'><select name=new_type['+no+'] size=6>{/literal}{section name=i loop=$type}<option value="{$type[i].type}" {if $selected_type==$type[i].type}selected{/if}>{$type[i].type|upper}</option>{/section}{literal}</select><textarea name="new_value['+no+']" cols=90 rows=5></textarea><b>Screenshot Attachment</b><br>1.<input type=file name="new_screenshot['+no+'][]"><br>2.<input type=file name="new_screenshot['+no+'][]"><br>3.<input type=file name="new_screenshot['+no+'][]"><br>';
+	var row_html='<td align=center><i class="fas fa-times text-danger mt-1" title="Cancel" onclick="Element.remove(this.parentNode.parentNode);control_row(\'r\');"></i></td><td align=left colspan=6><input type=hidden name=new_p['+no+'] value='+p+'><select class="form-control select2" name=new_type['+no+'] >{/literal}{section name=i loop=$type}<option value="{$type[i].type}" {if $selected_type==$type[i].type}selected{/if}>{$type[i].type|upper}</option>{/section}{literal}</select><textarea class="form-control" name="new_value['+no+']" cols=90 rows=5></textarea><b><div class="mt-2">Screenshot Attachment</div></b>1.<input type=file class="mt-2 fs-08" name="new_screenshot['+no+'][]"><br>2.<input class="mt-2 fs-08" type=file name="new_screenshot['+no+'][]"><br>3.<input class="mt-2 fs-08" type=file name="new_screenshot['+no+'][]"><br>';
 	new Insertion.After('tr_'+p, row_html);
 }
 
@@ -200,9 +204,9 @@ function do_sort(strSort){
 
 function do_move(type){
 	//alert(type);
-	Element.show('adjust_popup');
-	center_div('adjust_popup');	
-	curtain(true);
+	jQuery('#adjust_popup').modal('show');
+	center_div('adjust_popup');
+	//curtain(true);
 }
 
 function mdn(src)
@@ -264,8 +268,8 @@ function check_b()
 }
 
 function curtain_clicked(){	
-	curtain(false);
-	Element.hide('adjust_popup');
+	//curtain(false);
+	jQuery('#adjust_popup').modal('hide');
 }
 
 function do_save_moving(){
@@ -295,53 +299,74 @@ function do_search(){
 </div>
 <div class="card mx-3">
 	<div class="card-body">
-		<div id=attach_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;padding:10px;width:300px;height:150px;">
+
+				<div id="attach_popup" class=" bg-white p-3 rounded border shadow" style="display:none;position:absolute;z-index:100;">
+				</div>
+		
+		
+				
+<div class="modal" id="edit_popup" data-backdrop="false">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-10 pd-x-10">
+				<textarea class="form-control" id=edit_value name=edit_value onblur="save_popup();"  ></textarea>
+			</div>
 		</div>
+	</div>
+</div>
 		
 		
-		<div id=edit_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:732px;height:100px;">
-		<textarea id=edit_value name=edit_value onblur="save_popup();" cols=88 rows=5></textarea>
-		</div>
+
+		<div class="modal" id="adjust_popup">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content tx-size-sm">
+					<div class="modal-body tx-center pd-y-5	 pd-x-20">
+						<form method=post name=f_b>
+							<input type=hidden name=a>
+							<table class=tb border=0 cellspacing=0 cellpadding=2>
+							<tr>
+							<th colspan=2 align=left><h5>Trackers</h5></th>
+							</tr>
+							<tr>
+							<td>
+							
+							<select class="overflow-auto" name="sel_approvals[]"  multiple size=25 style="width:400px">
+							{if $all_issues}
+							{section name=i loop=$all_issues}
+							{assign var=n value=$smarty.section.i.iteration}
+							<option value="{$all_issues[i].id}">
+							{$all_issues[i].description}
+							</option>
+							{/section}
+							{/if}
+							</select>
+							</td>
+							<td valign=top>
+							<input type=button class="btn btn-primary btn-sm ml-2" value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br>
+							<input type=button value="Dn" class="btn btn-danger mt-2 btn-sm ml-2" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
+							</td>
+							</tr>
+							
+							<tr>
+							<td colspan=2 align=center>
+							<input type=button class="btn btn-primary mt-2" value="Save" onclick="do_save_moving();">
+							&nbsp;&nbsp;&nbsp;
+							<input type=button class="btn btn-danger mt-2" value="Close" onclick="curtain_clicked();">
+							</td>
+							</tr>
+							</table>
+							</form>
+					</div>
+				</div>
+			</div>
+		</div>		
+
+
+		<div id= style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:800px;height:460px;">
 		
-		<div id=adjust_popup style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:800px;height:460px;">
-		<form method=post name=f_b>
-		<input type=hidden name=a>
-		<table class=tb border=0 cellspacing=0 cellpadding=2>
-		<tr>
-		<th colspan=2 align=left>Trackers</th>
-		</tr>
-		<tr>
-		<td>
-		
-		<select name=sel_approvals[] multiple size=25 style="width:750px">
-		{if $all_issues}
-		{section name=i loop=$all_issues}
-		{assign var=n value=$smarty.section.i.iteration}
-		<option value="{$all_issues[i].id}">
-		{$all_issues[i].description}
-		</option>
-		{/section}
-		{/if}
-		</select>
-		</td>
-		<td valign=top>
-		<input type=button value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br><br>
-		<input type=button value="Dn" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
-		</td>
-		</tr>
-		
-		<tr>
-		<td colspan=2 align=center>
-		<input type=button value="Save" onclick="do_save_moving();">
-		&nbsp;&nbsp;&nbsp;
-		<input type=button value="Close" onclick="curtain_clicked();">
-		</td>
-		</tr>
-		</table>
-		</form>
-		</div>
 		
 		
+	</div>
 		<form name=f_a method=post enctype="multipart/form-data">
 		<input type=hidden name=a value=search>
 		<input type=hidden name=item>
@@ -350,7 +375,7 @@ function do_search(){
 			
 			<div class="col-md-4">
 				
-					<select class="form-control" name="type" onchange="do_refresh();">
+					<select class="form-control select2" name="type" onchange="do_refresh();">
 						<option value="All">ALL</option>
 						{section name=i loop=$type}
 						<option value="{$type[i].type}" {if $selected_type==$type[i].type}selected{/if}>
@@ -395,7 +420,7 @@ function do_search(){
 		
 		<p align=center>
 		
-		<input id=bsubmit type=button value="Save New Tracker" style="display:none;font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="do_save_all()" >
+		<input id="bsubmit" class="btn btn-warning " type=button value="Save New Tracker" style="border:1px solid gray; display:none;font:bold 20px Arial; " onclick="do_save_all()" >
 		
 		</p>
 		

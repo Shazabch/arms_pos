@@ -80,7 +80,7 @@
 		{/foreach}
 		{/if}
 		</div>
-		<button class="btn btn-primary" onclick="addpic(this,{$all_issues[i].id});return false;" ><i  class="fas fa-plus-circle text-white"></i> Add</button>
+		<button class="btn btn-primary fs-07" onclick="addpic(this,{$all_issues[i].id});return false;" ><i  class="fas fa-plus-circle text-white"></i> Add</button>
 		</td>
 		
 		<td align=center>
@@ -89,7 +89,7 @@
 		{$all_issues[i].type|upper}
 		
 		{else}
-		<select class="form-control" id=item_type_{$all_issues[i].id}  name=item_type[{$all_issues[i].id}] onchange="do_change_type('{$all_issues[i].id}');">
+		<select class="form-control select2" width="120px;" id=item_type_{$all_issues[i].id}  name=item_type[{$all_issues[i].id}] onchange="do_change_type('{$all_issues[i].id}');">
 		{section name=j loop=$type}
 		<option value="{$type[j].type}" {if $all_issues[i].type==$type[j].type}selected{/if}>
 		{$type[j].type|upper}
