@@ -521,7 +521,7 @@ var STOCK_CHECK_IMPORT = {
 									{foreach from=$search_type key=k item=i}
 										<option value="{$k}" {if $smarty.request.search_type eq $k}selected{/if}>{$i}</option>
 									{/foreach}
-								</select>&nbsp;
+								</select>
 							
 							<label class="mt-2">For</label>
 							<input class="form-control" name="search_value">

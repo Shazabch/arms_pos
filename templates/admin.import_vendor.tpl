@@ -138,11 +138,11 @@ var IMPORT_VENDOR = {
 					<td><b class="fs-08">Upload CSV <br />(<a class="fs-08" href="?a=download_sample_vendor&method=1">Download Sample</a>)</b></td>
 					<td>
 					&nbsp;&nbsp;&nbsp;	<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input type="Submit" class="btn btn-primary fs-07" value="Show Result" />
+						<input type="Submit" class="btn btn-primary fs-06" value="Show Result" />
 					</td>
 				</tr>
 			</table>
-			<div class="div_tbl">
+			<div class="div_tbl mt-2">
 				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>
 				<div class="table-responsive">
 					<table id="si_tbl"  class="report_table table mb-0 text-md-nowrap  table-hover" width="100%">
@@ -221,16 +221,16 @@ var IMPORT_VENDOR = {
 				</div>
 				
 				
-				<tr>
-					<td><b class="fs-08">Upload CSV <br />(<a href="?a=download_sample_vendor&method=2">Download Sample</a>)</b></td>
+				<tr class=>
+					<td><b class="fs-08 ">Upload CSV <br />(<a href="?a=download_sample_vendor&method=2">Download Sample</a>)</b></td>
 					<td>
 						&nbsp;&nbsp;&nbsp;<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input class="btn btn-primary fs-07" type="Submit" value="Show Result" />
+						<input class="btn btn-primary fs-06" type="Submit" value="Show Result" />
 					</td>
 				</tr>
 			</table>
-			<div class="div_tbl">
-				<h5 class="bg-gray-100 px2 py-1">Sample</h5>
+			<div class="div_tbl mt-2">
+				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>
 				<div class="table-responsive">
 					<table id="si_tbl" class="report_table table mb-0 text-md-nowrap  table-hover">
 						<thead class="bg-gray-100">

@@ -312,13 +312,13 @@ function addCommas(nStr)
 }
 
 function show_auto_fill(){
-	curtain(true);
-	$('div_auto_fill_in').show();
+//	curtain(true);
+	jQuery('#div_auto_fill_in').modal('show');
 	center_div('div_auto_fill_in');
 }
 
 function curtain_clicked(){
-	$('div_auto_fill_in').hide();
+//	$('div_auto_fill_in').hide();
 }
 
 function start_auto_fill(){
@@ -345,30 +345,42 @@ function start_auto_fill(){
 <input id=edit_text size=5 onblur="save()" onKeyPress="checkKey(event)">
 </div>
 
-<div id="div_auto_fill_in"  style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;width:450px;height:190px;padding:5px;">
-<div style="float:right;"><img onclick="default_curtain_clicked()" src="/ui/closewin.png" /></div>
-<h2>Auto Fill in base on last year sales amount.</h2>
-<form name="f_auto_fill">
-<b>Sales Target: </b>
-<input type="text" id="input_sales_target" size="5" style="text-align:right;" onChange="this.value=round(this.value)"> %
-<br /><b>Overwrite: </b>
-<input type="radio" name="radio_replace_type" value="month" checked /> Current Month Only
-<input type="radio" name="radio_replace_type" value="year" /> Current Year
-<br />
-<b>Round up to nearest: </b>
-<select name="select_round_up">
-	<option value="10">10</option>
-	<option value="50">50</option>
-	<option value="100" selected>100</option>
-	<option value="500">500</option>
-	<option value="1000">1000</option>
-</select><br />
-<input type="button" value="Start Generate" onClick="start_auto_fill();" />
-</form>
-<p>
-Example:<br />
-last year Feb 19 sales amount = 1,000.<br />
-You key in 10%, this year Feb 19 sales target will be 1,100.</p>
+
+<div class="modal" id="div_auto_fill_in">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> 
+				
+					<label><h4>Auto Fill in base on last year sales amount.</h4></label>
+					<form name="f_auto_fill">
+					<b>Sales Target: </b>
+					<input type="text" class="form-control" id="input_sales_target" size="5" style="text-align:right;" onChange="this.value=round(this.value)"> %
+					<br /><b>Overwrite: </b>
+					<input type="radio" name="radio_replace_type" value="month" checked /> Current Month Only
+					<input type="radio" name="radio_replace_type" value="year" /> Current Year
+					<br />
+					<b>Round up to nearest: </b>
+					<select name="select_round_up">
+						<option value="10">10</option>
+						<option value="50">50</option>
+						<option value="100" selected>100</option>
+						<option value="500">500</option>
+						<option value="1000">1000</option>
+					</select><br />
+					<input type="button" value="Start Generate" onClick="start_auto_fill();" />
+					</form>
+					<p>
+					Example:<br />
+					last year Feb 19 sales amount = 1,000.<br />
+					You key in 10%, this year Feb 19 sales target will be 1,100.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id=""  style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;width:450px;height:190px;padding:5px;">
+
 </div>
 <!-- End of Special Div-->
 
