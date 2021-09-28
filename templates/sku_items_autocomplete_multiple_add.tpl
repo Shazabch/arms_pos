@@ -392,22 +392,32 @@ function clear_autocomplete(){
 <div id=history_popup_content></div>
 </div>
 
-<table>
+<table class="mx-3">
 <tr>
-	<th>Search SKU</th>
+	<label><b>Search SKU</b></label>
 	<td>
-		<input id="sku_item_id" name="sku_item_id" size=3 type=hidden>
-		<input id="sku_item_code" name="sku_item_code" size=13 type=hidden>
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;"> <input type=button value="Add" onclick='add_autocomplete()'>
-		{if $include_all_sku_item}&nbsp;&nbsp;<label><input type="checkbox" name="include_all_sku_item" />Include all parent / child SKU</label>{/if}
+		<input class="form-control" id="sku_item_id" name="sku_item_id" size=3 type=hidden>
+		<input class="form-control" id="sku_item_code" name="sku_item_code" size=13 type=hidden>
+		<div class="row">
+			<div class="col">
+				<div class="form-inline">
+					<input class="form-control" id="autocomplete_sku"  name="sku" onclick="this.select()"> 
+					&nbsp;<input type="button" class="btn btn-primary fs-08" value="Add" onclick='add_autocomplete()'>
+				</div>
+			</div>
+		</div>
+		{if $include_all_sku_item}&nbsp;&nbsp;
+		<label><input type="checkbox" name="include_all_sku_item" />Include all parent / child SKU</label>{/if}
 		{if $add_parent_child}&nbsp;&nbsp;<label><input type="button" value="Add Parent & Child" onclick='add_parent_child()'></label>{/if}
 		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>
 </tr>
-<tr>
-	<td>&nbsp;</td>
+<br><br />
+<tr class="mt-2 fs-09">
+	
 	<td>
+		<br />
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" {if $is_promo || $default_mcode}checked{/if}> MCode &amp; {$config.link_code_name}
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code

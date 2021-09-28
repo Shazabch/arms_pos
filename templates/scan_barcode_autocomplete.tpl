@@ -37,21 +37,27 @@ function add_grn_barcode_item(ele){
 			<tr><td colspan=2><hr noshade size=1></td></tr>
 		{/if}
 		<tr>
-			<td><b>Scan Barcode </b></td>
+			<label><b>Scan Barcode </b></label>
 			<td> 
-				<input id="grn_barcode" name="grn_barcode" onkeypress="if(event.keyCode==13){$add_action}" /> 
-				{if !$no_button}<input class="addbutton btn btn-primary" type="button" value="{$_add_value|default:'Add'}" onclick="{$add_action}" />{/if}
+				<div class="row">
+					<div class="col">
+						<div class="form-inline">
+						&nbsp;&nbsp;&nbsp;&nbsp;	<input class="form-control" id="grn_barcode" name="grn_barcode" onkeypress="if(event.keyCode==13){$add_action}" /> 
+				{if !$no_button}&nbsp;&nbsp;<input class="addbutton btn btn-primary" type="button" value="{$_add_value|default:'Add'}" onclick="{$add_action}" />{/if}
+						</div>
+					</div>
+				</div>
 				<span id="scan_barcode_loading_id"></span>
 			</td>
 		</tr>
 		{if !$no_options}
 		<tr>
-			<td>&nbsp;</td>
+		
 			<td>
 				{if $config.enable_grn_barcoder}
-					<input type="radio" name="grn_barcode_type" value="0" checked onclick="grn_barcode_type_changed();" /> GRN Barcoder &nbsp;&nbsp;&nbsp;&nbsp;
-				{/if}
-				<input type="radio" name="grn_barcode_type" value="1" {if !$config.enable_grn_barcoder}checked{/if} onclick="grn_barcode_type_changed();" /> ARMS Code / MCode / Art.No / {$config.link_code_name} &nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" name="grn_barcode_type" value="0" checked onclick="grn_barcode_type_changed();" /> GRN Barcoder &nbsp;&nbsp;&nbsp;&nbsp;
+				{/if}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="grn_barcode_type" value="1" {if !$config.enable_grn_barcoder}checked{/if} onclick="grn_barcode_type_changed();" /> ARMS Code / MCode / Art.No / {$config.link_code_name} &nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 		</tr>
 		{/if}
