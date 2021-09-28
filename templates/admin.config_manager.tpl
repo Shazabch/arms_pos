@@ -148,132 +148,157 @@ function initial_config_autocomplete(){
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
-
-<form name="f_search_cf" onSubmit="searh_cf_name();return false;">
-	<b>Config Name: </b>
-	<input type="text" id="inp_search_cf_name" style="width:400px;" />
-	<input type="submit" value="Find" />
-	<div id="div_search_cf_name_list" class="autocomplete" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100"></div>
-</form>
-
-<a href="javascript:void(toggle_all_config(1));">Expand All</a> |
-<a href="javascript:void(toggle_all_config(0));">Collapse All</a>
-
-<form name="f_a" method="post">
-	<input type="hidden" name="a" value="save_config" onSubmit="return false;" />
-	
-<div style="border:0px solid black;">
-<table width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px" id="tbl_config">
-	<thead bgcolor="#ffee99">
-	    <tr>
-	        <th>Config Name</th>
-	        <th>Value in config.php</th>
-	        <th>Active <a href="javascript:void(alert('If no tick, it will follow config.php'));"><img src="/ui/icons/information.png" align="absmiddle" border="0" /></a><br />(override config.php)</th>
-	        <th>Settings</th>
-	        <th>Sample Value</th>
-	        <th>Default Value</th>
-	    </tr>
-	</thead>
-	{foreach from=$config_list key=section_name item=section}
-	    <tr class="section_name" id="tr_section_row-{$section_name}">
-	        <td colspan="6" onClick="togglediv('tbody_config_section-{$section_name}', 'img_section-{$section_name}');">
-				<h4 style="margin:0">
-				    <img src="ui/expand.gif" border="0" title="Expand/Collapse" class="img_section" id="img_section-{$section_name}" />
-					{$section_name}
-					({count var=$section})
-				</h4>
-			</td>
-	    </tr>
-	    <tbody style="background-color:#fff;display:none;" id="tbody_config_section-{$section_name}" class="tbody_config">
-	        {foreach from=$section key=config_name item=config_data}
-	            {assign var=is_disabled value='disabled'}
-	            {if $config_master.$config_name.active}{assign var=is_disabled value=''}{/if}
-	                    
-	            <tr id="tr_config_row-{$config_name}" class="config_row thover">
-	                <td><b class="b_config_name">{$config_name}</b>
-                        {if $config_data.description}<br /><span style="color:#6f6f6f;">{$config_data.description}</span>{/if}
-					</td>
-					
-					<!-- Value in config.php -->
-	                <td  valign="top" class="{if !isset($default_config.$config_name)}config_not_set{/if}">
-	                    {if isset($default_config.$config_name)}
-	                        &nbsp;
-		                    {if $config_data.type eq 'array'}
-		                        <pre>{var_export var=$default_config.$config_name}</pre>
-	                        {else}
-	                            {$default_config.$config_name}
-		                    {/if}
-	                    {else}
-	                        <i>-- Not set --</i>
-	                    {/if}
-	                </td>
-	                
-	                <td style="text-align:center;">
-	                	{* Name *}
-	                	<input type="hidden" name="config_master[{$config_name}][config_name]" value="{$config_name}" />
-	                	
-	                	{* Active *}
-						<input type="checkbox" name="config_master[{$config_name}][active]" value="1" onChange="change_row_config_editable(this, '{$config_name}');" {if !$is_disabled}checked {/if} />
-					</td>
-					
-					<!-- Settings -->
-	                <td  valign="top">
-	                    <div id="div_setting-{$config_name}">
-	                        <input type="hidden" name="config_master[{$config_name}][type]" value="{$config_data.type}" {$is_disabled} />
-		                    <!-- Radio -->
-		                    {if $config_data.type eq 'radio'}
-		                        {foreach from=$config_data.value key=v item=label}
-		                            <input type="radio" name="config_master[{$config_name}][value]" value="{$v}" {if $config_master.$config_name.value eq $v}checked {/if} {$is_disabled} /> {$label}
-		                        {/foreach}
-							{elseif $config_data.type eq 'array'}
-							    <!-- Array -->
-							    <textarea name="config_master[{$config_name}][value]" style="width:200px;height:200px;" {$is_disabled}>{$config_master.$config_name.value}</textarea>
-							{elseif $config_data.type eq 'str'}
-							    <!-- Str -->
-							    <input name="config_master[{$config_name}][value]" style="width:200px;" value="{$config_master.$config_name.value}" {$is_disabled} />
-							 {elseif $config_data.type eq 'select'}
-							    <!-- Select -->
-							    <select name="config_master[{$config_name}][value]" {$is_disabled}>
-							        {foreach from=$config_data.value key=v item=label}
-							            <option value="{$v}" {if $config_master.$config_name.value eq $v}selected {/if}>{$label}</option>
-							        {/foreach}
-							    </select>
-		                    {/if}
-	                    </div>
-	                    <div id="div_setting_error-{$config_name}" class="error_msg"></div>
-	                </td>
-	                
-	                <!-- Sample -->
-	                <td valign="top">
-	                    {if $config_data.default_info.sample}
-	                        <pre>
-	                        {$config_data.default_info.sample}
-	                        </pre>
-						{else}&nbsp;
-	                    {/if}
-	                </td>
-	                
-	                {* Default *}
-	                <td valign="top" class="{if !$config_data.default_info.default}config_not_set{/if}">
-	                	{if $config_data.default_info.default}
-	                		 <pre>
-	                        {$config_data.default_info.default}
-	                        </pre>
-						{else}
-							<i>-- No default value --</i>
-	                	{/if}
-	                </td>
-	            </tr>
-	        {/foreach}
-	    </tbody>
-	{/foreach}
-</table>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
-</form>
 
-<div style="position:fixed;bottom:0;background:#ddd;width:100%;text-align:center;left:0;padding:3px;opacity:0.8;">
-		<input type="button" id="btn_save" value="Save" onClick="save_config();" />
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_search_cf" onSubmit="searh_cf_name();return false;">
+			<b>Config Name: </b>
+			<input type="text" class="form-control mt-2" id="inp_search_cf_name" />
+			<input type="submit" class="btn btn-primary mt-2" value="Find" />
+			<div id="div_search_cf_name_list" class="autocomplete" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100; background-color: white; color: black;"></div>
+		</form>
+	</div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary ">
+				<a href="javascript:void(toggle_all_config(1));">Expand All</a> /
+				<a href="javascript:void(toggle_all_config(0));">Collapse All</a>
+
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
+
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post">
+			<input type="hidden" name="a" value="save_config" onSubmit="return false;" />
+			
+		<div>
+		<div class="table-responsive">
+			<table id="tbl_config" class="report_table table mb-0 text-md-nowrap  table-hover">
+				<thead class="bg-gray-100">
+					<tr>
+						<th>Config Name</th>
+						<th>Value in config.php</th>
+						<th>Active <a href="javascript:void(alert('If no tick, it will follow config.php'));"><img src="/ui/icons/information.png" align="absmiddle" border="0" /></a><br />(override config.php)</th>
+						<th>Settings</th>
+						<th>Sample Value</th>
+						<th>Default Value</th>
+					</tr>
+				</thead>
+				{foreach from=$config_list key=section_name item=section}
+					<tr class="section_name " id="tr_section_row-{$section_name}">
+						<td colspan="6" onClick="togglediv('tbody_config_section-{$section_name}', 'img_section-{$section_name}');">
+							<h4 style="margin:0" class="fs-08">
+								<img src="ui/expand.gif" border="0" title="Expand/Collapse" class="img_section" id="img_section-{$section_name}" />
+								{$section_name}
+								({count var=$section})
+							</h4>
+						</td>
+					</tr>
+					<tbody style="display:none;"  id="tbody_config_section-{$section_name}" class="tbody_config">
+						{foreach from=$section key=config_name item=config_data}
+							{assign var=is_disabled value='disabled'}
+							{if $config_master.$config_name.active}{assign var=is_disabled value=''}{/if}
+									
+							<tr class="fs-08" id="tr_config_row-{$config_name}" class="config_row thover">
+								<td><b class="b_config_name">{$config_name}</b>
+									{if $config_data.description}<br /><span style="color:#6f6f6f;">{$config_data.description}</span>{/if}
+								</td>
+								
+								<!-- Value in config.php -->
+								<td  valign="top" class="{if !isset($default_config.$config_name)}config_not_set{/if}">
+									{if isset($default_config.$config_name)}
+										&nbsp;
+										{if $config_data.type eq 'array'}
+											<pre>{var_export var=$default_config.$config_name}</pre>
+										{else}
+											{$default_config.$config_name}
+										{/if}
+									{else}
+										<i>-- Not set --</i>
+									{/if}
+								</td>
+								
+								<td style="text-align:center;">
+									{* Name *}
+									<input type="hidden" name="config_master[{$config_name}][config_name]" value="{$config_name}" />
+									
+									{* Active *}
+									<input type="checkbox" name="config_master[{$config_name}][active]" value="1" onChange="change_row_config_editable(this, '{$config_name}');" {if !$is_disabled}checked {/if} />
+								</td>
+								
+								<!-- Settings -->
+								<td  valign="top">
+									<div id="div_setting-{$config_name}">
+										<input type="hidden" name="config_master[{$config_name}][type]" value="{$config_data.type}" {$is_disabled} />
+										<!-- Radio -->
+										{if $config_data.type eq 'radio'}
+											{foreach from=$config_data.value key=v item=label}
+												<input type="radio" name="config_master[{$config_name}][value]" value="{$v}" {if $config_master.$config_name.value eq $v}checked {/if} {$is_disabled} /> {$label}
+											{/foreach}
+										{elseif $config_data.type eq 'array'}
+											<!-- Array -->
+											<textarea name="config_master[{$config_name}][value]" style="width:200px;height:200px;" {$is_disabled}>{$config_master.$config_name.value}</textarea>
+										{elseif $config_data.type eq 'str'}
+											<!-- Str -->
+											<input name="config_master[{$config_name}][value]" style="width:200px;" value="{$config_master.$config_name.value}" {$is_disabled} />
+										 {elseif $config_data.type eq 'select'}
+											<!-- Select -->
+											<select name="config_master[{$config_name}][value]" {$is_disabled}>
+												{foreach from=$config_data.value key=v item=label}
+													<option value="{$v}" {if $config_master.$config_name.value eq $v}selected {/if}>{$label}</option>
+												{/foreach}
+											</select>
+										{/if}
+									</div>
+									<div id="div_setting_error-{$config_name}" class="error_msg"></div>
+								</td>
+								
+								<!-- Sample -->
+								<td valign="top">
+									{if $config_data.default_info.sample}
+										<pre>
+										{$config_data.default_info.sample}
+										</pre>
+									{else}&nbsp;
+									{/if}
+								</td>
+								
+								{* Default *}
+								<td valign="top" class="{if !$config_data.default_info.default}config_not_set{/if}">
+									{if $config_data.default_info.default}
+										 <pre>
+										{$config_data.default_info.default}
+										</pre>
+									{else}
+										<i>-- No default value --</i>
+									{/if}
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				{/foreach}
+			</table>
+		</div>
+		</div>
+		</form>
+		
+	</div>
+</div>
+<div style="position:fixed;bottom:0;background:rgb(189, 202, 231);width:100%;text-align:center;left:0;padding:3px;opacity:0.9;">
+		<input type="button" class="btn btn-primary fs-06" id="btn_save" value="Save" onClick="save_config();" />
 </div>
 {include file='footer.tpl'}
 

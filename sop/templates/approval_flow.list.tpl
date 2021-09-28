@@ -1,5 +1,5 @@
 <table width="100%" cellpadding="4" cellspacing="1" border="0">
-	<thead bgcolor="#ffee99">
+	<thead class="bg-gray-100">
 	    <tr>
 	        <th colspan="2" width="100">#</th>
 	        <th>Branch</th>

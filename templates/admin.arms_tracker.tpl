@@ -286,97 +286,121 @@ function do_search(){
 */
 </script>
 {/literal}
-
-<h1>{$PAGE_TITLE}</h1>
-
-<div id=attach_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;padding:10px;width:300px;height:150px;">
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
-
-
-<div id=edit_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:732px;height:100px;">
-<textarea id=edit_value name=edit_value onblur="save_popup();" cols=88 rows=5></textarea>
+<div class="card mx-3">
+	<div class="card-body">
+		<div id=attach_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;padding:10px;width:300px;height:150px;">
+		</div>
+		
+		
+		<div id=edit_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:732px;height:100px;">
+		<textarea id=edit_value name=edit_value onblur="save_popup();" cols=88 rows=5></textarea>
+		</div>
+		
+		<div id=adjust_popup style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:800px;height:460px;">
+		<form method=post name=f_b>
+		<input type=hidden name=a>
+		<table class=tb border=0 cellspacing=0 cellpadding=2>
+		<tr>
+		<th colspan=2 align=left>Trackers</th>
+		</tr>
+		<tr>
+		<td>
+		
+		<select name=sel_approvals[] multiple size=25 style="width:750px">
+		{if $all_issues}
+		{section name=i loop=$all_issues}
+		{assign var=n value=$smarty.section.i.iteration}
+		<option value="{$all_issues[i].id}">
+		{$all_issues[i].description}
+		</option>
+		{/section}
+		{/if}
+		</select>
+		</td>
+		<td valign=top>
+		<input type=button value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br><br>
+		<input type=button value="Dn" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
+		</td>
+		</tr>
+		
+		<tr>
+		<td colspan=2 align=center>
+		<input type=button value="Save" onclick="do_save_moving();">
+		&nbsp;&nbsp;&nbsp;
+		<input type=button value="Close" onclick="curtain_clicked();">
+		</td>
+		</tr>
+		</table>
+		</form>
+		</div>
+		
+		
+		<form name=f_a method=post enctype="multipart/form-data">
+		<input type=hidden name=a value=search>
+		<input type=hidden name=item>
+		
+		<div class="row">
+			
+			<div class="col-md-4">
+				
+					<select class="form-control" name="type" onchange="do_refresh();">
+						<option value="All">ALL</option>
+						{section name=i loop=$type}
+						<option value="{$type[i].type}" {if $selected_type==$type[i].type}selected{/if}>
+						{$type[i].type|upper}</option>
+						{/section}
+						<option value="verified" {if $selected_type=='verified'}selected{/if}>VERIFIED</option>
+						</select>
+				
+			</div>
+				
+					{if !$selected_type}
+					{assign var=selected_type value=ALL}
+					{/if}
+				
+					
+					{if $selected_type eq 'ALL'}
+				
+					<div class="col-md-2 mt-3 mt-md-2 mb-2 mb-md-0">
+						<a class="bg-gray-100 py-2 px-2" style="color: black;" href="javascript:void(do_move('{$selected_type|upper}'))">
+							<img class="bg-gray-100" src=/ui/icons/table_refresh.png align=absmiddle border=0 title="Move Priority" onclick="do_move('{$selected_type|upper}');"> Resort The Priority</a>
+					</div>
+				
+					{/if}
+					
+					<div class="col-md-4">
+					
+								<input name="s" class="form-control" >
+					
+					</div>
+					<div class="col-md-2 mt-2 mt-md-0">
+						<input type="submit" id="search" class="btn btn-primary btn-block" value="Search">
+					</div>
+		</div>
+	<br><br>
+		<div class="table-responsive">
+			<table id="tbl_tracker" class="tb report_table table mb-0 text-md-nowrap  table-hover"  width="100%">
+				{include file=admin.arms_tracker.items.tpl}
+			</table>
+		</div>
+		
+		</form>
+		
+		<p align=center>
+		
+		<input id=bsubmit type=button value="Save New Tracker" style="display:none;font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="do_save_all()" >
+		
+		</p>
+		
+	</div>
 </div>
-
-<div id=adjust_popup style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;width:800px;height:460px;">
-<form method=post name=f_b>
-<input type=hidden name=a>
-<table class=tb border=0 cellspacing=0 cellpadding=2>
-<tr>
-<th colspan=2 align=left>Trackers</th>
-</tr>
-<tr>
-<td>
-
-<select name=sel_approvals[] multiple size=25 style="width:750px">
-{if $all_issues}
-{section name=i loop=$all_issues}
-{assign var=n value=$smarty.section.i.iteration}
-<option value="{$all_issues[i].id}">
-{$all_issues[i].description}
-</option>
-{/section}
-{/if}
-</select>
-</td>
-<td valign=top>
-<input type=button value="Up" onclick="mup(f_b.elements['sel_approvals[]'])"><br><br>
-<input type=button value="Dn" onclick="mdn(f_b.elements['sel_approvals[]'])"><br><br>
-</td>
-</tr>
-
-<tr>
-<td colspan=2 align=center>
-<input type=button value="Save" onclick="do_save_moving();">
-&nbsp;&nbsp;&nbsp;
-<input type=button value="Close" onclick="curtain_clicked();">
-</td>
-</tr>
-</table>
-</form>
-</div>
-
-
-<form name=f_a method=post enctype="multipart/form-data">
-<input type=hidden name=a value=search>
-<input type=hidden name=item>
-
-<select name=type onchange="do_refresh();">
-<option value="All">ALL</option>
-{section name=i loop=$type}
-<option value="{$type[i].type}" {if $selected_type==$type[i].type}selected{/if}>
-{$type[i].type|upper}</option>
-{/section}
-<option value="verified" {if $selected_type=='verified'}selected{/if}>VERIFIED</option>
-</select>
-{if !$selected_type}
-{assign var=selected_type value=ALL}
-{/if}
-&nbsp;&nbsp;&nbsp;
-
-{if $selected_type eq 'ALL'}
-<a href="javascript:void(do_move('{$selected_type|upper}'))">
-<img src=/ui/icons/table_refresh.png align=absmiddle border=0 title="Move Priority" onclick="do_move('{$selected_type|upper}');"> Resort The Priority</a>
-{/if}
-
-&nbsp;&nbsp;&nbsp;&nbsp;
-<input name=s size="18">
-&nbsp;
-<input type=submit id=search value="Search">
-
-<br><br>
-
-<table id=tbl_tracker class=tb border=0 cellspacing=0 cellpadding=2 width="100%">
-{include file=admin.arms_tracker.items.tpl}
-</table>
-
-</form>
-
-<p align=center>
-
-<input id=bsubmit type=button value="Save New Tracker" style="display:none;font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="do_save_all()" >
-
-</p>
-
 {include file=footer.tpl}
 <script>
 document.f_a.s.focus();

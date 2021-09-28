@@ -37,15 +37,22 @@ class Settings extends Module
    			file_put_contents($file,$content);
 
 		}
+		print "<div class=\"breadcrumb-header justify-content-between\">";
+			print "<div class=\"my-auto\">";
+				print "<div class=\"d-flex\">";
+				print "<h4 class=\"content-title mb-0 my-auto ml-4 text-primary\">Settings (".$file.")</h4>";
+		print "</div></div></div>";
+				
 		
-		print "<h1>Settings (".$file.")</h1>";
+		print "<div class=\"card mx-3\">";
+		print "<div class=\"card-body\">";
 		print "<table width=40% border=0><tr><td>";
-	    print "<form method=Post><textarea style='width:100%;height:500px' name='content'>";
+	    print "<form method=Post><textarea class=\"form-control\" style='width:100%;height:200px' name='content'>";
 	    print htmlentities(file_get_contents($file));
 	    print "</textarea></td>";
-		print "<tr><td align='center'><input type=submit value='Save Records'></td>";
+		print "<tr><td align='center'><input class=\"btn btn-primary\" type=submit value='Save Records'></td>";
  	    print "<input type=hidden name=file value=".$file.">";
-		print "</tr></form></table>";
+		print "</tr></form></table></div></div>";
 	    
 		$this->display("footer.tpl");
 	}

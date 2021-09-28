@@ -144,115 +144,145 @@ function use_preset_privilege(){
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {foreach from=$pv_list key=grp_code item=grp}
     {if $grp_code ne 'others'}  <!-- exclude others -->
-		<div id="div_pv_details-{$grp_code}" style="display:none;position:absolute;z-index:10000;width:650px;height:450px;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0 !important;" class="curtain_popup">
-			<div id="div_pv_details-{$grp_code}-header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;">
-				<span style="float:left;">Privileges Details</span>
-				<span style="float:right;">
-					<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-				</span>
-				<div style="clear:both;"></div>
-			</div>
-			<div id="div_pv_details-{$grp_code}-content" style="padding:2px;height:410px;overflow:auto;">
-				<table width="100%">
-				    <thead>
-					    <tr bgcolor="#ffee99">
-					        <th>Code</th>
-					        <th>Description</th>
-					        <th width="80">HQ Only</th>
-					        <th width="80">Branch Only</th>
-					    </tr>
-				    </thead>
-				    {foreach from=$grp key=pv_code item=pv}
-				        <tr class="thover">
-				            <td>{$pv_code}
-				            	{if $config.skip_update_privilege_list and is_array($config.skip_update_privilege_list) and in_array($pv_code, $config.skip_update_privilege_list)}
-				            		<sup class="privilege_skipped">(Skip Update)</sup>
-				            	{/if}
-				            </td>
-				            <td>{$pv.desc|default:'-'}</td>
-				            <td align="center">{if $pv.hq_only}Yes{else}-{/if}</td>
-		        			<td align="center">{if $pv.branch_only}Yes{else}-{/if}</td>
-				        </tr>
-				    {/foreach}
-				</table>
-			</div>
-		</div>
-		<script>
-			var div_name = 'div_pv_details-{$grp_code}';
-			{literal}
-			new Draggable(div_name,{ handle: div_name+'-header'});
-			{/literal}
-		</script>
+	
+				<div id="div_pv_details-{$grp_code}" style="display:none;position:absolute;z-index:10000;width:650px;height:450px;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0 !important;" class="curtain_popup">
+					<div id="div_pv_details-{$grp_code}-header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;">
+						<span style="float:left;">Privileges Details</span>
+						<span style="float:right;">
+							<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
+						</span>
+						<div style="clear:both;"></div>
+					</div>
+					<div id="div_pv_details-{$grp_code}-content" style="padding:2px;height:410px;overflow:auto;">
+						<div class="table-responsive">
+							<table width="100%">
+								<thead class="bg-gray-100">
+									<tr>
+										<th>Code</th>
+										<th>Description</th>
+										<th width="80">HQ Only</th>
+										<th width="80">Branch Only</th>
+									</tr>
+								</thead>
+								{foreach from=$grp key=pv_code item=pv}
+									<tbody class="fs-08">
+										<tr class="thover">
+											<td>{$pv_code}
+												{if $config.skip_update_privilege_list and is_array($config.skip_update_privilege_list) and in_array($pv_code, $config.skip_update_privilege_list)}
+													<sup class="privilege_skipped">(Skip Update)</sup>
+												{/if}
+											</td>
+											<td>{$pv.desc|default:'-'}</td>
+											<td align="center">{if $pv.hq_only}Yes{else}-{/if}</td>
+											<td align="center">{if $pv.branch_only}Yes{else}-{/if}</td>
+										</tr>
+									</tbody>
+								{/foreach}
+							</table>
+						</div>
+					</div>
+				</div>
+				<script>
+					var div_name = 'div_pv_details-{$grp_code}';
+					{literal}
+					new Draggable(div_name,{ handle: div_name+'-header'});
+					{/literal}
+				</script>
+			
+
     {/if}
 {/foreach}
 
 <form name="f_a" method="post">
-	<input type="hidden" name="a" value="save_privilege" onSubmit="return false;" />
+<div class="card mx-3">
+	<div class="card-body">
+		<input type="hidden" name="a" value="save_privilege" onSubmit="return false;" />
 
-<div style="border:0px solid black;">
-Use preset settings:
-<select name="preset_setting" onChange="use_preset_privilege();">
-	<option value="">--</option>
-	<option value="premium">ARMS Premium</option>
-	<option value="go">ARMS Go</option>
-	<option value="consign">ARMS Consignment</option>
-</select>
-
-<table width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px" id="tbl_config">
-	<thead bgcolor="#ffee99">
-	    <tr>
-	        <th colspan="4">Module</th>
-	        <th width="200">Active</th>
-	    </tr>
-	</thead>
-	{foreach from=$pv_list key=grp_code item=grp}
-	    {if $grp_code ne 'others'}
-		    <tr class="thover">
-		        <td colspan="4">
-					<img src="/ui/icons/application.png" align="absmiddle" title="View Privileges details" class="clickable" onClick="javascript:void(show_pv_details('{$grp_code}'));" />
-					{$privilege_groupname.$grp_code}
-                    <sup style="color:blue;">({count var=$grp})</sup>
-				</td>
-
-		        <!-- Active -->
-		        <td align="center">
-		            <input type="radio" id="priv_group-1-{$grp_code}" name="active[{$grp_code}]" value="1" {if $privilege_master.$grp_code.active}checked {/if} /> Yes
-		            <input type="radio" class="inp_priv_no" name="active[{$grp_code}]" value="0" {if !$privilege_master.$grp_code.active}checked {/if} /> No
-				</td>
-		    </tr>
-	    {/if}
-	{/foreach}
-	{if $pv_list.others}
-	    <tr bgcolor="#ffee99">
-	        <th>Others</th>
-	        <th>Description</th>
-	        <th width="80">HQ Only</th>
-	        <th width="80">Branch Only</th>
-	        <th>Active</th>
-	    </tr>
-		{foreach from=$pv_list.others key=pv_code item=pv}
-		    <tr class="thover">
-		        <td>{$pv_code}</td>
-		        <td>{$pv.desc|default:'-'}</td>
-		        <td align="center">{if $pv.hq_only}Yes{else}-{/if}</td>
-		        <td align="center">{if $pv.branch_only}Yes{else}-{/if}</td>
-		        <!-- Active -->
-		        <td align="center">
-		            <input type="radio" name="others[{$pv_code}]" value="1" id="single_priv-1-{$pv_code}" {if $privileges.$pv_code}checked {/if} /> Yes
-		            <input type="radio" name="others[{$pv_code}]" value="0" {if !$privileges.$pv_code}checked {/if} /> No
-				</td>
-		    </tr>
-		{/foreach}
-	{/if}
-</table>
+		<div style="">
+		<b class="form-label">
+			Use preset settings:
+		</b>
+		<select class="form-control" name="preset_setting" onChange="use_preset_privilege();">
+			<option value="">--</option>
+			<option value="premium">ARMS Premium</option>
+			<option value="go">ARMS Go</option>
+			<option value="consign">ARMS Consignment</option>
+		</select>
+		
+	</div>
+</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover" id="tbl_config">
+			<thead class="bg-gray-100 py-3 	fs-09">
+				<tr>
+					<th colspan="4">Module</th>
+					<th width="200">Active</th>
+				</tr>
+			</thead>
+			{foreach from=$pv_list key=grp_code item=grp}
+				{if $grp_code ne 'others'}
+					<tbody class="fs-08">
+						<tr >
+							<td colspan="4">
+								<img src="/ui/icons/application.png" align="absmiddle" title="View Privileges details" class="clickable" onClick="javascript:void(show_pv_details('{$grp_code}'));" />
+								{$privilege_groupname.$grp_code}
+								<sup style="color:blue;">({count var=$grp})</sup>
+							</td>
+			
+							<!-- Active -->
+							<td align="center">
+								<input type="radio" id="priv_group-1-{$grp_code}" name="active[{$grp_code}]" value="1" {if $privilege_master.$grp_code.active}checked {/if} /> Yes
+								<input type="radio" class="inp_priv_no" name="active[{$grp_code}]" value="0" {if !$privilege_master.$grp_code.active}checked {/if} /> No
+							</td>
+						</tr>
+					</tbody>
+				{/if}
+			{/foreach}
+			{if $pv_list.others}
+				<thead class="bg-gray-100">
+					<tr >
+						<th>Others</th>
+						<th>Description</th>
+						<th width="80">HQ Only</th>
+						<th width="80">Branch Only</th>
+						<th>Active</th>
+					</tr>
+				</thead>
+				{foreach from=$pv_list.others key=pv_code item=pv}
+					<tbody class="fs-08">
+						<tr class="thover">
+							<td>{$pv_code}</td>
+							<td>{$pv.desc|default:'-'}</td>
+							<td align="center">{if $pv.hq_only}Yes{else}-{/if}</td>
+							<td align="center">{if $pv.branch_only}Yes{else}-{/if}</td>
+							<!-- Active -->
+							<td align="center">
+								<input type="radio" name="others[{$pv_code}]" value="1" id="single_priv-1-{$pv_code}" {if $privileges.$pv_code}checked {/if} /> Yes
+								<input type="radio" name="others[{$pv_code}]" value="0" {if !$privileges.$pv_code}checked {/if} /> No
+							</td>
+						</tr>
+					</tbody>
+				{/foreach}
+			{/if}
+		</table>
+	</div>
+</div>
 </div>
 </form>
 
-<div style="position:fixed;bottom:0;background:#ddd;width:100%;text-align:center;left:0;padding:3px;opacity:0.8;">
-		<input type="button" id="btn_save" value="Save" onClick="submit_save();" />
+<div style="position:fixed;bottom:0;background:rgb(189, 202, 231);width:100%;text-align:center;left:0;padding:3px;opacity:0.8;">
+		<input type="button" id="btn_save"class="btn btn-primary fs-06"  value="Save" onClick="submit_save();" />
 </div>
 {include file='footer.tpl'}
