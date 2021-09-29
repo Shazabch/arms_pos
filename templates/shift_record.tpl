@@ -466,87 +466,97 @@ function active_print(){
 </style>
 {/literal}
 {assign var=b value=$branch|default:$smarty.request.branch}
-
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <div id=print_popup {if $branch=='1'}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:230;height:190"{else}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:350;height:320"{/if}>
-<form name=f_print>
-<input type=hidden name=month value="{$month}">
-<input type=hidden name=year value="{$year}">
-<input type=hidden name=branch value="{$branch}">
-<input type=hidden name=department value="{$department}">
-<input type=hidden name=a value="print_submit">
-<p align=center><b>
-Please Select Department to Print</b>
-<p align=left>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name=f_print>
+			<input type=hidden name=month value="{$month}">
+			<input type=hidden name=year value="{$year}">
+			<input type=hidden name=branch value="{$branch}">
+			<input type=hidden name=department value="{$department}">
+			<input type=hidden name=a value="print_submit">
+			<p align=center><b>
+			Please Select Department to Print</b>
+			<p align=left>
+			
+			<table>
+			<tr>
+			<th colspan=2 align=left><input type=checkbox onclick="check_all(this.checked)">Select/Unselect All<b></th>
+			</tr>
+			{if $branch=='1'}
+			<tr>
+			<td><input type=checkbox name=print_select[] value='Finance'>Finance</td>
+			<td><input type=checkbox name=print_select[] value='MIS'>MIS</td>
+			</tr>
+			<tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='HR & Office'>HR & Office</td>
+			<td><input type=checkbox name=print_select[] value='Internal Audit'>Internal Audit</td>
+			</tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='Marketing'>Marketing</td>
+			<td><input type=checkbox name=print_select[] value='Merchandising'>Merchandising</td>
+			</tr>
+			{else}
+			<tr>
+			<td><input type=checkbox name=print_select[] value='Management' {if $department eq 'Management'}checked{/if}>Management</td>
+			<td><input type=checkbox name=print_select[] value='Account' {if $department eq 'Account'}checked{/if}>Account<td>
+			</tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='MIS' {if $department eq 'MIS'}checked{/if}>MIS</td>
+			<td><input type=checkbox name=print_select[] value='HR & Office' {if $department eq 'HR & Office'}checked{/if}>HR & Office</td>
+			</tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='Security' {if $department eq 'Security'}checked{/if}>Security</td>
+			<td><input type=checkbox name=print_select[] value='Maintenance' {if $department eq 'Maintenance'}checked{/if}>Maintenance</td>
+			</tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='A & P' {if $department eq 'A & P'}checked{/if}>A & P</td>
+			<td><input type=checkbox name=print_select[] value='Merchandising' {if $department eq 'Merchandising'}checked{/if}>Merchandising</td>
+			</tr>
+			<tr>
+			<td><input type=checkbox name=print_select[] value='Store' {if $department eq 'Store'}checked{/if}>Store</td>
+			<td nowrap><input type=checkbox name=print_select[] value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}checked{/if}>Sales (Supermarket line)</td>
+			</tr>
+			<tr>
+			<td nowrap><input type=checkbox name=print_select[] value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}checked{/if}>Sales (Soft line)</td>
+			<td nowrap><input type=checkbox name=print_select[] value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}checked{/if}>Sales (Hard line)</td>
+			</tr>
+			<tr>
+			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Supermarket line)'  {if $department eq 'Promoter (Supermarket line)'}checked{/if}>Promoter (Supermarket line)</td>
+			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}checked{/if}>Promoter (Soft line)</td>
+			</tr>
+			<tr>
+			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}checked{/if}>Promoter (Hard line)</td>
+			<td><input type=checkbox name=print_select[] value='Cashiering' {if $department eq 'Cashiering'}checked{/if}>Cashiering</td>
+			</tr>
+			<tr>
+			<td colspan=2><input type=checkbox name=print_select[] value='Public Relations' {if $department eq 'Public Relations'}checked{/if}>Public Relations</td>
+			</tr>
+			{/if}
+			<tr>
+			<td colspan=2>
+			&nbsp;
+			</td>
+			</tr>
+			<tr align=center>
+			<td colspan=2>
+			<input type=button value="OK" onclick="do_submit_print();">&nbsp;&nbsp;&nbsp;<input type=button value="Cancel" onclick="do_cancel();">
+			</td>
+			</tr>
+			</table>
+			</form>
 
-<table>
-<tr>
-<th colspan=2 align=left><input type=checkbox onclick="check_all(this.checked)">Select/Unselect All<b></th>
-</tr>
-{if $branch=='1'}
-<tr>
-<td><input type=checkbox name=print_select[] value='Finance'>Finance</td>
-<td><input type=checkbox name=print_select[] value='MIS'>MIS</td>
-</tr>
-<tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='HR & Office'>HR & Office</td>
-<td><input type=checkbox name=print_select[] value='Internal Audit'>Internal Audit</td>
-</tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='Marketing'>Marketing</td>
-<td><input type=checkbox name=print_select[] value='Merchandising'>Merchandising</td>
-</tr>
-{else}
-<tr>
-<td><input type=checkbox name=print_select[] value='Management' {if $department eq 'Management'}checked{/if}>Management</td>
-<td><input type=checkbox name=print_select[] value='Account' {if $department eq 'Account'}checked{/if}>Account<td>
-</tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='MIS' {if $department eq 'MIS'}checked{/if}>MIS</td>
-<td><input type=checkbox name=print_select[] value='HR & Office' {if $department eq 'HR & Office'}checked{/if}>HR & Office</td>
-</tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='Security' {if $department eq 'Security'}checked{/if}>Security</td>
-<td><input type=checkbox name=print_select[] value='Maintenance' {if $department eq 'Maintenance'}checked{/if}>Maintenance</td>
-</tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='A & P' {if $department eq 'A & P'}checked{/if}>A & P</td>
-<td><input type=checkbox name=print_select[] value='Merchandising' {if $department eq 'Merchandising'}checked{/if}>Merchandising</td>
-</tr>
-<tr>
-<td><input type=checkbox name=print_select[] value='Store' {if $department eq 'Store'}checked{/if}>Store</td>
-<td nowrap><input type=checkbox name=print_select[] value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}checked{/if}>Sales (Supermarket line)</td>
-</tr>
-<tr>
-<td nowrap><input type=checkbox name=print_select[] value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}checked{/if}>Sales (Soft line)</td>
-<td nowrap><input type=checkbox name=print_select[] value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}checked{/if}>Sales (Hard line)</td>
-</tr>
-<tr>
-<td nowrap><input type=checkbox name=print_select[] value='Promoter (Supermarket line)'  {if $department eq 'Promoter (Supermarket line)'}checked{/if}>Promoter (Supermarket line)</td>
-<td nowrap><input type=checkbox name=print_select[] value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}checked{/if}>Promoter (Soft line)</td>
-</tr>
-<tr>
-<td nowrap><input type=checkbox name=print_select[] value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}checked{/if}>Promoter (Hard line)</td>
-<td><input type=checkbox name=print_select[] value='Cashiering' {if $department eq 'Cashiering'}checked{/if}>Cashiering</td>
-</tr>
-<tr>
-<td colspan=2><input type=checkbox name=print_select[] value='Public Relations' {if $department eq 'Public Relations'}checked{/if}>Public Relations</td>
-</tr>
-{/if}
-<tr>
-<td colspan=2>
-&nbsp;
-</td>
-</tr>
-<tr align=center>
-<td colspan=2>
-<input type=button value="OK" onclick="do_submit_print();">&nbsp;&nbsp;&nbsp;<input type=button value="Cancel" onclick="do_cancel();">
-</td>
-</tr>
-</form>
-</table>
+	</div>
+</div>
 </div>
 
 
@@ -559,156 +569,162 @@ Please Select Department to Print</b>
 </div>
 </form>
 
-<form action=shift_record.php method=post name=f_s_r_s>
-<input type=hidden name=a value="refresh">
-<iframe style="visibility:hidden" width=1 height=1 name=ifprint></iframe>
+<div class="card mx-3">
+	<div class="card-body">
+		<form action=shift_record.php method=post name=f_s_r_s>
+			<input type=hidden name=a value="refresh">
+			<iframe style="visibility:hidden" width=1 height=1 name=ifprint></iframe>
+			
+		
+			<b class="form-label mt-2">By Date :</b>
+			<select class="form-control" name="month" onchange="do_refresh();">
+			<option value=1  {if $month == 1}selected{/if}>January</option>
+			<option value=2  {if $month == 2}selected{/if}>February</option>
+			<option value=3  {if $month == 3}selected{/if}>March</option>
+			<option value=4  {if $month == 4}selected{/if}>April</option>
+			<option value=5  {if $month == 5}selected{/if}>May</option>
+			<option value=6  {if $month == 6}selected{/if}>June</option>
+			<option value=7  {if $month == 7}selected{/if}>July</option>
+			<option value=8  {if $month == 8}selected{/if}>August</option>
+			<option value=9  {if $month == 9}selected{/if}>September</option>
+			<option value=10 {if $month == 10}selected{/if}>October</option>
+			<option value=11 {if $month == 11}selected{/if}>November</option>
+			<option value=12 {if $month == 12}selected{/if}>December</option>
+			</select>
+			
+			
+				<select class="form-control mt-2" name="year" onchange="do_refresh();">
+					{assign var=start_year value=2007}
+					{assign var=max_year value=$smarty.now|date_format:"%Y"}
+					{section start=$start_year loop=$max_year+1 name=s}
+						{assign var=start_year value=$start_year+1}
+						<option value="{$start_year}" {if $year == $start_year}selected {/if}>{$start_year}</option>
+					{/section}
+				</select>
+		
+			
+			
+			<b class="form-label mt-2">Branch :</b>
+			<select class="form-control" name="branch" onchange="do_refresh_branch();">
+			{foreach item="curr_Branch" from=$BranchArray}
+			<option value={$curr_Branch.id} {if $curr_Branch.id==$branch}selected{/if}>{$curr_Branch.code}</option>
+			{/foreach}
+			</select>
+		
+		
+			<b class="form-label mt-2">Department :</b>
+			<select class="form-control" name="department" onchange="do_refresh();">
+			<option value="%%"> --- All --- </option>
+			{if $branch=='1'}
+			<option value='Finance' {if $department eq 'Finance'}selected{/if}>Finance</option>
+			<option value='MIS' {if $department eq 'MIS'}selected{/if}>MIS</option>
+			<option value='HR & Office' {if $department eq 'HR & Office'}selected{/if}>HR & Office</option>
+			<option value='Internal Audit' {if $department eq 'Internal Audit'}selected{/if}>Internal Audit</option>
+			<option value='Marketing' {if $department eq 'Marketing'}selected{/if}>Marketing</option>
+			<option value='Merchandising' {if $department eq 'Merchandising'}selected{/if}>Merchandising</option>
+			{else}
+			<option value='Management' {if $department eq 'Management'}selected{/if}>Management</option>
+			<option value='Account' {if $department eq 'Account'}selected{/if}>Account</option>
+			<option value='MIS' {if $department eq 'MIS'}selected{/if}>MIS</option>
+			<option value='HR & Office' {if $department eq 'HR & Office'}selected{/if}>HR & Office</option>
+			<option value='Security' {if $department eq 'Security'}selected{/if}>Security</option>
+			<option value='Maintenance' {if $department eq 'Maintenance'}selected{/if}>Maintenance</option>
+			<option value='A & P' {if $department eq 'A & P'}selected{/if}>A & P</option>
+			<option value='Merchandising' {if $department eq 'Merchandising'}selected{/if}>Merchandising</option>
+			<option value='Store' {if $department eq 'Store'}selected{/if}>Store</option>
+			<option value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}selected{/if}>Sales (Supermarket line)</option>
+			<option value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}selected{/if}>Sales (Soft line)</option>
+			<option value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}selected{/if}>Sales (Hard line)</option>
+			<option value='Promoter (Supermarket line)' {if $department eq 'Promoter (Supermarket line)'}selected{/if}>Promoter (Supermarket line)</option>
+			<option value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}selected{/if}>Promoter (Soft line)</option>
+			<option value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}selected{/if}>Promoter (Hard line)</option>
+			<option value='Cashiering' {if $department eq 'Cashiering'}selected{/if}>Cashiering</option>
+			<option value='Public Relations' {if $department eq 'Public Relations'}selected{/if}>Public Relations</option>
+			{/if}
+			</select>
+		
+			
+			<td>
+			<p align=center class="mt-3">
+			<input type=button class="btn btn-primary" value="Refresh" onclick="do_refresh();">
+			{if $shift_record_privilege.SHIFT_RECORD_EDIT.$b}
+			<input type=button class="btn btn-info" value="Print" onclick="do_print('{$department}')">
+			
+			<input id=print_selected disabled type=button class="btn btn-primary" value="Print Selected" onclick="do_print_selected('{$department}')">
+			{/if}
+			{if $num_row==0 && $shift_record_privilege.SHIFT_RECORD_EDIT.$branch && $num_row_last>0}
+			<input type=button class="btn btn-primary" onclick="do_copy({$branch})" value="Copy Name List" >
+			{/if}
+			</p>
+			
+			</table>
+			</form>
+	</div>
+</div>
 
-
-<table cellpadding=4 cellspacing=1 border=0 style="padding:2px">
-<tr>
-<th>
-By Date : <select name="month" onchange="do_refresh();">
-<option value=1  {if $month == 1}selected{/if}>January</option>
-<option value=2  {if $month == 2}selected{/if}>February</option>
-<option value=3  {if $month == 3}selected{/if}>March</option>
-<option value=4  {if $month == 4}selected{/if}>April</option>
-<option value=5  {if $month == 5}selected{/if}>May</option>
-<option value=6  {if $month == 6}selected{/if}>June</option>
-<option value=7  {if $month == 7}selected{/if}>July</option>
-<option value=8  {if $month == 8}selected{/if}>August</option>
-<option value=9  {if $month == 9}selected{/if}>September</option>
-<option value=10 {if $month == 10}selected{/if}>October</option>
-<option value=11 {if $month == 11}selected{/if}>November</option>
-<option value=12 {if $month == 12}selected{/if}>December</option>
-</select></td>
-
-<td>
-	<select name="year" onchange="do_refresh();">
-		{assign var=start_year value=2007}
-		{assign var=max_year value=$smarty.now|date_format:"%Y"}
-		{section start=$start_year loop=$max_year+1 name=s}
-			{assign var=start_year value=$start_year+1}
-			<option value="{$start_year}" {if $year == $start_year}selected {/if}>{$start_year}</option>
-		{/section}
-	</select>
-</td>
-
-<td>
-<th>
-Branch :
-<select name="branch" onchange="do_refresh_branch();">
-{foreach item="curr_Branch" from=$BranchArray}
-<option value={$curr_Branch.id} {if $curr_Branch.id==$branch}selected{/if}>{$curr_Branch.code}</option>
-{/foreach}
-</select>
-</td>
-<td>
-
-<th>
-Department :
-<select name="department" onchange="do_refresh();">
-<option value="%%"> --- All --- </option>
-{if $branch=='1'}
-<option value='Finance' {if $department eq 'Finance'}selected{/if}>Finance</option>
-<option value='MIS' {if $department eq 'MIS'}selected{/if}>MIS</option>
-<option value='HR & Office' {if $department eq 'HR & Office'}selected{/if}>HR & Office</option>
-<option value='Internal Audit' {if $department eq 'Internal Audit'}selected{/if}>Internal Audit</option>
-<option value='Marketing' {if $department eq 'Marketing'}selected{/if}>Marketing</option>
-<option value='Merchandising' {if $department eq 'Merchandising'}selected{/if}>Merchandising</option>
-{else}
-<option value='Management' {if $department eq 'Management'}selected{/if}>Management</option>
-<option value='Account' {if $department eq 'Account'}selected{/if}>Account</option>
-<option value='MIS' {if $department eq 'MIS'}selected{/if}>MIS</option>
-<option value='HR & Office' {if $department eq 'HR & Office'}selected{/if}>HR & Office</option>
-<option value='Security' {if $department eq 'Security'}selected{/if}>Security</option>
-<option value='Maintenance' {if $department eq 'Maintenance'}selected{/if}>Maintenance</option>
-<option value='A & P' {if $department eq 'A & P'}selected{/if}>A & P</option>
-<option value='Merchandising' {if $department eq 'Merchandising'}selected{/if}>Merchandising</option>
-<option value='Store' {if $department eq 'Store'}selected{/if}>Store</option>
-<option value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}selected{/if}>Sales (Supermarket line)</option>
-<option value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}selected{/if}>Sales (Soft line)</option>
-<option value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}selected{/if}>Sales (Hard line)</option>
-<option value='Promoter (Supermarket line)' {if $department eq 'Promoter (Supermarket line)'}selected{/if}>Promoter (Supermarket line)</option>
-<option value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}selected{/if}>Promoter (Soft line)</option>
-<option value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}selected{/if}>Promoter (Hard line)</option>
-<option value='Cashiering' {if $department eq 'Cashiering'}selected{/if}>Cashiering</option>
-<option value='Public Relations' {if $department eq 'Public Relations'}selected{/if}>Public Relations</option>
-{/if}
-</select>
-</td>
-
-<td>
-<p align=center>
-<input type=button value="Refresh" onclick="do_refresh();">
-{if $shift_record_privilege.SHIFT_RECORD_EDIT.$b}
-<input type=button value="Print" onclick="do_print('{$department}')">
-
-<input id=print_selected disabled type=button value="Print Selected" onclick="do_print_selected('{$department}')">
-{/if}
-{if $num_row==0 && $shift_record_privilege.SHIFT_RECORD_EDIT.$branch && $num_row_last>0}
-<input type=button onclick="do_copy({$branch})" value="Copy Name List" >
-{/if}
-</p>
-</td>
-</tr>
-</form>
-</table>
 
 {include file=shift_record.items.tpl}
 
-<table width='100%' style="border:1px solid #000;padding:0px;">
-<tr>
-<td colspan=18><font color=red>1st row allowed </font>:</td>
-</tr>
-<tr>
-<td width='2' align=right><font color=blue>A</font></td><td width='1' align=center>:</td><td width='10'>Afternoon Shift</td>
-<td width='2' align=right><font color=blue>F</font></td><td width='1' align=center>:</td><td width='10'>Full Day</td>
-<td width='2' align=right><font color=blue>H</font></td><td width='1' align=center>:</td><td width='10'>Half Day</td>
-<td width='2' align=right><font color=blue>M</font></td><td width='1' align=center>:</td><td width='10'>Morning Shift</td>
-<td width='2' align=right><font color=red>R</font></td><td width='1' align=center>:</td><td width='10'>Rest</td>
-<td width='2' align=right><font color=blue>X</font></td><td width='1' align=center>:</td><td width='10'>Resign</td>
-</tr>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover fs-08">
+				<tr>
+				<td colspan=18><font color=red>1st row allowed </font>:</td>
+				</tr>
+				<tr>
+				<td width='2' align=right><font color=blue>A</font></td><td width='1' align=center>:</td><td width='10'>Afternoon Shift</td>
+				<td width='2' align=right><font color=blue>F</font></td><td width='1' align=center>:</td><td width='10'>Full Day</td>
+				<td width='2' align=right><font color=blue>H</font></td><td width='1' align=center>:</td><td width='10'>Half Day</td>
+				<td width='2' align=right><font color=blue>M</font></td><td width='1' align=center>:</td><td width='10'>Morning Shift</td>
+				<td width='2' align=right><font color=red>R</font></td><td width='1' align=center>:</td><td width='10'>Rest</td>
+				<td width='2' align=right><font color=blue>X</font></td><td width='1' align=center>:</td><td width='10'>Resign</td>
+				</tr>
+				
+				<tr>
+				<td colspan=18><font color=red>2nd row allowed </font>:</td>
+				</tr>
+				<tr>
+				<td width='2' align=right><font color=blue>A</font></td><td width='1' align=center>:</td><td width='10'>Afternoon Shift</td>
+				<td width='2' align=right><font color=blue>ABT</font></td><td width='1' align=center>:</td><td width='10'>Absent</td>
+				<td width='2' align=right><font color=blue>AL</font></td><td width='1' align=center>:</td><td width='10'>Annual Leave</td>
+				<td width='2' align=right><font color=blue>BL</font></td><td width='1' align=center>:</td><td width='10'>Visit Baling</td>
+				<td width='2' align=right><font color=blue>CL</font></td><td width='1' align=center>:</td><td width='10'>Company Leave</td>
+				<td width='2' align=right><font color=blue>CR</font></td><td width='1' align=center>:</td><td width='10'>Change Rest Day</td>
+				</tr>
+				
+				<tr>
+				<td width='2' align=right><font color=blue>DG</font></td><td width='1' align=center>:</td><td width='10'>Visit Dungun</td>
+				<td width='2' align=right><font color=blue>F</font></td><td width='1' align=center>:</td><td width='10'>Full Day</td>
+				<td width='2' align=right><font color=blue>GR</font></td><td width='1' align=center>:</td><td width='10'>Visit Gurun</td>
+				<td width='2' align=right><font color=blue>H</font></td><td width='1' align=center>:</td><td width='10'>Half Day</td>
+				<td width='2' align=right><font color=blue>HQ</font></td><td width='1' align=center>:</td><td width='10'>Visit Head Office</td>
+				<td width='2' align=right><font color=blue>JT</font></td><td width='1' align=center>:</td><td width='10'>Visit Jitra</td>
+				</tr>
+				
+				<tr>
+				<td width='2' align=right><font color=blue>KG</font></td><td width='1' align=center>:</td><td width='10'>Visit Kangar</td>
+				<td width='2' align=right><font color=blue>M</font></td><td width='1' align=center>:</td><td width='10'>Morning Shift</td>
+				<td width='2' align=right><font color=blue>MC</font></td><td width='1' align=center>:</td><td width='10'>Medical Leave</td>
+				<td width='2' align=right><font color=blue>ML</font></td><td width='1' align=center>:</td><td width='10'>Maternity Leave</td>
+				<td width='2' align=right><font color=blue>NPL</font></td><td width='1' align=center>:</td><td width='10'>No Pay Leave</td>
+				<td width='2' align=right><font color=blue>PH</font></td><td width='1' align=center>:</td><td width='10'>Public Holiday</td>
+				
+				</tr>
+				
+				<tr>
+				<td width='2' align=right><font color=red>R</font></td><td width='1' align=center>:</td><td width='10'>Rest</td>
+				<td width='2' align=right><font color=blue>RPL</font></td><td width='1' align=center>:</td><td width='10'>Replacement Leave</td>
+				<td width='2' align=right><font color=blue>SPL</font></td><td width='1' align=center>:</td><td width='10'>Special Leave</td>
+				<td width='2' align=right><font color=blue>TM</font></td><td width='1' align=center>:</td><td width='10'>Visit Tanah Merah</td>
+				<td width='2' align=right><font color=blue>X</font></td><td width='1' align=center>:</td><td width='10'>Resign</td>
+				<td width='2' align=right><font color=blue>BS</font></td><td width='1' align=center>:</td><td width='10'>Visit Bagan Serai</td>
+				</tr>
+				</table>
+		</div>
+	</div>
+</div>
 
-<tr>
-<td colspan=18><font color=red>2nd row allowed </font>:</td>
-</tr>
-<tr>
-<td width='2' align=right><font color=blue>A</font></td><td width='1' align=center>:</td><td width='10'>Afternoon Shift</td>
-<td width='2' align=right><font color=blue>ABT</font></td><td width='1' align=center>:</td><td width='10'>Absent</td>
-<td width='2' align=right><font color=blue>AL</font></td><td width='1' align=center>:</td><td width='10'>Annual Leave</td>
-<td width='2' align=right><font color=blue>BL</font></td><td width='1' align=center>:</td><td width='10'>Visit Baling</td>
-<td width='2' align=right><font color=blue>CL</font></td><td width='1' align=center>:</td><td width='10'>Company Leave</td>
-<td width='2' align=right><font color=blue>CR</font></td><td width='1' align=center>:</td><td width='10'>Change Rest Day</td>
-</tr>
-
-<tr>
-<td width='2' align=right><font color=blue>DG</font></td><td width='1' align=center>:</td><td width='10'>Visit Dungun</td>
-<td width='2' align=right><font color=blue>F</font></td><td width='1' align=center>:</td><td width='10'>Full Day</td>
-<td width='2' align=right><font color=blue>GR</font></td><td width='1' align=center>:</td><td width='10'>Visit Gurun</td>
-<td width='2' align=right><font color=blue>H</font></td><td width='1' align=center>:</td><td width='10'>Half Day</td>
-<td width='2' align=right><font color=blue>HQ</font></td><td width='1' align=center>:</td><td width='10'>Visit Head Office</td>
-<td width='2' align=right><font color=blue>JT</font></td><td width='1' align=center>:</td><td width='10'>Visit Jitra</td>
-</tr>
-
-<tr>
-<td width='2' align=right><font color=blue>KG</font></td><td width='1' align=center>:</td><td width='10'>Visit Kangar</td>
-<td width='2' align=right><font color=blue>M</font></td><td width='1' align=center>:</td><td width='10'>Morning Shift</td>
-<td width='2' align=right><font color=blue>MC</font></td><td width='1' align=center>:</td><td width='10'>Medical Leave</td>
-<td width='2' align=right><font color=blue>ML</font></td><td width='1' align=center>:</td><td width='10'>Maternity Leave</td>
-<td width='2' align=right><font color=blue>NPL</font></td><td width='1' align=center>:</td><td width='10'>No Pay Leave</td>
-<td width='2' align=right><font color=blue>PH</font></td><td width='1' align=center>:</td><td width='10'>Public Holiday</td>
-
-</tr>
-
-<tr>
-<td width='2' align=right><font color=red>R</font></td><td width='1' align=center>:</td><td width='10'>Rest</td>
-<td width='2' align=right><font color=blue>RPL</font></td><td width='1' align=center>:</td><td width='10'>Replacement Leave</td>
-<td width='2' align=right><font color=blue>SPL</font></td><td width='1' align=center>:</td><td width='10'>Special Leave</td>
-<td width='2' align=right><font color=blue>TM</font></td><td width='1' align=center>:</td><td width='10'>Visit Tanah Merah</td>
-<td width='2' align=right><font color=blue>X</font></td><td width='1' align=center>:</td><td width='10'>Resign</td>
-<td width='2' align=right><font color=blue>BS</font></td><td width='1' align=center>:</td><td width='10'>Visit Bagan Serai</td>
-</tr>
-</table>
 
 {include file=footer.tpl}
 <script>

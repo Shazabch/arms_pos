@@ -43,73 +43,110 @@ function zoom_dept(dept_id){
 {/literal}
 
 <div class="noprint">
-<h1>{$PAGE_TITLE}</h1>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+
 </div>
 
-<div class="noprint stdframe" style="background:#fff;">
-<form name="f_d">
-<input type=hidden name=a value="refresh">
-
-<span>
-	<b>Date From</b> 
-	<input type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
-	&nbsp; 
-	<b>To</b> 
-	<input type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-</span>
-
-{if $BRANCH_CODE eq 'HQ'}
-	<span>
-		<b>Branch</b>
-			<select name="branch_id">
-			{section name=i loop=$branch}
-			<option value="{$branch[i].id}" {if $branch_id eq $branch[i].id}selected{/if}>{$branch[i].code}</option>
-			{/section}
-			</select> &nbsp;&nbsp;
-	</span>
-{/if}
-
-<span>
-	<b>Department</b>
-		<select name="department_id">
-		<option value=''>-- All --</option>
-		{section name=i loop=$dept}
-		<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
-		{/section}
-		</select> &nbsp;&nbsp;
-</span>
-
-<span>
-	<b>Brand</b>
-		<select name="brand_id">
-		<option value=''>-- All --</option>
-		<option value=0 {if $smarty.request.brand_id eq '0'}selected{/if}>UN-BRANDED</option>
-		{section name=i loop=$brand}
-		<option value="{$brand[i].id}" {if $smarty.request.brand_id eq $brand[i].id}selected{/if}>{$brand[i].description}</option>
-		{/section}
-		</select> &nbsp;&nbsp;
-</span>
-
-<span>
-	<b>Adjustment Type</b>
-		<select name="adjustment_type">
-		<option value=''>-- All --</option>
-		{section name=i loop=$adj_type_list}
-		<option value="{$adj_type_list[i].adjustment_type}" {if $smarty.request.adjustment_type eq $adj_type_list[i].adjustment_type}selected{/if}>{$adj_type_list[i].adjustment_type}</option>
-		{/section}
-		</select> &nbsp;&nbsp;	
-</span>
-	
-	
-<input type=button onclick="form.submit()" value="Refresh">
-<input type=button onclick="do_print()" value="Print">
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="noprint stdframe " >
+			<form name="f_d">
+			<input type=hidden name=a value="refresh">
+			
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="form-inline">
+						<span>
+							<b class="form-label">Date From</b> 
+							<input class="form-control" type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
+							&nbsp; 
+							<b>To</b> 
+							<input class="form-control" type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+							&nbsp;&nbsp;
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			{if $BRANCH_CODE eq 'HQ'}
+			<div class="col-md-6">
+				<div class="form-group">
+					<span>
+						<b class="form-label">Branch</b>
+							<select class="form-control select2" name="branch_id">
+							{section name=i loop=$branch}
+							<option value="{$branch[i].id}" {if $branch_id eq $branch[i].id}selected{/if}>{$branch[i].code}</option>
+							{/section}
+							</select> &nbsp;&nbsp;
+					</span>
+				</div>
+			</div>
+			{/if}
+			
+		<div class="col-md-6">
+			<div class="form-group">
+				<span>
+					<b class="form-label">Department</b>
+						<select class="form-control select2" name="department_id">
+						<option value=''>-- All --</option>
+						{section name=i loop=$dept}
+						<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
+						{/section}
+						</select> &nbsp;&nbsp;
+				</span>
+			</div>
+		</div>
+			
+			<div class="col-md-6">
+				<div class="form-group">
+					<span>
+						<b class="form-label">Brand</b>
+							<select class="form-control select2" name="brand_id">
+							<option value=''>-- All --</option>
+							<option value=0 {if $smarty.request.brand_id eq '0'}selected{/if}>UN-BRANDED</option>
+							{section name=i loop=$brand}
+							<option value="{$brand[i].id}" {if $smarty.request.brand_id eq $brand[i].id}selected{/if}>{$brand[i].description}</option>
+							{/section}
+							</select> &nbsp;&nbsp;
+					</span>
+				</div>
+			</div>
+			
+		<div class="col-md-6">
+			<div class="form-group">
+				<span>
+					<b class="form-label">Adjustment Type</b>
+						<select class="form-control" name="adjustment_type">
+						<option value=''>-- All --</option>
+						{section name=i loop=$adj_type_list}
+						<option value="{$adj_type_list[i].adjustment_type}" {if $smarty.request.adjustment_type eq $adj_type_list[i].adjustment_type}selected{/if}>{$adj_type_list[i].adjustment_type}</option>
+						{/section}
+						</select> &nbsp;&nbsp;	
+				</span>
+			</div>
+		</div>
+		</div>
+				
+				
+			<input type="button" class="btn btn-primary" onclick="form.submit()" value="Refresh">
+			<input type="button" class="btn btn-info" onclick="do_print()" value="Print">
+			</form>
+			</div>
+	</div>
 </div>
 <br>
 
 
-{if $smarty.request.from ne ''}
+<div class="card mx-3">
+	<div class="card-body fs-08 ">
+		{if $smarty.request.from ne ''}
 {php}
 show_report();
 {/php}
@@ -119,6 +156,8 @@ show_report();
 {include file=report_footer.landscape.tpl}
 </div>
 
+	</div>
+</div>
 {literal}
 <script type="text/javascript">
 

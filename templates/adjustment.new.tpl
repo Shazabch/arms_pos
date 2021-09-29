@@ -1023,7 +1023,7 @@ Cancelled
 			<table >
 			
 			<tr>
-			<th >Adjustment Date<span class="text-danger"> <b> *</b></span></th>
+			<th class="form-label mt-2">Adjustment Date<span class="text-danger"> <b> *</b></span></th>
 			<td>
 			<div class="row">
 				<div class="col">
@@ -1037,7 +1037,7 @@ Cancelled
 			</tr>
 			
 			<tr>
-			<th >Adjustment Type<span class="text-danger"> <b> *</b></span></th>
+			<th class="form-label mt-2" >Adjustment Type<span class="text-danger"> <b> *</b></span></th>
 			<td>
 			<div class="row">
 				<div class="col">
@@ -1053,7 +1053,7 @@ Cancelled
 			</tr>
 			
 			<tr>
-			<td class="mt-2"><b>Department</b></td>
+			<td class="mt-2"><b class="form-label mt-2">Department</b></td>
 			<td>
 				<select class="form-control select2" name="dept_id" onchange="reset_sku_autocomplete();">
 				{section name=i loop=$dept}
@@ -1064,7 +1064,7 @@ Cancelled
 			</tr>
 			
 			<tr>
-			<td><b>Remark</b></td>
+			<td><b class="form-label mt-2">Remark</b></td>
 			<td>
 			<textarea class="form-control" rows="2" cols="76" name=remark onchange="uc(this);">{$form.remark}</textarea>
 			</td>
@@ -1073,7 +1073,7 @@ Cancelled
 			{assign var=need_refresh_button value=1}
 			{if $config.adjustment_branch_selection and $config.single_server_mode}
 			<tr>
-				<td><b>Select Branch</b></td>
+				<td><b class="form-label mt-2">Select Branch</b></td>
 				<td>
 					<input class="form-control" type="hidden" name="open_branch_id" value="{if $smarty.request.open_branch_id}{$smarty.request.open_branch_id}{else}{$form.branch_id|default:$sessioninfo.branch_id}{/if}" />
 					<input class="form-control" type="hidden" name="default_branch_id" value="{$form.default_branch_id|default:$form.branch_id|default:$sessioninfo.branch_id}" />
@@ -1111,7 +1111,7 @@ Cancelled
 			
 			{if !$need_refresh_button}
 				<tr height="40" valign="top">
-					<td><b>Attachment</b>
+					<td  class="form-label"><b>Attachment</b>
 						[<a href="javascript:void(alert('Accept .jpg .pdf .zip\nAttachment maximum file size 1 MB'))">?</a>]
 					</td>
 					<td>
@@ -1145,7 +1145,7 @@ Cancelled
 			
 			{if $can_edit && $form.branch_id}
 			<tr>
-				<td><input type="button" class="btn btn-primary" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
+				<td><input type="button" class="fs-08 btn btn-primary" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
 				<td><span id="div_reload_csv_popup"></span></td>
 			</tr>
 			{/if}
@@ -1211,8 +1211,8 @@ Cancelled
 		{/foreach}
 		</tbody>
 		
-		<tfoot id="tbl_footer">
-		<tr height=24 bgcolor=#ffffff>
+		<tfoot id="tbl_footer" class="fs-08">
+		<tr >
 			<th colspan="{if !$sessioninfo.privilege.SHOW_COST}6{else}7{/if}" class="r">Total</th>
 			<th class="r" id="total_qty_p"></th>
 			<th class="r" id="total_qty_n"></th>
@@ -1231,12 +1231,14 @@ Cancelled
 <div class="card mx-3">
 	<div class="card-body">
 		{include file=sku_items_autocomplete_multiple_add.tpl is_promo=1 allow_edit=1}
-		<hr />
-		{include file='scan_barcode_autocomplete.tpl' no_need_table=1}
-		<br />
-		<br />
+	
 		</div>
 </div>
+<div class="card mx-3">
+	<div class="card-body">
+		{include file='scan_barcode_autocomplete.tpl' no_need_table=1}
+	
+	</div>
 {/if}
 <br>
 

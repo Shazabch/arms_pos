@@ -116,7 +116,7 @@ Branch : </font>
 {if $department eq '%%'}
 <td nowrap>
 {if $smarty.request.ajax=='edit_user'}
-<select id=selected_dept name=selected_dept onchange="check_brand(this,0)">
+<select id="selected_dept" class="form-control select2" name="selected_dept" onchange="check_brand(this,0)">
 {if $branch=='1'}
 <option {if $curr_list.department eq 'Finance'}selected{/if}>Finance</option>
 <option {if $curr_list.department eq 'MIS'}selected{/if}>MIS</option>

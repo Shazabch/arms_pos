@@ -38,6 +38,7 @@ function add_grn_barcode_item(ele){
 		{/if}
 		<tr>
 			<label><b>Scan Barcode </b></label>
+			
 			<td> 
 				<div class="row">
 					<div class="col">
