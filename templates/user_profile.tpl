@@ -462,7 +462,7 @@
 		<div align="center" class="mb-3">
 			<input class="btn btn-warning  hide_eform" name=resetbtn type=reset value="Restore" {if $eform_user}style="display:none;"{/if}>
 			{if $eform_user}
-				<input class="btn" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
+				<input class="btn btn-danger" type="button" onclick="document.location='users.application.php?a=return_profile&user_id={$eform_user}'" value="Close">
 			{/if}
 			<input class="btn btn-primary" name=submitbtn type=submit value="Update">
 		</div>
