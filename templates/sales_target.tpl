@@ -312,13 +312,13 @@ function addCommas(nStr)
 }
 
 function show_auto_fill(){
-	curtain(true);
-	$('div_auto_fill_in').show();
+//	curtain(true);
+	jQuery('#div_auto_fill_in').modal('show');
 	center_div('div_auto_fill_in');
 }
 
 function curtain_clicked(){
-	$('div_auto_fill_in').hide();
+//	$('div_auto_fill_in').hide();
 }
 
 function start_auto_fill(){
@@ -332,158 +332,202 @@ function start_auto_fill(){
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <!-- Special Div -->
 <div id=edit_popup style="display:none;position:absolute;z-index:100;background:#fff;border:2px solid #000;margin:-2px 0 0 -2px;">
 <input id=edit_text size=5 onblur="save()" onKeyPress="checkKey(event)">
 </div>
 
-<div id="div_auto_fill_in"  style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;width:450px;height:190px;padding:5px;">
-<div style="float:right;"><img onclick="default_curtain_clicked()" src="/ui/closewin.png" /></div>
-<h2>Auto Fill in base on last year sales amount.</h2>
-<form name="f_auto_fill">
-<b>Sales Target: </b>
-<input type="text" id="input_sales_target" size="5" style="text-align:right;" onChange="this.value=round(this.value)"> %
-<br /><b>Overwrite: </b>
-<input type="radio" name="radio_replace_type" value="month" checked /> Current Month Only
-<input type="radio" name="radio_replace_type" value="year" /> Current Year
-<br />
-<b>Round up to nearest: </b>
-<select name="select_round_up">
-	<option value="10">10</option>
-	<option value="50">50</option>
-	<option value="100" selected>100</option>
-	<option value="500">500</option>
-	<option value="1000">1000</option>
-</select><br />
-<input type="button" value="Start Generate" onClick="start_auto_fill();" />
-</form>
-<p>
-Example:<br />
-last year Feb 19 sales amount = 1,000.<br />
-You key in 10%, this year Feb 19 sales target will be 1,100.</p>
+
+<div class="modal" id="div_auto_fill_in">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close text-danger" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> 
+				
+					<label class=""><h4>Auto Fill in base on last year sales amount.</h4></label>
+					<form name="f_auto_fill">
+					<b class="form-label">Sales Target: </b>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">%</span>
+						</div><input aria-describedby="basic-addon1" id="input_sales_target" class="form-control" onChange="this.value=round(this.value)" type="text">
+					</div>
+					<b>Overwrite: </b>
+					<input type="radio" name="radio_replace_type" value="month" checked /> Current Month Only
+					<input type="radio" name="radio_replace_type" value="year" /> Current Year
+					<br />
+					<b class="form-label mt-2">Round up to nearest: </b>
+					<select class="form-control select2" name="select_round_up">
+						<option value="10">10</option>
+						<option value="50">50</option>
+						<option value="100" selected>100</option>
+						<option value="500">500</option>
+						<option value="1000">1000</option>
+					</select><br />
+					<input type="button" class="btn btn-primary mt-2" value="Start Generate" onClick="start_auto_fill();" />
+					</form>
+					<p>
+					Example:<br />
+					last year Feb 19 sales amount = 1,000.<br />
+					You key in 10%, this year Feb 19 sales target will be 1,100.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id=""  style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;width:450px;height:190px;padding:5px;">
+
 </div>
 <!-- End of Special Div-->
 
-<form name="f_sales_target" method="post">
-<input type="hidden" name="a" value="load_table">
-<input type="hidden" name="h" value="">
-<input type="hidden" name="target_per" />
-<input type="hidden" name="replace_type" />
-<input type="hidden" name="nearest_round_up" />
-<div class=stdframe style="background:#fff;">
-<b>Year: </b>
-<select name="year" onChange="form.submit();">
-	{foreach from=$year_list item=r}
-	    <option value="{$r.year}" {if $smarty.request.year eq $r.year} selected {/if}>{$r.year}</option>
-	{/foreach}
-	<option value="{$r.year+1}" {if $smarty.request.year eq $r.year+1} selected {/if}>{$r.year+1}</option>
-</select>&nbsp;
-
-<b>Month: </b>
-<select name="month" onChange="form.submit();">
-    <!--<option value="0">-- All --</option>-->
-	{foreach from=$months key=id item=r}
-	    <option value="{$id}" {if $smarty.request.month eq $id} selected {/if}>{$r}</option>
-	{/foreach}
-</select>&nbsp;
-
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch: </b>
-<select name="branch" onChange="form.submit();">
-	{foreach from=$branch_list item=r}
-	    <option value="{$r.id}" {if $smarty.request.branch eq $r.id} selected {/if}>{$r.code}</option>
-	    {if $smarty.request.branch eq $r.id}
-			{assign var=bcode value=$r.code}
-	    {/if}
-	{/foreach}
-</select>&nbsp;
-{/if}
-
-<input type="submit" name="submits" value="Refresh" />
-{if (isset($smarty.request.submits) or isset($smarty.request.target_per)) and $date_label}
-	<input type="button" value="Auto Fill in" onClick="show_auto_fill();"/>
-{/if}
+<div class="card mx-3"><div class="card-body">
+	<form name="f_sales_target" method="post">
+		<input type="hidden" name="a" value="load_table">
+		<input type="hidden" name="h" value="">
+		<input type="hidden" name="target_per" />
+		<input type="hidden" name="replace_type" />
+		<input type="hidden" name="nearest_round_up" />
+		<div class=stdframe style="background:#fff;">
+		<b class="form-label">Year: </b>
+		<select class="form-control" name="year" onChange="form.submit();">
+			{foreach from=$year_list item=r}
+				<option value="{$r.year}" {if $smarty.request.year eq $r.year} selected {/if}>{$r.year}</option>
+			{/foreach}
+			<option value="{$r.year+1}" {if $smarty.request.year eq $r.year+1} selected {/if}>{$r.year+1}</option>
+		</select>&nbsp;
+		
+		<b class="form-label">Month: </b>
+		<select class="form-control" name="month" onChange="form.submit();">
+			<!--<option value="0">-- All --</option>-->
+			{foreach from=$months key=id item=r}
+				<option value="{$id}" {if $smarty.request.month eq $id} selected {/if}>{$r}</option>
+			{/foreach}
+		</select>&nbsp;
+		
+		{if $BRANCH_CODE eq 'HQ'}
+		<b class="form-label">Branch: </b>
+		<select class="form-control" name="branch" onChange="form.submit();">
+			{foreach from=$branch_list item=r}
+				<option value="{$r.id}" {if $smarty.request.branch eq $r.id} selected {/if}>{$r.code}</option>
+				{if $smarty.request.branch eq $r.id}
+					{assign var=bcode value=$r.code}
+				{/if}
+			{/foreach}
+		</select>&nbsp;
+		{/if}
+		
+	<div class="mt-1">
+		<input type="submit" class="btn btn-primary" name="submits" value="Refresh" />
+		{if (isset($smarty.request.submits) or isset($smarty.request.target_per)) and $date_label}
+			<input type="button" class="btn btn-primary" value="Auto Fill in" onClick="show_auto_fill();"/>
+		{/if}
+	</div>
+		</div>
+		</form>
 </div>
-</form>
-<br />
+</div>
+
 {if !$date_label}
 {if isset($smarty.request.submits)}-- No Data --{/if}
 {else}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+
+				Year: {$smarty.request.year} &nbsp;&nbsp;&nbsp;&nbsp;
+				Month: {$months[$smarty.request.month]} &nbsp;&nbsp;&nbsp;&nbsp;
+				Branch: {$branch_code|default:BRANCH_CODE} &nbsp;&nbsp;&nbsp;&nbsp;
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <h1>
-Year: {$smarty.request.year} &nbsp;&nbsp;&nbsp;&nbsp;
-Month: {$months[$smarty.request.month]} &nbsp;&nbsp;&nbsp;&nbsp;
-Branch: {$branch_code|default:BRANCH_CODE} &nbsp;&nbsp;&nbsp;&nbsp;
+
 </h1>
-<table class=tb border=0 cellspacing=0 cellpadding=2 id="table_sales" width=100%>
-	<tr height=24 bgcolor="#ffee99">
-	    <th colspan="2">{$months[$smarty.request.month]} {$smarty.request.year}</th>
-    {foreach from=$date_label key=did item=r}
-	        <th {if $r.sun eq 'Sun'}class="sunday"{/if}>{$r.day}</th>
-    {/foreach}
-    <th>Total</th>
-    </tr>
-    
-	{foreach from=$cat_list item=c}
-		{assign var=close_tr value=0}
-	    {foreach from=$sku_type item=sku}
-	        {if $close_tr eq 2}
+<div class="mx-3">
+	<div class="table-responsive table-bordered">
+		<table class=" tb report_table table mb-0 text-md-nowrap  table-hover" border=0 cellspacing=0 cellpadding=2 id="table_sales" width=100%>
+		<thead>
+			<tr height=24 >
+				<th colspan="2">{$months[$smarty.request.month]} {$smarty.request.year}</th>
+			{foreach from=$date_label key=did item=r}
+					<th {if $r.sun eq 'Sun'}class="sunday"{/if}>{$r.day}</th>
+			{/foreach}
+			<th>Total</th>
+			</tr>
+			
+		</thead>
+			{foreach from=$cat_list item=c}
+				{assign var=close_tr value=0}
+				{foreach from=$sku_type item=sku}
+					{if $close_tr eq 2}
+						</tr>
+						<tr id="{$c.id}_{$sku.code}">
+					{else if $close_tr eq 0}
+						<tr id="{$c.id}_{$sku.code}">
+						<th rowspan="{$sku_type|@count}" bgcolor="#ffee99">{$c.description}</th>
+						{assign var=close_tr value=1}
+					{/if}
+					<th class="{$sku.code}" align="left">
+					<a href="javascript:clearRow('{$c.id}','{$sku.code}')">
+						<i class="fas fa-times text-danger" title="Clear this row"></i>
+				
+					</a>
+					{$sku.code}
+					</th>
+					{foreach from=$date_label key=did item=r}
+						{assign var=cid value=$c.id}
+						{assign var=date value=$r.date}
+						{assign var=scode value=$sku.code}
+						<td class="keyin {$sku.code} {if $r.sun eq 'Sun'}{if $scode eq 'CONSIGN'}con_sunday{else}out_sunday{/if}{/if}" onclick="do_edit(this);" id="{$date}_{$cid}_{$scode}">
+						{$table.$cid.$scode.$date|number_format|ifzero:'&nbsp;'}
+						</td>
+						{assign var=row_total value=$row_total+$table.$cid.$scode.$date}
+					{/foreach}
+					<th id="total_{$cid}_{$scode}" class="r {$sku.code}">{$total.row.$cid.$scode|number_format|ifzero:'&nbsp;'}</th>
+					{assign var=close_tr value=2}
 				</tr>
-				<tr id="{$c.id}_{$sku.code}">
-			{else if $close_tr eq 0}
-			    <tr id="{$c.id}_{$sku.code}">
-			    <th rowspan="{$sku_type|@count}" bgcolor="#ffee99">{$c.description}</th>
-			    {assign var=close_tr value=1}
-			{/if}
-	        <th class="{$sku.code}" align="left">
-			<a href="javascript:clearRow('{$c.id}','{$sku.code}')">
-			<img src="ui/del.png" title="Clear this row" border="0"/>
-			</a>
-			{$sku.code}
-			</th>
-	        {foreach from=$date_label key=did item=r}
-			    {assign var=cid value=$c.id}
-			    {assign var=date value=$r.date}
-			    {assign var=scode value=$sku.code}
-				<td class="keyin {$sku.code} {if $r.sun eq 'Sun'}{if $scode eq 'CONSIGN'}con_sunday{else}out_sunday{/if}{/if}" onclick="do_edit(this);" id="{$date}_{$cid}_{$scode}">
-				{$table.$cid.$scode.$date|number_format|ifzero:'&nbsp;'}
-				</td>
-				{assign var=row_total value=$row_total+$table.$cid.$scode.$date}
-		    {/foreach}
-		    <th id="total_{$cid}_{$scode}" class="r {$sku.code}">{$total.row.$cid.$scode|number_format|ifzero:'&nbsp;'}</th>
-		    {assign var=close_tr value=2}
-	    </tr>
-	    {/foreach}
-	{/foreach}
-	<!-- Column Total -->
-		{assign var=close_tr value=0}
-	    {foreach from=$sku_type item=sku}
-	        {if $close_tr eq 2}
+				{/foreach}
+			{/foreach}
+			<!-- Column Total -->
+				{assign var=close_tr value=0}
+				{foreach from=$sku_type item=sku}
+					{if $close_tr eq 2}
+						</tr>
+						<tr id="total_{$sku.code}">
+					{else if $close_tr eq 0}
+						<tr id="total_{$sku.code}">
+						<th rowspan="2" bgcolor="#ffee99">Total</th>
+						{assign var=close_tr value=1}
+					{/if}
+					<th class="{$sku.code}">{$sku.code}</th>
+					{foreach from=$date_label key=did item=r}
+						{assign var=cid value=$c.id}
+						{assign var=date value=$r.date}
+						{assign var=scode value=$sku.code}
+						<th class="r {$sku.code} {if $r.sun eq 'Sun'}{if $scode eq 'CONSIGN'}con_sunday{else}out_sunday{/if}{/if}" id="{$date}_total_{$scode}" title="total">
+						{$total.column.$scode.$date|number_format|ifzero:'&nbsp;'}
+						</th>
+					{/foreach}
+					<th id="total_total_{$scode}" class="r {$sku.code}">
+					{$total.total.$scode.total|number_format|ifzero:'&nbsp;'}
+					</th>
+					{assign var=close_tr value=2}
 				</tr>
-				<tr id="total_{$sku.code}">
-			{else if $close_tr eq 0}
-			    <tr id="total_{$sku.code}">
-			    <th rowspan="2" bgcolor="#ffee99">Total</th>
-			    {assign var=close_tr value=1}
-			{/if}
-	        <th class="{$sku.code}">{$sku.code}</th>
-	        {foreach from=$date_label key=did item=r}
-			    {assign var=cid value=$c.id}
-			    {assign var=date value=$r.date}
-			    {assign var=scode value=$sku.code}
-				<th class="r {$sku.code} {if $r.sun eq 'Sun'}{if $scode eq 'CONSIGN'}con_sunday{else}out_sunday{/if}{/if}" id="{$date}_total_{$scode}" title="total">
-				{$total.column.$scode.$date|number_format|ifzero:'&nbsp;'}
-				</th>
-		    {/foreach}
-		    <th id="total_total_{$scode}" class="r {$sku.code}">
-			{$total.total.$scode.total|number_format|ifzero:'&nbsp;'}
-			</th>
-		    {assign var=close_tr value=2}
-	    </tr>
-	    {/foreach}
-	</tr>
-	<!-- End of Column Total -->
-</table>
+				{/foreach}
+			</tr>
+			<!-- End of Column Total -->
+		</table>
+	</div>
+</div>
 {/if}
 {include file=footer.tpl}

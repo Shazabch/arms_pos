@@ -172,7 +172,8 @@ function hide_card_list(){
 						<input type="text" class="form-control" name="card_prefix" id="card_prefix" size="8" value="{$form.card_prefix}">
 						
 						<label class="mt-2"><b class="fs-09 mt-2">Cards Range</b></label>
-						<input type="text" class="form-control" name="card_range_from" id="card_range_from" size="{$config.membership_length|default:12}" value="{$form.card_range_from}" onchange="hide_card_list();"> To
+						<input type="text" class="form-control" name="card_range_from" id="card_range_from" size="{$config.membership_length|default:12}" value="{$form.card_range_from}" onchange="hide_card_list();"> 
+						<label class="mt-2"><b class="fs-09 mt-2">To</b></label>
 						<input type="text" class="form-control" name="card_range_to" id="card_range_to" size="{$config.membership_length|default:12}" value="{$form.card_range_to}" onchange="hide_card_list();">				
 						
 				</div>

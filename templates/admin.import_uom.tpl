@@ -127,12 +127,12 @@ var IMPORT_UOM = {
 					<td><b class="fs-08">Upload CSV <br />(<a href="?a=download_sample_uom&method=1">Download Sample</a>)</b></td>
 					<td>
 						&nbsp;&nbsp;&nbsp;<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input class="fs-07 btn btn-primary" type="Submit" value="Show Result" />
+						<input class="fs-06 btn btn-primary" type="Submit" value="Show Result" />
 					</td>
 				</tr>
 			</table>
-			<div class="div_tbl">
-				<h5 class="bg-gray-100">Sample</h5>
+			<div class="div_tbl mt-2">
+				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>
 				<table id="si_tbl" width="100%">
 					<thead class="bg-gray-100">
 						<tr>

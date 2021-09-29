@@ -136,7 +136,7 @@ var IMPORT_DEBTOR = {
 					</td>
 				</tr>
 			</table>
-			<div class="div_tbl">
+			<div class="div_tbl mt-2">
 				<h5 class="bg-gray-100 py-1 px-2">Sample</h5>
 				<div class="table-responsive">
 					<table id="si_tbl" width="100%" class="report_table table mb-0 text-md-nowrap  table-hover"

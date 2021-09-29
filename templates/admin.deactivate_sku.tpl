@@ -133,8 +133,8 @@ var DEACTIVATE_SKU = {
 					</td>
 				</tr>
 			</table>
-			<div class="div_tbl">
-				<h5 class="bg-gray-100">Sample</h5>
+			<div class="div_tbl mt-2">
+				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>
 			<div class="table-responsive">
 				<table id="si_tbl" width="100%" class="report_table table mb-0 text-md-nowrap  table-hover">
 					<thead class="bg-gray-100">

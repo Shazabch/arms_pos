@@ -908,24 +908,34 @@ download_adj_attachment = function(filename = null){
 {/foreach}
 </ul>
 </div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+Adjustment {if $form.approved}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}(ID#{$form.id}){else}(New){/if}{/if}
 
-<h1>Adjustment {if $form.approved}({$form.report_prefix}{$form.id|string_format:"%05d"}){else}{if $form.id}(ID#{$form.id}){else}(New){/if}{/if}</h1>
-<h3>Status:
-
-{if $form.approved}
-	Fully Approved
-{elseif $form.status == 5}
-	Deleted
-{elseif $form.status == 4}
-	Cancelled/Terminated
-{elseif $form.status == 2}
-	Rejected
-{elseif $form.status == 1}
-	In Approval Cycle
-{elseif $form.status == 0}
-    Saved Adjustment
-{/if}
-</h3>
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span><br>
+			<h6 class="content-title mb-0 my-auto ml-4 text-primary">
+				Status:
+					{if $form.approved}
+						Fully Approved
+					{elseif $form.status == 5}
+						Deleted
+					{elseif $form.status == 4}
+						Cancelled/Terminated
+					{elseif $form.status == 2}
+						Rejected
+					{elseif $form.status == 1}
+						In Approval Cycle
+					{elseif $form.status == 0}
+						Saved Adjustment
+					{/if}
+			</h6>
+			
+				
+		</div>
+	</div>
+</div>
 
 {if $form.wo_id}
 <div class="stdframe" style="background-color:yellow;">
@@ -991,148 +1001,169 @@ Cancelled
 <input type="hidden" name="sheet_total_cost" value="" />
 <input type=hidden name="skip_sn_error" value="0">
 
-<div class="stdframe" style="background:#fff;overflow:auto;">
-<h4>General Information</h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
-{else}
-<div id=err></div>
-{/if}
-
-<table border=0 cellspacing=0 cellpadding=4>
-
-<tr>
-<th align=left width=120>Adjustment Date</th>
-<td>
-<input name="adjustment_date" id="added1" value="{$form.adjustment_date|default:$smarty.now|date_format:"%Y-%m-%d"}" size=10  onchange="upper_lower_limit(this);"  maxlength=10  onclick="if(this.value)this.select();">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> <span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-</td>
-</tr>
-
-<tr>
-<th align=left width=120>Adjustment Type</th>
-<td>
-<input id="adjustment_type" name="adjustment_type" size=50 onchange="uc(this);" readOnly onkeyup="disable_field_bytype('');" value="{$form.adjustment_type}" maxlength="50">{if (!$form.status or ($form.status==2 and $form.user_id==$sessioninfo.id))}{if $can_edit}<img src="/ui/option_button.jpg" style="border:1px solid #bad3fc;padding:1px;" align=top onclick="show_type_option($('adjustment_type').value);">{/if}{/if}
- <span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-<div id="type_2"></div>
-</td>
-</tr>
-
-<tr>
-<td><b>Department</b></td>
-<td>
-	<select name="dept_id" onchange="reset_sku_autocomplete();">
-	{section name=i loop=$dept}
-	<option value={$dept[i].id} {if $form.dept_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
-	{/section}
-	</select>
-</td>
-</tr>
-
-<tr>
-<td><b>Remark</b></td>
-<td>
-<textarea rows="2" cols="68" name=remark onchange="uc(this);">{$form.remark}</textarea>
-</td>
-</tr>
-
-{assign var=need_refresh_button value=1}
-{if $config.adjustment_branch_selection and $config.single_server_mode}
-<tr>
-    <td><b>Select Branch</b></td>
-	<td>
-	    <input type="hidden" name="open_branch_id" value="{if $smarty.request.open_branch_id}{$smarty.request.open_branch_id}{else}{$form.branch_id|default:$sessioninfo.branch_id}{/if}" />
-	    <input type="hidden" name="default_branch_id" value="{$form.default_branch_id|default:$form.branch_id|default:$sessioninfo.branch_id}" />
-	    {if !$form.branch_id}
-	    <select name="branch_id" onChange="change_branch(this.value);">
-	    	{foreach from=$branches key=bid item=b}
-	    	    {if !$branch_group.have_group.$bid and $b.active}
-	    	    	<option value="{$bid}" {if $form.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-	    	    {/if}
-	    	{/foreach}
-	    	{foreach from=$branch_group.header key=bgid item=bg}
-	    	    <optgroup label="{$bg.code}">
-	    	        {foreach from=$branch_group.items.$bgid key=bid item=b}
-	    	            {if $branches.$bid.active}
-	    	            	<option value="{$bid}" {if $form.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-	    	            {/if}
-	    	        {/foreach}
-	    	    </optgroup>
-	    	{/foreach}
-	    </select>
-	    {else}
-	    	<input type="hidden" name="branch_id" value="{$form.branch_id}">
-	    	{assign var=need_refresh_button value=0}
-	        {$branches[$form.branch_id].code} - {$branches[$form.branch_id].description}
-		{/if} <span id="span_branch_change_loading"></span>
-	</td>
-</tr>
-{else}
-	<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
-    <input type="hidden" name="open_branch_id" value="{if $smarty.request.open_branch_id}{$smarty.request.open_branch_id}{else}{$form.branch_id|default:$sessioninfo.branch_id}{/if}" />
-	<input type="hidden" name="default_branch_id" value="{$form.default_branch_id|default:$form.branch_id|default:$sessioninfo.branch_id}" />
-	
-	{assign var=need_refresh_button value=0}
-{/if}
-
-{if !$need_refresh_button}
-	<tr height="40" valign="top">
-		<td><b>Attachment</b>
-			[<a href="javascript:void(alert('Accept .jpg .pdf .zip\nAttachment maximum file size 1 MB'))">?</a>]
-		</td>
-		<td>
-			<div id="adj_attachment_list">
-			{foreach from=$form.adj_attachment_filename key=keys item=adj_attachment_filename}
-				{if $adj_attachment_filename}
-				<span id="span_adj_attachment_details[{$adj_attachment_filename}]" >
-					<span id="span_adj_attachment_name" class="link" title="Download" onClick="download_adj_attachment('{$adj_attachment_filename}');">{$adj_attachment_filename}</span>
-					{if $can_edit}
-						<a href="javascript:void(cancel_adj_attachment('{$adj_attachment_filename}'));"><img src="/ui/cancel.png" align="absmiddle" title="Cancel" /></a>
-					{/if}
-					<input type="hidden" name="adj_attachment_filename[]" value="{$adj_attachment_filename}"/>
-					<input type="hidden" name="tmp_adj_attachment_name[]" value="{$form.tmp_adj_attachment_name[$keys]}" />
-					<br>
-				</span>
-				{/if}
-			{/foreach}
-			</div>
-			<span id="span_adj_attachment_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Uploading...</span>
-			{if $can_edit}
-			<span id="span_adj_attachment_select">
-				<input type="file" name="adj_attachment" onChange="adj_attachment_changed();" />
-			</span>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" style="background:#fff;overflow:auto;">
+			<h4>General Information</h4>
+			
+			{if $errm.top}
+			
+				<div id=err><div class=errmsg><ul>
+					{foreach from=$errm.top item=e}
+					<li> {$e}</li>
+					{/foreach}
+					</ul></div></div>
+			
+			{else}
+			
+				<div id=err></div>
+		
 			{/if}
-			<span id="span_adj_attachment_error" style="{if !$adj_attachment_err_name}display:none;{/if}">
-				<span id="span_adj_attachment_err_name" style="background:yellow;color:red;">The file size of {$adj_attachment_err_name} exceeds the limit allowed.</span>
-			</span>
-		</td>
-	</tr>
-{/if}
-
-{if $can_edit && $form.branch_id}
-<tr>
-	<td><input type="button" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
-	<td><span id="div_reload_csv_popup"></span></td>
-</tr>
-{/if}
-
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<div id=srefresh style="{if !$need_refresh_button}display:none;{/if}padding-top:10px;">
-			<input id=refresh_btn type=button onclick="void(refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
-			Please confirm <b>adjustment branch</b>, branch cannot be change after continue.
-		</div>
-	</td>
-</tr>
-</table>
+			
+			<table >
+			
+			<tr>
+			<th >Adjustment Date<span class="text-danger"> <b> *</b></span></th>
+			<td>
+			<div class="row">
+				<div class="col">
+					<div class="form-inline">
+						<input class="form-control" name="adjustment_date" id="added1" value="{$form.adjustment_date|default:$smarty.now|date_format:"%Y-%m-%d"}"  onchange="upper_lower_limit(this);"   onclick="if(this.value)this.select();">
+			<img align=absmiddle src="ui/calendar.gif" width="25px" height="25px" id="t_added1" style="cursor: pointer;" title="Select Date"> <span id="rq_img1"></span>
+					</div>
+				</div>
+			</div>
+			</td>
+			</tr>
+			
+			<tr>
+			<th >Adjustment Type<span class="text-danger"> <b> *</b></span></th>
+			<td>
+			<div class="row">
+				<div class="col">
+					<div class="form-inline">
+						<input class="form-control" id="adjustment_type" name="adjustment_type" onchange="uc(this);" readOnly onkeyup="disable_field_bytype('');" value="{$form.adjustment_type}" 	>{if (!$form.status or ($form.status==2 and $form.user_id==$sessioninfo.id))}{if $can_edit}&nbsp;<img src="/ui/option_button.jpg"  align=top onclick="show_type_option($('adjustment_type').value);">{/if}{/if}
+			
+						<span id="rq_img1"></span>
+			<div id="type_2"></div>
+					</div>
+				</div>
+			</div>
+			</td>
+			</tr>
+			
+			<tr>
+			<td class="mt-2"><b>Department</b></td>
+			<td>
+				<select class="form-control select2" name="dept_id" onchange="reset_sku_autocomplete();">
+				{section name=i loop=$dept}
+				<option value={$dept[i].id} {if $form.dept_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
+				{/section}
+				</select>
+			</td>
+			</tr>
+			
+			<tr>
+			<td><b>Remark</b></td>
+			<td>
+			<textarea class="form-control" rows="2" cols="76" name=remark onchange="uc(this);">{$form.remark}</textarea>
+			</td>
+			</tr>
+			
+			{assign var=need_refresh_button value=1}
+			{if $config.adjustment_branch_selection and $config.single_server_mode}
+			<tr>
+				<td><b>Select Branch</b></td>
+				<td>
+					<input class="form-control" type="hidden" name="open_branch_id" value="{if $smarty.request.open_branch_id}{$smarty.request.open_branch_id}{else}{$form.branch_id|default:$sessioninfo.branch_id}{/if}" />
+					<input class="form-control" type="hidden" name="default_branch_id" value="{$form.default_branch_id|default:$form.branch_id|default:$sessioninfo.branch_id}" />
+					{if !$form.branch_id}
+					<select class="form-control select2" name="branch_id" onChange="change_branch(this.value);">
+						{foreach from=$branches key=bid item=b}
+							{if !$branch_group.have_group.$bid and $b.active}
+								<option value="{$bid}" {if $form.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+							{/if}
+						{/foreach}
+						{foreach from=$branch_group.header key=bgid item=bg}
+							<optgroup class="form-control" label="{$bg.code}">
+								{foreach from=$branch_group.items.$bgid key=bid item=b}
+									{if $branches.$bid.active}
+										<option value="{$bid}" {if $form.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+									{/if}
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+					{else}
+						<input class="form-control" type="hidden" name="branch_id" value="{$form.branch_id}">
+						{assign var=need_refresh_button value=0}
+						{$branches[$form.branch_id].code} - {$branches[$form.branch_id].description}
+					{/if} <span id="span_branch_change_loading"></span>
+				</td>
+			</tr>
+			{else}
+				<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
+				<input type="hidden" name="open_branch_id" value="{if $smarty.request.open_branch_id}{$smarty.request.open_branch_id}{else}{$form.branch_id|default:$sessioninfo.branch_id}{/if}" />
+				<input type="hidden" name="default_branch_id" value="{$form.default_branch_id|default:$form.branch_id|default:$sessioninfo.branch_id}" />
+				
+				{assign var=need_refresh_button value=0}
+			{/if}
+			
+			{if !$need_refresh_button}
+				<tr height="40" valign="top">
+					<td><b>Attachment</b>
+						[<a href="javascript:void(alert('Accept .jpg .pdf .zip\nAttachment maximum file size 1 MB'))">?</a>]
+					</td>
+					<td>
+						<div id="adj_attachment_list">
+						{foreach from=$form.adj_attachment_filename key=keys item=adj_attachment_filename}
+							{if $adj_attachment_filename}
+							<span id="span_adj_attachment_details[{$adj_attachment_filename}]" >
+								<span id="span_adj_attachment_name" class="link" title="Download" onClick="download_adj_attachment('{$adj_attachment_filename}');">{$adj_attachment_filename}</span>
+								{if $can_edit}
+									<a href="javascript:void(cancel_adj_attachment('{$adj_attachment_filename}'));"><img src="/ui/cancel.png" align="absmiddle" title="Cancel" /></a>
+								{/if}
+								<input type="hidden" name="adj_attachment_filename[]" value="{$adj_attachment_filename}"/>
+								<input type="hidden" name="tmp_adj_attachment_name[]" value="{$form.tmp_adj_attachment_name[$keys]}" />
+								<br>
+							</span>
+							{/if}
+						{/foreach}
+						</div>
+						<span id="span_adj_attachment_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Uploading...</span>
+						{if $can_edit}
+						<span id="span_adj_attachment_select">
+							<input type="file" name="adj_attachment" onChange="adj_attachment_changed();" />
+						</span>
+						{/if}
+						<span id="span_adj_attachment_error" style="{if !$adj_attachment_err_name}display:none;{/if}">
+							<span id="span_adj_attachment_err_name" style="background:yellow;color:red;">The file size of {$adj_attachment_err_name} exceeds the limit allowed.</span>
+						</span>
+					</td>
+				</tr>
+			{/if}
+			
+			{if $can_edit && $form.branch_id}
+			<tr>
+				<td><input type="button" class="btn btn-primary" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
+				<td><span id="div_reload_csv_popup"></span></td>
+			</tr>
+			{/if}
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+					<div id=srefresh style="{if !$need_refresh_button}display:none;{/if}padding-top:10px;">
+						<input id="refresh_btn" type="button" onclick="void(refresh_tables())" class="btn btn-success fs-09"  value="click here to continue">
+						Please confirm <b>adjustment branch</b>, branch cannot be change after continue.
+					</div>
+				</td>
+			</tr>
+			</table>
+			</div>
+			
+	</div>
 </div>
-
 
 
 <br>
@@ -1148,55 +1179,63 @@ Cancelled
 
 <div style="{if $need_refresh_button}display:none;{/if}">
 
-<div style="overflow:auto;">
-<table width=100% id=tbl_item style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=1>
-<thead class=small>
-<tr height=24 bgcolor=#ffffff>
-	<th rowspan=2>#</th>
-	<th nowrap rowspan=2 width=120>ARMS Code</th>
-	<th nowrap rowspan=2 width=150>Article / MCode</th>
-	<th nowrap rowspan=2 width=40%>SKU Description</th>
-	<th nowrap rowspan=2>Latest Stock<br />Balance</th>
-	<th nowrap rowspan=2>Selling Price</th>
-	<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Unit Cost</th>
-	<th nowrap colspan=2>Adjustment Qty</th>
-	<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Total Cost</th>
-	<th nowrap rowspan=2>Total Selling</th>
-</tr>
-<tr bgcolor=#ffffff>
-	<th nowrap>Positive (+) </th>
-	<th nowrap>Negative (-) </th>
-</tr>
-</thead>
+<div class="card mx-3">
+	<div class="card-body">
+		
+<div class="table-responsive mx-3">
+	<table width=100% id="tbl_item " class="input_no_border body report_table table mb-0 text-md-nowrap  table-hover"  >
+		<thead class="bg-gray-100">
+		<tr height=24 bgcolor=#ffffff>
+			<th rowspan=2>#</th>
+			<th nowrap rowspan=2 width=120>ARMS Code</th>
+			<th nowrap rowspan=2 width=150>Article / MCode</th>
+			<th nowrap rowspan=2 width=40%>SKU Description</th>
+			<th nowrap rowspan=2>Latest Stock<br />Balance</th>
+			<th nowrap rowspan=2>Selling Price</th>
+			<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Unit Cost</th>
+			<th nowrap colspan=2>Adjustment Qty</th>
+			<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Total Cost</th>
+			<th nowrap rowspan=2>Total Selling</th>
+		</tr>
+		<tr bgcolor=#ffffff>
+			<th nowrap>Positive (+) </th>
+			<th nowrap>Negative (-) </th>
+		</tr>
+		</thead>
+		
+		<tbody id="docs_items">
+		{foreach from=$adjust_items item=item name=fitem}
+		<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" id="titem{$item.id}" {if $smarty.request.highlight_item_id eq $item.sku_item_id}class=highlight_row{/if}>
+		{include file=adjustment.new.row.tpl}
+		</tr>
+		{/foreach}
+		</tbody>
+		
+		<tfoot id="tbl_footer">
+		<tr height=24 bgcolor=#ffffff>
+			<th colspan="{if !$sessioninfo.privilege.SHOW_COST}6{else}7{/if}" class="r">Total</th>
+			<th class="r" id="total_qty_p"></th>
+			<th class="r" id="total_qty_n"></th>
+			<th class="r" id="total_cost" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}></th>
+			<th class="r" id="total_selling"></th>
+		</tr>
+		</tfoot>
+		
+		</table>
 
-<tbody id="docs_items">
-{foreach from=$adjust_items item=item name=fitem}
-<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" id="titem{$item.id}" {if $smarty.request.highlight_item_id eq $item.sku_item_id}class=highlight_row{/if}>
-{include file=adjustment.new.row.tpl}
-</tr>
-{/foreach}
-</tbody>
-
-<tfoot id="tbl_footer">
-<tr height=24 bgcolor=#ffffff>
-	<th colspan="{if !$sessioninfo.privilege.SHOW_COST}6{else}7{/if}" class="r">Total</th>
-	<th class="r" id="total_qty_p"></th>
-	<th class="r" id="total_qty_n"></th>
-	<th class="r" id="total_cost" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}></th>
-	<th class="r" id="total_selling"></th>
-</tr>
-</tfoot>
-
-</table>
+</div>
+	</div>
 </div>
 
 {if (!$form.status or ($form.status==2 and $form.user_id==$sessioninfo.id))}
-<div style="background:#ddd;border:1px solid #999;">
-{include file=sku_items_autocomplete_multiple_add.tpl is_promo=1 allow_edit=1}
-<hr />
-{include file='scan_barcode_autocomplete.tpl' no_need_table=1}
-<br />
-<br />
+<div class="card mx-3">
+	<div class="card-body">
+		{include file=sku_items_autocomplete_multiple_add.tpl is_promo=1 allow_edit=1}
+		<hr />
+		{include file='scan_barcode_autocomplete.tpl' no_need_table=1}
+		<br />
+		<br />
+		</div>
 </div>
 {/if}
 <br>
@@ -1248,11 +1287,11 @@ Cancelled
 		{/if}
 
 		{if (!$form.id || $form.status>0 || $form.approved) and !$form.approval_screen }
-			<input class="btn btn-error" type=button value="Close" onclick="document.location='/adjustment.php'">
+			<input class="btn btn-danger" type=button value="Close" onclick="document.location='/adjustment.php'">
 		{/if}
 
 		{if $form.id and !$form.approved and !$form.status}
-			<input class="btn btn-error" type=button value="Delete" onclick="do_delete()">
+			<input class="btn btn-danger" type=button value="Delete" onclick="do_delete()">
 		{/if}
 
 		{if (!$form.status or ($form.status==2 and $form.user_id==$sessioninfo.id)) and !$form.approval_screen and !$form.approved}
@@ -1260,10 +1299,10 @@ Cancelled
 		{/if}
 	{else}
 		{if $form.approved and ($sessioninfo.level>=$config.doc_reset_level) and $form.module_type ne 'work_order'}
-			<input type=button class="btn btn-error" value="Reset" onclick="do_reset();">
+			<input type=button class="btn btn-danger" value="Reset" onclick="do_reset();">
 		{/if}
 		
-		<input type=button class="btn btn-error" value="Close" onclick="document.location='/adjustment.php'">
+		<input type=button class="btn btn-danger" value="Close" onclick="document.location='/adjustment.php'">
 	{/if}
 {/if}
 
