@@ -348,7 +348,8 @@ function toggle_all_check(obj, type, class_name){
 <div class="card mx-3">
 	<div class="card-body">
 		<form class="from-horizontal" method="post" name="f_a" onsubmit="return check_a()">
-			<div class="" >
+			<input type=hidden name=a value="a">
+			<div class="" id="top_form">
 
 				<div class="form-check">
 					<input id="as_template" class="form-check-input" type="checkbox" name="template" value=1 {if $smarty.request.template}checked{/if} onClick="shide(this.checked)"> 
@@ -445,7 +446,7 @@ function toggle_all_check(obj, type, class_name){
 				</div>
 				<div class="row ">
 					<!--Vendors section start-->
-					<div class="col-md-6 hide-by-temp">
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3 tx-bold">Vendors</label>
 						<div class="form-check " id="vendors_all_id">
 						<input id="vendors_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'vendors','vendors')" > 
@@ -465,7 +466,7 @@ function toggle_all_check(obj, type, class_name){
 					<!--vendors  section end -->
 
 					<!--Brands Section start-->
-					<div class="col-md-6 hide-by-temp">
+					<div class="col-md-6 hide_by_temp">
 						<label class="mt-3 tx-bold">Brands</label>
 						<div class="form-check " id="brands_all_id">
 							<input id="brands_all_id" class="departments form-check-input" type="checkbox" onclick="toggle_all_check(this,'brands','brands')" > 
@@ -553,8 +554,8 @@ function toggle_all_check(obj, type, class_name){
 				</div>	
 				<!--Allow mprice starts-->
 
-				<div class="row mt-3 {if !$mprice_list}style="display:none"{/if}">
-					<div class="col-md-6">
+				<div class="row mt-3 ">
+					<div class="col-md-6" {if !$mprice_list}style="display:none"{/if}>
 						<label class="mt-3"><b>Allow Mprice</b></label>
 						<div class="row px-3">
 							<div class="checkbox mr-2">
