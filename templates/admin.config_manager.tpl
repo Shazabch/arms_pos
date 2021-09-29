@@ -162,7 +162,7 @@ function initial_config_autocomplete(){
 			<b>Config Name: </b>
 			<input type="text" class="form-control mt-2" id="inp_search_cf_name" />
 			<input type="submit" class="btn btn-primary mt-2" value="Find" />
-			<div id="div_search_cf_name_list" class="autocomplete" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100; background-color: white; color: black;"></div>
+			<div id="div_search_cf_name_list" class="autocomplete bg-white shadow bd-x bd-b rounded-5" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100;"></div>
 		</form>
 	</div>
 </div>
