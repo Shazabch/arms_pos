@@ -458,13 +458,13 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
 
           while (foundPos != -1) {
             if (foundPos == 0 && elem.length != entry.length) { 
-              ret.push("<li><strong>" + elem.substr(0, entry.length) + "</strong>" + 
+              ret.push("<li class=\"list-group-item\"><strong>" + elem.substr(0, entry.length) + "</strong>" + 
                 elem.substr(entry.length) + "</li>");
               break;
             } else if (entry.length >= instance.options.partialChars && 
               instance.options.partialSearch && foundPos != -1) {
               if (instance.options.fullSearch || /\s/.test(elem.substr(foundPos-1,1))) {
-                partial.push("<li>" + elem.substr(0, foundPos) + "<strong>" +
+                partial.push("<li class=\"list-group-item\">" + elem.substr(0, foundPos) + "<strong>" +
                   elem.substr(foundPos, entry.length) + "</strong>" + elem.substr(
                   foundPos + entry.length) + "</li>");
                 break;
@@ -479,7 +479,7 @@ Autocompleter.Local.prototype = Object.extend(new Autocompleter.Base(), {
         }
         if (partial.length)
           ret = ret.concat(partial.slice(0, instance.options.choices - ret.length))
-        return "<ul>" + ret.join('') + "</ul>";
+        return "<ul class=\"list-group list-group-flush\">" + ret.join('') + "</ul>";
       }
     }, options || {});
   }
