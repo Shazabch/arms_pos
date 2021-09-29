@@ -193,7 +193,7 @@ function check_action(obj)
 		</div>
 	</div>
 </div> 
-<div class="container">
+<div class="">
 	<div class="card mx-3">
 		<div class="card-body">
 		<form enctype="multipart/form-data" method="post">
@@ -218,7 +218,7 @@ else
 {
 	print "<span id=branch ";
 	if ($_REQUEST['action'] == 'Active' || $_REQUEST['action'] == 'Inactive') print "style='display:none'";
-	print " >&nbsp;&nbsp;&nbsp; Branch <select name=branch_id class=\"form-control select2\">";
+	print " ><label class=\"mt-2\"> Branch </label><select name=branch_id class=\"form-control select2\">";
 	print "<option value='All' ";
 	if ($_REQUEST['branch_id'] == 'All') print "selected";
 	print ">All</option>";

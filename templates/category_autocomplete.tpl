@@ -21,13 +21,14 @@
 {if !isset($cat_level)}
 	{assign var=cat_level value=1}
 {/if}
-<div class="row">
+<div class="form-row">
 	<div class="col-md-6">
 		<div class="row form-inline ml-1">
 			<label class="" >Category</label>
 			&nbsp;&nbsp;<input class="form-control" readonly id="category_id" name="category_id"  value="{$smarty.request.category_id}" style="width: 5rem;">
+			&nbsp;&nbsp;<input class="form-control mt-2 mt-md-0 " id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus="category_onfocus();" {if $smarty.request.all_category}disabled{/if}>	
 			<input  type=hidden id=category_tree name=category_tree value="{$smarty.request.category_tree}">
-			&nbsp;&nbsp;<input class="form-control " id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus="category_onfocus();" size=50 {if $smarty.request.all_category}disabled{/if}>	
+			
 			
 		</div>
 	</div>
@@ -35,7 +36,7 @@
 		{if !$skip_category_filter}
 		<div class="row form-inline ml-1">
 			<label class="">Category Level</label>
-			&nbsp;&nbsp;<select class=" form-control  " name="category_level" id="category_level" onchange="category_changed(this);" {if $smarty.request.all_category}disabled{/if}>
+			&nbsp;&nbsp;<select class=" form-control " name="category_level" id="category_level" onchange="category_changed(this);" {if $smarty.request.all_category}disabled{/if}>
 			</select>
 			{/if}
 

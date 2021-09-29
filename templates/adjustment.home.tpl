@@ -28,8 +28,13 @@
 *}
 
 {include file=header.tpl}
-
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {literal}
 <script>
@@ -38,10 +43,12 @@ function list_sel(n,s){
 	for(i=0;i<=6;i++){
 		if ($('lst'+i)!=undefined){
 			if (i==n){
-			    $('lst'+i).className='active';			
+			   // $('lst'+i).className='active';
+				jQuery('.lst'+i).addClass('active');			
 			}
 			else{
-				$('lst'+i).className='';
+			//$('lst'+i).className='';
+			jQuery('.lst'+i).removeClass('btn');
 			}			    
 		}
 	}
@@ -182,23 +189,27 @@ function export_adjustment_item(id,bid){
 {/if}
 </div>
 
-<ul>
-	<li> <img src="ui/new.png" align="absmiddle"> <a href="adjustment.php?a=open&id=0">Create New Adjustment</a></li>
-	{if $sessioninfo.privilege.ADJ_WORK_ORDER}
-		<li> <img src="ui/new.png" align="absmiddle"> <a href="work_order.php" target="_blank">Work Order</a></li>
-	{/if}
-</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none; color: black;">
+			<li > <img src="ui/new.png" align="absmiddle">&nbsp; <a class="text-dark bg-gray-100 p-2 rounded" href="adjustment.php?a=open&id=0">Create New Adjustment</a></li>
+			{if $sessioninfo.privilege.ADJ_WORK_ORDER}<br>
+				<li> <img src="ui/new.png" align="absmiddle"> &nbsp;<a class="text-dark bg-gray-100 p-2 rounded" href="work_order.php" target="_blank">Work Order</a></li>
+			{/if}
+		</ul>
+	</div>
+</div>
 
 <br>
 
 <form onsubmit="list_sel(0,0);return false;">
-<div class=tab style="height:25px;white-space:nowrap;">
+<div class="tab" style="white-space:nowrap;">
 &nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Saved Adjustment</a>
-<a href="javascript:list_sel(2)" id=lst2>Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id=lst5>Rejected</a>
-<a href="javascript:list_sel(3)" id=lst3>Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id=lst4>Approved</a>
+<a href="javascript:list_sel(1)"  id="lst1" class="btn btn-outline-indigo btn-rounded active" >Saved Adjustment</a>
+<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-indigo btn-rounded" >Waiting for Approval</a>
+<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-indigo btn-rounded" >Rejected</a>
+<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-indigo btn-rounded" >Cancelled/Terminated</a>
+<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-indigo btn-rounded" >Approved</a>
 <a name=find_po id=lst0>Find Adjustment <input id=search name=pono> <input type=submit value="Go"></a>
 {if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
 	<a id=lst6>
@@ -213,7 +224,7 @@ function export_adjustment_item(id,bid){
 {/if}
 </div>
 </form>
-<div id=adjust_list style="border:1px solid #000">
+<div id="adjust_list">
 </div>
 {include file=footer.tpl}
 
