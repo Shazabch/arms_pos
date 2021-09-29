@@ -1277,9 +1277,9 @@ Cancelled
 <p id=submitbtn align=center>
 
 {if $form.is_approval and $form.status==1 and $form.approved==0 and $form.approval_screen}
-	<input type=button value="Approve" style="background-color:#f90; color:#fff;" onclick="do_approve()">
-	<input type=button value="Reject" style="background-color:#f90; color:#fff;" onclick="do_reject()">
-	<input type=button value="Terminate" style="background-color:#900; color:#fff;" onclick="do_cancel()">
+	<input type=button value="Approve" class="btn btn-primary" onclick="do_approve()">
+	<input type=button value="Reject" class="btn btn-primary" onclick="do_reject()">
+	<input type=button value="Terminate" class="btn btn-danger" onclick="do_cancel()">
 {else}
 	{if $smarty.request.a eq 'open'}	
 		{if (!$form.status or ($form.status==2 and $form.user_id==$sessioninfo.id)) and !$form.approval_screen and !$form.approved}
