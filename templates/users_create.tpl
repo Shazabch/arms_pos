@@ -557,23 +557,14 @@ function toggle_all_check(obj, type, class_name){
 				<div class="row mt-3 ">
 					<div class="col-md-6" {if !$mprice_list}style="display:none"{/if}>
 						<label class="mt-3"><b>Allow Mprice</b></label>
-						<div class="row px-3">
-							<div class="checkbox mr-2">
-								{assign var=mp value=$smarty.request.allow_mprice}
-								<div class="custom-checkbox custom-control">
-									<input type="checkbox" id="checkbox-0" class="custom-control-input" name="allow_mprice[not_allow]"  onclick="check_user_profile_allow_mprice_list(this)" {if $mp.not_allow}checked{/if}>
-									<label for="checkbox-0"  class="custom-control-label mt-1">Not Allow</label>
-								</div>
-							</div>
+						<ul style="list-style:none; margin:0; padding:0;">	
+							{assign var=mp value=$smarty.request.allow_mprice}
+							<li style="float:left; padding-right:10px; margin:0;"><input type="checkbox" type="margin-left:0;" name="allow_mprice[not_allow]" onclick="check_user_profile_allow_mprice_list(this)" {if $mp.not_allow}checked{/if}> Not Allow</li>
 							{foreach from=$mprice_list item=val}
-							<div  class="checkbox mr-2 user_profile_mprice_list" {if $mp.not_allow}style="display:none;"{else}style=""{/if} >
-								<div class="custom-checkbox custom-control">
-									<input type="checkbox" id="allow_mprice[{$val}]" class="custom-control-input" name="allow_mprice[{$val}]" {if $mp.$val}checked{/if}>
-									<label for="allow_mprice[{$val}]" class="custom-control-label mt-1">{$val}</label>
-								</div>
-							</div>
+							<li class="user_profile_mprice_list" {if $mp.not_allow}style="display:none;float:left; padding-right:10px; margin:0;"{else}style="float:left; padding-right:10px; margin:0;"{/if}  ><input type="checkbox" style="margin-left:0;" name="allow_mprice[{$val}]" {if $mp.$val}checked{/if} /> {$val}</li>
 							{/foreach}
-						</div> 
+						
+						</ul> 
 					</div>
 					<div class="col-md-6">
 						<div class="ml-2">
