@@ -528,8 +528,14 @@ function do_select_issue_name(obj){
 <font size=4>Last PV Reference no. :<b> {$smarty.request.v_no}{if $smarty.request.v_type eq '5'}(BA){/if}</b></font>
 {/if}
 </div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE} {if $form.id}({$form.voucher_no}{if $form.voucher_type eq '5'}(BA){/if}){else}(New){/if}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<h1>{$PAGE_TITLE} {if $form.id}({$form.voucher_no}{if $form.voucher_type eq '5'}(BA){/if}){else}(New){/if}</h1>
 <h3>
 
 {if $form.status == '3'}
@@ -554,11 +560,9 @@ function do_select_issue_name(obj){
 {/if}
 
 {if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div id=err><div class=errmsg>
+	<div class="alert alert-danger mx-3 rounded">yy</div>
+</div></div>
 {/if}
 
 <form name=f_a method=post>
@@ -572,116 +576,133 @@ function do_select_issue_name(obj){
 <input type=hidden name=voucher_no value="{$form.voucher_no}">
 <input type=hidden name=branch_id value="{$form.branch_id}">
 
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-<th width=105 align=left>Voucher Type</th>
+<div class="card mx-3">
+	<div class="card-body">
+		<table>
 
-<td><input type=radio name="voucher_type" value=1 {if $form.voucher_type eq '1' || !$form.voucher_type}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}>Normal</td>
-
-{if ($form.voucher_type eq '1') || !$form.voucher_type}
-<td width=80 id=td_urgent_2 nowrap align=center>(
-<span id=td_urgent><b>Urgent</b></span>
-<input align=absbottom type=checkbox name=urgent id=urgent {if $form.urgent eq '1'}checked{/if}>)</td>
-{/if}
-
-<td><input type=radio name="voucher_type" value=2 {if $form.voucher_type eq '2'}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}>Fast Payment</td>
-
-<td><input type=radio name="voucher_type" value=3 {if $form.voucher_type eq '3'}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}>Different Cheque Issue Name</td>
-
-<td><input type=radio name="voucher_type" value=4 {if $form.voucher_type eq '4'}checked {/if} {if $form.id}disabled{else}onClick="change_type(this);show_div();"{/if}>Blank Sheet</td> 
-
-{if $BRANCH_CODE eq 'HQ'}
-<td><input type=radio name="voucher_type" value=5 {if $form.voucher_type eq '5'}checked {/if} {if $form.id}disabled{else}onClick="change_type(this);show_div();"{/if}>BA</td>
-{/if}
-</tr>
-
-</table>
-
-<div style="float: left;">
-
-<table border=0 cellspacing=0 cellpadding=4>
-<tr><td colspan=2>
-		<table cellspacing=0 cellpadding=0>
-		
 			<tr>
-			{if $BRANCH_CODE eq 'HQ'}
-			<td width=118><b>To Branch</b></td>
-			<td width=150>
-			<select id="voucher_branch_id" name="voucher_branch_id" onchange="show_div();" {if $form.id}disabled{/if}>
-			{foreach item="curr_Branch" from=$branches}
-			<option value={$curr_Branch.id} {if $curr_Branch.id==$form.voucher_branch_id || $curr_Branch.id==$smarty.request.vbid}selected{/if}>{$curr_Branch.code}</option>
-			{/foreach}
-			</select>
-			</td>
+			<b class="form-label">Voucher Type</b>
+			
+			<td><input type=radio name="voucher_type" value=1 {if $form.voucher_type eq '1' || !$form.voucher_type}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}><span class="fs-09"> Normal</span></td>
+			</tr>
+			<tr class="fs-09">
+			{if ($form.voucher_type eq '1') || !$form.voucher_type}
+			<td>
+			<span id=td_urgent><span class="text-dark fs-09">Urgent</span></span>
+			<input align=absbottom type=checkbox name=urgent id=urgent {if $form.urgent eq '1'}checked{/if}></td>
 			{/if}
 			
-			<td width=118><b>Cheque Collect At</b></td>
-			<td width=150>
-			<select id="cheque_branch_id" name="cheque_branch_id"  {*if $form.id}disabled{/if*}>
-			{foreach item="curr_Branch" from=$branches}
-			<option value={$curr_Branch.id} {if $curr_Branch.id==$form.cheque_branch_id || $curr_Branch.id==$smarty.request.cbid}selected{/if}>{$curr_Branch.code}</option>
-			{/foreach}
-			</select>
-			</td>
+			<td><input type=radio name="voucher_type" value=2 {if $form.voucher_type eq '2'}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}> Fast Payment</td>
+			
+			<td><input type=radio name="voucher_type" value=3 {if $form.voucher_type eq '3'}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}> Different Cheque Issue Name</td>
+			
+			<td><input type=radio name="voucher_type" value=4 {if $form.voucher_type eq '4'}checked {/if} {if $form.id}disabled{else}onClick="change_type(this);show_div();"{/if}> Blank Sheet</td> 
+			
+			{if $BRANCH_CODE eq 'HQ'}
+			<td><input type=radio name="voucher_type" value=5 {if $form.voucher_type eq '5'}checked {/if} {if $form.id}disabled{else}onClick="change_type(this);show_div();"{/if}> BA</td>
+			{/if}
 			</tr>
+			
 		</table>
-	</td>	
-</tr>
+			
+			
+			
+			<table border=0 cellspacing=0 cellpadding=4>
+			
+					
+						<div class="row">
+							<div class="col-md-6">
+							
+									{if $BRANCH_CODE eq 'HQ'}
+									<b class="form-label mt-2">To Branch</b>
+									
+									<select class="form-control" id="voucher_branch_id" name="voucher_branch_id" onchange="show_div();" {if $form.id}disabled{/if}>
+									{foreach item="curr_Branch" from=$branches}
+									<option value={$curr_Branch.id} {if $curr_Branch.id==$form.voucher_branch_id || $curr_Branch.id==$smarty.request.vbid}selected{/if}>{$curr_Branch.code}</option>
+									{/foreach}
+									</select>
+									
+									{/if}
+								
+							</div>
+							<div class="col-md-6">
+								
+									<b class="form-label mt-2">Cheque Collect At</b>
+									
+									<select class="form-control" id="cheque_branch_id" name="cheque_branch_id"  {*if $form.id}disabled{/if*}>
+									{foreach item="curr_Branch" from=$branches}
+									<option value={$curr_Branch.id} {if $curr_Branch.id==$form.cheque_branch_id || $curr_Branch.id==$smarty.request.cbid}selected{/if}>{$curr_Branch.code}</option>
+									{/foreach}
+									</select>
+									
+									
+							</div>
+							
+					
+					
+					{if $BRANCH_CODE ne 'HQ'}
+						<input type=hidden id="voucher_branch_id" value="{$sessioninfo.branch_id}">
+					{/if}
+					
+					{if $form.voucher_type ne '4'}
+					<div class="col-md-6" id="vendor_row">
+					
+							<b class="form-label mt-2">To Vendor<span class="text-danger"> *</span></b>
+							<div class="row">
+								<div class="col">
+									<div class="form-inline">
+										<input class="form-control" id=vendor_id name="vendor_id" size=6 value="{$form.vendor_id}" readonly>
+							&nbsp;&nbsp;<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
+							<div id="autocomplete_vendor_choices" class="autocomplete"></div>
+									</div>
+								</div>
+							</div>
+					
+					</div>
+					{/if}
+					
+			<div id=issue_row {if $form.voucher_type eq '4' || $form.voucher_type eq '3'}{else}style="display:none;"{/if}>		
+				<div class="col-md-6" >
+					
+						<b class="text-dark mt-2">Issue Name</b>
+						<div>
+						<input class="form-control" id="issue_name" name="issue_name" onchange="uc(this);" value="{$form.issue_name}" maxlength="51"><img src=/ui/option_button.jpg style="border:1px solid #bad3fc;padding:1px;" align=top onclick="show_issue_option($('issue_name').value);">
+						<small class="text-danger">(MAX 51 Chars)</small>
+						</div>
+						<div id="issue_name_2"></div>
+					
+				</div>
+			</div>
+				<div class="col-md-6">
 
-{if $BRANCH_CODE ne 'HQ'}
-	<input type=hidden id="voucher_branch_id" value="{$sessioninfo.branch_id}">
-{/if}
-
-{if $form.voucher_type ne '4'}
-<tr id=vendor_row>
-	<td width=110><b>To Vendor</b></td>
-	<td>
-    	<input id=vendor_id name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
-		<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
-		<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-		<img src=ui/rq.gif align=absbottom title="Required Field">
-	</td>
-</tr>
-{/if}
-
-
-<tr id=issue_row {if $form.voucher_type eq '4' || $form.voucher_type eq '3'}{else}style="display:none;"{/if}>
-	<td width=110><b>Issue Name</b></td>
-	<td>
-		<div>
-		<input id="issue_name" name="issue_name" size=85 onchange="uc(this);" value="{$form.issue_name}" maxlength="51"><img src=/ui/option_button.jpg style="border:1px solid #bad3fc;padding:1px;" align=top onclick="show_issue_option($('issue_name').value);">
-		<font color=red> (MAX 51 Chars)</font>
-		</div>
-		<div id="issue_name_2"></div>
-	</td>
-</tr>
-
-<tr>
-	<td width=110><b>Payment Date</b></td>
-	<td>
-		<input type="text" id="payment_date" name="selected_date" size=10 maxlength=10 value="{$form.payment_date|default:$smarty.request.d|date_format:$config.dat_format}" onchange="check_date(this);" onclick="if(this.value)this.select();">  (ddmmyy)
-	</td>
-</tr>
-
-<tr>
-	<td width=110 valign=top><b>Being Payment For</b></td>
-	<td>
-	<textarea rows="2" cols="68" name=voucher_remark onchange="uc(this);">{$form.voucher_remark}</textarea>
-	</td>
-</tr>
-</table>
+						<b class="form-label mt-2">Payment Date</b>
+						<input class="form-control" type="text" id="payment_date" name="selected_date" size=10 maxlength=10 value="{$form.payment_date|default:$smarty.request.d|date_format:$config.dat_format}" onchange="check_date(this);" onclick="if(this.value)this.select();"> 
+						<small class="fs-08"> (ddmmyy)</small>
+				
+				</div>
+				<div class="col-md-6">
+					
+						<b class="form-label mt-1">Being Payment For</b>
+						<textarea class="form-control" rows="2" cols="68" name=voucher_remark onchange="uc(this);">{$form.voucher_remark}</textarea>
+					
+				</div>
+						</div>
+			</table>
+			
+			
+			<br style="clear: both;">
+			
+			<table id=bank_div style={if !$form.id}"display:none;"{/if}  border=0 cellspacing=0 cellpadding=4>
+			{include file=payment_voucher.edit.vendor_detail.tpl}
+			</table>
+			
+			
+			<div class="alert alert-primary mt-1 rounded" style="max-width:400px;">
+				 Rows with empty '<font color=red>Doc No</font>' column will not be saved.<br>
+			</div>
+	</div>
 </div>
 
-<br style="clear: both;">
-
-<table id=bank_div style={if !$form.id}"display:none;"{/if}  border=0 cellspacing=0 cellpadding=4>
-{include file=payment_voucher.edit.vendor_detail.tpl}
-</table>
-
-<ul>
-<li>
-- Rows with empty '<font color=red>Doc No</font>' column will not be saved.<br>
-</ul>
 
 {if $errm.voucher}
 <div id=err><div class=errmsg><ul>
@@ -691,83 +712,90 @@ function do_select_issue_name(obj){
 </ul></div></div>
 {/if}
 
-<table id=tbl_voucher class=tb border=0 cellspacing=0 cellpadding=2 width="70%">
-
-<tr style="border:1px solid #999; padding:5px; background-color:#fe9">
-
-<th width=20>No.</th>
-<th width=20>Doc Type</th>
-<th width=50 nowrap>Doc Date (ddmmyy)</th>
-<th width=80>Doc No</th>
-<th width=150> + Amount ({$config.arms_currency.symbol}) </th>
-<th width=150> - Amount ({$config.arms_currency.symbol}) </th>
-</tr>
-
-<tbody id=item_list>
-{assign var=m value=0}
-{section name=i loop=$list}
-{assign var=n value=$smarty.section.i.iteration-1}
-{assign var=m value=$smarty.section.i.iteration}
-<tr bgcolor={cycle values="#dddddd,#ff9999"} id="tr_{$n}" class="cls_tr">
-
-<th align=center nowrap id="no_{$n+1}" class="no" title="{$n+1}">
-
-{if ($form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ') || ($form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id )|| (!$form.status && $form.log_sheet_status<3 && $form.cancelled_by) || (!$form.active)}
-
-<img src=/ui/remove16.png title="Delete" onclick="if(confirm('Are you sure?')) Element.remove(this.parentNode.parentNode);calcalate_total();reset_row(1);" align=absmiddle border=0>
-{/if}
-{$n+1}.
-</th>
-
-<td align=center>
-<select id=doc_type_{$n} name="doc_type[]" onchange="check_type(this,{$n});chk_doc_no($('doc_no_{$n}'),this,'{$list.$n.doc_type}');">
-{foreach key=key item=item from=$doc_type}
-<option value={$key} {if $list.$n.doc_type==$key}selected{/if}>
-{$item}
-</option>
-{/foreach}
-</select>
-</td>
-
-<td align=center>
-<input id=doc_date_{$n} name="doc_date[]" size="10" maxlength=10 value="{$list.$n.doc_date|date_format:$config.dat_format}" onchange="check_date(this);" onclick="if(this.value)this.select();">
-</td>
-
-<td>
-<input id=doc_no_{$n} name="doc_no[]" size="58" value="{$list.$n.doc_no}" onchange="uc(this);chk_doc_no(this,$('doc_type_{$n}'),$('doc_type_{$n}').value);">
-</td>
-
-<td class="r">
-<input id=credit_{$n} name="credit[]" size="20" value="{$list.$n.credit|default:0|number_format:2:'.':''|ifzero:''}" class="r" onchange="mf(this);calcalate_total();check_both(this,$('debit_{$n}'),$('doc_type_{$n}'));" onclick="if(this.value)this.select();" type="text" {if ($list.$n.doc_type=='VC' || $list.$n.doc_type=='D')}readonly {/if}>&nbsp;
-</td>
-
-<td class="r">
-<input id=debit_{$n} name="debit[]" size="20" value="{$list.$n.debit|default:0|number_format:2:'.':''|ifzero:''}" class="r" onchange="mf(this);calcalate_total();check_both($('credit_{$n}'),this,$('doc_type_{$n}'));" onclick="if(this.value)this.select();" type="text" {if ($list.$n.doc_type=='VI' || $list.$n.doc_type=='VD' || $list.$n.doc_type=='C')}readonly {/if}>&nbsp;
-</td>
-
-{if ($form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ') || ($form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id )|| (!$form.status && $form.log_sheet_status<3 && $form.cancelled_by) || (!$form.active)}
-{assign var=val_zero value=0}
-<script>
-fix_rows={$m|default:$val_zero};
-no_rows={$m|default:$val_zero};
-check_both($('credit_{$n}'),$('debit_{$n}'),$('doc_type_{$n}'));
-</script>
-{/if}
-</tr>
-{/section}
-</tbody>
-
-<tr>
-<th align=right colspan=5>Total ({$config.arms_currency.symbol})</th>
-<th align=right id=t_debit>{$form.total|number_format:2:".":""}</th>
-</tr>
-</table>
-
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="tbl_voucher" class="tb report_table table mb-0 text-md-nowrap  table-hover" border=0 cellspacing=0 cellpadding=2 width="70%">
+				<thead class="bg-gray-100">
+					
+				<tr >
+				
+					<th width=20>No.</th>
+					<th width=20>Doc Type</th>
+					<th width=50 nowrap>Doc Date (ddmmyy)</th>
+					<th width=80>Doc No</th>
+					<th width=150> + Amount ({$config.arms_currency.symbol}) </th>
+					<th width=150> - Amount ({$config.arms_currency.symbol}) </th>
+					</tr>
+					
+				</thead>
+				<tbody id="item_list" class="fs-08">
+				{assign var=m value=0}
+				{section name=i loop=$list}
+				{assign var=n value=$smarty.section.i.iteration-1}
+				{assign var=m value=$smarty.section.i.iteration}
+				<tr bgcolor={cycle values="#dddddd,#ff9999"} id="tr_{$n}" class="cls_tr">
+				
+				<th align=center nowrap id="no_{$n+1}" class="no" title="{$n+1}">
+				
+				{if ($form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ') || ($form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id )|| (!$form.status && $form.log_sheet_status<3 && $form.cancelled_by) || (!$form.active)}
+				
+				<img src=/ui/remove16.png title="Delete" onclick="if(confirm('Are you sure?')) Element.remove(this.parentNode.parentNode);calcalate_total();reset_row(1);" align=absmiddle border=0>
+				{/if}
+				{$n+1}.
+				</th>
+				
+				<td align=center>
+				<select id=doc_type_{$n} name="doc_type[]" onchange="check_type(this,{$n});chk_doc_no($('doc_no_{$n}'),this,'{$list.$n.doc_type}');">
+				{foreach key=key item=item from=$doc_type}
+				<option value={$key} {if $list.$n.doc_type==$key}selected{/if}>
+				{$item}
+				</option>
+				{/foreach}
+				</select>
+				</td>
+				
+				<td align=center>
+				<input class="form-control" id=doc_date_{$n} name="doc_date[]" size="10" maxlength=10 value="{$list.$n.doc_date|date_format:$config.dat_format}" onchange="check_date(this);" onclick="if(this.value)this.select();">
+				</td>
+				
+				<td>
+				<input class="form-control" id=doc_no_{$n} name="doc_no[]" size="58" value="{$list.$n.doc_no}" onchange="uc(this);chk_doc_no(this,$('doc_type_{$n}'),$('doc_type_{$n}').value);">
+				</td>
+				
+				<td class="r">
+				<input class="form-control" id=credit_{$n} name="credit[]" size="20" value="{$list.$n.credit|default:0|number_format:2:'.':''|ifzero:''}" class="r" onchange="mf(this);calcalate_total();check_both(this,$('debit_{$n}'),$('doc_type_{$n}'));" onclick="if(this.value)this.select();" type="text" {if ($list.$n.doc_type=='VC' || $list.$n.doc_type=='D')}readonly {/if}>&nbsp;
+				</td>
+				
+				<td class="r">
+				<input class="form-control" id=debit_{$n} name="debit[]" size="20" value="{$list.$n.debit|default:0|number_format:2:'.':''|ifzero:''}" class="r" onchange="mf(this);calcalate_total();check_both($('credit_{$n}'),this,$('doc_type_{$n}'));" onclick="if(this.value)this.select();" type="text" {if ($list.$n.doc_type=='VI' || $list.$n.doc_type=='VD' || $list.$n.doc_type=='C')}readonly {/if}>&nbsp;
+				</td>
+				
+				{if ($form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ') || ($form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id )|| (!$form.status && $form.log_sheet_status<3 && $form.cancelled_by) || (!$form.active)}
+				{assign var=val_zero value=0}
+				<script>
+				fix_rows={$m|default:$val_zero};
+				no_rows={$m|default:$val_zero};
+				check_both($('credit_{$n}'),$('debit_{$n}'),$('doc_type_{$n}'));
+				</script>
+				{/if}
+				</tr>
+				{/section}
+				</tbody>
+				
+				<tr>
+				<th align=right colspan=5>Total ({$config.arms_currency.symbol})</th>
+				<th align=right id=t_debit>{$form.total|number_format:2:".":""}</th>
+				</tr>
+				</table>
+				
+		</div>
+	</div>
+</div>
 {if ($form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ') || ($form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id )|| (!$form.status && $form.log_sheet_status<3 && $form.cancelled_by) || (!$form.active)}
 <script>add_row(undefined,{$m},'0',undefined);</script>
 {/if}
 </form>
-<br>
 
 {if $form.status eq '1' || $form.status eq '2'}
 <form name=f_b method=post>
@@ -779,7 +807,7 @@ check_both($('credit_{$n}'),$('debit_{$n}'),$('doc_type_{$n}'));
 {/if}
 
 <p align=center>
-<input type=button class="btn btn-error" value="Close" onclick="document.location='/payment_voucher.php'">
+<input type=button class="btn btn-danger" value="Close" onclick="document.location='/payment_voucher.php'">
 
 {if ($form.status && $form.log_sheet_status<3 && $form.user_id eq $sessioninfo.id) || ($form.status && $form.log_sheet_status<3 && $sessioninfo.privilege.PAYMENT_VOUCHER_EDIT && BRANCH_CODE eq 'HQ')}
 <input type=button class="btn btn-warning" value="Cancel" onclick="do_cancel()">

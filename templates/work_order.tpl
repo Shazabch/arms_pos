@@ -89,7 +89,7 @@ var WORK_ORDER = {
 			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
 		</div>
 	</div>
-</div>
+</div>	
 <div id="show_last">
 {if $smarty.request.t eq 'save'}
 	<img src="/ui/approved.png" align="absmiddle"> Saved as ID#{$smarty.request.wo_id}<br>
@@ -106,33 +106,51 @@ var WORK_ORDER = {
 {/if}
 </div>
 
-<ul>
-	{if $sessioninfo.privilege.ADJ_WORK_ORDER_OUT}
-		<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Work Order (Transfer Out)</a></li>
-	{/if}
-</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			{if $sessioninfo.privilege.ADJ_WORK_ORDER_OUT}
+				<li> <img src="ui/new.png" align="absmiddle" /> <a class="text-dark bg-gray-100 p-2 rounded" href="?a=open">Create New Work Order (Transfer Out)</a></li>
+			{/if}
+		</ul>
 
-Hints:
+
+<div class="alert alert-primary rounded">
+	Hints:
 <ul>
 	<li> Once Work Order is created, it will automatically generate an Adjustment and link the Work Order with it.</li>
 	<li> The Work Order will start with Transfer Out, once confirmed, it will send to waiting for "Transfer In", there is no approval flow for Work Order.</li>
 	<li> When Work Order is reset, the linked adjustment will automatically reset as well.</li>
-</li><br />
+</li>
+</ul>
+</div>
+</div>
+</div
+<br />
 
-<div id="div_tab" class="tab" style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	<a href="javascript:void(WORK_ORDER.reload_list(1))" id="lst-1" class="active a_tab">Transfer Out</a>
-	<a href="javascript:void(WORK_ORDER.reload_list(2))" id="lst-2" class="a_tab">Transfer In</a>
-	<a href="javascript:void(WORK_ORDER.reload_list(3))" id="lst-3" class="a_tab">Cancelled</a>
-	<a href="javascript:void(WORK_ORDER.reload_list(4))" id="lst-4" class="a_tab">Completed</a>
-	<a class="a_tab" id="lst-0">Find Work Order / Adjustment No 
-		<input id="inp_item_search" onKeyPress="WORK_ORDER.check_and_search(event);" /> 
-		<input type="button" value="Go" onClick="WORK_ORDER.reload_list(0);" />
-	</a>
+<div id="div_tab" class="tab" style="white-space:nowrap;">
+<div class="row mx-3">
+	<div class="col">
+		<a href="javascript:void(WORK_ORDER.reload_list(1))" id="lst-1" class="fs-08 btn btn-outline-indigo btn-rounded active">Transfer Out</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(2))" id="lst-2" class="fs-08 btn btn-outline-indigo btn-rounded active">Transfer In</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(3))" id="lst-3" class="fs-08 btn btn-outline-indigo btn-rounded active">Cancelled</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(4))" id="lst-4" class="fs-08 btn btn-outline-indigo btn-rounded active">Completed</a>
+	</div>
+		<div class="col">
+		<div class="form-inline">
+			<a class="a_tab" id="lst-0">Find Work Order / Adjustment No 
+				<input id="inp_item_search" class="form-control" onKeyPress="WORK_ORDER.check_and_search(event);" /> 
+				<input type="button" class="btn btn-primary" value="Go" onClick="WORK_ORDER.reload_list(0);" />
+			</a>
+		</div>
+	</div>
+	
+	
+</div>
 	<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 </div>
 
-<div id="data_list" style="border:1px solid #000">
+<div id="data_list" >
 	
 </div>
 

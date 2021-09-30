@@ -1182,7 +1182,7 @@ function do_ajax_add(query_string){
 			<tr>
 				<td><b>Department</b></td>
 				<td>
-					<select name="dept_id">
+					<select class="form-control select2" name="dept_id">
 						<option value="">-- Please Select --</option>
 						{foreach from=$dept_list key=dept_id item=dept}
 							<option value="{$dept_id}" {if $form.dept_id eq $dept_id}selected {/if}>{$dept.description}</option>
@@ -1280,26 +1280,26 @@ function do_ajax_add(query_string){
 		<input type="button" value="Save & Close" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="WO_OPEN.submit_form();" />
 		
 		{if !is_new_id($form.id) and $action eq 'out'}
-			<input type="button" value="Delete" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="WO_OPEN.form_delete_clicked()" />
+			<input type="button" class="btn btn-danger" value="Delete"  onclick="WO_OPEN.form_delete_clicked()" />
 		{/if}
-		<input type="button" value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="WO_OPEN.form_close_clicked();" />
+		<input type="button" class="btn btn-danger" value="Close"  onclick="WO_OPEN.form_close_clicked();" />
 		
 		{if $action eq 'out'}
-			<input type="button" value="Confirm (Send to Transfer In)" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="WO_OPEN.form_confirm_clicked();" />
+			<input type="button" class="btn btn-success" value="Confirm (Send to Transfer In)"  onclick="WO_OPEN.form_confirm_clicked();" />
 		{else}
 			{if ($sessioninfo.level>=$config.doc_reset_level)}
-			<input type="button" value="Reset to Transfer Out" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="WO_OPEN.form_reset_clicked('out');" />
+			<input type="button" class="btn btn-danger" value="Reset to Transfer Out"  onclick="WO_OPEN.form_reset_clicked('out');" />
 			{/if}
-			<input type="button" value="Complete" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="WO_OPEN.form_confirm_clicked();" />
+			<input type="button" class="btn btn-success" value="Complete" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="WO_OPEN.form_confirm_clicked();" />
 		{/if}
 	{else}
 		{if $form.branch_id eq $sessioninfo.branch_id and $form.active eq 1 and $form.status eq 1 and ($sessioninfo.level>=$config.doc_reset_level)}
-			<input type="button" value="Reset to Transfer Out" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="WO_OPEN.form_reset_clicked('out');" />
+			<input type="button" class="btn btn-danger" value="Reset to Transfer Out"  onclick="WO_OPEN.form_reset_clicked('out');" />
 			{if $form.completed eq 1}
-				<input type="button" value="Reset to Transfer In" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="WO_OPEN.form_reset_clicked('in');" />
+				<input type="button" class="btn btn-danger" value="Reset to Transfer In"  onclick="WO_OPEN.form_reset_clicked('in');" />
 			{/if}
 		{/if}
-		<input type="button" value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="WO_OPEN.form_close_clicked();">
+		<input type="button" value="Close" class="btn btn-info" ;" onclick="WO_OPEN.form_close_clicked();">
 	{/if}
 </p>
 
