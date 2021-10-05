@@ -475,8 +475,7 @@ function active_print(){
 </div>
 
 <div id=print_popup {if $branch=='1'}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:230;height:190"{else}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:350;height:320"{/if}>
-<div class="card mx-3">
-	<div class="card-body">
+
 		<form name=f_print>
 			<input type=hidden name=month value="{$month}">
 			<input type=hidden name=year value="{$year}">
@@ -484,7 +483,7 @@ function active_print(){
 			<input type=hidden name=department value="{$department}">
 			<input type=hidden name=a value="print_submit">
 			<p align=center><b>
-			Please Select Department to Print</b>
+			</b>
 			<p align=left>
 			
 			<table>
@@ -556,8 +555,20 @@ function active_print(){
 			</form>
 
 	</div>
+
+<div class="modal" id="print_popup">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header" >
+					<h6 class="modal-title">Please Select Department to Print</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+			<div class="modal-body tx-center">
+				
+			</div>
+		</div>
+	</div>
 </div>
-</div>
+
 
 
 <form name=f_edit_user method=post>

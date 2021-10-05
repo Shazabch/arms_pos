@@ -8,7 +8,7 @@
 {if $config.consignment_modules}{assign var=hide_branches value=1}{/if}
 
 {if $is_edit && $sessioninfo.privilege.CATEGORY_DISCOUNT_EDIT}
-	<select name="cat_disc_inherit[{$item_id}]" onChange="cat_disc_inherit_changed('{$item_id}');" class="sel_cat_disc_inherit" id="sel-member-cat_disc_inherit-{$item_id}">
+	<select class="form-control" name="cat_disc_inherit[{$item_id}]" onChange="cat_disc_inherit_changed('{$item_id}');" class="sel_cat_disc_inherit" id="sel-member-cat_disc_inherit-{$item_id}">
 		{foreach from=$discount_inherit_options key=k item=dr}
 			<option value="{$k}" {if $item_obj.cat_disc_inherit eq $k}selected {/if}>{$dr}</option>
 		{/foreach}

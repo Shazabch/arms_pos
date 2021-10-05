@@ -112,15 +112,21 @@ function assign_title(obj,obj2){
 }
 </style>
 {/literal}
-
-<h1>Cheque Issue Log Sheet</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Cheque Issue Log Sheet</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $errm.top}
 <div id=err><div class=errmsg><ul>
 {foreach from=$errm.top item=e}
-<li> {$e}
+<div class="alert alert-danger"><li> {$e}</li></div>
 {/foreach}
-</ul></div></div>
+</ul>
+</div></div>
 {/if}
 
 <form name=f_a method=post>
@@ -136,55 +142,59 @@ function assign_title(obj,obj2){
 
 <br>
 
-<table id=tbl_log_sheet class=tb border=0 cellspacing=0 cellpadding=2 width="100%">
-<tr style="border:1px solid #999; padding:5px; background-color:#fe9">
-<th nowrap>
-{if $form.log_sheet_status ne '3'}
-<input type=checkbox onclick="check_all(this.checked)">
-{/if}
- No.</th>
-<th>Ref No.</th>
-<th>Cheque Date</th>
-<th width=550>Pay To</th>
-<th nowrap>Banker</th>
-<th>Cheque No.</th>
-<th>Amount ({$config.arms_currency.symbol})</th>
-<th nowrap>Cheque<br>Collect At</th>
-</tr>
-
-{section name=i loop=$items}
-{assign var=n value=$smarty.section.i.iteration}
-<tr>
-<td>
-{if $form.log_sheet_status ne '3'}
-<input type=checkbox id=submit{$n-1} title="{$n-1}"  name=submit[{$items[i].voucher_no}] class="submit_select" onchange="active_submit();">
-{/if}
- {$n}.
-</td>
-<td>{$items[i].voucher_no}</td>
-<td>{$items[i].payment_date|date_format:$config.dat_format}</td>
-<td>{$items[i].issue_name|default:$items[i].vendor} {if $items[i].voucher_type eq '3'} / {$items[i].vendor}{/if}
-</td>
-<td align=center nowrap>{$items[i].bank}</td>
-<td style="border:1px padding:1px;" align=center id=td_{$n-1}>
-<span id="div_sort_{$n-1}" style="display:none;">{$items[i].cheque_no}</span>
-<input class="cheque" id="cheque_no{$n-1}" name=cheque_no[{$items[i].voucher_no}] value="{if !$items[i].status}Cancelled{else}{$items[i].cheque_no}{/if}" onchange="uc(this);go_next_focus({$n-1});assign_title(this,$('div_sort_{$n-1}'));" {if $items[i].log_sheet_status eq '3'}disabled{/if} {if !$items[i].status}readonly{/if}>
-</td>
-<td align=right>{$items[i].total_credit-$items[i].total_debit|number_format:2}</td>
-<td align=center>{$items[i].c_branch_code}</td>
-</tr>
-{/section}
-</table>
+<div class="table-responsive">
+	<table id="tbl_log_sheet" class="tb report_table table mb-0 text-md-nowrap  table-hover">
+		<thead class="bg-gray-100">
+			<tr>
+				<th nowrap>
+				{if $form.log_sheet_status ne '3'}
+				<input type=checkbox onclick="check_all(this.checked)">
+				{/if}
+				 No.</th>
+				<th>Ref No.</th>
+				<th>Cheque Date</th>
+				<th width=550>Pay To</th>
+				<th nowrap>Banker</th>
+				<th>Cheque No.</th>
+				<th>Amount ({$config.arms_currency.symbol})</th>
+				<th nowrap>Cheque<br>Collect At</th>
+				</tr>
+				
+		</thead>
+		{section name=i loop=$items}
+		{assign var=n value=$smarty.section.i.iteration}
+		<tr>
+		<td>
+		{if $form.log_sheet_status ne '3'}
+		<input type=checkbox id=submit{$n-1} title="{$n-1}"  name=submit[{$items[i].voucher_no}] class="submit_select" onchange="active_submit();">
+		{/if}
+		 {$n}.
+		</td>
+		<td>{$items[i].voucher_no}</td>
+		<td>{$items[i].payment_date|date_format:$config.dat_format}</td>
+		<td>{$items[i].issue_name|default:$items[i].vendor} {if $items[i].voucher_type eq '3'} / {$items[i].vendor}{/if}
+		</td>
+		<td align=center nowrap>{$items[i].bank}</td>
+		<td style="border:1px padding:1px;" align=center id=td_{$n-1}>
+		<span id="div_sort_{$n-1}" style="display:none;">{$items[i].cheque_no}</span>
+		<input class="cheque" id="cheque_no{$n-1}" name=cheque_no[{$items[i].voucher_no}] value="{if !$items[i].status}Cancelled{else}{$items[i].cheque_no}{/if}" onchange="uc(this);go_next_focus({$n-1});assign_title(this,$('div_sort_{$n-1}'));" {if $items[i].log_sheet_status eq '3'}disabled{/if} {if !$items[i].status}readonly{/if}>
+		</td>
+		<td align=right>{$items[i].total_credit-$items[i].total_debit|number_format:2}</td>
+		<td align=center>{$items[i].c_branch_code}</td>
+		</tr>
+		{/section}
+		</table>
+</div>
 </form>
 <br>
 
-<p align=center>
-<input type=button class="btn btn-error" value="Close" onclick="document.location='/payment_voucher.log_sheet.php'">
+<p align="center">
+<input type="button" class="btn btn-danger" value="Close" onclick="document.location='/payment_voucher.log_sheet.php'">
 
 {if $form.log_sheet_status ne '3'}
-<input name=bsubmit class="btn btn-success" type=button id=save_btn value="Save" onclick="do_save()">
+<input name="bsubmit" class="btn btn-success" type=button id="save_btn" value="Save" onclick="do_save()">
 
-<input type=button id=confirm value="Confirm" style="display:none;font:bold 20px Arial; background-color:#090; color:#fff;" onclick="do_confirm()">
+<input type="button" id="confirm" value="Confirm" class="btn btn-success" onclick="do_confirm()">
 {/if}
 </p>
 

@@ -2030,18 +2030,35 @@ function calculate_rsp(item_id, target_input){
 {/literal}
 
 {if $revise}
-<h1>SKU Application Revise (ID#{$form.id})</h1>
-<ul>
-<li> Your New SKU Application was rejected. You can update and re-submit the revised application for approval.
-<li> Please check the Application Status box for rejecting reasons.
-</ul>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">SKU Application Revise (ID#{$form.id})</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="alert alert-primary mx-3 rounded">
+	<ul style="list-style-type: none;">
+		<li> Your New SKU Application was rejected. You can update and re-submit the revised application for approval.
+		<li> Please check the Application Status box for rejecting reasons.
+		</ul>
+</div>
 {else}
-<h1>SKU Application</h1>
-<ul>
-<li> You can apply ONLY ONE SKU at one time. Product with different MCODE have to be applied as another SKU.
-<!--li> Product with multiple variety (eg: flavor) should be grouped into one SKU.
-<li> To add more than one varieties, click the <a href="#additem">Add another item</a> icon at bottom of page to insert additional item.-->
-</ul>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">SKU Application</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
+<div class="alert alert-primary mx-3 rounded">
+	<ul style="list-style-type: none;">
+		<li> You can apply ONLY ONE SKU at one time. Product with different MCODE have to be applied as another SKU.
+		<!--li> Product with multiple variety (eg: flavor) should be grouped into one SKU.
+		<li> To add more than one varieties, click the <a href="#additem">Add another item</a> icon at bottom of page to insert additional item.-->
+		</ul>
+</div>
 {/if}
 
 <form action="{$smarty.server.PHP_SELF}" name="f_a" method=post ENCTYPE="multipart/form-data" onsubmit="return check_a()">
@@ -2050,9 +2067,10 @@ function calculate_rsp(item_id, target_input){
 <input type=hidden id="max_artno_id" name="max_artno" value="{$form.max_artno}">
 <input type=hidden id="max_num_id" name="max_num" value="{$form.max_num|default:0}">
 
-<div class="stdframe" style="background:#fff">
+<div class="stdframe card mx-3" >
 <!--- show approval log --->
-{if $form.approval_history_items}
+<div class="card-body">
+	{if $form.approval_history_items}
 	<h4>Application Status</h4>
 	<div style="background-color:#fff; border:1px dashed #00f; padding:5px;">
 	{foreach from=$form.approval_history_items item=aitem}
@@ -2080,7 +2098,7 @@ function calculate_rsp(item_id, target_input){
 {if $errm.top}
 <div id=err><div class=errmsg><ul>
 {foreach from=$errm.top item=e}
-<li> {$e}
+<div class="alert alert-danger mx-3 rounded"><li> {$e}</li></div>
 {/foreach}
 </ul></div></div>
 {/if}
@@ -2091,97 +2109,91 @@ function calculate_rsp(item_id, target_input){
 {/if}
 <table  border=0 cellpadding=2 cellspacing=1>
 <tr>
-	<td width=80><b>Category</b></td>
-	<td>
-	<input id="sku_category_id" name="category_id" size=1 value="{$form.category_id}" onchange="" readonly>
-	<input id="autocomplete_category" name="category" value="{$form.category|escape}" size=50>
-	<div id="autocomplete_category_choices" class="autocomplete" style="width:500px !important"></div>
-	<img src=ui/rq.gif align=absbottom title="Required Field">
+	<b class="form-label">Category<span class="text-danger"> *</span></b>
+	<div class="form-inline">
+		<input class="form-control" id="sku_category_id" name="category_id" size=20 value="{$form.category_id}" onchange="" readonly>
+		&nbsp;&nbsp;&nbsp;<input class="form-control" id="autocomplete_category" name="category" value="{$form.category|escape}" size=100>
+	</div>
+	<div  id="autocomplete_category_choices" class="autocomplete" style="width:500px !important"></div>
+	
 	<div id="str_findcat" class="small">{$form.cat_tree|default:"Type the category name to search..."}</div>
-	</td>
+	
 </tr>
 <tr>
-	<td><b>SKU Type</b></td>
-	<td>
-	<select name=sku_type onchange="check_allow_matrix();">
+	<b class="form-label mt-2">SKU Type<span class="text-danger"> *</span></b>
+	<select class="form-control" name=sku_type onchange="check_allow_matrix();">
 	<option value="">-- Select --</option>
 	{foreach from=$sku_type_list key=st_code item=st}
 		<option value="{$st_code}" {if $form.sku_type eq $st_code}selected{/if}>{$st.description}</option>
 	{/foreach}
-	</select> <img src=ui/rq.gif align=absbottom title="Required Field">
-	</td>
+	</select> 
+	
 </tr>
 
 {if $config.enable_no_inventory_sku}
 <!-- No Inventory-->
 <tr>
-	<td><b>SKU Without Inventory</b></td>
-	<td>
-	    <select name="no_inventory">
+	<b class="form-label">SKU Without Inventory</b>
+	
+	    <select class="form-control" name="no_inventory">
 	        {foreach from=$inherit_options key=k item=val}
 	            <option value="{$k}" {if $form.no_inventory eq $k}selected {/if}>{$val}</option>
 	        {/foreach}
 	    </select>
-	</td>
+
 </tr>
 {else}<input type="hidden" name="no_inventory" value="inherit" />
 {/if}
 
 {if $config.enable_fresh_market_sku}
 <!-- Is Fresh Market SKU-->
-<tr>
-	<td><b>Is Fresh Market SKU</b></td>
-	<td>
-	    <select name="is_fresh_market" onchange="check_fm_type(this);">
+
+	<b class="form-label">Is Fresh Market SKU</b>
+	    <select class="form-control" name="is_fresh_market" onchange="check_fm_type(this);">
 	        {foreach from=$inherit_options key=k item=val}
 	            <option value="{$k}" {if $form.is_fresh_market eq $k}selected {/if}>{$val}</option>
 	        {/foreach}
 	    </select>&nbsp;&nbsp;&nbsp;&nbsp;
-	</td>
+
 </tr>
 {else}
-	<input type="hidden" name="is_fresh_market" value="inherit" />
+	<input class="form-control" type="hidden" name="is_fresh_market" value="inherit" />
 {/if}
 
 {if !$config.consignment_modules}
-	<tr>
-		<td><b>Scale Type</b></td>
-		<td>
-			<select name="mst_scale_type">
+	
+	<b class="form-label">Scale Type</b>
+			<select class="form-control" name="mst_scale_type">
 				{foreach from=$scale_type_list key=st_value item=st_name}
 					{if $st_value >= 0}
 						<option value="{$st_value}" {if $form.scale_type eq $st_value}selected {/if}>{$st_name}</option>
 					{/if}
 				{/foreach}
 			</select>
-		</td>
-	</tr>
 {/if}
 
 <tr>
-	<td><b>Vendor</b></td>
-	<td>
-    <input id="sku_vendor_id" name="vendor_id" type=hidden size=1 value="{$form.vendor_id}" onchange="" readonly>
-	<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
+	<b class="form-label">Vendor<span class="text-danger"> *</span></b>
+	<div class="form-inline">
+		<input class="form-control" id="sku_vendor_id" name="vendor_id" type=hidden size=1 value="{$form.vendor_id}" onchange="" readonly>
+	<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
 	<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-	<img src=ui/rq.gif align=absbottom title="Required Field">
-	<input type=button value="Verify Article/M-Code" onclick="mcode_check()"></td>
+	
+	&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-primary" value="Verify Article/M-Code" onclick="mcode_check()">
+	</div>
 </tr>
 <tr>
-	<td><b>Brand</b></td>
-	<td>
-	<input name=brand_name type=hidden value="">
-	<input name="brand_id" type=hidden size=1 value="{$form.brand_id}" readonly>
-	<input id="autocomplete_brand" name="brand" value="{$form.brand}" size=30>
+	<b class="form-label">Brand</b>
+	<input class="form-control" name=brand_name type=hidden value="">
+	<input class="form-control" name="brand_id" type=hidden value="{$form.brand_id}" readonly>
+	<input class="form-control" id="autocomplete_brand" name="brand" value="{$form.brand}" >
 	<div id="autocomplete_brand_choices" class="autocomplete"></div>
 	{*<img src=ui/rq.gif align=absbottom title="Required Field">*}
-	</td>
 </tr>
 {if $config.sku_always_show_trade_discount}
 <tr id="trade_discount_table">
-	<td><b>Trade Discount Code</b></td>
-	<td>
-	    <select id="sku_default_trade_discount_code" name="default_trade_discount_code" onChange="update_td_selected(this.value,this);">
+	<b class="form-label">Trade Discount Code</b>
+	    <select class="form-control" id="sku_default_trade_discount_code" name="default_trade_discount_code" onChange="update_td_selected(this.value,this);">
 	    <option value="">-- Please Select --</option>
 	    {section name=c loop=$trade_discount_table}
 	        <option value="{$trade_discount_table[c].code}" {if $form.default_trade_discount_code eq $trade_discount_table[c].code}selected {/if}>{$trade_discount_table[c].code}</option>
@@ -2191,44 +2203,39 @@ function calculate_rsp(item_id, target_input){
 		<tr>
 		{section name=c loop=$trade_discount_table}
 		{assign var=ccode value=`$trade_discount_table[c].code`}
-		<th><input size=3 name="trade_discount_table[{$trade_discount_table[c].code}]" value="{$form.trade_discount_table.$ccode}" readonly></th>
+		<th><input class="form-control" size=3 name="trade_discount_table[{$trade_discount_table[c].code}]" value="{$form.trade_discount_table.$ccode}" readonly></th>
 		{/section}
 		</tr>
 	    </table>
-	</td>
 </tr>
 {else}
 <tr id="trade_discount_type_table">
-	<td><b>Trade Discount</b></td>
-	<td>
+	<b class="form-label mt-2">Trade Discount</b>
 	    <input type=radio name=trade_discount_type value=1 {if $form.trade_discount_type == 1}checked{/if} onclick="td_sel(this.value)"> use Brand Table
 	    <input type=radio name=trade_discount_type value=2 {if $form.trade_discount_type == 2}checked{/if} onclick="td_sel(this.value)"> use Vendor Table
-    </td>
+  
 </tr>
 <tr id="trade_discount_table" {if $form.trade_discount_type == 0}style="display:none"{/if}>
-	<td><b>Trade Discount Table</b></td>
-	<td>
+	<b class="form-label mt-2">Trade Discount Table</b>
 	    <table id=tbl_trade_discount border=0 cellpadding=2 cellspacing=1>
 		<tr>
 		{section name=c loop=$trade_discount_table}
-		<th><input type=radio id="default_trade_discount_code" name=default_trade_discount_code onclick="update_td_selected(this.value,this);" value="{$trade_discount_table[c].code}" {if $form.default_trade_discount_code eq $trade_discount_table[c].code}checked{/if}>{$trade_discount_table[c].code}</th>
+		<td>&nbsp;&nbsp;<input type=radio id="default_trade_discount_code" name=default_trade_discount_code onclick="update_td_selected(this.value,this);" value="{$trade_discount_table[c].code}" {if $form.default_trade_discount_code eq $trade_discount_table[c].code}checked{/if}>&nbsp;{$trade_discount_table[c].code}</td>
 		{/section}
 		</tr>
 		<tr>
 		{section name=c loop=$trade_discount_table}
 		{assign var=ccode value=`$trade_discount_table[c].code`}
-		<th><input size=3 class="trade_discount_table" name="trade_discount_table[{$trade_discount_table[c].code}]" value="{$form.trade_discount_table.$ccode}" readonly></th>
+		<th><input size=3 class="trade_discount_table form-control" name="trade_discount_table[{$trade_discount_table[c].code}]" value="{$form.trade_discount_table.$ccode}" readonly></th>
 		{/section}
 		</tr>
 	    </table>
-	</td>
+	
 </tr>
 {/if}
 <tr>
-	<td valign=top><b>Listing Fee</b></td>
-	<td>
-
-	<select name=listing_fee_type onchange="sel_fee(this.value,1)">
+	<b class="form-label mt-2">Listing Fee</b>
+	<select class="form-control" name=listing_fee_type onchange="sel_fee(this.value,1)">
 	{if !$package_readonly}
 		<option {if $form.listing_fee_type eq 'No Listing Fee'}selected{/if}>No Listing Fee</option>
 		<option {if $form.listing_fee_type eq 'Listing Fee'}selected{/if}>Listing Fee</option>
@@ -2241,7 +2248,7 @@ function calculate_rsp(item_id, target_input){
 	</select>
 	<!-- fee -->
 	<div id=lst_fee style="display:none;padding:2px 0px;">Amount ({$config.arms_currency.symbol}) <input name=listing_fee_amount size=5 value="{$form.listing_fee_amount}">
-	<select name=listing_fee_when onchange="$('upon_dn').style.display = (this.value == 'Upon SKU Application' ? '' : 'none')">
+	<select class="form-control" name=listing_fee_when onchange="$('upon_dn').style.display = (this.value == 'Upon SKU Application' ? '' : 'none')">
 	<option {if $form.listing_fee_when eq 'Upon SKU Application'}selected{/if}>Upon SKU Application</option>
 	<option {if $form.listing_fee_when eq 'Upon PO'}selected{/if}>Upon PO</option>
 	<option {if $form.listing_fee_when eq 'Upon Goods Received'}selected{/if}>Upon Goods Received</option>
@@ -2252,9 +2259,9 @@ function calculate_rsp(item_id, target_input){
 	<div id=lst_package style="display:none;padding:2px 0px;">
 	Package Amount ({$config.arms_currency.symbol}) <input name=listing_fee_package_amount size=5 value="{$form.listing_fee_package_amount}" {$package_readonly}>
 	{if $package_readonly}
-	<input name=listing_fee_when2 value="{$form.listing_fee_when}" readonly>
+	<input class="form-control" name=listing_fee_when2 value="{$form.listing_fee_when}" readonly>
 	{else}
-	<select name=listing_fee_when2 onchange="$('upon_dn2').style.display = (this.value == 'Upon SKU Application' ? '' : 'none')">
+	<select class="form-control" name=listing_fee_when2 onchange="$('upon_dn2').style.display = (this.value == 'Upon SKU Application' ? '' : 'none')">
 	<option {if $form.listing_fee_when eq 'Upon SKU Application'}selected{/if}>Upon SKU Application</option>
 	<option {if $form.listing_fee_when eq 'Upon PO'}selected{/if}>Upon PO</option>
 	<option {if $form.listing_fee_when eq 'Upon Goods Received'}selected{/if}>Upon Goods Received</option>
@@ -2298,12 +2305,12 @@ function calculate_rsp(item_id, target_input){
 	</ul></td>
 </tr>
 <tr>
-	<td><b>Remark</b></td>
-	<td><input name=remark size=50 value="New Application" readonly></td>
+	<td><b class="form-label mt-2">Remark</b></td>
+	<td><input class="form-control" name=remark size=50 value="New Application" readonly></td>
 </tr>
 <tr>
-	<td><b>Note</b></td>
-	<td><textarea name=note rows=2 cols=40>{$form.note}</textarea></td>
+	<td><b class="form-label mt-2">Note</b></td>
+	<td><textarea class="form-control" name=note rows=2 cols=40>{$form.note}</textarea></td>
 </tr>
 {if $config.sku_application_require_multics && $last_approval}
 <tr>
@@ -2357,9 +2364,9 @@ function calculate_rsp(item_id, target_input){
 {/if}
 {if $config.enable_sn_bn}
 	<tr>
-		<td><b>Use Serial No</b></td>
+		<td><b class="form-label">Use Serial No</b></td>
 		<td>
-			<select name="have_sn">
+			<select class="form-control" name="have_sn">
 				<option value="0" {if $form.have_sn eq '0'}selected {/if}>No</option>
 				<option value="1" {if $form.have_sn eq '1'}selected {/if}>Yes (Pre-list)</option>
 				<option value="2" {if $form.have_sn eq '2'}selected {/if}>Yes</option>
@@ -2367,21 +2374,24 @@ function calculate_rsp(item_id, target_input){
 		</td>
 	</tr>
 {/if}
-<tr valign="top">
-	<td style="padding-top:6;"><b>PO Reorder Qty</b></td>
+<tr >
+	<div class="form-inline">
+		<b class="form-label mt-2">PO Reorder Qty</b>
+	&nbsp;&nbsp;<input type="checkbox" name="po_reorder_by_child" value="1" {if $form.po_reorder_by_child}checked{/if} onclick="toggle_po_reorder_by_child();" /> <b class="form-label mt-2">&nbsp;&nbsp;By Child</b>
+	
+	</div>
 	<td>
-		<input type="checkbox" name="po_reorder_by_child" value="1" {if $form.po_reorder_by_child}checked{/if} onclick="toggle_po_reorder_by_child();" /> <b>By Child</b><br /><br />
+		
 		<div id="div_po_reorder_qty">
-			Min: <input type="text" size="3" name="po_reorder_qty_min" value="{$form.po_reorder_qty_min}" />
-			&nbsp;&nbsp;&nbsp;
-			Max: <input type="text" size="3" name="po_reorder_qty_max" value="{$form.po_reorder_qty_max}" />
-			&nbsp;&nbsp;&nbsp;
-			MOQ<a href="javascript:void(alert('Minimum Order Quantity'))"><img src="/ui/icons/information.png" align="absmiddle" /></a> : 
-			<input type="text" size="3" name="po_reorder_moq" value="{$form.po_reorder_moq}" />
+			Min: <input class="form-control" type="text" size="3" name="po_reorder_qty_min" value="{$form.po_reorder_qty_min}" />
 			
-			&nbsp;&nbsp;&nbsp;
+			Max: <input class="form-control" type="text" size="3" name="po_reorder_qty_max" value="{$form.po_reorder_qty_max}" />
+		
+			MOQ<a href="javascript:void(alert('Minimum Order Quantity'))"><img src="/ui/icons/information.png" align="absmiddle" /></a> : 
+			<input type="text" class="form-control" size="3" name="po_reorder_moq" value="{$form.po_reorder_moq}" />
+		
 			Notify Person 
-			<select name="po_reorder_notify_user_id">
+			<select class="form-control" name="po_reorder_notify_user_id">
 				<option value="" {if !$form.po_reorder_notify_user_id}selected{/if}>--</option>
 				{foreach from=$po_reorder_users key=row item=r}
 					<option value="{$r.id}" {if $form.po_reorder_notify_user_id eq $r.id}selected{/if}>{$r.u}</option>
@@ -2400,18 +2410,18 @@ function calculate_rsp(item_id, target_input){
 								<td width="5%"><b>{$b.code}</b></td>
 								<td width="1%">Min: </td>
 								<td width="3%">
-									<input type="text" size="3" name="po_reorder_qty_by_branch[min][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.min.$bid}" />
+									<input class="form-control" type="text" size="3" name="po_reorder_qty_by_branch[min][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.min.$bid}" />
 								</td>
 								<td width="1%">Max: </td>
 								<td width="10%">
-									<input type="text" size="3" name="po_reorder_qty_by_branch[max][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.max.$bid}" />
+									<input class="form-control" type="text" size="3" name="po_reorder_qty_by_branch[max][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.max.$bid}" />
 								</td>
 								<td width="1%">MOQ: </td>
 								<td width="10%">
-									<input type="text" size="3" name="po_reorder_qty_by_branch[moq][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.moq.$bid}" />
+									<input class="form-control" type="text" size="3" name="po_reorder_qty_by_branch[moq][{$bid}]" class="r" value="{$form.po_reorder_qty_by_branch.moq.$bid}" />
 								</td>
 								<td width="10%">
-									<select name="po_reorder_qty_by_branch[notify_user_id][{$bid}]">
+									<select class="form-control" name="po_reorder_qty_by_branch[notify_user_id][{$bid}]">
 										<option value="" {if !$form.po_reorder_qty_by_branch.notify_user_id.$bid}selected{/if}>--</option>
 										{foreach from=$po_reorder_users key=row item=r}
 											<option value="{$r.id}" {if $form.po_reorder_qty_by_branch.notify_user_id.$bid eq $r.id}selected{/if}>{$r.u}</option>
@@ -2429,9 +2439,9 @@ function calculate_rsp(item_id, target_input){
 
 {if $config.sku_non_returnable}
 	<tr valign="top">
-		<td nowrap><b>Non-returnable</b> <a href="javascript:void(alert('Turn on this will not allow this group of SKU to return at GRA'))"><img src="/ui/icons/information.png" align="absmiddle" /></a></td>
+		<td nowrap><b class="form-label">Non-returnable</b> <a href="javascript:void(alert('Turn on this will not allow this group of SKU to return at GRA'))"><img src="/ui/icons/information.png" align="absmiddle" /></a></td>
 		<td>
-			<select name="group_non_returnable">
+			<select class="form-control" name="group_non_returnable">
 				<option value="1" {if $form.group_non_returnable eq 1}selected {/if}>Yes</option>
 				<option value="0" {if $form.group_non_returnable eq 0}selected {/if}>No</option>
 			</select>
@@ -2440,9 +2450,9 @@ function calculate_rsp(item_id, target_input){
 {/if}
 
 <tr class="gst_settings">
-	<td><b>Input Tax</b></td>
+	<td><b class="form-label mt-2">Input Tax</b></td>
 	<td>
-		<select name="mst_input_tax" onchange="mst_gst_info_changed();">
+		<select class="form-control" name="mst_input_tax" onchange="mst_gst_info_changed();">
 			<option value="-1" {if $form.mst_input_tax eq -1}selected{/if}>Inherit (Follow Category)</option>
 			{foreach from=$input_tax_list key=rid item=r}
 				<option value="{$r.id}" {if $form.mst_input_tax eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
@@ -2452,9 +2462,9 @@ function calculate_rsp(item_id, target_input){
 </tr>
 
 <tr class="gst_settings">
-	<td><b>Output Tax</b></td>
+	<td><b class="form-label mt-2">Output Tax</b></td>
 	<td>
-		<select name="mst_output_tax" onchange="calculate_all_gst();">
+		<select class="form-control" name="mst_output_tax" onchange="calculate_all_gst();">
 			<option value="-1" {if $form.mst_output_tax eq -1}selected{/if}>Inherit (Follow Category)</option>
 			{foreach from=$output_tax_list key=rid item=r}
 				<option data-rate="{$r.rate}" value="{$r.id}" {if $form.mst_output_tax eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
@@ -2465,9 +2475,9 @@ function calculate_rsp(item_id, target_input){
 </tr>
 
 <tr class="tr_inclusive_tax" style="{if !$gst_settings or ($global_gst_settings.inclusive_tax eq 'yes' and (!isset($form.mst_inclusive_tax) or $form.mst_inclusive_tax eq 'inherit'))}display:none;{/if}">
-	<td><b>Selling Price Inclusive Tax</b></td>
+	<td><b class="form-label mt-2">Selling Price Inclusive Tax</b></td>
 	<td>
-		<select name="mst_inclusive_tax" onchange="calculate_all_gst();">
+		<select class="form-control" name="mst_inclusive_tax" onchange="calculate_all_gst();">
 			<option value="inherit" {if $form.mst_inclusive_tax eq "inherit"}selected {/if}>Inherit (Follow Category)</option>
 			<option value="yes" {if $form.mst_inclusive_tax eq "yes"}selected {/if}>Yes</option>
 			<option value="no" {if $form.mst_inclusive_tax eq "no"}selected {/if}>No</option>
@@ -2475,9 +2485,9 @@ function calculate_rsp(item_id, target_input){
 	</td>
 </tr>
 <tr valign="top">
-    <td nowrap><b>Allow Parent and Child duplicate MCode</b></td>
+    <td nowrap><b class="form-label mt-2">Allow Parent and Child duplicate MCode</b></td>
     <td>
-        <select name="parent_child_duplicate_mcode">
+        <select class="form-control " name="parent_child_duplicate_mcode">
             <option value="1" {if $form.parent_child_duplicate_mcode eq 1}selected {/if}>Yes</option>
             <option value="0" {if $form.parent_child_duplicate_mcode eq 0}selected {/if}>No</option>
         </select>
@@ -2486,9 +2496,9 @@ function calculate_rsp(item_id, target_input){
 
 {if $config.enable_one_color_matrix_ibt}
 	<tr>
-		<td><b>Use Matrix Settings</b></td>
+		<td><b class="form-label mt-2">Use Matrix Settings</b></td>
 		<td>
-			<select name="use_matrix" onchange="matrix_changed();">
+			<select class="form-control" name="use_matrix" onchange="matrix_changed();">
 				{foreach from=$inherit_options key=k item=val}
 					<option value="{$k}" {if ($matrix.use_matrix eq $k) || (!$matrix.use_matrix and $k eq 'no')}selected {/if}>{$val}</option>
 				{/foreach}
@@ -2503,7 +2513,10 @@ function calculate_rsp(item_id, target_input){
 	</tr>
 {/if}
 
-</table></div>
+</table>
+
+</div>
+</div>
 <br>
 
 <div id="new_items">
@@ -2513,22 +2526,38 @@ function calculate_rsp(item_id, target_input){
 {if !$items || $config.sku_application_enable_variety}
 <div>
 <a name="additem"> </a>
-<span id="add_item">
-	<span id="add_variety">
-	<a id="add_new_sku" href="javascript:void(add_variety())"><img src=ui/new.png title="New" align=absmiddle border=0> Add New SKU</a> &nbsp; &nbsp;
-	</span>
-	<span id="add_matrix">
-	{if !$config.sku_disable_add_matrix}
-		<a href="javascript:void(add_matrix())"><img src=ui/table_add.png title="New" align=absmiddle border=0> Add New Matrix</a>
-	{/if}
-	</span>
-</span>
+<div class="card mx-3">
+	<div class="card-body">
+		<span id="add_item">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="list-group">
+						<li class="list-group-item list-group-item-action ">
+							<span id="add_variety">
+								<a id="add_new_sku" href="javascript:void(add_variety())"><img src=ui/new.png title="New" align=absmiddle border=0> Add New SKU</a> &nbsp; &nbsp;
+							</span>
+						</li>
+					
+				</div>
+				<div class="col-md-6">
+					<li class="list-group-item list-group-item-action">
+						<span id="add_matrix">
+							{if !$config.sku_disable_add_matrix}
+								<a href="javascript:void(add_matrix())"><img src=ui/table_add.png title="New" align=absmiddle border=0> Add New Matrix</a>
+							{/if}
+							</span>
+					</li>
+			</ul>
+				</div>
+			</div>
+		</span>
+	</div>
 <span id="add_item_notify"></span>
 </div>
 {/if}
 <p align=center>
 {if $package_readonly}
-<input type="button" value="End Package Listing" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="document.location='{$smarty.server.PHP_SELF}?a=skip_listing';">
+<input type="button" value="End Package Listing" class="btn btn-warning" onclick="document.location='{$smarty.server.PHP_SELF}?a=skip_listing';">
 	{if $sessioninfo.privilege.MST_TERMINATE_PACKAGE}
 	<input type="button" value="Terminate Package Listing" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="terminate_package_clicked();">
 	{/if}

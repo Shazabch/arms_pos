@@ -10,9 +10,9 @@ function list_sel(n,s)
 	for(i=0;i<=2;i++)
 	{
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).removeClassName='active';
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).addClassName='active';
 	}
 	$('log_sheet_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -60,8 +60,8 @@ function curtain_clicked(){
 This Cheque Issue Log Sheet will Print with <br>
 <b>A5 Portrait</b> Format.
 <br><br>
-<input type=button value="Print" onclick="print_ok()"> 
-<input type=button value="Cancel" onclick="curtain_clicked();">
+<input type="button" class="btn btn-info" value="Print" onclick="print_ok()"> 
+<input type="button" class="btn btn-danger" value="Cancel" onclick="curtain_clicked();">
 </p>
 </div>
 <!--End print dialog -->
@@ -77,14 +77,26 @@ This Cheque Issue Log Sheet will Print with <br>
 </form>
 
 <form onsubmit="list_sel(0,find.value);return false;">
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Saved Log Sheet</a>
-<a href="javascript:list_sel(2)" id=lst2>Completed</a>
-<a id=lst0>Find <input name=find> <input type=submit value="Go"></a>
+<div class="tab" style="white-space:nowrap;">
+<div class="row mx-4">
+	<div class="col-4">
+		
+<a href="javascript:list_sel(1)" id="lst1" class="fs-09 btn btn-outline-indigo btn-rounded active">Saved Log Sheet</a>
+<a href="javascript:list_sel(2)" id="lst2" class="fs-09 btn btn-outline-indigo btn-rounded active">Completed</a>
+	</div>
+	<div class="col-4">
+		<div class="form-inline">
+			<a id="lst0">
+				Find 
+				&nbsp;&nbsp;<input class="form-control" name="find"> 
+				&nbsp;&nbsp;<input class="btn btn-primary" type="submit" value="Go">
+			</a>
+		</div>
+	</div>
+</div>
 </div>
 </form>
-<div id=log_sheet_list  style="border:1px solid #000;width:40%">
+<div id="log_sheet_list" class="bg-info rounded p-2 mx-3" >
 </div>
 {include file=footer.tpl}
 <script>

@@ -11,7 +11,7 @@
 {if $config.consignment_modules}{assign var=hide_branches value=1}{/if}
 
 {if $is_edit && $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
-	<select name="category_point_inherit[{$item_id}]" onChange="category_point_inherit_changed('{$item_id}');" class="sel_category_point_inherit" id="sel-category_point_inherit-{$item_id}">
+	<select class="form-control" name="category_point_inherit[{$item_id}]" onChange="category_point_inherit_changed('{$item_id}');" class="sel_category_point_inherit" id="sel-category_point_inherit-{$item_id}">
 		{foreach from=$category_point_inherit_options key=k item=dr}
 			<option value="{$k}" {if $item_obj.category_point_inherit eq $k}selected {/if}>{$dr}</option>
 		{/foreach}
