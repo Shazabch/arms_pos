@@ -101,9 +101,9 @@
 		for(i=0;i<=5;i++)
 		{
 			if (i==n)
-				$('lst'+i).className='active';
+				$('lst'+i).addClassName('selected');
 			else
-				$('lst'+i).className='';
+				$('lst'+i).removeClassName('selected');
 		}
 		$('voucher_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 	
@@ -310,7 +310,7 @@
 		jQuery("#print_butt").modal('hide');
 		jQuery('#damage_cheque').modal('hide');
 		jQuery("#print_cheques_by_ls").modal('hide');
-		Element.hide('div_reprint_ls');
+		jQuery('#div_reprint_ls').modal('hide');
 		Element.hide('print_ls_dialog');
 		jQuery("#div_reprint_c_by_ls").modal('hide');
 		curtain(false);
@@ -662,8 +662,8 @@
 	
 	
 	function reprint_ls(){
-		Element.show('div_reprint_ls');
-		curtain(true);
+		jQuery('#div_reprint_ls').modal('show');
+		//curtain(true);
 		center_div('div_reprint_ls');
 		new Ajax.Updater('reprint_ls_row', 'payment_voucher.php', {
 			parameters: 'a=ajax_load_log_sheet&from=reprint_ls',
@@ -768,43 +768,50 @@
     
     
     <!-- Start REPRINT LS-->
-    <div id=div_reprint_ls style="background:#fff;border:3px solid #000;width:350px;height:140px;position:absolute; padding:10px; display:none;z-index:10000;">
-    <div class=small style="position:absolute; right:20; text-align:right;float:right;">
-    <img src=ui/closewin.png border=0 align=absmiddle onclick=curtain_clicked();>
-    </div>
-    <form name=f_reprint_ls method=post>
-    <input type=hidden name=a value="reprint_ls">
-    <input type=hidden name=log_sheet_no value="">
-    
-    <h3 align=center>Select Log Sheet To Re-Print</h3>
-    
-    
-    <table align=center>
-    <tr id=reprint_ls_row align=left>
-    <th width=100>Log Sheet</th>
-    
-    <td>	
-    <select name="reprint_log_sheet_no">
-    {foreach key=key item=item from=$ls_list}
-    <option value={$item.log_sheet_no}>{$item.log_sheet_no}</option>
-    {/foreach}
-    </select>
-    </td>
-    </tr>
-    
-    <tr>
-    <th colspan=2 align=center>
-    (Format : A5 Portrait)
-    </th>
-    </tr>
-    </table>
-    
-    <br>
-    <p align=center>
-    <input type=button value="Print" onclick="reprint_ls_submit();"> 
-    </p>
-    </form>
-    </div>
+	<div class="modal" id="div_reprint_ls">
+		<div class="modal-dialog modal-dialog-centered " role="document">
+			<div class="modal-content">
+				<div class="modal-header" >
+						<h6 class="modal-title">Approval Flow Settings</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+				<div class="modal-body ">
+					<form name=f_reprint_ls method=post>
+						<input type=hidden name=a value="reprint_ls">
+						<input type=hidden name=log_sheet_no value="">
+						
+						<h3 align=center>Select Log Sheet To Re-Print</h3>
+						
+						
+						<table align=center>
+						<tr id=reprint_ls_row align=left>
+						<th width=100>Log Sheet</th>
+						
+						<td>	
+						<select name="reprint_log_sheet_no">
+						{foreach key=key item=item from=$ls_list}
+						<option value={$item.log_sheet_no}>{$item.log_sheet_no}</option>
+						{/foreach}
+						</select>
+						</td>
+						</tr>
+						
+						<tr>
+						<th colspan=2 align=center>
+						(Format : A5 Portrait)
+						</th>
+						</tr>
+						</table>
+						
+						<br>
+						<p align="center">
+						<input type="button" class="btn btn-primary" value="Print" onclick="reprint_ls_submit();"> 
+						</p>
+						</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
     <!--End REPRINT LS-->
     
     
@@ -1255,7 +1262,7 @@
             <div class="row mt-2">
                     <div class="col-md-4">
                         <li class="list-group-item list-group-item-action">
-                            <a class="text-dark" onClick="javascript:void(select_print('voucher'))">
+                            <a class="text-dark" href="javascript:void(select_print('voucher'))">
                             <img src=/ui/print.png border=0 title="Print Voucher"> Print Voucher by Voucher No</a>
                         </li>
                     </div>
@@ -1339,11 +1346,11 @@
         <div class="col">
             <div class=tab style="white-space:nowrap;">
     
-                <a href="javascript:list_sel(1)" id=lst1 class="fs-08 btn btn-outline-indigo btn-rounded active">Saved Voucher</a>
-                <a href="javascript:list_sel(2)" id=lst2 class="fs-08 btn btn-outline-indigo btn-rounded active">Printed Voucher</a>
-                <a href="javascript:list_sel(3)" id=lst3 class="fs-08 btn btn-outline-indigo btn-rounded active">Cancelled</a>
-                <a href="javascript:list_sel(4)" id=lst4 class="fs-08 btn btn-outline-indigo btn-rounded active">Completed</a>
-                <a href="javascript:list_sel(5)" id=lst5 class="fs-08 btn btn-outline-indigo btn-rounded active">Log Sheet Status</a>
+                <a href="javascript:list_sel(1)" id="lst1" class="fs-08 btn btn-outline-primary btn-rounded">Saved Voucher</a>
+                <a href="javascript:list_sel(2)" id="lst2" class="fs-08 btn btn-outline-primary btn-rounded">Printed Voucher</a>
+                <a href="javascript:list_sel(3)" id="lst3" class="fs-08 btn btn-outline-primary btn-rounded">Cancelled</a>
+                <a href="javascript:list_sel(4)" id="lst4" class="fs-08 btn btn-outline-primary btn-rounded">Completed</a>
+                <a href="javascript:list_sel(5)" id="lst5" class="fs-08 btn btn-outline-primary btn-rounded">Log Sheet Status</a>
                 
                 </div>
         </div>

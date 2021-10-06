@@ -39,8 +39,8 @@
 	{/if}
 	<span class="no" id="no_{$smarty.foreach.fitem.iteration}">
 	{$count|default:$smarty.foreach.fitem.iteration}.</span>
-	<input type="hidden" name="item_sku_item_id[{$item.id}]" value="{$item.sku_item_id}" />
-	<input type="hidden" name="item_doc_allow_decimal[{$item.id}]" value="{$item.doc_allow_decimal}" />
+	<input type="hidden" class="form-control" name="item_sku_item_id[{$item.id}]" value="{$item.sku_item_id}" />
+	<input type="hidden" class="form-control" name="item_doc_allow_decimal[{$item.id}]" value="{$item.doc_allow_decimal}" />
 </td>
 <input type=hidden name=row_id[{$item.id}] value="{$item.id}">
 <td align=center>{$item.sku_item_code}</td>
@@ -48,24 +48,24 @@
 <td nowrap>{$item.artno} / {$item.mcode}</td>
 
 <td>{$item.description} {include file=details.uom.tpl uom=$item.packing_uom_code}</td>
-<td><input size=5 class="small r" readonly name="stock_balance[{$item.id}]" id="stock_balance,{$item.sku_item_id}" value="{$item.stock_balance}" ></td>
-<td><input size=5 class="small r inp_selling_price" readonly name="selling_price[{$item.id}]" id="selling_price{$item.id}" value="{$item.selling_price|round2}" title="{$item.id}"></td>
+<td><input size=5 class="small r form-control" readonly name="stock_balance[{$item.id}]" id="stock_balance,{$item.sku_item_id}" value="{$item.stock_balance}" ></td>
+<td><input size=5 class="small r inp_selling_price form-control" readonly name="selling_price[{$item.id}]" id="selling_price{$item.id}" value="{$item.selling_price|round2}" title="{$item.id}"></td>
 
 <td class="r" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>
-<input size=5 class="small r" readonly name="unit_cost[{$item.id}]" id="unit_cost{$item.id}" value="{$item.cost|number_format:$config.global_cost_decimal_points:'.':''}">
+<input size=5 class="small r form-control" readonly name="unit_cost[{$item.id}]" id="unit_cost{$item.id}" value="{$item.cost|number_format:$config.global_cost_decimal_points:'.':''}">
 </td>
 
 <td nowrap class="r">
-<input class="p qty r" name="p_qty[{$item.id}]" id="p_qty_{$item.id}" size=8 onclick="if(this.value)this.select();" onchange="{if $item.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points})){else}mi(this){/if};calc_total({$item.id});" title="{$item.id}" {if $smarty.request.is_config_adj_type == '-' || $is_config_adj_type == '-'}readonly{/if} value="{if $item.qty>0}{$item.qty}{/if}">
+<input class="p qty r form-control" name="p_qty[{$item.id}]" id="p_qty_{$item.id}" size=8 onclick="if(this.value)this.select();" onchange="{if $item.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points})){else}mi(this){/if};calc_total({$item.id});" title="{$item.id}" {if $smarty.request.is_config_adj_type == '-' || $is_config_adj_type == '-'}readonly{/if} value="{if $item.qty>0}{$item.qty}{/if}">
 </td>
 
 <td nowrap class="r">
-<input class="n qty r" name="n_qty[{$item.id}]" id="n_qty_{$item.id}" size=8 onclick="if(this.value)this.select();" onchange="{if $item.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points})){else}mi(this){/if};calc_total({$item.id});" title="{$item.id}" {if $smarty.request.is_config_adj_type == '+' || $is_config_adj_type == '+'}readonly{/if} value="{if $item.qty<0}{$item.qty|abs}{/if}">
+<input class="n qty r form-control" name="n_qty[{$item.id}]" id="n_qty_{$item.id}" size=8 onclick="if(this.value)this.select();" onchange="{if $item.doc_allow_decimal}this.value=float(round(this.value, {$config.global_qty_decimal_points})){else}mi(this){/if};calc_total({$item.id});" title="{$item.id}" {if $smarty.request.is_config_adj_type == '+' || $is_config_adj_type == '+'}readonly{/if} value="{if $item.qty<0}{$item.qty|abs}{/if}">
 </td>
 
 <td class="r" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>
-<input size=8 class="qty small r" readonly id="cost_{$item.id}" name="cost[{$item.id}]" value="{$item.cost*$item.qty|number_format:2:'.':''|ifzero:''}" >
+<input size=8 class="qty small r form-control" readonly id="cost_{$item.id}" name="cost[{$item.id}]" value="{$item.cost*$item.qty|number_format:2:'.':''|ifzero:''}" >
 </td>
 
-<td class="r"><input size=8 class="qty small r" readonly id="total_selling_{$item.id}" name="total_selling[{$item.id}]" value="{$item.selling_price*$item.qty|number_format:2:'.':''|ifzero:''}"></td>
+<td class="r"><input size=8 class="qty small r form-control" readonly id="total_selling_{$item.id}" name="total_selling[{$item.id}]" value="{$item.selling_price*$item.qty|number_format:2:'.':''|ifzero:''}"></td>
 <!--td id="row_total_{$item.id}" class="r qty">{$item.total|default:0}</td-->

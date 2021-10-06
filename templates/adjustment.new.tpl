@@ -1182,48 +1182,47 @@ Cancelled
 <div class="card mx-3">
 	<div class="card-body">
 		
-<div class="table-responsive mx-3">
-	<table width=100% id="tbl_item " class="input_no_border body report_table table mb-0 text-md-nowrap  table-hover"  >
-		<thead class="bg-gray-100">
-		<tr height=24 bgcolor=#ffffff>
-			<th rowspan=2>#</th>
-			<th nowrap rowspan=2 width=120>ARMS Code</th>
-			<th nowrap rowspan=2 width=150>Article / MCode</th>
-			<th nowrap rowspan=2 width=40%>SKU Description</th>
-			<th nowrap rowspan=2>Latest Stock<br />Balance</th>
-			<th nowrap rowspan=2>Selling Price</th>
-			<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Unit Cost</th>
-			<th nowrap colspan=2>Adjustment Qty</th>
-			<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Total Cost</th>
-			<th nowrap rowspan=2>Total Selling</th>
-		</tr>
-		<tr bgcolor=#ffffff>
-			<th nowrap>Positive (+) </th>
-			<th nowrap>Negative (-) </th>
-		</tr>
-		</thead>
-		
-		<tbody id="docs_items">
-		{foreach from=$adjust_items item=item name=fitem}
-		<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" id="titem{$item.id}" {if $smarty.request.highlight_item_id eq $item.sku_item_id}class=highlight_row{/if}>
-		{include file=adjustment.new.row.tpl}
-		</tr>
-		{/foreach}
-		</tbody>
-		
-		<tfoot id="tbl_footer" class="fs-08">
-		<tr >
-			<th colspan="{if !$sessioninfo.privilege.SHOW_COST}6{else}7{/if}" class="r">Total</th>
-			<th class="r" id="total_qty_p"></th>
-			<th class="r" id="total_qty_n"></th>
-			<th class="r" id="total_cost" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}></th>
-			<th class="r" id="total_selling"></th>
-		</tr>
-		</tfoot>
-		
-		</table>
-
-</div>
+		<div class="table-responsive">
+			<table width=100% id=tbl_item style=" padding:5px;" class="input_no_border body report_table table mb-0 text-md-nowrap  table-hover" cellspacing=1 cellpadding=1>
+				<thead class=small>
+				<tr height=24 >
+					<th rowspan=2>#</th>
+					<th nowrap rowspan=2 width=120>ARMS Code</th>
+					<th nowrap rowspan=2 width=150>Article / MCode</th>
+					<th nowrap rowspan=2 width=40%>SKU Description</th>
+					<th nowrap rowspan=2>Latest Stock<br />Balance</th>
+					<th nowrap rowspan=2>Selling Price</th>
+					<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Unit Cost</th>
+					<th nowrap colspan=2>Adjustment Qty</th>
+					<th nowrap rowspan=2 {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Total Cost</th>
+					<th nowrap rowspan=2>Total Selling</th>
+				</tr>
+				<tr bgcolor=#ffffff>
+					<th nowrap>Positive (+) </th>
+					<th nowrap>Negative (-) </th>
+				</tr>
+				</thead>
+				
+				<tbody id="docs_items">
+				{foreach from=$adjust_items item=item name=fitem}
+				<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" id="titem{$item.id}" {if $smarty.request.highlight_item_id eq $item.sku_item_id}class=highlight_row{/if}>
+				{include file=adjustment.new.row.tpl}
+				</tr>
+				{/foreach}
+				</tbody>
+				
+				<tfoot id="tbl_footer">
+				<tr height=24 bgcolor=#ffffff>
+					<th colspan="{if !$sessioninfo.privilege.SHOW_COST}6{else}7{/if}" class="r">Total</th>
+					<th class="r" id="total_qty_p"></th>
+					<th class="r" id="total_qty_n"></th>
+					<th class="r" id="total_cost" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}></th>
+					<th class="r" id="total_selling"></th>
+				</tr>
+				</tfoot>
+				
+				</table>
+		</div>
 	</div>
 </div>
 

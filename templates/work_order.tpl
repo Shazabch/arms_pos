@@ -30,11 +30,11 @@ var WORK_ORDER = {
 		if(this.ajax_obj)	this.ajax_obj.abort();	// cancel the previous ajax
 
 		// remove active tab
-		$$('#div_tab a.a_tab').each(function(ele){
-			$(ele).removeClassName('active');
+		$$('#div_tab a').each(function(ele){
+			$(ele).removeClassName('selected');
 		});
 		// add class to active tab
-		$('lst-'+t).addClassName('active');
+		$('lst-'+t).addClassName('selected');
 
 		var params = {
 			a: 'ajax_reload_list',
@@ -131,10 +131,10 @@ var WORK_ORDER = {
 <div id="div_tab" class="tab" style="white-space:nowrap;">
 <div class="row mx-3">
 	<div class="col">
-		<a href="javascript:void(WORK_ORDER.reload_list(1))" id="lst-1" class="fs-08 btn btn-outline-indigo btn-rounded active">Transfer Out</a>
-		<a href="javascript:void(WORK_ORDER.reload_list(2))" id="lst-2" class="fs-08 btn btn-outline-indigo btn-rounded active">Transfer In</a>
-		<a href="javascript:void(WORK_ORDER.reload_list(3))" id="lst-3" class="fs-08 btn btn-outline-indigo btn-rounded active">Cancelled</a>
-		<a href="javascript:void(WORK_ORDER.reload_list(4))" id="lst-4" class="fs-08 btn btn-outline-indigo btn-rounded active">Completed</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(1))" id="lst-1" class="fs-08 btn btn-outline-primary btn-rounded ">Transfer Out</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(2))" id="lst-2" class="fs-08 btn btn-outline-primary btn-rounded ">Transfer In</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(3))" id="lst-3" class="fs-08 btn btn-outline-primary btn-rounded ">Cancelled</a>
+		<a href="javascript:void(WORK_ORDER.reload_list(4))" id="lst-4" class="fs-08 btn btn-outline-primary btn-rounded ">Completed</a>
 	</div>
 		<div class="col">
 		<div class="form-inline">

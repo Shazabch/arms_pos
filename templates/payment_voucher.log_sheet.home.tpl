@@ -1,6 +1,12 @@
 {include file=header.tpl}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {literal}
 <script>
@@ -10,9 +16,9 @@ function list_sel(n,s)
 	for(i=0;i<=2;i++)
 	{
 		if (i==n)
-		    $('lst'+i).removeClassName='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).addClassName='active';
+		    $('lst'+i).removeClassName('selected');
 	}
 	$('log_sheet_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -81,8 +87,8 @@ This Cheque Issue Log Sheet will Print with <br>
 <div class="row mx-4">
 	<div class="col-4">
 		
-<a href="javascript:list_sel(1)" id="lst1" class="fs-09 btn btn-outline-indigo btn-rounded active">Saved Log Sheet</a>
-<a href="javascript:list_sel(2)" id="lst2" class="fs-09 btn btn-outline-indigo btn-rounded active">Completed</a>
+<a href="javascript:list_sel(1)" id="lst1" class="fs-09 btn btn-outline-primary btn-rounded ">Saved Log Sheet</a>
+<a href="javascript:list_sel(2)" id="lst2" class="fs-09 btn btn-outline-primary btn-rounded ">Completed</a>
 	</div>
 	<div class="col-4">
 		<div class="form-inline">
@@ -96,7 +102,7 @@ This Cheque Issue Log Sheet will Print with <br>
 </div>
 </div>
 </form>
-<div id="log_sheet_list" class="bg-info rounded p-2 mx-3" >
+<div id="log_sheet_list" class="border rounded p-2 mx-3" >
 </div>
 {include file=footer.tpl}
 <script>

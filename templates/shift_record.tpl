@@ -132,7 +132,7 @@ function do_add(dept)
 function do_cancel(){
 	curtain(false);
 	Element.hide('user_popup');
-	Element.hide('print_popup');
+	jQuery('#print_popup').modal('hide');
 }
 
 
@@ -334,8 +334,8 @@ function changeblue(obj,a) {
 
 function do_submit_print(){
 	if (check_login()) {
-		curtain(false);
-		Element.hide('print_popup');
+		//curtain(false);
+		jQuery('#print_popup').modal('hide');
 		document.f_print.a.value = 'print_submit';
 		document.f_print.target = 'ifprint';
 		document.f_print.submit();
@@ -343,10 +343,10 @@ function do_submit_print(){
 }
 
 function do_print(val){
-	curtain(true);
+	//curtain(true);
 	center_div('print_popup');
-	Element.show('print_popup');
-	//Position.clone($('user_popup'), $('print_popup'), {setHeight: false, setWidth:false});
+	jQuery('#print_popup').modal('show');
+	Position.clone($('user_popup'), $('print_popup'), {setHeight: false, setWidth:false});
 }
 
 function do_print_selected(val){
@@ -474,96 +474,92 @@ function active_print(){
 	</div>
 </div>
 
-<div id=print_popup {if $branch=='1'}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:230;height:190"{else}style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:350;height:320"{/if}>
 
-		<form name=f_print>
-			<input type=hidden name=month value="{$month}">
-			<input type=hidden name=year value="{$year}">
-			<input type=hidden name=branch value="{$branch}">
-			<input type=hidden name=department value="{$department}">
-			<input type=hidden name=a value="print_submit">
-			<p align=center><b>
-			</b>
-			<p align=left>
-			
-			<table>
-			<tr>
-			<th colspan=2 align=left><input type=checkbox onclick="check_all(this.checked)">Select/Unselect All<b></th>
-			</tr>
-			{if $branch=='1'}
-			<tr>
-			<td><input type=checkbox name=print_select[] value='Finance'>Finance</td>
-			<td><input type=checkbox name=print_select[] value='MIS'>MIS</td>
-			</tr>
-			<tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='HR & Office'>HR & Office</td>
-			<td><input type=checkbox name=print_select[] value='Internal Audit'>Internal Audit</td>
-			</tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='Marketing'>Marketing</td>
-			<td><input type=checkbox name=print_select[] value='Merchandising'>Merchandising</td>
-			</tr>
-			{else}
-			<tr>
-			<td><input type=checkbox name=print_select[] value='Management' {if $department eq 'Management'}checked{/if}>Management</td>
-			<td><input type=checkbox name=print_select[] value='Account' {if $department eq 'Account'}checked{/if}>Account<td>
-			</tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='MIS' {if $department eq 'MIS'}checked{/if}>MIS</td>
-			<td><input type=checkbox name=print_select[] value='HR & Office' {if $department eq 'HR & Office'}checked{/if}>HR & Office</td>
-			</tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='Security' {if $department eq 'Security'}checked{/if}>Security</td>
-			<td><input type=checkbox name=print_select[] value='Maintenance' {if $department eq 'Maintenance'}checked{/if}>Maintenance</td>
-			</tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='A & P' {if $department eq 'A & P'}checked{/if}>A & P</td>
-			<td><input type=checkbox name=print_select[] value='Merchandising' {if $department eq 'Merchandising'}checked{/if}>Merchandising</td>
-			</tr>
-			<tr>
-			<td><input type=checkbox name=print_select[] value='Store' {if $department eq 'Store'}checked{/if}>Store</td>
-			<td nowrap><input type=checkbox name=print_select[] value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}checked{/if}>Sales (Supermarket line)</td>
-			</tr>
-			<tr>
-			<td nowrap><input type=checkbox name=print_select[] value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}checked{/if}>Sales (Soft line)</td>
-			<td nowrap><input type=checkbox name=print_select[] value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}checked{/if}>Sales (Hard line)</td>
-			</tr>
-			<tr>
-			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Supermarket line)'  {if $department eq 'Promoter (Supermarket line)'}checked{/if}>Promoter (Supermarket line)</td>
-			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}checked{/if}>Promoter (Soft line)</td>
-			</tr>
-			<tr>
-			<td nowrap><input type=checkbox name=print_select[] value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}checked{/if}>Promoter (Hard line)</td>
-			<td><input type=checkbox name=print_select[] value='Cashiering' {if $department eq 'Cashiering'}checked{/if}>Cashiering</td>
-			</tr>
-			<tr>
-			<td colspan=2><input type=checkbox name=print_select[] value='Public Relations' {if $department eq 'Public Relations'}checked{/if}>Public Relations</td>
-			</tr>
-			{/if}
-			<tr>
-			<td colspan=2>
-			&nbsp;
-			</td>
-			</tr>
-			<tr align=center>
-			<td colspan=2>
-			<input type=button value="OK" onclick="do_submit_print();">&nbsp;&nbsp;&nbsp;<input type=button value="Cancel" onclick="do_cancel();">
-			</td>
-			</tr>
-			</table>
-			</form>
 
-	</div>
-
-<div class="modal" id="print_popup">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal" id="print_popup" >
+	<div class="modal-dialog modal-dialog-centered modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header" >
 					<h6 class="modal-title">Please Select Department to Print</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
-			<div class="modal-body tx-center">
-				
+			<div class="modal-body ">
+				<form name=f_print>
+					<input type=hidden name=month value="{$month}">
+					<input type=hidden name=year value="{$year}">
+					<input type=hidden name=branch value="{$branch}">
+					<input type=hidden name=department value="{$department}">
+					<input type=hidden name=a value="print_submit">
+					<p align=center><b>
+					</b>
+					<p align=left>
+					
+					<table>
+					<tr>
+					<th colspan=2 align=left><input type=checkbox onclick="check_all(this.checked)">&nbsp;&nbsp;Select/Unselect All<b></th>
+					</tr>
+					{if $branch=='1'}
+					<tr>
+					<td><input type=checkbox name=print_select[] value='Finance'>&nbsp;&nbsp;Finance</td>
+					<td><input type=checkbox name=print_select[] value='MIS'>&nbsp;&nbsp;MIS</td>
+					</tr>
+					<tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='HR & Office'>&nbsp;&nbsp;HR & Office</td>
+					<td><input type=checkbox name=print_select[] value='Internal Audit'>&nbsp;&nbsp;Internal Audit</td>
+					</tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='Marketing'>&nbsp;&nbsp;Marketing</td>
+					<td><input type=checkbox name=print_select[] value='Merchandising'>&nbsp;&nbsp;Merchandising</td>
+					</tr>
+					{else}
+					<tr>
+					<td><input type=checkbox name=print_select[] value='Management' {if $department eq 'Management'}checked{/if}>&nbsp;&nbsp;Management</td>
+					<td><input type=checkbox name=print_select[] value='Account' {if $department eq 'Account'}checked{/if}>&nbsp;&nbsp;Account<td>
+					</tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='MIS' {if $department eq 'MIS'}checked{/if}>&nbsp;&nbsp;MIS</td>
+					<td><input type=checkbox name=print_select[] value='HR & Office' {if $department eq 'HR & Office'}checked{/if}>&nbsp;&nbsp;HR & Office</td>
+					</tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='Security' {if $department eq 'Security'}checked{/if}>&nbsp;&nbsp;Security</td>
+					<td><input type=checkbox name=print_select[] value='Maintenance' {if $department eq 'Maintenance'}checked{/if}>&nbsp;&nbsp;Maintenance</td>
+					</tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='A & P' {if $department eq 'A & P'}checked{/if}>&nbsp;&nbsp;A & P</td>
+					<td><input type=checkbox name=print_select[] value='Merchandising' {if $department eq 'Merchandising'}checked{/if}>&nbsp;&nbsp;Merchandising</td>
+					</tr>
+					<tr>
+					<td><input type=checkbox name=print_select[] value='Store' {if $department eq 'Store'}checked{/if}>&nbsp;&nbsp;Store</td>
+					<td nowrap><input type=checkbox name=print_select[] value='Sales (Supermarket line)' {if $department eq 'Sales (Supermarket line)'}checked{/if}>Sales (Supermarket line)</td>
+					</tr>
+					<tr>
+					<td nowrap><input type=checkbox name=print_select[] value='Sales (Soft line)' {if $department eq 'Sales (Soft line)'}checked{/if}>Sales (Soft line)</td>
+					<td nowrap><input type=checkbox name=print_select[] value='Sales (Hard line)' {if $department eq 'Sales (Hard line)'}checked{/if}>Sales (Hard line)</td>
+					</tr>
+					<tr>
+					<td nowrap><input type=checkbox name=print_select[] value='Promoter (Supermarket line)'  {if $department eq 'Promoter (Supermarket line)'}checked{/if}>Promoter (Supermarket line)</td>
+					<td nowrap><input type=checkbox name=print_select[] value='Promoter (Soft line)' {if $department eq 'Promoter (Soft line)'}checked{/if}>Promoter (Soft line)</td>
+					</tr>
+					<tr>
+					<td nowrap><input type=checkbox name=print_select[] value='Promoter (Hard line)' {if $department eq 'Promoter (Hard line)'}checked{/if}>Promoter (Hard line)</td>
+					<td><input type=checkbox name=print_select[] value='Cashiering' {if $department eq 'Cashiering'}checked{/if}>Cashiering</td>
+					</tr>
+					<tr>
+					<td colspan=2><input type=checkbox name=print_select[] value='Public Relations' {if $department eq 'Public Relations'}checked{/if}>Public Relations</td>
+					</tr>
+					{/if}
+					<tr>
+					<td colspan=2>
+					&nbsp;
+					</td>
+					</tr>
+					<tr align=center>
+					<td colspan=2>
+					<input type="button" class="btn btn-primary" value="OK" onclick="do_submit_print();">&nbsp;&nbsp;&nbsp;<input type=button class="btn btn-danger" value="Cancel" onclick="do_cancel();">
+					</td>
+					</tr>
+					</table>
+					</form>
 			</div>
 		</div>
 	</div>

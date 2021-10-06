@@ -43,12 +43,10 @@ function list_sel(n,s){
 	for(i=0;i<=6;i++){
 		if ($('lst'+i)!=undefined){
 			if (i==n){
-			   // $('lst'+i).className='active';
-				jQuery('.lst'+i).addClass('active');			
+			    $('lst'+i).addClassName('selected');			
 			}
 			else{
-			//$('lst'+i).className='';
-			jQuery('.lst'+i).removeClass('btn');
+				$('lst'+i).removeClassName('selected');
 			}			    
 		}
 	}
@@ -207,11 +205,11 @@ function export_adjustment_item(id,bid){
 
 <div class="row mx-3">
 	<div class="col">
-		<a href="javascript:list_sel(1)"  id="lst1" class="fs-08 btn btn-outline-indigo btn-rounded active" >Saved Adjustment</a>
-<a href="javascript:list_sel(2)" id="lst2" class="fs-08 btn btn-outline-indigo btn-rounded" >Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id="lst5" class="fs-08 btn btn-outline-indigo btn-rounded" >Rejected</a>
-<a href="javascript:list_sel(3)" id="lst3" class="fs-08 btn btn-outline-indigo btn-rounded" >Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id="lst4" class="fs-08 btn btn-outline-indigo btn-rounded" >Approved</a>
+		<a href="javascript:list_sel(1)"  id="lst1" class="fs-08 btn btn-outline-primary btn-rounded" >Saved Adjustment</a>
+<a href="javascript:list_sel(2)" id="lst2" class="fs-08 btn btn-outline-primary btn-rounded" >Waiting for Approval</a>
+<a href="javascript:list_sel(5)" id="lst5" class="fs-08 btn btn-outline-primary btn-rounded" >Rejected</a>
+<a href="javascript:list_sel(3)" id="lst3" class="fs-08 btn btn-outline-primary btn-rounded" >Cancelled/Terminated</a>
+<a href="javascript:list_sel(4)" id="lst4" class="fs-08 btn btn-outline-primary btn-rounded" >Approved</a>
 
 	</div>
 	<div class="col">

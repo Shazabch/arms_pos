@@ -32,18 +32,26 @@ Revision History
 }
 {/literal}
 </style>
-
-<h1>View Logs</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">View Logs</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		
 <form method="get" name="f_f" onsubmit="return reload();">
 	<input type="hidden" name="find" value="1"/>
 <table >
 <tr>
-	<td>
+	
 	{if $sessioninfo.privilege.VIEWLOG_ALL}
 	
-		<b>User</b>
+		<b class="form-label mt-2">User</b>
 	
-		<select id="user_id" name="user_id">
+		<select class="form-control select2" id="user_id" name="user_id">
 		<option value="">All</option>
 		{section name=i loop=$users}
 		<option value={$users[i].id} {if $smarty.request.user_id eq $users[i].id}selected{/if}>{$users[i].u} ({$users[i].branch_code}){if !$users[i].active} - inactive{/if}</option>
@@ -55,9 +63,9 @@ Revision History
 	{/if}
 	{if $BRANCH_CODE eq 'HQ'}
 	
-		<b>Branch</b>
+		<b class="form-label mt-2">Branch</b>
 	
-		<select id="branch_id" name="branch_id">
+		<select class="form-control select2" id="branch_id" name="branch_id">
 		<option value="">All</option>
 		{section name=i loop=$branches}
 		<option value="{$branches[i].id}" {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
@@ -66,8 +74,8 @@ Revision History
 	
 	{/if}
 	
-		<b>Type</b>
-		<select id="filter_type" name="filter_type">
+		<b class="form-label mt-2">Type</b>
+		<select class="form-control select2" id="filter_type" name="filter_type">
 		<option class="optionGroup" value="">All</option>
 		{foreach from=$types key=type_group item=type_child}
 			{assign var="group_type" value="G:`$type_group`"}
@@ -77,56 +85,81 @@ Revision History
 			{/foreach}
 		{/foreach}
 		</select>
-	</td>
+
 </tr>
 <tr>
-	<td>
-		<b>From</b>
-		<input id="inp_date_from" size="10" value="{$smarty.request.date_from}" name="date_from" onblur="check_date(this)">
+
+		<div class="row">
+			<div class="col-md-6">
+				<b class="form-label mt-2">From</b>
+				<div class="form-inline">
+		<input class="form-control" id="inp_date_from" value="{$smarty.request.date_from}" name="date_from" onblur="check_date(this)">
 		<img id="img_date_from" align="absmiddle" title="Select Date" style="cursor: pointer;" src="ui/calendar.gif">
-		<b>To</b>
-		<input id="inp_date_to" size="10" value="{$smarty.request.date_to}" name="date_to" onblur="check_date(this)">
-		<img id="img_date_to" align="absmiddle" title="Select Date" style="cursor: pointer;" src="ui/calendar.gif">
-		(yyyy-mm-dd) 
+				</div>
+			</div>
+		
+			<div class="col-md-6">
+				<b class="form-label mt-2">To</b>
+				<div class="form-inline">
+					<input class="form-control" id="inp_date_to" value="{$smarty.request.date_to}" name="date_to" onblur="check_date(this)">
+					<img id="img_date_to" align="absmiddle" title="Select Date" style="cursor: pointer;" src="ui/calendar.gif">
+				
+				</div>
+				<small>(yyyy-mm-dd) </small>
+			</div>
+		</div>
+		
 		
 	
-		<b>Search</b>
+		<b class="form-label">Search</b>
 	
-		<input type="text" name="keyword" value="{$smarty.request.keyword}">
+		<input class="form-control" type="text" name="keyword" value="{$smarty.request.keyword}">
 	
-		<b>Records per page</b>
+		<b class="form-label">Records per page</b>
 	
-		<select name="pg" onChange="return reload(true)">
+		<select class="form-control select2" name="pg" onChange="return reload(true)">
 		<option value="100" {if $smarty.request.pg == 100}selected{/if}>100</option>
 		<option value="50" {if $smarty.request.pg == 50}selected{/if}>50</option>
 		<option value="20" {if $smarty.request.pg == 20}selected{/if}>20</option>
 		</select>
 	
-		<input class="btn btn-primary" type="submit" value="View">
-	</td>
+		<input class="btn btn-primary mt-2" type="submit" value="View">
+
 </tr>
 </table>
 </form>
-{if $pagination}<p align="center">{$pagination}</p>{/if}
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		{if $pagination}<p align="center">{$pagination}</p>{/if}
 <div class="stdframe">
-<table  cellpadding="4" cellspacing="0" width="100%">
-<tr>
-	<th>Branch</th>
-	{if $smarty.request.user_id eq ""}<th>User</th>{/if}
-	<th>Date/Time</th>
-	<th>Type</th>
-	<th>Description</th>
-</tr>
-{section name=i loop=$logs}
-<tr>
-	<td>{$logs[i].branch}</td>
-	{if $smarty.request.user_id eq ""}<td>{$logs[i].u}</td>{/if}
-	<td nowrap>{$logs[i].timestamp|date_format:"%e/%m/%y %H:%M:%S"}</td>
-	<td nowrap>{$logs[i].type}</td>
-	<td>{$logs[i].log|nl2br}</td>
-</tr>
-{/section}
-</table>
+	<div class="table-responsive">
+		<table  class="report_table table mb-0 text-md-nowrap  table-hover">
+			<thead class="bg-gray-100 p-3">
+				<tr>
+					<th>Branch</th>
+					{if $smarty.request.user_id eq ""}<th>User</th>{/if}
+					<th>Date/Time</th>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			{section name=i loop=$logs}
+			<tbody class="fs-08">
+				<tr>
+					<td>{$logs[i].branch}</td>
+					{if $smarty.request.user_id eq ""}<td>{$logs[i].u}</td>{/if}
+					<td nowrap>{$logs[i].timestamp|date_format:"%e/%m/%y %H:%M:%S"}</td>
+					<td nowrap>{$logs[i].type}</td>
+					<td>{$logs[i].log|nl2br}</td>
+				</tr>
+			</tbody>
+			{/section}
+			</table>
+	</div>
+	</div>
+</div>
 </div>
 
 {if $pagination}<p align="center">{$pagination}</p>{/if}

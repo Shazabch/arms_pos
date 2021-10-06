@@ -387,7 +387,7 @@ function clear_autocomplete(){
 {/literal}
 </script>
 
-<div id=history_popup style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
+<div id="history_popup" style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
 <div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
 <div id=history_popup_content></div>
 </div>
@@ -409,7 +409,7 @@ function clear_autocomplete(){
 		{if $include_all_sku_item}&nbsp;&nbsp;
 		<label><input type="checkbox" name="include_all_sku_item" />Include all parent / child SKU</label>{/if}
 		{if $add_parent_child}&nbsp;&nbsp;<label><input type="button" value="Add Parent & Child" onclick='add_parent_child()'></label>{/if}
-		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+		<div id="autocomplete_sku_choices" class="autocomplete bd-x bd-y " style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>
 </tr>

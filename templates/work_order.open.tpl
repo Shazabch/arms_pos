@@ -1094,8 +1094,11 @@ function do_ajax_add(query_string){
 {/literal}
 </script>
 
-<h1>
-	{$PAGE_TITLE}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$PAGE_TITLE}
 	{if is_new_id($form.id)}
 		(NEW)
 	{else}
@@ -1104,9 +1107,12 @@ function do_ajax_add(query_string){
 			, Adjustment ID#{$form.adj_id}
 		{/if}
 	{/if}
-</h1>
-
-<h3>
+			</h4>
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<h5 class="content-title mb-0 my-auto ml-4 text-primary">
 	Status:
 	{if !$form.active}
 		Cancelled
@@ -1117,7 +1123,7 @@ function do_ajax_add(query_string){
 	{elseif $form.status eq 1 and $form.completed eq 1}
 		Completed
 	{/if}
-</h3>
+</h5>
 
 {if $form.adj_id}
 <div class="stdframe" style="background-color:#F0FFF0;">
@@ -1143,7 +1149,9 @@ function do_ajax_add(query_string){
 	<input type="hidden" name="to_action" value="" />
 </form>
 
-<form name="f_a" method="post" onSubmit="return false;">
+<div class="card mx-3 mt-2">
+	<div class="card-body">
+		<form name="f_a" method="post" onSubmit="return false;">
 	<input type="hidden" name="a" />
 	<input type="hidden" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" />
 	<input type="hidden" name="id" value="{$form.id}" />
@@ -1160,7 +1168,7 @@ function do_ajax_add(query_string){
 		<table width="100%">
 			{* Branch *}
 			<tr>
-				<td width="120"><b>Branch</b></td>
+				<td width="120"><b class="form-label">Branch</b></td>
 				<td>
 					{$form.branch_code}
 				</td>
@@ -1168,19 +1176,26 @@ function do_ajax_add(query_string){
 			
 			{* Adjustment Date *}
 			<tr>
-				<td><b>Adjustment Date</b></td>
+				<td><b class="form-label">Adjustment Date <span class="text-danger"> *</span></b></td>
 				<td>
-					<input name="adj_date" id="inp_adj_date" size="10" maxlength="10"  value="{$form.adj_date|date_format:"%Y-%m-%d"}" class="required" title="Adjustment Date" />
+					<div class="row">
+						<div class="col">
+							<div class="form-inline">
+								<input class="form-control" name="adj_date" id="inp_adj_date"   value="{$form.adj_date|date_format:"%Y-%m-%d"}" class="required" title="Adjustment Date" />
 					{if $can_edit}
 						<img align="absmiddle" src="ui/calendar.gif" id="img_adj_date" style="cursor: pointer;" title="Select Date" />
 					{/if}
-					<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
+							</div>
+						</div>
+
+					</div>
+					
 				</td>
 			</tr>
 			
 			{* Department *}
 			<tr>
-				<td><b>Department</b></td>
+				<td><b class="form-label">Department<span class="text-danger"> *</span></b></td>
 				<td>
 					<select class="form-control select2" name="dept_id">
 						<option value="">-- Please Select --</option>
@@ -1188,21 +1203,21 @@ function do_ajax_add(query_string){
 							<option value="{$dept_id}" {if $form.dept_id eq $dept_id}selected {/if}>{$dept.description}</option>
 						{/foreach}
 					</select>
-					<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
+					
 				</td>
 			</tr>
 			
 			{* Transfer Type *}
 			<tr>
-				<td><b>Transfer Type</b> [<a href="javascript:void(alert('Transfer Type cannot be changed after confirmed (sent to Transfer In)'))">?</a>]</td>
+				<td><b class="form-label">Transfer Type<span class="text-danger"> *</span></b> [<a href="javascript:void(alert('Transfer Type cannot be changed after confirmed (sent to Transfer In)'))">?</a>]</td>
 				<td>
 					{if !$form.status}
-						<select name="transfer_type" onChange="WO_OPEN.transfer_type_changed();">
+						<select class="form-control" name="transfer_type" onChange="WO_OPEN.transfer_type_changed();">
 							{foreach from=$transfer_type_list key=k item=v}
 								<option value="{$k}" {if $form.transfer_type eq $k}selected {/if}>{$v}</option>
 							{/foreach}
 						</select>
-						<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
+					
 					{else}
 						<input type="hidden" name="transfer_type" value="{$form.transfer_type}" />
 						{$transfer_type_list[$form.transfer_type]}
@@ -1220,15 +1235,15 @@ function do_ajax_add(query_string){
 			
 			{* Remark *}
 			<tr>
-				<td valign="top"><b>Remarks</b></td>
+				<td valign="top"><b class="form-label">Remarks</b></td>
 				<td>
-					<textarea rows="2" cols="68" name="remark" onchange="uc(this);">{$form.remark}</textarea>
+					<textarea class="form-control" rows="2" cols="68" name="remark" onchange="uc(this);">{$form.remark}</textarea>
 				</td>
 			</tr>
 			
 			{* Notify Users *}
 			<tr>
-				<td valign="top"><b>Notify Users</b></td>
+				<td valign="top"><b class="form-label">Notify Users</b></td>
 				<td>
 					When confirm and send the document to (Transfer In), will notify below users using pm
 					<div class="stdframe" style="height:80px;width:200px;overflow-y:auto;background-color:#fff;">
@@ -1247,16 +1262,27 @@ function do_ajax_add(query_string){
 			</tr>
 		</table>
 	</div>
-	
+</div>
+</div>
+
 	<br />
 	<div id="div_sheets">
-		{include file='work_order.open.out.tpl'}
-		{include file='work_order.open.in.tpl'}
+		<div class="card mx-3">
+			<div class="card-body">
+				{include file='work_order.open.out.tpl'}
+		
+				{include file='work_order.open.in.tpl'}
+			</div>
+		</div>
 		
 		{if $can_edit}
 			<br />
-			<div style="background:#ddd;border:1px solid #999;" id="div_add_item">
-				{include file='scan_barcode_autocomplete.tpl' need_hr_out_bottom=1}
+			<div  id="div_add_item">
+				<div class="card mx-3">
+					<div class="card-body">
+						{include file='scan_barcode_autocomplete.tpl' need_hr_out_bottom=1}
+					</div>
+				</div>
 				{assign var=need_weight_kg value=1}
 				{if $action eq 'in'}
 					{if $form.transfer_type eq 'w2p'}
@@ -1264,11 +1290,16 @@ function do_ajax_add(query_string){
 					{/if}
 				{/if}
 				
-				{include file=sku_items_autocomplete_multiple_add.tpl allow_edit=1 default_mcode=1 need_weight_kg=$need_weight_kg}
-				<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-				<ul style="list-style:none;">
-					<li> <img src="/ui/icons/help.png" align="top" /> Only SKU with Weight more than 0 can be found.</li>
-				</ul>
+				<div class="card mx-3">
+					<div class="card-body">
+						{include file=sku_items_autocomplete_multiple_add.tpl allow_edit=1 default_mcode=1 need_weight_kg=$need_weight_kg}
+						<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;<img src="/ui/icons/help.png" align="top" /> Only SKU with Weight more than 0 can be found.
+						
+					</div>
+				</div>
+			
 			</div>
 			<script>reset_sku_autocomplete();</script>
 		{/if}
@@ -1277,7 +1308,7 @@ function do_ajax_add(query_string){
 
 <p id="p_submit_btn" align="center">
 	{if $can_edit}
-		<input type="button" value="Save & Close" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="WO_OPEN.submit_form();" />
+		<input type="button" value="Save & Close" class="btn btn-warning" onclick="WO_OPEN.submit_form();" />
 		
 		{if !is_new_id($form.id) and $action eq 'out'}
 			<input type="button" class="btn btn-danger" value="Delete"  onclick="WO_OPEN.form_delete_clicked()" />

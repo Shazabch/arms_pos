@@ -553,7 +553,7 @@ Revision History
 				    $con->sql_query("select id from user where id = $sessioninfo[id] and p = " . ms(md5($_REQUEST['pw'])));
 				    if ($con->sql_numrows()<=0)
 				    {
-						print "<ul><li title=\"0\"><span class=informal>$LANG[SKU_SEARCH_ALL_WRONG_PASSWORD]</span></li></ul>";
+						
 						exit;
 				    }
 			    }
@@ -621,7 +621,7 @@ Revision History
 			$out = '';
 			$curr_date = date('Y-m-d');
 			$items_list = array();
-			if(!$hide_print) print "<ul>";
+			if(!$hide_print) print "<ul >";
 			if ($con->sql_numrows($result1) > 0){
 			
 			    if ($con->sql_numrows($result1) > $LIMIT)
@@ -747,7 +747,7 @@ Revision History
 				    $con->sql_query("select id from user where id = $sessioninfo[id] and p = " . ms(md5($_REQUEST['pw'])));
 				    if ($con->sql_numrows()<=0)
 				    {
-						print "<ul><li title=\"0\"><span class=informal>$LANG[SKU_SEARCH_ALL_WRONG_PASSWORD]</span></li></ul>";
+						print "<ul><li  title=\"0\"><span class=informal>$LANG[SKU_SEARCH_ALL_WRONG_PASSWORD]</span></li></ul>";
 						exit;
 				    }
 			    }
@@ -881,13 +881,13 @@ Revision History
 						
 			$out = '';
 			$items_list = array();
-			if(!$hide_print)	print "<ul>";
+			if(!$hide_print)	print "<ul class=\"list-group list-group-flush\">";
 			if ($con->sql_numrows($result1) > 0)
 			{
 
 			    if ($con->sql_numrows($result1) > $LIMIT)
 			    {
-					if(!$hide_print)	print "<li><span class=informal>Showing first $LIMIT items...</span></li>";
+					if(!$hide_print)	print "<li class=\"list-group-item list-group-item-action\"><span  class=\"informal\">Showing first $LIMIT items...</span></li>";
 				}
 
 				// generate list.
@@ -972,8 +972,8 @@ Revision History
 					elseif($_REQUEST['from_do'] && $config['do_block_zero_stock_bal_items'] && $r['sb_qty'] <= 0){
 						$err_msg = sprintf($LANG['DO_ZERO_STOCK_BAL_ITEM'], $r['sku_item_code']);
 					}else{	// no error
-					    if ($block_bom_package) $out .= "<li title=\"$r[id],$r[sku_item_code],".htmlspecialchars($r['description'])."\" onclick=\"set_search_value(this)\">".htmlspecialchars($r['description']);
-						else $out .= "<li title=\"$r[id],$r[sku_item_code]$pp\">". ($_REQUEST['multiple']?"<input id=cb_ajax_sku_$r[id] value=\"$r[id],$r[sku_item_code]$pp\" title=\"".htmlspecialchars($r['description'])."\" artno=\"$r[artno]\" mcode=\"$r[mcode]\" type=checkbox> ":"")."<label class=clickable for=cb_ajax_sku_$r[id]>".htmlspecialchars ($r['description'])."</label>";
+					    if ($block_bom_package) $out .= "<li class=\"list-group-item list-group-item-action\" title=\"$r[id],$r[sku_item_code],".htmlspecialchars($r['description'])."\" onclick=\"set_search_value(this)\">".htmlspecialchars($r['description']);
+						else $out .= "<li class=\"list-group-item list-group-item-action\" title=\"$r[id],$r[sku_item_code]$pp\">". ($_REQUEST['multiple']?"<input id=cb_ajax_sku_$r[id] value=\"$r[id],$r[sku_item_code]$pp\" title=\"".htmlspecialchars($r['description'])."\" artno=\"$r[artno]\" mcode=\"$r[mcode]\" type=checkbox> ":"")."<label class=clickable for=cb_ajax_sku_$r[id]>".htmlspecialchars ($r['description'])."</label>";
 					    if($show_multiple)   $items_list[] = $r;
 					}	
 					
@@ -982,7 +982,7 @@ Revision History
 						//if($block_return)	$err_msg = $LANG['SKU_IS_NON_RETURNABLE'];
 						//if($not_allow_due_to_purchase_agreement)	$err_msg = $LANG['PO_NOT_ALLOW_OPEN_BUY_ITEM_WITH_PURCHASE_AGREEMENT'];
 						//if ($block_bom_package) $out .= "<li title=\"bobobo\" class=strike onclick=\"set_search_value(this.title)\">". htmlspecialchars($r['description']);
-					    $out .= "<li title=\"0\" class=strike onclick=\"alert('$err_msg')\">". htmlspecialchars($r['description']);
+					    $out .= "<li title=\"0\" class=\"list-group-item list-group-item-action strike\" onclick=\"alert('$err_msg')\">". htmlspecialchars($r['description']);
 					}
 
 					//Selling: $%.2f  Cost: $%.3f  Margin: %.2f%%
@@ -1010,7 +1010,7 @@ Revision History
 	        }
 	        else
 	        {
-	           if(!$hide_print)	print "<li title=\"0\"><span class=informal>No Matches for $v</span></li>";
+	           if(!$hide_print)	print "<li class=\"list-group-item list-group-item-action\" title=\"0\"><span class=informal>No Matches for $v</span></li>";
 			}
 
 			if(!$hide_print){
