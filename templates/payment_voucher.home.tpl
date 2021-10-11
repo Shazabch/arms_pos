@@ -281,7 +281,7 @@
 	}
 	
 	function get_cheque_by_date_list(){
-		Element.hide('cheque_popup_date');	
+		jQuery('#cheque_popup_date').modal('hide');	
 		g_b=$('voucher_branch_id_date').value;
 		
 		if($('include_printed_date').checked){
@@ -302,16 +302,16 @@
 	}
 	
 	function curtain_clicked(){	
-		Element.hide('cheque_popup');
-		Element.hide('cheque_popup_date');
-		Element.hide('keyin_popup');
-		Element.hide('keyin_popup_date');
-		Element.hide('print_dialog');
+		jQuery('#cheque_popup').modal('hide');
+		jQuery('#cheque_popup_date').modal('hide');
+		jQuery('#keyin_popup').modal('hide');
+		jQuery('#keyin_popup_date').modal('hide');
+		jQuery('#print_dialog').modal('hide');
 		jQuery("#print_butt").modal('hide');
 		jQuery('#damage_cheque').modal('hide');
 		jQuery("#print_cheques_by_ls").modal('hide');
 		jQuery('#div_reprint_ls').modal('hide');
-		Element.hide('print_ls_dialog');
+		jQuery('#print_ls_dialog').modal('hide');
 		jQuery("#div_reprint_c_by_ls").modal('hide');
 		curtain(false);
 	}
@@ -341,7 +341,7 @@
 	}
 	
 	function ajax_load_cheque_list(){
-		Element.show('keyin_popup');
+		jQuery('#keyin_popup').modal('show');
 		curtain(true);
 		center_div('keyin_popup');
 		$('keyin_popup').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';

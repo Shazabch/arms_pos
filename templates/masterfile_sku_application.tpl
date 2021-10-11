@@ -2335,14 +2335,13 @@ function calculate_rsp(item_id, target_input){
 			</td>
 		</tr>
 		<tr>
-			<td>Brand</td>
-			<td>
-			<input type="text" id="multics_brand" name="multics_brand" value="{$form.multics_brand}"/>
+			<b class="form-label">Brand</b>
+		
+			<input class="form-control" type="text" id="multics_brand" name="multics_brand" value="{$form.multics_brand}"/>
 			<div id="multics_brand_choices" class="autocomplete"></div>
-			</td>
-			<td>Price Type</td>
-			<td>
-			<select name=multics_pricetype>
+			
+			<b class="form-label">Price Type</b>
+			<select class="form-control" name=multics_pricetype>
 			<option value="">Please Select</option>
 			<option value="N1" {if $form.multics_pricetype eq "N1"}selected{/if}>N1</option>
 			<option value="N2" {if $form.multics_pricetype eq "N2"}selected{/if}>N2</option>
@@ -2356,7 +2355,7 @@ function calculate_rsp(item_id, target_input){
 			<option value="B8" {if $form.multics_pricetype eq "B8"}selected{/if}>B8</option>
 			<option value="B9" {if $form.multics_pricetype eq "B9"}selected{/if}>B9</option>
 			</select>
-			</td>
+		
 		</tr>
 		</table>
 	</td>
@@ -2557,7 +2556,7 @@ function calculate_rsp(item_id, target_input){
 {/if}
 <p align=center>
 {if $package_readonly}
-<input type="button" value="End Package Listing" class="btn btn-warning" onclick="document.location='{$smarty.server.PHP_SELF}?a=skip_listing';">
+<input type="button" class="btn btn-primary" value="End Package Listing" class="btn btn-warning" onclick="document.location='{$smarty.server.PHP_SELF}?a=skip_listing';">
 	{if $sessioninfo.privilege.MST_TERMINATE_PACKAGE}
 	<input type="button" value="Terminate Package Listing" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="terminate_package_clicked();">
 	{/if}

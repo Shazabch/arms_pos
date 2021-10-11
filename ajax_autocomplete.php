@@ -377,7 +377,7 @@ Revision History
 			$con->sql_query("select $col_tbl id, code, description, tax_register, tax_percent
 				from vendor where $vd (id = $vint or code = ".ms($v)." or description like " . ms(replace_special_char($v)."%") . " or description like " . ms("%". replace_special_char($v) ."%") . ")$vid order by description");
 			
-			print "<ul>";
+			print "<ul class=\"list-group list-group-flush\">";
 			if ($con->sql_numrows() > 0)
 			{
 			    if ($con->sql_numrows() > 15)

@@ -908,27 +908,36 @@ function uncheck_branch_by_group()
 
 </script>
 {/literal}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$PAGE_TITLE} ({if is_new_id($form.id)}New){else}#{$form.id|string_format:"%05d"})
+					<h5>Status:
+					{if $form.expired}
+						Expired
+					{elseif $form.status eq 1}
+						{if $form.approved}
+							Fully Approved
+						{else}
+							In Approval Cycle
+						{/if}
+					{elseif $form.status eq 2}
+						Rejected
+					{elseif $form.status eq 5}
+						Cancelled/Terminated
+					{else}
+						Draft
+					{/if}
+					</h5>
+				{/if}
+			
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<h1>{$PAGE_TITLE} ({if is_new_id($form.id)}New){else}#{$form.id|string_format:"%05d"})
-		<h3>Status:
-		{if $form.expired}
-			Expired
-		{elseif $form.status eq 1}
-			{if $form.approved}
-				Fully Approved
-			{else}
-				In Approval Cycle
-			{/if}
-		{elseif $form.status eq 2}
-			Rejected
-		{elseif $form.status eq 5}
-			Cancelled/Terminated
-		{else}
-			Draft
-		{/if}
-		</h3>
-	{/if}
-</h1>
+
 
 {if $approval_history}
 	<br />
@@ -1005,146 +1014,160 @@ function uncheck_branch_by_group()
 		<input type="hidden" name="comment" value="">
 		<input type="hidden" name="approvals" value="{$form.approvals}">
 	{/if}
-	<div class="stdframe">
-	<h4>General Information</h4>
-	<table border="0" cellspacing="0" cellpadding="4">
-		{if $BRANCH_CODE eq 'HQ'}
-			<tr>
-				<td><b>Set Date by Branch</b></td>
-				<td>
-					<input type="checkbox" name="date_by_branch" id="date_by_branch" value="1" {if $form.date_by_branch}checked{/if} {if $form.approval_screen}onclick="toggle_date(this);"{/if} />
-				</td>
-			</tr>
-		{/if}
-		<tr>
-			<td><b>Date</b></td>
-			<td>
-				<input size="10" type="text" name="date" id="date" value="{$form.date|ifzero:''}" class="date" readonly>
-				{if !$readonly || $form.approval_screen}
-					<img align="absmiddle" src="ui/calendar.gif" id="ds1" style="cursor: pointer; {if $form.date_by_branch}display:none{/if}" title="Select Date">&nbsp;
-				{/if}
-				H: 
-				<select name="hour" {if $form.date_by_branch}disabled{/if}>
-					{section name=hr loop=24 start=0}
-						{assign var=hour value=$smarty.section.hr.iteration-1}
-						<option value="{$hour}" {if $form.hour eq $hour}selected{/if}>{$hour}</option>
-					{/section}
-				</select>
-				M: 
-				<select name="minute" {if $form.date_by_branch}disabled{/if}>
-					<option value="0" {if !$form.minute}selected{/if}>0</option>
-					<option value="30" {if $form.minute eq "30"}selected{/if}>30</option>
-				</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top"><b>Branch</b></td>
-			<td>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+			<h4>General Information</h4>
+			<table border="0" cellspacing="0" cellpadding="4">
 				{if $BRANCH_CODE eq 'HQ'}
-				<!-- Branch -->
-					<div class="div_multi_select" id="div_multi_select">
-					You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
-				<br />
-						<ul style="list-style:none;">
-							<table width="100%" border="0" cellspacing="0">
-								{if !$form.approval_screen}
-									Select by: 
-										<select name="sel_brn_grp" id="sel_brn_grp" >
-											<option value="" >-- All --</option>
-												{section name=j loop=$brn_grp_list}
-											<option value="{$brn_grp_list[j].grp_items}" >{$brn_grp_list[j].code} - {$brn_grp_list[j].description}</option>
-												{/section}
-										</select>&nbsp;&nbsp;
-				
-										<input type="button" style="width:70px;" value="Select " onclick="check_branch_by_group();" />&nbsp;
-										<input type="button" style="width:70px;" value="De-select" onclick="uncheck_branch_by_group();" /><br /><br />
-
-									<tr>
-										{*
-										<td><input type="checkbox" id="toggle_branches" /></td>
-										<td colspan="3"><b>All</b></td>
-										*}
-									</tr>
-								{/if}
-								{foreach from=$branches key=bid item=r}
-									{if !$form.approval_screen || ($form.approval_screen && $form.effective_branches.$bid)}
-										<tr>
-											<td>
-												{if $form.approval_screen}
-													<input type="hidden" name="effective_branches[{$bid}]" {if $form.effective_branches.$bid}value="{$bid}"{/if} class="effective_branch" id="dt_{$bid}"/>
-												{else}
-													<input type="checkbox" name="effective_branches[{$bid}]" value="{$bid}" {if $form.effective_branches.$bid}checked{/if} class="effective_branch" id="dt_{$bid}"/>
-												{/if}
-											</td>
-											<td>{$r.code}</td>
-											<td class="dt" {if !$form.date_by_branch}style="display:none;"{/if}>
-												<input size="10" type="text" name="branch_date[{$bid}]" id="branch_date_{$bid}" value="{$form.effective_branches.$bid.date|ifzero:''}" class="date" readonly>
-												{if !$readonly || ($form.approval_screen && $form.effective_branches.$bid)}
-													<img align="absmiddle" src="ui/calendar.gif" id="ds1_{$bid}" style="cursor: pointer;" title="Select Date">&nbsp;
-												{/if}
-											</td>
-											<td class="hr" {if !$form.date_by_branch}style="display:none;"{/if} nowrap>
-												H: 
-												<select name="branch_hour[{$bid}]">
-													{section name=hr loop=24 start=0}
-														{assign var=hour value=$smarty.section.hr.iteration-1}
-														<option value="{$hour}" {if $form.effective_branches.$bid.hour eq $hour}selected{/if}>{$hour}</option>
-													{/section}
-												</select>
-											</td>
-											<td class="min" {if !$form.date_by_branch}style="display:none;"{/if} nowrap>
-												M: 
-												<select name="branch_minute[{$bid}]">
-													<option value="0" {if !$form.effective_branches.$bid.minute}selected{/if}>0</option>
-													<option value="30" {if $form.effective_branches.$bid.minute eq "30"}selected{/if}>30</option>
-												</select>
-											</td>
-										</tr>
-								
-										{literal}
-										<script>
-										var curr_date = new Date();
-										var curr_year = curr_date.getFullYear();
-										var curr_mth = curr_date.getMonth();
-										var curr_day = curr_date.getDate();
-										allowed_date = new Date(curr_year, curr_mth, curr_day);
-										Calendar.setup({
-											inputField     :    "branch_date_"+{/literal}{$bid}{literal},     // id of the input field
-											ifFormat       :    "%Y-%m-%d",      // format of the input field
-											button         :    "ds1_"+{/literal}{$bid}{literal},  // trigger for the calendar (button ID)
-											align          :    "Bl",           // alignment (defaults to "Bl")
-											singleClick    :    true,
-											dateStatusFunc :    function (date) { // disable those date <= today
-															return (date.getTime() < allowed_date.getTime()) ? true : false;
-														}
-										});
-										</script>
-										{/literal}
-									{/if}
-								{/foreach}
-							</table>
-						</ul>
-					</div>
-				{else}
-					{$BRANCH_CODE}
-					<input type="hidden" name="effective_branches[{$sessioninfo.branch_id}]" value="{$sessioninfo.branch_id}" />
+					<tr class="form-label">
+						<td><b>Set Date by Branch</b></td>
+						<td>
+							<input type="checkbox" name="date_by_branch" id="date_by_branch" value="1" {if $form.date_by_branch}checked{/if} {if $form.approval_screen}onclick="toggle_date(this);"{/if} />
+						</td>
+					</tr>
 				{/if}
-			</td>
-		</tr>
-		<tr>
-			<td><b>Created By</b></td>
-			<td>
-				{$form.username|default:$sessioninfo.u}
-			</td>
-		</tr>
-		<tr>
-			<td><b>Remark</b></td>
-			<td>
-				<textarea cols="40" rows="5" name="remark">{$form.remark}</textarea>
-			</td>
-		</tr>
-	</table>
+				<tr>
+					<td><b class="form-label">Date<span class="text-danger"> *</span> </b></td>
+				
+						<td>
+						<div class="form-inline">
+						<input class="form-control" type="text" name="date" id="date" value="{$form.date|ifzero:''}" class="date" readonly>
+						{if !$readonly || $form.approval_screen}
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ds1" style="cursor: pointer; {if $form.date_by_branch}display:none{/if}" title="Select Date">&nbsp;
+						{/if}
+						H: 
+						&nbsp;<select class="form-control" 	 name="hour" {if $form.date_by_branch}disabled{/if}>
+							{section name=hr loop=24 start=0}
+								{assign var=hour value=$smarty.section.hr.iteration-1}
+								<option value="{$hour}" {if $form.hour eq $hour}selected{/if}>{$hour}</option>
+							{/section}
+						</select>
+					&nbsp;	M: 
+						&nbsp;<select class="form-control" name="minute" {if $form.date_by_branch}disabled{/if}>
+							<option value="0" {if !$form.minute}selected{/if}>0</option>
+							<option value="30" {if $form.minute eq "30"}selected{/if}>30</option>
+						</select> 
+					</div>
+					</td>
+				
+				</tr>
+				<tr>
+					<td valign="top"><b class="form-label">Branch</b></td>
+					<td>
+						{if $BRANCH_CODE eq 'HQ'}
+						<!-- Branch -->
+							<div class="div_multi_select" id="div_multi_select">
+							You may select multiple branches to deliver <span class="text-danger"> *</span><br>
+						<br />
+								<ul style="list-style:none;">
+									<table width="100%">
+										{if !$form.approval_screen}
+											Select by: 
+												<select class="form-control" name="sel_brn_grp" id="sel_brn_grp" >
+													<option value="" >-- All --</option>
+														{section name=j loop=$brn_grp_list}
+													<option value="{$brn_grp_list[j].grp_items}" >{$brn_grp_list[j].code} - {$brn_grp_list[j].description}</option>
+														{/section}
+												</select>&nbsp;&nbsp;
+						
+												<input class="btn btn-info mt-2" type="button"  value="Select " onclick="check_branch_by_group();" />&nbsp;
+												<input class="btn btn-danger mt-2" type="button"  value="De-select" onclick="uncheck_branch_by_group();" /><br /><br />
+		
+											<tr>
+												{*
+												<td><input type="checkbox" id="toggle_branches" /></td>
+												<td colspan="3"><b>All</b></td>
+												*}
+											</tr>
+										{/if}
+										{foreach from=$branches key=bid item=r}
+											{if !$form.approval_screen || ($form.approval_screen && $form.effective_branches.$bid)}
+												<tr>
+													<td>
+														{if $form.approval_screen}
+															<input type="hidden" name="effective_branches[{$bid}]" {if $form.effective_branches.$bid}value="{$bid}"{/if} class="effective_branch" id="dt_{$bid}"/>
+														{else}
+															<input type="checkbox" name="effective_branches[{$bid}]" value="{$bid}" {if $form.effective_branches.$bid}checked{/if} class="effective_branch" id="dt_{$bid}"/>
+														{/if}
+													</td>
+													<td>{$r.code}</td>
+													<td class="dt" {if !$form.date_by_branch}style="display:none;"{/if}>
+														<div class="form-inline">
+															<input class="form-control" size="10" type="text" name="branch_date[{$bid}]" id="branch_date_{$bid}" value="{$form.effective_branches.$bid.date|ifzero:''}" class="date" readonly>
+														{if !$readonly || ($form.approval_screen && $form.effective_branches.$bid)}
+															<img align="absmiddle" src="ui/calendar.gif" id="ds1_{$bid}" style="cursor: pointer;" title="Select Date">&nbsp;
+														{/if}
+														</div>
+													</td>
+													<td class="hr" {if !$form.date_by_branch}style="display:none;"{/if} nowrap>
+														<div class="form-inline">
+															H: &nbsp;
+														<select class="form-control" name="branch_hour[{$bid}]">
+															{section name=hr loop=24 start=0}
+																{assign var=hour value=$smarty.section.hr.iteration-1}
+																<option value="{$hour}" {if $form.effective_branches.$bid.hour eq $hour}selected{/if}>{$hour}</option>
+															{/section}
+														</select>
+														</div>
+													</td>
+													<td class="min" {if !$form.date_by_branch}style="display:none;"{/if} nowrap>
+													<div class="form-inline">
+														&nbsp;M: &nbsp;
+														<select class="form-control" name="branch_minute[{$bid}]">
+															<option value="0" {if !$form.effective_branches.$bid.minute}selected{/if}>0</option>
+															<option value="30" {if $form.effective_branches.$bid.minute eq "30"}selected{/if}>30</option>
+														</select>
+													</td>
+													</div>
+												</tr>
+										
+												{literal}
+												<script>
+												var curr_date = new Date();
+												var curr_year = curr_date.getFullYear();
+												var curr_mth = curr_date.getMonth();
+												var curr_day = curr_date.getDate();
+												allowed_date = new Date(curr_year, curr_mth, curr_day);
+												Calendar.setup({
+													inputField     :    "branch_date_"+{/literal}{$bid}{literal},     // id of the input field
+													ifFormat       :    "%Y-%m-%d",      // format of the input field
+													button         :    "ds1_"+{/literal}{$bid}{literal},  // trigger for the calendar (button ID)
+													align          :    "Bl",           // alignment (defaults to "Bl")
+													singleClick    :    true,
+													dateStatusFunc :    function (date) { // disable those date <= today
+																	return (date.getTime() < allowed_date.getTime()) ? true : false;
+																}
+												});
+												</script>
+												{/literal}
+											{/if}
+										{/foreach}
+									</table>
+								</ul>
+							</div>
+						{else}
+							{$BRANCH_CODE}
+							<input class="form-control" type="hidden" name="effective_branches[{$sessioninfo.branch_id}]" value="{$sessioninfo.branch_id}" />
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Created By</b></td>
+					<td>
+						{$form.username|default:$sessioninfo.u}
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Remark</b></td>
+					<td>
+						<textarea class="form-control" cols="40" rows="" name="remark">{$form.remark}</textarea>
+					</td>
+				</tr>
+			</table>
+			</div>
 	</div>
+</div>
 	<br />
 	<ul>
 		{if $config.sku_change_price_always_apply_to_same_uom}
@@ -1160,59 +1183,68 @@ function uncheck_branch_by_group()
 		{if $errm.dtl}
 			<div id=err><div class=errmsg><ul>
 			{foreach from=$errm.dtl item=e}
-				<li> {$e}
+				<div class="alert alert-danger rounded"><li> {$e} </li></div>
 			{/foreach}
 			</ul></div></div>
 		{/if}
-		<table width="100%" id="tbl_item" style="border:1px solid #999; padding:5px; background-color:#fe9" class="tbl_item input_no_border body" cellspacing="1" cellpadding="4">
-			<thead>
-				<tr height="32" bgcolor="#ffffff" class="small">
-					<th rowspan="2">#</th>
-					{if $form.status eq 1 && !$form.approved && $form.approval_screen and $config.sku_change_price_approval_allow_reject_by_items}
-					<th rowspan="2">Reject</th>
-					{/if}
-					<th rowspan="2">ARMS</th>
-					<th rowspan="2">Artno</th>
-					<th rowspan="2">Mcode</th>
-					<th rowspan="2">Description</th>
-					<th rowspan="2">Stock<br />Balance</th>
-					{if $sessioninfo.privilege.SHOW_COST}
-						<th rowspan="2">Cost</th>
-					{/if}
-					<th rowspan="2">Price</th>
-					<th rowspan="2">Price Type</th>
-					<th rowspan="2">Discount<br />Code</th>
-					<th rowspan="2">Min Qty<br />(QPrice)</th>
-					<th rowspan="2">Proposed<br />Price</th>
-					{if $sessioninfo.privilege.SHOW_COST}
-						<th colspan="2">Current</th>
-						<th colspan="2">New</th>
-						<th colspan="2">Variance</th>
-					{/if}
-				</tr>
-				{if $sessioninfo.privilege.SHOW_COST}
-					<tr height="32" bgcolor="#ffffff" class="small">
-						<th>GP</th>
-						<th>GP(%)</th>
-						<th>GP</th>
-						<th>GP(%)</th>
-						<th>GP</th>
-						<th>GP(%)</th>
-					</tr>
-				{/if}
-			</thead>
-			<tbody id="tbody_item_list">
-				{foreach from=$form.items key=r item=item name=i}
-					{assign var=row_no value=$smarty.foreach.i.iteration}
-					{*<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';"  id="titem{$item.id}">*}
-						{include file="masterfile_sku_items.future_price.open.item.tpl"}
-						{assign var=mst_si_id value=$item.sku_item_id}
-						{if $item.type eq 'qprice'}
-							{include file="masterfile_sku_items.future_price.open.item.qprice.tpl"}
-						{/if}
-					{*</tr>*}
-				{/foreach}
-			</tbody>
+			<div class="card mx-3">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table width="100%" id="tbl_item" class="report_table table mb-0 text-md-nowrap  table-hover tbl_item input_no_border body">
+							<thead class="bg-gray-100">
+								<tr>
+									<th rowspan="2">#</th>
+									{if $form.status eq 1 && !$form.approved && $form.approval_screen and $config.sku_change_price_approval_allow_reject_by_items}
+									<th rowspan="2">Reject</th>
+									{/if}
+									<th rowspan="2">ARMS</th>
+									<th rowspan="2">Artno</th>
+									<th rowspan="2">Mcode</th>
+									<th rowspan="2">Description</th>
+									<th rowspan="2">Stock<br />Balance</th>
+									{if $sessioninfo.privilege.SHOW_COST}
+										<th rowspan="2">Cost</th>
+									{/if}
+									<th rowspan="2">Price</th>
+									<th rowspan="2">Price Type</th>
+									<th rowspan="2">Discount<br />Code</th>
+									<th rowspan="2">Min Qty<br />(QPrice)</th>
+									<th rowspan="2">Proposed<br />Price</th>
+									{if $sessioninfo.privilege.SHOW_COST}
+										<th colspan="2">Current</th>
+										<th colspan="2">New</th>
+										<th colspan="2">Variance</th>
+									{/if}
+								</tr>
+								{if $sessioninfo.privilege.SHOW_COST}
+									<tr height="32" bgcolor="#ffffff" class="small">
+										<th>GP</th>
+										<th>GP(%)</th>
+										<th>GP</th>
+										<th>GP(%)</th>
+										<th>GP</th>
+										<th>GP(%)</th>
+									</tr>
+								{/if}
+							</thead>
+							<tbody id="tbody_item_list" class="fs-08">
+								{foreach from=$form.items key=r item=item name=i}
+									{assign var=row_no value=$smarty.foreach.i.iteration}
+									{*<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';"  id="titem{$item.id}">*}
+										{include file="masterfile_sku_items.future_price.open.item.tpl"}
+										{assign var=mst_si_id value=$item.sku_item_id}
+										{if $item.type eq 'qprice'}
+											{include file="masterfile_sku_items.future_price.open.item.qprice.tpl"}
+										{/if}
+									{*</tr>*}
+								{/foreach}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="card mx-3">
+				<div class="card-body">
 			{if !$readonly}
 				<tfoot id="tbl_footer">
 					<tr class="add_sku_row" bgcolor="#f3f3f0">
@@ -1221,13 +1253,17 @@ function uncheck_branch_by_group()
 							<input id="sku_item_id" name="sku_item_id" size="3" type="hidden">
 							<input id="sku_item_code" name="sku_item_code" size="13" type="hidden">
 							<br>
-							<b>Search SKU</b> <input id="autocomplete_sku" name="sku" style="width:500px;" onclick="this.select()">
-							<input type="button" value="Add" onclick="MST_FUTURE_PRICE_MODULE.add_autocomplete();" style="background:#ece;border:1px solid #fff;border-right:1px solid #333; border-bottom:1px solid #333;">
-							
-							<input type="button" value="Multi Add" onclick="MST_FUTURE_PRICE_MODULE.open_multi_add()" style="background:#ef9;border:1px solid #fff;border-right:1px solid #333; border-bottom:1px solid #333;">
-							
-							<input type="button" value="Add All Price Type" onclick="MST_FUTURE_PRICE_MODULE.add_all_price_type()" style="background:#cbb3f7;border:1px solid #fff;border-right:1px solid #333; border-bottom:1px solid #333;">
-							
+							<b>Search SKU</b>
+							<div class="form-inline">
+								&nbsp;&nbsp;<input class="form-control" id="autocomplete_sku" name="sku" style="width:500px;" onclick="this.select()">
+								&nbsp;<input type="button" value="Add" onclick="MST_FUTURE_PRICE_MODULE.add_autocomplete();" class="btn btn-info">
+								
+								&nbsp;<input type="button" value="Multi Add" onclick="MST_FUTURE_PRICE_MODULE.open_multi_add()" class="btn btn-primary" >
+								
+								&nbsp;<input type="button" value="Add All Price Type" onclick="MST_FUTURE_PRICE_MODULE.add_all_price_type()" class="btn btn-info" >
+								
+							</div>
+
 							<div id="autocomplete_sku_choices" class="autocomplete" style="height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 							<br>
 							<img src="ui/pixel.gif" width="65" height="1">
@@ -1251,20 +1287,20 @@ function uncheck_branch_by_group()
 </div>
 	<p align="center">
 		{if !$readonly}
-			<input type="button" id="save_btn" name="save_btn" value="Save" style="font:bold 20px Arial; background-color:#f90; color:#fff;">
-			<input type="button" id="cancel_btn" value="Cancel" style="font:bold 20px Arial; background-color:#900; color:#fff;">
-			<input type="button" id="confirm_btn" value="Confirm" style="font:bold 20px Arial; background-color:#090; color:#fff;">
+			<input type="button" id="save_btn" name="save_btn" value="Save" class="btn btn-warning">
+			<input type="button" id="cancel_btn" value="Cancel" class="btn btn-danger">
+			<input type="button" id="confirm_btn" value="Confirm" class="btn btn-success">
 		{/if}
 		
 		{if !$form.approval_screen}
 			{if ($form.user_id eq $sessioninfo.id || $sessioninfo.level>=$config.doc_reset_level) && $sessioninfo.branch_id eq $form.branch_id && !is_new_id($form.id)}
 				{if $form.approved}
 					{if $form.status!=4 && $form.status!=5 && $form.status!=0 && $form.active}
-						<input type="button" id="cancel_btn" value="Cancel" style="font:bold 20px Arial; background-color:#900; color:#fff;">
+						<input type="button" id="cancel_btn" value="Cancel" class="btn btn-danger">
 					{/if}
 				{/if}
 			{/if}
-			<input type="button" id="close_btn" name="close_btn" value="Close" style="font:bold 20px Arial; background-color:#09f; color:#fff;">
+			<input type="button" id="close_btn" name="close_btn" value="Close" class="btn btn-info">
 		{/if}
 	</p>
 </form>

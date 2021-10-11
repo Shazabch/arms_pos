@@ -21,12 +21,16 @@
 - Remove SKU application photo can upload pdf word.
 *}
 
-<h4>Photo Attachment</h4>
+<div class="card mx-3">
+	<div class="card-body">
+		<h4>Photo Attachment</h4>
 <!-- display image error messages -->
 {if $errm.photo}
 <div id=err[{$item_n|default:0}]><div class=errmsg><ul>
 {foreach from=$errm.photo item=e}
-<li> {$e}
+<div class="alert alert-danger rounded">
+	<li> {$e}</li>
+</div>
 {/foreach}
 </ul></div></div>
 {/if}
@@ -124,3 +128,5 @@
 {else}
 <p>* The pos image only can apply on HQ branch*</p>
 {/if}
+	</div>
+</div>

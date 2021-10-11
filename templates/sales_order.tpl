@@ -65,9 +65,9 @@ function list_sel(selected){
 
 	var all_tab = $$('.tab .a_tab');
 	for(var i=0;i<all_tab.length;i++){
-		$(all_tab[i]).removeClassName('active');
+		$(all_tab[i]).removeClassName('selected');
 	}
-	$('lst'+tab_num).addClassName('active');
+	$('lst'+tab_num).addClassName('selected');
 
 	$('order_list').update(_loading_);
 	new Ajax.Updater('order_list',phpself+'?a=ajax_list_sel&ajax=1&t='+tab_num+'&p='+page_num,{
@@ -479,16 +479,28 @@ function onchange_title_print(){
 	</li>
 </ul>
 
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:void(list_sel(1))" id=lst1 class="active a_tab">Saved Order</a>
-<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab">Waiting for Approval</a>
-<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab">Rejected</a>
-<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab">Cancelled/Terminated</a>
-<a href="javascript:void(list_sel(4))" id=lst4 class="a_tab">Approved</a>
-<a href="javascript:void(list_sel(7))" id=lst7 class="a_tab">Delivered</a>
-<a href="javascript:void(list_sel(8))" id=lst8 class="a_tab">Exported To POS</a>
-<a class="a_tab" id="lst6">Search [<span class="link" onclick="toggle_search_info();">?</span>] <input id="inp_item_search" onKeyPress="search_input_keypress(event);" /> <input type="button" value="Go" onClick="list_sel(6);" /></a>
+<div class="row mx-3 mb-3">
+	<div class="col">
+		<div class=tab style="white-space:nowrap;">
+			<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Saved Order</a>
+			<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+			<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+			<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+			<a href="javascript:void(list_sel(4))" id=lst4 class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
+			<a href="javascript:void(list_sel(7))" id=lst7 class="a_tab btn btn-outline-primary btn-rounded">Delivered</a>
+			<a href="javascript:void(list_sel(8))" id=lst8 class="a_tab btn btn-outline-primary btn-rounded">Exported To POS</a>
+		
+	</div>
+	<br>
+	<div class="col">
+		<a class="a_tab" id="lst6">Search [<span class="link" onclick="toggle_search_info();">?</span>] 
+			<input id="inp_item_search" onKeyPress="search_input_keypress(event);" />
+			 <input type="button" class="btn btn-primary" value="Go" onClick="list_sel(6);" />
+		</a>
+		
+	</div>
+</div>
+<
 <span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 </div>
 <div id="order_list" style="border:1px solid #000">

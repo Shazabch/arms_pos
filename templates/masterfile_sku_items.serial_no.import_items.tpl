@@ -519,9 +519,9 @@ function auto_generate_sn(sid, grn_id){
 <form onsubmit="list_sel(2,0);return false;" name="f_tab">
 	<div class=tab style="height:25px;white-space:nowrap;">
 		&nbsp;&nbsp;
-		<a href="javascript:list_sel(0)" id="lst0" {if !$t}class="active"{/if}>Waiting for Import</a>
-		<a href="javascript:list_sel(1)" id="lst1" {if $t eq 1}class="active"{/if}>Imported</a>
-		<a name="find" id="lst2" {if $t eq 2}class="active"{/if}>Find GRN / Doc No / Serial No <input id="search" name=find" value="{$smarty.request.search|default:$search}"> <input type="submit" value="Go"></a>
+		<a href="javascript:list_sel(0)" class="btn btn-outline-primary rounded" id="lst0" {if !$t}class="active"{/if}>Waiting for Import</a>
+		<a href="javascript:list_sel(1)" class="btn btn-outline-primary rounded" id="lst1" {if $t eq 1}class="active"{/if}>Imported</a>
+		<a name="find" id="lst2" class="btn btn-outline-primary rounded" {if $t eq 2}class="active"{/if}>Find GRN / Doc No / Serial No <input id="search" name=find" value="{$smarty.request.search|default:$search}"> <input type="submit" value="Go"></a>
 	</div>
 </form>
 <div class="stdframe" style="padding:2px; background:#fff;">

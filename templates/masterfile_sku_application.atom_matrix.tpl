@@ -73,8 +73,11 @@ Revision History
 - Receipt Description no need to check last approval, change to always show at default
 
 *}
+<div class="card mx-3">
+	<div class="card-body">
 <div style="float:right"><a href="javascript:void(cancel_item('item[{$item_n}]',{$items[$item_n].id|default:0}))"><img src=/ui/del.png align=absmiddle border=0> Delete</a></div>
 
+		
 {if $item_n}
 <h3>Variety {$item_n}</h3>
 {else}
@@ -84,7 +87,7 @@ Revision History
 {if $errm.items[$item_n]}
 <div class=errmsg><ul>
 {foreach from=$errm.items[$item_n] item=e}
-<li> {$e}
+<div class="alert alert-danger"><li> {$e}</li></div>
 {/foreach}
 </ul></div>
 {/if}
@@ -93,33 +96,33 @@ Revision History
 <input type=hidden name=packing_uom_id[{$item_n}] value=1>
 <table  border=0 cellpadding=4 cellspacing=1>
 <tr>
-<td colspan=4><input type=checkbox name="own_article[{$item_n|default:0}]" onclick="matrix_article_toggle({$item_n|default:0}, this.checked)" {if $items[$item_n].own_article}checked{/if} value="1"> <b>Enter Individual Article No. or Manufacturer's Code for Matrix</b></td>
+<div class="form-inline form-label">
+	<input  type=checkbox name="own_article[{$item_n|default:0}]" onclick="matrix_article_toggle({$item_n|default:0}, this.checked)" {if $items[$item_n].own_article}checked{/if} value="1"> &nbsp;&nbsp;<b >Enter Individual Article No. or Manufacturer's Code for Matrix</b>
+</div>
 </tr>
 <tr id="item_article[{$item_n|default:0}]" {if $items[$item_n].own_article|default:1}style="display:none"{/if}>
-	<td><b>Article No.</b></td>
-	<td><input onchange="{if !$config.sku_artno_allow_specialchars}correct_artno(this);{/if}check_artmcode(this,'artno')" name="artno[{$item_n|default:0}]" value="{$items[$item_n].artno}" class="input_artno" item_id="{$item_n}" maxlength="30"><img src=ui/rq.gif align=absbottom title="Required Field"></td>
-	<td><b>MCode</b></td>
-	<td><input onchange="check_artmcode(this,'mcode')" name="mcode[{$item_n|default:0}]" value="{$items[$item_n].mcode}" maxlength="15"><img src=ui/rq.gif align=absbottom title="Required Field"></td>
+	<b class="form-label mt-2">Article No<span class="text-danger"> *</span></b>
+	<input class="form-control" onchange="{if !$config.sku_artno_allow_specialchars}correct_artno(this);{/if}check_artmcode(this,'artno')" name="artno[{$item_n|default:0}]" value="{$items[$item_n].artno}" class="input_artno" item_id="{$item_n}" maxlength="30"></td>
+	<b class="form-label">MCode <span class="text-danger"> *</span></b>
+	<input class="form-control" onchange="check_artmcode(this,'mcode')" name="mcode[{$item_n|default:0}]" value="{$items[$item_n].mcode}" maxlength="15"></td>
 </tr>
 <tr>
-	<td><b>Product Description</b></td>
-	<td colspan=3>
-	<input onchange="uc(this); {if $config.masterfile_disallow_double_quote}check_description(this);{/if} add_to_sku_receipt_desc('description-{$item_n|default:0}','receipt_description-{$item_n|default:0}');" size="80" id="description-{$item_n|default:0}" name="description[{$item_n|default:0}]" value="{$items[$item_n].description}">
-	 <span id="rq_img1"><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-	</td>
+	<b class="form-label mt-2">Product Description<span id="rq_img1" class="text-danger"> *</span></b>
+
+	<input class="form-control" onchange="uc(this); {if $config.masterfile_disallow_double_quote}check_description(this);{/if} add_to_sku_receipt_desc('description-{$item_n|default:0}','receipt_description-{$item_n|default:0}');" size="80" id="description-{$item_n|default:0}" name="description[{$item_n|default:0}]" value="{$items[$item_n].description}">
+	
 </tr>
 
 <tr> 
-	<td valign=top><b>Receipt Description [<a href="javascript:void(alert('Max 40 characters for alphabetical character (Example: English) \nMax 13 characters for non alphabetical character (Example: Chinese)'))">?</a>]</b></td>
-	<td colspan=3><input onblur="uc(this)" {if $config.masterfile_disallow_double_quote}onchange="check_description(this); update_sku_receipt_desc(this);"{else}onchange="update_sku_receipt_desc(this)"{/if} size="50" maxlength="40" id="receipt_description-{$item_n|default:0}" name="receipt_description[{$item_n|default:0}]" value="{$items[$item_n].receipt_description|escape}" class="inp_receipt_desc"> <img src=ui/rq.gif align=absbottom title="Required Field">
-	<input class="receipt_desc" type="hidden" value="receipt_description-{$item_n|default:0}" /> 
-	</td>
+	<b class="form-label mt-2">Receipt Description  <span class="text-danger"> *</span>[<a href="javascript:void(alert('Max 40 characters for alphabetical character (Example: English) \nMax 13 characters for non alphabetical character (Example: Chinese)'))">?</a>]</b>
+	<input class="form-control" onblur="uc(this)" {if $config.masterfile_disallow_double_quote}onchange="check_description(this); update_sku_receipt_desc(this);"{else}onchange="update_sku_receipt_desc(this)"{/if} size="50" maxlength="40" id="receipt_description-{$item_n|default:0}" name="receipt_description[{$item_n|default:0}]" value="{$items[$item_n].receipt_description|escape}" class="inp_receipt_desc"> 
+	<input class="form-control receipt_desc" type="hidden" value="receipt_description-{$item_n|default:0}" /> 
+
 </tr>
 
 <tr class="gst_settings">
-	<td><b>Input Tax</b></td>
-	<td>
-		<select name="dtl_input_tax[{$item_n}]" class="dtl_input_tax">
+	<b class="form-label mt-2">Input Tax</b>
+		<select  name="dtl_input_tax[{$item_n}]" class="form-control dtl_input_tax">
 			<option value="-1" {if $items[$item_n].input_tax eq -1}selected{/if}>Inherit (Follow SKU)</option>
 			{foreach from=$input_tax_list key=rid item=r}
 				<option value="{$r.id}" {if $items[$item_n].input_tax eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
@@ -129,9 +132,8 @@ Revision History
 </tr>
 
 <tr class="gst_settings">
-	<td><b>Output Tax</b></td>
-	<td>
-		<select name="dtl_output_tax[{$item_n}]" onchange="calc_matrix_gst({$item_n});" class="dtl_output_tax">
+	<b class="form-label">Output Tax</b>
+		<select class="form-control" name="dtl_output_tax[{$item_n}]" onchange="calc_matrix_gst({$item_n});" class="dtl_output_tax">
 			<option value="-1" {if $items[$item_n].output_tax eq -1}selected{/if}>Inherit (Follow SKU)</option>
 			{foreach from=$output_tax_list key=rid item=r}
 				<option data-rate="{$r.rate}" value="{$r.id}" {if $items[$item_n].output_tax eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
@@ -142,9 +144,8 @@ Revision History
 </tr>
 
 <tr style="{if !$gst_settings or ($global_gst_settings.inclusive_tax eq 'yes' and (!isset($items.$item_n.inclusive_tax) or $items.$item_n.inclusive_tax eq 'inherit'))}display:none;{/if}">
-	<td><b>Selling Price Inclusive Tax</b></td>
-	<td>
-		<select name="dtl_inclusive_tax[{$item_n}]" onchange="calc_matrix_gst({$item_n});" class="dtl_inclusive_tax">
+	<b class="form-label">Selling Price Inclusive Tax</b>
+		<select class="form-control" name="dtl_inclusive_tax[{$item_n}]" onchange="calc_matrix_gst({$item_n});" class="dtl_inclusive_tax">
 			<option value="inherit" {if $items[$item_n].inclusive_tax eq "inherit"}selected {/if}>Inherit (Follow SKU)</option>
 			<option value="yes" {if $items[$item_n].inclusive_tax eq "yes"}selected {/if}>Yes</option>
 			<option value="no" {if $items[$item_n].inclusive_tax eq "no"}selected {/if}>No</option>
@@ -158,10 +159,12 @@ Revision History
 {include file="masterfile_sku_application.atom_photos.tpl"}
 
 <h4>Product Matrix</h4>
-<ul>
-<li>Enter the Varieties into Row (1,2,3.. for Sizes) and Column (A,B,C.. for Colours) headers - green colour box</li>
-<li>Enter the Article No. or Manufacturer's Code into the content cells</li>
-</ul>
+<div class="alert alert-primary rounded">
+	<ul style="list-style-type: none;">
+		<li>Enter the Varieties into Row (1,2,3.. for Sizes) and Column (A,B,C.. for Colours) headers - green colour box</li>
+		<li>Enter the Article No. or Manufacturer's Code into the content cells</li>
+		</ul>
+</div>
 <div id="matrix[{$item_n|default:0}]">
 {if $items[$item_n].tb}
 <table>
@@ -198,3 +201,6 @@ tb_expand({$item_n|default:0}, 6, 6);
 {/if}
 //atom_update_gross({$item_n|default:0});
 </script>
+
+	</div>
+</div>

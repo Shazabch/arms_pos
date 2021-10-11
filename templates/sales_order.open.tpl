@@ -1212,14 +1212,17 @@ function toggle_debtor_price(ele){
 </div>
 
 <!-- end of special div -->
-
-{if !$form.approved}
-<h1>Sales Order {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				{if !$form.approved}
+<h4>Sales Order {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}</h4>
 {else}
-<h1>Sales Order {if $form.order_no}({$form.order_no}){else}{if $form.id<$time_value}(ID#{$form.id}){/if}{/if}</h1>
+<h4>Sales Order {if $form.order_no}({$form.order_no}){else}{if $form.id<$time_value}(ID#{$form.id}){/if}{/if}</h4>
 {/if}
 
-<h3>Status:
+<h5>Status:
 {if $form.delivered}
 	Delivered
 {elseif $form.approved}
@@ -1237,7 +1240,12 @@ function toggle_debtor_price(ele){
 {elseif $form.status == 0}
 	Draft Order
 {/if}
-</h3>
+</h5>
+</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 {include file=approval_history.tpl}
 
 {if $form.approval_screen}
@@ -1283,187 +1291,217 @@ function toggle_debtor_price(ele){
 {/if}
 
 <form name="f_a" method=post ENCTYPE="multipart/form-data">
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
-{/if}
-
-<input type="hidden" name="a" value="save" />
-<input type="hidden" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="order_no" value="{$form.order_no}" />
-<input type="hidden" name="total_ctn" value="{$form.total_ctn}" />
-<input type="hidden" name="total_pcs" value="{$form.total_pcs}" />
-<input type="hidden" name="total_amount" value="{$form.total_amount}" />
-<input type="hidden" name="total_qty" value="{$form.total_qty}" />
-<input type="hidden" name="approval_history_id" value="{$form.approval_history_id}" />
-<input type="hidden" name="reason" />
-<input type="hidden" name="total_gross_amt" value="{$form.total_gross_amt}" />
-<input type="hidden" name="sheet_discount_amount" value="{$form.sheet_discount_amount}" />
-<input type="hidden" name="sheet_gst_discount" value="{$form.sheet_gst_discount}" />
-<input type="hidden" name="total_gst_amt" value="{$form.total_gst_amt}" />
-<input type="hidden" name="create_by_debtor_id" value="{$form.create_by_debtor_id}" />
-<input type="hidden" name="is_under_gst" value="{$form.is_under_gst}"/>
-
-<table border="0" cellspacing="0" cellpadding="4">
-	<tr>
-		<th width="150" align="left">Order Date </th>
-		<td><input name="order_date" id="added1" size=10 onchange="on_date_changed();"  maxlength=10  value="{$form.order_date|default:$smarty.now|date_format:"%Y-%m-%d"}" />
-			{if !$readonly}
-				<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date" />
-			{/if}
-			<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-		</td>
-	</tr>
-	
-	
-	<tr {if $config.sales_order_hide_batch_code}style="display:none;"{/if}>
-		<th align="left">Batch Code</th>
-		<td><input name="batch_code" size=12 value="{$form.batch_code}" id="inp_batch_code" />
-            {if $config.sales_order_require_batch_code}
-				<img src="ui/rq.gif" align="absmiddle" />
-			{/if}
-			<span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-			<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-		</td>
-	</tr>
-	
-	<tr>
-		<th align="left">Customer PO</th>
-		<td><input name="cust_po" size=12 value="{$form.cust_po}" /></td>
-	</tr>
-	
-	<!-- Sheet Discount -->
-	<tr>
-		<th align="left">Discount</th>
-		<td>
-			<input name="sheet_discount" size="12" value="{$form.sheet_discount}" onChange="sheet_discount_changed();" />
-			<b>[<a href="javascript:void(show_discount_help());">?</a>]</b>
-		</td>
-	</tr>
-	{if $form.id<$time_value}
-		<tr>
-			<td align="left"><b>Owner</b></td>
-			<td style="color:blue;">{$form.username}</td>
-		</tr>
-	{/if}
-	<tr>
-		<td valign="top"><b>Remarks</b></td>
-		<td>
-			<textarea rows="2" cols="68" name="remark" onchange="uc(this);">{$form.remark}</textarea>
-		</td>
-	</tr>
-	{* Promotion Price *}
-	<tr>
-		<td valign="top"><b>Use Promotion Price</b> [<a href="javascript:void(alert('Use selling price which included promotion and category discount.'))">?</a>]</td>
-		<td>
-			<input type="checkbox" name="use_promo_price" value="1" {if $form.use_promo_price}checked {/if} onChange="toggle_promo_price(this);" />
-			<span id="span_promo_price_loading"></span>
-		</td>
-	</tr>
-	
-	{* Debtor Price *}
-	<tr>
-		<td valign="top"><b>Use Debtor Price</b> [<a href="javascript:void(alert('{$LANG.SO_DEBTOR_PRICE_NOTIFICATION|escape:javascript}'))">?</a>]</td>
-		<td>
-			<input type="checkbox" name="use_debtor_price" value="1" {if $form.use_debtor_price}checked {/if} onChange="toggle_debtor_price(this);" />
-			<span id="span_debtor_price_loading"></span>
-		</td>
-	</tr>
-	
-	<tr>
-	    <th align="left">From</th>
-	    <td>
-			{if $form.branch_id}
-			    {$branches[$form.branch_id].code} - {$branches[$form.branch_id].description}
-			{else}
-				{$branches[$sessioninfo.branch_id].code} - {$branches[$sessioninfo.branch_id].description}
-   			{/if}
-		</td>
-	</tr>
-	<tr>
-	    <th align="left">To</th>
-	    <td>
-	    	<span style="{if $form.create_by_debtor_id}display:none;{/if}">
-		    	<select name="debtor_id" onChange="debtor_changed(this);">
-			        <option value="">-- Please Select --</option>
-			        {foreach from=$debtor item=r}
-			            <option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if} debtor_mprice_type="{$r.debtor_mprice_type}" special_exemption="{$r.special_exemption}" use_debtor_price="{$r.use_debtor_price}">{$r.code} - {$r.description}</option>
-			        {/foreach}
-			    </select>
-		    </span>
-		    {if $form.create_by_debtor_id}
-		    	{$debtor[$form.debtor_id].code} - {$debtor[$form.debtor_id].description}
-		    {/if}
-		    {if !$readonly}
-		    	{if $form.create_by_debtor_id}
-					<span style="color:blue;">(Debtor cannot be change due to this Sales Order is create by this debtor)</span>
-		    	{else}
-			    	<img src="/ui/icons/magnifier.png" align="absmiddle" title="Search by Debtor description" class="clickable" onClick="show_search_debtor();" />
-		    	{/if}
-		    {/if}
-			<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-		    {*<span id="span_debtor_change_loading"></span>*}
-	    </td>
-	</tr>
-	{if $config.enable_gst && $form.is_under_gst}		
-		<tr>
-			<th align="left">GST Special Exemption [<a href="javascript:void(alert('- This will automatically apply to newly added item, the items already in the document will not be change.\n- This setting cannot be change manually, it follow the debtor special exemption setting.'));">?</a>]</th>
-			<td><input type="checkbox" name="is_special_exemption" value="1" {if $form.is_special_exemption}checked{/if} onClick="return false;" /></td>
-		</tr>
-		<tr id="tr_special_excemption_rcr" {if !$form.is_special_exemption}style="display:none;"{/if}>
-			<th valign="top" align="left">GST Special Exemption Relief Clause Remark</th>
-			<td><textarea name="special_exemption_rcr" cols="50" rows="4" class="required"  title="Special Exemption Relief Clause Remark">{$form.special_exemption_rcr}</textarea></td>
-		</tr>
-	{/if}
-	<tr>
-		<th align="left">Selling Price Indicator
-			[<a href="javascript:void(alert('This feature cannot use mprice and promotion price together.'))">?</a>]
-		</th>
-		<td>
-			<span style="{if $form.create_by_debtor_id}display:none;{/if}">
-				{if $form.debtor_id gt 0}
-					{foreach from=$debtor item=r}
-						{if $form.debtor_id eq $r.id}
-							{assign var='selected_debtor' value=$r}
-							{if $selected_debtor.debtor_mprice_type ne ""}
-								{assign var='debtor_mprice_type' value=$selected_debtor.debtor_mprice_type}
-							{/if}
-						{/if}
-					{/foreach}
-				{/if}
-				<select name="selling_type" onChange="selling_type_changed();">
-					<option value="" {if $debtor_mprice_type neq ""}disabled{/if}>Normal</option>
-					<optgroup id="mprice_type_group" label="MPrice">
-						{foreach from=$mprice_type_list item=mprice_type}
-							<option value="{$mprice_type}"  {if $debtor_mprice_type neq "" && $debtor_mprice_type neq $mprice_type}disabled{/if}  {if $mprice_type eq $form.selling_type}selected {/if}>{$mprice_type}</option>
-						{/foreach}
-					</optgroup>				
-				</select>
-			</span>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<h4>General Information</h4>
 			
-			{if $form.create_by_debtor_id}
-		    	{$form.selling_type|default:'normal'}
-		    {/if}
-		    
-			<span id="span_selling_type_loading"></span>
-		</td>
-	</tr>
-</table>
-
-<div id="srefresh" style="display:none; padding-top:10px; padding-left:130px; ">
-<input id="refresh_btn" type="button" onclick="void(refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
+			{if $errm.top}
+			<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.top item=e}
+			<div class="alert alert-danger rounded ">
+				<li> {$e} </li>
+			</div>
+			{/foreach}
+			</ul></div></div>
+			{/if}
+			
+			<input type="hidden" name="a" value="save" />
+			<input type="hidden" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" />
+			<input type="hidden" name="id" value="{$form.id}" />
+			<input type="hidden" name="order_no" value="{$form.order_no}" />
+			<input type="hidden" name="total_ctn" value="{$form.total_ctn}" />
+			<input type="hidden" name="total_pcs" value="{$form.total_pcs}" />
+			<input type="hidden" name="total_amount" value="{$form.total_amount}" />
+			<input type="hidden" name="total_qty" value="{$form.total_qty}" />
+			<input type="hidden" name="approval_history_id" value="{$form.approval_history_id}" />
+			<input type="hidden" name="reason" />
+			<input type="hidden" name="total_gross_amt" value="{$form.total_gross_amt}" />
+			<input type="hidden" name="sheet_discount_amount" value="{$form.sheet_discount_amount}" />
+			<input type="hidden" name="sheet_gst_discount" value="{$form.sheet_gst_discount}" />
+			<input type="hidden" name="total_gst_amt" value="{$form.total_gst_amt}" />
+			<input type="hidden" name="create_by_debtor_id" value="{$form.create_by_debtor_id}" />
+			<input type="hidden" name="is_under_gst" value="{$form.is_under_gst}"/>
+			
+			<table border="0" cellspacing="0" cellpadding="4">
+				<div class="row">
+					<div class="col-md-6">
+						<tr>
+							<th width="150" align="left"><span class="form-label">Order Date<span class="text-danger"> *</span> </span></th>
+							<td><input class="form-control" name="order_date" id="added1" size=10 onchange="on_date_changed();"  maxlength=10  value="{$form.order_date|default:$smarty.now|date_format:"%Y-%m-%d"}" />
+								{if !$readonly}
+									<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date" />
+								{/if}
+							</td>
+						</tr>
+					</div>
+					
+					 
+					<div class="col-md-6">
+						<tr {if $config.sales_order_hide_batch_code}style="display:none;"{/if}>
+							<th align="left"><span class="form-label">Batch Code</span></th>
+							<td><input class="form-control" name="batch_code" size=12 value="{$form.batch_code}" id="inp_batch_code" />
+								{if $config.sales_order_require_batch_code}
+									<img src="ui/rq.gif" align="absmiddle" />
+								{/if}
+								<span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+								<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+							</td>
+						</tr>
+					</div>
+					
+				<div class="col-md-6">
+					<tr>
+						<th align="left"><span class="form-label">Customer PO</span></th>
+						<td><input class="form-control" name="cust_po" size=12 value="{$form.cust_po}" /></td>
+					</tr>
+				</div>
+					
+					<!-- Sheet Discount -->
+				<div class="col-md-6">
+					<tr>
+						<th align="left"><span class="form-label">Discount</span></th>
+						<td>
+							<input class="form-control" name="sheet_discount" size="12" value="{$form.sheet_discount}" onChange="sheet_discount_changed();" />
+							<b>[<a href="javascript:void(show_discount_help());">?</a>]</b>
+						</td>
+					</tr>
+				</div>
+					{if $form.id<$time_value}
+						<div class="col-md-6">
+							<tr>
+								<td align="left"><b class="form-label">Owner</b></td>
+								<td style="color:blue;">{$form.username}</td>
+							</tr>	
+						</div>
+					{/if}
+					<div class="col-md-6">
+						<tr>
+							<td valign="top"><b class="form-label">Remarks</b></td>
+							<td>
+								<textarea class="form-control" rows="2" cols="68" name="remark" onchange="uc(this);">{$form.remark}</textarea>
+							</td>
+						</tr>
+					</div>
+					{* Promotion Price *}
+					<div class="col-md-6">
+						<tr>
+							<td valign="top"><b class="form-label">Use Promotion Price</b> [<a href="javascript:void(alert('Use selling price which included promotion and category discount.'))">?</a>]</td>
+							<td>
+								<input type="checkbox" name="use_promo_price" value="1" {if $form.use_promo_price}checked {/if} onChange="toggle_promo_price(this);" />
+								<span id="span_promo_price_loading"></span>
+							</td>
+						</tr>
+						
+					</div>
+					{* Debtor Price *}
+				<div class="col-md-6">
+					<tr>
+						<td valign="top"><b class="form-label">Use Debtor Price</b> [<a href="javascript:void(alert('{$LANG.SO_DEBTOR_PRICE_NOTIFICATION|escape:javascript}'))">?</a>]</td>
+						<td>
+							<input type="checkbox" name="use_debtor_price" value="1" {if $form.use_debtor_price}checked {/if} onChange="toggle_debtor_price(this);" />
+							<span id="span_debtor_price_loading"></span>
+						</td>
+					</tr>
+				</div>
+					
+				<div class="col-md-6">
+					<tr>
+						<th align="left"><span class="form-label">From</span></th>
+						<td>
+							{if $form.branch_id}
+								{$branches[$form.branch_id].code} - {$branches[$form.branch_id].description}
+							{else}
+								{$branches[$sessioninfo.branch_id].code} - {$branches[$sessioninfo.branch_id].description}
+							   {/if}
+						</td>
+					</tr>
+				</div>
+					<div class="col-md-6">
+						<tr>
+							<th align="left"><span class="form-label">To</span></th>
+							<td>
+								<span style="{if $form.create_by_debtor_id}display:none;{/if}">
+									<select class="form-control" name="debtor_id" onChange="debtor_changed(this);">
+										<option value="">-- Please Select --</option>
+										{foreach from=$debtor item=r}
+											<option value="{$r.id}" {if $form.debtor_id eq $r.id}selected {/if} debtor_mprice_type="{$r.debtor_mprice_type}" special_exemption="{$r.special_exemption}" use_debtor_price="{$r.use_debtor_price}">{$r.code} - {$r.description}</option>
+										{/foreach}
+									</select>
+								</span>
+								{if $form.create_by_debtor_id}
+									{$debtor[$form.debtor_id].code} - {$debtor[$form.debtor_id].description}
+								{/if}
+								{if !$readonly}
+									{if $form.create_by_debtor_id}
+										<span style="color:blue;">(Debtor cannot be change due to this Sales Order is create by this debtor)</span>
+									{else}
+										<img src="/ui/icons/magnifier.png" align="absmiddle" title="Search by Debtor description" class="clickable" onClick="show_search_debtor();" />
+									{/if}
+								{/if}
+								<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+								{*<span id="span_debtor_change_loading"></span>*}
+							</td>
+						</tr>
+					</div>
+					{if $config.enable_gst && $form.is_under_gst}		
+						<div class="col-md-6">
+							<tr>
+								<th align="left">GST Special Exemption [<a href="javascript:void(alert('- This will automatically apply to newly added item, the items already in the document will not be change.\n- This setting cannot be change manually, it follow the debtor special exemption setting.'));">?</a>]</th>
+								<td><input type="checkbox" name="is_special_exemption" value="1" {if $form.is_special_exemption}checked{/if} onClick="return false;" /></td>
+							</tr>
+						</div>
+						<div class="col-md-6">
+							<tr id="tr_special_excemption_rcr" {if !$form.is_special_exemption}style="display:none;"{/if}>
+								<th valign="top" align="left">GST Special Exemption Relief Clause Remark</th>
+								<td><textarea name="special_exemption_rcr" cols="50" rows="4" class="required"  title="Special Exemption Relief Clause Remark">{$form.special_exemption_rcr}</textarea></td>
+							</tr>
+						</div>
+					{/if}
+					<tr>
+						<th align="left"><span class="form-label">Selling Price Indicator</span>
+							[<a href="javascript:void(alert('This feature cannot use mprice and promotion price together.'))">?</a>]
+						</th>
+						<td>
+							<span style="{if $form.create_by_debtor_id}display:none;{/if}">
+								{if $form.debtor_id gt 0}
+									{foreach from=$debtor item=r}
+										{if $form.debtor_id eq $r.id}
+											{assign var='selected_debtor' value=$r}
+											{if $selected_debtor.debtor_mprice_type ne ""}
+												{assign var='debtor_mprice_type' value=$selected_debtor.debtor_mprice_type}
+											{/if}
+										{/if}
+									{/foreach}
+								{/if}
+								<select class="form-control" name="selling_type" onChange="selling_type_changed();">
+									<option value="" {if $debtor_mprice_type neq ""}disabled{/if}>Normal</option>
+									<optgroup id="mprice_type_group" label="MPrice">
+										{foreach from=$mprice_type_list item=mprice_type}
+											<option value="{$mprice_type}"  {if $debtor_mprice_type neq "" && $debtor_mprice_type neq $mprice_type}disabled{/if}  {if $mprice_type eq $form.selling_type}selected {/if}>{$mprice_type}</option>
+										{/foreach}
+									</optgroup>				
+								</select>
+							</span>
+							
+							{if $form.create_by_debtor_id}
+								{$form.selling_type|default:'normal'}
+							{/if}
+							
+							<span id="span_selling_type_loading"></span>
+						</td>
+					</tr>
+				</div>
+			</table>
+			
+			<div id="srefresh" style="display:none; padding-top:10px; padding-left:130px; ">
+			<input id="refresh_btn" type="button" onclick="void(refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
+			</div>
+			
+			</div>
+	</div>
 </div>
 
-</div>
-
-<br />
 
 <div id="div_sheets" style="{if !$form.debtor_id}display:none;{/if}">{include file='sales_order.open.sheet.tpl'}
 
@@ -1480,9 +1518,9 @@ function toggle_debtor_price(ele){
 
 <p id="p_submit_btn" align="center">
     {if $form.is_approval and $form.status==1 and $form.approved==0 and $form.approval_screen}
-		<input type="button" value="Approve" style="background-color:#f90; color:#fff;" onclick="do_approve()">
-		<input type="button" value="Reject" style="background-color:#f90; color:#fff;" onclick="do_reject()">
-		<input type="button" value="Terminate" style="background-color:#900; color:#fff;" onclick="do_cancel()">
+		<input type="button" value="Approve" class="btn btn-success" onclick="do_approve()">
+		<input type="button" value="Reject" class="btn btn-info" onclick="do_reject()">
+		<input type="button" value="Terminate" class="btn btn-danger" onclick="do_cancel()">
 	{/if}
 
 	{if !$form.approval_screen}
@@ -1492,19 +1530,19 @@ function toggle_debtor_price(ele){
 			{/if}
 
 			{if $form.id<$time_value}
-				<input type="button" value="Delete" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="do_delete()" />
+				<input type="button" value="Delete" class="btn btn-danger" onclick="do_delete()" />
 			{else}
-				<input type="button" value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="document.location='/sales_order.php'" />
+				<input type="button" value="Close" class="btn btn-info" onclick="document.location='/sales_order.php'" />
 			{/if}
 
 			{if (!$form.status || $form.status==2) and $form.branch_id}
-			<input type="button" value="Confirm" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="do_confirm()" />
+			<input type="button" value="Confirm" class="btn btn-success" onclick="do_confirm()" />
 			{/if}
 		{else}
 		    {if $form.approved and ($sessioninfo.level>=$config.doc_reset_level)}
-		        <input type="button" value="Reset" style="font:bold 20px Arial; background-color:#900; color:#fff;" onclick="do_reset();" />
+		        <input type="button" value="Reset" class="btn btn-danger" onclick="do_reset();" />
 		    {/if}
-			<input type="button" value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="document.location='/sales_order.php'" />
+			<input type="button" value="Close" class="btn btn-info" onclick="document.location='/sales_order.php'" />
 		{/if}
 	{/if}
 </p>

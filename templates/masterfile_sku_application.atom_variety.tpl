@@ -209,7 +209,8 @@ Revision History
 11/11/2020 4:35 PM Andy
 - Added "Recommended Selling Price" (RSP) feature.
 *}
-
+<div class="card mx-3">
+	<div class="card-body">
 {if $item_n}
 <div style="float:right"><a class="remove_sku" href="javascript:void(cancel_item('item[{$item_n}]',{$items[$item_n].id|default:0}))"><img src=/ui/del.png align=absmiddle border=0> Delete</a></div>
 <h3>Variety {$item_n}</h3>
@@ -220,14 +221,13 @@ Revision History
 {if $errm.items[$item_n]}
 <div class=errmsg><ul>
 {foreach from=$errm.items[$item_n] item=e}
-<div class="alert alert-warning rounded"><li> {$e}</li></div>
+<div class="alert alert-danger rounded"><li> {$e}</li></div>
 {/foreach}
 </ul></div>
 {/if}
 
 <input name="item_type[{$item_n|default:0}]" value="variety" type=hidden>
-<div class="card mx-3">
-	<div class="card-body">
+
 		<table  border=0 cellpadding=2 cellspacing=1>
 			<tr>
 					<b class="form-label mt-2">Article No <span class="text-danger"> *</span></b>

@@ -70,6 +70,7 @@ REVISON HISTORY
 }
 </style>
 {/literal}
+
 {if $smarty.section.i.index > 0}
 <h5>Variety {$smarty.section.i.index} (#{$form.id})</h5>
 {else}
