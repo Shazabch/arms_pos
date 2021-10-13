@@ -340,11 +340,20 @@ function price_indicator_changed(type, obj){
 {if $smarty.request.msg}
 <script>alert('{$smarty.request.msg|escape:javascript}');</script>
 {/if}
-<h1>
-{if $do_type eq 'credit_sales'}Credit Sales{elseif $do_type eq 'open'}Cash Sales{else}Transfer{/if}&nbsp;{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{if $do_type eq 'credit_sales'}Credit Sales{elseif $do_type eq 'open'}Cash Sales{else}Transfer{/if}&nbsp;{$PAGE_TITLE}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-{if $do_type eq 'transfer' && !$config.do_skip_generate_grn}
-	<b><font color="red">Important: </font><br />- System will auto generate GRN once Transfer DO has been checkout.</b>
+<div class="card mx-3">
+	<div class="card-body">
+		{if $do_type eq 'transfer' && !$config.do_skip_generate_grn}
+	<b><font color="red">Important: </font><br />System will auto generate GRN once Transfer DO has been checkout.</b>
 {/if}
 
 <div id=show_last>
@@ -363,223 +372,237 @@ function price_indicator_changed(type, obj){
 {/if}
 </div>
 
-<ul>
+<div class="row">
+<div class="col">
+	<ul style="list-style-type: none;" class="mt-2 list-group">
 
-{if $smarty.request.page eq 'credit_sales'}
-<li><img src=ui/new.png align=absmiddle> <a href="?a=open&do_type=credit_sales">Create New Credit Sales DO</a></li>
-{elseif $smarty.request.page eq 'open'}
-<li> <img src=ui/new.png align=absmiddle> <a href=do.php?a=open&do_type=open>Create New Cash Sales DO</a></li>
-{else}
-<li><img src=ui/new.png align=absmiddle> <a href="?a=open&do_type=transfer">Create New Transfer DO</a></li>
-<li><img src=ui/new.png align=absmiddle> <a href="?a=open_upload_csv&do_type=transfer">Create Multiple DO from CSV</a></li>
-{/if}
-
-<li> <img src=ui/new.png align=absmiddle> 
-<a href="javascript:void(togglediv('import_data'))">Create from Data Collector input</a>
-
-<div id=import_data class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
-<form name="f_a" method=post ENCTYPE="multipart/form-data">
-<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
-<input type=hidden name=a value="create_from_upload_file">
-<input type=hidden name=create_type value="2">
-{if $errm.top}
-	<div id=err><div class=errmsg><ul>
-	{foreach from=$errm.top item=e}
-	<li> {$e}</li>
-	{/foreach}
-	</ul></div></div>
-{/if}
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-	<td valign=top width=120><b>DO Date</b></td>
-	<td>
-	<input name="do_date" id="added1" size=10 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
-	<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	</td>
-</tr>
-
-{if $do_type eq 'transfer'}
-<tr>
-	<td width=120><b>Delivery Branch</b></td>
-	<td>
-	<select name="do_branch_id">
-		{foreach item="curr_Branch" from=$branch}
-		<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
-		{/foreach}
-		</select>
-	</td>
-</tr>
-{/if}
-
-<tr>
-	<td valign=top width=120><b>Price From</b></td>
-	<td>
-		{if $config.sku_multiple_selling_price}
-			{foreach from=$config.sku_multiple_selling_price key=i item=e}
-				{if $i eq '1'}
-					<span class="nowrap"><input type="radio" name="price_indicate" value="1" {if $form.price_indicate eq '1' || ($config.do_default_price_from eq 'cost' && !$form.price_indicate)}checked {/if} onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator('import_data', this); return false;{/if}" /><label for='dc_pi_1'>Cost</label>&nbsp;&nbsp;</span>
-				{elseif $i eq '2'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_2" value="2" {if $form.price_indicate eq '2' || ($config.do_default_price_from eq 'selling' && !$form.price_indicate && $sessioninfo.privilege.SHOW_COST) || (!$config.do_default_price_from && !$form.price_indicate)}checked {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
-				{elseif $i eq '3'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_3" value="3" {if $form.price_indicate eq '3' || ($config.do_default_price_from eq 'last_do' and !$form.price_indicate)}checked {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_3'>Last DO</label> &nbsp;&nbsp;</span>
-				{elseif $i eq '4'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_4" value="4" {if $form.price_indicate eq $i}checked {/if} {if !$sessioninfo.privilege.SHOW_COST}disabled {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_4'>PO Cost</label> &nbsp;&nbsp;</span>
-				{else}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="dc_sp_{$i}" value="{$i}" {if $form.price_indicate eq $i}checked {/if}><label for='dc_sp_{$i}' onclick="price_indicator_changed('import_data', this);">{$e}</label>&nbsp;</span>
-				{/if}
-			{/foreach}
+		{if $smarty.request.page eq 'credit_sales'}
+		<li class="list-group-item list-group-item-action"><img src=ui/new.png align=absmiddle> <a href="?a=open&do_type=credit_sales">Create New Credit Sales DO</a></li>
+		{elseif $smarty.request.page eq 'open'}
+		<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href=do.php?a=open&do_type=open>Create New Cash Sales DO</a></li>
+		{else}
+		<li class="list-group-item list-group-item-action"><img src=ui/new.png align=absmiddle> <a href="?a=open&do_type=transfer">Create New Transfer DO</a></li>
+		<li class="list-group-item list-group-item-action"><img src=ui/new.png align=absmiddle> <a href="?a=open_upload_csv&do_type=transfer">Create Multiple DO from CSV</a></li>
 		{/if}
-	</td>
-</tr>
-<tr>
-	<th align="left">Import Format</th>
-	<td>
-		<input type="radio" name="import_format" value="1" checked /> Default (ARMS CODE or MCODE | {$config.link_code_name|default:'Old Code'} | Qty)<br />
-		<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode)<br />
-		<input type="radio" name="import_format" value="3" /> Standard (ARMS CODE or MCODE or {$config.link_code_name|default:'Old Code'} | Qty)
-	</td>
-</tr>
-<tr>
-	<th align="left">Delimiter</th>
-	<td>
-		<select name="delimiter">
-			<option value="|">| (Pipe)</option>
-			<option value=",">, (Comma)</option>
-			<option value=";">; (Semicolon)</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<th align=left valign=top width=80>Import File</th>
-	<td align=left colspan=3><input name=files id=file type=file class="files" size=50> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
-</tr>
-
-</table>
-	<input type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
-</form>
-<p align=center>
-<input type=button class="btn btn-primary" value="Upload" onclick="do_upload()">
-</p>
-</div></li>
-
-{if $do_type eq 'transfer'}
-<li> <img src=ui/new.png align=absmiddle> 
-<a href="javascript:;" onclick="togglediv('create_from_po')">Create from PO</a>
-<div id=create_from_po class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
-<form name=f_b method=post>
-<input type=hidden name=a value="create_from_po">
-<input type=hidden name=create_type value="3">
-<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-<th align=left width=120>DO Date</th>
-<td>
-<input name="do_date" id="added2" size=12 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-</td>
-</tr>
-
-{if !$config.do_create_and_use_branch_from_po}
-	<tr>
-	<td width=120><b>Delivery Branch</b></td>
-	<td>
-	<select name="po_do_branch_id">
-		{foreach item="curr_Branch" from=$branch}
-		<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
-		{/foreach}
-		</select>
-	</td>
-	</tr>
-{/if}
-
-<tr>
-<td valign=top width=120><b>Price From</b></td>
-<td>
-	{if $config.sku_multiple_selling_price}
-		{if $config.sku_multiple_selling_price}
-			{foreach from=$config.sku_multiple_selling_price key=i item=e}
-				{if $i eq '1'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_1" value="1" onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator('import_po', this); return false;{/if}" /><label for='po_pi_1'>Cost</label>&nbsp;&nbsp;</span>
-				{elseif $i eq '2'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_2" value="2" onclick="price_indicator_changed('import_po', this);"><label for='po_pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
-				{elseif $i eq '3'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_3" value="3" onclick="price_indicator_changed('import_po', this);"><label for='po_pi_3'>Last DO</label> &nbsp;&nbsp;</span>
-				{elseif $i eq '4'}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_4" value="4" checked onclick="price_indicator_changed('import_po', this);"><label for='po_pi_4'>PO Cost</label> &nbsp;&nbsp;</span>	
-				{else}
-					<span class="nowrap"><input type="radio" name="price_indicate" id="po_sp_{$i}" value="{$i}" onclick="price_indicator_changed('import_po', this);"><label for='po_sp_{$i}'>{$e}</label>&nbsp;</span>
-				{/if}
+		
+		<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> 
+		<a href="javascript:void(togglediv('import_data'))">Create from Data Collector input</a>
+		
+		<div id=import_data class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;">
+	<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method=post ENCTYPE="multipart/form-data">
+		<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
+		<input type=hidden name=a value="create_from_upload_file">
+		<input type=hidden name=create_type value="2">
+		{if $errm.top}
+			<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.top item=e}
+			<div class="alert alert-danger">
+				<li> {$e}</li>
+			</div>
 			{/foreach}
+			</ul></div></div>
 		{/if}
-	{/if}
-</td>
-</tr>
-
-<tr>
-<th align=left width=120>PO No.</th>
-<td colspan=3>
-<input id=po_no name=po_no maxlength=15 size=15 onchange="uc(this);"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-</td>
-</tr>
-</table>
-
-<input type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
-</form>
-
-<p align=center>
-<input type=button value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_po()" id="inp_do_create_from_po" />
-</p>
-
-</div></li>
-{/if}
-
-{if $config.allow_sales_order and $do_type eq 'credit_sales'}
-	<li> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('create_from_so'));"> Create from Sales Order</a>
-	    <div id="create_from_so" class="stdframe" style="display:none;">
-	        <form name="f_sales_order">
-	            <input type="hidden" name="do_type" value="credit_sales" />
-	            <input type="hidden" name="a" value="do_create_from_sales_order" />
-	            <b>Order No</b> <input type="text" name="order_no" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	            <input type="button" value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_sales_order();" />
-	        </form>
-	    </div>
+		
+				<table border=0 cellspacing=0 cellpadding=4>
+					<tr>
+						<td valign=top width=120><b>DO Date</b></td>
+						<td>
+						<input name="do_date" id="added1" size=10 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
+						<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+						</td>
+					</tr>
+					
+					{if $do_type eq 'transfer'}
+					<tr>
+						<td width=120><b>Delivery Branch</b></td>
+						<td>
+						<select name="do_branch_id">
+							{foreach item="curr_Branch" from=$branch}
+							<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
+							{/foreach}
+							</select>
+						</td>
+					</tr>
+					{/if}
+					
+					<tr>
+						<td valign=top width=120><b>Price From</b></td>
+						<td>
+							{if $config.sku_multiple_selling_price}
+								{foreach from=$config.sku_multiple_selling_price key=i item=e}
+									{if $i eq '1'}
+										<span class="nowrap"><input type="radio" name="price_indicate" value="1" {if $form.price_indicate eq '1' || ($config.do_default_price_from eq 'cost' && !$form.price_indicate)}checked {/if} onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator('import_data', this); return false;{/if}" /><label for='dc_pi_1'>Cost</label>&nbsp;&nbsp;</span>
+									{elseif $i eq '2'}
+										<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_2" value="2" {if $form.price_indicate eq '2' || ($config.do_default_price_from eq 'selling' && !$form.price_indicate && $sessioninfo.privilege.SHOW_COST) || (!$config.do_default_price_from && !$form.price_indicate)}checked {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
+									{elseif $i eq '3'}
+										<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_3" value="3" {if $form.price_indicate eq '3' || ($config.do_default_price_from eq 'last_do' and !$form.price_indicate)}checked {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_3'>Last DO</label> &nbsp;&nbsp;</span>
+									{elseif $i eq '4'}
+										<span class="nowrap"><input type="radio" name="price_indicate" id="dc_pi_4" value="4" {if $form.price_indicate eq $i}checked {/if} {if !$sessioninfo.privilege.SHOW_COST}disabled {/if} onclick="price_indicator_changed('import_data', this);"><label for='dc_pi_4'>PO Cost</label> &nbsp;&nbsp;</span>
+									{else}
+										<span class="nowrap"><input type="radio" name="price_indicate" id="dc_sp_{$i}" value="{$i}" {if $form.price_indicate eq $i}checked {/if}><label for='dc_sp_{$i}' onclick="price_indicator_changed('import_data', this);">{$e}</label>&nbsp;</span>
+									{/if}
+								{/foreach}
+							{/if}
+						</td>
+					</tr>
+					<tr>
+						<th align="left">Import Format</th>
+						<td>
+							<input type="radio" name="import_format" value="1" checked /> Default (ARMS CODE or MCODE | {$config.link_code_name|default:'Old Code'} | Qty)<br />
+							<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode)<br />
+							<input type="radio" name="import_format" value="3" /> Standard (ARMS CODE or MCODE or {$config.link_code_name|default:'Old Code'} | Qty)
+						</td>
+					</tr>
+					<tr>
+						<th align="left">Delimiter</th>
+						<td>
+							<select name="delimiter">
+								<option value="|">| (Pipe)</option>
+								<option value=",">, (Comma)</option>
+								<option value=";">; (Semicolon)</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th align=left valign=top width=80>Import File</th>
+						<td align=left colspan=3><input name=files id=file type=file class="files" size=50> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+					</tr>
+					
+					</table>
+			
+			<input type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
+		</form>
+		<p align=center>
+		<input type=button class="btn btn-primary" value="Upload" onclick="do_upload()">
+		</p>
+		</div>
+	</div>
+</div>
 	</li>
-{/if}
+		
+		{if $do_type eq 'transfer'}
+		<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> 
+		<a href="javascript:;" onclick="togglediv('create_from_po')">Create from PO</a>
+		<div id=create_from_po class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
+		<form name=f_b method=post>
+		<input type=hidden name=a value="create_from_po">
+		<input type=hidden name=create_type value="3">
+		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+		<table border=0 cellspacing=0 cellpadding=4>
+		<tr>
+		<th align=left width=120>DO Date</th>
+		<td>
+		<input name="do_date" id="added2" size=12 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
+		<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+		</td>
+		</tr>
+		
+		{if !$config.do_create_and_use_branch_from_po}
+			<tr>
+			<td width=120><b>Delivery Branch</b></td>
+			<td>
+			<select name="po_do_branch_id">
+				{foreach item="curr_Branch" from=$branch}
+				<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
+				{/foreach}
+				</select>
+			</td>
+			</tr>
+		{/if}
+		
+		<tr>
+		<td valign=top width=120><b>Price From</b></td>
+		<td>
+			{if $config.sku_multiple_selling_price}
+				{if $config.sku_multiple_selling_price}
+					{foreach from=$config.sku_multiple_selling_price key=i item=e}
+						{if $i eq '1'}
+							<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_1" value="1" onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator('import_po', this); return false;{/if}" /><label for='po_pi_1'>Cost</label>&nbsp;&nbsp;</span>
+						{elseif $i eq '2'}
+							<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_2" value="2" onclick="price_indicator_changed('import_po', this);"><label for='po_pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
+						{elseif $i eq '3'}
+							<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_3" value="3" onclick="price_indicator_changed('import_po', this);"><label for='po_pi_3'>Last DO</label> &nbsp;&nbsp;</span>
+						{elseif $i eq '4'}
+							<span class="nowrap"><input type="radio" name="price_indicate" id="po_pi_4" value="4" checked onclick="price_indicator_changed('import_po', this);"><label for='po_pi_4'>PO Cost</label> &nbsp;&nbsp;</span>	
+						{else}
+							<span class="nowrap"><input type="radio" name="price_indicate" id="po_sp_{$i}" value="{$i}" onclick="price_indicator_changed('import_po', this);"><label for='po_sp_{$i}'>{$e}</label>&nbsp;</span>
+						{/if}
+					{/foreach}
+				{/if}
+			{/if}
+		</td>
+		</tr>
+		
+		<tr>
+		<th align=left width=120>PO No.</th>
+		<td colspan=3>
+		<input id=po_no name=po_no maxlength=15 size=15 onchange="uc(this);"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+		</td>
+		</tr>
+		</table>
+		
+		<input type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
+		</form>
+		
+		<p align=center>
+		<input type=button value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_po()" id="inp_do_create_from_po" />
+		</p>
+		
+		</div></li>
+		{/if}
+		
+		{if $config.allow_sales_order and $do_type eq 'credit_sales'}
+			<li class="list-group-item list-group-item-action"> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('create_from_so'));"> Create from Sales Order</a>
+				<div id="create_from_so" class="stdframe" style="display:none;">
+					<form name="f_sales_order">
+						<input type="hidden" name="do_type" value="credit_sales" />
+						<input type="hidden" name="a" value="do_create_from_sales_order" />
+						<b>Order No</b> <input type="text" name="order_no" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+						<input type="button" value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_sales_order();" />
+					</form>
+				</div>
+			</li>
+		{/if}
+		
+		{if $config.enable_reorder_integration and $do_type eq 'credit_sales'}
+			<li class="list-group-item list-group-item-action"> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('create_from_so_by_batch'));"> Create from Sales Order by Batch</a>
+				<div id="create_from_so_by_batch" class="stdframe" style="display:none;">
+					<form name="f_sales_order_by_batch">
+						<input type="hidden" name="do_type" value="credit_sales" />
+						<input type="hidden" name="a" value="do_create_from_sales_order_by_batch" />
+						<b>Batch Code</b> <input type="text" name="batch_code" id="inp_batch_code" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+						<span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span><br>
+						<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+						<input type="button" value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_sales_order_by_batch();" />
+					</form>
+				</div>
+			</li>
+			<li class="list-group-item list-group-item-action">
+				<img src=ui/new.png align=absmiddle> <a href="/do.batch_picking.php?a=picking_list">Print Picking List by Batch</a>
+			</li class="list-group-item list-group-item-action">
+			<li class="list-group-item list-group-item-action">
+				<img src=ui/new.png align=absmiddle> <a href="/do.batch_picking.php?a=packing_input">Input Packing Information</a>
+			</li>
+		{/if}
+		
+		{if $config.do_can_multiple_print}
+		<li class="list-group-item list-group-item-action"> <img src="ui/icons/printer.png" align=absmiddle>
+		<a href="javascript:void(show_multiple_print());">Print Multiple DO</a></li>
+		{/if}
+		
+		{if file_exists("`$smarty.server.DOCUMENT_ROOT`/do.multi_confirm_checkout.php")}
+			<li class="list-group-item list-group-item-action">
+				<img src="ui/table_multiple.png" align="absmiddle"> <a href="/do.multi_confirm_checkout.php?do_type={$do_type}" target="_blank">DO Multiple Confirm</a>
+			</li>
+		{/if}
+		</ul>
+</div>
+</div>
 
-{if $config.enable_reorder_integration and $do_type eq 'credit_sales'}
-	<li> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('create_from_so_by_batch'));"> Create from Sales Order by Batch</a>
-	    <div id="create_from_so_by_batch" class="stdframe" style="display:none;">
-	        <form name="f_sales_order_by_batch">
-	            <input type="hidden" name="do_type" value="credit_sales" />
-	            <input type="hidden" name="a" value="do_create_from_sales_order_by_batch" />
-	            <b>Batch Code</b> <input type="text" name="batch_code" id="inp_batch_code" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	            <span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span><br>
-				<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-	            <input type="button" value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_sales_order_by_batch();" />
-	        </form>
-	    </div>
-	</li>
-	<li>
-		<img src=ui/new.png align=absmiddle> <a href="/do.batch_picking.php?a=picking_list">Print Picking List by Batch</a>
-	</li>
-	<li>
-		<img src=ui/new.png align=absmiddle> <a href="/do.batch_picking.php?a=packing_input">Input Packing Information</a>
-	</li>
-{/if}
-
-{if $config.do_can_multiple_print}
-<li> <img src="ui/icons/printer.png" align=absmiddle>
-<a href="javascript:void(show_multiple_print());">Print Multiple DO</a></li>
-{/if}
-
-{if file_exists("`$smarty.server.DOCUMENT_ROOT`/do.multi_confirm_checkout.php")}
-	<li>
-		<img src="ui/table_multiple.png" align="absmiddle"> <a href="/do.multi_confirm_checkout.php?do_type={$do_type}" target="_blank">DO Multiple Confirm</a>
-	</li>
-{/if}
-</ul>
-
-<br>
+	</div>
+</div>
 
 <script>
 var phpself = '{$smarty.server.PHP_SELF}';
@@ -600,9 +623,9 @@ function list_sel(n,s){
 	var i;
 	for(i=0;i<=6;i++){
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	if(n==6){
 		url_file='do_checkout.php';
@@ -824,31 +847,51 @@ function reset_batch_code_autocomplete(){
 
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
 
-<form onsubmit="list_sel(0,0);return false;">
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Saved DO</a>
-<a href="javascript:list_sel(2)" id=lst2>Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id=lst5>Rejected</a>
-<a href="javascript:list_sel(3)" id=lst3>Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id=lst4>Approved</a>
-<a href="javascript:list_sel(6)" id=lst6>Checkout</a>
-<a name=find_po id=lst0>Find DO / Invoice <input id=search name=pono> <input type=submit value="Go"></a>
-{if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
-	<a id=lst7>
-		Branch
-		<select name="branch_id" id="search_bid">
-		    {foreach from=$branches item=b}
-		        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-			{/foreach}
-		</select>
-		<input type=button onclick="list_sel(7);" value="Go">
-	</a>
-{/if}
-<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+<div class="mx-3">
+	<form onsubmit="list_sel(0,0);return false;">
+		<div class="tab" style="white-space:nowrap;">
+		<div class="row">
+			<div class="form-group">
+				<div class="col-md-6">
+					<a href="javascript:list_sel(1)" class="btn btn-outline-primary btn-rounded" id=lst1 >Saved DO</a>
+				<a href="javascript:list_sel(2)" class="btn btn-outline-primary btn-rounded" id=lst2>Waiting for Approval</a>
+				<a href="javascript:list_sel(5)" class="btn btn-outline-primary btn-rounded" id=lst5>Rejected</a>
+				<a href="javascript:list_sel(3)" class="btn btn-outline-primary btn-rounded" id=lst3>Cancelled/Terminated</a>
+				<a href="javascript:list_sel(4)" class="btn btn-outline-primary btn-rounded" id=lst4>Approved</a>
+				<a href="javascript:list_sel(6)" class="btn btn-outline-primary btn-rounded" id=lst6>Checkout</a>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-6">
+					<div class="form-inline">
+						<a name=find_po id=lst0>Find DO / Invoice 
+							<input id="search" class="form-control" name=pono> 
+							<input type="submit" class="btn btn-primary" value="Go">
+						</a>
+					</div>
+				</div>
+			</div>
+			{if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
+			<div class="form-group">
+				<div class="col-md-6">
+					<a id=lst7>
+						<b class="form-label">Branch</b>
+						<select class="form-control" name="branch_id" id="search_bid">
+							{foreach from=$branches item=b}
+								<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+							{/foreach}
+						</select>
+						<input type=button onclick="list_sel(7);" value="Go">
+					</a>
+				</div>
+			</div>
+			{/if}
+			<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+		</div>
+		</div>
+		</form>
 </div>
-</form>
-<div id=do_list style="border:1px solid #000">
+<div id="do_list" >
 </div>
 {include file=footer.tpl}
 

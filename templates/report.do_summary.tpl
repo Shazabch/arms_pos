@@ -118,79 +118,107 @@ function change_view_type(){
 
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 {if $err}
 The following error(s) has occured:
 
 <ul class=err>
 {foreach from=$err item=e}
-<li> {$e}
+<div class="alert alert-danger"><li> {$e} </li></div>
 {/foreach}
 {/if}
 
-<form method=post class=form name="f_a">
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> <select name="branch_id">
-	    	<option value="">-- All --</option>
-	    	{foreach from=$branches key=bid item=b}
-	    	    {if !$branches_group.have_group.$bid}
-	    	    	<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-				{/if}
-	    	{/foreach}
-	    	{if $branches_group.header}
-	    	<optgroup label="Branches Group">
-		    	{foreach from=$branches_group.header key=bgid item=bg}
-		    	    <option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-		    	    {foreach from=$branches_group.items.$bgid item=r}
-		    	        <option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-		    	    {/foreach}
-		    	{/foreach}
-	    	{/if}
-	    	</optgroup>
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-
-<b>View Type</b>
-<select name="view_type" onChange="change_view_type();">
-<option value="day" {if $smarty.request.view_type eq 'day'}selected {/if}>Day</option>
-<option value="month" {if $smarty.request.view_type eq 'month'}selected {/if}>Month</option>
-</select>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Show By</b>
-<select name="show_by">
-<option value="do_amt" {if $smarty.request.show_by eq 'do_amt'}selected {/if}>DO Amount</option>
-<option value="inv_amt" {if $smarty.request.show_by eq 'inv_amt'}selected {/if}>Invoice Amount</option>
-<option value="printed_inv" {if $smarty.request.show_by eq 'printed_inv'}selected {/if}>Invoice Amount (Invoice Printed)</option>
-</select>
-
-<p>
-<input type=hidden name=report_title value="{$report_title}">
-<b>Year</b> {dropdown name=year values=$do_year selected=$smarty.request.year key=year value=year}
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	
-
-<span id="span_month" {if $smarty.request.view_type eq 'month'}style="display:none;"{/if}>
-<b>Month</b>
-<select name="month">
-  {foreach from=$months key=k item=r}
-    <option value="{$k}" {if $smarty.request.month eq $k}selected{/if}>{$r}</option>
-  {/foreach}
-  </select>
-
-&nbsp;&nbsp;&nbsp;&nbsp;
-</span>
-
-<input type=hidden name=submit value=1>
-<button class="btn btn-primary" name="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
-
-
-<h1>{$report_title}</h1>
-
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name="f_a">
+			<div class="row">
+				{if $BRANCH_CODE eq 'HQ'}
+			<div class="col-md-3">
+				<b class="form-label">Branch</b> 
+			<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches key=bid item=b}
+							{if !$branches_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+							{/if}
+						{/foreach}
+						{if $branches_group.header}
+						<optgroup label="Branches Group">
+							{foreach from=$branches_group.header key=bgid item=bg}
+								<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+								{foreach from=$branches_group.items.$bgid item=r}
+									<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+								{/foreach}
+							{/foreach}
+						{/if}
+						</optgroup>
+					</select>
+			</div>
+			{/if}
+			
+			<div class="col-md-3">
+				<b class="form-label">View Type</b>
+			<select class="form-control" name="view_type" onChange="change_view_type();">
+			<option value="day" {if $smarty.request.view_type eq 'day'}selected {/if}>Day</option>
+			<option value="month" {if $smarty.request.view_type eq 'month'}selected {/if}>Month</option>
+			</select>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Show By</b>
+			<select class="form-control" name="show_by">
+			<option value="do_amt" {if $smarty.request.show_by eq 'do_amt'}selected {/if}>DO Amount</option>
+			<option value="inv_amt" {if $smarty.request.show_by eq 'inv_amt'}selected {/if}>Invoice Amount</option>
+			<option value="printed_inv" {if $smarty.request.show_by eq 'printed_inv'}selected {/if}>Invoice Amount (Invoice Printed)</option>
+			</select>
+			</div>
+			
+			<p>
+			<div class="col-md-3">
+				<input class="form-control" type=hidden name=report_title value="{$report_title}">
+			<b class="form-label">Year</b> {dropdown name=year values=$do_year selected=$smarty.request.year key=year value=year}
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+			
+			<span id="span_month" {if $smarty.request.view_type eq 'month'}style="display:none;"{/if}>
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">Month</b>
+			<select class="form-control" name="month">
+			  {foreach from=$months key=k item=r}
+				<option value="{$k}" {if $smarty.request.month eq $k}selected{/if}>{$r}</option>
+			  {/foreach}
+			  </select>
+			</div>
+			
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			</span>
+			
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary mt-3" name="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-3" name="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+			</form>
+			
+	</div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if !$table}
 {if $smarty.request.submit && !$err}<p align=center>--No Data--</p>{/if}
@@ -205,155 +233,165 @@ The following error(s) has occured:
 {assign var=credit_sales_total value=0}
 {assign var=all_total value=0}
 
-<table class=report_table width=100% id=report_tbl>
-	<tr class=header>
-		{if $is_under_gst}
-			{assign var=colspan value=4}
-		{else}
-			{assign var=colspan value=2}
-		{/if}
-		<th colspan="2">Date</th>
-		<th colspan="{$colspan}">Transfer</th>
-		<th colspan="{$colspan}">Cash Sales</th>
-		<th colspan="{$colspan}">Credit Sales</th>
-		<th colspan="{$colspan}">Total</th>
-	</tr>
-
-	<tr class=header>
-	    <th width="10%">From</th>
-	    <th width="10%">To</th>
-	    <th>DO</th>
-		{if $smarty.request.show_by eq 'inv_amt' || $smarty.request.show_by eq 'printed_inv'}
-			{assign var = "title" value="Invoice Amount" }
-		{else}
-			{assign var = "title" value="DO Amount" }
-		{/if}
-	    <th>{$title}</th>
-		{if $is_under_gst}
-			<th>GST</th>
-			<th>Total Amount<br />Incl. GST</th>
-		{/if}
-	    <th>DO</th>
-	    <th>{$title}</th>
-		{if $is_under_gst}
-			<th>GST</th>
-			<th>Total Amount<br />Incl. GST</th>
-		{/if}
-	    <th>DO</th>
-	    <th>{$title}</th>
-		{if $is_under_gst}
-			<th>GST</th>
-			<th>Total Amount<br />Incl. GST</th>
-		{/if}
-	    <th>DO</th>
-	    <th>{$title}</th>
-		{if $is_under_gst}
-			<th>GST</th>
-			<th>Total Amount<br />Incl. GST</th>
-		{/if}
-	</tr>
-	
-	
-{foreach from=$table key=d item=t}
-	<tr id=b_{$t.date}>
-		<td colspan=2>
-		    {if !$t.transfer.qty && !$t.transfer.amt && !$t.open.qty && !$t.open.amt && !$t.credit_sales.qty && !$t.credit_sales.amt}
-		    	<img src="/ui/pixel.gif" align=absmiddle width="10">
-		    {else}
-				<img src="/ui/expand.gif" onclick="javascript:void(show_branch_details('{$t.date}','{$smarty.request.show_by}','{$is_under_gst}', this));" align=absmiddle>
-			{/if}
-			{$t.row_label}
-		</td>
-		<td class='r'>{$t.transfer.qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$t.transfer.gross_amt|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$t.transfer.gst_amt|number_format:2|ifzero:"-"}</td>
-		{/if}
-	    <td class='r'>{$t.transfer.amt|number_format:2|ifzero:"-"}</td>
-		<td class='r'>{$t.open.qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$t.open.gross_amt|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$t.open.gst_amt|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$t.open.amt|number_format:2|ifzero:"-"}</td>
-		<td class='r'>{$t.credit_sales.qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$t.credit_sales.gross_amt|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$t.credit_sales.gst_amt|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$t.credit_sales.amt|number_format:2|ifzero:"-"}</td>
-  		
-  		{assign var=row_qty value=$t.transfer.qty+$t.open.qty+$t.credit_sales.qty}
-  		{assign var=row_total value=$t.transfer.amt+$t.open.amt+$t.credit_sales.amt}
-  		{assign var=row_gst_total value=$t.transfer.gst_amt+$t.open.gst_amt+$t.credit_sales.gst_amt}
-  		{assign var=row_gross_total value=$t.transfer.gross_amt+$t.open.gross_amt+$t.credit_sales.gross_amt}
-  		
-		<td class='r'>{$row_qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$row_gross_total|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$row_gst_total|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$row_total|number_format:2|ifzero:"-"}</td>
-
-        {assign var=all_qty value=$all_qty+$row_qty}
-        {assign var=all_total value=$all_total+$row_total}
-        {assign var=all_gst_total value=$all_gst_total+$row_gst_total}
-        {assign var=all_gross_total value=$all_gross_total+$row_gross_total}
-	</tr>
-	{assign var=transfer_qty value=$transfer_qty+$t.transfer.qty}
-	{assign var=open_qty value=$open_qty+$t.open.qty}
-	{assign var=credit_sales_qty value=$credit_sales_qty+$t.credit_sales.qty}
-	
-	{assign var=transfer_total value=$transfer_total+$t.transfer.amt}
-	{assign var=transfer_gst_total value=$transfer_gst_total+$t.transfer.gst_amt}
-	{assign var=transfer_gross_total value=$transfer_gross_total+$t.transfer.gross_amt}
-	{assign var=open_total value=$open_total+$t.open.amt}
-	{assign var=open_gst_total value=$open_gst_total+$t.open.gst_amt}
-	{assign var=open_gross_total value=$open_gross_total+$t.open.gross_amt}
-	{assign var=credit_sales_total value=$credit_sales_total+$t.credit_sales.amt}
-	{assign var=credit_sales_gst_total value=$credit_sales_gst_total+$t.credit_sales.gst_amt}
-	{assign var=credit_sales_gross_total value=$credit_sales_gross_total+$t.credit_sales.gross_amt}
-	
-{/foreach}
-
-
-	<tr class=header id=total>
-	    <td colspan= 2>
-		    {if !$transfer_qty && !$transfer_total && !$open_qty && !$open_total && !$credit_sales_qty && !$credit_sales_total}
-		    	<img src="/ui/pixel.gif" align=absmiddle width="10">
-		    {else}
-				<img src="/ui/expand.gif" onclick="javascript:void(show_total_details('{$smarty.request.show_by}','{$is_under_gst}',this));" align=absmiddle>
-			{/if}
-			<b>Total</b>
-		</td>
-	    <td class='r'>{$transfer_qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$transfer_gross_total|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$transfer_gst_total|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$transfer_total|number_format:2|ifzero:"-"}</td>
-		<td class='r'>{$open_qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$open_gross_total|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$open_gst_total|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$open_total|number_format:2|ifzero:"-"}</td>
-		<td class='r'>{$credit_sales_qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$credit_sales_gross_total|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$credit_sales_gst_total|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$credit_sales_total|number_format:2|ifzero:"-"}</td>
-		<td class='r'>{$all_qty|ifzero:"-"}</td>
-		{if $is_under_gst}
-			<td class='r'>{$all_gross_total|number_format:2|ifzero:"-"}</td>
-			<td class='r'>{$all_gst_total|number_format:2|ifzero:"-"}</td>
-		{/if}
-		<td class='r'>{$all_total|number_format:2|ifzero:"-"}</td>
-	</tr>
-
-
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class=report_table width=100% id=report_tbl>
+				<tr class=header>
+					{if $is_under_gst}
+						{assign var=colspan value=4}
+					{else}
+						{assign var=colspan value=2}
+					{/if}
+					<th colspan="2">Date</th>
+					<th colspan="{$colspan}">Transfer</th>
+					<th colspan="{$colspan}">Cash Sales</th>
+					<th colspan="{$colspan}">Credit Sales</th>
+					<th colspan="{$colspan}">Total</th>
+				</tr>
+			
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th width="10%">From</th>
+						<th width="10%">To</th>
+						<th>DO</th>
+						{if $smarty.request.show_by eq 'inv_amt' || $smarty.request.show_by eq 'printed_inv'}
+							{assign var = "title" value="Invoice Amount" }
+						{else}
+							{assign var = "title" value="DO Amount" }
+						{/if}
+						<th>{$title}</th>
+						{if $is_under_gst}
+							<th>GST</th>
+							<th>Total Amount<br />Incl. GST</th>
+						{/if}
+						<th>DO</th>
+						<th>{$title}</th>
+						{if $is_under_gst}
+							<th>GST</th>
+							<th>Total Amount<br />Incl. GST</th>
+						{/if}
+						<th>DO</th>
+						<th>{$title}</th>
+						{if $is_under_gst}
+							<th>GST</th>
+							<th>Total Amount<br />Incl. GST</th>
+						{/if}
+						<th>DO</th>
+						<th>{$title}</th>
+						{if $is_under_gst}
+							<th>GST</th>
+							<th>Total Amount<br />Incl. GST</th>
+						{/if}
+					</tr>
+				</thead>
+				
+				
+			{foreach from=$table key=d item=t}
+			<tbody class="fs-08">
+				<tr id=b_{$t.date}>
+					<td colspan=2>
+						{if !$t.transfer.qty && !$t.transfer.amt && !$t.open.qty && !$t.open.amt && !$t.credit_sales.qty && !$t.credit_sales.amt}
+							<img src="/ui/pixel.gif" align=absmiddle width="10">
+						{else}
+							<img src="/ui/expand.gif" onclick="javascript:void(show_branch_details('{$t.date}','{$smarty.request.show_by}','{$is_under_gst}', this));" align=absmiddle>
+						{/if}
+						{$t.row_label}
+					</td>
+					<td class='r'>{$t.transfer.qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$t.transfer.gross_amt|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$t.transfer.gst_amt|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$t.transfer.amt|number_format:2|ifzero:"-"}</td>
+					<td class='r'>{$t.open.qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$t.open.gross_amt|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$t.open.gst_amt|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$t.open.amt|number_format:2|ifzero:"-"}</td>
+					<td class='r'>{$t.credit_sales.qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$t.credit_sales.gross_amt|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$t.credit_sales.gst_amt|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$t.credit_sales.amt|number_format:2|ifzero:"-"}</td>
+					  
+					  {assign var=row_qty value=$t.transfer.qty+$t.open.qty+$t.credit_sales.qty}
+					  {assign var=row_total value=$t.transfer.amt+$t.open.amt+$t.credit_sales.amt}
+					  {assign var=row_gst_total value=$t.transfer.gst_amt+$t.open.gst_amt+$t.credit_sales.gst_amt}
+					  {assign var=row_gross_total value=$t.transfer.gross_amt+$t.open.gross_amt+$t.credit_sales.gross_amt}
+					  
+					<td class='r'>{$row_qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$row_gross_total|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$row_gst_total|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$row_total|number_format:2|ifzero:"-"}</td>
+			
+					{assign var=all_qty value=$all_qty+$row_qty}
+					{assign var=all_total value=$all_total+$row_total}
+					{assign var=all_gst_total value=$all_gst_total+$row_gst_total}
+					{assign var=all_gross_total value=$all_gross_total+$row_gross_total}
+				</tr>
+			</tbody>
+				{assign var=transfer_qty value=$transfer_qty+$t.transfer.qty}
+				{assign var=open_qty value=$open_qty+$t.open.qty}
+				{assign var=credit_sales_qty value=$credit_sales_qty+$t.credit_sales.qty}
+				
+				{assign var=transfer_total value=$transfer_total+$t.transfer.amt}
+				{assign var=transfer_gst_total value=$transfer_gst_total+$t.transfer.gst_amt}
+				{assign var=transfer_gross_total value=$transfer_gross_total+$t.transfer.gross_amt}
+				{assign var=open_total value=$open_total+$t.open.amt}
+				{assign var=open_gst_total value=$open_gst_total+$t.open.gst_amt}
+				{assign var=open_gross_total value=$open_gross_total+$t.open.gross_amt}
+				{assign var=credit_sales_total value=$credit_sales_total+$t.credit_sales.amt}
+				{assign var=credit_sales_gst_total value=$credit_sales_gst_total+$t.credit_sales.gst_amt}
+				{assign var=credit_sales_gross_total value=$credit_sales_gross_total+$t.credit_sales.gross_amt}
+				
+			{/foreach}
+			
+			
+				<tr class=header id=total>
+					<td colspan= 2>
+						{if !$transfer_qty && !$transfer_total && !$open_qty && !$open_total && !$credit_sales_qty && !$credit_sales_total}
+							<img src="/ui/pixel.gif" align=absmiddle width="10">
+						{else}
+							<img src="/ui/expand.gif" onclick="javascript:void(show_total_details('{$smarty.request.show_by}','{$is_under_gst}',this));" align=absmiddle>
+						{/if}
+						<b>Total</b>
+					</td>
+					<td class='r'>{$transfer_qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$transfer_gross_total|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$transfer_gst_total|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$transfer_total|number_format:2|ifzero:"-"}</td>
+					<td class='r'>{$open_qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$open_gross_total|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$open_gst_total|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$open_total|number_format:2|ifzero:"-"}</td>
+					<td class='r'>{$credit_sales_qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$credit_sales_gross_total|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$credit_sales_gst_total|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$credit_sales_total|number_format:2|ifzero:"-"}</td>
+					<td class='r'>{$all_qty|ifzero:"-"}</td>
+					{if $is_under_gst}
+						<td class='r'>{$all_gross_total|number_format:2|ifzero:"-"}</td>
+						<td class='r'>{$all_gst_total|number_format:2|ifzero:"-"}</td>
+					{/if}
+					<td class='r'>{$all_total|number_format:2|ifzero:"-"}</td>
+				</tr>
+			
+			
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {include file=footer.tpl}

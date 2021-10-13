@@ -44,8 +44,10 @@
 	{if $smarty.request.t eq 4 or $smarty.request.t eq 6 or $smarty.request.t eq 7}
 		{assign var=show_po value=1}
 	{/if}
-    <table width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
-		<tr bgcolor="#ffee99">
+  <div class="table-responsive">
+	<table width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
+	<thead class="bg-gray-100">
+		<tr>
 			<th width="60">&nbsp;</th>
 			{if !$config.sales_order_hide_batch_code}
 				<th width="100">Batch Code</th>
@@ -68,8 +70,10 @@
 			<th>Order Date</th>
 			<th>Last Update</th>
 		</tr>
+	</thead>
 		{foreach from=$order_list item=order}
-		    <tr bgcolor="{cycle values=",#eeeeee"}">
+		   <tbody class="fs-08">
+			<tr bgcolor="{cycle values=",#eeeeee"}">
 		        <td align="center">
 					{if $order.status eq '2'}<!-- Rejected -->
 					    <a href="sales_order.php?a={if $order.user_id eq $sessioninfo.id}open{else}view{/if}&id={$order.id}&branch_id={$order.branch_id}"><img src="ui/rejected.png" title="Open this Order" border="0" /></a>
@@ -135,6 +139,8 @@
 				<td align="center">{$order.order_date}</td>
 				<td align="center">{$order.last_update}</td>
 		    </tr>
-		{/foreach}
+
+		   </tbody>		{/foreach}
 	</table>
+  </div>
 {/if}

@@ -261,7 +261,7 @@ Revision History
 	width:60px;
 	font-size:10px;
 	padding: 2px;
-	border:1px solid #000;
+	
 }
 .input_matrix td input.ntp { /* price */
 	background-color:#ff9;

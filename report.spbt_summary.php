@@ -223,8 +223,8 @@ class SPBT_SUMMARY extends Report
 
 		$branch_id =get_request_branch(true);
 
-		$sel1 = "<select name='batch_code'>";
-		$sel2 = "<select name='area_code' onchange='change_batch_code();'>";
+		$sel1 = "<select class='form-control ' name='batch_code'>";
+		$sel2 = "<select class='form-control ' name='area_code' onchange='change_batch_code();'>";
         $sel2_data = "<option value='all' />----All----</option>";
 
 /*
@@ -299,7 +299,7 @@ class SPBT_SUMMARY extends Report
 
 		$branch_id =get_request_branch(true);
 		
-		print "<select name='batch_code'>";
+		print "<select  name='batch_code'>";
 
 /*
 		if ($_REQUEST['view_type']=='deliver') {

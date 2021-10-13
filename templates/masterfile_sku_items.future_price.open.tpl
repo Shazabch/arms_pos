@@ -1253,7 +1253,7 @@ function uncheck_branch_by_group()
 							<input id="sku_item_id" name="sku_item_id" size="3" type="hidden">
 							<input id="sku_item_code" name="sku_item_code" size="13" type="hidden">
 							<br>
-							<b>Search SKU</b>
+							<b class="form-label">Search SKU</b>
 							<div class="form-inline">
 								&nbsp;&nbsp;<input class="form-control" id="autocomplete_sku" name="sku" style="width:500px;" onclick="this.select()">
 								&nbsp;<input type="button" value="Add" onclick="MST_FUTURE_PRICE_MODULE.add_autocomplete();" class="btn btn-info">

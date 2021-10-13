@@ -202,7 +202,7 @@ function do_cancel(id, bid){
 <div class="stdframe" id="div_import" style="display:none;">
 <form action="?a=open" method="post" enctype="multipart/form-data">
 <input type="file" name="csv">
-<input type="submit" value="Upload">
+<input type="submit" class="btn btn-primary fs-08" value="Upload">
 </form>
 </div>
 
@@ -221,9 +221,9 @@ function do_cancel(id, bid){
 	</div>
 	<div class="col">
 <div class="form-inline">
-	<a class="a_tab" id="lst6">Find Doc No
+	<a class="a_tab" id="lst6"><span class="p-2">Find Doc No</span>
 		<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" value="{$smarty.request.search_str}" /> 
-		<input class="btn btn-primary" type="button" value="Go" onClick="list_sel(6);" />
+		&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="Go" onClick="list_sel(6);" />
 	</a>
 </div>
 	</div>

@@ -95,7 +95,7 @@ function page_change(ele){
 
 function curtain_clicked(){
 	$('print_dialog').style.display = 'none';
-	$('div_generate_po').hide();
+	jQuery('#div_generate_po').modal('hide');
 	$('div_generate_po_result').hide();
 	$('receipt_details_container').hide();
 	
@@ -137,8 +137,8 @@ function print_ok(){
 
 function show_generate_po_popup(){
 	$('tbody_order_no_list').update('');
-	center_div($('div_generate_po').show());
-	curtain(true);
+	jQuery('#div_generate_po').modal('show');
+	//curtain(true);
 	$('inp_order_no').value = '';
 	$('inp_order_no').focus();
 }
@@ -362,76 +362,87 @@ function onchange_title_print(){
 </form>
 </div>
 <!--End print dialog -->
-
-<!-- generate po popup -->
-<div id="div_generate_po" class="curtain_popup" style="position:absolute;z-index:10000;width:500px;height:450px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_generate_po_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default"><span style="float:left;">Genereate Sales Order to Purchase Order</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_generate_po_content" style="padding:2px;">
-		<form name="f_so_to_po" onSubmit="return false;">
-			<input type="hidden" name="a" value="ajax_generate_po" />
-			
-			You can select multiple Sales Order to generate at once.<br />
-			<b>Search Order No: </b>
-			<input type="text" name="order_no" id="inp_order_no" />
-			<input type="button" value="Add" id="inp_add_order_no" onClick="add_so_to_order_no_list();" />
-			<span id="span_adding_order_no" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-			<br />
-			<div id="div_autocomplete_order_no_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-			<div style="height:20px;">
-				<span id="span_loading_order_no" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-            
-            </div>
-			<div id="div_order_no_list" style="border:2px inset black;background-color:#fff;height:200px;">
-				<table width="100%" border="1" style="border-collapse:collapse;">
-					<tr bgcolor="#cccccc">
-						<th>&nbsp;</th>
-						<th>Order No</th>
-						{if !$config.sales_order_hide_batch_code}
-							<th>Batch Code</th>
-						{/if}
-						<th>Customer PO</th>
-						<th>Order Date</th>
-					</tr>
-					<tbody id="tbody_order_no_list">
-					</tbody>
-				</table>
+<!--generate po popup-->
+<div class="modal" id="div_generate_po" class="curtain_popup">
+	<div class="modal-dialog modal-dialog-centered modal" role="document">
+		<div class="modal-content" id="div_generate_po_content">
+			<div class="modal-header bg-danger "  id="div_generate_po_header" >
+					<h6 class="modal-title bg-danger text-white">Genereate Sales Order to Purchase Order</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+			<div class="modal-body ">
+				<form name="f_so_to_po" onSubmit="return false;">
+					<input type="hidden" name="a" value="ajax_generate_po" />
+					
+					<b class="form-label">You can select multiple Sales Order to generate at once.</b><br />
+				<div class="form-inline">
+					<b>Search Order No: </b>
+					&nbsp;&nbsp;<input type="text" class="form-control" name="order_no" id="inp_order_no" />
+					&nbsp;&nbsp;<input type="button" class="btn btn-primary" value="Add" id="inp_add_order_no" onClick="add_so_to_order_no_list();" />
+				</div>
+					<span id="span_adding_order_no" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+				
+					<div id="div_autocomplete_order_no_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+					<div style="height:20px;">
+						<span id="span_loading_order_no" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+					
+					</div>
+					<div id="div_order_no_list" style="border:2px inset black;background-color:#fff;height:150px;">
+						<div class="table-responsive">
+							<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover"
+							style="border-collapse:collapse;">
+							<thead class="bg-gray-100 fs-09">
+								<tr >
+									<th>&nbsp;</th>
+									<th>Order No</th>
+									{if !$config.sales_order_hide_batch_code}
+										<th>Batch Code</th>
+									{/if}
+									<th>Customer PO</th>
+									<th>Order Date</th>
+								</tr>
+							</thead>
+								<tbody class="fs-08" id="tbody_order_no_list">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<ul class="mt-2" style="list-style-type:disc;">
+						<li> PO will split by department and vendor.
+						<li> PO vendor will base on 
+							<select class="form-control" name="vendor_type">
+								<option value="last_vendor">Last Vendor</option>
+								<option value="master_vendor">Master Vendor</option>
+							</select>	 
+						</li>
+						<li>
+							Deliver to 
+							{if $BRANCH_CODE eq 'HQ'}
+								<select class="form-control" name="po_branch_id">
+									{foreach from=$branches key=bid item=r}
+										<option value="{$bid}" {if $bid eq $sessioninfo.branch_id}selected {/if}>{$r.code}</option>
+									{/foreach}
+								</select>
+							{else}
+								<b>{$BRANCH_CODE}</b>
+								<input type="hidden" name="po_branch_id" value="{$sessioninfo.branch_id}" />
+							{/if}
+						</li>
+					</ul>
+					<p align="center">
+						<input type="button" class="btn btn-primary" value="Generate PO" onClick="generate_po();" id="inp_generate_po" />
+						<br />
+						<span id="span_generating_po" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Processing...</span>
+					</p>
+				</form>
 			</div>
-			
-			<ul>
-				<li> PO will split by department and vendor.
-				<li> PO vendor will base on 
-					<select name="vendor_type">
-						<option value="last_vendor">Last Vendor</option>
-						<option value="master_vendor">Master Vendor</option>
-					</select>	 
-				</li>
-				<li>
-					Deliver to 
-					{if $BRANCH_CODE eq 'HQ'}
-						<select name="po_branch_id">
-							{foreach from=$branches key=bid item=r}
-								<option value="{$bid}" {if $bid eq $sessioninfo.branch_id}selected {/if}>{$r.code}</option>
-							{/foreach}
-						</select>
-					{else}
-						<b>{$BRANCH_CODE}</b>
-						<input type="hidden" name="po_branch_id" value="{$sessioninfo.branch_id}" />
-					{/if}
-				</li>
-			</ul>
-			<p align="center">
-				<input type="button" value="Generate PO" onClick="generate_po();" id="inp_generate_po" />
-				<br />
-				<span id="span_generating_po" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Processing...</span>
-			</p>
-		</form>
+		</div>
 	</div>
 </div>
+
+<!--end generate po popup-->
+<!-- generate po popup -->
+
 
 <div id="div_generate_po_result" style="position:absolute;background-color:#fff;border:2px solid black;height:200px;width:400px;z-index:10001;display:none;">
 	<span style="float:right;padding:2px;">
@@ -451,7 +462,14 @@ function onchange_title_print(){
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $smarty.request.err_msg}
     <p><img src="ui/cancel.png" align="absmiddle"> {$smarty.request.err_msg}</p>
@@ -469,16 +487,28 @@ function onchange_title_print(){
 	<p><img src="ui/approved.png" align="absmiddle"> Order ID#{$smarty.request.save_id} was Fully Approved.</p>
 {/if}
 
-<ul>
-	<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Order</a></li>
-	{if $config.enable_reorder_integration}
-	<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=upload_csv">Create New Order by Upload CSV</a></li>
-	{/if}
-	<li>
-		<img src="ui/icons/application_add.png" align="absmiddle" /> <a href="javascript:void(show_generate_po_popup());">Generate Sales Order to Purchase Order</a>
-	</li>
-</ul>
-
+<div class="card mx-3">
+	<div class="card-body">
+	<ul class="list-group list-group-flush">
+		<div class="row">
+			<div class="col">
+				<li class="list-group-item list-group-item-action"> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Order</a></li>
+			</div>
+			{if $config.enable_reorder_integration}
+			<div class="col">
+				<li class="list-group-item list-group-item-action"> <img src="ui/new.png" align="absmiddle" /> <a href="?a=upload_csv">Create New Order by Upload CSV</a></li>
+			</div>
+			{/if}
+			<div class="col">
+				<li class="list-group-item list-group-item-action"> 
+					<img src="ui/icons/application_add.png" align="absmiddle" /> <a href="javascript:void(show_generate_po_popup());">Generate Sales Order to Purchase Order</a>
+				</li>
+			</div>
+		</div>
+		</ul>
+		
+	</div>
+</div>
 <div class="row mx-3 mb-3">
 	<div class="col">
 		<div class=tab style="white-space:nowrap;">
@@ -491,19 +521,26 @@ function onchange_title_print(){
 			<a href="javascript:void(list_sel(8))" id=lst8 class="a_tab btn btn-outline-primary btn-rounded">Exported To POS</a>
 		
 	</div>
-	<br>
+
+<br>
 	<div class="col">
-		<a class="a_tab" id="lst6">Search [<span class="link" onclick="toggle_search_info();">?</span>] 
-			<input id="inp_item_search" onKeyPress="search_input_keypress(event);" />
-			 <input type="button" class="btn btn-primary" value="Go" onClick="list_sel(6);" />
-		</a>
+		<div class="form-inline">
+			<a class="a_tab" id="lst6">Search [<span class="link" onclick="toggle_search_info();">?</span>] 
+			&nbsp;&nbsp;	<input id="inp_item_search" class="form-control" onKeyPress="search_input_keypress(event);" />
+			&nbsp;&nbsp;	 <input type="button" class="btn btn-primary" value="Go" onClick="list_sel(6);" />
+			</a>
+		</div>
 		
 	</div>
 </div>
-<
+
 <span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 </div>
-<div id="order_list" style="border:1px solid #000">
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="order_list">
+		</div>
+	</div>
 </div>
 </div>
 

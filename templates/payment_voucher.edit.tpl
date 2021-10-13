@@ -127,7 +127,7 @@
 			last_doc_type=$('doc_type_'+(count-1)).value;	
 		}
 		
-		new_row.innerHTML='<th align=center class="no" id=no_'+count+'>'+td_1+'</th><td align=center><select id=doc_type_'+count+' name="doc_type[]" onchange="check_type(this,'+count+');chk_doc_no($(\'doc_no_'+count+'\'),this,this.value);">{/literal}{foreach key=key item=item from=$doc_type}<option value={$key} {if $list.$n.doc_type==$key}selected{/if}>{$item}</option>{/foreach}{literal}</select></td><td align=center><input id=doc_date_'+count+' name="doc_date[]" size="10" maxlength=10 onchange="check_date(this);" onclick="if(this.value)this.select();"></td><td><input onchange="uc(this);chk_doc_no(this,$(\'doc_type_'+count+'\'),$(\'doc_type_'+count+'\').value);" name="doc_no[]" size="58" id=doc_no_'+count+' class="doc_no"></td><td class="r"><input id=credit_'+count+' name="credit[]" size="20" class="r" onchange="mf(this);calcalate_total();" onclick="if(this.value)this.select();" onblur="if(check_both(this,$(\'debit_'+count+'\'),$(\'doc_type_'+count+'\')))add_row($(\'doc_no_'+count+'\'),'+no_row+',1,this);">&nbsp;</td><td class="r"><input id=debit_'+count+' name="debit[]" size="20" class="r" onchange="mf(this);calcalate_total();" type="text" readonly onclick="if(this.value)this.select();" onblur="if(check_both($(\'credit_'+count+'\'),this,$(\'doc_type_'+count+'\')))add_row($(\'doc_no_'+count+'\'),'+no_row+',1,this);">&nbsp;</td>';
+		new_row.innerHTML='<th align=center class="no" id=no_'+count+'>'+td_1+'</th><td align=center><select class="form-control" id=doc_type_'+count+' name="doc_type[]" onchange="check_type(this,'+count+');chk_doc_no($(\'doc_no_'+count+'\'),this,this.value);">{/literal}{foreach key=key item=item from=$doc_type}<option value={$key} {if $list.$n.doc_type==$key}selected{/if}>{$item}</option>{/foreach}{literal}</select></td><td align=center><input class="form-control" id=doc_date_'+count+' name="doc_date[]" size="10" maxlength=10 onchange="check_date(this);" onclick="if(this.value)this.select();"></td><td><input class="form-control" onchange="uc(this);chk_doc_no(this,$(\'doc_type_'+count+'\'),$(\'doc_type_'+count+'\').value);" name="doc_no[]" size="58" id=doc_no_'+count+' class="doc_no"></td><td class="r"><input class="form-control" id=credit_'+count+' name="credit[]" size="20" class="r" onchange="mf(this);calcalate_total();" onclick="if(this.value)this.select();" onblur="if(check_both(this,$(\'debit_'+count+'\'),$(\'doc_type_'+count+'\')))add_row($(\'doc_no_'+count+'\'),'+no_row+',1,this);">&nbsp;</td><td class="r"><input class="form-control" id=debit_'+count+' name="debit[]" size="20" class="r" onchange="mf(this);calcalate_total();" type="text" readonly onclick="if(this.value)this.select();" onblur="if(check_both($(\'credit_'+count+'\'),this,$(\'doc_type_'+count+'\')))add_row($(\'doc_no_'+count+'\'),'+no_row+',1,this);">&nbsp;</td>';
 		
 		$('doc_type_'+count).focus();
 		if($('doc_type_'+(count-1))){
@@ -514,10 +514,10 @@
 	</style>
 	{/literal}
 	
-	<div id=div_issue_list style="display:none;position:absolute;z-index:100;background:#fff;border:1px solid #000;margin: 0 0 0 0;height:200px;width:552px;overflow:auto;">
-	<ul id=tab>
+	<div id=div_issue_list style="display:none;position:absolute;z-index:100;background:#fff;border:1px solid maroon;height:200px;width:515px;overflow:auto;">
+	<ul class="list-group list-group-flush" id=tab>
 	{foreach item="issue_item" from=$issue_list}
-	<li onclick="do_select_issue_name(this);" id="selected_issue_item" title="{$issue_item.name|upper}">{$issue_item.name|upper}</li>
+	<li class="list-group-item list-group-item-action" onclick="do_select_issue_name(this);" id="selected_issue_item" title="{$issue_item.name|upper}">{$issue_item.name|upper}</li>
 	{/foreach}
 	</ul>
 	</div>
@@ -585,10 +585,6 @@
     
                 <tr>
                 <b class="form-label mt-2">Voucher Type</b>
-                
-                
-                </tr>
-                <tr class="fs-09">
                 {if ($form.voucher_type eq '1') || !$form.voucher_type}
                 
                 <td><input type=radio name="voucher_type" value=1 {if $form.voucher_type eq '1' || !$form.voucher_type}checked{/if} {if $form.id}disabled{else}onClick="change_type(this);"{/if}><span class="fs-09"> Normal</span></td>

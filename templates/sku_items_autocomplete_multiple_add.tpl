@@ -408,7 +408,8 @@ function clear_autocomplete(){
 		</div>
 		{if $include_all_sku_item}&nbsp;&nbsp;
 		<label><input type="checkbox" name="include_all_sku_item" />Include all parent / child SKU</label>{/if}
-		{if $add_parent_child}&nbsp;&nbsp;<label><input type="button" value="Add Parent & Child" onclick='add_parent_child()'></label>{/if}
+		{if $add_parent_child}&nbsp;&nbsp;<label>
+			<input class="btn btn-light mt-3" type="button" value="Add Parent & Child" onclick='add_parent_child()'></label>{/if}
 		<div id="autocomplete_sku_choices" class="autocomplete bd-x bd-y " style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>

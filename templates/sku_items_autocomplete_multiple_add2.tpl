@@ -267,7 +267,7 @@ add_sku_item{$is_dbl_sku}={literal}function(sku_group_id,branch_id,user_id){
 	</td>
 </tr>
 <tr>
-	<td><input class="btn btn-error" type=button value="Remove" id="remove_sku{$is_dbl_sku}" onClick="remove_sku_from_list{$is_dbl_sku}()" disabled style="width:80px;"></td>
+	<td><input class="btn btn-danger" type=button value="Remove" id="remove_sku{$is_dbl_sku}" onClick="remove_sku_from_list{$is_dbl_sku}()" disabled style="width:80px;"></td>
 </tr>
 <tr>
 	<td><input class="btn btn-primary" type=button value="Clear" id="clear_sku{$is_dbl_sku}" onClick="clear_sku_from_list{$is_dbl_sku}()" disabled style="width:80px;"></td>

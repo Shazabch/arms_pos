@@ -21,8 +21,8 @@ var DO_PREPARATION_MODULE = {
 	tab_sel: function(n,s){
 		var i;
 		for(i=0;i<=2;i++){
-			if (i==n) $('tab'+i).className='active';
-			else $('tab'+i).className='';
+			if (i==n) $('tab'+i).addClassName('selected');
+			else $('tab'+i);
 		}
 		
 		$('do_list').update('<img src=ui/clock.gif align=absmiddle> Loading...');
@@ -55,9 +55,15 @@ var DO_PREPARATION_MODULE = {
 {if $smarty.request.msg}
 <script>alert('{$smarty.request.msg|escape:javascript}');</script>
 {/if}
-
-<h1>
-{$do_type_label}&nbsp;{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$do_type_label}&nbsp;{$PAGE_TITLE}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <div id="show_last">
 {if $smarty.request.t eq 'save'}
@@ -68,18 +74,39 @@ var DO_PREPARATION_MODULE = {
 </div>
 
 <div>
-	<img src="ui/new.png" align="absmiddle"><a href="{$smarty.server.PHP_SELF}?a=open&do_type={$do_type}"> Create New {$do_type_label} DO</a>
+	<div class="card mx-3">
+		<div class="card-body">
+			<ul class="list-group list-group-flush ">
+				<li class="list-group-item list-group-item-action">
+					<img src="ui/new.png" align="absmiddle"><a href="{$smarty.server.PHP_SELF}?a=open&do_type={$do_type}"> Create New {$do_type_label} DO</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <br />
 
 <form onsubmit="DO_PREPARATION_MODULE.tab_sel(0,0);return false;">
-	<div class="tab" style="height:25px;white-space:nowrap;">
-		&nbsp;&nbsp;&nbsp;
-		<a href="javascript:DO_PREPARATION_MODULE.tab_sel(1)" id="tab1" class="active">Saved DO</a>
+	<div class="tab" style="white-space:nowrap;">
+		<div class="row mx-5">
+			<div class="col">
+				<div class="form-group">
+					<a href="javascript:DO_PREPARATION_MODULE.tab_sel(1)" id="tab1" class="btn btn-outline-primary btn-rounded">Saved DO</a>
+				</div>
+			</div>
 		<!--a href="javascript:DO_PREPARATION_MODULE.tab_sel(2)" id="tab2">Cancelled/Terminated</a-->
 		<input type="hidden" id="tab2" />
-		<a name="find_do" id="tab0">Find DO <input id="search" name="dono"> <input type="submit" value="Search"></a>
+		<div class="col">
+			<div class="form-group">
+			<div class="form-inline">
+				<a name="find_do" id="tab0">Find DO 
+					&nbsp;<input class="form-control" id="search" name="dono"> 
+					&nbsp;<input class="btn btn-primary" class="b" type="submit" value="Search">
+				</a>
+			</div>
+			</div>
+		</div>
 		{if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
 			<a id="tab7">
 				Branch
@@ -91,10 +118,11 @@ var DO_PREPARATION_MODULE = {
 				<input type="button" onclick="DO_PREPARATION_MODULE.tab_sel(3);" value="Go">
 			</a>
 		{/if}
+		</div>
 		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 	</div>
 </form>
-<div id="do_list" style="border:1px solid #000"></div>
+<div id="do_list" ></div>
 {include file=footer.tpl}
 
 <script>

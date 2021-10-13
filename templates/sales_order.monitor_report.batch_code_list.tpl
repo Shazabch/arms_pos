@@ -1,4 +1,4 @@
-<select name="batch_code">
+<select class="form-control" name="batch_code">
 	{if $batch_code_list}
 		<option value="all">-- All --</option>
 		{foreach from=$batch_code_list item=bc}

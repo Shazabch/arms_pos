@@ -165,6 +165,7 @@ Revision History
 		<li>Enter the Article No. or Manufacturer's Code into the content cells</li>
 		</ul>
 </div>
+
 <div id="matrix[{$item_n|default:0}]">
 {if $items[$item_n].tb}
 <table>
@@ -172,18 +173,18 @@ Revision History
 <tr>
 {foreach name=c from=$tb item=tbc}
 <td>
-	<input class="nth" name="tb[{$item_n}][{$smarty.foreach.r.index}][{$smarty.foreach.c.index}]" value="{$tbc}"><br>
-	<input class="nth" name="tbm[{$item_n}][{$smarty.foreach.r.index}][{$smarty.foreach.c.index}]" value="{$items[$item_n].tbm[$smarty.foreach.r.index][$smarty.foreach.c.index]}">
+	<input class="nth form-control" name="tb[{$item_n}][{$smarty.foreach.r.index}][{$smarty.foreach.c.index}]" value="{$tbc}"><br>
+	<input class="nth form-control" name="tbm[{$item_n}][{$smarty.foreach.r.index}][{$smarty.foreach.c.index}]" value="{$items[$item_n].tbm[$smarty.foreach.r.index][$smarty.foreach.c.index]}">
 </td>
 {/foreach}
 
-<td><input class="nth" name="tbprice[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbprice[$smarty.foreach.r.index]}"></td>
+<td><input class="nth form-control" name="tbprice[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbprice[$smarty.foreach.r.index]}"></td>
 {if $config.do_enable_hq_selling && $BRANCH_CODE eq 'HQ'}
-	<td><input class="nth" name="tbhqprice[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbhqprice[$smarty.foreach.r.index]}"></td>
+	<td><input class="nth form-control" name="tbhqprice[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbhqprice[$smarty.foreach.r.index]}"></td>
 {/if}
 <td><input class="nth" name="tbcost[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbcost[$smarty.foreach.r.index]}"></td>
 {if $config.sku_listing_show_hq_cost and $BRANCH_CODE eq 'HQ'}
-	<td><input class="nth" name="tbhqcost[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbhqcost[$smarty.foreach.r.index]}"></td>
+	<td><input class="nth form-control" name="tbhqcost[{$item_n}][{$smarty.foreach.r.index}]" value="{$items[$item_n].tbhqcost[$smarty.foreach.r.index]}"></td>
 {/if}
 </tr>
 {/foreach}

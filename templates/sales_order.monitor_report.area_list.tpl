@@ -1,4 +1,4 @@
-<select name="area" onChange="area_changed();">
+<select class="form-control" name="area" onChange="area_changed();">
 	{if $area_list}
 		<option value="all">-- All --</option>
 		{foreach from=$area_list item=area}
