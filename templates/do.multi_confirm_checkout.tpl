@@ -344,53 +344,70 @@ var DO_MULTI_CONFIRM_CHECKOUT = {
 </script>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
 	The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+		<div class="alert alert-danger rounded">	<li> {$e}</li></div>
 		{/foreach}
 	</ul>
 {/if}
 
 <br />
 
-<form name="f_filters" method="post" onSubmit="return false;" class="stdframe" style="background-color:#fff;" action="{$smarty.server.PHP_SELF}">
-	<b>DO Type:</b>&nbsp;&nbsp;
-	<select name="do_type" onchange="DO_MULTI_CONFIRM_CHECKOUT.do_type_changed();">
-		<option value="">-- All --</option>
-		{foreach from=$do_type_list key=do_type item=do_type_desc}
-			<option value="{$do_type}" {if $smarty.request.do_type eq $do_type}selected{/if}>{$do_type_desc}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<span id="span_deliver_to">
-		<b>Deliver To:</b>&nbsp;&nbsp;
-		<select name="deliver_to">
-			<option value="">-- All --</option>
-			{foreach from=$branches key=bid item=r}
-				<option value="{$r.id}">{$r.code}</option>				
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<span id="span_debtors" {if !$form.do_type || $form.do_type ne "credit_sales"}style="display:none;"{/if}>
-		<b>Debtor:</b>&nbsp;&nbsp;
-		<select name="debtor_id">
-			<option value="">-- All --</option>
-			{foreach from=$debtor_list key=debtor_id item=r}
-				<option value="{$debtor_id}" {if $smarty.request.debtor_id eq $debtor_id}selected{/if}>{$r.description}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<input class="btn btn-primary" type="button" name="submit" onclick="DO_MULTI_CONFIRM_CHECKOUT.ajax_reload_do_list(true);" id="show_btn" value="Show" />
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_filters" method="post" onSubmit="return false;" class="stdframe" style="background-color:#fff;" action="{$smarty.server.PHP_SELF}">
+			<div class="row">
+				<div class="col-md-3">
+					<b class="form-label">DO Type:</b>
+					<select class="form-control" name="do_type" onchange="DO_MULTI_CONFIRM_CHECKOUT.do_type_changed();">
+						<option value="">-- All --</option>
+						{foreach from=$do_type_list key=do_type item=do_type_desc}
+							<option value="{$do_type}" {if $smarty.request.do_type eq $do_type}selected{/if}>{$do_type_desc}</option>
+						{/foreach}
+					</select>
+					
+				</div>
+				
+				<div class="col-md-3">
+					<span id="span_deliver_to">
+						<b class="form-label">Deliver To:</b>
+						<select class="form-control" name="deliver_to">
+							<option value="">-- All --</option>
+							{foreach from=$branches key=bid item=r}
+								<option value="{$r.id}">{$r.code}</option>				
+							{/foreach}
+						</select>
+					</span>
+				</div>
+				
+				<div class="col-md-3">
+					<span id="span_debtors" {if !$form.do_type || $form.do_type ne "credit_sales"}style="display:none;"{/if}>
+						<b class="form-label">Debtor:</b>
+						<select class="form-control" name="debtor_id">
+							<option value="">-- All --</option>
+							{foreach from=$debtor_list key=debtor_id item=r}
+								<option value="{$debtor_id}" {if $smarty.request.debtor_id eq $debtor_id}selected{/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+						
+					</span>
+				</div>
+				
+				<div class="col-md-3"><input class="btn btn-primary mt-4" type="button" name="submit" onclick="DO_MULTI_CONFIRM_CHECKOUT.ajax_reload_do_list(true);" id="show_btn" value="Show" /></div>
+			</div>
+		</form>
+	</div>
+</div>
 
 <br />
 
@@ -398,7 +415,7 @@ var DO_MULTI_CONFIRM_CHECKOUT = {
 	<input type="hidden" name="a" value="ajax_confirm_checkout_do" />
 	<input type="hidden" name="process_type" value="{$smarty.request.process_type}" />
 	<span id="span_loading_do_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-	<div id="div_do_list" class="stdframe" style="background-color:#fff; display:none;">
+	<div id="div_do_list" class="stdframe" style=" display:none;">
 		{include file='do.multi_confirm_checkout.do_list.tpl'}
 	</div>
 </form>

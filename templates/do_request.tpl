@@ -586,85 +586,131 @@ function show_more_info(){
 </div>
 
 <!-- End of Special Div-->
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<ul>
-	<li> You can only search the products under your allowed departments.</li>
-	<li> Items added to Request are auto-saved.</li>
-	{if $config.enable_vendor_portal}
-		<li> You can also <a href="?a=add_by_sku_group_main" target="_blank">add DO Request by SKU Group</a>.</li>
-	{/if}
-</ul>
+<div class="alert alert-primary mx-3">
+	<ul>
+		<li> You can only search the products under your allowed departments.</li>
+		<li> Items added to Request are auto-saved.</li>
+		{if $config.enable_vendor_portal}
+			<li> You can also <a href="?a=add_by_sku_group_main" target="_blank">add DO Request by SKU Group</a>.</li>
+		{/if}
+	</ul>
+</div>
 
 <div style="text-align:right;"><a href="?a=advanced_add_main">Advanced Search &gt;&gt;</a></div>
-<div id=tbl_1 class=stdframe style="margin:5px 0;background:#fff;">
-<!-- sku search -->
-<form name="f_a" onSubmit="return false;">
-<input name="sku_item_id" size=3 type=hidden>
-<input name="sku_item_code" size=13 type=hidden>
-{*<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />*}
-
-<b>Choose Supply Branch</b>
-<select name="request_branch_id">
-	<option value="">-- Please Select --</option>
-	{foreach from=$branch item=b}
-		{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
-		<option value="{$b.id}" {if $b.code eq 'HQ'}selected {/if}>{$b.code} - {$b.description}</option>
-		{/if}
-	{/foreach}
-</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-
-<table class="tl" cellpadding=2 cellspacing=0 border=0>
-<tr><th>Search SKU</th>
-<td colspan=6><input id="autocomplete_sku" name="sku" size=50 onclick="this.select();" style="font-size:14px;width:500px;"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-<span id="span_loading_item_info"></span>
-<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div></td></tr>
-<tr><td>&nbsp;</td><td colspan=6><input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-</td></tr>
-</table>
-
-<div id="div_item_details"></div>
-<br>
-<b>Request Qty</b> <input type="text" name="request_qty" size="3" onchange="mi(this);" /> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>&nbsp;&nbsp;&nbsp;
-{*<b>UOM</b>
-<select name="uom_id">
-	{foreach from=$uom item="curr_uom"}
-	<option value={$curr_uom.id} {if $curr_uom.code eq 'EACH'}selected {/if}>{$curr_uom.code}
-	</option>
-	{/foreach}
-</select>&nbsp;&nbsp;&nbsp;*}
-<b>Stock Balance</b> <input size=3 name="stock_balance" onchange="mi(this);">
-&nbsp;&nbsp;&nbsp;
-<b>Remarks</b> <input size=32 maxlength="30" name="comment">&nbsp;&nbsp;&nbsp;
-
-{if !$config.do_request_no_expected_delivery_date}
-	<b>Expected Delivery Date</b>
-	<input name="expect_do_date" id="inp_expect_do_date" size="12" maxlength="10" value="{$default_expect_min_do_date|default:$default_expect_do_date}" onChange="expect_do_date_changed();" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
-{/if}
-
-<p>
-	<input class="btn btn-primary" type="button" value="Add to DO Request" onClick="add_item(this);" />
-	<span id="span_adding_item"></span>
-</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div id=tbl_1 class=stdframe >
+			<!-- sku search -->
+			<form name="f_a" onSubmit="return false;">
+			<input name="sku_item_id" size=3 type=hidden>
+			<input name="sku_item_code" size=13 type=hidden>
+			{*<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />*}
+			
+			<b class="form-label">Choose Supply Branch<span class="text-danger"> *</span></b>
+			<select class="form-control" name="request_branch_id">
+				<option value="">-- Please Select --</option>
+				{foreach from=$branch item=b}
+					{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
+					<option value="{$b.id}" {if $b.code eq 'HQ'}selected {/if}>{$b.code} - {$b.description}</option>
+					{/if}
+				{/foreach}
+			</select>
+			
+			<table class="tl" >
+			<tr><b class="form-label mt-2">Search SKU<span class="text-danger" title="required field"> *</span></b>
+			<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select();" style="font-size:14px;width:500px;"> <span></span>
+			<span id="span_loading_item_info"></span>
+			<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+			<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div></td></tr>
+			<tr><td>&nbsp;</td><td colspan=6>
+			<div class="fs-08">
+				<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+			</div>
+			</td></tr>
+			</table>
+			
+			<div id="div_item_details"></div>
+			<br>
+		<div class="row">
+			<div class="col-md-3">
+				<b class="form-label">Request Qty<span class="text-danger" title="Required Field"> *</span></b>
+			 <input class="form-control" type="text" name="request_qty" size="3" onchange="mi(this);" /> <span>
+		
+			</div>
+			{*<div class="col-md-3">
+				<b class="form-label">UOM</b>
+			<select class="form-control" name="uom_id">
+				{foreach from=$uom item="curr_uom"}
+				<option value={$curr_uom.id} {if $curr_uom.code eq 'EACH'}selected {/if}>{$curr_uom.code}
+				</option>
+				{/foreach}
+			</select>
+			</div>*}
+			<div class="col-md-3">
+				<b class="form-label">Stock Balance</b>
+				 <input class="form-control" size=3 name="stock_balance" onchange="mi(this);">
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Remarks</b> 
+				<input class="form-control"  size=32 maxlength="30" name="comment">
+			</div>
+			
+			{if !$config.do_request_no_expected_delivery_date}
+				<div class="col-md-3">
+					<b class="form-label">Expected Delivery Date</b>
+				<div class="form-inline">
+					<input class="form-control" name="expect_do_date" id="inp_expect_do_date" size="12" maxlength="10" value="{$default_expect_min_do_date|default:$default_expect_do_date}" onChange="expect_do_date_changed();" />
+				&nbsp;&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
+				</div>
+				</div>
+			{/if}
+		</div>
+			
+			<p>
+				<input class="btn btn-primary mt-2" type="button" value="Add to DO Request" onClick="add_item(this);" />
+				<span id="span_adding_item"></span>
+			</p>
+			</form>
+			</div>
+	</div>
 </div>
 <br />
 
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:void(list_sel(1))" id=lst1 class="active a_tab">Saved Items</a>
-<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab">Processing</a>
-<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab">Rejected</a>
-<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab">Completed</a>
-<a class="a_tab" id=lst4>Find Items <input id="inp_item_search" onKeyPress="search_input_keypress(event);" /> <input type="button" value="Go" onClick="list_sel(4);" /></a>
-</div>
 
-<div id="items_list" style="border:1px solid #000">
+<div class=tab style="white-space:nowrap;">
+		<div class="row mx-3 mb-3">
+		<div class="col">
+			<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Saved Items</a>
+		<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Processing</a>
+		<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+		<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
+		
+		</div>
+		<div class="col">
+			<a class="a_tab" id=lst4> 
+				<div class="form-inline">
+					<b class="form-label">Find Items </b>
+				&nbsp;&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" /> 
+				&nbsp;&nbsp;<input type="button" class="btn btn-primary" value="Go" onClick="list_sel(4);" />
+				</div>
+			</a>
+		</div>
+		
+</div>
+</div>
+<div id="items_list" >
 </div>
 
 <script type="text/javascript">

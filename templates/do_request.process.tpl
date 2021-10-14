@@ -1,4 +1,4 @@
-{*
+f{*
  11/3/2009 5:40:44 PM Andy
  - Add Reject function
  
@@ -599,7 +599,14 @@ function curtain_clicked(){
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {include file='shared_sku_photo.script.tpl'}
 
@@ -659,60 +666,81 @@ function curtain_clicked(){
 	<p><img src="/ui/approved.png" align="absmiddle" /> <a href="do.php?a=open&id={$smarty.request.do_id}&branch_id={$smarty.request.branch_id2}" target="_blank">DO#{$smarty.request.do_id}</a> Generated.</p>
 {/if}
 
-<form name="f_a" onSubmit="return false;" class="stdframe" style="background-color:#fff;">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;" class="stdframe" >
 	<table>
-		<tr>
-			<td><b>Select Request Branch</b></td>
-			<td>
-				<select name="branch_id" onChange="request_branch_change();">
-				<option value="">-- Please Select --</option>
-				{foreach from=$branch item=b}
-					{assign var=bid value=$b.id}
-					{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
-						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description} {*({$branches_items.$bid.item_count|default:0})*}</option>
-					{/if}
-				{/foreach}
-			</select>		
-			</td>
-		</tr>
+		
+		<div class="row">
+			<div class="col-md-3">
+				<b class="form-label">Select Request Branch</b>
+			</div>
+				<div class="col-md-3">
+					<select class="form-control" name="branch_id" onChange="request_branch_change();">
+						<option value="">-- Please Select --</option>
+						{foreach from=$branch item=b}
+							{assign var=bid value=$b.id}
+							{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description} {*({$branches_items.$bid.item_count|default:0})*}</option>
+							{/if}
+						{/foreach}
+					</select>	
+				</div>	
+		</div>
+	
 		
 		{* Expected Delivery Date *}
 		{if !$config.do_request_no_expected_delivery_date}
-			<tr>
-				<td><b>Expected Delivery Date</b></td>
-				<td>
-					<input name="expect_do_date_from" id="inp_expect_do_date_from" size="12" maxlength="10" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_from" style="cursor: pointer;" title="Select Date" />
-					To
-					<input name="expect_do_date_to" id="inp_expect_do_date_to" size="12" maxlength="10" value="{$default_expect_do_date_to}" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_to" style="cursor: pointer;" title="Select Date" />
+			<div class="row mt-2">
+				
+					<div class="col-md-3"><b class="form-label">Expected Delivery Date</b></div>
+					<div class="col-md-6">
+						<div class="form-inline">
+							<input class="form-control" name="expect_do_date_from" id="inp_expect_do_date_from" size="12" maxlength="10" />
+							<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_from" style="cursor: pointer;" title="Select Date" />
+					
+						&nbsp;&nbsp;To
+					
+						&nbsp;<input class="form-control" name="expect_do_date_to" id="inp_expect_do_date_to" size="12" maxlength="10" value="{$default_expect_do_date_to}" />
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_to" style="cursor: pointer;" title="Select Date" />
+					</div>
+					</div>
 				</td>
-			</tr>
+			
+			</div>
 		{/if}
 		
-		<tr>
-			<td><b>Sort By</b></td>
-			<td>
-				<select name="sort_by">
-					<option value="dri.last_update">Last Update</option>
-					<option value="dri.added">Request Date</option>
-					<option value="si.sku_item_code">ARMS Code</option>
-					<option value="si.artno">Art No.</option>
-					<option value="si.mcode">MCode</option>
-					<option value="category">Category</option>
-					<option value="department">Department</option>
-				</select>
-				
-				<select name="sort_order">
-					<option value="asc">Ascending</option>
-					<option value="desc">Descending</option>
-				</select>
-			</td>
-		</tr>
+	
+	<div class="row mt-2">
+		<div class="col-md-3">
+			<b class="form-label">Sort By</b>
+		</div>
+			
+	<div class="col-md-3">
+		<select class="form-control" name="sort_by">
+			<option value="dri.last_update">Last Update</option>
+			<option value="dri.added">Request Date</option>
+			<option value="si.sku_item_code">ARMS Code</option>
+			<option value="si.artno">Art No.</option>
+			<option value="si.mcode">MCode</option>
+			<option value="category">Category</option>
+			<option value="department">Department</option>
+		</select>
+	</div>
+		
+		<div class="col-md-3">
+			<select class="form-control" name="sort_order">
+				<option value="asc">Ascending</option>
+				<option value="desc">Descending</option>
+			</select>
+		</div>
+	
+	</div>
+		
 		
 		<tr>
 			<td colspan="2">
-				<input type="button" value="Refresh" onClick="reload_list();" />
+				<input type="button" class="btn btn-primary" value="Refresh" onClick="reload_list();" />
 			</td>
 		</tr>
 	</table>
@@ -723,26 +751,40 @@ function curtain_clicked(){
 		{/if}
 	</ul>*}
 </form>
+	</div>
+</div>
 <br />
 
 <form name="f_table_list" id="f_table_list" onSubmit="return false;">
 <div id="div_container" style="display:none;">
-	<div class=tab style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	<a href="javascript:void(list_sel(1))" id=lst1 class="active a_tab">Request Items</a>
-	<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab">Picking List</a>
-	<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab">Rejected</a>
-	
-	{if $config.do_enable_request_print_exported_po}
-	<a href="javascript:void(list_sel(6))" id=lst6 class="a_tab">Exported to PO</a>
-	{/if}
-	
-	<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab">Completed</a>
-	<a class="a_tab" id=lst4>Find Items <input id="inp_item_search" onKeyPress="search_input_keypress(event);" /> <input type="button" value="Go" onClick="list_sel(4);" /></a>
+	<div class=tab style="white-space:nowrap;">
+	<div class="row mx-3">
+	<div class="col">
+		<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Request Items</a>
+		<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Picking List</a>
+		<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+		
+		{if $config.do_enable_request_print_exported_po}
+		<a href="javascript:void(list_sel(6))" id=lst6 class="a_tab btn btn-outline-primary btn-rounded">Exported to PO</a>
+		{/if}
+		
+		<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
+		
+	</div>
+	<div class="col">
+		<div class="form-inline">
+			<a class="a_tab" id=lst4>Find Items
+				<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" /> 
+				<input type="button" class="btn btn-primary" value="Go" onClick="list_sel(4);" />
+		   </a>
+		</div>
+	</div>
+	</div>
+
 	<span id="span_label_processing" style="background-color:#fe9;padding:2px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 	</div>
 
-	<div id="items_list" style="border:1px solid #000;">
+	<div id="items_list" class="mt-2">
 	</div>
 </div>
 </form>

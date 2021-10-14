@@ -161,42 +161,56 @@ function close_curtain2(){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $err}
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger rounded">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
-<form name="f_a" class="stdframe" onSubmit="return false;" method="post">
-	<input type="hidden" name="show_report" value="1" />
-	
-	<span><b>Deliver To: </b>
-		<select name="to_branch_id">
-			<option value="">-- Please Select --</option>
-			{foreach from=$branches key=bid item=b}
-				{if $b.code ne 'HQ'}
-					<option value="{$bid}" {if $smarty.request.to_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-				{/if}
-			{/foreach}
-		</select>
-	</span>
-	
-	<div>
-		{include file='sku_items_autocomplete.tpl' no_add_button=1}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="stdframe" onSubmit="return false;" method="post">
+			<input type="hidden" name="show_report" value="1" />
+			
+			<span>
+				<b class="form-label">Deliver To: </b>
+				<select class="form-control" name="to_branch_id">
+					<option value="">-- Please Select --</option>
+					{foreach from=$branches key=bid item=b}
+						{if $b.code ne 'HQ'}
+							<option value="{$bid}" {if $smarty.request.to_branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+						{/if}
+					{/foreach}
+				</select>
+			</span>
+			
+			<div>
+				{include file='sku_items_autocomplete.tpl' no_add_button=1}
+			</div>
+			
+			<span>
+				<input type="checkbox" name="include_nrr" value="1" {if $smarty.request.include_nrr}checked {/if} /> &nbsp;Including Not Reorder Require (NRR)
+			</span>
+			
+			<p>
+				<button class="btn btn-primary mt-2" onClick="MATRIX_IBT.show_report();">Show</button>
+			</p>
+		</form>
 	</div>
-	
-	<span>
-		<input type="checkbox" name="include_nrr" value="1" {if $smarty.request.include_nrr}checked {/if} /> Including Not Reorder Require (NRR)
-	</span>
-	
-	<p>
-		<button onClick="MATRIX_IBT.show_report();">Show</button>
-	</p>
-</form>
+</div>
 
 {if $smarty.request.show_report}
 	{if !$data}
@@ -215,193 +229,197 @@ function close_curtain2(){
 		<!-- End of Generate DO dialog -->
 
 		<br />
-		<form name="f2" onsubmit="return false;">
-			<input type="hidden" name="a" value="ajax_generate_do" />
-			<input type="hidden" name="sku_id" value="{$data.si.sku_id}" />
-			<input type="hidden" name="to_branch_id" value="{$data.to_branch_id}" />
-			<input type="hidden" name="total_transfer_qty" value="0" />
-			
-			{foreach from=$data.size_list key=size_num item=size}
-				<input type="hidden" name="size_list[{$size_num}]" value="{$size|escape:html}" />
-			{/foreach}
-			
-			<table class="report_table" width="100%">
-				<tr>
-					<th align="left">Branch</th>
-					<td>{$branches[$data.to_branch_id].code} - {$branches[$data.to_branch_id].description}</td>
-					<th align="left">ARMS Code</th>
-					<td>{$data.si.sku_item_code}</td>
-				</tr>
-				<tr>
-					<th align="left">Stock Age</th>
-					<td>35 Days</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-				</tr>
-			</table>
-			
-			<br />
-			<table class="report_table" width="100%">
-				<tr class="header">
-					<th rowspan="2">&nbsp;</th>
-					<th colspan="{count var=$data.size_list}">Size</th>
-				</tr>
-				
-				{* Size *}
-				<tr class="header">
-					{foreach from=$data.size_list key=size_num item=size}
-						<th width="50">{$size}</th>
-					{/foreach}
-				</tr>
-				
-				{* Stock Balance *}
-				<tr>
-					<td><b>Stock Balance</b></td>
-					{foreach from=$data.size_list key=size_num item=size}
-						<td align="right">{$data.main.stock_balance.$size_num|qty_nf}</td>
-					{/foreach}
-				</tr>
-				
-				{* 30 Days Sales *}
-				<tr>
-					<td><b>30 Days Sales</b></td>
-					{foreach from=$data.size_list key=size_num item=size}
-						<td align="right">{$data.main.30d_pos.$size_num|qty_nf}</td>
-					{/foreach}
-				</tr>
-				
-				{* Stock Min Qty *}
-				<tr class="row_stock_min">
-					<td><b>Stock Min Qty</b></td>
-					{foreach from=$data.size_list key=size_num item=size name=sz}
-						<td align="right">
-							{if $data.main.stock_min_qty.$size_num}
-								{$data.main.stock_min_qty.$size_num|qty_nf}
-							{else}
-								NRR
-							{/if}
-						</td>
-					{/foreach}
-				</tr>
-				
-				{* Reorder Qty *}
-				<tr class="row_color1">
-					<td><b>Reorder Qty</b></td>
-					{foreach from=$data.size_list key=size_num item=size}
-						<td align="right">
-							<input type="hidden" name="reorder_qty[{$size_num}]" value="{$data.main.reorder_qty.$size_num}" />
-							<span>{$data.main.reorder_qty.$size_num|qty_nf}</span>
-						</td>
-					{/foreach}
-				</tr>
-				
-				{* Transfer Qty *}
-				<tr>
-					<td><b>Transfer Qty</b>
-						<div style="float:right;display:none;" id="div-total_transfer_qty">
-							Total: 0
-						</div>
-					</td>
-					{foreach from=$data.size_list key=size_num item=size}
-						<td align="right" id="transfer_qty-{$size_num}">
-							<input type="hidden" name="transfer_qty[{$size_num}]" value="0" class="inp_transfer_qty" />
-							<span id="span-transfer_qty-{$size_num}">&nbsp;</span>
-						</td>
-					{/foreach}
-				</tr>
-				
-				{* Require Qty *}
-				<tr class="row_color1">
-					<td><b>Require Qty</b></td>
-					{foreach from=$data.size_list key=size_num item=size}
-						<td align="right" id="require_qty-{$size_num}" {if $data.main.reorder_qty.$size_num>0}class="highligth_reorder"{/if}>
-							<input type="hidden" name="require_qty[{$size_num}]" value="{$data.main.reorder_qty.$size_num}" />
-							<span id="span-require_qty-{$size_num}">{$data.main.reorder_qty.$size_num|qty_nf}</span>
-						</td>
-					{/foreach}
-				</tr>
-			</table>
-			
-			<h2>Branches Above Min</h2>
-			
-			{foreach from=$data.available_bid_list item=bid}
-				<table class="report_table" width="100%">
-					<tr class="header">
-						<td rowspan="2">
-							{*<input type="checkbox" name="enable_ibt[{$bid}]" value="1" />*}
-							{$branches.$bid.code}
-						</td>
-						<th colspan="{count var=$data.size_list}">Size</th>
-					</tr>
+		<div class="card mx-3">
+			<div class="card-body">
+				<form name="f2" onsubmit="return false;">
+					<input type="hidden" name="a" value="ajax_generate_do" />
+					<input type="hidden" name="sku_id" value="{$data.si.sku_id}" />
+					<input type="hidden" name="to_branch_id" value="{$data.to_branch_id}" />
+					<input type="hidden" name="total_transfer_qty" value="0" />
 					
-					{* Size *}
-					<tr class="header">
-						{foreach from=$data.size_list key=size_num item=size}
-							<th width="50">{$size}</th>
-						{/foreach}
-					</tr>
-				
-					{* Stock Balance *}
-					<tr>
-						<td><b>Stock Balance</b></td>
-						{foreach from=$data.size_list key=size_num item=size}
-							<td align="right">{$data.available_branch.$bid.stock_balance.$size_num|qty_nf}</td>
-						{/foreach}
-					</tr>
+					{foreach from=$data.size_list key=size_num item=size}
+						<input type="hidden" name="size_list[{$size_num}]" value="{$size|escape:html}" />
+					{/foreach}
 					
-					{* 30 Days Sales *}
-					<tr>
-						<td><b>30 Days Sales</b></td>
-						{foreach from=$data.size_list key=size_num item=size}
-							<td align="right">{$data.available_branch.$bid.30d_pos.$size_num|qty_nf}</td>
-						{/foreach}
-					</tr>
+					<table class="report_table" width="100%">
+						<tr>
+							<th align="left">Branch</th>
+							<td>{$branches[$data.to_branch_id].code} - {$branches[$data.to_branch_id].description}</td>
+							<th align="left">ARMS Code</th>
+							<td>{$data.si.sku_item_code}</td>
+						</tr>
+						<tr>
+							<th align="left">Stock Age</th>
+							<td>35 Days</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
 					
-					{* Stock Min Qty *}
-					<tr class="row_stock_min">
-						<td><b>Stock Min Qty</b></td>
-						{foreach from=$data.size_list key=size_num item=size name=sz}
-							<td align="right">
-								{if $data.main.stock_min_qty.$size_num}
-									{$data.main.stock_min_qty.$size_num|qty_nf}
-								{else}
-									NRR
-								{/if}
+					<br />
+					<table class="report_table" width="100%">
+						<tr class="header">
+							<th rowspan="2">&nbsp;</th>
+							<th colspan="{count var=$data.size_list}">Size</th>
+						</tr>
+						
+						{* Size *}
+						<tr class="header">
+							{foreach from=$data.size_list key=size_num item=size}
+								<th width="50">{$size}</th>
+							{/foreach}
+						</tr>
+						
+						{* Stock Balance *}
+						<tr>
+							<td><b>Stock Balance</b></td>
+							{foreach from=$data.size_list key=size_num item=size}
+								<td align="right">{$data.main.stock_balance.$size_num|qty_nf}</td>
+							{/foreach}
+						</tr>
+						
+						{* 30 Days Sales *}
+						<tr>
+							<td><b>30 Days Sales</b></td>
+							{foreach from=$data.size_list key=size_num item=size}
+								<td align="right">{$data.main.30d_pos.$size_num|qty_nf}</td>
+							{/foreach}
+						</tr>
+						
+						{* Stock Min Qty *}
+						<tr class="row_stock_min">
+							<td><b>Stock Min Qty</b></td>
+							{foreach from=$data.size_list key=size_num item=size name=sz}
+								<td align="right">
+									{if $data.main.stock_min_qty.$size_num}
+										{$data.main.stock_min_qty.$size_num|qty_nf}
+									{else}
+										NRR
+									{/if}
+								</td>
+							{/foreach}
+						</tr>
+						
+						{* Reorder Qty *}
+						<tr class="row_color1">
+							<td><b>Reorder Qty</b></td>
+							{foreach from=$data.size_list key=size_num item=size}
+								<td align="right">
+									<input type="hidden" name="reorder_qty[{$size_num}]" value="{$data.main.reorder_qty.$size_num}" />
+									<span>{$data.main.reorder_qty.$size_num|qty_nf}</span>
+								</td>
+							{/foreach}
+						</tr>
+						
+						{* Transfer Qty *}
+						<tr>
+							<td><b>Transfer Qty</b>
+								<div style="float:right;display:none;" id="div-total_transfer_qty">
+									Total: 0
+								</div>
 							</td>
-						{/foreach}
-					</tr>
+							{foreach from=$data.size_list key=size_num item=size}
+								<td align="right" id="transfer_qty-{$size_num}">
+									<input type="hidden" name="transfer_qty[{$size_num}]" value="0" class="inp_transfer_qty" />
+									<span id="span-transfer_qty-{$size_num}">&nbsp;</span>
+								</td>
+							{/foreach}
+						</tr>
+						
+						{* Require Qty *}
+						<tr class="row_color1">
+							<td><b>Require Qty</b></td>
+							{foreach from=$data.size_list key=size_num item=size}
+								<td align="right" id="require_qty-{$size_num}" {if $data.main.reorder_qty.$size_num>0}class="highligth_reorder"{/if}>
+									<input type="hidden" name="require_qty[{$size_num}]" value="{$data.main.reorder_qty.$size_num}" />
+									<span id="span-require_qty-{$size_num}">{$data.main.reorder_qty.$size_num|qty_nf}</span>
+								</td>
+							{/foreach}
+						</tr>
+					</table>
 					
-					{* Available Qty *}
-					<tr class="row_color1">
-						<td><b>Available Qty</b></td>
-						{foreach from=$data.size_list key=size_num item=size}
-							<td align="right" {if $data.main.reorder_qty.$size_num>0 and $data.available_branch.$bid.available_qty.$size_num>0}class="highligth_available"{/if}>
-								<input type="hidden" name="available_qty[{$size_num}][{$bid}]" value="{$data.available_branch.$bid.available_qty.$size_num}" />
-								<span>{$data.available_branch.$bid.available_qty.$size_num|qty_nf}</span>
-							</td>
-						{/foreach}
-					</tr>
+					<h2>Branches Above Min</h2>
 					
-					{* Transfer Qty *}
-					<tr>
-						<td><b>Transfer Qty</b></td>
-						{foreach from=$data.size_list key=size_num item=size}
-							<td align="center">
-								{if $data.main.reorder_qty.$size_num>0 and $data.available_branch.$bid.available_qty.$size_num>0}
-									<input type="text" name="branch_transfer_qty[{$size_num}][{$bid}]" value="0" class="inp_branch_transfer_qty branch_transfer_qty-{$size_num}" onChange="MATRIX_IBT.branch_transfer_qty_changed('{$bid}', '{$size_num}');" />
-								{else}
-									-
-								{/if}
-							</td>
-						{/foreach}
-					</tr>
-				</table>
-				<br />
-			{/foreach}
-		</form>
+					{foreach from=$data.available_bid_list item=bid}
+						<table class="report_table" width="100%">
+							<tr class="header">
+								<td rowspan="2">
+									{*<input type="checkbox" name="enable_ibt[{$bid}]" value="1" />*}
+									{$branches.$bid.code}
+								</td>
+								<th colspan="{count var=$data.size_list}">Size</th>
+							</tr>
+							
+							{* Size *}
+							<tr class="header">
+								{foreach from=$data.size_list key=size_num item=size}
+									<th width="50">{$size}</th>
+								{/foreach}
+							</tr>
+						
+							{* Stock Balance *}
+							<tr>
+								<td><b>Stock Balance</b></td>
+								{foreach from=$data.size_list key=size_num item=size}
+									<td align="right">{$data.available_branch.$bid.stock_balance.$size_num|qty_nf}</td>
+								{/foreach}
+							</tr>
+							
+							{* 30 Days Sales *}
+							<tr>
+								<td><b>30 Days Sales</b></td>
+								{foreach from=$data.size_list key=size_num item=size}
+									<td align="right">{$data.available_branch.$bid.30d_pos.$size_num|qty_nf}</td>
+								{/foreach}
+							</tr>
+							
+							{* Stock Min Qty *}
+							<tr class="row_stock_min">
+								<td><b>Stock Min Qty</b></td>
+								{foreach from=$data.size_list key=size_num item=size name=sz}
+									<td align="right">
+										{if $data.main.stock_min_qty.$size_num}
+											{$data.main.stock_min_qty.$size_num|qty_nf}
+										{else}
+											NRR
+										{/if}
+									</td>
+								{/foreach}
+							</tr>
+							
+							{* Available Qty *}
+							<tr class="row_color1">
+								<td><b>Available Qty</b></td>
+								{foreach from=$data.size_list key=size_num item=size}
+									<td align="right" {if $data.main.reorder_qty.$size_num>0 and $data.available_branch.$bid.available_qty.$size_num>0}class="highligth_available"{/if}>
+										<input type="hidden" name="available_qty[{$size_num}][{$bid}]" value="{$data.available_branch.$bid.available_qty.$size_num}" />
+										<span>{$data.available_branch.$bid.available_qty.$size_num|qty_nf}</span>
+									</td>
+								{/foreach}
+							</tr>
+							
+							{* Transfer Qty *}
+							<tr>
+								<td><b>Transfer Qty</b></td>
+								{foreach from=$data.size_list key=size_num item=size}
+									<td align="center">
+										{if $data.main.reorder_qty.$size_num>0 and $data.available_branch.$bid.available_qty.$size_num>0}
+											<input type="text" name="branch_transfer_qty[{$size_num}][{$bid}]" value="0" class="inp_branch_transfer_qty branch_transfer_qty-{$size_num}" onChange="MATRIX_IBT.branch_transfer_qty_changed('{$bid}', '{$size_num}');" />
+										{else}
+											-
+										{/if}
+									</td>
+								{/foreach}
+							</tr>
+						</table>
+						<br />
+					{/foreach}
+				</form>
+			</div>
+		</div>
 		
 		<p align="center">
-			<input type="button" value="Generate Transfer DO" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onClick="MATRIX_IBT.generate_do();" />
+			<input type="button" class="btn btn-warning" value="Generate Transfer DO" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onClick="MATRIX_IBT.generate_do();" />
 		</p>
 		
 	{/if}

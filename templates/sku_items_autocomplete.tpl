@@ -330,11 +330,11 @@ hide_div_sku_autocomplete_popup_notification = function(){
 
 <table>
 <tr>
-	<th>Search SKU</th>
+	<b class="form-label mt-2">Search SKU</b>
 	<td>
-		<input id="sku_item_id" name="sku_item_id" size=3 type=hidden value="{$smarty.request.sku_item_id}">
-		<input id="sku_item_code" name="sku_item_code" size=13 type=hidden value="{$smarty.request.sku_item_code}">
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" value="{$smarty.request.sku|escape}">
+		<input class="form-control" id="sku_item_id" name="sku_item_id" size=3 type=hidden value="{$smarty.request.sku_item_id}">
+		<input class="form-control" id="sku_item_code" name="sku_item_code" size=13 type=hidden value="{$smarty.request.sku_item_code}">
+		<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" value="{$smarty.request.sku|escape}">
 		{if $enable_handheld}
 			<input id="inp_sku_handheld" name="sku_handheld" onclick="this.select()" style="font-size:14px;width:500px;" />
 		{/if}
@@ -346,7 +346,7 @@ hide_div_sku_autocomplete_popup_notification = function(){
 		{/if}
 		
 		{if !$no_add_button}
-			<input type=button value="{$_add_value|default:'Add'}" onclick='add_autocomplete()'>
+			<input type=button class="btn btn-primary" value="{$_add_value|default:'Add'}" onclick='add_autocomplete()'>
 		{/if}
 		{if $_multiple_add_value}
 			<input class="btn btn-primary" type=button value="{$_multiple_add_value|default:'Multiple Add'}" onclick='multiple_add_autocomplete()'>
@@ -364,15 +364,17 @@ hide_div_sku_autocomplete_popup_notification = function(){
 	<td><!--<input type=submit value="Find">--></td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
+	
 	<td>
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" {if !$smarty.request.search_type || $smarty.request.search_type eq '1'}checked {/if} > <label for="rad_st_1">MCode &amp; {$config.link_code_name}</label>
+		<div class="fs-08 mb-3">
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" {if !$smarty.request.search_type || $smarty.request.search_type eq '1'}checked {/if} > <label for="rad_st_1">MCode &amp; {$config.link_code_name}</label>
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq '2' || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> <label for="rad_st_2">Article No</label>
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3" {if $smarty.request.search_type eq '3'}checked {/if}> <label for="rad_st_3">ARMS Code</label>
 		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4" {if $smarty.request.search_type eq '4'}checked {/if}> <label for="rad_st_4">Description</label>
 		{if $enable_handheld}
 			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="5"> <label for="rad_st_5">Handheld</label>
 		{/if}
+		</div>
 	</td>
 </tr>
 </table>

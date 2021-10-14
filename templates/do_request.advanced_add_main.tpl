@@ -317,127 +317,168 @@ var ADVANCED_ADD = {
 	<div id="div_add_item_dialog_content" style="padding:2px;">
 	</div>
 </div>
-
-<h1>{$PAGE_TITLE} - Advanced Search</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE} - Advanced Search</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <a href="do_request.php">&lt;&lt; Go Back to DO Request</a>
 
-<form name="f_search" onSubmit="return false;">
-	<input type="hidden" name="a" value="ajax_advance_search_items" />
-	
-	<div class="stdframe">
-		<span>
-			<b>Vendor</b>
-			<select name="vendor_id">
-				<option value="">-- All --</option>
-				{foreach from=$vendor_list key=vendor_id item=r}
-					<option value="{$vendor_id}">{$r.description}</option>
-				{/foreach}
-			</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<span>
-			<b>Brand</b>
-			<select name="brand_id">
-				<option value="">-- All --</option>
-				<option value="-1">UN-BRANDED</option>
-				{foreach from=$brand_list key=brand_id item=r}
-					<option value="{$brand_id}">{$r.description}</option>
-				{/foreach}
-			</select>
-		</span>&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<p>
-			{include file='category_autocomplete.tpl' all="1"}
-		</p>
-		
-		<p>
-			<span>
-				<b>SKU Added in</b>
-				<select name="sku_added_filter" onChange="ADVANCED_ADD.sku_added_filter_changed();">
-					<option value="">-- All Time --</option>
-					<option value="3-d">3 Day</option>
-					<option value="1-w">1 Week</option>
-					<option value="2-w">2 Week</option>
-					<option value="1-m">1 Month</option>
-					<option value="other">Others</option>
-				</select>&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<span id="span_sku_added_date" style="display:none;">
-					<input name="sku_added_date_from" id="inp_sku_added_date_from" size="12" maxlength="10" value="" readonly />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_sku_added_date_from" style="cursor: pointer;" title="Select Date From" />
-					To
-					<input name="sku_added_date_to" id="inp_sku_added_date_to" size="12" maxlength="10" value="" readonly />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_sku_added_date_to" style="cursor: pointer;" title="Select Date To" />
-				</span>
-			</span>&nbsp;&nbsp;&nbsp;&nbsp;
-		</p>
-		
-		<p>
-			<span>
-			<b>Sort by</b>
-			<select name="sort_by" onChange="ADVANCED_ADD.change_sort_by(this);">
-				<option value="">--</option>
-				<option value="si.sku_item_code" {if $smarty.request.sort_by eq 'si.sku_item_code'}selected {/if}>ARMS Code</option>
-				<option value="si.mcode" {if $smarty.request.sort_by eq 'si.mcode'}selected {/if}>MCode</option>
-				<option value="si.artno" {if $smarty.request.sort_by eq 'si.artno'}selected {/if}>Art No</option>
-				<option value="si.link_code" {if $smarty.request.sort_by eq 'si.link_code'}selected {/if}>{$config.link_code_name}</option>
-				<option value="si.description" {if $smarty.request.sort_by eq 'si.description'}selected {/if}>Description</option>
-				<option value="si.added" {if $smarty.request.sort_by eq 'si.added'}selected {/if}>SKU Added Time</option>
-			</select>
-			<span id="span_sort_order" style="display:none;">
-			<select name="sort_order">
-				<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
-				<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
-			</select>
-			</span>
-		</span>
-		</p>
-		
-		<input type="button" value="Show Item" id="btn_show_item" onClick="ADVANCED_ADD.show_item_clicked();" />
-		
-		<br />
-		* Maximum show 500 items;
-	</div>
-</form>
-
-<br />
-
-<form name="f_a" onSubmit="return false;">
-	<input type="hidden" name="a" value="ajax_advance_search_add_items" />
-	
-	<div class="stdframe" id="div_add_item" style="display:none;">
-		<b>Request from Branch</b>
-			<select name="request_branch_id">
-				<option value="">-- Please Select --</option>
-				{foreach from=$branch item=b}
-					{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
-					<option value="{$b.id}" {if $b.code eq 'HQ'}selected {/if}>{$b.code} - {$b.description}</option>
-					{/if}
-				{/foreach}
-			</select>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_search" onSubmit="return false;">
+			<input type="hidden" name="a" value="ajax_advance_search_items" />
 			
-		&nbsp;&nbsp;&nbsp;
-		<b>Remarks</b> <input size=32 maxlength="30" name="comment">&nbsp;&nbsp;&nbsp;
-		
-		{if !$config.do_request_no_expected_delivery_date}
-			<b>Expected Delivery Date</b>
-			<input name="expect_do_date" id="inp_expect_do_date" size="12" maxlength="10" value="{$default_expect_min_do_date|default:$default_expect_do_date}" onChange="ADVANCED_ADD.expect_do_date_changed();" />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
-		{/if}
-		
-		<p>
-			<input type="button" value="Add Items into DO Request" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="ADVANCED_ADD.add_items_clicked()" />
-		</p>
-		<span id="span_item_selected_count">0</span> item(s) will be add.
+			<div class="stdframe">
+				<div class="row">
+					<div class="col-md-6">
+						<span>
+							<b class="form-label">Vendor</b>
+							<select class="form-control" name="vendor_id">
+								<option value="">-- All --</option>
+								{foreach from=$vendor_list key=vendor_id item=r}
+									<option value="{$vendor_id}">{$r.description}</option>
+								{/foreach}
+							</select>
+						</span>
+					</div>
+					
+					<div class="col-md-6">
+						<span>
+							<b class="form-label">Brand</b>
+							<select class="form-control" name="brand_id">
+								<option value="">-- All --</option>
+								<option value="-1">UN-BRANDED</option>
+								{foreach from=$brand_list key=brand_id item=r}
+									<option value="{$brand_id}">{$r.description}</option>
+								{/foreach}
+							</select>
+						</span>
+					</div>
+					
+					
+						<div class="col-md-12">
+							{include file='category_autocomplete.tpl' all="1"}
+						</div>
+					
+					
+					<p>
+						<div class="col-md-6">
+							<span>
+								<b class="form-label">SKU Added in</b>
+								<select class="form-control" name="sku_added_filter" onChange="ADVANCED_ADD.sku_added_filter_changed();">
+									<option value="">-- All Time --</option>
+									<option value="3-d">3 Day</option>
+									<option value="1-w">1 Week</option>
+									<option value="2-w">2 Week</option>
+									<option value="1-m">1 Month</option>
+									<option value="other">Others</option>
+								</select>
+								
+								<span id="span_sku_added_date" style="display:none;">
+									<input name="sku_added_date_from" id="inp_sku_added_date_from" size="12" maxlength="10" value="" readonly />
+									<img align="absmiddle" src="ui/calendar.gif" id="img_sku_added_date_from" style="cursor: pointer;" title="Select Date From" />
+									To
+									<input name="sku_added_date_to" id="inp_sku_added_date_to" size="12" maxlength="10" value="" readonly />
+									<img align="absmiddle" src="ui/calendar.gif" id="img_sku_added_date_to" style="cursor: pointer;" title="Select Date To" />
+								</span>
+							</span>
+						</div>
+					</p>
+					
+					<p>
+						<div class="col-md-6">
+							<span>
+								<b class="form-label">Sort by</b>
+								<select class="form-control" name="sort_by" onChange="ADVANCED_ADD.change_sort_by(this);">
+									<option value="">--</option>
+									<option value="si.sku_item_code" {if $smarty.request.sort_by eq 'si.sku_item_code'}selected {/if}>ARMS Code</option>
+									<option value="si.mcode" {if $smarty.request.sort_by eq 'si.mcode'}selected {/if}>MCode</option>
+									<option value="si.artno" {if $smarty.request.sort_by eq 'si.artno'}selected {/if}>Art No</option>
+									<option value="si.link_code" {if $smarty.request.sort_by eq 'si.link_code'}selected {/if}>{$config.link_code_name}</option>
+									<option value="si.description" {if $smarty.request.sort_by eq 'si.description'}selected {/if}>Description</option>
+									<option value="si.added" {if $smarty.request.sort_by eq 'si.added'}selected {/if}>SKU Added Time</option>
+								</select>
+								<span id="span_sort_order" style="display:none;">
+								<select class="form-control" name="sort_order">
+									<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
+									<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
+								</select>
+								</span>
+							</span>
+						</div>
+					</p>
+					
+				</div>
+				<input type="button" class="btn btn-primary mt-2" value="Show Item" id="btn_show_item" onClick="ADVANCED_ADD.show_item_clicked();" />
+				
+				<br /><br>
+				* Maximum show 500 items;
+			</div>
+		</form>
 	</div>
+</div>
+
+
+		<form name="f_a" onSubmit="return false;">
+			<input type="hidden" name="a" value="ajax_advance_search_add_items" />
+			<div class="stdframe" id="div_add_item" style="display:none;">
+
+		<div class="card mx-3">
+			<div class="card-body"> 
+
+				<div class="row">
+					<div class="col-md-3">
+						<b class="form-label">Request from Branch</b>
+					<select class="form-control" name="request_branch_id">
+						<option value="">-- Please Select --</option>
+						{foreach from=$branch item=b}
+							{if $b.code ne $BRANCH_CODE && ($sessioninfo.branch_type ne "franchise" || $sessioninfo.branch_type eq "franchise" && $b.id eq 1)}
+							<option value="{$b.id}" {if $b.code eq 'HQ'}selected {/if}>{$b.code} - {$b.description}</option>
+							{/if}
+						{/foreach}
+					</select>
+					</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Remarks</b> 
+				<input class="form-control" size=32 maxlength="30" name="comment">
+				</div>
+				
+				{if !$config.do_request_no_expected_delivery_date}
+				<div class="col-md-3">
+					<b class="form-label">Expected Delivery Date</b>
+					<div class="form-inline">
+						<input class="form-control" name="expect_do_date" id="inp_expect_do_date"  value="{$default_expect_min_do_date|default:$default_expect_do_date}" onChange="ADVANCED_ADD.expect_do_date_changed();" />
+					&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
+					</div>
+				</div>
+				{/if}
+				
+			<div class="col-md-3">
+				
+				<input type="button" class="btn btn-success mt-4" value="Add Items into DO Request"  onclick="ADVANCED_ADD.add_items_clicked()" />
+				
+			</div>
+				</div>
+				<span id="span_item_selected_count">0</span> item(s) will be add.
+			</div>
+			
+			<br />
+			
+			<div id="div_item_list">
+			
+			</div>
+		</div>
+
+
+		   </div>
 	
-	<br />
 	
-	<div id="div_item_list">
-	
-	</div>
-</form>
+		</form>
 
 <script>
 ADVANCED_ADD.initialise();

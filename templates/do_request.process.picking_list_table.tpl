@@ -20,42 +20,49 @@ Page
 
 
 
-<table id="items_tbl" width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
-<tr bgcolor=#ffee99>
-	<th colspan="2">&nbsp;</th>
-	<th>Process<br />By</th>
-	<th>Items in list</th>
-	<th>Current<br />Request<br />Qty</th>
-	<th>Delivered<br />Qty</th>
-	<th>DO<br />Qty</th>
-	<th>Added</th>
-	<th>Last Update</th>
-</tr>
-<tbody id="tbody_item_list">
-	{foreach from=$picking_list item=r}
-		<tr>
-			<td width="70" nowrap>
-				{if $sessioninfo.id eq $r.user_id}
-					<a href="?a=open_picking_list&pid={$r.id}&branch_id={$r.branch_id}"><img src="/ui/ed.png" border="0" align="absmiddle" title="Edit" /></a>
-					<img src="/ui/print.png" border="0" align="absmiddle" onClick="print_picking_list('{$r.id}');" title="Re-print" />
-					<img src="/ui/icons/delete.png" border="0" align="absmiddle" class="clickable" title="Reject" onClick="reject_picking_list('{$r.id}');" />
-				{else}
-					<a href="?a=open_picking_list&pid={$r.id}&branch_id={$r.branch_id}"><img src="/ui/icons/page.png" border="0" align="absmiddle" title="View" /></a>
-				{/if}
-			</td>
-			<td width="50">#{$r.id|string_format:'%05d'} &nbsp;</td>
-			<td>{$r.u}</td>
-			<td class="r">{$r.item_count|number_format}</td>
-			<td class="r">{$r.request_qty|qty_nf}</td>
-			<td class="r">{$r.total_do_qty|qty_nf}</td>
-			<td class="r">{$r.do_qty|qty_nf}</td>
-			<td>{$r.added}</td>
-			<td>{$r.last_update}</td>
-		</tr>
-	{foreachelse}
-		<tr>
-			<td colspan="9">No Item</td>
-		</tr>
-	{/foreach}
-</tbody>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="items_tbl" width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
+				<tr class="bg-gray-100">
+					<th colspan="2">&nbsp;</th>
+					<th>Process<br />By</th>
+					<th>Items in list</th>
+					<th>Current<br />Request<br />Qty</th>
+					<th>Delivered<br />Qty</th>
+					<th>DO<br />Qty</th>
+					<th>Added</th>
+					<th>Last Update</th>
+				</tr>
+				<tbody id="tbody_item_list" class="fs-08">
+					{foreach from=$picking_list item=r}
+						<tr>
+							<td width="70" nowrap>
+								{if $sessioninfo.id eq $r.user_id}
+									<a href="?a=open_picking_list&pid={$r.id}&branch_id={$r.branch_id}"><img src="/ui/ed.png" border="0" align="absmiddle" title="Edit" /></a>
+									<img src="/ui/print.png" border="0" align="absmiddle" onClick="print_picking_list('{$r.id}');" title="Re-print" />
+									<img src="/ui/icons/delete.png" border="0" align="absmiddle" class="clickable" title="Reject" onClick="reject_picking_list('{$r.id}');" />
+								{else}
+									<a href="?a=open_picking_list&pid={$r.id}&branch_id={$r.branch_id}"><img src="/ui/icons/page.png" border="0" align="absmiddle" title="View" /></a>
+								{/if}
+							</td>
+							<td width="50">#{$r.id|string_format:'%05d'} &nbsp;</td>
+							<td>{$r.u}</td>
+							<td class="r">{$r.item_count|number_format}</td>
+							<td class="r">{$r.request_qty|qty_nf}</td>
+							<td class="r">{$r.total_do_qty|qty_nf}</td>
+							<td class="r">{$r.do_qty|qty_nf}</td>
+							<td>{$r.added}</td>
+							<td>{$r.last_update}</td>
+						</tr>
+					{foreachelse}
+						<tr>
+							<td colspan="9">No Item</td>
+						</tr>
+					{/foreach}
+				</tbody>
+				</table>
+				
+		</div>
+	</div>
+</div>
