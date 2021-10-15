@@ -292,7 +292,14 @@ The cancelled/terminated PO has been revoked as new PO ID#{$id}.
 {elseif $smarty.request.t eq 'reset'}
 <img src=/ui/notify_sku_reject.png align=absmiddle> PO ID#{$smarty.request.save_id} was reset.
 {else}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 {/if}
 
 <!-- print dialog -->
@@ -393,25 +400,29 @@ The cancelled/terminated PO has been revoked as new PO ID#{$id}.
 
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
 
-<ul>
-	<li> <img src=ui/view.png> <a href="vendor_sku.print_list.php">Vendor SKU List</a></li>
-	{if ($type eq 'save' || $type eq 'confirm') && $id}
-		{if !$config.enable_po_agreement || ($config.enable_po_agreement && $sessioninfo.privilege.PO_AGREEMENT_OPEN_BUY)}
-			<li> <img src=ui/new.png align=absmiddle> <a href="po.php?copy_id={$id}&a=open&id=0&branch_id={$sessioninfo.branch_id}">Create New PO with similar vendor and department</a></li>
-		{/if}
-	{elseif $type eq 'req_save' && $id}
-		<li> <img src=ui/new.png align=absmiddle> <a href="po_request.php?copy_id={$id}&a=open&id=0&branch_id={$sessioninfo.branch_id}">Create New PO Request with similar vendor and department</a></li>
-	{/if}
-	{if $sessioninfo.privilege.PO}
-		{if !$config.enable_po_agreement || ($config.enable_po_agreement and $sessioninfo.privilege.PO_AGREEMENT_OPEN_BUY)}
-			<li> <img src=ui/new.png align=absmiddle> <a href="po.php?a=open&id=0">Create New PO</a></li>
-			<li> <img src=ui/new.png align=absmiddle> <a href="po.from_vendor.php">Create PO from Vendor SKU</a></li>
-		{/if}
-		{if $config.enable_po_agreement and file_exists('po.po_agreement.php')}
-			<li> <img src=ui/new.png align=absmiddle> <a href="po.po_agreement.php">Create PO from Agreement</a></li>
-		{/if}
-	{/if}
-</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item list-group-item-action"> <img src=ui/view.png> <a href="vendor_sku.print_list.php">Vendor SKU List</a></li>
+			{if ($type eq 'save' || $type eq 'confirm') && $id}
+				{if !$config.enable_po_agreement || ($config.enable_po_agreement && $sessioninfo.privilege.PO_AGREEMENT_OPEN_BUY)}
+					<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="po.php?copy_id={$id}&a=open&id=0&branch_id={$sessioninfo.branch_id}">Create New PO with similar vendor and department</a></li>
+				{/if}
+			{elseif $type eq 'req_save' && $id}
+				<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="po_request.php?copy_id={$id}&a=open&id=0&branch_id={$sessioninfo.branch_id}">Create New PO Request with similar vendor and department</a></li>
+			{/if}
+			{if $sessioninfo.privilege.PO}
+				{if !$config.enable_po_agreement || ($config.enable_po_agreement and $sessioninfo.privilege.PO_AGREEMENT_OPEN_BUY)}
+					<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="po.php?a=open&id=0">Create New PO</a></li>
+					<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="po.from_vendor.php">Create PO from Vendor SKU</a></li>
+				{/if}
+				{if $config.enable_po_agreement and file_exists('po.po_agreement.php')}
+					<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="po.po_agreement.php">Create PO from Agreement</a></li>
+				{/if}
+			{/if}
+		</ul>
+	</div>
+</div>
 <br>
 {literal}
 <script>
@@ -424,9 +435,9 @@ function list_sel(n,s)
 		if ($('lst'+i)!=undefined)
 		{
 			if (i==n)
-			    $('lst'+i).className='active';
+			    $('lst'+i).addClassName('selected');
 			else
-			    $('lst'+i).className='';
+			    $('lst'+i).removeClassName('selected');
 		}
 	}
 	$('po_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
@@ -443,45 +454,52 @@ function list_sel(n,s)
 }
 
 function search_tab_clicked(obj){
-	$('lst'+tab).className = '';
+	$('lst'+tab).removeClassName('selected');
 	$('search_area').show();
-	obj.className = 'active';
+	obj.addClassName('selected');
 	$('po_list').update();
 }
 </script>
 {/literal}
 
 <form name="f_l" onsubmit="list_sel(0,0);return false;">
-<div class=tab style="height:20px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id="lst1" class="active">Saved PO</a>
-<a href="javascript:list_sel(2)" id="lst2">Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id="lst5">Rejected</a>
-<a href="javascript:list_sel(3)" id="lst3">Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id="lst4">Approved</a>
-{if BRANCH_CODE eq 'HQ'}
-<a href="javascript:list_sel(6)" id="lst6">HQ Distribution List</a>
-{$conf}
-{/if}
-<a name="find_po" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find PO / Vendor</a>
+<div class="row mx-3 mb-3">
+	<div class=tab style="white-space:nowrap;">
+		<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded">Saved PO</a>
+		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+		<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded">Rejected</a>
+		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+		<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded">Approved</a>
+		{if BRANCH_CODE eq 'HQ'}
+		<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded">HQ Distribution List</a>
+		{$conf}
+		{/if}
+		<a name="find_po" id="lst0" class="btn btn-outline-primary btn-rounded" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find PO / Vendor</a>
+		</div>
 </div>
-<div style="border:1px solid #000">
+<div>
 	<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
-		<table>
-			<tr>
-				<th align="left">Vendor</th>
-				<td colspan="2">
-					<input name="vendor_id" type="hidden" size="1" value="{$smarty.request.vendor_id}" readonly>
-					<input id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
-					<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
-				</td>
-			</tr>
-			<tr>
-				<th align="left">Find PO</th>
-				<td><input name="search" id="search" name="find" value="{$smarty.request.search}"></td>
-				<td align="center"><input type="submit" value="Go"></td>
-			</tr>
-		</table>
+		<div class="card mx-3">
+			<div class="card-body">
+				<table>
+					<tr>
+						<th><b class="form-label mb-3" >Vendor</b></th>
+						<td colspan="2">
+							<input class="form-control" name="vendor_id" type="hidden" size="1" value="{$smarty.request.vendor_id}" readonly>
+							<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
+							<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
+						</td>
+					</tr>
+					<tr>
+						<th align="left"><b class="form-label mb-1">Find PO</b></th>
+						<td><input class="form-control" name="search" id="search" name="find" value="{$smarty.request.search}"></td>
+						<td align="center">
+							<input class="btn btn-primary" type="submit" value="Go"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
 	</div>
 	<div id="po_list">
 		{include file=po.list.tpl}

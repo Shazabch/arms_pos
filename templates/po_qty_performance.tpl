@@ -44,37 +44,56 @@ span.span_po_date{
 </style>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 {if $err}
-The following error(s) has occured:
-<ul class=err>
+<div class="alert alert-danger rounded mx-3">
+<b>The following error(s) has occured:</b>
+<ul class=err style="list-style-type: none;">
 {foreach from=$err item=e}
-<li> {$e}
+<li> {$e} </li></div>
 {/foreach}
 </ul>
 {/if}
 
-<form method=post class=form name="f_a">
-<input type="hidden" name="a" value="showForm">
-<b>Date</b>&nbsp;
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<p>
-    <b>Department</b> {dropdown name=dept_id values=$departments selected=$smarty.request.dept_id key=id value=description}&nbsp;&nbsp;&nbsp;&nbsp;
-    <b>Vendor</b> {dropdown name=vendor_id all="-- All --" values=$vendors selected=$smarty.request.vendor_id key=id value=description}
-</p>
-<p>
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> {dropdown name=branch_id all="-- All --" values=$branches selected=$smarty.request.branch_id key=id value=code}
-{/if}&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Quantity Purchase >=</b> <input type="text" size="1" name="qty_per" value="{$smarty.request.qty_per|default:'0'}"> % <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-</p>
-<input class="btn btn-primary" type="submit" name="subm" value="Show">
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name="f_a">
+			<input type="hidden" name="a" value="showForm">
+			<div class="form-inline">
+				<b class="form-label">Date</b>
+			&nbsp<b class="form-label">From</b>&nbsp;
+			 <input class="form-control" size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+			<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<b class="form-label">To</b> &nbsp;
+			<input class="form-control" size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+			<p>
+				<b class="form-label">Department</b> {dropdown name=dept_id values=$departments selected=$smarty.request.dept_id key=id value=description}&nbsp;&nbsp;&nbsp;&nbsp;
+				<b class="form-label">Vendor</b> {dropdown name=vendor_id all="-- All --" values=$vendors selected=$smarty.request.vendor_id key=id value=description}
+			</p>
+			<p>
+			{if $BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Branch</b> {dropdown name=branch_id all="-- All --" values=$branches selected=$smarty.request.branch_id key=id value=code}
+			{/if}
+		<div class="form-inline">
+			<b class="form-label">Quantity Purchase<span class="text-danger" title="Required Field"> *</span> >=</b>
+			<input class="form-control" type="text" size="1" name="qty_per" value="{$smarty.request.qty_per|default:'0'}"> %
+		</div>
+			</p>
+			<input class="btn btn-primary" type="submit" name="subm" value="Show">
+			</form>
+	</div>
+</div>
 
 {if !$data}
 {if $smarty.request.subm && !$err}<p align=center>-- No data --</p>{/if}
@@ -82,70 +101,80 @@ The following error(s) has occured:
 
 {if $config.foreign_currency}* {$LANG.BASE_CURRENCY_CONVERT_NOTICE}{/if}
 
-<table width=100% class="report_table">
-<tr class="header">
-		<th rowspan="2">#</th>
-		<th rowspan="2" nowrap>Arms Code</th>
-		<th rowspan="2" nowrap>SKU Description</th>
-		<th rowspan="2" nowrap>Qty<br>(Pcs)</th>
-		<th rowspan="2" nowrap>FOC<br>(Pcs)</th>
-		<th colspan="5" nowrap>Sales Trend</th>
-		<th rowspan="2">Nett<br>Amount</th>
-		<th rowspan="2">Total<br>Selling</th>
-		<th rowspan="2">Gross<br>Profit</th>
-		<th rowspan="2">Profit(%)</th>
-	</tr>
-	<tr class="header">
-	    <th>Avg [<a href="javascript:void(0)" onclick="alert('{$LANG.SALES_TREND_AVG_INFO|escape:javascript}')">?</a>]</th>
-	    <th>1M</th>
-	    <th>3M</th>
-	    <th>6M</th>
-	    <th>12M</th>
-	</tr>
-{foreach from=$data item=r name=fitem}
-	{assign var=sid value=$r.sid}
-	<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
-		<td>{$smarty.foreach.fitem.iteration}.</td>
-		<td>{$si_info.$sid.sku_item_code}</td>
-		<td>{$si_info.$sid.description}<br />
-			<font class="small">
-				<a href="po.php?a=view&id={$r.po_id}&branch_id={$r.branch_id}&highlight_item_id={$sid}" target="_blank">{$r.po_no}</a>
-				<span class="span_po_date">({$r.po_date})</span>
-			</font>
-		</td>
-		<td class="r">{$r.purchase|qty_nf|ifzero:'-'}</td>
-		<td class="r">{$r.foc_purchase|qty_nf|ifzero:'-'}</td>
-		<td class="r">{$r.sales_avg|qty_nf|ifzero:'-'}</td>
-		<td class="r">
-			{$r.sales_trend.qty.1|qty_nf:".":""|ifzero}<br />
-			{$r.sales_trend.qty.1|qty_nf:".":""|ifzero}
-		</td>
-		<td class="r">
-			{$r.sales_trend.qty.3|qty_nf:".":""|ifzero}<br />
-			{$r.sales_trend.qty.3/3|qty_nf:".":""|ifzero}
-		</td>
-		<td class="r">
-			{$r.sales_trend.qty.6|qty_nf:".":""|ifzero}<br />
-			{$r.sales_trend.qty.6/6|qty_nf:".":""|ifzero}
-		</td>
-		<td class="r">
-			{$r.sales_trend.qty.12|qty_nf:".":""|ifzero}<br />
-			{$r.sales_trend.qty.12/12|qty_nf:".":""|ifzero}
-		</td>
-		<td class="r">
-			{if $r.currency_code and $r.nett_amt}
-				{$r.currency_code} {$r.nett_amt|number_format:2}<br />
-				<span class="converted_base_amt">{$config.arms_currency.code} {$r.base_item_nett_amt|number_format:2}*</span>
-			{else}
-				{$r.nett_amt|number_format:2|ifzero:'-'}
-			{/if}
-		</td>
-		<td class="r">{$r.total_sales|number_format:2|ifzero:'-'}</td>
-		<td class="r {if $r.currency_code}converted_base_amt{/if}">{$r.gross_profit|number_format:2|ifzero:'-'}{if $r.currency_code}*{/if}</td>
-		<td class="r">{$r.gross_profit_per|number_format:2|ifzero:'-':'%'}</td>
-	</tr>
-{/foreach}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width=100% class="report_table">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th rowspan="2">#</th>
+						<th rowspan="2" nowrap>Arms Code</th>
+						<th rowspan="2" nowrap>SKU Description</th>
+						<th rowspan="2" nowrap>Qty<br>(Pcs)</th>
+						<th rowspan="2" nowrap>FOC<br>(Pcs)</th>
+						<th colspan="5" nowrap>Sales Trend</th>
+						<th rowspan="2">Nett<br>Amount</th>
+						<th rowspan="2">Total<br>Selling</th>
+						<th rowspan="2">Gross<br>Profit</th>
+						<th rowspan="2">Profit(%)</th>
+					</tr>
+					<tr class="header">
+						<th>Avg [<a href="javascript:void(0)" onclick="alert('{$LANG.SALES_TREND_AVG_INFO|escape:javascript}')">?</a>]</th>
+						<th>1M</th>
+						<th>3M</th>
+						<th>6M</th>
+						<th>12M</th>
+					</tr>
+				</thead>
+				{foreach from=$data item=r name=fitem}
+					{assign var=sid value=$r.sid}
+				<tbody class="fs-08">
+					<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
+						<td>{$smarty.foreach.fitem.iteration}.</td>
+						<td>{$si_info.$sid.sku_item_code}</td>
+						<td>{$si_info.$sid.description}<br />
+							<font class="small">
+								<a href="po.php?a=view&id={$r.po_id}&branch_id={$r.branch_id}&highlight_item_id={$sid}" target="_blank">{$r.po_no}</a>
+								<span class="span_po_date">({$r.po_date})</span>
+							</font>
+						</td>
+						<td class="r">{$r.purchase|qty_nf|ifzero:'-'}</td>
+						<td class="r">{$r.foc_purchase|qty_nf|ifzero:'-'}</td>
+						<td class="r">{$r.sales_avg|qty_nf|ifzero:'-'}</td>
+						<td class="r">
+							{$r.sales_trend.qty.1|qty_nf:".":""|ifzero}<br />
+							{$r.sales_trend.qty.1|qty_nf:".":""|ifzero}
+						</td>
+						<td class="r">
+							{$r.sales_trend.qty.3|qty_nf:".":""|ifzero}<br />
+							{$r.sales_trend.qty.3/3|qty_nf:".":""|ifzero}
+						</td>
+						<td class="r">
+							{$r.sales_trend.qty.6|qty_nf:".":""|ifzero}<br />
+							{$r.sales_trend.qty.6/6|qty_nf:".":""|ifzero}
+						</td>
+						<td class="r">
+							{$r.sales_trend.qty.12|qty_nf:".":""|ifzero}<br />
+							{$r.sales_trend.qty.12/12|qty_nf:".":""|ifzero}
+						</td>
+						<td class="r">
+							{if $r.currency_code and $r.nett_amt}
+								{$r.currency_code} {$r.nett_amt|number_format:2}<br />
+								<span class="converted_base_amt">{$config.arms_currency.code} {$r.base_item_nett_amt|number_format:2}*</span>
+							{else}
+								{$r.nett_amt|number_format:2|ifzero:'-'}
+							{/if}
+						</td>
+						<td class="r">{$r.total_sales|number_format:2|ifzero:'-'}</td>
+						<td class="r {if $r.currency_code}converted_base_amt{/if}">{$r.gross_profit|number_format:2|ifzero:'-'}{if $r.currency_code}*{/if}</td>
+						<td class="r">{$r.gross_profit_per|number_format:2|ifzero:'-':'%'}</td>
+					</tr>	
+				</tbody>
+				{/foreach}
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {literal}

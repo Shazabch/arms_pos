@@ -96,7 +96,14 @@ function CheckAll(obj)
 </script>
 {/literal}
 {if $msg}<p align=center style="color:#00f">{$msg}</p>{/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 <div id=reject_popup style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:250;height:120">
 <p align=center>
@@ -117,31 +124,47 @@ Please Enter Your Reject Comment :
 </p>
 {/if}
 
-<div class=stdframe style="margin:5px 0;background:#fff;">
-<!-- sku search -->
-<form name=f_a>
-<b>Department</b>
-<select name=department_id onchange="show_items()">
-{section name=i loop=$dept}
-<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
-{/section}
-</select>
-
-{if $BRANCH_CODE eq 'HQ'}
-&nbsp;&nbsp; <b>Branch</b> <select name=branch_id onchange="show_items()">
-<option value=0>-- All --</option>
-{section name=i loop=$branches}
-<option value="{$branches[i].id}" {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
-{/section}
-</select>
-{/if}
-
-<input class="btn btn-primary" type=button value="Show PO Request" onclick="show_items()"></td>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe >
+			<!-- sku search -->
+			<form name=f_a>
+			<div class="row">
+			<div class="col-md-4">
+				<b class="form-label">Department</b>
+				<select class="form-control" name=department_id onchange="show_items()">
+				{section name=i loop=$dept}
+				<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
+				{/section}
+				</select>
+			</div>
+			
+			<div class="col-md-4">
+				{if $BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Branch</b> 
+			<select class="form-control" name=branch_id onchange="show_items()">
+			<option value=0>-- All --</option>
+			{section name=i loop=$branches}
+			<option value="{$branches[i].id}" {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
+			{/section}
+			</select>
+			{/if}
+			</div>
+			<div class="col-md-4">
+				<input class="btn btn-primary mt-4" type=button value="Show PO Request" onclick="show_items()"></td>
+			
+			</div>	
+		
+			</div>
+			</form>
+			</div>
+			
+	</div>
 </div>
 
-<div id=request></div>
-
+<div class="alert alert-primary mx-3 rounded">
+	<div id=request></div>
+</div>
 {include file=footer.tpl}
 
 <script>

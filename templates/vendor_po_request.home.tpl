@@ -369,7 +369,7 @@ new Ajax.PeriodicalUpdater('', "dummy.php?ac=1", {frequency:1500});
 {if $errm.top}
 <div id=err><div class=errmsg><ul>
 {foreach from=$errm.top item=e}
-<li> {$e}</li>
+<div class="alert alert-danger"><li> {$e}</li></div>
 {/foreach}
 </ul></div></div>
 {/if}

@@ -159,11 +159,20 @@ function toggle_view_more(ac){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $smarty.request.t eq 'generated'}
 <div id=dgen>
-- Successful generate access code for {$smarty.request.vendor} <br>
+<div class="alert alert-success">
+	- Successful generate access code for {$smarty.request.vendor}
+</div> 
 <h2>
 Access code : <font color=blue>{$smarty.request.code}</font>
 &nbsp;&nbsp;&nbsp;
@@ -174,61 +183,72 @@ Expiry date : <font color=blue>{$smarty.request.expire}</font>
 {/if}
 
 <div id=fgen {if $smarty.request.t eq 'generated'}style="display:none"{/if}>
-<form name=f_a method=post>
-<input type=hidden name=a>
-<table border=0 cellspacing=0 cellpadding=4>
-{if $BRANCH_CODE eq 'HQ'}
-<tr>
-	<td width="100px"><b>To Branch</b></td>
-	<td>
-		<select name="branch_id" onchange="get_po_owners();">
-		{foreach item=curr_Branch from=$branches}
-			<option value={$curr_Branch.id} {if $curr_branch.id==$branch_id}selected{/if}>{$curr_Branch.code}</option>
-		{/foreach}
-		</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-	</td>
-</tr>
-{else}
-<input type=hidden name="branch_id" value={$sessioninfo.branch_id}>
-{/if}
-
-<tr>
-	<td><b>To Vendor</b></td>
-	<td>
-    	<input name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
-		<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
-		<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-		<img src=ui/rq.gif align=absbottom title="Required Field">
-		<input class="btn btn-primary" type=button value="History" onclick="show_history()">
-	</td>
-</tr>
-<tr>
-	<td valign="top"><b>Department</b></td>
-	<td id="td_department">
-		<div style="height:200px;width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
-			<input type="checkbox" id="dept_all_id" onclick="toggle_all_check(this,'department')" onchange="get_po_owners();" value="1" />
-			<label for="dept_all_id"><b>ALL DEPARTMENTS</b></label><br /><br />
-			{assign var=tmp_dept value=""}
-			{foreach item=items from=$dept}
-				{if $tmp_dept neq $items.root_id}
-					<b>{$items.root}</b><br />
-					<input type="checkbox" id="dept_{$items.root_id}" value="1" class="department" onclick="toggle_all_check(this, 'root_{$items.root_id}')" onchange="get_po_owners();" /> 
-					<label for="dept_{$items.root_id}">All</label><br />
-					{assign var=tmp_dept value=$items.root_id}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name=f_a method=post>
+			<input type=hidden name=a>
+			<table border=0 cellspacing=0 cellpadding=4>
+			{if $BRANCH_CODE eq 'HQ'}
+			<div class="row">
+				<div class="col-md-6">
+					
+						<b class="form-label">To Branch<span class="text-danger" title="Required Field"> *</span></b>
+							<select class="form-control" style="max-width: 500px;" name="branch_id" onchange="get_po_owners();">
+							{foreach item=curr_Branch from=$branches}
+								<option value={$curr_Branch.id} {if $curr_branch.id==$branch_id}selected{/if}>{$curr_Branch.code}</option>
+							{/foreach}
+							</select> 
+				
+				</div>
+				{else}
+				<input class="form-control" type=hidden name="branch_id" value={$sessioninfo.branch_id}>
 				{/if}
-				<input class="department root_{$items.root_id}" name="department_ids[{$items.id}]" type="checkbox" onchange="get_po_owners();" value="1"/>{$items.description}<br />
-			{/foreach}
-		</div>&nbsp;<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
-	</td>
-</tr>
-<tr id=po_owner>
-</tr>
-
-</table>
-</form>
-
-<p>* Generated Vendor Access Code will expire after <b>{$config.po_vendor_ticket_expiry}</b> days</p>
-
+				
+			<div class="col-md-6">
+					<b class="form-label">To Vendor<span class="text-danger" title="Required Field" > *</span></b>
+					
+						<div class="form-inline">
+							<input class="form-control" name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
+					&nbsp;&nbsp;	<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" >
+						<div id="autocomplete_vendor_choices" class="autocomplete"></div>
+					&nbsp;&nbsp;	<input class="btn btn-primary" type=button value="History" onclick="show_history()">
+						</div>
+				
+			</div>
+			</div>
+			<tr>
+				<td valign="top"><b class="form-label mt-2">Department<span class="text-danger" title="Required Field"> *</span></b></td>
+				
+				<td id="td_department">
+					
+					<div class="mt-2" style="height:200px;width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
+						<input type="checkbox" id="dept_all_id" onclick="toggle_all_check(this,'department')" onchange="get_po_owners();" value="1" />
+						<label for="dept_all_id"><b class="form-label">ALL DEPARTMENTS</b></label><br /><br />
+						{assign var=tmp_dept value=""}
+						{foreach item=items from=$dept}
+							{if $tmp_dept neq $items.root_id}
+								<b class="form-label mt-2">{$items.root}</b>
+								<input type="checkbox" id="dept_{$items.root_id}" value="1" class="department" onclick="toggle_all_check(this, 'root_{$items.root_id}')" onchange="get_po_owners();" /> 
+								<label for="dept_{$items.root_id}">All</label><br />
+								{assign var=tmp_dept value=$items.root_id}
+							{/if}
+							<input class="department root_{$items.root_id}" name="department_ids[{$items.id}]" type="checkbox" onchange="get_po_owners();" value="1"/>{$items.description}<br />
+						{/foreach}
+					</div>
+				</td>
+			</tr>
+			<tr id=po_owner>
+			</tr>
+			
+			</table>
+			</form>
+			
+			<div class="alert alert-primary" style="max-width: 400px;">
+				<p>* Generated Vendor Access Code will expire after <b>{$config.po_vendor_ticket_expiry}</b> days</p>
+			</div>
+			
+	</div>
+</div>
 <p align=center>
 <input class="btn btn-primary" type=button value="Load SKU" onclick="load_vendor_sku()"> 
 <input class="btn btn-primary" type=button value="Generate Vendor Access Code" onclick="do_generate_ac()">

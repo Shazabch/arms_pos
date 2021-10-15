@@ -47,9 +47,9 @@ function list_sel(n,s)
 	for(i=1;i<=4;i++)
 	{
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	$('req_items').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -185,63 +185,86 @@ function get_item_details(sku_item_id){
 </script>
 {/literal}
 {if $msg}<p align=center style="color:#00f">{$msg}</p>{/if}
-<h1>{$PAGE_TITLE}</h1>
-<ul>
-<li> You can only search the products under your allowed departments.
-<li> Items added to Request are auto-saved.
-</ul>
-<div id=tbl_1 class=stdframe style="margin:5px 0;background:#fff;">
-<!-- sku search -->
-<form name=f_a>
-<input name="sku_item_id" size=3 type=hidden>
-<input name="sku_item_code" size=13 type=hidden>
-<table class="tl" cellpadding=2 cellspacing=0 border=0>
-<tr><th>Search SKU</th>
-<td colspan=6><input id="autocomplete_sku" name="sku" size=50 onclick="this.select();" style="font-size:13px;width:500px;"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div></td></tr>
-<tr><td>&nbsp;</td><td colspan=6><input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-</td></tr>
-</TABLE>
-<div id="div_item_details">
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
-<table>
-<tr>
-	<th>Request Qty</th><td><input size=3 name="qty" onchange="mi(this)"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
-	<td>&nbsp;</td>
-	<th>UOM</th>
-	<td>
-	<select name="uom_id">
-	{foreach item="curr_uom" from=$uom}
-	<option value={$curr_uom.id}>{$curr_uom.code}
-	</option>
-	{/foreach}
-	</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-	</td>
-	<td>&nbsp;</td>
-	<th>Stock Balance</th><td><input size=3 name="balance" onchange="mi(this)"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
-	<th>Remarks</th><td><input size=32 name="comment"></td>
-	<td>&nbsp;</td><td><input class="btn btn-primary" type=button value="Add to PO Request" onclick="add_item()"></td>
-</tr>
-</table><br>
-</form>
+<div class="alert alert-primary mx-3 rounded "><ul>
+	<li> You can only search the products under your allowed departments.
+	<li> Items added to Request are auto-saved.
+	</ul></div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div id=tbl_1 class="stdframe" >
+			<!-- sku search -->
+			<form name=f_a>
+			<input name="sku_item_id" size=3 type=hidden>
+			<input name="sku_item_code" size=13 type=hidden>
+			<table class="tl" cellpadding=2 cellspacing=0 border=0>
+			<tr><th class="form-label mt-2">Search SKU<span class="text-danger" title="Required Field"> *</span></th>
+			<td colspan=6><input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select();" style="font-size:13px;width:500px;"> 
+			<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div></td></tr>
+			<tr><td>&nbsp;</td><td colspan=6><input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+			</td></tr>
+			</TABLE>
+			<div id="div_item_details">
+			</div>
+			<table>
+			<tr>
+				<div class="row">
+					<div class="col-md-6">
+						<b class="form-label">Request Qty<span class="text-danger" title="Required Field"> *</span></b>
+					<input class="form-control" size=3 name="qty" onchange="mi(this)"> 
+				
+					</div>
+				<div class="col-md-6">
+					<b class="form-label">UOM<span class="text-danger" title="Required Field"> *</span></b>
+				
+				<select class="form-control" name="uom_id">
+				{foreach item="curr_uom" from=$uom}
+				<option value={$curr_uom.id}>{$curr_uom.code}
+				</option>
+				{/foreach}
+				</select> 
+				</div>
+				
+				<div class="col-md-6">
+					<b class="form-label">Stock Balance<span class="text-danger" title="Required Field"> *</span></b>
+					<input class="form-control" size=3 name="balance" onchange="mi(this)"> 
+				</div>
+				<div class="col-md-6">
+					<b class="form-label">Remarks</b>
+					<input class="form-control" size=32 name="comment">
+				</div>
+				</div>
+				<input class="btn btn-primary mt-2" type=button value="Add to PO Request" onclick="add_item()">
+			</tr>
+			</table><br>
+			</form>
+			</div>
+			
+	</div>
 </div>
-<br>
-<div class=tab style="height:21px;white-space:nowrap;">
-&nbsp;&nbsp;
-<a id=lst1 href="javascript:list_sel(1);" class=active>New</a>
-<a id=lst2 href="javascript:list_sel(2);">Approved</a>
-<a id=lst3 href="javascript:list_sel(3);">Used In PO</a>
-<a id=lst4 href="javascript:list_sel(4);">Rejected</a>
+<div class="row mx-3 mb-3">
+	<div class=tab style="white-space:nowrap;">
+		<a id=lst1 href="javascript:list_sel(1);" class="btn btn-outline-primary btn-rounded" >New</a>
+		<a id=lst2 href="javascript:list_sel(2);" class="btn btn-outline-primary btn-rounded">Approved</a>
+		<a id=lst3 href="javascript:list_sel(3);" class="btn btn-outline-primary btn-rounded">Used In PO</a>
+		<a id=lst4 href="javascript:list_sel(4);" class="btn btn-outline-primary btn-rounded">Rejected</a>
+		</div>
 </div>
 
-<div id=req_items style="border:1px solid #000;padding:1px;">
+<div id="req_items">
 {include file=po_request.request.items.tpl}
 </div>
 
-<p align=center><input class="btn btn-error" type=button value="Close" onclick="document.location='/'"></p>
+<p align=center><input class="btn btn-danger" type=button value="Close" onclick="document.location='/'"></p>
 <script>
 reset_sku_autocomplete();
 </script>

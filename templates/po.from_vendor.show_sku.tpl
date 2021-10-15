@@ -2,9 +2,13 @@
 5/10/2017 4:19 PM Andy
 - Change section loop to foreach.
 *}
+<div class="card mx-3">
+    <div class="card-body">
+        
 {if !$hideheader}
 <h2>Select Items to add</h2>
-{count var=$items} record(s) found:
+<div class="alert alert-primary rounded " style="max-width: 280px;">
+    {count var=$items} record(s) found:</div>
 <form name=f_s>
 <div style="border:1px solid #ccc; height:400px; overflow:auto;">
 {/if}
@@ -40,3 +44,6 @@
 <input class="btn btn-primary" type=button value="Generate PO" onclick="do_generate_po()">
 </div>
 {/if}
+
+    </div>
+</div>

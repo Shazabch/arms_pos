@@ -955,137 +955,161 @@ function close_curtain2(){
 	<!-- End of Pending DO Request dialog -->
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
-<h2>(Stock Balance As Per Login Branch)</h2>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}
+				
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h5 class="content-title mb-0 my-auto ml-4 text-primary">
+				(Stock Balance As Per Login Branch)
+			</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
+
 
 {if $err}
     <ul>
         {foreach from=$err item=e}
-            <li>{$e}</li>
+            <div class="alert alert-danger">
+				<li>{$e}</li>
+			</div>
         {/foreach}
     </ul>
 {/if}
-<form name="f_a" class="stdframe" onSubmit="return false;" method="post" action="{$smarty.server.PHP_SELF}">
-	<input type="hidden" name="load_report" value="1" />
-	
-	<p>
-	    <b>Vendor: </b>
-		{dropdown name='vendor_id' key=id value=description values=$vendors selected=$smarty.request.vendor_id all='-- All --'}
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Brand: </b>
-		{dropdown name='brand_id' key=id value=description values=$brands selected=$smarty.request.brand_id all='-- All --'}
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Sort by</b>
-		<select name="sort_by" onChange="STOCK_REORDER.change_sort_by(this);">
-			<option value="">--</option>
-			{foreach from=$sort_option key=k item=desc}
-				<option value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$desc}</option>
-			{/foreach}
-		</select>
-		<span id="span_sort_order" style="{if !$smarty.request.sort_by}display:none;{/if}">
-		<select name="sort_order">
-			<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
-			<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
-		</select>
-		</span>
-	</p>
-	
-	<b>Re-order Type: </b>
-	<select name="reorder_type" onChange="STOCK_REORDER.check_reorder_type();">
-	    <option value="">-- Please Select --</option>
-	    {foreach from=$reorder_type_list key=t item=lbl}
-	    <option value="{$t}" {if $smarty.request.reorder_type eq $t}selected {/if}>{$lbl}</option>
-	    {/foreach}
-	</select>&nbsp;&nbsp;
-	<label><input type="checkbox" name="incl_not_approved" {if $smarty.request.incl_not_approved or !$smarty.request.load_report}checked{/if} />Include Saved & Pending Approval PO/DO</label>
-	&nbsp;&nbsp;
-	
-	<span id="span_reorder_moq_checkbox" style="{if ($smarty.request.reorder_type ne 'less_than_po_reorder_min') or $smarty.request.reorder_type eq ''}display:none;{/if}">
-	<label><input type="checkbox" name="order_by_moq" {if $smarty.request.order_by_moq}checked{/if} />Order By MOQ <span style="color:blue;white-space:nowrap">(If set)</span></label>
-	&nbsp;&nbsp;
-	</span>
-	
-	
-	<!-- SPAN span_reorder_date_range -->
-	<span id="span_reorder_date_range" style="{if ($smarty.request.reorder_type ne 'sales_range' and $smarty.request.reorder_type ne 'sales_range_plus_do' and $smarty.request.reorder_type ne 'do_range') or $smarty.request.reorder_type eq ''}display:none;{/if}">
-		<b>from</b>
-	    <input name="date_range_from" id="inp_date_range_from" size="10" maxlength="10"  value="{$smarty.request.date_range_from|default:$smarty.now-604800|date_format:"%Y-%m-%d"}" />
-	    <img align="absmiddle" src="ui/calendar.gif" id="img_date_range_from" style="cursor: pointer;" title="Select Date" />
-	    <b>to</b>
-	    <input name="date_range_to" id="inp_date_range_to" size="10" maxlength="10"  value="{$smarty.request.date_range_to|default:$smarty.now|date_format:"%Y-%m-%d"}" />
-	    <img align="absmiddle" src="ui/calendar.gif" id="img_date_range_to" style="cursor: pointer;" title="Select Date" />
-	    &nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<!-- DIV div_reorder_branch_list -->
-	<div id="div_reorder_branch_list" style="{if $smarty.request.reorder_type ne 'less_than_sales' and $smarty.request.reorder_type ne 'sales_range' and $smarty.request.reorder_type ne 'sales_range_plus_do' and $smarty.request.reorder_type ne 'less_then_grace_period'}display:none;{/if}">
-	    {if $BRANCH_CODE eq 'HQ'}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="stdframe" onSubmit="return false;" method="post" action="{$smarty.server.PHP_SELF}">
+			<input type="hidden" name="load_report" value="1" />
+			
 			<p>
-				<table cellpadding="0" cellspacing="0">
-					<tr>
-						<td width="100">
-							<b>Branch: </b>
-						</td>
-						<td>
-							Select by Branch Group: 
-							<select name="sel_brn_grp" id="sel_brn_grp" >
-								<option value="" >-- All --</option>
-								{foreach from=$branches_group_list item=r}
-									<option value="{$r.grp_items}" >{$r.code} - {$r.description}</option>
-								{/foreach}
-							</select>&nbsp;&nbsp;
-							<input type="button" class="btn btn-success" style="width:70px;" value="Select " onclick="STOCK_REORDER.check_branch_by_group();" />&nbsp;
-							<input type="button" class="btn btn-error" style="width:70px;" value="De-select" onclick="STOCK_REORDER.uncheck_branch_by_group();" /><br /><br />
-						</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>
-							<div style="width:100%;max-height:200px;border:1px solid #ddd;overflow:auto;">
-								{*<input type="checkbox" onChange="STOCK_REORDER.toggle_reorder_branch_list();" id="chx_toggle_reorder_branch_list" /> All &nbsp;&nbsp;&nbsp;*}
-								<ul style="list-style:none;">
-								{foreach from=$branches key=bid item=b}
-									<li>
-										<span class="nowrap">
-											<input type="checkbox" class="chx_reorder_bid" name="reorder_bid[{$bid}]" value="1" {if $smarty.request.reorder_bid.$bid}checked {/if} id="reorder_bid-{$bid}" />
-										{$b.code}&nbsp;&nbsp;&nbsp;
-										</span>
-									</li>
-								{/foreach}
-								</ul>
-							</div>
-						</td>
-					</tr>
-				</table>
+				<b>Vendor: </b>
+				{dropdown name='vendor_id' key=id value=description values=$vendors selected=$smarty.request.vendor_id all='-- All --'}
+				&nbsp;&nbsp;&nbsp;&nbsp;
 				
+				<b>Brand: </b>
+				{dropdown name='brand_id' key=id value=description values=$brands selected=$smarty.request.brand_id all='-- All --'}
+				&nbsp;&nbsp;&nbsp;&nbsp;
 				
+				<b class="form-label">Sort by</b>
+				<select class="form-control" name="sort_by" onChange="STOCK_REORDER.change_sort_by(this);">
+					<option value="">--</option>
+					{foreach from=$sort_option key=k item=desc}
+						<option value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$desc}</option>
+					{/foreach}
+				</select>
+				<span id="span_sort_order" style="{if !$smarty.request.sort_by}display:none;{/if}">
+				<select class="form-control" name="sort_order">
+					<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
+					<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
+				</select>
+				</span>
 			</p>
+			
+			<b class="form-label">Re-order Type: </b>
+			<select class="form-control" name="reorder_type" onChange="STOCK_REORDER.check_reorder_type();">
+				<option value="">-- Please Select --</option>
+				{foreach from=$reorder_type_list key=t item=lbl}
+				<option value="{$t}" {if $smarty.request.reorder_type eq $t}selected {/if}>{$lbl}</option>
+				{/foreach}
+			</select>&nbsp;&nbsp;
+			<label><input type="checkbox" name="incl_not_approved" {if $smarty.request.incl_not_approved or !$smarty.request.load_report}checked{/if} />Include Saved & Pending Approval PO/DO</label>
+			&nbsp;&nbsp;
+			
+			<span id="span_reorder_moq_checkbox" style="{if ($smarty.request.reorder_type ne 'less_than_po_reorder_min') or $smarty.request.reorder_type eq ''}display:none;{/if}">
+			<label><input type="checkbox" name="order_by_moq" {if $smarty.request.order_by_moq}checked{/if} />Order By MOQ <span style="color:blue;white-space:nowrap">(If set)</span></label>
+			&nbsp;&nbsp;
+			</span>
+			
+			
+			<!-- SPAN span_reorder_date_range -->
+			<span id="span_reorder_date_range" style="{if ($smarty.request.reorder_type ne 'sales_range' and $smarty.request.reorder_type ne 'sales_range_plus_do' and $smarty.request.reorder_type ne 'do_range') or $smarty.request.reorder_type eq ''}display:none;{/if}">
+				<b>from</b>
+				<input name="date_range_from" id="inp_date_range_from" size="10" maxlength="10"  value="{$smarty.request.date_range_from|default:$smarty.now-604800|date_format:"%Y-%m-%d"}" />
+				<img align="absmiddle" src="ui/calendar.gif" id="img_date_range_from" style="cursor: pointer;" title="Select Date" />
+				<b>to</b>
+				<input name="date_range_to" id="inp_date_range_to" size="10" maxlength="10"  value="{$smarty.request.date_range_to|default:$smarty.now|date_format:"%Y-%m-%d"}" />
+				<img align="absmiddle" src="ui/calendar.gif" id="img_date_range_to" style="cursor: pointer;" title="Select Date" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</span>
+			
+			<!-- DIV div_reorder_branch_list -->
+			<div id="div_reorder_branch_list" style="{if $smarty.request.reorder_type ne 'less_than_sales' and $smarty.request.reorder_type ne 'sales_range' and $smarty.request.reorder_type ne 'sales_range_plus_do' and $smarty.request.reorder_type ne 'less_then_grace_period'}display:none;{/if}">
+				{if $BRANCH_CODE eq 'HQ'}
+					<p>
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="100">
+									<b>Branch: </b>
+								</td>
+								<td>
+									Select by Branch Group: 
+									<select name="sel_brn_grp" id="sel_brn_grp" >
+										<option value="" >-- All --</option>
+										{foreach from=$branches_group_list item=r}
+											<option value="{$r.grp_items}" >{$r.code} - {$r.description}</option>
+										{/foreach}
+									</select>&nbsp;&nbsp;
+									<input type="button" class="btn btn-success" style="width:70px;" value="Select " onclick="STOCK_REORDER.check_branch_by_group();" />&nbsp;
+									<input type="button" class="btn btn-error" style="width:70px;" value="De-select" onclick="STOCK_REORDER.uncheck_branch_by_group();" /><br /><br />
+								</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+									<div style="width:100%;max-height:200px;border:1px solid #ddd;overflow:auto;">
+										{*<input type="checkbox" onChange="STOCK_REORDER.toggle_reorder_branch_list();" id="chx_toggle_reorder_branch_list" /> All &nbsp;&nbsp;&nbsp;*}
+										<ul style="list-style:none;">
+										{foreach from=$branches key=bid item=b}
+											<li>
+												<span class="nowrap">
+													<input type="checkbox" class="chx_reorder_bid" name="reorder_bid[{$bid}]" value="1" {if $smarty.request.reorder_bid.$bid}checked {/if} id="reorder_bid-{$bid}" />
+												{$b.code}&nbsp;&nbsp;&nbsp;
+												</span>
+											</li>
+										{/foreach}
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
+						
+						
+					</p>
+					<p>
+						<b>Reorder by Branch?</b>
+						<input type="checkbox" name="reorder_by_branch" value="1" {if $smarty.request.reorder_by_branch}checked {/if} onChange="STOCK_REORDER.reorder_by_branch_changed();" /> Yes &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" name="show_reorder_details_by_branch" value="1" {if $smarty.request.reorder_by_branch}{if $smarty.request.show_reorder_details_by_branch}checked {/if}{else}disabled {/if} /> Show Details by Branch
+					</p>
+				{/if}
+			</div>
+			
 			<p>
-				<b>Reorder by Branch?</b>
-				<input type="checkbox" name="reorder_by_branch" value="1" {if $smarty.request.reorder_by_branch}checked {/if} onChange="STOCK_REORDER.reorder_by_branch_changed();" /> Yes &nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="checkbox" name="show_reorder_details_by_branch" value="1" {if $smarty.request.reorder_by_branch}{if $smarty.request.show_reorder_details_by_branch}checked {/if}{else}disabled {/if} /> Show Details by Branch
+				<b>Category: </b>
+				<input readonly name="category_id" size="1" value="{$smarty.request.category_id}" />
+				<input type="hidden" name="category_tree" value="{$smarty.request.category_tree}" />
+				<input id="autocomplete_category" name="category" value="{$smarty.request.category|default:'Enter keyword to search'}" size="50" default_text="Enter keyword to search" />
+				<span style="color:blue;white-space:nowrap">(Please use deeper level category for better report speed, report will take longer time to process if using higher level category.)</span>
+				<br>
+				<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+				<div id="autocomplete_category_choices" class="autocomplete" style="width:600px !important;display:none;"></div>
+				<span id="str_cat_tree" class="small" style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
 			</p>
-	    {/if}
+			<input type="button" value="Show Report" onClick="STOCK_REORDER.submit_form();" />
+			<input type="checkbox" name="by_last_vendor" value="1" {if $smarty.request.by_last_vendor}checked {/if} /> last vendor only
+			<input type="checkbox" name="inc_inactive_vendor" value="1" {if $smarty.request.inc_inactive_vendor}checked {/if} /> Include inactive Vendor
+		</form>
+		
 	</div>
-	
-	<p>
-        <b>Category: </b>
-		<input readonly name="category_id" size="1" value="{$smarty.request.category_id}" />
-		<input type="hidden" name="category_tree" value="{$smarty.request.category_tree}" />
-		<input id="autocomplete_category" name="category" value="{$smarty.request.category|default:'Enter keyword to search'}" size="50" default_text="Enter keyword to search" />
-		<span style="color:blue;white-space:nowrap">(Please use deeper level category for better report speed, report will take longer time to process if using higher level category.)</span>
-		<br>
-		<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-		<div id="autocomplete_category_choices" class="autocomplete" style="width:600px !important;display:none;"></div>
-		<span id="str_cat_tree" class="small" style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
-	</p>
-	<input type="button" value="Show Report" onClick="STOCK_REORDER.submit_form();" />
-	<input type="checkbox" name="by_last_vendor" value="1" {if $smarty.request.by_last_vendor}checked {/if} /> last vendor only
-	<input type="checkbox" name="inc_inactive_vendor" value="1" {if $smarty.request.inc_inactive_vendor}checked {/if} /> Include inactive Vendor
-</form>
-
+</div>
 {if $smarty.request.load_report and !$err}
 	<h3>{$report_title}</h3>
 	{if !$data.vendor_data}-- No Data --{else}

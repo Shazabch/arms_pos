@@ -2744,346 +2744,359 @@ function show_upload_csv_popup(){
 {if $config.foreign_currency}
 	<input type="hidden" name="can_change_currency_rate" value="{$form.can_change_currency_rate|default:0}">
 {/if}
-
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
-{/if}
-
-<table border="0" cellspacing="0" cellpadding="4" width="100%">
-<tr>
-	<td><b>Vendor</b></td>
-	<td colspan=3>
-    	<input name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
-		<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
-		{if !$form.approval_screen}
-		<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-		<img src=ui/rq.gif align=absbottom title="Required Field">
-		<input class="btn btn-primary" type=button value="Show SKU of this Vendor" onclick="show_vendor_sku()" id="inp_show_vendor_sku" />
-		&nbsp;&nbsp;
-		<b>[<a href="javascript:void(show_sku_grn_info());">?</a>]</b>
-		{/if}
-		<div id="vendor_checkout" style="Display:none;"></div>
-	</td>
-	
-	{if $config.foreign_currency}
-		<td valign="top" align="right" rowspan="3">
-			<table>
-				<tr>
-					<td width="100">
-						<b>Currency</b> 
-						[<a href="javascript:void(alert('{$LANG.PO_CURRENCY_CODE_NOTIFY|escape:javascript}'))">?</a>]
-					</td>
-					<td>
-						<input type="hidden" name="currency_code" value="{$form.currency_code}" />
-						<select name="tmp_currency_code" {if !$can_change_currency_code}disabled{/if} onChange="currency_code_changed();" style="width:150px;">
-							<option value="">Base Currency</option>
-							<optgroup label="Foreign Currency">
-								{foreach from=$foreignCurrencyCodeList item=code}
-									<option value="{$code}" {if $form.currency_code eq $code}selected {/if}>{$code}</option>
-								{/foreach}
-							</optgroup>
-						</select>
-					</td>
-				</tr>
-				<tr id="tr_currency_rate" {if $form.currency_code eq ''}style="display:none;"{/if}>
-					<td valign="top" nowrap>
-						<b>Exchange Rate</b>
-						{if $form.currency_rate_history}
-							<img src="/ui/icons/script.png" align="absmiddle" class="clickable" title="View Change Currency Rate History" onClick="view_change_currency_rate_history();" />
-						{/if}
-					</td>
-					<td valign="top">
-						<input type="hidden" name="pending_currency_rate" value="{$form.pending_currency_rate|default:-1}" />
-						<input type="hidden" name="currency_rate_override_by_user_id" value="{$form.currency_rate_override_by_user_id}" />
-						
-						{if $form.can_change_currency_rate}
-							<img src="/ui/ed.png" title="Change Rate" class="clickable" onClick="change_currency_rate();" />
-						{/if}
-						<input type="text" name="currency_rate" size="7" value="{$form.currency_rate|default:1}" readonly class="freadonly" />
-						<span id="span_currency_rate_loading"></span>
-						<br />
-						<span id="span_pending_currency_rate">
-							{if $form.pending_currency_rate>=0}New Rate: {$form.pending_currency_rate}{/if}
-						</span>
-					</td>
-				</tr>
-			</table>
-		</td>
-	{/if}
-</tr>
-
-<tr>
-	<td><b>Department</b></td>
-	<td>
-		<select name="dept_id" onchange="set_dept_val(this.value);reset_sku_autocomplete();refresh_tables();" {if $disabled_dept}disabled{/if}>
-				{* if $sessioninfo.branch_id neq 1}
-				<option value="">-- Please Select --</option>
-				{/if *}
-			{section name=i loop=$dept}
-				<option value={$dept[i].id} {if $form.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
-			{/section}
-		</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-		<input type=hidden name=department_id value="{$form.department_id|default:$dept[0].id}">
-	</td>
-	<td id="category_sales_trend_td" {if !$disabled_dept}style="display:none;"{/if} colspan="2">
-		<span><b>Category Sales Trend</b> {if $form.branch_id eq 1}(PO branch only){/if}</span>
-		<table class="category_sales_trend" style="border:1px solid black;">
-			<tr>
-				<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>1M</b></span></td>
-				<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>3M</b></span></td>
-				<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>6M</b></span></td>
-				<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>12M</b></span></td>
-			</tr>
-			<tr>
-				<td align="center">{$form.category_sales_trend.qty.1|default:'0'}</td>
-				<td align="center">{$form.category_sales_trend.qty.3|default:'0'}</td>
-				<td align="center">{$form.category_sales_trend.qty.6|default:'0'}</td>
-				<td align="center">{$form.category_sales_trend.qty.12|default:'0'}</td>
-			</tr>
-			<tr>
-				<td align="center">{$form.category_sales_trend.qty.1|qty_nf}</td>
-				<td align="center">{$form.category_sales_trend.qty.3/3|qty_nf}</td>
-				<td align="center">{$form.category_sales_trend.qty.6/6|qty_nf}</td>
-				<td align="center">{$form.category_sales_trend.qty.12/12|qty_nf}</td>
-			</tr>
-		</table>
-	</td>
-</tr>
-{if $config.po_enable_ibt}
-	<tr>
-	    <td><b>IBT</b></td>
-	    <td><input type="checkbox" name="is_ibt" value="1" {if $form.is_ibt}checked {/if} /></td>
-	</tr>
-{/if}
-
-<tr>
-	<td><b>PO Date</b></td>
-	<td>
-		<input id="po_dt" name="po_date" value="{if $form.po_date>0}{$form.po_date|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onchange="po_date_changed();" onclick="if(this.value)this.select();" size="10" maxlength="10" />
+<div class="card mx-3">
+	<div class="card-body">
 		
-		{if $allow_edit}
-			<img align=absbottom src="ui/calendar.gif" id="img_po_dt" style="cursor: pointer;" title="Select Date"/>
-		{/if}
-		<br>
-	</td>
-</tr>
-
-{if !$allow_edit}
-<tr>
-	<td><b>PO Owner</b></td>
-	<td>{$form.user|upper}</td>
-</tr>
-{/if}
-
-{if $form.branch_id==1 && !$form.po_branch_id}
-	<tr>
-		<td valign=top{if $config.po_allow_hq_purchase} rowspan=2{/if}><b>PO Option</b></td>
-		<td><input type=radio name="po_option" value="2" {if $form.po_option == 2 or !$form.po_option}checked{/if} {if $sessioninfo.branch_id==1}onclick="hq_purchase_clicked(this);"{/if}>
-		HQ purchase on behalf of Branches 
-		<font color=#990000><b>(Branch Payment)</b></font>
-		[<a href="javascript:void(alert('- After approved will split into multiple branch PO.\n- GRR/GRN need to do by branch.'));">?</a>]
-		</td>
-	</tr>
-	{if $config.po_allow_hq_purchase}
-		<tr>
-			<td><input type=radio name="po_option" value="3" {if $form.po_option == 3}checked{/if} onclick="hq_purchase_clicked(this);">
-			HQ purchase <font color=#990000><b>(HQ Payment)</b></font>
-			[<a href="javascript:void(alert('- No split into multiple branch PO.\n- GRR/GRN need to do by HQ.'));">?</a>]
-			</td>
-		</tr>
+<div class="stdframe" >
+	<h4>General Information</h4>
 	
-		<tr id="hq_delivery_date" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
-			<td><b>Delivery Date</b></td>
-			<td>
-				<input id="hq_dd" name="hq_delivery_date" value="{$form.hq_delivery_date}" onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
-				
-				{if $allow_edit}
-					<img align="absbottom" src="ui/calendar.gif" id="img_hq_dd" style="cursor: pointer;" title="Select Date"/>
-				{/if}
-				<br>
-			</td>
-		</tr>
-
-		<tr id="hq_cancel_date" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
-			<td><b>Cancellation Date</b></td>
-			<td>
-				<input id="hq_cd" name="hq_cancel_date" value="{$form.hq_cancel_date}"  onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
-				
-				{if $allow_edit}
-					<img align="absbottom" src="ui/calendar.gif" id="img_hq_cd" style="cursor: pointer;" title="Select Date"/>
-				{/if}
-				<br>
-			</td>
-		</tr>
-		
-		<tr id="hq_partial_delivery" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
-			<td><b>Partial Delivery</b></td>
-			<td>
-				<input name="hq_partial_delivery" type="checkbox" {if $form.hq_partial_delivery}checked{/if} id="hq_pd" onclick="hq_partial_delivery_clicked(this);"> <label for="hq_pd">Allowed</label>
-			</td>
-		</tr>
+	{if $errm.top}
+	<div id=err><div class=errmsg><ul>
+	{foreach from=$errm.top item=e}
+	<div class="alert alert-danger rounded">
+		<li> {$e} </li>
+	</div>
+	{/foreach}
+	</ul></div></div>
 	{/if}
 	
+	<table border="0" cellspacing="0" cellpadding="4" width="100%">
 	<tr>
-		<td valign=top><b>Delivery Branches</b></td>
-		<td>You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
-			<table class="small" border=0 id=tbl_branch>
-			{section name=i loop=$branch}
-			{assign var=bid value=$branch[i].id}
-			<tr>
-				<td valign=top>
-				<input onchange="active_btn();" type=checkbox id=dt_{$branch[i].id} name="deliver_to[]" value="{$branch[i].id}" class="branch" {if is_array($form.deliver_to) and in_array($branch[i].id,$form.deliver_to)}checked{/if}>&nbsp;{$branch[i].code}
-				</td>
-				<td>
-					<table border=0 {if !is_array($form.deliver_to) or !in_array($branch[i].id,$form.deliver_to)}style="display:none"{/if}>
-					<tr>
-						<td colspan=6>
-						<i>Deliver by</i> 
-						<input size=1 name=delivery_vendor[{$branch[i].id}] value="{$form.delivery_vendor[$bid]|default:0}" readonly> 
-						<input size=50 id="vendor[{$branch[i].id}]" name=delivery_vendor_name[{$branch[i].id}] value="{$form.delivery_vendor_name[$bid]|default:"-same as above-"}" onclick="this.select()">
-						<div id="autocomplete_vendor[{$branch[i].id}]" class="autocomplete"></div>
-						<script>
-						new Ajax.Autocompleter("vendor[{$branch[i].id}]", "autocomplete_vendor[{$branch[i].id}]", "ajax_autocomplete.php?a=ajax_search_vendor&type=po", {literal}{ paramName:"vendor", afterUpdateElement: function (obj, li) { {/literal}document.f_a.elements['delivery_vendor[{$branch[i].id}]'].value = li.title; {literal}}}{/literal});
-						</script>
-						</td>
-					</tr>
-					<tr>
-						<td><i>Delivery Date</i></td>
-						<td>
-							<input type="text" name="delivery_date[{$bid}]" id="dt1[{$bid}]" value="{$form.delivery_date[$bid]}" size=12 onchange="check_date(this); {if $config.po_agreement_cancellation_days}delivery_date_changed('{$bid}', this);{/if}" onclick="if(this.value)this.select();"> 
-							<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-
-							{if $allow_edit}
-							<img align=absbottom src="ui/calendar.gif" id="t_dt1[{$bid}]" style="cursor: pointer;" title="Select Date"/>
-							{/if}
-						</td>
-						<td><i>Cancellation Date</i></td>
-						<td>
-							<input type="text" name="cancel_date[{$bid}]" id="dt2[{$bid}]" value="{$form.cancel_date[$bid]}" size=12 onchange="check_date(this);" onclick="if(this.value)this.select();">
-							<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-							 
-							{if $allow_edit}
-							<img align=absbottom src="ui/calendar.gif" id="t_dt2[{$bid}]" style="cursor: pointer;" title="Select Date"/>
-							{/if}
-						</td>
-						<td>
-							<input name="partial_delivery[{$bid}]" type="checkbox" {if $form.partial_delivery[$bid]}checked{/if} onclick="return partial_delivery_clicked(this);" id="pd{$bid}"> 
-							Allow Partial Delivery
-						</td>
-					</tr>
-					
-					<tr>
-					<td valign=top><i>User Selection</i></td>
-					<td colspan=4>
-						<i>Tick below to send PM / E-mail to users</i><br />
-						<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
-						{section name=u loop=`$user_list.$bid.user`}
- 						{assign var=u value=`$smarty.section.u.iteration-1`}
- 						{assign var=id value=`$user_list.$bid.user_id.$u`}
-						<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
-						{/section}
-						</div>
-					</td>
-					</tr>
-					
-					</table>
-				</td>
-			</tr>
+		<td><b class="form-label">Vendor<span class="text-danger" title="Required Field"> *</span></b></td>
+		<td colspan=3>
+			<div class="form-inline">
+				<input class="form-control" name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
+			&nbsp;<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
 			{if !$form.approval_screen}
-			<script>init_calendar('[{$bid}]');</script>
+			<div id="autocomplete_vendor_choices" class="autocomplete"></div>
+			
+		&nbsp;&nbsp;	<input class="btn btn-primary fs-08" type=button value="Show SKU of this Vendor" onclick="show_vendor_sku()" id="inp_show_vendor_sku" />
+			&nbsp;&nbsp;
+			<b>[<a href="javascript:void(show_sku_grn_info());">?</a>]</b>
 			{/if}
-			{/section}
-			</table>
-		</td>
-	</tr>	
-{else}
-{assign var=bid value=$form.po_branch_id}
-	<tr>
-		<td><b>Delivery Branch</b></td>
-		<td>{$form.po_branch|default:$form.branch|default:$BRANCH_CODE}</td>
-	</tr>
-	<tr>
-		<td><b>Delivery Date</b></td>
-		<td>
-			<input type="text" name="delivery_date" id="dt1" value="{$form.delivery_date}" size=12 {if $config.po_agreement_cancellation_days}onchange="delivery_date_changed('{$bid}', this);"{/if} /> 
-			{if $allow_edit}
-			<img align=absbottom src="ui/calendar.gif" id="t_dt1" style="cursor: pointer;" title="Select Date"/>
-			{/if}
-			<div>yyyy-mm-dd</div>
-		</td>
-	</tr>
-	<tr>
-		<td><b>Cancellation Date</b></td>
-		<td>
-			<input type="text" name="cancel_date" id="dt2" value="{$form.cancel_date}" size=12 /> 
-			{if $allow_edit}
-			<img align=absbottom src="ui/calendar.gif" id="t_dt2" style="cursor: pointer;" title="Select Date"/>
-			{/if}
-			<div>yyyy-mm-dd</div>
-		</td>
-	</tr>
-	{if $form.po_branch_id && $form.branch_id==1}
-	<tr>
-	<td valign=top><b>User Selection</b></td>
-	<td colspan=4>
-		<b>Tick below to send PM / E-mail to users</b><br />
-		<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
-		{section name=u loop=`$user_list.$bid.user`}
-		{assign var=u value=`$smarty.section.u.iteration-1`}
-		{assign var=id value=`$user_list.$bid.user_id.$u`}
-		<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
-		{/section}
-		</div>
-	</td>
-	</tr>
-	{else} {* branch also have user selection *}
-	{assign var=bid value=$form.branch_id}
-	<tr>
-	<td valign=top><b>User Selection</b></td>
-	<td colspan=4>
-		<b>Tick below to send PM / E-mail to users</b><br />
-		<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
-		{section name=u loop=`$user_list.$bid.user`}
-		{assign var=u value=`$smarty.section.u.iteration-1`}
-		{assign var=id value=`$user_list.$bid.user_id.$u`}
-		<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
-		{/section}
-		</div>
-	</td>
-	</tr>
-	{/if}	
-	<tr>
-		<td><b>Partial Delivery</b></td>
-		<td>
-			<input name="partial_delivery" type="checkbox" {if $form.partial_delivery}checked{/if} id="pd"> <label for="pd">Allowed</label>
-		</td>
-	</tr>
-	
-	{if !$form.approval_screen}
-		<script>init_calendar('');</script>
-	{/if}
-{/if}
-	<tr>
-		<td colspan="2">
-			<div id=srefresh style="display:none; padding-top:10px">
-				<input class="btn btn-primary" type=button onclick="void(refresh_tables())" value="click here to continue">
+			<div id="vendor_checkout" style="Display:none;"></div>
 			</div>
 		</td>
+		
+		{if $config.foreign_currency}
+			<td valign="top" align="right" rowspan="3">
+				<table>
+					<tr>
+						<td width="100">
+							<b>Currency</b> 
+							[<a href="javascript:void(alert('{$LANG.PO_CURRENCY_CODE_NOTIFY|escape:javascript}'))">?</a>]
+						</td>
+						<td>
+							<input type="hidden" name="currency_code" value="{$form.currency_code}" />
+							<select name="tmp_currency_code" {if !$can_change_currency_code}disabled{/if} onChange="currency_code_changed();" style="width:150px;">
+								<option value="">Base Currency</option>
+								<optgroup label="Foreign Currency">
+									{foreach from=$foreignCurrencyCodeList item=code}
+										<option value="{$code}" {if $form.currency_code eq $code}selected {/if}>{$code}</option>
+									{/foreach}
+								</optgroup>
+							</select>
+						</td>
+					</tr>
+					<tr id="tr_currency_rate" {if $form.currency_code eq ''}style="display:none;"{/if}>
+						<td valign="top" nowrap>
+							<b>Exchange Rate</b>
+							{if $form.currency_rate_history}
+								<img src="/ui/icons/script.png" align="absmiddle" class="clickable" title="View Change Currency Rate History" onClick="view_change_currency_rate_history();" />
+							{/if}
+						</td>
+						<td valign="top">
+							<input type="hidden" name="pending_currency_rate" value="{$form.pending_currency_rate|default:-1}" />
+							<input type="hidden" name="currency_rate_override_by_user_id" value="{$form.currency_rate_override_by_user_id}" />
+							
+							{if $form.can_change_currency_rate}
+								<img src="/ui/ed.png" title="Change Rate" class="clickable" onClick="change_currency_rate();" />
+							{/if}
+							<input type="text" name="currency_rate" size="7" value="{$form.currency_rate|default:1}" readonly class="freadonly" />
+							<span id="span_currency_rate_loading"></span>
+							<br />
+							<span id="span_pending_currency_rate">
+								{if $form.pending_currency_rate>=0}New Rate: {$form.pending_currency_rate}{/if}
+							</span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		{/if}
 	</tr>
-	{if $BRANCH_CODE!='HQ' || count($form.deliver_to)>0 || $form.po_branch_id}
+	
 	<tr>
-		<td><input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
+		<td><b class="form-label">Department<span class="text-danger" title="Required Field"> *</span></b></td>
+		<td>
+			<select class="form-control" name="dept_id" onchange="set_dept_val(this.value);reset_sku_autocomplete();refresh_tables();" {if $disabled_dept}disabled{/if}>
+					{* if $sessioninfo.branch_id neq 1}
+					<option value="">-- Please Select --</option>
+					{/if *}
+				{section name=i loop=$dept}
+					<option value={$dept[i].id} {if $form.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
+				{/section}
+			</select>
+			<input type=hidden name=department_id value="{$form.department_id|default:$dept[0].id}">
+		</td>
+		<td>&nbsp;</td>
+		<td id="category_sales_trend_td" {if !$disabled_dept}style="display:none;"{/if} colspan="2">
+			<span><b>Category Sales Trend</b> {if $form.branch_id eq 1}(PO branch only){/if}</span>
+			<table class="category_sales_trend" style="border:1px solid black;">
+				<tr>
+					<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>1M</b></span></td>
+					<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>3M</b></span></td>
+					<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>6M</b></span></td>
+					<td align="center"><span style="border:1px solid #ccc;background:#e6e6e6;padding:0px 3px;"><b>12M</b></span></td>
+				</tr>
+				<tr>
+					<td align="center">{$form.category_sales_trend.qty.1|default:'0'}</td>
+					<td align="center">{$form.category_sales_trend.qty.3|default:'0'}</td>
+					<td align="center">{$form.category_sales_trend.qty.6|default:'0'}</td>
+					<td align="center">{$form.category_sales_trend.qty.12|default:'0'}</td>
+				</tr>
+				<tr>
+					<td align="center">{$form.category_sales_trend.qty.1|qty_nf}</td>
+					<td align="center">{$form.category_sales_trend.qty.3/3|qty_nf}</td>
+					<td align="center">{$form.category_sales_trend.qty.6/6|qty_nf}</td>
+					<td align="center">{$form.category_sales_trend.qty.12/12|qty_nf}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	{if $config.po_enable_ibt}
+		<tr>
+			<td><b>IBT</b></td>
+			<td><input type="checkbox" name="is_ibt" value="1" {if $form.is_ibt}checked {/if} /></td>
+		</tr>
+	{/if}
+	
+	<tr>
+		<td><b class="form-label">PO Date</b></td>
+		<td>
+			<div class="form-inline">
+				<input class="form-control" id="po_dt" name="po_date" value="{if $form.po_date>0}{$form.po_date|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onchange="po_date_changed();" onclick="if(this.value)this.select();" />
+			
+				{if $allow_edit}
+					&nbsp;&nbsp;<img align=absbottom src="ui/calendar.gif" id="img_po_dt" style="cursor: pointer;" title="Select Date"/>
+				{/if}
+			</div>
+			
+		</td>
+	</tr>
+	
+	{if !$allow_edit}
+	<tr>
+		<td><b class="form-label">PO Owner</b></td>
+		<td>{$form.user|upper}</td>
 	</tr>
 	{/if}
-</table>
-
+	
+	{if $form.branch_id==1 && !$form.po_branch_id}
+		<tr>
+			<td valign=top{if $config.po_allow_hq_purchase} rowspan=2{/if}><b>PO Option</b></td>
+			<td><input type=radio name="po_option" value="2" {if $form.po_option == 2 or !$form.po_option}checked{/if} {if $sessioninfo.branch_id==1}onclick="hq_purchase_clicked(this);"{/if}>
+			HQ purchase on behalf of Branches 
+			<font color=#990000><b>(Branch Payment)</b></font>
+			[<a href="javascript:void(alert('- After approved will split into multiple branch PO.\n- GRR/GRN need to do by branch.'));">?</a>]
+			</td>
+		</tr>
+		{if $config.po_allow_hq_purchase}
+			<tr>
+				<td><input type=radio name="po_option" value="3" {if $form.po_option == 3}checked{/if} onclick="hq_purchase_clicked(this);">
+				HQ purchase <font color=#990000><b>(HQ Payment)</b></font>
+				[<a href="javascript:void(alert('- No split into multiple branch PO.\n- GRR/GRN need to do by HQ.'));">?</a>]
+				</td>
+			</tr>
+		
+			<tr id="hq_delivery_date" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
+				<td><b>Delivery Date</b></td>
+				<td>
+					<input id="hq_dd" name="hq_delivery_date" value="{$form.hq_delivery_date}" onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
+					
+					{if $allow_edit}
+						<img align="absbottom" src="ui/calendar.gif" id="img_hq_dd" style="cursor: pointer;" title="Select Date"/>
+					{/if}
+					<br>
+				</td>
+			</tr>
+	
+			<tr id="hq_cancel_date" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
+				<td><b class="form-label">Cancellation Date</b></td>
+				<td>
+					<div class="form-inline">
+						<input class="form-control" id="hq_cd" name="hq_cancel_date" value="{$form.hq_cancel_date}"  onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
+					
+					{if $allow_edit}
+					&nbsp;&nbsp;	<img align="absbottom" src="ui/calendar.gif" id="img_hq_cd" style="cursor: pointer;" title="Select Date"/>
+					{/if}
+					</div>
+					<br>
+				</td>
+			</tr>
+			
+			<tr id="hq_partial_delivery" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
+				<td><b class="form-label">Partial Delivery</b></td>
+				<td>
+					<input class="form-control" name="hq_partial_delivery" type="checkbox" {if $form.hq_partial_delivery}checked{/if} id="hq_pd" onclick="hq_partial_delivery_clicked(this);"> <label for="hq_pd">Allowed</label>
+				</td>
+			</tr>
+		{/if}
+		
+		<tr>
+			<td valign=top><b class="form-label">Delivery Branches</b></td>
+			<td>You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
+				<table class="small" border=0 id=tbl_branch>
+				{section name=i loop=$branch}
+				{assign var=bid value=$branch[i].id}
+				<tr>
+					<td valign=top>
+					<input onchange="active_btn();" type=checkbox id=dt_{$branch[i].id} name="deliver_to[]" value="{$branch[i].id}" class="branch" {if is_array($form.deliver_to) and in_array($branch[i].id,$form.deliver_to)}checked{/if}>&nbsp;{$branch[i].code}
+					</td>
+					<td>
+						<table border=0 {if !is_array($form.deliver_to) or !in_array($branch[i].id,$form.deliver_to)}style="display:none"{/if}>
+						<tr>
+							<td colspan=6>
+							<i>Deliver by</i> 
+							<input size=1 name=delivery_vendor[{$branch[i].id}] value="{$form.delivery_vendor[$bid]|default:0}" readonly> 
+							<input size=50 id="vendor[{$branch[i].id}]" name=delivery_vendor_name[{$branch[i].id}] value="{$form.delivery_vendor_name[$bid]|default:"-same as above-"}" onclick="this.select()">
+							<div id="autocomplete_vendor[{$branch[i].id}]" class="autocomplete"></div>
+							<script>
+							new Ajax.Autocompleter("vendor[{$branch[i].id}]", "autocomplete_vendor[{$branch[i].id}]", "ajax_autocomplete.php?a=ajax_search_vendor&type=po", {literal}{ paramName:"vendor", afterUpdateElement: function (obj, li) { {/literal}document.f_a.elements['delivery_vendor[{$branch[i].id}]'].value = li.title; {literal}}}{/literal});
+							</script>
+							</td>
+						</tr>
+						<tr>
+							<td><i>Delivery Date</i></td>
+							<td>
+								<input type="text" name="delivery_date[{$bid}]" id="dt1[{$bid}]" value="{$form.delivery_date[$bid]}" size=12 onchange="check_date(this); {if $config.po_agreement_cancellation_days}delivery_date_changed('{$bid}', this);{/if}" onclick="if(this.value)this.select();"> 
+								<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+	
+								{if $allow_edit}
+								<img align=absbottom src="ui/calendar.gif" id="t_dt1[{$bid}]" style="cursor: pointer;" title="Select Date"/>
+								{/if}
+							</td>
+							<td><i>Cancellation Date</i></td>
+							<td>
+								<input type="text" name="cancel_date[{$bid}]" id="dt2[{$bid}]" value="{$form.cancel_date[$bid]}" size=12 onchange="check_date(this);" onclick="if(this.value)this.select();">
+								<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+								 
+								{if $allow_edit}
+								<img align=absbottom src="ui/calendar.gif" id="t_dt2[{$bid}]" style="cursor: pointer;" title="Select Date"/>
+								{/if}
+							</td>
+							<td>
+								<input name="partial_delivery[{$bid}]" type="checkbox" {if $form.partial_delivery[$bid]}checked{/if} onclick="return partial_delivery_clicked(this);" id="pd{$bid}"> 
+								Allow Partial Delivery
+							</td>
+						</tr>
+						
+						<tr>
+						<td valign=top><i>User Selection</i></td>
+						<td colspan=4>
+							<i>Tick below to send PM / E-mail to users</i><br />
+							<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+							{section name=u loop=`$user_list.$bid.user`}
+							 {assign var=u value=`$smarty.section.u.iteration-1`}
+							 {assign var=id value=`$user_list.$bid.user_id.$u`}
+							<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
+							{/section}
+							</div>
+						</td>
+						</tr>
+						
+						</table>
+					</td>
+				</tr>
+				{if !$form.approval_screen}
+				<script>init_calendar('[{$bid}]');</script>
+				{/if}
+				{/section}
+				</table>
+			</td>
+		</tr>	
+	{else}
+	{assign var=bid value=$form.po_branch_id}
+		<tr>
+			<td><b>Delivery Branch</b></td>
+			<td>{$form.po_branch|default:$form.branch|default:$BRANCH_CODE}</td>
+		</tr>
+		<tr>
+			<td><b class="form-label">Delivery Date</b></td>
+			<td>
+				<input class="form-control" type="text" name="delivery_date" id="dt1" value="{$form.delivery_date}" size=12 {if $config.po_agreement_cancellation_days}onchange="delivery_date_changed('{$bid}', this);"{/if} /> 
+				{if $allow_edit}
+				<img align=absbottom src="ui/calendar.gif" id="t_dt1" style="cursor: pointer;" title="Select Date"/>
+				{/if}
+				<div>yyyy-mm-dd</div>
+			</td>
+		</tr>
+		<tr>
+			<td><b class="form-label">Cancellation Date</b></td>
+			<td>
+				<input class="form-control" type="text" name="cancel_date" id="dt2" value="{$form.cancel_date}" size=12 /> 
+				{if $allow_edit}
+				<img align=absbottom src="ui/calendar.gif" id="t_dt2" style="cursor: pointer;" title="Select Date"/>
+				{/if}
+				<div>yyyy-mm-dd</div>
+			</td>
+		</tr>
+		{if $form.po_branch_id && $form.branch_id==1}
+		<tr>
+		<td valign=top><b>User Selection</b></td>
+		<td colspan=4>
+			<b>Tick below to send PM / E-mail to users</b><br />
+			<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+			{section name=u loop=`$user_list.$bid.user`}
+			{assign var=u value=`$smarty.section.u.iteration-1`}
+			{assign var=id value=`$user_list.$bid.user_id.$u`}
+			<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
+			{/section}
+			</div>
+		</td>
+		</tr>
+		{else} {* branch also have user selection *}
+		{assign var=bid value=$form.branch_id}
+		<tr>
+		<td valign=top><b>User Selection</b></td>
+		<td colspan=4>
+			<b>Tick below to send PM / E-mail to users</b><br />
+			<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+			{section name=u loop=`$user_list.$bid.user`}
+			{assign var=u value=`$smarty.section.u.iteration-1`}
+			{assign var=id value=`$user_list.$bid.user_id.$u`}
+			<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
+			{/section}
+			</div>
+		</td>
+		</tr>
+		{/if}	
+		<tr>
+			<td><b>Partial Delivery</b></td>
+			<td>
+				<input name="partial_delivery" type="checkbox" {if $form.partial_delivery}checked{/if} id="pd"> <label for="pd">Allowed</label>
+			</td>
+		</tr>
+		
+		{if !$form.approval_screen}
+			<script>init_calendar('');</script>
+		{/if}
+	{/if}
+		<tr>
+			<td colspan="2">
+				<div id=srefresh style="display:none; padding-top:10px">
+					<input class="btn btn-primary" type=button onclick="void(refresh_tables())" value="click here to continue">
+				</div>
+			</td>
+		</tr>
+		{if $BRANCH_CODE!='HQ' || count($form.deliver_to)>0 || $form.po_branch_id}
+		<tr>
+			<td><input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
+		</tr>
+		{/if}
+	</table>
+	
+	</div>
+	</div>
 </div>
 <br>
 {if $BRANCH_CODE!='HQ' || count($form.deliver_to)>0 || $form.po_branch_id}
@@ -3162,7 +3175,7 @@ function show_upload_csv_popup(){
 					<input class="btn btn-warning" type=button value="Reset" onclick="do_reset();">
 				{/if}
 
-				<input class="btn btn-error" type=button value="Close" onclick="document.location='/po.php'">
+				<input class="btn btn-danger" type=button value="Close" onclick="document.location='/po.php'">
 			{/if}
 		
 			{if $form.approval_history_id>0}
