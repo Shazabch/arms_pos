@@ -157,68 +157,90 @@ var SKU_PURCHASE_HISTORY = {
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $err}
 	The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger rounded mx-3">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
 {if !$no_header_footer}
-<div class="noprint stdframe">
-	<form name="f_a" method="post" onSubmit="return false;">
-		<input type="hidden" name="load_report" value="1" />
-		<input type="hidden" name="export_excel" value="0" />
-		
-		{if $BRANCH_CODE eq 'HQ'}
-			<div>
-				<b>Select Branch By:</b>
-				<select id="sel_brn_grp" >
-					<option value="">-- All --</option>
-					{foreach from=$branch_group.header key=bgid item=bg}
-						<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
-					{/foreach}
-				</select>&nbsp;&nbsp;
-				<input type="button" class="btn btn-success" style="width:70px;" value="Select " onclick="SKU_PURCHASE_HISTORY.check_branch_by_group(true);" />&nbsp;
-				<input type="button" class="btn btn-error" style="width:70px;" value="De-select" onclick="SKU_PURCHASE_HISTORY.check_branch_by_group(false);" /><br /><br />
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="noprint stdframe">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="load_report" value="1" />
+				<input type="hidden" name="export_excel" value="0" />
 				
-				<div id="div_branch_list" style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
-					<table>
-					{foreach from=$branches key=bid item=b}
-						{assign var=bgid value=$branch_group.have_group.$bid.branch_group_id}
-						<tr>
-							<td>
-								<input class="inp_branch {if $bgid}inp_branch_group-{$bgid}{/if}" type="checkbox" name="branch_id_list[]" value="{$bid}" {if (is_array($smarty.request.branch_id_list) and in_array($bid,$smarty.request.branch_id_list))}checked {/if} id="inp_branch-{$bid}" />&nbsp;
-								<label for="inp_branch-{$bid}">{$b.code} - {$b.description}</label>
-							</td>
-						</tr>
-					{/foreach}
-					</table>
-				</div>
-			</div>
-		{/if}
-	
-		<p>
-			<b>Date From</b>
-			<input type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			<b>To</b>
-			<input type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-		</p>
+				{if $BRANCH_CODE eq 'HQ'}
+					<div>
+						<div class="row">
+							<div class="col-md-6">
+								<b class="form-label">Select Branch By:</b>
+						<select class="form-control" id="sel_brn_grp" >
+							<option value="">-- All --</option>
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
+							{/foreach}
+						</select>
+							</div>
+						<div class="col-md-6">
+							<input  type="button" class="btn btn-success mt-4 "  value="Select " onclick="SKU_PURCHASE_HISTORY.check_branch_by_group(true);" />&nbsp;
+						<input  type="button" class="btn btn-danger mt-4 "  value="De-select" onclick="SKU_PURCHASE_HISTORY.check_branch_by_group(false);" /><br /><br />
+						
+						</div>
+						</div>
+						<div id="div_branch_list" class="p-3" style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
+							<table>
+							{foreach from=$branches key=bid item=b}
+								{assign var=bgid value=$branch_group.have_group.$bid.branch_group_id}
+								<tr>
+									<td>
+										<input class="inp_branch {if $bgid}inp_branch_group-{$bgid}{/if}" type="checkbox" name="branch_id_list[]" value="{$bid}" {if (is_array($smarty.request.branch_id_list) and in_array($bid,$smarty.request.branch_id_list))}checked {/if} id="inp_branch-{$bid}" />&nbsp;
+										<label for="inp_branch-{$bid}">{$b.code} - {$b.description}</label>
+									</td>
+								</tr>
+							{/foreach}
+							</table>
+						</div>
+					</div>
+				{/if}
+			
+				<p>
+					<div class="form-inline">
+						<b class="form-label">Date From</b>&nbsp;&nbsp;
+					<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=12 />
+					<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					&nbsp;&nbsp;&nbsp;
+					<b class="form-label">To</b>&nbsp;&nbsp;
+					<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=12 />
+					<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+					</div>
+				</p>
+				
+				{include file='sku_items_autocomplete_multiple_add2.tpl'}
+				
+				<input type="button" class="btn btn-primary" value='Show Report' onClick="SKU_PURCHASE_HISTORY.submit_form();" /> &nbsp;&nbsp;
 		
-		{include file='sku_items_autocomplete_multiple_add2.tpl'}
-		
-		<input type="button" class="btn btn-primary" value='Show Report' onClick="SKU_PURCHASE_HISTORY.submit_form();" /> &nbsp;&nbsp;
-
-		{if $sessioninfo.privilege.EXPORT_EXCEL}
-			<button class="btn btn-primary" onClick="SKU_PURCHASE_HISTORY.submit_form('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
-		{/if}
-	</form>
+				{if $sessioninfo.privilege.EXPORT_EXCEL}
+					<button class="btn btn-info" onClick="SKU_PURCHASE_HISTORY.submit_form('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+				{/if}
+			</form>
+		</div>
+	</div>
 </div>
 {/if}
 
@@ -228,8 +250,13 @@ var SKU_PURCHASE_HISTORY = {
 	{if !$data}
 		** No Data **
 	{else}
-		<h3>{$report_title}</h3>
-		
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 		{if !$no_header_footer}
 			<a href="javascript:void(SKU_PURCHASE_HISTORY.change_all_item_details_visiable(true))">
 				<img src="ui/expand.gif" /> Expand All 
@@ -239,132 +266,140 @@ var SKU_PURCHASE_HISTORY = {
 				<img src="ui/collapse.gif" /> Collapse All
 			</a>
 		{/if}
-		<table class="report_table" width="100%">
-			<tr class="header">
-				<th>#</th>
-				<th>ARMS Code</th>
-				<th>MCode</th>
-				<th>Art No</th>
-				<th>{$config.link_code_name}</th>
-				<th>Description</th>
-				<th>Qty<br />(pcs)</th>
-				<th>FOC<br />(pcs)</th>
-				<th>Amount{if $got_foreign_currency}<br />({$config.arms_currency.code}){/if}</th>
-				{if $got_gst}
-					<th>GST</th>
-					<th>Amount Incl GST</th>
-				{/if}
-			</tr>
-			{foreach from=$data.si_info key=sid item=si name=fsi}
-				<tr class="tr_item_row" id="tr_item_row-{$sid}">
-					<td align="center">{$smarty.foreach.fsi.iteration}</td>
-					<td align="center" nowrap>{$si.sku_item_code}
-						{if !$no_header_footer}
-							<img src="ui/expand.gif" title="View Details" onClick="SKU_PURCHASE_HISTORY.toggle_item_details('{$sid}')" class="img_toggle_item_details" id="img_toggle_item_details-{$sid}" />
-						{/if}
-					</td>
-					<td align="center">{$si.mcode|default:'-'}</td>
-					<td align="center">{$si.artno|default:'-'}</td>
-					<td align="center">{$si.link_code|default:'-'}</td>
-					<td>{$si.item_desc|default:'-'} {include file=details.uom.tpl uom=$si.packing_uom_code}</td>
-					<td align="right">{$si.total_qty|qty_nf}</td>
-					<td align="right">{$si.total_foc|qty_nf}</td>
-					<td align="right">{$si.item_nett_amt|number_format:2}</td>
-					
-					{if $got_gst}
-						<td align="right">{$si.item_gst_amt|number_format:2}</td>
-						<td align="right">{$si.item_amt_incl_gst|number_format:2}</td>
-					{/if}
-				</tr>
-				
-				<tbody class="tbody_item_details" id="tbody_item_details-{$sid}" style="display:none;">
-					<tr class="tr_item_details_header">
-						<th>Date</th>
-						<th>Branch</th>
-						<th>PO</th>
-						<th>Cost</th>
-						<th>Selling Price</th>
-						<th>Remark / Remark 2</th>
-						<th>Qty</th>
-						<th>FOC</th>
-						<th>Amount</th>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table" width="100%">
+					<tr class="header">
+						<th>#</th>
+						<th>ARMS Code</th>
+						<th>MCode</th>
+						<th>Art No</th>
+						<th>{$config.link_code_name}</th>
+						<th>Description</th>
+						<th>Qty<br />(pcs)</th>
+						<th>FOC<br />(pcs)</th>
+						<th>Amount{if $got_foreign_currency}<br />({$config.arms_currency.code}){/if}</th>
 						{if $got_gst}
 							<th>GST</th>
 							<th>Amount Incl GST</th>
 						{/if}
 					</tr>
-					{assign var=last_vendor_id value=0}
-					{foreach from=$data.data.$sid item=r}
-						{if $last_vendor_id ne $r.vendor_id}
-							{assign var=cols value=10}
-							{if $got_gst}{assign var=cols value=$cols+2}{/if}
-							<tr bgcolor="#eeeeee">
-								<td colspan="{$cols}">
-									<h5>{$r.vendor_code} - {$r.vendor_desc}</h5>
-								</td>
-							</tr>
-						{/if}
-						
-						<tr>
-							<td align="center">{$r.po_date}</td>
-							<td align="center">{$branches[$r.branch_id].code}</td>
-							<td align="center">
+					{foreach from=$data.si_info key=sid item=si name=fsi}
+						<tr class="tr_item_row" id="tr_item_row-{$sid}">
+							<td align="center">{$smarty.foreach.fsi.iteration}</td>
+							<td align="center" nowrap>{$si.sku_item_code}
 								{if !$no_header_footer}
-									<a href="po.php?a=view&branch_id={$r.branch_id}&id={$r.po_id}&highlight_po_item_id={$r.po_item_id}" target="_blank">
-										{$r.po_no}
-									</a>
-								{else}
-									{$r.po_no}
+									<img src="ui/expand.gif" title="View Details" onClick="SKU_PURCHASE_HISTORY.toggle_item_details('{$sid}')" class="img_toggle_item_details" id="img_toggle_item_details-{$sid}" />
 								{/if}
 							</td>
-							<td align="right">
-								{if $r.currency_code}
-									{$r.currency_code} {$r.order_price|number_format:$config.global_cost_decimal_points}
-									<br /><span class="converted_base_amt">{$config.arms_currency.code}
-								{/if}
-								{$r.base_order_price|number_format:$config.global_cost_decimal_points}{if $r.currency_code}*</span>{/if}
-							</td>
-							<td align="right">{$r.selling_price|number_format:2}</td>
-							<td>
-								{if $r.remark}
-									R: {$r.remark}
-									{if $r.remark2}<br />{/if}
-								{/if}
-								{if $r.remark2}
-									R2: {$r.remark2}
-								{/if}
-							</td>
-							<td align="right">
-								{if abs($r.qty)>0}{$r.qty|qty_nf}x{$r.po_uom_code} / {/if}{$r.qty_loose|qty_nf}							
-							</td>
-							<td align="right">
-								{if abs($r.foc)>0}{$r.foc|qty_nf}x{$r.po_uom_code} / {/if}{$r.foc_loose|qty_nf}
-							</td>
-							<td align="right">{$r.base_nett_amt|number_format:2}</td>
+							<td align="center">{$si.mcode|default:'-'}</td>
+							<td align="center">{$si.artno|default:'-'}</td>
+							<td align="center">{$si.link_code|default:'-'}</td>
+							<td>{$si.item_desc|default:'-'} {include file=details.uom.tpl uom=$si.packing_uom_code}</td>
+							<td align="right">{$si.total_qty|qty_nf}</td>
+							<td align="right">{$si.total_foc|qty_nf}</td>
+							<td align="right">{$si.item_nett_amt|number_format:2}</td>
 							
 							{if $got_gst}
-								<td align="right">{$r.base_gst_amt|number_format:2}</td>
-								<td align="right">{$r.base_amt_incl_gst|number_format:2}</td>
+								<td align="right">{$si.item_gst_amt|number_format:2}</td>
+								<td align="right">{$si.item_amt_incl_gst|number_format:2}</td>
 							{/if}
-							
 						</tr>
 						
-						{assign var=last_vendor_id value=$r.vendor_id}
+						<tbody class="tbody_item_details" id="tbody_item_details-{$sid}" style="display:none;">
+							<thead class="bg-gray-100">
+								<tr class="tr_item_details_header">
+									<th>Date</th>
+									<th>Branch</th>
+									<th>PO</th>
+									<th>Cost</th>
+									<th>Selling Price</th>
+									<th>Remark / Remark 2</th>
+									<th>Qty</th>
+									<th>FOC</th>
+									<th>Amount</th>
+									{if $got_gst}
+										<th>GST</th>
+										<th>Amount Incl GST</th>
+									{/if}
+								</tr>
+							</thead>
+							{assign var=last_vendor_id value=0}
+							{foreach from=$data.data.$sid item=r}
+								{if $last_vendor_id ne $r.vendor_id}
+									{assign var=cols value=10}
+									{if $got_gst}{assign var=cols value=$cols+2}{/if}
+									<tr bgcolor="#eeeeee">
+										<td colspan="{$cols}">
+											<h5>{$r.vendor_code} - {$r.vendor_desc}</h5>
+										</td>
+									</tr>
+								{/if}
+								
+								<tr>
+									<td align="center">{$r.po_date}</td>
+									<td align="center">{$branches[$r.branch_id].code}</td>
+									<td align="center">
+										{if !$no_header_footer}
+											<a href="po.php?a=view&branch_id={$r.branch_id}&id={$r.po_id}&highlight_po_item_id={$r.po_item_id}" target="_blank">
+												{$r.po_no}
+											</a>
+										{else}
+											{$r.po_no}
+										{/if}
+									</td>
+									<td align="right">
+										{if $r.currency_code}
+											{$r.currency_code} {$r.order_price|number_format:$config.global_cost_decimal_points}
+											<br /><span class="converted_base_amt">{$config.arms_currency.code}
+										{/if}
+										{$r.base_order_price|number_format:$config.global_cost_decimal_points}{if $r.currency_code}*</span>{/if}
+									</td>
+									<td align="right">{$r.selling_price|number_format:2}</td>
+									<td>
+										{if $r.remark}
+											R: {$r.remark}
+											{if $r.remark2}<br />{/if}
+										{/if}
+										{if $r.remark2}
+											R2: {$r.remark2}
+										{/if}
+									</td>
+									<td align="right">
+										{if abs($r.qty)>0}{$r.qty|qty_nf}x{$r.po_uom_code} / {/if}{$r.qty_loose|qty_nf}							
+									</td>
+									<td align="right">
+										{if abs($r.foc)>0}{$r.foc|qty_nf}x{$r.po_uom_code} / {/if}{$r.foc_loose|qty_nf}
+									</td>
+									<td align="right">{$r.base_nett_amt|number_format:2}</td>
+									
+									{if $got_gst}
+										<td align="right">{$r.base_gst_amt|number_format:2}</td>
+										<td align="right">{$r.base_amt_incl_gst|number_format:2}</td>
+									{/if}
+									
+								</tr>
+								
+								{assign var=last_vendor_id value=$r.vendor_id}
+							{/foreach}
+						</tbody>
 					{/foreach}
-				</tbody>
-			{/foreach}
-			
-			<tr class="header">
-				<th colspan="6" align="right">Total</th>
-				<th align="right">{$data.total.total_qty|qty_nf}</th>
-				<th align="right">{$data.total.total_foc|qty_nf}</th>
-				<td align="right">{$data.total.base_nett_amt|number_format:2}</td>
-				{if $got_gst}
-					<td align="right">{$data.total.base_gst_amt|number_format:2}</td>
-					<td align="right">{$data.total.base_amt_incl_gst|number_format:2}</td>
-				{/if}
-			</tr>
-		</table>
+					
+					<tr class="header">
+						<th colspan="6" align="right">Total</th>
+						<th align="right">{$data.total.total_qty|qty_nf}</th>
+						<th align="right">{$data.total.total_foc|qty_nf}</th>
+						<td align="right">{$data.total.base_nett_amt|number_format:2}</td>
+						{if $got_gst}
+							<td align="right">{$data.total.base_gst_amt|number_format:2}</td>
+							<td align="right">{$data.total.base_amt_incl_gst|number_format:2}</td>
+						{/if}
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 	{/if}
 {/if}
 

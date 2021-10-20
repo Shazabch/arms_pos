@@ -548,8 +548,21 @@ function doc_date_changed(obj){
 </style>
 
 {/literal}
-<h1>GRA {if !is_new_id($form.id)}(ID#{$form.id}){else}(New){/if}</h1>
-<h3>Status: Saved GRA</h3>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				GRA {if !is_new_id($form.id)}(ID#{$form.id}){else}(New){/if}
+			</h4>
+			
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+		<h5 class="content-title mb-0 my-auto ml-4 text-primary mt-2">
+			Status: Saved GRA
+		</h5>
+	</div>
+</div>
+
 
 {include file="approval_history.tpl"}
 
@@ -608,228 +621,241 @@ Please wait..
 	</tbody>
 </table>
 
-<form name="f_a" method=post>
-<input type=hidden name=comment value=''>
-<input type=hidden name=a value="save">
-<input type=hidden name=id value="{$form.id|default:0}">
-<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
-<input type=hidden name=user_id value="{$form.user_id|default:$sessioninfo.id}">
-<input type=hidden name=approval_history_id value="{$form.approval_history_id}">
-<input type=hidden name=approved value="{$form.approved}">
-<input type=hidden name=is_under_gst value="{$is_under_gst}">
-<input type=hidden name=return_timestamp value="{$form.return_timestamp}">
-
-{if $approval_on_behalf}
-<input type="hidden" name="on_behalf_of" value="{$approval_on_behalf.on_behalf_of}" />
-<input type="hidden" name="on_behalf_by" value="{$approval_on_behalf.on_behalf_by}" />
-{/if}
-
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
-{/if}
-
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-	<td><b>Vendor</b></td>
-	<td colspan=3>
-    	{if !is_new_id($form.id)}
-    	<input name=vendor_id type=hidden value="{$form.vendor_id}">
-    	<input name=vendor type=hidden value="{$form.vendor}">	
-    	{$form.vendor}
-    	{else}
-    	<input name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
-		<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
-		<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-		<img src=ui/rq.gif align=absbottom title="Required Field">
-		{/if}
-	</td>
-</tr>
-<tr>
-	<td><b>SKU Type</b></td>
-	<td>
-		{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
-		<input type=hidden name=sku_type value="{$form.sku_type}">		
-		{$form.sku_type}
-		{else}
-		<select name=sku_type onchange="{if $config.foreign_currency}toggle_foreign_currency();{/if} refresh_tb();">
-			{foreach from=$sku_type_list key=st_code item=st}
-				<option value="{$st_code}" {if $form.sku_type eq $st_code}selected{/if}>{$st.description}</option>
-			{/foreach}
-		</select>
-		<span id="span_sku_type"></span>
-		{/if}
-	</td>
-</tr>
-<tr>
-	<td><b>Department</b></td>
-	<td>
-		{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
-		<input type=hidden name=dept_id value="{$form.dept_id}">
-		{$form.dept_code}
-		{else}
-		<select name=dept_id onchange="refresh_tb()">
-		{section name=i loop=$dept}
-		<option value="{$dept[i].id}" {if $form.dept_id eq $dept[i].id}selected{assign var=_dp value=`$dept[i].description`}{/if}>{$dept[i].description}</option>
-		{/section}
-		</select>
-		<span id="span_dept_id"></span>
-		{/if}
-	</td>
-</tr>
-
-{if $config.foreign_currency}
-	<tr>
-		<td><b>Currency</b></td>
-		<td>
-			{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
-				{$form.currency_code|default:'Base Currency'}
-				<input type="hidden" name="currency_code" value="{$form.currency_code}" />
-			{else}
-				<select name="currency_code" onchange="refresh_tb();">
-					<option value="" {if !$form.currency_code}selected{/if}>Base Currency</option>
-					<optgroup label="Foreign Currency">
-						{foreach from=$foreignCurrencyCodeList item=code}
-							<option value="{$code}" {if $form.currency_code eq $code}selected{/if}>{$code}</option>
-						{/foreach}
-					</optgroup>
-				</select>
-				<span id="span_currency_code"></span>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method=post>
+			<input type=hidden name=comment value=''>
+			<input type=hidden name=a value="save">
+			<input type=hidden name=id value="{$form.id|default:0}">
+			<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
+			<input type=hidden name=user_id value="{$form.user_id|default:$sessioninfo.id}">
+			<input type=hidden name=approval_history_id value="{$form.approval_history_id}">
+			<input type=hidden name=approved value="{$form.approved}">
+			<input type=hidden name=is_under_gst value="{$is_under_gst}">
+			<input type=hidden name=return_timestamp value="{$form.return_timestamp}">
+			
+			{if $approval_on_behalf}
+			<input type="hidden" name="on_behalf_of" value="{$approval_on_behalf.on_behalf_of}" />
+			<input type="hidden" name="on_behalf_by" value="{$approval_on_behalf.on_behalf_by}" />
 			{/if}
-		</td>
-	</tr>
-{/if}
-
-<!--tr>
-	<td><b>Returned Date</b></td>
-	<td>
-		<input name="returned" value="{$smarty.now|date_format:"%d/%m/%Y"}" size=10 readonly><br>
-		dd/mm/yyyy
-	</td>
-</tr>
-<tr>
-	<td><b>Vehicle No.</b></td>
-	<td><input name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10></td>
-	<td><b>Driver Name</b></td>
-	<td><input name="misc_info[name]" onchange="ucz(this)" value="{$form.misc_info.name}" size=50></td>
-	<td><b>IC No.</b></td>
-	<td><input name="misc_info[nric]" onchange="ucz(this)" value="{$form.misc_info.nric}" size=20></td>
-</tr-->
-</table>
+			
+			<div class="stdframe" style="background:#fff">
+			<h4>General Information</h4>
+			
+			{if $errm.top}
+			<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.top item=e}
+			<div class="alert alert-danger rounded mx-3">
+				<li> {$e}</li>
+			</div>
+			{/foreach}
+			</ul></div></div>
+			{/if}
+			
+			<table border=0 cellspacing=0 cellpadding=4>
+			<tr>
+				<td><b class="form-label">Vendor<span class="text-danger" title="Required Field"> *</span></b></td>
+				<td colspan=3>
+					{if !is_new_id($form.id)}
+					<input class="form-control" name=vendor_id type=hidden value="{$form.vendor_id}">
+					<input class="form-control" name=vendor type=hidden value="{$form.vendor}">	
+					{$form.vendor}
+					{else}
+					<div class="form-inline">
+						<input class="form-control" name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
+					&nbsp;<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
+					<div id="autocomplete_vendor_choices" class="autocomplete"></div>
+					</div>
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<td><b class="form-label">SKU Type</b></td>
+				<td>
+					{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
+					<input type=hidden name=sku_type value="{$form.sku_type}">		
+					{$form.sku_type}
+					{else}
+					<select class="form-control" name=sku_type onchange="{if $config.foreign_currency}toggle_foreign_currency();{/if} refresh_tb();">
+						{foreach from=$sku_type_list key=st_code item=st}
+							<option value="{$st_code}" {if $form.sku_type eq $st_code}selected{/if}>{$st.description}</option>
+						{/foreach}
+					</select>
+					<span id="span_sku_type"></span>
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<td><b class="form-label">Department</b></td>
+				<td>
+					{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
+					<input type=hidden name=dept_id value="{$form.dept_id}">
+					{$form.dept_code}
+					{else}
+					<select class="form-control" name=dept_id onchange="refresh_tb()">
+					{section name=i loop=$dept}
+					<option value="{$dept[i].id}" {if $form.dept_id eq $dept[i].id}selected{assign var=_dp value=`$dept[i].description`}{/if}>{$dept[i].description}</option>
+					{/section}
+					</select>
+					<span id="span_dept_id"></span>
+					{/if}
+				</td>
+			</tr>
+			
+			{if $config.foreign_currency}
+				<tr>
+					<td><b class="form-label">Currency</b></td>
+					<td>
+						{if !is_new_id($form.id) && !$config.gra_allow_change_header_info}
+							{$form.currency_code|default:'Base Currency'}
+							<input type="hidden" name="currency_code" value="{$form.currency_code}" />
+						{else}
+							<select class="form-control" name="currency_code" onchange="refresh_tb();">
+								<option value="" {if !$form.currency_code}selected{/if}>Base Currency</option>
+								<optgroup label="Foreign Currency">
+									{foreach from=$foreignCurrencyCodeList item=code}
+										<option value="{$code}" {if $form.currency_code eq $code}selected{/if}>{$code}</option>
+									{/foreach}
+								</optgroup>
+							</select>
+							<span id="span_currency_code"></span>
+						{/if}
+					</td>
+				</tr>
+			{/if}
+			
+			<!--tr>
+				<td><b>Returned Date</b></td>
+				<td>
+					<input name="returned" value="{$smarty.now|date_format:"%d/%m/%Y"}" size=10 readonly><br>
+					dd/mm/yyyy
+				</td>
+			</tr>
+			<tr>
+				<td><b>Vehicle No.</b></td>
+				<td><input name="transport" onchange="ucz(this)" value="{$form.transport}" size=10 maxlength=10></td>
+				<td><b>Driver Name</b></td>
+				<td><input name="misc_info[name]" onchange="ucz(this)" value="{$form.misc_info.name}" size=50></td>
+				<td><b>IC No.</b></td>
+				<td><input name="misc_info[nric]" onchange="ucz(this)" value="{$form.misc_info.nric}" size=20></td>
+			</tr-->
+			</table>
+			</div>
+			
+			<div id=sheet {if is_new_id($form.id) && $form.vendor_id==0}style="display:none"{/if}>
+			<br>
+			{if $errm.sheet}
+			<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.sheet item=e}
+			<li> {$e}</li>
+			{/foreach}
+			</ul></div></div>
+			{/if}
+			
+			<div >
+				<div class="table-responsive" >
+					<table width="100%" id=tbl_new>
+						<thead class="bg-gray-100">
+							<tr >
+								<th>&nbsp;</th>
+								<th>Code</th>
+								<th>Description</th>
+								<th>Inv / DO No.</th>
+								<th>Inv / DO Date</th>
+								<th>Qty (pcs)</th>
+								{if $is_under_gst}
+									<th class="gst_field">GST Code</th>
+								{/if}
+								<th {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Cost</th>
+								<th>Return Type</th>
+								<th width=16><img src="/ui/pixel.gif" width=16></th>
+							</tr>
+						</thead>
+						
+						<h4>Items Not in ARMS SKU</h4>
+						- Rows without complete detail (code and description) will not be saved.<br><br>
+						<tbody id="tbody_item">
+						{if $new}
+						{foreach from=$new key=dept item="row" name=j}
+						{assign var=n value=$smarty.foreach.j.iteration-1}
+							<tr>
+								<td nowrap>
+									<img src="/ui/remove16.png" title="Remove Item" height="12" class=clickable onclick="if(confirm('Are you sure?')) Element.remove(this.parentNode.parentNode);">
+								</td>
+								<td>{$new.$n.code}<input type=hidden name=new[code][] value="{$new.$n.code|escape:'html'}"></td>
+								<td>{$new.$n.description}<input type=hidden name=new[description][] value="{$new.$n.description|escape:'html'}"></td>
+								<td>{$new.$n.doc_no}<input type=hidden name=new[doc_no][] value="{$new.$n.doc_no}"></td>
+								<td align="center">{$new.$n.doc_date}<input type=hidden name=new[doc_date][] value="{$new.$n.doc_date}"></td>
+								<td align="center">{$new.$n.qty|qty_nf}<input type=hidden name=new[qty][] value="{$new.$n.qty}"></td>
+								{if $is_under_gst}
+									<td align="center" class="gst_field">
+										{$new.$n.gst_code} ({$new.$n.gst_rate|default:'0'}%)
+										<input type="hidden" name="new[gst_id][]" value="{$new.$n.gst_id}" />
+										<input type="hidden" name="new[gst_code][]" value="{$new.$n.gst_code}" />
+										<input type="hidden" name="new[gst_rate][]" value="{$new.$n.gst_rate}" />
+									</td>
+								{/if}
+								<td align="center" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>{$new.$n.cost|default:0|number_format:$dp}<input type="hidden" name=new[cost][] value="{$new.$n.cost|default:0}"></td>
+								<td>{$new.$n.reason}<input type=hidden name=new[reason][] value="{$new.$n.reason}"></td>
+								<td width=16><img src="/ui/pixel.gif" width=16></td>
+							</tr>
+						{/foreach}
+						</tbody>
+						{/if}
+						</table>
+				</div>
+			</div>
+			<br>
+			<input type=button class="btn btn-primary mt-2" value="Add New Product" onclick="add_row()">
+			<br><br>
+			
+			<div id=ulist>
+			<table width=100%>
+			<tr>
+				<td width=50%>
+				<h4>Unassigned SKU</h4>
+				</td>
+				<td rowspan=2><div style="font-size:3em">&#8658;</div></td>
+				<td width=50%>
+				<h4>Selected SKU for the GRA</h4>
+				</td>
+			<tr>
+				<td width=50% valign=top>
+				<a href="javascript:void(refresh_tb())"><img src="ui/refresh.png" align=absmiddle border=0> Refresh</a>
+				<a href="javascript:void(assign_all())"><img src="ui/table_add.png" align=absmiddle border=0> Assign All</a>
+				<br>
+				<div id="unused"></div>
+				<td width=50% valign=top>
+				<a href="javascript:void(refresh_items(1))"><img src="ui/refresh.png" align=absmiddle border=0> Refresh</a>
+				{if $form.status == 0}
+				<a href="javascript:void(unassign_all())" onclick="return confirm('Click OK to confirm remove all.');"><img src="ui/table_delete.png" align=absmiddle border=0> Remove All</a>
+				{/if}
+				<br>
+				<div id=current></div>
+			</tr>
+			</table>
+			</div>
+			
+			<br>
+			<h4>Remark</h4>
+			<textarea class="form-control" style="border:1px solid #000;width:100%;height:100px;" name=remark2>{$form.remark2|escape}
+			</textarea>
+			
+			<br>
+			<p align=center>
+			<input class="btn btn-success" type=button value="Save" onclick="do_save(this)">
+			{if !$config.gra_no_approval_flow}
+				<input class="btn btn-primary" type=button value="Confirm" onclick="do_confirm(this)">
+			{/if}
+			<input class="btn btn-danger" type=button value="Close" onclick="do_close()">
+			{if !is_new_id($form.id)}
+			<input class="btn btn-danger" type=button value="Cancel" onclick="do_cancel(this)">
+			{/if}
+			</p>
+			</div>
+			</form>
+	</div>
 </div>
-
-<div id=sheet {if is_new_id($form.id) && $form.vendor_id==0}style="display:none"{/if}>
-<br>
-{if $errm.sheet}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.sheet item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
-{/if}
-
-<table border=0 cellspacing=1 cellpadding=2 width=78% class=small style="border:1px solid #000" id=tbl_new>
-<tr bgcolor=#ffee99>
-	<th>&nbsp;</th>
-	<th>Code</th>
-	<th>Description</th>
-	<th>Inv / DO No.</th>
-	<th>Inv / DO Date</th>
-	<th>Qty (pcs)</th>
-	{if $is_under_gst}
-		<th class="gst_field">GST Code</th>
-	{/if}
-	<th {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>Cost</th>
-	<th>Return Type</th>
-	<th width=16><img src="/ui/pixel.gif" width=16></th>
-</tr>
-
-<h4>Items Not in ARMS SKU</h4>
-- Rows without complete detail (code and description) will not be saved.<br><br>
-<tbody id="tbody_item">
-{if $new}
-{foreach from=$new key=dept item="row" name=j}
-{assign var=n value=$smarty.foreach.j.iteration-1}
-	<tr>
-		<td nowrap>
-			<img src="/ui/remove16.png" title="Remove Item" height="12" class=clickable onclick="if(confirm('Are you sure?')) Element.remove(this.parentNode.parentNode);">
-		</td>
-		<td>{$new.$n.code}<input type=hidden name=new[code][] value="{$new.$n.code|escape:'html'}"></td>
-		<td>{$new.$n.description}<input type=hidden name=new[description][] value="{$new.$n.description|escape:'html'}"></td>
-		<td>{$new.$n.doc_no}<input type=hidden name=new[doc_no][] value="{$new.$n.doc_no}"></td>
-		<td align="center">{$new.$n.doc_date}<input type=hidden name=new[doc_date][] value="{$new.$n.doc_date}"></td>
-		<td align="center">{$new.$n.qty|qty_nf}<input type=hidden name=new[qty][] value="{$new.$n.qty}"></td>
-		{if $is_under_gst}
-			<td align="center" class="gst_field">
-				{$new.$n.gst_code} ({$new.$n.gst_rate|default:'0'}%)
-				<input type="hidden" name="new[gst_id][]" value="{$new.$n.gst_id}" />
-				<input type="hidden" name="new[gst_code][]" value="{$new.$n.gst_code}" />
-				<input type="hidden" name="new[gst_rate][]" value="{$new.$n.gst_rate}" />
-			</td>
-		{/if}
-		<td align="center" {if !$sessioninfo.privilege.SHOW_COST}style="display:none;"{/if}>{$new.$n.cost|default:0|number_format:$dp}<input type="hidden" name=new[cost][] value="{$new.$n.cost|default:0}"></td>
-		<td>{$new.$n.reason}<input type=hidden name=new[reason][] value="{$new.$n.reason}"></td>
-		<td width=16><img src="/ui/pixel.gif" width=16></td>
-	</tr>
-{/foreach}
-</tbody>
-{/if}
-</table>
-<br>
-<input type=button class="btn btn-primary" value="Add New Product" onclick="add_row()">
-<br><br>
-
-<div id=ulist>
-<table width=100%>
-<tr>
-	<td width=50%>
-	<h4>Unassigned SKU</h4>
-	</td>
-	<td rowspan=2><div style="font-size:3em">&#8658;</div></td>
-	<td width=50%>
-	<h4>Selected SKU for the GRA</h4>
-	</td>
-<tr>
-	<td width=50% valign=top>
-	<a href="javascript:void(refresh_tb())"><img src="ui/refresh.png" align=absmiddle border=0> Refresh</a>
-	<a href="javascript:void(assign_all())"><img src="ui/table_add.png" align=absmiddle border=0> Assign All</a>
-	<br>
-	<div id=unused></div>
-	<td width=50% valign=top>
-	<a href="javascript:void(refresh_items(1))"><img src="ui/refresh.png" align=absmiddle border=0> Refresh</a>
-	{if $form.status == 0}
-	<a href="javascript:void(unassign_all())" onclick="return confirm('Click OK to confirm remove all.');"><img src="ui/table_delete.png" align=absmiddle border=0> Remove All</a>
-	{/if}
-	<br>
-	<div id=current></div>
-</tr>
-</table>
-</div>
-
-<br>
-<h4>Remark</h4>
-<textarea style="border:1px solid #000;width:100%;height:100px;" name=remark2>{$form.remark2|escape}
-</textarea>
-
-<br>
-<p align=center>
-<input class="btn btn-success" type=button value="Save" onclick="do_save(this)">
-{if !$config.gra_no_approval_flow}
-	<input class="btn btn-primary" type=button value="Confirm" onclick="do_confirm(this)">
-{/if}
-<input class="btn btn-error" type=button value="Close" onclick="do_close()">
-{if !is_new_id($form.id)}
-<input class="btn btn-error" type=button value="Cancel" onclick="do_cancel(this)">
-{/if}
-</p>
-</div>
-</form>
 
 {include file=footer.tpl}
 

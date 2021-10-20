@@ -141,48 +141,50 @@ function print_cancel()
 </div>
 <table border=0 cellspacing=1 cellpadding=4 width=100%>
 
-<tr bgcolor=#ffee99>
-<th>&nbsp;</th>
-<th>GRA</th>
-{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
-	<th>Branch</th>
-{/if}
-<th>Vendor Code</th>
-{if $config.enable_vendor_account_id}
-	<th>Account ID</th>
-{/if}
-<th>Vendor</th>
-<th>Vehicle No</th>
-{if $form.is_summary}
-<th>DN No.</th>
-<th>DN Amount</th>
-{/if}
-<th>SKU Type</th>
-{if $sessioninfo.show_cost}
-	{if $got_rounding_adj}
-		<th>Amount<br />Before Round</th>
-		<th>Rounding<br />Adjust</th>
-	{/if}
-	{if $form.is_summary && $have_fc}
-		<th>Foreign Amount</th>
-		<th>Exchange Rate</th>
-	{/if}
-	<th>Amount</th>
-	{if $form.is_summary && $is_under_gst}
-		<th>GST</th>
-		<th>Amount<br />Incl. GST</th>
-	{/if}
-{/if}
-<th>Added</th>
-<th>Last Update</th>
-{if $mode=='cancel'}
-<th>Reason</th>
-{/if}
-{if $form.is_summary && $config.gra_enable_disposal}
-<th>Disposal Date</th>
-{/if}
-</tr>
-<tbody>
+<thead class="bg-gray-100">
+	<tr >
+		<th>&nbsp;</th>
+		<th>GRA</th>
+		{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
+			<th>Branch</th>
+		{/if}
+		<th>Vendor Code</th>
+		{if $config.enable_vendor_account_id}
+			<th>Account ID</th>
+		{/if}
+		<th>Vendor</th>
+		<th>Vehicle No</th>
+		{if $form.is_summary}
+		<th>DN No.</th>
+		<th>DN Amount</th>
+		{/if}
+		<th>SKU Type</th>
+		{if $sessioninfo.show_cost}
+			{if $got_rounding_adj}
+				<th>Amount<br />Before Round</th>
+				<th>Rounding<br />Adjust</th>
+			{/if}
+			{if $form.is_summary && $have_fc}
+				<th>Foreign Amount</th>
+				<th>Exchange Rate</th>
+			{/if}
+			<th>Amount</th>
+			{if $form.is_summary && $is_under_gst}
+				<th>GST</th>
+				<th>Amount<br />Incl. GST</th>
+			{/if}
+		{/if}
+		<th>Added</th>
+		<th>Last Update</th>
+		{if $mode=='cancel'}
+		<th>Reason</th>
+		{/if}
+		{if $form.is_summary && $config.gra_enable_disposal}
+		<th>Disposal Date</th>
+		{/if}
+		</tr>
+</thead>
+<tbody class="fs-08">
 {section name=i loop=$gra_list}
 <tr bgcolor="{cycle values="#eeeeee,"}">
     <td nowrap>

@@ -980,7 +980,9 @@ function close_curtain2(){
     <ul>
         {foreach from=$err item=e}
             <div class="alert alert-danger">
-				<li>{$e}</li>
+				<div class="alert alert-danger rounded mx-3">
+					<li>{$e}</li>
+				</div>
 			</div>
         {/foreach}
     </ul>
@@ -989,56 +991,63 @@ function close_curtain2(){
 	<div class="card-body">
 		<form name="f_a" class="stdframe" onSubmit="return false;" method="post" action="{$smarty.server.PHP_SELF}">
 			<input type="hidden" name="load_report" value="1" />
+		
+				<div class="row">
+				<div class="col-md-4">
+					<b class="form-label">Vendor: </b>
+					{dropdown name='vendor_id' key=id value=description values=$vendors selected=$smarty.request.vendor_id all='-- All --'}
+				</div>
 			
-			<p>
-				<b>Vendor: </b>
-				{dropdown name='vendor_id' key=id value=description values=$vendors selected=$smarty.request.vendor_id all='-- All --'}
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<b>Brand: </b>
+				<div class="col-md-4">
+					<b class="form-label">Brand: </b>
 				{dropdown name='brand_id' key=id value=description values=$brands selected=$smarty.request.brand_id all='-- All --'}
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<b class="form-label">Sort by</b>
+				</div>
+		
+				<div class="col-md-4">
+					<b class="form-label">Sort by</b>
 				<select class="form-control" name="sort_by" onChange="STOCK_REORDER.change_sort_by(this);">
 					<option value="">--</option>
 					{foreach from=$sort_option key=k item=desc}
 						<option value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$desc}</option>
 					{/foreach}
 				</select>
-				<span id="span_sort_order" style="{if !$smarty.request.sort_by}display:none;{/if}">
-				<select class="form-control" name="sort_order">
-					<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
-					<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
-				</select>
-				</span>
-			</p>
+		
+					<span id="span_sort_order" style="{if !$smarty.request.sort_by}display:none;{/if}">
+						<select class="form-control" name="sort_order">
+							<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
+							<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
+						</select>
+						</span>
+				</div>
+				</div>
 			
-			<b class="form-label">Re-order Type: </b>
+			<b class="form-label mt-2">Re-order Type: </b>
 			<select class="form-control" name="reorder_type" onChange="STOCK_REORDER.check_reorder_type();">
 				<option value="">-- Please Select --</option>
 				{foreach from=$reorder_type_list key=t item=lbl}
 				<option value="{$t}" {if $smarty.request.reorder_type eq $t}selected {/if}>{$lbl}</option>
 				{/foreach}
-			</select>&nbsp;&nbsp;
-			<label><input type="checkbox" name="incl_not_approved" {if $smarty.request.incl_not_approved or !$smarty.request.load_report}checked{/if} />Include Saved & Pending Approval PO/DO</label>
-			&nbsp;&nbsp;
-			
+			</select>
+			<label><input class="mt-2" type="checkbox" name="incl_not_approved" {if $smarty.request.incl_not_approved or !$smarty.request.load_report}checked{/if} />&nbsp;Include Saved & Pending Approval PO/DO</label>
+		
 			<span id="span_reorder_moq_checkbox" style="{if ($smarty.request.reorder_type ne 'less_than_po_reorder_min') or $smarty.request.reorder_type eq ''}display:none;{/if}">
 			<label><input type="checkbox" name="order_by_moq" {if $smarty.request.order_by_moq}checked{/if} />Order By MOQ <span style="color:blue;white-space:nowrap">(If set)</span></label>
-			&nbsp;&nbsp;
+	
 			</span>
 			
 			
 			<!-- SPAN span_reorder_date_range -->
 			<span id="span_reorder_date_range" style="{if ($smarty.request.reorder_type ne 'sales_range' and $smarty.request.reorder_type ne 'sales_range_plus_do' and $smarty.request.reorder_type ne 'do_range') or $smarty.request.reorder_type eq ''}display:none;{/if}">
-				<b>from</b>
-				<input name="date_range_from" id="inp_date_range_from" size="10" maxlength="10"  value="{$smarty.request.date_range_from|default:$smarty.now-604800|date_format:"%Y-%m-%d"}" />
+				<div class="form-inline">
+					<b class="form-label">From</b>&nbsp;&nbsp;
+				<input class="form-control" name="date_range_from" id="inp_date_range_from" size="10" maxlength="10"  value="{$smarty.request.date_range_from|default:$smarty.now-604800|date_format:"%Y-%m-%d"}" />
+				&nbsp;
 				<img align="absmiddle" src="ui/calendar.gif" id="img_date_range_from" style="cursor: pointer;" title="Select Date" />
-				<b>to</b>
-				<input name="date_range_to" id="inp_date_range_to" size="10" maxlength="10"  value="{$smarty.request.date_range_to|default:$smarty.now|date_format:"%Y-%m-%d"}" />
+				&nbsp;&nbsp;&nbsp;<b class="form-label">To</b>&nbsp;&nbsp;
+				<input class="form-control" name="date_range_to" id="inp_date_range_to" size="10" maxlength="10"  value="{$smarty.request.date_range_to|default:$smarty.now|date_format:"%Y-%m-%d"}" />
 				<img align="absmiddle" src="ui/calendar.gif" id="img_date_range_to" style="cursor: pointer;" title="Select Date" />
-				&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+			
 			</span>
 			
 			<!-- DIV div_reorder_branch_list -->
@@ -1048,24 +1057,26 @@ function close_curtain2(){
 						<table cellpadding="0" cellspacing="0">
 							<tr>
 								<td width="100">
-									<b>Branch: </b>
+									<b class="form-label fs-09 mt-2">Branch: </b>
 								</td>
 								<td>
-									Select by Branch Group: 
-									<select name="sel_brn_grp" id="sel_brn_grp" >
+								<div class="form-inline mt-2">
+									<span class="fs-09">Select by Branch Group: </span>
+									&nbsp;&nbsp;<select class="form-control" name="sel_brn_grp" id="sel_brn_grp" >
 										<option value="" >-- All --</option>
 										{foreach from=$branches_group_list item=r}
 											<option value="{$r.grp_items}" >{$r.code} - {$r.description}</option>
 										{/foreach}
 									</select>&nbsp;&nbsp;
-									<input type="button" class="btn btn-success" style="width:70px;" value="Select " onclick="STOCK_REORDER.check_branch_by_group();" />&nbsp;
-									<input type="button" class="btn btn-error" style="width:70px;" value="De-select" onclick="STOCK_REORDER.uncheck_branch_by_group();" /><br /><br />
+									<input type="button" class="btn btn-success"  value="Select " onclick="STOCK_REORDER.check_branch_by_group();" />&nbsp;
+									<input type="button" class="btn btn-danger"  value="De-select" onclick="STOCK_REORDER.uncheck_branch_by_group();" /><br /><br />
+								</div>
 								</td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
 								<td>
-									<div style="width:100%;max-height:200px;border:1px solid #ddd;overflow:auto;">
+									<div class="mt-2 p-2" style="width:100%;max-height:200px;border:1px solid #ddd;overflow:auto;">
 										{*<input type="checkbox" onChange="STOCK_REORDER.toggle_reorder_branch_list();" id="chx_toggle_reorder_branch_list" /> All &nbsp;&nbsp;&nbsp;*}
 										<ul style="list-style:none;">
 										{foreach from=$branches key=bid item=b}
@@ -1085,33 +1096,47 @@ function close_curtain2(){
 						
 					</p>
 					<p>
-						<b>Reorder by Branch?</b>
-						<input type="checkbox" name="reorder_by_branch" value="1" {if $smarty.request.reorder_by_branch}checked {/if} onChange="STOCK_REORDER.reorder_by_branch_changed();" /> Yes &nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="checkbox" name="show_reorder_details_by_branch" value="1" {if $smarty.request.reorder_by_branch}{if $smarty.request.show_reorder_details_by_branch}checked {/if}{else}disabled {/if} /> Show Details by Branch
+					<div class="form-inline form-label">
+						<b >Reorder by Branch?</b>
+						&nbsp;<input type="checkbox" name="reorder_by_branch" value="1" {if $smarty.request.reorder_by_branch}checked {/if} onChange="STOCK_REORDER.reorder_by_branch_changed();" />&nbsp; Yes 
+						&nbsp;<input type="checkbox" name="show_reorder_details_by_branch" value="1" {if $smarty.request.reorder_by_branch}{if $smarty.request.show_reorder_details_by_branch}checked {/if}{else}disabled {/if} />&nbsp; Show Details by Branch
+					</div>
 					</p>
 				{/if}
 			</div>
 			
 			<p>
-				<b>Category: </b>
-				<input readonly name="category_id" size="1" value="{$smarty.request.category_id}" />
+				
+				<div class="form-inline">
+				<b class="form-label">Category: </b>
+				&nbsp;&nbsp;	<input class="form-control" readonly name="category_id" size="1" value="{$smarty.request.category_id}" />
 				<input type="hidden" name="category_tree" value="{$smarty.request.category_tree}" />
-				<input id="autocomplete_category" name="category" value="{$smarty.request.category|default:'Enter keyword to search'}" size="50" default_text="Enter keyword to search" />
-				<span style="color:blue;white-space:nowrap">(Please use deeper level category for better report speed, report will take longer time to process if using higher level category.)</span>
+				&nbsp;<input class="form-control" id="autocomplete_category" name="category" value="{$smarty.request.category|default:'Enter keyword to search'}" size="50" default_text="Enter keyword to search" />
+				
+				<span style="white-space:nowrap" class="fs-08 text-primary">&nbsp;&nbsp;(Please use deeper level category for better report speed,<br> &nbsp;&nbsp;report will take longer time to process if using higher level category.)</span>
 				<br>
 				<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 				<div id="autocomplete_category_choices" class="autocomplete" style="width:600px !important;display:none;"></div>
+				
 				<span id="str_cat_tree" class="small" style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
-			</p>
-			<input type="button" value="Show Report" onClick="STOCK_REORDER.submit_form();" />
-			<input type="checkbox" name="by_last_vendor" value="1" {if $smarty.request.by_last_vendor}checked {/if} /> last vendor only
-			<input type="checkbox" name="inc_inactive_vendor" value="1" {if $smarty.request.inc_inactive_vendor}checked {/if} /> Include inactive Vendor
+			</div>		
+				</p>
+			<input type="button" class="btn btn-primary fs-08" value="Show Report" onClick="STOCK_REORDER.submit_form();" />
+			&nbsp;<input type="checkbox" name="by_last_vendor" value="1" {if $smarty.request.by_last_vendor}checked {/if} /> last vendor only
+			&nbsp;<input type="checkbox" name="inc_inactive_vendor" value="1" {if $smarty.request.inc_inactive_vendor}checked {/if} /> Include inactive Vendor
 		</form>
 		
 	</div>
 </div>
 {if $smarty.request.load_report and !$err}
-	<h3>{$report_title}</h3>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 	{if !$data.vendor_data}-- No Data --{else}
 	    <form name="f_vendor" method="post" id="f_vendor">
 	    <input type="hidden" name="a" value="ajax_generate_po" />
@@ -1287,512 +1312,520 @@ function close_curtain2(){
 	            	{/if}
 	            </h3>
 	            
-	            <table width="100%" class="report_table">
-	                <thead>
-		                <tr class="header">
-		                    <th width="20" rowspan="2">#</th>
-		                    <th width="30" align="center"  rowspan="2">
-								Generate<br />
-								<input id="chx_toggle_vendor_generate_po-{$vendor_id}" type="checkbox" onChange="STOCK_REORDER.toggle_vendor_generate_po('{$vendor_id}');" checked />
-							</th>
-		                    <th rowspan="2">ARMS Code</th>
-		                    <th rowspan="2">Art.No</th>
-		                    <th rowspan="2">Mcode</th>
-		                    <th rowspan="2">{$config.link_code_name|default:'Link Code'}</th>
-		                    <th rowspan="2">Description</th>
-							
-							{if $data.reorder_by_branch}
-								<th rowspan="2">Stock Balance<br />HQ</th>
-							{/if}
-							
-							{* GRN in Last 30 Days *}
-							{if !$data.show_reorder_details_by_branch}
-								<th rowspan="2">
-									GRN in last 30 days<br />
-									{if !$data.reorder_by_branch}
-										({$BRANCH_CODE})
-									{else}
-										(Reorder Branches)
-									{/if}
-								</th>
-							{else}
-								<th colspan="{$data.reorder_branch_count}">GRN in<br>last 30 days</th>
-							{/if}
-							
-							{* Stock Balance *}
-							{if !$data.show_reorder_details_by_branch}
-								<th rowspan="2">
-									Stock Balance <br />
-									{if !$data.reorder_by_branch}
-										({$BRANCH_CODE})
-									{else}
-										(Reorder Branches)
-									{/if}
-								</th>
-							{else}
-								<th colspan="{$data.reorder_branch_count}">Stock Balance</th>
-							{/if}
-							
-							{* Sales in last 30 days *}
-							{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
-								<th colspan="{$data.reorder_branch_count}">Sales in<br>last 30 days</th>
-							{else}
-								<th rowspan="2">Sales in<br>last 30 days</th>
-							{/if}
-		                    
-							{* Sales in Range *}
-		                    {if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
-								{if !$data.show_reorder_details_by_branch}
-									<th rowspan="2">Sales in<br>range</th>
-								{else}
-									<th colspan="{$data.reorder_branch_count}">Sales in<br>range</th>
-								{/if}
-							{/if}
-		                    
-							{* PO Reorder Qty *}
-							{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
-								<th colspan="3">PO Reorder Qty</th>
-							{/if}
-							
-							{* Pending PO Qty *}
-		                    <th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Pending PO Qty</th>
-							
-							{* Pending DO Qty *}
-		                    <th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>
-								Pending DO Qty [<a href="javascript:void(alert('- Transfer DO only.'))">?</a>]
-							</th>
-							
-							{* Uncheckout GRA *}
-							<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Uncheckout GRA Qty</th>
-							
-							{* DO Request *}
-							{if $BRANCH_CODE ne 'HQ'}
-								<th rowspan="2">Current DO Request Qty</th>
-							{/if}
-							
-							{* DO Sales Qty in Range *}
-							{if $show_do_range}
-							    <th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>DO Sales Qty in range</th>
-							{/if}
-							
-							{* Suggest PO in Pcs *}
-							<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Suggest PO in Pcs</th>
-							
-							{* Suggest PO in Ctn *}
-							{assign var=cols value=1}
-							{if !$data.show_reorder_details_by_branch}
-								{assign var=cols value=$cols+1}
-							{else}
-								{assign var=cols value=$cols+$data.reorder_branch_count}
-							{/if}
-		                    <th colspan="{$cols}">Suggest PO in Ctn
-		                    	{if $smarty.request.reorder_type eq 'less_then_grace_period'}
-		                    		[<a href="javascript:void(alert('Calculation method: (Sales in last 30 days / 30) x (grace period + 1) - stock balance - pending po qty'))">?</a>]
-		                    	{/if}
-		                    </th>
-		                </tr>
-		                <tr class="header">
-							{* GRN in Last 30 Days *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Stock Balance *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Sales in last 30 days *}
-							{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Sales in Range *}
-							{if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<th>{$branches.$bid.code}</th>
-									{/foreach}
-								{/if}
-							{/if}
-							
-							{* PO Reorder Qty *}
-							{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
-								<th>Min</th>
-								<th>Max</th>
-								<th>MOQ</th>
-							{/if}
-							
-							{* Pending PO Qty *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Pending DO Qty *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Uncheckout GRA *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* DO Sales Qty in Range *}
-							{if $show_do_range}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<th>{$branches.$bid.code}</th>
-									{/foreach}
-								{/if}
-							{/if}
-							
-							{* Suggest PO in Pcs *}
-							{if $data.show_reorder_details_by_branch}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-							
-							{* Suggest PO in Ctn *}
-		                    <th>UOM</th>
-							{if !$data.show_reorder_details_by_branch}
-								<th>Ctn</th>
-							{else}
-								{foreach from=$data.reorder_bid item=bid}
-									<th>{$branches.$bid.code}</th>
-								{/foreach}
-							{/if}
-		                    
-		                </tr>
-	                </thead>
-	                {foreach from=$vendors.sku_item item=sku_id name=fv}
-	                    {assign var=sku_info value=$data.sku_data.$sku_id.info}
-	                    <tr sku_id="{$sku_id}" class="tr_sku">
-	                        <td><span class="row_no">{$smarty.foreach.fv.iteration}</span>.</td>
-	                        <td align="center">
-	                            <input type="checkbox" name="vendor_sku[{$vendor_id}][{$sku_id}][generate_po]" class="chx_generate_po" value="1" checked />
-	                        </td>
-	                        <td>{$sku_info.sku_item_code}</td>
-	                        <td>{$sku_info.artno|default:'-'}</td>
-	                        <td>{$sku_info.mcode|default:'-'}</td>
-	                        <td>{$sku_info.link_code|default:'-'}</td>
-	                        <td>{$sku_info.description|default:'-'}</td>
-							
-							{assign var=zero value=0}
-							{if $data.reorder_by_branch}
-								<td class="r">
-								{$sku_info.hq_stock|qty_nf|ifzero:'-'}
-								</td>
-							{/if}
-							
-							{* GRN in Last 30 Days *}
-							{if !$data.reorder_by_branch}
-								<td class="r">{$sku_info.l30d_grn|qty_nf|ifzero:'-'}</td>
-							{else}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">{$sku_info.l30d_grn_by_branch.$bid|qty_nf|ifzero:'-'}</td>
-									{/foreach}
-								{else}
-									<td class="r">{$sku_info.l30d_grn_by_branch.total|qty_nf|ifzero:'-'}</td>
-								{/if}
-							{/if}
-							
-							{* Stock Balance *}
-							{if !$data.reorder_by_branch}
-								<td class="r {if $sku_info.qty<0}negative{/if}">
-								{if $sku_info.po_reorder_moq eq '-'  or $sku_info.po_reorder_moq eq '0'} 
-									{if $sku_info.qty <0 and (abs($sku_info.qty) > $sku_info.po_reorder_qty_max )}
-										<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
-									{/if}
-								{else}
-									{if $sku_info.qty <0 and (abs($sku_info.qty) > $sku_info.po_reorder_moq or abs($sku_info.qty) > $sku_info.po_reorder_qty_max )}
-										<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
-									{/if}
-								{/if}
-								{$sku_info.qty|qty_nf}</td>
-							{else}
-							
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r {if $sku_info.stock_by_branch.$bid < 0}negative{/if}">
-										{if $sku_info.po_reorder_moq eq '-'  or $sku_info.po_reorder_moq eq '0'}
-											{if $sku_info.stock_by_branch.$bid < 0 and (abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_qty_max) }
-												<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
-											{/if}
+	            <div class="card mx-3">
+					<div class="card-body">
+						<div class="table-reponsive">
+							<table width="100%" class="report_table">
+								<thead class="bg-gray-100">
+									<tr class="header">
+										<th width="20" rowspan="2">#</th>
+										<th width="30" align="center"  rowspan="2">
+											Generate<br />
+											<input id="chx_toggle_vendor_generate_po-{$vendor_id}" type="checkbox" onChange="STOCK_REORDER.toggle_vendor_generate_po('{$vendor_id}');" checked />
+										</th>
+										<th rowspan="2">ARMS Code</th>
+										<th rowspan="2">Art.No</th>
+										<th rowspan="2">Mcode</th>
+										<th rowspan="2">{$config.link_code_name|default:'Link Code'}</th>
+										<th rowspan="2">Description</th>
+										
+										{if $data.reorder_by_branch}
+											<th rowspan="2">Stock Balance<br />HQ</th>
+										{/if}
+										
+										{* GRN in Last 30 Days *}
+										{if !$data.show_reorder_details_by_branch}
+											<th rowspan="2">
+												GRN in last 30 days<br />
+												{if !$data.reorder_by_branch}
+													({$BRANCH_CODE})
+												{else}
+													(Reorder Branches)
+												{/if}
+											</th>
 										{else}
-											{if $sku_info.stock_by_branch.$bid<0 and (abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_moq or abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_qty_max )}
-												<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+											<th colspan="{$data.reorder_branch_count}">GRN in<br>last 30 days</th>
+										{/if}
+										
+										{* Stock Balance *}
+										{if !$data.show_reorder_details_by_branch}
+											<th rowspan="2">
+												Stock Balance <br />
+												{if !$data.reorder_by_branch}
+													({$BRANCH_CODE})
+												{else}
+													(Reorder Branches)
+												{/if}
+											</th>
+										{else}
+											<th colspan="{$data.reorder_branch_count}">Stock Balance</th>
+										{/if}
+										
+										{* Sales in last 30 days *}
+										{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
+											<th colspan="{$data.reorder_branch_count}">Sales in<br>last 30 days</th>
+										{else}
+											<th rowspan="2">Sales in<br>last 30 days</th>
+										{/if}
+										
+										{* Sales in Range *}
+										{if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
+											{if !$data.show_reorder_details_by_branch}
+												<th rowspan="2">Sales in<br>range</th>
+											{else}
+												<th colspan="{$data.reorder_branch_count}">Sales in<br>range</th>
 											{/if}
 										{/if}
-										{$sku_info.stock_by_branch.$bid|qty_nf}</td>
-									{/foreach}
-								{else}
-									<td class="r {if $sku_info.stock_by_branch.total < 0}negative{/if}">
-									{if $sku_info.po_reorder_moq eq '-' or $sku_info.po_reorder_moq eq '0'}
-										{if $sku_info.stock_by_branch.total <0 and (abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_qty_max )}
-										<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+										
+										{* PO Reorder Qty *}
+										{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
+											<th colspan="3">PO Reorder Qty</th>
 										{/if}
-									{else}
-										{if $sku_info.stock_by_branch.total <0 and (abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_moq or abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_qty_max )}
-										<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+										
+										{* Pending PO Qty *}
+										<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Pending PO Qty</th>
+										
+										{* Pending DO Qty *}
+										<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>
+											Pending DO Qty [<a href="javascript:void(alert('- Transfer DO only.'))">?</a>]
+										</th>
+										
+										{* Uncheckout GRA *}
+										<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Uncheckout GRA Qty</th>
+										
+										{* DO Request *}
+										{if $BRANCH_CODE ne 'HQ'}
+											<th rowspan="2">Current DO Request Qty</th>
 										{/if}
-									{/if}
-									{$sku_info.stock_by_branch.total|qty_nf}</td>
-								{/if}
-							{/if}
-							
-							{* Sales in last 30 days *}
-							{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
-								{foreach from=$data.reorder_bid item=bid}
-									<td class="r">{$sku_info.l30d_pos_by_branch.$bid|qty_nf|ifzero:'-'}</td>
-								{/foreach}
-							{else}
-								<td class="r">{$sku_info.l30d_pos|qty_nf|ifzero:'-'}</td>
-							{/if}
-							
-							{* Sales in Range *}
-	                        {if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">{$sku_info.sales_range_qty_by_branch.$bid|qty_nf}</td>
-									{/foreach}
-								{else}
-									<td class="r">{$sku_info.sales_range_qty|qty_nf|ifzero:'-'}</td>
-								{/if}
-	                        {/if}
-							
-	                        {* PO Reorder Qty *}
-							{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
-								<td class="r">{$sku_info.po_reorder_qty_min|qty_nf|default:'0'|ifzero:'-'}</td>
-								<td class="r">{$sku_info.po_reorder_qty_max|qty_nf|default:'0'|ifzero:'-'}</td>
-								<td class="r">{$sku_info.po_reorder_moq|qty_nf|default:'0'|ifzero:'-'}
-								</td>
-							{/if}
-							
-							{* Pending PO Qty *}
-							{if !$data.reorder_by_branch}
-								<td class="r">
-									{if !$sku_info.po_qty}-{else}
-										<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
-											{$sku_info.po_qty|qty_nf}
-										</a>
-									{/if}
-								</td>
-							{else}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">
-											{if !$sku_info.po_qty_by_branch.$bid}-{else}
-												<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
-													{$sku_info.po_qty_by_branch.$bid|qty_nf}
-												</a>
+										
+										{* DO Sales Qty in Range *}
+										{if $show_do_range}
+											<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>DO Sales Qty in range</th>
+										{/if}
+										
+										{* Suggest PO in Pcs *}
+										<th {if !$data.show_reorder_details_by_branch}rowspan="2"{else}colspan="{$data.reorder_branch_count}"{/if}>Suggest PO in Pcs</th>
+										
+										{* Suggest PO in Ctn *}
+										{assign var=cols value=1}
+										{if !$data.show_reorder_details_by_branch}
+											{assign var=cols value=$cols+1}
+										{else}
+											{assign var=cols value=$cols+$data.reorder_branch_count}
+										{/if}
+										<th colspan="{$cols}">Suggest PO in Ctn
+											{if $smarty.request.reorder_type eq 'less_then_grace_period'}
+												[<a href="javascript:void(alert('Calculation method: (Sales in last 30 days / 30) x (grace period + 1) - stock balance - pending po qty'))">?</a>]
 											{/if}
-										</td>
-									{/foreach}
-								{else}
-									<td class="r">
-										{if !$sku_info.po_qty_by_branch.total}-{else}
-											<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
-												{$sku_info.po_qty_by_branch.total|qty_nf}
-											</a>
+										</th>
+									</tr>
+									<tr class="header">
+										{* GRN in Last 30 Days *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
 										{/if}
-									</td>
-								{/if}
-							{/if}
-							
-							{* Pending DO Qty *}
-							{if !$data.reorder_by_branch}
-								<td class="r">
-									{if !$sku_info.do_qty}-
-									{else}
-										<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
-											{$sku_info.do_qty|qty_nf}
-										</a>
-									{/if}
-								</td>
-							{else}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">
-											{if !$sku_info.do_qty_by_branch.$bid}-{else}
-												<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
-													{$sku_info.do_qty_by_branch.$bid|qty_nf}
-												</a>
-											{/if}
-										</td>
-									{/foreach}
-								{else}
-									<td class="r">
-										{if !$sku_info.do_qty_by_branch.total}-{else}
-											<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
-												{$sku_info.do_qty_by_branch.total|qty_nf}
-											</a>
+										
+										{* Stock Balance *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
 										{/if}
-									</td>
-								{/if}
-							{/if}
-							
-							{* Uncheckout GRA *}
-							{if !$data.reorder_by_branch}
-								<td class="r">
-									{if !$sku_info.gra_qty}-
-									{else}
-										<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
-											{$sku_info.gra_qty|qty_nf}
-										</a>
-									{/if}
-								</td>
-							{else}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">
-											{if !$sku_info.gra_qty_by_branch.$bid}-{else}
-												<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
-													{$sku_info.gra_qty_by_branch.$bid|qty_nf}
-												</a>
-											{/if}
-										</td>
-									{/foreach}
-								{else}
-									<td class="r">
-										{if !$sku_info.gra_qty_by_branch.total}-{else}
-											<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
-												{$sku_info.gra_qty_by_branch.total|qty_nf}
-											</a>
+										
+										{* Sales in last 30 days *}
+										{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
 										{/if}
-									</td>
-								{/if}
-							{/if}
-							
-							{* DO Request *}
-							{if $BRANCH_CODE ne 'HQ'}
-								<td class="r">
-									{if !$sku_info.do_request_qty}-
-									{else}
-										<a href="javascript:void(STOCK_REORDER.show_pending_do_request('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
-											{$sku_info.do_request_qty|qty_nf}
-										</a>
-									{/if}
-								</td>
-							{/if}
-							
-							{* DO Sales Qty in Range *}
-							{if $show_do_range}
-								{if $data.show_reorder_details_by_branch}
-									{foreach from=$data.reorder_bid item=bid}
-										<td class="r">{$sku_info.do_range_qty_by_branch.$bid|qty_nf}</td>
-									{/foreach}
-								{else}
-									<td class="r">{$sku_info.do_range_qty|qty_nf|ifzero:'-'}</td>
-								{/if}
-							{/if}
-							
-							{* Suggest PO in Pcs *}
-							{if !$data.show_reorder_details_by_branch}
-								{if !$data.reorder_by_branch}
-									{assign var=suggest_po_qty value=$sku_info.suggest_po_qty}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor.$vendor_id}
-									{/if}
-								{else}
-									{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.total}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.total}
-									{/if}
-								{/if}
-								<td class="r">
-									{$suggest_po_qty|qty_nf|ifzero:'-'}
-									<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty]" value="{$suggest_po_qty}" />
-									{if $data.reorder_by_branch}
-										{foreach from=$data.reorder_bid item=bid}
-											{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.$bid}
-											{if $data.use_vendor_po_data}
-												{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.$bid}
+										
+										{* Sales in Range *}
+										{if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
+											{if $data.show_reorder_details_by_branch}
+												{foreach from=$data.reorder_bid item=bid}
+													<th>{$branches.$bid.code}</th>
+												{/foreach}
 											{/if}
-											<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty_by_branch][{$bid}]" value="{$suggest_po_qty}" />
+										{/if}
+										
+										{* PO Reorder Qty *}
+										{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
+											<th>Min</th>
+											<th>Max</th>
+											<th>MOQ</th>
+										{/if}
+										
+										{* Pending PO Qty *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
+										{/if}
+										
+										{* Pending DO Qty *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
+										{/if}
+										
+										{* Uncheckout GRA *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
+										{/if}
+										
+										{* DO Sales Qty in Range *}
+										{if $show_do_range}
+											{if $data.show_reorder_details_by_branch}
+												{foreach from=$data.reorder_bid item=bid}
+													<th>{$branches.$bid.code}</th>
+												{/foreach}
+											{/if}
+										{/if}
+										
+										{* Suggest PO in Pcs *}
+										{if $data.show_reorder_details_by_branch}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
+										{/if}
+										
+										{* Suggest PO in Ctn *}
+										<th>UOM</th>
+										{if !$data.show_reorder_details_by_branch}
+											<th>Ctn</th>
+										{else}
+											{foreach from=$data.reorder_bid item=bid}
+												<th>{$branches.$bid.code}</th>
+											{/foreach}
+										{/if}
+										
+									</tr>
+								</thead>
+								{foreach from=$vendors.sku_item item=sku_id name=fv}
+									{assign var=sku_info value=$data.sku_data.$sku_id.info}
+									<tbody class="fs-08">
+										<tr sku_id="{$sku_id}" class="tr_sku">
+											<td><span class="row_no">{$smarty.foreach.fv.iteration}</span>.</td>
+											<td align="center">
+												<input type="checkbox" name="vendor_sku[{$vendor_id}][{$sku_id}][generate_po]" class="chx_generate_po" value="1" checked />
+											</td>
+											<td>{$sku_info.sku_item_code}</td>
+											<td>{$sku_info.artno|default:'-'}</td>
+											<td>{$sku_info.mcode|default:'-'}</td>
+											<td>{$sku_info.link_code|default:'-'}</td>
+											<td>{$sku_info.description|default:'-'}</td>
 											
-										{/foreach}
-									{/if}
-								</td>
-							{else}
-								{foreach from=$data.reorder_bid item=bid}
-									{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.$bid}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.$bid}
-									{/if}
-									<td class="r">
-										{$suggest_po_qty|qty_nf|ifzero:'-'}
-										<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty_by_branch][{$bid}]" value="{$suggest_po_qty}" />
-									</td>
+											{assign var=zero value=0}
+											{if $data.reorder_by_branch}
+												<td class="r">
+												{$sku_info.hq_stock|qty_nf|ifzero:'-'}
+												</td>
+											{/if}
+											
+											{* GRN in Last 30 Days *}
+											{if !$data.reorder_by_branch}
+												<td class="r">{$sku_info.l30d_grn|qty_nf|ifzero:'-'}</td>
+											{else}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">{$sku_info.l30d_grn_by_branch.$bid|qty_nf|ifzero:'-'}</td>
+													{/foreach}
+												{else}
+													<td class="r">{$sku_info.l30d_grn_by_branch.total|qty_nf|ifzero:'-'}</td>
+												{/if}
+											{/if}
+											
+											{* Stock Balance *}
+											{if !$data.reorder_by_branch}
+												<td class="r {if $sku_info.qty<0}negative{/if}">
+												{if $sku_info.po_reorder_moq eq '-'  or $sku_info.po_reorder_moq eq '0'} 
+													{if $sku_info.qty <0 and (abs($sku_info.qty) > $sku_info.po_reorder_qty_max )}
+														<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+													{/if}
+												{else}
+													{if $sku_info.qty <0 and (abs($sku_info.qty) > $sku_info.po_reorder_moq or abs($sku_info.qty) > $sku_info.po_reorder_qty_max )}
+														<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+													{/if}
+												{/if}
+												{$sku_info.qty|qty_nf}</td>
+											{else}
+											
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r {if $sku_info.stock_by_branch.$bid < 0}negative{/if}">
+														{if $sku_info.po_reorder_moq eq '-'  or $sku_info.po_reorder_moq eq '0'}
+															{if $sku_info.stock_by_branch.$bid < 0 and (abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_qty_max) }
+																<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+															{/if}
+														{else}
+															{if $sku_info.stock_by_branch.$bid<0 and (abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_moq or abs($sku_info.stock_by_branch.$bid) > $sku_info.po_reorder_qty_max )}
+																<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+															{/if}
+														{/if}
+														{$sku_info.stock_by_branch.$bid|qty_nf}</td>
+													{/foreach}
+												{else}
+													<td class="r {if $sku_info.stock_by_branch.total < 0}negative{/if}">
+													{if $sku_info.po_reorder_moq eq '-' or $sku_info.po_reorder_moq eq '0'}
+														{if $sku_info.stock_by_branch.total <0 and (abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_qty_max )}
+														<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+														{/if}
+													{else}
+														{if $sku_info.stock_by_branch.total <0 and (abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_moq or abs($sku_info.stock_by_branch.total) > $sku_info.po_reorder_qty_max )}
+														<a title="Stock Balance is less than Reorder Max or MOQ."><img src="/ui/messages.gif"></a>
+														{/if}
+													{/if}
+													{$sku_info.stock_by_branch.total|qty_nf}</td>
+												{/if}
+											{/if}
+											
+											{* Sales in last 30 days *}
+											{if $data.show_reorder_details_by_branch and ($smarty.request.reorder_type eq 'less_than_sales' or $smarty.request.reorder_type eq 'less_then_grace_period')}
+												{foreach from=$data.reorder_bid item=bid}
+													<td class="r">{$sku_info.l30d_pos_by_branch.$bid|qty_nf|ifzero:'-'}</td>
+												{/foreach}
+											{else}
+												<td class="r">{$sku_info.l30d_pos|qty_nf|ifzero:'-'}</td>
+											{/if}
+											
+											{* Sales in Range *}
+											{if $smarty.request.reorder_type eq 'sales_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">{$sku_info.sales_range_qty_by_branch.$bid|qty_nf}</td>
+													{/foreach}
+												{else}
+													<td class="r">{$sku_info.sales_range_qty|qty_nf|ifzero:'-'}</td>
+												{/if}
+											{/if}
+											
+											{* PO Reorder Qty *}
+											{if $smarty.request.reorder_type eq 'less_than_po_reorder_min'}
+												<td class="r">{$sku_info.po_reorder_qty_min|qty_nf|default:'0'|ifzero:'-'}</td>
+												<td class="r">{$sku_info.po_reorder_qty_max|qty_nf|default:'0'|ifzero:'-'}</td>
+												<td class="r">{$sku_info.po_reorder_moq|qty_nf|default:'0'|ifzero:'-'}
+												</td>
+											{/if}
+											
+											{* Pending PO Qty *}
+											{if !$data.reorder_by_branch}
+												<td class="r">
+													{if !$sku_info.po_qty}-{else}
+														<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
+															{$sku_info.po_qty|qty_nf}
+														</a>
+													{/if}
+												</td>
+											{else}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">
+															{if !$sku_info.po_qty_by_branch.$bid}-{else}
+																<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
+																	{$sku_info.po_qty_by_branch.$bid|qty_nf}
+																</a>
+															{/if}
+														</td>
+													{/foreach}
+												{else}
+													<td class="r">
+														{if !$sku_info.po_qty_by_branch.total}-{else}
+															<a href="javascript:void(STOCK_REORDER.show_pending_po('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
+																{$sku_info.po_qty_by_branch.total|qty_nf}
+															</a>
+														{/if}
+													</td>
+												{/if}
+											{/if}
+											
+											{* Pending DO Qty *}
+											{if !$data.reorder_by_branch}
+												<td class="r">
+													{if !$sku_info.do_qty}-
+													{else}
+														<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
+															{$sku_info.do_qty|qty_nf}
+														</a>
+													{/if}
+												</td>
+											{else}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">
+															{if !$sku_info.do_qty_by_branch.$bid}-{else}
+																<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
+																	{$sku_info.do_qty_by_branch.$bid|qty_nf}
+																</a>
+															{/if}
+														</td>
+													{/foreach}
+												{else}
+													<td class="r">
+														{if !$sku_info.do_qty_by_branch.total}-{else}
+															<a href="javascript:void(STOCK_REORDER.show_pending_do('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
+																{$sku_info.do_qty_by_branch.total|qty_nf}
+															</a>
+														{/if}
+													</td>
+												{/if}
+											{/if}
+											
+											{* Uncheckout GRA *}
+											{if !$data.reorder_by_branch}
+												<td class="r">
+													{if !$sku_info.gra_qty}-
+													{else}
+														<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
+															{$sku_info.gra_qty|qty_nf}
+														</a>
+													{/if}
+												</td>
+											{else}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">
+															{if !$sku_info.gra_qty_by_branch.$bid}-{else}
+																<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, '{$bid}'));">
+																	{$sku_info.gra_qty_by_branch.$bid|qty_nf}
+																</a>
+															{/if}
+														</td>
+													{/foreach}
+												{else}
+													<td class="r">
+														{if !$sku_info.gra_qty_by_branch.total}-{else}
+															<a href="javascript:void(STOCK_REORDER.show_pending_gra('{$sku_id}', '{$sku_info.po_reorder_by_child}', 1, 0));">
+																{$sku_info.gra_qty_by_branch.total|qty_nf}
+															</a>
+														{/if}
+													</td>
+												{/if}
+											{/if}
+											
+											{* DO Request *}
+											{if $BRANCH_CODE ne 'HQ'}
+												<td class="r">
+													{if !$sku_info.do_request_qty}-
+													{else}
+														<a href="javascript:void(STOCK_REORDER.show_pending_do_request('{$sku_id}', '{$sku_info.po_reorder_by_child}'));">
+															{$sku_info.do_request_qty|qty_nf}
+														</a>
+													{/if}
+												</td>
+											{/if}
+											
+											{* DO Sales Qty in Range *}
+											{if $show_do_range}
+												{if $data.show_reorder_details_by_branch}
+													{foreach from=$data.reorder_bid item=bid}
+														<td class="r">{$sku_info.do_range_qty_by_branch.$bid|qty_nf}</td>
+													{/foreach}
+												{else}
+													<td class="r">{$sku_info.do_range_qty|qty_nf|ifzero:'-'}</td>
+												{/if}
+											{/if}
+											
+											{* Suggest PO in Pcs *}
+											{if !$data.show_reorder_details_by_branch}
+												{if !$data.reorder_by_branch}
+													{assign var=suggest_po_qty value=$sku_info.suggest_po_qty}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor.$vendor_id}
+													{/if}
+												{else}
+													{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.total}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.total}
+													{/if}
+												{/if}
+												<td class="r">
+													{$suggest_po_qty|qty_nf|ifzero:'-'}
+													<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty]" value="{$suggest_po_qty}" />
+													{if $data.reorder_by_branch}
+														{foreach from=$data.reorder_bid item=bid}
+															{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.$bid}
+															{if $data.use_vendor_po_data}
+																{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.$bid}
+															{/if}
+															<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty_by_branch][{$bid}]" value="{$suggest_po_qty}" />
+															
+														{/foreach}
+													{/if}
+												</td>
+											{else}
+												{foreach from=$data.reorder_bid item=bid}
+													{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_branch.$bid}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_qty value=$sku_info.suggest_po_qty_by_vendor_by_branch.$vendor_id.$bid}
+													{/if}
+													<td class="r">
+														{$suggest_po_qty|qty_nf|ifzero:'-'}
+														<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_qty_by_branch][{$bid}]" value="{$suggest_po_qty}" />
+													</td>
+												{/foreach}
+											{/if}
+											
+											{* Suggest PO in Ctn *}
+											<td>{$sku_info.po_uom_code}
+												<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][po_uom_id]" value="{$sku_info.po_uom_id}" />
+												<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][po_uom_fraction]" value="{$sku_info.po_uom_fraction}" />
+											</td>
+											
+											{if !$data.show_reorder_details_by_branch}
+												{if !$data.reorder_by_branch}
+													{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor.$vendor_id}
+													{/if}
+												{else}
+													{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_branch.total}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor_by_branch.$vendor_id.total}
+													{/if}
+												{/if}
+												<td class="r">
+													{$suggest_po_ctn|qty_nf|ifzero:'-'}
+													<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_ctn]" value="{$suggest_po_ctn}" />
+												</td>
+											{else}
+												{foreach from=$data.reorder_bid item=bid}
+													{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_branch.$bid}
+													{if $data.use_vendor_po_data}
+														{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor_by_branch.$vendor_id.$bid}
+													{/if}
+													<td class="r">
+														{$suggest_po_ctn|qty_nf|ifzero:'-'}
+														<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_ctn_by_branch][{$bid}]" value="{$suggest_po_ctn}" />
+													</td>
+												{/foreach}
+											{/if}
+											
+										</tr>
+									</tbody>
 								{/foreach}
-							{/if}
-							
-							{* Suggest PO in Ctn *}
-							<td>{$sku_info.po_uom_code}
-                                <input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][po_uom_id]" value="{$sku_info.po_uom_id}" />
-                                <input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][po_uom_fraction]" value="{$sku_info.po_uom_fraction}" />
-							</td>
-							
-							{if !$data.show_reorder_details_by_branch}
-								{if !$data.reorder_by_branch}
-									{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor.$vendor_id}
-									{/if}
-								{else}
-									{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_branch.total}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor_by_branch.$vendor_id.total}
-									{/if}
-								{/if}
-								<td class="r">
-									{$suggest_po_ctn|qty_nf|ifzero:'-'}
-									<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_ctn]" value="{$suggest_po_ctn}" />
-								</td>
-							{else}
-								{foreach from=$data.reorder_bid item=bid}
-									{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_branch.$bid}
-									{if $data.use_vendor_po_data}
-										{assign var=suggest_po_ctn value=$sku_info.suggest_po_ctn_by_vendor_by_branch.$vendor_id.$bid}
-									{/if}
-									<td class="r">
-										{$suggest_po_ctn|qty_nf|ifzero:'-'}
-										<input type="hidden" name="vendor_sku[{$vendor_id}][{$sku_id}][suggest_po_ctn_by_branch][{$bid}]" value="{$suggest_po_ctn}" />
-									</td>
-								{/foreach}
-							{/if}
-							
-	                    </tr>
-	                {/foreach}
-	            </table><br />
-	            <input type="button" value="Generate PO" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onClick="STOCK_REORDER.generate_po('{$vendor_id}');" class="inp_generate inp_generate-po" />
+							</table><br />
+						</div>
+					</div>
+				</div>
+	            <input type="button" value="Generate PO"  onClick="STOCK_REORDER.generate_po('{$vendor_id}');" class=" btn btn-warning inp_generate inp_generate-po" />
 	            {if $config.enable_reorder_integration}
-	            <input type="button" value="Export to CSV" style="font:bold 20px Arial; background-color:#08b; color:#fff;" onClick="STOCK_REORDER.export_po('{$vendor_id}')" class="inp_export inp_export-po" />
+	            <input type="button" value="Export to CSV"  onClick="STOCK_REORDER.export_po('{$vendor_id}')" class="btn btn-info inp_export inp_export-po" />
 	            {/if}
-	            <input type="button" value="Generate DO" style="font:bold 20px Arial; background-color:#f90; color:#fff;display:none;" onClick="STOCK_REORDER.generate_do('{$vendor_id}');" class="inp_generate inp_generate-do" />
+	            <input type="button" value="Generate DO" style="display:none;" class="btn btn-warning" onClick="STOCK_REORDER.generate_do('{$vendor_id}');" class="inp_generate inp_generate-do" />
 	        </div><br />
 	    {/foreach}
 	    </form>
 	    <p align="center">
-	    	<input type="button" value="Generate All PO" style="font:bold 20px Arial; background-color:#091; color:#fff;" onClick="STOCK_REORDER.generate_po();" class="inp_generate inp_generate-po" />
+	    	<input type="button" value="Generate All PO"  onClick="STOCK_REORDER.generate_po();" class="btn btn-success inp_generate inp_generate-po" />
 	    	{if $config.enable_reorder_integration}
-	    	<input type="button" value="Export All to CSV" style="font:bold 20px Arial; background-color:#03b; color:#fff;" onClick="STOCK_REORDER.export_po();" class="inp_export inp_export-po" />
+	    	<input type="button" value="Export All to CSV" class="btn btn-primary" onClick="STOCK_REORDER.export_po();" class="inp_export inp_export-po" />
 	    	{/if}
-	    	<input type="button" value="Generate DO" style="font:bold 20px Arial; background-color:#f90; color:#fff;display:none;" onClick="STOCK_REORDER.generate_do();" class="inp_generate inp_generate-do" />
+	    	<input type="button" value="Generate DO" style="display:none;" onClick="STOCK_REORDER.generate_do();" class="btn btn-warning inp_generate inp_generate-do" />
 			{if $got_do_request}
 				<input type="button" value="Generate DO Request" style="font:bold 20px Arial; background-color:#f90; color:#fff;display:none;" onClick="STOCK_REORDER.generate_do_request();" class="inp_generate inp_generate-do_request" />
 			{/if}

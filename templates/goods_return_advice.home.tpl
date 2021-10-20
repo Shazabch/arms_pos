@@ -551,8 +551,16 @@ function doc_date_changed(obj){
 </script>
 {/literal}
 {if $msg}<p align=center style="color:#00f">{$msg}</p>{/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $smarty.request.t eq 'save'}
+<div class="card mx-3">
+	<div class="card-body">	
 <img src=/ui/approved.png align=absmiddle> GRA saved as {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"}<br>
 {elseif $smarty.request.t eq 'cancel'}
 <img src=/ui/cancel.png align=absmiddle> {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"} was cancelled<br>
@@ -560,7 +568,10 @@ function doc_date_changed(obj){
 <img src=/ui/approved.png align=absmiddle> {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"} confirmed, <span class=hilite>Printing of GRA will begin automatically</span><!--, you can select the GRA from below (under Completed tab) to print again.<br-->
 {elseif $smarty.request.t eq 'reset'}
 <img src=/ui/notify_sku_reject.png align=absmiddle> {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"} was reset.
+</div>
+</div>
 {/if}
+	
 <!-- print dialog -->
 <div id=print_dialog style="background:#fff;border:3px solid #000;width:250px;height:140px;position:absolute; padding:10px; display:none;">
 <form name=f_prn method=get>
@@ -622,182 +633,198 @@ Enter Packing List #, leave blank to print the latest.<br />
 </div>
 <!-- End of Reject type menu -->
 
-<ul>
-<li> <img src=ui/add.png align=absmiddle> <a href="javascript:;" onclick="togglediv('sku_list')">SKU for Return</a>
-	<div id=sku_list class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
-
-	<!-- sku search -->
-	<form name=f_a>
-	<table class="tl" cellpadding=2 cellspacing=0 border=0>
-	{include file='scan_barcode_autocomplete.tpl' no_button=1 no_need_table=1}
-	<tr>
-		<th>Search SKU</th>
-		<td>
-			<input name="sku_item_id" size=3 type=hidden>
-			<input name="sku_item_code" size=13 type=hidden>
-			<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;"> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-			<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-		</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-    	</td>
-	</tr>
-	<tr><th>Quantity (Pcs)</th><td><input size=3 name="qty" onchange="this.value=float(this.value);"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td></tr>
-	<tr><th valign=top>Return To</th>
-
-	<td>
-		<b><input type="checkbox" name="show_all_grn_docs" value="1" onclick="toggle_grn_docs(this);" />Show All GRN Documents</b>
-		<div id=vendor_sel></div>
-		&nbsp;<input id=selvid type=radio name="vendor_id" value="-1"> Use selected Vendor
-		<select name="other_vendor_id" onchange="$('selvid').checked=true">
-		{section name=i loop=$vendors}
-		<option value={$vendors[i].id}>{$vendors[i].description}</option>
-		{/section}
-		</select>
-	</td>
-	</tr>
-	<tr id=tr_cost><th>Cost</th><td><input size=5 name="cost" onchange="mf(this, {$dp});"></td></tr>
-	<tr>
-		<th>Return Type</th>
-		<td>
-			<select name=return_type onchange="returntype_sel(this.value)">
-				{foreach from=$return_type_list item=rt}
-					<option>{$rt}</option>
-				{/foreach}
-			</select>
-			<span id=return_type_other style="display:none;color:blue"> Please enter: <input size=20 maxlength=20 name=return_type_other></span>
-		</td>
-	</tr>
-	{if $is_under_gst}
-		<tr>
-			<th>GST Code</th>
-			<td>
-				<select name="gst_sel" onchange="update_selected_gst(this);">
-					{foreach from=$gst_list item=gst}
-						<option gst_id="{$gst.id}" gst_code="{$gst.code}" gst_rate="{$gst.rate}" gst_indicator="{$gst.indicator_receipt}" {if $item.gst_id eq $gst.id and $item.gst_code eq $gst.code and $item.gst_rate eq $gst.rate}selected {/if} value="{$gst.id}">{$gst.code} - {$gst.description}</option>
-					{/foreach}
-				</select>
-				<input type="hidden" name="gst_id" value="" />
-				<input type="hidden" name="gst_code" value="" />
-				<input type="hidden" name="gst_rate" value="" />
-				<input type="hidden" name="gst_indicator" value="" />
-			</td>
-		</tr>
-	{/if}
-	<tr>
-		<th>Inv / DO No.</th>
-		<td>
-			<input type="text" name="doc_no" size="15" value="" onchange="uc(this);" />&nbsp;&nbsp;&nbsp;
-			<b>Inv / DO Date</b>
-			<input type="text" name="doc_date" id="doc_date" size="8" value="{$smarty.now|date_format:'%Y-%m-%d'}" onchange="doc_date_changed(this);" onclick="if(this.value)this.select();" />
-			<img align="absmiddle" src="ui/calendar.gif" id="dd_added" style="cursor: pointer;" title="Select Document Date">
-		</td>
-	</tr>
-	{if $config.foreign_currency}
-		<tr>
-			<td><b>Currency</b></td>
-			<td>
-				<select name="currency_code">
-					<option value="" selected>Base Currency</option>
-					<optgroup label="Foreign Currency">
-						{foreach from=$foreignCurrencyCodeList item=code}
-							<option value="{$code}">{$code}</option>
-						{/foreach}
-					</optgroup>
-				</select>
-			</td>
-		</tr>
-	{/if}
-	
-	<tr><td>&nbsp;</td><td><input type=button btn class="btn btn-primary" value="Add to GRA items" onclick="add_item()"></td></tr>
-	</table>
-	</form>
-	
-	<div id=gra_items>
-	{include file=goods_return_advice.items.tpl}
-	</div>
-	
-	</div>
-	</li>
-	<li> <img src=ui/new.png align=absmiddle> <a href="{$smarty.server.PHP_SELF}?a=open&id=0">Create new GRA</a></li>
-	<li>
-		<span class="link" onClick="toggle_import_csv();"> <img src="/ui/icons/drive_add.png" align="absmiddle" /> Import by CSV</span>
-		
-		<div class="stdframe" id="div_import_csv" style="display:none;">
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;" class="list-group list-group-flush">
+			<li class="list-group-item list-group-item-action"> <img src=ui/add.png align=absmiddle> <a href="javascript:;" onclick="togglediv('sku_list')">SKU for Return</a>
+				<div id=sku_list class="stdframe p-2" style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
 			
-			<form name="f_import_csv" enctype="multipart/form-data" method="post" target="_blank" onSubmit="return false;">
-				<input type="hidden" name="a" value="import_by_csv" />
-				<table>
+				<!-- sku search -->
+				<form name=f_a>
+				<table class="tl" cellpadding=2 cellspacing=0 border=0>
+				{include file='scan_barcode_autocomplete.tpl' no_button=1 no_need_table=1}
+				<tr>
+					<th class="form-label">Search SKU<span class="text-danger" title="Required Field"> *</span></th>
+					<td>
+						<input name="sku_item_id" size=3 type=hidden>
+						<input name="sku_item_code" size=13 type=hidden>
+						<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;"> 
+						<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+					</td>
+				</tr>
+				<tr><th class="form-label">Quantity (Pcs)<span class="text-danger" title="Required Field"> *</span></th><td>
+					<input class="form-control" size=3 name="qty" onchange="this.value=float(this.value);"> </td></tr>
+				<tr><th valign="top" class="form-label">Return To</th>
+			
+				<td>
+					<b class="text-dark"><input type="checkbox" name="show_all_grn_docs" value="1" onclick="toggle_grn_docs(this);" /><span >&nbsp;Show All GRN Documents</span></b>
+					<div id=vendor_sel></div>
+					<div class="form-inline">
+						<b class="text-dark"><input id=selvid type=radio name="vendor_id" value="-1"> Use selected Vendor</b>
+					&nbsp;&nbsp;&nbsp;&nbsp;<select class="form-control" name="other_vendor_id" onchange="$('selvid').checked=true">
+					{section name=i loop=$vendors}
+					<option value={$vendors[i].id}>{$vendors[i].description}</option>
+					{/section}
+					</select>
+					</div>
+				</td>
+				</tr>
+				<tr id=tr_cost><th class="form-label">Cost</th><td>
+					<input class="form-control" size=5 name="cost" onchange="mf(this, {$dp});"></td></tr>
+				<tr>
+					<th class="form-label">Return Type</th>
+					<td>
+						<select class="form-control" name=return_type onchange="returntype_sel(this.value)">
+							{foreach from=$return_type_list item=rt}
+								<option>{$rt}</option>
+							{/foreach}
+						</select>
+						<span id=return_type_other style="display:none;color:blue"> Please enter: <input size=20 maxlength=20 name=return_type_other></span>
+					</td>
+				</tr>
+				{if $is_under_gst}
 					<tr>
-						<td><b>Vendor</b></td>
+						<th class="form-label">GST Code</th>
 						<td>
-							<select name="vendor_id">
-								{foreach from=$vendors item=r}
-									<option value="{$r.id}">{$r.description}</option>
+							<select class="form-control" name="gst_sel" onchange="update_selected_gst(this);">
+								{foreach from=$gst_list item=gst}
+									<option gst_id="{$gst.id}" gst_code="{$gst.code}" gst_rate="{$gst.rate}" gst_indicator="{$gst.indicator_receipt}" {if $item.gst_id eq $gst.id and $item.gst_code eq $gst.code and $item.gst_rate eq $gst.rate}selected {/if} value="{$gst.id}">{$gst.code} - {$gst.description}</option>
 								{/foreach}
 							</select>
+							<input type="hidden" name="gst_id" value="" />
+							<input type="hidden" name="gst_code" value="" />
+							<input type="hidden" name="gst_rate" value="" />
+							<input type="hidden" name="gst_indicator" value="" />
 						</td>
 					</tr>
+				{/if}
+				<tr>
+					<th class="form-label">Inv / DO No.</th>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" type="text" name="doc_no" size="15" value="" onchange="uc(this);" />&nbsp;&nbsp;&nbsp;
+						<b>Inv / DO Date</b>&nbsp;
+						<input class="form-control" type="text" name="doc_date" id="doc_date" size="8" value="{$smarty.now|date_format:'%Y-%m-%d'}" onchange="doc_date_changed(this);" onclick="if(this.value)this.select();" />
+						<img align="absmiddle" src="ui/calendar.gif" id="dd_added" style="cursor: pointer;" title="Select Document Date">
+					</div>
+					</td>
+				</tr>
+				{if $config.foreign_currency}
 					<tr>
-						<td><b>Return Type</b></td>
+						<td><b class="form-label">Currency</b></td>
 						<td>
-							<select name="return_type">
-								{foreach from=$return_type_list item=rt}
-									<option>{$rt}</option>
-								{/foreach}
+							<select class="form-control" name="currency_code">
+								<option value="" selected>Base Currency</option>
+								<optgroup label="Foreign Currency">
+									{foreach from=$foreignCurrencyCodeList item=code}
+										<option value="{$code}">{$code}</option>
+									{/foreach}
+								</optgroup>
 							</select>
 						</td>
 					</tr>
-					<tr>
-						<th align="left">Import Format</th>
-						<td>
-							<input type="radio" name="import_format" value="1" checked /> Default (MCODE or {$config.link_code_name|default:'Old Code'} | ARMS CODE | Qty)<br />
-							<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode)<br />
-							<input type="radio" name="import_format" value="3" /> Standard (ARMS CODE or MCODE or {$config.link_code_name|default:'Old Code'} | Qty)
-						</td>
-					</tr>
-					<tr>
-						<th align="left">Delimiter</th>
-						<td>
-							<select name="delimiter">
-								<option value="|">| (Pipe)</option>
-								<option value="," selected>, (Comma)</option>
-								<option value=";">; (Semicolon)</option>
-							</select>
-						</td>
-					</tr>
-					
-					<tr>
-						<td><b>File</b></td>
-						<td>
-							<input type="file" name="f" />
-						</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td><input type="button" value="Import" onClick="import_csv();" />
-					</tr>
+				{/if}
+				
+				<tr><td>&nbsp;</td><td><input type=button btn class="btn btn-primary mt-2" value="Add to GRA items" onclick="add_item()"></td></tr>
 				</table>
-			</form>
-		</div>
-	</li>
-
-	{*if $sessioninfo.privilege.GRA_APPROVAL}
-		<li><img src="/ui/notify_sku_approve.png" align="absmiddle" /><a href="/goods_return_advice.approval.php">GRA Approval</a></li>
-	{/if*}
-
-</ul>
-
- <ul><li>Existing GRA</li>
-<li style="list-style:none;"> Note: Please click the Print Checklist in order to display the GRA on GRA Checkout page.</li>
-</ul>
-
+				</form>
+				
+				<div id=gra_items>
+				{include file=goods_return_advice.items.tpl}
+				</div>
+				
+				</div>
+				</li>
+				<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> <a href="{$smarty.server.PHP_SELF}?a=open&id=0">Create new GRA</a></li>
+				<li class="list-group-item list-group-item-action">
+					<span class="link" onClick="toggle_import_csv();"> <img src="/ui/icons/drive_add.png" align="absmiddle" /> Import by CSV</span>
+					
+					<div class="stdframe" id="div_import_csv" style="display:none;">
+						
+						<form name="f_import_csv" enctype="multipart/form-data" method="post" target="_blank" onSubmit="return false;">
+							<input type="hidden" name="a" value="import_by_csv" />
+							<div class="card mx-3">
+								<div class="card-body">
+									<table>
+										<tr>
+											<td><b class="form-label">Vendor</b></td>
+											<td>
+												<select class="form-control" name="vendor_id">
+													{foreach from=$vendors item=r}
+														<option value="{$r.id}">{$r.description}</option>
+													{/foreach}
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td><b class="form-label">Return Type</b></td>
+											<td>
+												<select class="form-control" name="return_type">
+													{foreach from=$return_type_list item=rt}
+														<option>{$rt}</option>
+													{/foreach}
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th align="left" class="form-label">Import Format</th>
+											<td>
+												<input type="radio" name="import_format" value="1" checked /> Default (MCODE or {$config.link_code_name|default:'Old Code'} | ARMS CODE | Qty)<br />
+												<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode)<br />
+												<input type="radio" name="import_format" value="3" /> Standard (ARMS CODE or MCODE or {$config.link_code_name|default:'Old Code'} | Qty)
+											</td>
+										</tr>
+										<tr>
+											<th align="left" class="form-label">Delimiter</th>
+											<td>
+												<select class="form-control" name="delimiter">
+													<option value="|">| (Pipe)</option>
+													<option value="," selected>, (Comma)</option>
+													<option value=";">; (Semicolon)</option>
+												</select>
+											</td>
+										</tr>
+										
+										<tr>
+											<td><b class="form-label mt-2">File</b></td>
+											<td>
+												<input type="file" class="mt-2" name="f" />
+											</td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td><input type="button" class="btn btn-primary mt-2" value="Import" onClick="import_csv();" />
+										</tr>
+									</table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</li>
+			
+				{*if $sessioninfo.privilege.GRA_APPROVAL}
+					<li class="list-group-item list-group-item-action"><img src="/ui/notify_sku_approve.png" align="absmiddle" /><a href="/goods_return_advice.approval.php">GRA Approval</a></li>
+				{/if*}
+			
+			</ul>
+			
+			<div class="alert alert-primary rounded mt-2">
+				<ul style="list-style-type: none;"><li>Existing GRA</li>
+					<li style="list-style:none;"> Note: Please click the Print Checklist in order to display the GRA on GRA Checkout page.</li>
+					</ul>
+			</div>
+			
+	</div>
+</div>
  {literal}
 <script>
 function list_sel(n,s)
@@ -818,9 +845,9 @@ function list_sel(n,s)
 			continue;
 		}
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	$('gra_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -838,42 +865,56 @@ function list_sel(n,s)
 {/literal}
 <div style="padding:10px 0;">
 	<form name="f_l" onsubmit="list_sel(0,0);return false;">
-	<div class=tab style="height:20px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	<a href="javascript:list_sel(1)" id="lst1" class="active">Saved GRA</a>
-	{if !$config.gra_no_approval_flow}
-		<a href="javascript:list_sel(5)" id="lst5">Waiting for Approval</a>
-	{/if}
-	<a href="javascript:list_sel(3)" id="lst3">Cancelled/Terminated</a>
-	{if !$config.gra_no_approval_flow}
-		<a href="javascript:list_sel(6)" id="lst6">Approved</a>
-	{/if}
-	<a href="javascript:list_sel(2)" id="lst2">Completed</a>
-	{if $config.gra_enable_disposal}
-		<a href="javascript:list_sel(4)" id="lst4">Disposed</a>
-	{/if}
-	<a name="find" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find GRA / Vendor</a>
-	</div>
-	<div style="border:1px solid #000">
-		<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
-			<table>
-				<tr>
-					<th align="left">Vendor</th>
-					<td colspan="2">
-						<input name="search_vendor_id" type="hidden" size="1" value="{$smarty.request.search_vendor_id}" readonly>
-						<input id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
-						<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
-					</td>
-				</tr>
-				<tr>
-					<th align="left">Find GRA</th>
-					<td><input name="search" id="search" name="find" value="{$smarty.request.search}"></td>
-					<td align="right"><input class="btn btn-primary" type="submit" value="Go"></td>
-				</tr>
-			</table>
+
+	<div class=tab style="white-space:nowrap;">
+		<div class="row mx-3 mb-2">
+		<div class="col">
+			<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded ">Saved GRA</a>
+		{if !$config.gra_no_approval_flow}
+			<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded ">Waiting for Approval</a>
+		{/if}
+		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded ">Cancelled/Terminated</a>
+		{if !$config.gra_no_approval_flow}
+			<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded ">Approved</a>
+		{/if}
+		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded ">Completed</a>
+		{if $config.gra_enable_disposal}
+			<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded ">Disposed</a>
+		{/if}
 		</div>
-		<div id="gra_list" align="center">
-			{include file=goods_return_advice.list.tpl}
+		<div class="col">
+			<a name="find" class="btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+				Find GRA / Vendor
+			</a>
+		</div>
+</div>
+	</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div >
+				<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
+					<div class="table-responsive">
+						<table>
+							<tr>
+								<th align="left">Vendor</th>
+								<td colspan="2">
+									<input name="search_vendor_id" type="hidden" size="1" value="{$smarty.request.search_vendor_id}" readonly>
+									<input id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
+									<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
+								</td>
+							</tr>
+							<tr>
+								<th align="left">Find GRA</th>
+								<td><input name="search" id="search" name="find" value="{$smarty.request.search}"></td>
+								<td align="right"><input class="btn btn-primary" type="submit" value="Go"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div id="gra_list" align="center">
+					{include file=goods_return_advice.list.tpl}
+				</div>
+			</div>
 		</div>
 	</div>
 	</form>

@@ -27,8 +27,11 @@ REVISION HISTORY
 *}
 
 <div class="noscreen">
-<h3>
-Branch : 
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+					Branch : 
 {if $BRANCH_CODE eq 'HQ'}
 	{if $smarty.request.branch_id}
 		{section name=i loop=$branch}
@@ -43,7 +46,12 @@ Branch :
 
 &nbsp;&nbsp;&nbsp;
 GRN Date : {$smarty.request.from} - {$smarty.request.to}
-</h3>
+
+				</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+
 </div>
 <br />
 

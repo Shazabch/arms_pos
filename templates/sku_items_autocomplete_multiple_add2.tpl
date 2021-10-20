@@ -226,11 +226,17 @@ add_sku_item{$is_dbl_sku}={literal}function(sku_group_id,branch_id,user_id){
 </div>
 <table>
 <tr>
-	<td width="100"><b>Search SKU</b></td>
+	<td width="100"><b class="form-label">Search SKU</b></td>
 	<td>
 		<input id="sku_item_id{$is_dbl_sku}" name="sku_item_id{$is_dbl_sku}" size=3 type=hidden>
 		<input id="sku_item_code{$is_dbl_sku}" name="sku_item_code{$is_dbl_sku}" size=13 type=hidden>
-		<input id="autocomplete_sku{$is_dbl_sku}" name="sku{$is_dbl_sku}" size=50 onclick="this.select()" style="font-size:14px;width:500px;"> <input class="btn btn-primary" type=button value="Add" onclick='add_autocomplete{$is_dbl_sku}()'>
+		<div class="form-inline">
+			
+			<input class="form-control" id="autocomplete_sku{$is_dbl_sku}" name="sku{$is_dbl_sku}" size=50 onclick="this.select()" style="font-size:14px;width:500px;">
+		
+			&nbsp;&nbsp;	<input class="btn btn-primary" type=button value="Add" onclick='add_autocomplete{$is_dbl_sku}()'>
+	
+		</div>
 		<div id="autocomplete_sku_choices{$is_dbl_sku}" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>
@@ -250,7 +256,7 @@ add_sku_item{$is_dbl_sku}={literal}function(sku_group_id,branch_id,user_id){
 <table>
 <tr>
 <td rowspan=5 style="padding-left:75px">
-<select multiple name="sku_code_list{$is_dbl_sku}[]" id="sku_code_list{$is_dbl_sku}" style="width:300px;height:100px;">
+<select class="form-control" multiple name="sku_code_list{$is_dbl_sku}[]" id="sku_code_list{$is_dbl_sku}" style="width:300px;height:130px; margin-bottom: 20px; margin-left: 25px;">
 {if $group_item}
 	{foreach from=$group_item item=r}
 	    	<option value={$r.sku_item_code}>{$r.description}</option>-->
@@ -260,17 +266,18 @@ add_sku_item{$is_dbl_sku}={literal}function(sku_group_id,branch_id,user_id){
 <td></td></tr>
 <tr>
 	<td width="200"><!--<input type=button value="Add" onClick="add_sku_to_list()" style="width:80px;">-->
-		<div style="position:absolute;width:300px;height:100px;margin-left:100px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group{$is_dbl_sku}">
+		<div style="position:absolute;width:300px;height:100px;margin-left:140px; border:1px solid gray; display:none;overflow-x:hidden;overflow-y:auto; border-radius: 7px;" class="autocomplete p-2" id="div_sku_group{$is_dbl_sku}">
 		</div>
 		<input type="hidden" name="sku_group_load_count{$is_dbl_sku}" value="0" id="sku_group_load_count{$is_dbl_sku}">
-		<input class="btn btn-primary" type="button" value="Add by Group" style="width:100px;" onClick="load_SKU_Group{$is_dbl_sku}()" />
+		&nbsp;&nbsp;<input class="btn btn-primary" style="width:120;" type="button" value="Add by Group"  onClick="load_SKU_Group{$is_dbl_sku}()" />
 	</td>
 </tr>
+
 <tr>
-	<td><input class="btn btn-danger" type=button value="Remove" id="remove_sku{$is_dbl_sku}" onClick="remove_sku_from_list{$is_dbl_sku}()" disabled style="width:80px;"></td>
+	<td>&nbsp;&nbsp;<input class="btn btn-danger" style="width:120;" type=button value="Remove" id="remove_sku{$is_dbl_sku}" onClick="remove_sku_from_list{$is_dbl_sku}()" disabled ></td>
 </tr>
 <tr>
-	<td><input class="btn btn-primary" type=button value="Clear" id="clear_sku{$is_dbl_sku}" onClick="clear_sku_from_list{$is_dbl_sku}()" disabled style="width:80px;"></td>
+	<td>&nbsp;&nbsp;<input class="btn btn-primary" style="width:120;" type=button value="Clear" id="clear_sku{$is_dbl_sku}" onClick="clear_sku_from_list{$is_dbl_sku}()" disabled ></td>
 </tr>
 <tr><td>&nbsp;</td></tr>
 </select>
