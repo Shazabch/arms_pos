@@ -155,17 +155,25 @@ var SHIFT_ASSIGNMENT = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <form name="f_a" onSubmit="return false;">
 	<input type="hidden" name="a" value="ajax_load_branch_shift" />
 	
-	<table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<table>
 		<tr>
 			{if $BRANCH_CODE eq 'HQ'}
-				<td><b>Branch: </b></td>
+				<td><b class="form-label">Branch: </b></td>
 				<td>
-					<select name="branch_id">
+					<select class="form-control" name="branch_id">
 						<option value="">-- Please Select --</option>
 						{foreach from=$branch_list key=bid item=b}
 							<option value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>{$b.code}</option>
@@ -180,18 +188,20 @@ var SHIFT_ASSIGNMENT = {
 		</tr>
 		
 		<tr>
-			<td><b>Year: </b></td>
+			<td class="form-label mt-2"><b>Year: </b></td>
 			<td>
-				<select name="y" onChange="SHIFT_ASSIGNMENT.year_changed();">
+				<select class="form-control mt-2" name="y" onChange="SHIFT_ASSIGNMENT.year_changed();">
 					{foreach from=$year_list item=y}
 						<option value="{$y}" {if $smarty.request.y eq $y}selected {/if}>{$y}</option>
 					{/foreach}
 				<select>
-				<input class="btn btn-success" type="button" value="New" onClick="SHIFT_ASSIGNMENT.new_year_clicked();" />
-				<input class="btn btn-primary" type="button" value="Refresh" onClick="SHIFT_ASSIGNMENT.reload_branch_shift();" />
+				<input class="btn btn-success mt-2" type="button" value="New" onClick="SHIFT_ASSIGNMENT.new_year_clicked();" />
+				<input class="btn btn-primary mt-2" type="button" value="Refresh" onClick="SHIFT_ASSIGNMENT.reload_branch_shift();" />
 			</td>
 		</tr>
 	</table>
+		</div>
+	</div>
 	
 	
 	

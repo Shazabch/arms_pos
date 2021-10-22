@@ -157,68 +157,85 @@ var SKU_RECEIVING_HISTORY = {
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
 	The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
 {if !$no_header_footer}
-<div class="noprint stdframe">
-	<form name="f_a" method="post" onSubmit="return false;">
-		<input type="hidden" name="load_report" value="1" />
-		<input type="hidden" name="export_excel" value="0" />
-		
-		{if $BRANCH_CODE eq 'HQ'}
-			<div>
-				<b>Select Branch By:</b>
-				<select id="sel_brn_grp" >
-					<option value="">-- All --</option>
-					{foreach from=$branch_group.header key=bgid item=bg}
-						<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
-					{/foreach}
-				</select>&nbsp;&nbsp;
-				<input type="button" style="width:70px;" value="Select " onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(true);" />&nbsp;
-				<input type="button" style="width:70px;" value="De-select" onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(false);" /><br /><br />
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="noprint stdframe">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="load_report" value="1" />
+				<input type="hidden" name="export_excel" value="0" />
 				
-				<div id="div_branch_list" style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
-					<table>
-					{foreach from=$branches key=bid item=b}
-						{assign var=bgid value=$branch_group.have_group.$bid.branch_group_id}
-						<tr>
-							<td>
-								<input class="inp_branch {if $bgid}inp_branch_group-{$bgid}{/if}" type="checkbox" name="branch_id_list[]" value="{$bid}" {if (is_array($smarty.request.branch_id_list) and in_array($bid,$smarty.request.branch_id_list))}checked {/if} id="inp_branch-{$bid}" />&nbsp;
-								<label for="inp_branch-{$bid}">{$b.code} - {$b.description}</label>
-							</td>
-						</tr>
-					{/foreach}
-					</table>
-				</div>
-			</div>
-		{/if}
-	
-		<p>
-			<b>Received Date From</b>
-			<input type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			<b>To</b>
-			<input type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-		</p>
+				{if $BRANCH_CODE eq 'HQ'}
+					<div>
+						<div class="form-inline">
+							<b class="form-label">Select Branch By:&nbsp;</b>
+						<select class="form-control" id="sel_brn_grp" >
+							<option value="">-- All --</option>
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
+							{/foreach}
+						</select>&nbsp;&nbsp;
+						<input type="button" class="btn btn-primary"  value="Select " onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(true);" />&nbsp;
+						<input type="button" class="btn btn-danger"  value="De-select" onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(false);" /><br /><br />
+						
+						</div>
+						<div id="div_branch_list" class="mt-2 p-2" style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
+							<table>
+							{foreach from=$branches key=bid item=b}
+								{assign var=bgid value=$branch_group.have_group.$bid.branch_group_id}
+								<tr>
+									<td>
+										<input class="inp_branch {if $bgid}inp_branch_group-{$bgid}{/if}" type="checkbox" name="branch_id_list[]" value="{$bid}" {if (is_array($smarty.request.branch_id_list) and in_array($bid,$smarty.request.branch_id_list))}checked {/if} id="inp_branch-{$bid}" />&nbsp;
+										<label for="inp_branch-{$bid}">{$b.code} - {$b.description}</label>
+									</td>
+								</tr>
+							{/foreach}
+							</table>
+						</div>
+					</div>
+				{/if}
+			
+				<p>
+					<div class="form-inline mt-2">
+						<b class="form-label">Received Date From</b>&nbsp;&nbsp;
+					<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=12 />
+					<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					&nbsp;<b class="form-label">To</b>&nbsp;&nbsp;
+					<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=12 />
+					<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+					</div>
+			
+				</p>
+				
+				{include file='sku_items_autocomplete_multiple_add2.tpl'}
+				
+				<input class="btn btn-primary" type="button" value='Show Report' onClick="SKU_RECEIVING_HISTORY.submit_form();" /> &nbsp;&nbsp;
 		
-		{include file='sku_items_autocomplete_multiple_add2.tpl'}
-		
-		<input class="btn btn-primary" type="button" value='Show Report' onClick="SKU_RECEIVING_HISTORY.submit_form();" /> &nbsp;&nbsp;
-
-		{if $sessioninfo.privilege.EXPORT_EXCEL}
-			<button class="btn btn-primary" onClick="SKU_RECEIVING_HISTORY.submit_form('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
-		{/if}
-	</form>
+				{if $sessioninfo.privilege.EXPORT_EXCEL}
+					<button class="btn btn-info" onClick="SKU_RECEIVING_HISTORY.submit_form('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+				{/if}
+			</form>
+		</div>
+	</div>
 </div>
 {/if}
 

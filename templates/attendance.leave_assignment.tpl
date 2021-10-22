@@ -332,34 +332,45 @@ var USER_LEAVE_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
-
-<form name="f_a" onSubmit="return false;" class="stdframe">
-	<input type="hidden" name="a" value="ajax_load_user_leave" />
-	
-	{if $BRANCH_CODE eq 'HQ'}
-		<span>
-			<b>Branch: </b>
-			<select name="branch_id">
-				<option value="">-- All --</option>
-				{foreach from=$branch_list key=bid item=b}
-					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		</span><br /><br />
-	{else}
-		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-	{/if}
-	
-	<div>
-		<b>User: </b>
-		{include file='user_autocomplete.tpl'}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
-		
-	<p>
-		<input type="button" value="Search" onClick="ATTENDANCE_LEAVE_ASSIGN.search_user_clicked();" />
-	</p>
-</form>
+</div>
+
+
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;" class="stdframe">
+			<input type="hidden" name="a" value="ajax_load_user_leave" />
+			
+			{if $BRANCH_CODE eq 'HQ'}
+				<span>
+					<b class="form-label">Branch: </b>
+					<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branch_list key=bid item=b}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+			{else}
+				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+			{/if}
+			
+			<div>
+				<b class="form-label">User: </b>
+				{include file='user_autocomplete.tpl'}
+			</div>
+				
+			<p>
+				<input type="button" class="btn btn-primary" value="Search" onClick="ATTENDANCE_LEAVE_ASSIGN.search_user_clicked();" />
+			</p>
+		</form>
+	</div>
+</div>
 
 <br />
 <div id="div_user_record">

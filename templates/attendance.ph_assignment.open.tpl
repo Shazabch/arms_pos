@@ -141,73 +141,90 @@ var PH_ASSIGN = {
 };
 {/literal}
 </script>
-
-<h1>{$PAGE_TITLE} {if $form}({$form.y}){else}(NEW){/if}</h1>
-
-
-<form name="f_a" onSubmit="return false;">
-	<input type="hidden" name="a" value="ajax_save" />
-	<input type="hidden" name="id" value="{$form.id}" />
-	
-	<div class="stdframe">
-		<table>
-			<tr>
-				<td width="100"><b>Year</b></td>
-				<td>
-					<input type="text" name="y" value="{$form.y}" {if $form.id gt 0}readonly {/if} style="width:50px;" onChange="miz(this);" maxlength="4" />
-				</td>
-			</tr>
-		</table>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$PAGE_TITLE} {if $form}({$form.y}){else}(NEW){/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
-	
-	<br />
-	<h3>Holiday List</h3>
-	<div class="stdframe" id="div_ph_list">
-		<table class="report_table" style="background-color: #fff;">
-			<tr class="header">
-				<th>Code - Description</th>
-				<th>Date From</th>
-				<th>Date To</th>
-				<th>Show in Report 
-					[<a href="javascript:void(alert('Always show the Holiday in Report even no user on shift'))">
-					?
-					</a>]
-				</th>
-			</tr>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;">
+			<input type="hidden" name="a" value="ajax_save" />
+			<input type="hidden" name="id" value="{$form.id}" />
 			
-			{foreach from=$ph_list key=ph_id item=ph}
-				<tr id="tr_ph-{$ph_id}" class="tr_ph">
-					<td>
-						<input type="hidden" name="ph_list[{$ph_id}][code]" value="{$ph.code}" />
-						{$ph.code} - {$ph.description}
-					</td>
-					
-					{* Date From *}
-					<td>
-						<input type="text" name="ph_list[{$ph_id}][date_from]" value="{$form.ph_list.$ph_id.date_from}" id="inp_date_from-{$ph_id}" size="12" class="inp_date_from" />
-						<img align="absmiddle" src="ui/calendar.gif" id="img_date_from-{$ph_id}" style="cursor: pointer;" title="Select Date"/> &nbsp;
-					</td>
-					
-					{* Date To *}
-					<td>
-						<input type="text" name="ph_list[{$ph_id}][date_to]" value="{$form.ph_list.$ph_id.date_to}" id="inp_date_to-{$ph_id}" size="12" class="inp_date_to" />
-						<img align="absmiddle" src="ui/calendar.gif" id="img_date_to-{$ph_id}" style="cursor: pointer;" title="Select Date"/> &nbsp;
-					</td>
-					
-					{* Show in Report *}
-					<td align="center">
-						<input type="checkbox" name="ph_list[{$ph_id}][show_in_report]" value="1" {if $form.ph_list.$ph_id.show_in_report}checked {/if} />
-					</td>
-				</tr>
-			{/foreach}
-		</table>
+			<div class="stdframe">
+				<table>
+					<tr>
+						<td width="100"><b  class="form-label">Year</b></td>
+						<td>
+							<input class="form-control" type="text" name="y" value="{$form.y}" {if $form.id gt 0}readonly {/if} style="width:50px;" onChange="miz(this);" maxlength="4" />
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<br />
+			<h3>Holiday List</h3>
+			<div class="stdframe" id="div_ph_list">
+				<div class="table-responsive">
+					<table class="report_table table mb-0 text-md-nowrap  table-hover"
+					>
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>Code - Description</th>
+							<th>Date From</th>
+							<th>Date To</th>
+							<th>Show in Report 
+								[<a href="javascript:void(alert('Always show the Holiday in Report even no user on shift'))">
+								?
+								</a>]
+							</th>
+						</tr>
+					</thead>
+						
+						{foreach from=$ph_list key=ph_id item=ph}
+							<tbody class="fs-08">
+								<tr id="tr_ph-{$ph_id}" class="tr_ph">
+									<td>
+										<input type="hidden" name="ph_list[{$ph_id}][code]" value="{$ph.code}" />
+										{$ph.code} - {$ph.description}
+									</td>
+									
+									{* Date From *}
+									<td>
+										<input type="text" name="ph_list[{$ph_id}][date_from]" value="{$form.ph_list.$ph_id.date_from}" id="inp_date_from-{$ph_id}" size="12" class="inp_date_from" />
+										<img align="absmiddle" src="ui/calendar.gif" id="img_date_from-{$ph_id}" style="cursor: pointer;" title="Select Date"/> &nbsp;
+									</td>
+									
+									{* Date To *}
+									<td>
+										<input type="text" name="ph_list[{$ph_id}][date_to]" value="{$form.ph_list.$ph_id.date_to}" id="inp_date_to-{$ph_id}" size="12" class="inp_date_to" />
+										<img align="absmiddle" src="ui/calendar.gif" id="img_date_to-{$ph_id}" style="cursor: pointer;" title="Select Date"/> &nbsp;
+									</td>
+									
+									{* Show in Report *}
+									<td align="center">
+										<input type="checkbox" name="ph_list[{$ph_id}][show_in_report]" value="1" {if $form.ph_list.$ph_id.show_in_report}checked {/if} />
+									</td>
+								</tr>
+							</tbody>
+						{/foreach}
+					</table>
+				</div>
+			</div>
+		</form>
+		
+		<p align="center" id="p_action">
+			<input type="button" value="Save" class="btn btn-warning" onclick="PH_ASSIGN.save_clicked();" />
+			<input type="button" value="Close" class="btn btn-info" onclick="document.location='{$smarty.server.PHP_SELF}'" />
+		</p>
 	</div>
-</form>
-
-<p align="center" id="p_action">
-	<input type="button" value="Save" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="PH_ASSIGN.save_clicked();" />
-	<input type="button" value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="document.location='{$smarty.server.PHP_SELF}'" />
-</p>
+</div>
 
 <script>PH_ASSIGN.initialize();</script>
 {include file='footer.tpl'}

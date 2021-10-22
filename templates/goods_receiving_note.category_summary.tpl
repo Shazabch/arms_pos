@@ -139,50 +139,78 @@ function export_itemise_info(root_id){
 
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-{if !$no_header_footer}
+<div class="card mx-3">
+	<div class="card-body">
+		{if !$no_header_footer}
 <div class="noprint stdframe">
 <form name="f" method="get">
 <input type="hidden" name="subm" value="1" />
 <input type="hidden" name="cat_id" value="{$smarty.request.cat_id}" />
 
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		<option value=''>-- All --</option>
-		{foreach from=$branches key=bid item=r}
-			<option value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-		{/foreach}
-		</select>&nbsp;&nbsp;
+<div class="row">
+	<div class="col-md-2">
+		<div class="row form-inline">
+			{if $BRANCH_CODE eq 'HQ'}&nbsp;&nbsp;&nbsp;
+	<b class="form-label">Branch</b>&nbsp;
+	<select class="form-control" name="branch_id">
+	<option value=''>-- All --</option>
+	{foreach from=$branches key=bid item=r}
+		<option value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+	{/foreach}
+	</select>
 	{/if}
+		</div>
+		
+	</div>
 
-	<b>SKU Type</b>
-	<select name="sku_type">
-	    <option value="">-- All --</option>
-	    {foreach from=$sku_type item=r}
-	        <option value="{$r.code}" {if $r.code eq $smarty.request.sku_type}selected {/if}>{$r.code}</option>
-	    {/foreach}
-	</select>&nbsp;&nbsp;
-	
-	<b>Status</b>
-	<select name="status">
-	    <option value="" {if !$smarty.request.status}selected {/if}>-- All --</option>
-	    <option value="1" {if $smarty.request.status eq 1}selected {/if}>Approved</option>
-	    <option value="0" {if $smarty.request.status eq '0'}selected {/if}>Not Approved</option>
-	</select>&nbsp;&nbsp;
-	
-	<b>Date From</b>
-	<input type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly="1" size=12 />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	<b>To</b>
-	<input type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly="1" size=12 />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+<div class="col-md-2">
+	<div class="row form-inline">
+		<b class="form-label">SKU Type</b>
+<select class="form-control" name="sku_type">
+	<option value="">-- All --</option>
+	{foreach from=$sku_type item=r}
+		<option value="{$r.code}" {if $r.code eq $smarty.request.sku_type}selected {/if}>{$r.code}</option>
+	{/foreach}
+</select>
+	</div>
 
- 	<input class="btn btn-primary" type="submit" value='Show Report' /> &nbsp;&nbsp;
+</div>
+
+<div class="col-md-2">
+	<div class="row form-inline">
+		<b class="form-label">Status</b>&nbsp;
+<select class="form-control" name="status">
+	<option value="" {if !$smarty.request.status}selected {/if}>-- All --</option>
+	<option value="1" {if $smarty.request.status eq 1}selected {/if}>Approved</option>
+	<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Not Approved</option>
+</select>
+	</div>
+</div>
+
+<div class="col">
+	<div class="form-inline">
+		<b class="form-label">Date From</b>&nbsp;
+<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly="1" size=12 />
+<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+<b class="form-label">To</b>&nbsp;
+<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly="1" size=12 />
+<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> 
+	</div>
+</div>
+
+</div>
+ 	<input class="btn btn-primary mt-3" type="submit" value='Show Report' /> &nbsp;&nbsp;
 
 	{if $sessioninfo.privilege.EXPORT_EXCEL}
-		<button class="btn btn-primary" name="output_excel"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+		<button class="btn btn-info mt-3" name="output_excel"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
 	{/if}
 	
 	{if $config.foreign_currency}
@@ -193,9 +221,13 @@ function export_itemise_info(root_id){
 </form>
 </div>
 {/if}
-
-<h3>{$report_title}</h3>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if !$no_header_footer}
     <p>
 		&#187; <a href="javascript:void(show_sub(0));">ROOT</a> /
@@ -208,84 +240,96 @@ function export_itemise_info(root_id){
 		<br /><font class="small">Click on a sub-category for further detail. Click <img src="/ui/icons/table.png" align="absmiddle" />  to display SKU in the category.</font>
 	</p>
 {/if}
+	</div>
+</div>
 
 {if !$tb}
 	{if $smarty.request.subm}No Data{/if}
 {else}
-<table class="sortable tb" cellspacing="0" cellpadding="2" border="0">
-    <tr>
-		<th align="left" rowspan="2">&nbsp;</th>
-		{assign var=lasty value=0}
-		{assign var=lastm value=0}
-		{foreach from=$uq_cols key=dt item=d}
-		    <th valign="bottom" colspan="2">
-				{if $lastm ne $d.m or $lasty ne $d.y}
-					<span class="small">{$d.m|string_format:'%02d'}/{$d.y}</span><br />
-					{assign var=lastm value=$d.m}
-					{assign var=lasty value=$d.y}
-				{/if}
-				{$d.d}
-			</th>
-		{/foreach}
-		<th rowspan="2">T.Sell</th>
-		{if $is_under_gst}
-			<th rowspan="2">T.GST</th>
-			<th rowspan="2">T.Sell<br />Inc. GST</th>
-		{/if}
-		{if $sessioninfo.show_cost}
-			<th rowspan="2">T.Cost</th>
-		{/if}
-		{if $sessioninfo.show_report_gp}
-			<th rowspan="2">GP</th>
-			<th rowspan="2">GP(%)</th>
-		{/if}
-	</tr>
-
-	<tr>
-		{foreach from=$uq_cols key=dt item=d}
-			<th>T.Sell</th>
-			{if $sessioninfo.show_cost}
-				<th>T.Cost</th>
-			{/if}
-		{/foreach}
-	</tr>
-
-	{include file='goods_receiving_note.category_summary.table.tpl'}
-	
-	<tr class=sortbottom>
-		<th align="right">Total</th>
-
-		{foreach from=$uq_cols key=dt item=d}
-			{capture assign=tooltip}
-				Qty:{$tb_total.data.$dt.qty|qty_nf}  /  Selling:{$tb_total.data.$dt.sell|string_format:'%.2f'}  /  Cost:{$tb_total.data.$dt.cost|string_format:'%.2f'}
-			{/capture}
-			<td class="small" align="right" title="{$tooltip}">{$tb_total.data.$dt.sell|number_format:2}</td>
-			{if $sessioninfo.show_cost}
-				<td class="small {if $tb_total.data.$dt.have_fc}converted_base_amt{/if}" align="right" title="{$tooltip}">{$tb_total.data.$dt.cost|number_format:2}{if $tb_total.data.$dt.have_fc}*{/if}</td>
-			{/if}
-		{/foreach}
-
-		<td class="small" align="right">{$tb_total.data.total.sell|number_format:2}</td>
-		{if $is_under_gst}
-			{assign var=ttl_gst value=$tb_total.data.total.gst_sell-$tb_total.data.total.sell}
-			<td class="small" align="right">{$ttl_gst|number_format:2}</td>
-			<td class="small" align="right">{$tb_total.data.total.gst_sell|number_format:2}</td>
-		{/if}
-		{if $sessioninfo.show_cost}
-			<td class="small {if $tb_total.data.total.have_fc}converted_base_amt{/if}" align="right">{$tb_total.data.total.cost|number_format:2}{if $tb_total.data.total.have_fc}*{/if}</td>
-		{/if}
-		{if $sessioninfo.show_report_gp}
-			{assign var=gp value=$tb_total.data.total.sell-$tb_total.data.total.cost}
-			<td class="small" align="right" {if $gp < 0}style="color:red;"{/if}>{$gp|number_format:2}</td>
-			{if $tb_total.data.total.sell>0}
-				{assign var=gp_per value=$gp/$tb_total.data.total.sell*100}
-			{else}
-				{assign var=gp_per value=0}
-			{/if}
-			<td class="small" align="right" {if $gp < 0}style="color:red;"{/if}>{$gp_per|number_format:2}</td>
-		{/if}
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="tabl-responsive">
+			<table class="sortable tb" cellspacing="0" cellpadding="2" border="0">
+			<thead class="bg-gray-100">
+				<tr>
+					<th align="left" rowspan="2">&nbsp;</th>
+					{assign var=lasty value=0}
+					{assign var=lastm value=0}
+					{foreach from=$uq_cols key=dt item=d}
+						<th valign="bottom" colspan="2">
+							{if $lastm ne $d.m or $lasty ne $d.y}
+								<span class="small">{$d.m|string_format:'%02d'}/{$d.y}</span><br />
+								{assign var=lastm value=$d.m}
+								{assign var=lasty value=$d.y}
+							{/if}
+							{$d.d}
+						</th>
+					{/foreach}
+					<th rowspan="2">T.Sell</th>
+					{if $is_under_gst}
+						<th rowspan="2">T.GST</th>
+						<th rowspan="2">T.Sell<br />Inc. GST</th>
+					{/if}
+					{if $sessioninfo.show_cost}
+						<th rowspan="2">T.Cost</th>
+					{/if}
+					{if $sessioninfo.show_report_gp}
+						<th rowspan="2">GP</th>
+						<th rowspan="2">GP(%)</th>
+					{/if}
+				</tr>
+			
+				<tr>
+					{foreach from=$uq_cols key=dt item=d}
+						<th>T.Sell</th>
+						{if $sessioninfo.show_cost}
+							<th>T.Cost</th>
+						{/if}
+					{/foreach}
+				</tr>
+			</thead>
+			
+				{include file='goods_receiving_note.category_summary.table.tpl'}
+				
+				<thead class="bg-gray-100">
+					<tr class=sortbottom>
+						<th align="right">Total</th>
+				
+						{foreach from=$uq_cols key=dt item=d}
+							{capture assign=tooltip}
+								Qty:{$tb_total.data.$dt.qty|qty_nf}  /  Selling:{$tb_total.data.$dt.sell|string_format:'%.2f'}  /  Cost:{$tb_total.data.$dt.cost|string_format:'%.2f'}
+							{/capture}
+							<td class="small" align="right" title="{$tooltip}">{$tb_total.data.$dt.sell|number_format:2}</td>
+							{if $sessioninfo.show_cost}
+								<td class="small {if $tb_total.data.$dt.have_fc}converted_base_amt{/if}" align="right" title="{$tooltip}">{$tb_total.data.$dt.cost|number_format:2}{if $tb_total.data.$dt.have_fc}*{/if}</td>
+							{/if}
+						{/foreach}
+				
+						<td class="small" align="right">{$tb_total.data.total.sell|number_format:2}</td>
+						{if $is_under_gst}
+							{assign var=ttl_gst value=$tb_total.data.total.gst_sell-$tb_total.data.total.sell}
+							<td class="small" align="right">{$ttl_gst|number_format:2}</td>
+							<td class="small" align="right">{$tb_total.data.total.gst_sell|number_format:2}</td>
+						{/if}
+						{if $sessioninfo.show_cost}
+							<td class="small {if $tb_total.data.total.have_fc}converted_base_amt{/if}" align="right">{$tb_total.data.total.cost|number_format:2}{if $tb_total.data.total.have_fc}*{/if}</td>
+						{/if}
+						{if $sessioninfo.show_report_gp}
+							{assign var=gp value=$tb_total.data.total.sell-$tb_total.data.total.cost}
+							<td class="small" align="right" {if $gp < 0}style="color:red;"{/if}>{$gp|number_format:2}</td>
+							{if $tb_total.data.total.sell>0}
+								{assign var=gp_per value=$gp/$tb_total.data.total.sell*100}
+							{else}
+								{assign var=gp_per value=0}
+							{/if}
+							<td class="small" align="right" {if $gp < 0}style="color:red;"{/if}>{$gp_per|number_format:2}</td>
+						{/if}
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
 
 <div id="show_sku"></div>
 {/if}

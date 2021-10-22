@@ -183,41 +183,60 @@ var PH_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <div>
-	<a href="javascript:void(PH_DIALOG.open(0))">
-		<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Holiday
-	</a> 
+	<div class="card mx-3">
+		<div class="card-body">
+			<a href="javascript:void(PH_DIALOG.open(0))">
+				<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Holiday
+			</a> 
+		</div>
+	</div>
 </div>
 <br />
 
-<table class="report_table">
-	<tr class="header">
-		<th>&nbsp;</th>
-		<th>Code</th>
-		<th>Description</th>
-	</tr>
-	
-	<tbody id="tbody_ph_list">
-		{foreach from=$ph_list key=ph_id item=r}
-			<tr class="tr_ph" id="tr_ph-{$ph_id}">
-				<td>
-					{* Edit *}
-					<a href="javascript:void(PH_DIALOG.open('{$ph_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
-					
-					{* Active / Inactve *}
-					<a href="javascript:void(PH_SETUP.toggle_active('{$ph_id}'))">
-						<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_ph_active-{$ph_id}" />
-					</a>
-				</td>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover"
+			>
+				<thead class="bg-gray-100" style="height: 25px;">
+					<tr class="header">
+						<th>&nbsp;</th>
+						<th class="text-center">Code</th>
+						<th class="text-center">Description</th>
+					</tr>
+				</thead>
 				
-				<td>{$r.code}</td>
-				<td>{$r.description}</td>
-			</tr>
-		{/foreach}
-	</tbody>
-</table>
+				<tbody id="tbody_ph_list" class="fs-08">
+					{foreach from=$ph_list key=ph_id item=r}
+						<tr class="tr_ph" id="tr_ph-{$ph_id}">
+							<td>
+								{* Edit *}
+								<a href="javascript:void(PH_DIALOG.open('{$ph_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
+								
+								{* Active / Inactve *}
+								<a href="javascript:void(PH_SETUP.toggle_active('{$ph_id}'))">
+									<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_ph_active-{$ph_id}" />
+								</a>
+							</td>
+							
+							<td>{$r.code}</td>
+							<td>{$r.description}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 <script>PH_SETUP.initialize();</script>
 {include file='footer.tpl'}

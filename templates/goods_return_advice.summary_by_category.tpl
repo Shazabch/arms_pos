@@ -62,72 +62,98 @@
 	The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger mx-3 rounded"><li> {$e}</li></div>
 		{/foreach}
 	</ul>
 {/if}
-<h1>{$PAGE_TITLE}</h1>
-<form class="stdframe" name="f_a">
-<input type=hidden name=a value="show_report">
-<input type=hidden name=root_id value="">
-<table>
-    <tr>
-        <td><b>Date From : </b></td>
-        <td>
-            <input type="text" name="date_from" id="date_from" size="10" value="{$form.date_from}" readonly/>
-            <img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-        <td><b>Date To : </b></td>
-        <td>
-            <input type="text" name="date_to" id="date_to" size="10" value="{$form.date_to}" readonly/>
-            <img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date To" />
-        </td>
-    </tr>
-    <tr>
-        {if $BRANCH_CODE eq "HQ"}
-            <td><b>Branch: </b></td>
-            <td>
-                <select name="branch_id">
-                    <option value="">-- ALL --</option>
-                    {foreach from=$branch_list key=k item=i}
-                        <option value="{$k}" {if $form.branch_id eq $k}selected{/if}>{$i}</option>
-                    {/foreach}
-                </select>&nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-        {else}
-            <input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-        {/if}
-        <td><b>Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]: </b></td>
-        <td>
-            <select name="status">
-                <option value="">-- ALL --</option>
-                {foreach from=$status_list key=k item=i}
-                    <option value="{$k}" {if $form.status eq $k and $form.status ne ''}selected{/if}>{$i}</option>
-                {/foreach}
-            </select>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-        <td><b>SKU Type: </b></td>
-        <td>
-            <select name="sku_type">
-                <option value="">-- ALL --</option>
-                {foreach from=$sku_type_list item=i}
-                    <option value="{$i}" {if $form.sku_type eq $i}selected{/if}>{$i}</option>
-                {/foreach}
-            </select>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-    </tr>
-</table>
-<br>
-<input class="btn btn-primary" type="submit" value="Show Report"></input>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+    <div class="card-body">
+        <form class="stdframe" name="f_a">
+            <input type=hidden name=a value="show_report">
+            <input type=hidden name=root_id value="">
+            <table>
+               <div class="row">
+                   <div class="col">
+                       <div class="form-inline">
+                           
+                    <b class="form-label">Date From : </b>&nbsp;&nbsp;
+                    <div class="form-inline">
+                     <input class="form-control" type="text" name="date_from" id="date_from" size="10" value="{$form.date_from}" readonly/>
+                    &nbsp; <img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                
+                  <b class="form-label">Date To : </b>&nbsp;&nbsp;
+                
+                   <div class="form-inline">
+                     <input class="form-control" type="text" name="date_to" id="date_to" size="10" value="{$form.date_to}" readonly/>
+                   &nbsp;  <img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date To" />
+                   </div>
+            
+                       </div>
+                   </div>
+               </div>     
+                <div class="row mt-2">
 
-<p>
-	{if $config.foreign_currency}
-		* {$LANG.BASE_CURRENCY_CONVERT_NOTICE}<br />
-	{/if}
-	* The Amount Is Rounding-Adjustment Exclusive.
-</p>
+                    <div class="col-md-3">
+                        {if $BRANCH_CODE eq "HQ"}
+                        <b class="form-label">Branch: </b>
+                            <select class="form-control" name="branch_id">
+                                <option value="">-- ALL --</option>
+                                {foreach from=$branch_list key=k item=i}
+                                    <option value="{$k}" {if $form.branch_id eq $k}selected{/if}>{$i}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                    {else}
+                        <input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+                    {/if}
+                    </div>
 
-</form>
+                        <div class="col-md-3">
+                            <b class="form-label">Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]: </b>
+                        <select class="form-control" name="status">
+                            <option value="">-- ALL --</option>
+                            {foreach from=$status_list key=k item=i}
+                                <option value="{$k}" {if $form.status eq $k and $form.status ne ''}selected{/if}>{$i}</option>
+                            {/foreach}
+                        </select>
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <b class="form-label">SKU Type: </b>
+                        <select class="form-control" name="sku_type">
+                            <option value="">-- ALL --</option>
+                            {foreach from=$sku_type_list item=i}
+                                <option value="{$i}" {if $form.sku_type eq $i}selected{/if}>{$i}</option>
+                            {/foreach}
+                        </select>
+                        </div>
+                   
+                </div>
+            </table>
+            <br>
+            <input class="btn btn-primary mt-3" type="submit" value="Show Report"></input>
+            
+            <p>
+                
+                <div class="mt-3">
+                    {if $config.foreign_currency}
+                    * {$LANG.BASE_CURRENCY_CONVERT_NOTICE}<br />
+                {/if}
+                * The Amount Is Rounding-Adjustment Exclusive.
+                </div>
+            </p>
+            
+            </form>
+    </div>
+</div>
 <br>
 {if $data || $extotal}
     <p>

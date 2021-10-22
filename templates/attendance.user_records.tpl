@@ -413,46 +413,58 @@ var DAILY_RECORD_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
-
-<form name="f_a" onSubmit="return false;" class="stdframe">
-	<input type="hidden" name="a" value="ajax_load_user_record" />
-	<input type="hidden" name="user_id" />
-	
-	{if $BRANCH_CODE eq 'HQ'}
-		<span>
-			<b>Branch: </b>
-			<select name="branch_id">
-				{foreach from=$branch_list key=bid item=b}
-					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		</span><br /><br />
-	{else}
-		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-	{/if}
-	
-	<div>
-		<b>User: </b>
-		{include file='user_autocomplete.tpl'}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
-	
-	<span>
-		<b>Date: </b>
-		<input type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size="12" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-		
-		<b>to </b>
-		
-		<input type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size="12" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	</span>
-	
-	<p>
-		<input class="btn btn-primary" type="button" value="Search" onClick="ATTENDANCE_USER_RECORD.search_user_clicked();" />
-		<input class="btn btn-primary" type="button" value="View Modification History" onClick="ATTENDANCE_USER_RECORD.view_history_clicked();" />
-	</p>
-</form>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;" class="stdframe">
+			<input type="hidden" name="a" value="ajax_load_user_record" />
+			<input type="hidden" name="user_id" />
+			
+			{if $BRANCH_CODE eq 'HQ'}
+				<span>
+					<b class="form-label">Branch: </b>
+					<select class="form-control" name="branch_id">
+						{foreach from=$branch_list key=bid item=b}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+			{else}
+				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+			{/if}
+			
+			<div>
+				<b class="form-label">User: </b>
+				{include file='user_autocomplete.tpl'}
+			</div>
+			
+			
+			<div class="form-inline">
+				<b class="form-label">Date: </b>&nbsp;&nbsp;
+				<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size="12" />
+				&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+				
+				&nbsp;&nbsp;&nbsp;<b>to </b>&nbsp;&nbsp;
+				
+				<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size="12" />
+				&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;
+			</div>
+			
+			
+			<p>
+				<input class="btn btn-primary mt-3" type="button" value="Search" onClick="ATTENDANCE_USER_RECORD.search_user_clicked();" />
+				<input class="btn btn-primary mt-3" type="button" value="View Modification History" onClick="ATTENDANCE_USER_RECORD.view_history_clicked();" />
+			</p>
+		</form>
+	</div>
+</div>
 
 <br />
 <div id="div_user_record">

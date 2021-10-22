@@ -145,115 +145,151 @@ function toggle_all_user(){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger rounded mx-3">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
 {if !$no_header_footer}
-<form name="f_a" onSubmit="return false" class="noprint stdframe" method="post">
-	<input type="hidden" name="load_report" value="1" />
-	<input type="hidden" name="export_excel" />
-	
-	{if $BRANCH_CODE eq 'HQ'}
-		<span>
-			<b>Branch: </b>
-			<select name="branch_id" onChange="DAILY_ATTENDANCE_REPORT.branch_changed();">
-				{foreach from=$branch_list key=bid item=b}
-					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		</span>
-	{else}
-		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-	{/if}
-	
-	<span>
-		<b>Date: </b>
-		<input type="text" name="date" value="{$smarty.request.date}" id="inp_date" readonly="1" size="12" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	</span>
-	
-	<br /><br />
-	
-	<fieldset style="width: 300px;">
-		<legend>User:</legend>
-		<div id="div_user_list">
-			{include file='attendance.report.user_list.tpl'}
-		</div>
-	</fieldset>
-	
-	
-	<fieldset style="width: 300px;">
-		<legend>Settings:</legend>
-		<table>
-			{* Early In *}
-			<tr>
-				<td><b>Early In</b></td>
-				<td>
-					= <input type="text" name="in_early" {if $has_settings_val}disabled{/if} value="{$smarty.request.in_early|default:$system_settings.in_early}" size="5" onChange="mi(this);" /> mins before start time
-				</td>
-			</tr>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false" class="noprint stdframe" method="post">
+			<input type="hidden" name="load_report" value="1" />
+			<input type="hidden" name="export_excel" />
 			
-			{* Late In *}
-			<tr>
-				<td><b>Late In</b></td>
-				<td>
-					= <input type="text" name="in_late" {if $has_settings_val}disabled{/if} value="{$smarty.request.in_late|default:$system_settings.in_late}" size="5" onChange="mi(this);" /> mins after start time
-				</td>
-			</tr>
+			<div class="row">
+				<div class="col-md-6">
+					{if $BRANCH_CODE eq 'HQ'}
+				<span>
+					<b class="form-label">Branch: </b>
+					<select class="form-control" name="branch_id" onChange="DAILY_ATTENDANCE_REPORT.branch_changed();">
+						{foreach from=$branch_list key=bid item=b}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+			{else}
+				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+			{/if}
+				</div>
 			
-			{* Early Exity *}
-			<tr>
-				<td><b>Early Exit</b></td>
-				<td>
-					= <input type="text" name="out_early" {if $has_settings_val}disabled{/if} value="{$smarty.request.out_early|default:$system_settings.out_early}" size="5" onChange="mi(this);" /> mins before end time
-				</td>
-			</tr>
+			<div class="col-md-6">
+				<span>
+					<b class="form-label">Date: </b>
+					<div class="form-inline">
+						<input class="form-control"  type="text" name="date" value="{$smarty.request.date}" id="inp_date" readonly="1"  />
+				&nbsp;&nbsp;	<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					</div>
+				</span>
+			</div>
+			</div>
 			
-			{* Late Exit *}
-			<tr>
-				<td><b>Late Exit</b></td>
-				<td>
-					= <input type="text" name="out_late" {if $has_settings_val}disabled{/if} value="{$smarty.request.out_late|default:$system_settings.out_late}" size="5" onChange="mi(this);" /> mins after end time
-				</td>
-			</tr>
-		</table>
-	</fieldset>
-	
-	<p>
-		<span>
-			<b>Filter by Status: </b>
-			<select name="filter_status_code">
-				<option value="">No Filter</option>
-				{foreach from=$status_code_list key=status_code item=v}
-					<option value="{$status_code}" {if $smarty.request.filter_status_code eq $status_code}selected {/if}>{$v}</option>
-				{/foreach}
-			</select>
-		</span>
-	</p>
-	
-	<br />
-	
-	<input type="button" value='Show Report' onClick="DAILY_ATTENDANCE_REPORT.submit_report();" /> &nbsp;&nbsp;
-	{if $sessioninfo.privilege.EXPORT_EXCEL}
-		<button class="btn btn-primary" name="output_excel" onClick="DAILY_ATTENDANCE_REPORT.submit_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
-	{/if}
-</form>
+			<fieldset style="width: 300px;">
+				<legend >User:</legend>
+				<div id="div_user_list">
+					{include file='attendance.report.user_list.tpl'}
+				</div>
+			</fieldset>
+			
+			
+			<fieldset style="width: 300px;">
+				<legend>Settings:</legend>
+				<table>
+					{* Early In *}
+					<tr>
+						<td><b class="form-label">Early In</b></td>
+						<td>
+							<div class="form-inline">
+								=&nbsp; <input class="form-control" type="text" name="in_early" {if $has_settings_val}disabled{/if} value="{$smarty.request.in_early|default:$system_settings.in_early}"  onChange="mi(this);" /><span>mins before start time</span>
+							</div>
+						</td>
+					</tr>
+					
+					{* Late In *}
+					<tr>
+						<td><b class="form-label">Late In</b></td>
+						<td>
+							<div class="form-inline">
+								=&nbsp; <input class="form-control" type="text" name="in_late" {if $has_settings_val}disabled{/if} value="{$smarty.request.in_late|default:$system_settings.in_late}"  onChange="mi(this);" /> mins after start time
+							</div>
+						</td>
+					</tr>
+					
+					{* Early Exity *}
+					<tr>
+						<td><b class="form-label">Early Exit</b></td>
+						<td>
+						<div class="form-inline">
+							= <input class="form-control" type="text" name="out_early" {if $has_settings_val}disabled{/if} value="{$smarty.request.out_early|default:$system_settings.out_early}"  onChange="mi(this);" /> mins before end time
+						</div>
+						</td>
+					</tr>
+					
+					{* Late Exit *}
+					<tr>
+						<td><b class="form-label">Late Exit</b></td>
+						<td>
+						<div class="form-inline">
+							= <input class="form-control" type="text" name="out_late" {if $has_settings_val}disabled{/if} value="{$smarty.request.out_late|default:$system_settings.out_late}"  onChange="mi(this);" /> mins after end time
+						</div>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			
+			<p>
+				<span>
+					<b class="form-label">Filter by Status: </b>
+					<select class="form-control" name="filter_status_code">
+						<option value="">No Filter</option>
+						{foreach from=$status_code_list key=status_code item=v}
+							<option value="{$status_code}" {if $smarty.request.filter_status_code eq $status_code}selected {/if}>{$v}</option>
+						{/foreach}
+					</select>
+				</span>
+			</p>
+			
+			<br />
+			
+			<input type="button" class="btn btn-primary" value='Show Report' onClick="DAILY_ATTENDANCE_REPORT.submit_report();" /> &nbsp;&nbsp;
+			{if $sessioninfo.privilege.EXPORT_EXCEL}
+				<button class="btn btn-info" name="output_excel" onClick="DAILY_ATTENDANCE_REPORT.submit_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+			{/if}
+		</form>
+	</div>
+</div>
 {/if}
 
+		
 {if $smarty.request.load_report and !$err}
-	{if !$data}
-		<p>* No Data *</p>
-	{else}
-		<br />
-		<h3>{$report_title}</h3>
-		<table class="report_table" width="100%">
+{if !$data}
+	<p>* No Data *</p>
+{else}
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+	<div class="card mx-3">
+		<div class="card-body">
+	<table class="report_table table mb-0 text-md-nowrap  table-hover"
+	width="100%">
+		<thead class="bg-gray-100" style="height: 20px;">
 			<tr class="header">
 				<th rowspan="2">User</th>
 				<th rowspan="2">Full Name</th>
@@ -269,9 +305,11 @@ function toggle_all_user(){
 				<th>Status</th>
 			</tr>
 			
-			{foreach from=$data.user_list key=user_id item=user_data}
-				{count var=$user_data.scan_records_pair assign=rowspan}
-				{assign var=pair_no value=0}
+		</thead>
+		{foreach from=$data.user_list key=user_id item=user_data}
+			{count var=$user_data.scan_records_pair assign=rowspan}
+			{assign var=pair_no value=0}
+			<tbody class="fs-08">
 				<tr valign="top">
 					<td rowspan="{$rowspan}">{$user_data.user_info.u}</td>
 					<td rowspan="{$rowspan}">{$user_data.user_info.fullname|default:'-'}</td>
@@ -335,9 +373,11 @@ function toggle_all_user(){
 						{/foreach}
 					</td>
 				</tr>
-				
-				{section loop=$rowspan start=$pair_no+1 name=pn}
-					{assign var=pair_no value=$smarty.section.pn.index}
+			</tbody>
+			
+			{section loop=$rowspan start=$pair_no+1 name=pn}
+				{assign var=pair_no value=$smarty.section.pn.index}
+				<tbody class="fs-08">
 					<tr>
 						{* Scan Result *}
 						{assign var=scan_result value=$user_data.scan_records_pair.$pair_no}
@@ -360,29 +400,43 @@ function toggle_all_user(){
 							{/foreach}
 						</td>
 					</tr>
-				{/section}
-			{/foreach}
-		</table>
-		
+				</tbody>
+			{/section}
+		{/foreach}
+	</table>
+
+	</div>
+</div>		
 		<h3>Summary</h3>
-		<table class="report_table">
-			<tr class="header">
-				<th>Status</th>
-				<th>User Count</th>
-				<th>User</th>
-			</tr>
-			{foreach from=$data.summary.by_status_code key=status_code item=status_data}
-				<tr>
-					<td>{$status_code_list[$status_code]}</td>
-					<td align="right">{count var=$status_data.user_id_list}</td>
-					<td>
-						{foreach from=$status_data.user_id_list item=user_id name=ul}
-							{$data.user_list.$user_id.user_info.u}{if !$smarty.foreach.ul.last}, {/if}
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="report_table table mb-0 text-md-nowrap  table-hover"
+					>
+						<thead class="bg-gray-100">
+							<tr class="header">
+								<th>Status</th>
+								<th>User Count</th>
+								<th>User</th>
+							</tr>
+						</thead>
+						{foreach from=$data.summary.by_status_code key=status_code item=status_data}
+							<tbody class="fs-08">
+								<tr>
+									<td>{$status_code_list[$status_code]}</td>
+									<td align="right">{count var=$status_data.user_id_list}</td>
+									<td>
+										{foreach from=$status_data.user_id_list item=user_id name=ul}
+											{$data.user_list.$user_id.user_info.u}{if !$smarty.foreach.ul.last}, {/if}
+										{/foreach}
+									</td>
+								</tr>
+							</tbody>
 						{/foreach}
-					</td>
-				</tr>
-			{/foreach}
-		</table>
+					</table>
+				</div>
+			</div>
+		</div>
 	{/if}
 {/if}
 

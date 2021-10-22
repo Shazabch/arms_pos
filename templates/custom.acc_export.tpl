@@ -253,84 +253,102 @@ var CUSTOM_ACC_EXPORT = {
 	</h1>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger rounded mx-3">
+		The following error(s) has occured:
 	<ul class=err>
 		{foreach from=$err item=e}
 		<li>{$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
-<form id="data-form" method="post" class="form" name="f_a" onsubmit="return false">	
-<input type="hidden" name="debug" value="{if $smarty.request.debug}1{else}0{/if}"/>
-<input type="hidden" name="schedule_id" value="{$form.schedule_id|default:0}"/>
-<input type="hidden" name="user_id" value="{$sessioninfo.id}"/>
-<table cellspacing="5" cellpadding="4" border="0">
-	<tr>	
-		<td><b>From</b></td>
-		<td>
-			<input size="10" type="text" name="date_from" value="{$form.date_from}" id="date_from" readonly>
-			<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">&nbsp;&nbsp;&nbsp;&nbsp;
-		</td>
-	</tr>
-	<tr>
-		<td><b>To</b></td>
-		<td>
-			<input size="10" type="text" name="date_to" value="{$form.date_to}" id="date_to" readonly>
-			<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
-		</td>
-	</tr>
-	<tr>
-		<td><b>Export Format</b></td>
-		<td>
-			<select name="export_format" id="export_format">
-				<option value="">-- Select --</option>
-				{foreach from=$format_list item=r}
-					<option value="{$r.id}">{$r.title}</option>
-				{/foreach}
-			</select>
-		</td>
-	</tr>
-	{if $branch && !$is_consignment}
-		<tr>
-			<td><b>Branch</b></td>
-			<td>
-				<select name="branch_id" id="branch_id">
-					<option value="">-- Select --</option>
-					{foreach from=$branch item=r}
-						<option value="{$r.id}">{$r.code}</option>
-					{/foreach}
-				</select>
-			</td>
-		</tr>
-	{else}
-		<input type="hidden" name="branch_id" value="{$form.branch_id.0}"/>
-	{/if}
-	<tr>
-		<td><b>Generate Now</b></td>
-		<td>
-			<input type="radio" name="generate_now" value="1"> Yes &nbsp;
-			<input type="radio" name="generate_now" value="0" checked> No
-		</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td>
-			<input type="button" name="btnGenerate" onclick="CUSTOM_ACC_EXPORT.generate();" value="Generate">
-		</td>
-	</tr>
-</table>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form id="data-form" method="post" class="form" name="f_a" onsubmit="return false">	
+			<input type="hidden" name="debug" value="{if $smarty.request.debug}1{else}0{/if}"/>
+			<input type="hidden" name="schedule_id" value="{$form.schedule_id|default:0}"/>
+			<input type="hidden" name="user_id" value="{$sessioninfo.id}"/>
+			<table cellspacing="5" cellpadding="4" border="0">
+				<tr>	
+					<td><b class="form-label">From</b></td>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" type="text" name="date_from" value="{$form.date_from}" id="date_from" readonly>
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">&nbsp;&nbsp;&nbsp;&nbsp;
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">To</b></td>
+					<td>
+						<div class="form-inline">
+							<input class="form-control"  type="text" name="date_to" value="{$form.date_to}" id="date_to" readonly>
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Export Format</b></td>
+					<td>
+						<select class="form-control" name="export_format" id="export_format">
+							<option value="">-- Select --</option>
+							{foreach from=$format_list item=r}
+								<option value="{$r.id}">{$r.title}</option>
+							{/foreach}
+						</select>
+					</td>
+				</tr>
+				{if $branch && !$is_consignment}
+					<tr>
+						<td><b class="form-label">Branch</b></td>
+						<td>
+							<select class="form-control" name="branch_id" id="branch_id">
+								<option value="">-- Select --</option>
+								{foreach from=$branch item=r}
+									<option value="{$r.id}">{$r.code}</option>
+								{/foreach}
+							</select>
+						</td>
+					</tr>
+				{else}
+					<input type="hidden" name="branch_id" value="{$form.branch_id.0}"/>
+				{/if}
+				<tr>
+					<td><b class="form-label">Generate Now</b></td>
+					<td>
+						<input type="radio" name="generate_now" value="1"> Yes &nbsp;
+						<input type="radio" name="generate_now" value="0" checked> No
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="button" class="btn btn-primary" name="btnGenerate" onclick="CUSTOM_ACC_EXPORT.generate();" value="Generate">
+					</td>
+				</tr>
+			</table>
+			</form>
+	</div>
+</div>
 
 <div style="padding:10px 0;">
-  <div class="tab" style="height:20px;white-space:nowrap;">
-  &nbsp;&nbsp;&nbsp;
-    <a href="javascript:void(0);" data-type="active" class="active">Active</a>
-    <a href="javascript:void(0);" data-type="archive" >Archive</a>
+  <div class="row mx-3 mb-2">
+	<div class="tab" style="white-space:nowrap;">
+		  <a href="javascript:void(0);" data-type="active" class="active btn btn-outline-primary btn-rounded">Active</a>
+		  <a href="javascript:void(0);" data-type="archive" class=" btn btn-outline-primary btn-rounded" >Archive</a>
+		</div>
   </div>
-  <div id="div_grn" style="border:1px solid #000">
+  <div id="div_grn" >
     <div id="data-result">
     </div>
   </div>

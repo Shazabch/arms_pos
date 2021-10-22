@@ -313,83 +313,124 @@ function reactivate(id){
   <span id="message_box_status"></span>
 </h1>
 </div>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
 The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
-<li> {$e}
+<div class="alert alert-danger mx-3 rounded">
+	<li> {$e} </li>
+</div>
 {/foreach}
 </ul>
 {/if}
-<form id="data-form" method="post" class="form" nama="f_a" onsubmit="return false">	
-	<input type="hidden" name="debug" value="{if $smarty.request.debug}1{else}0{/if}"/>
-	<input type="hidden" name="schedule_id" value="{$form.schedule_id|default:0}"/>
-	<input type="hidden" name="user_id" value="{$sessioninfo.id}"/>
-	<b>From</b> <input size=10 type=text name=date_from value="{$form.date_from}" id="date_from">
-	<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>To</b> <input size=10 type=text name=date_to value="{$form.date_to}" id="date_to">
-	<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-	<b>Format</b> <select name="export_type" onchange="change_format();">
-    {foreach from=$accountings key=class item=a}
-    <option data-groupby="{'|'|implode:$a.groupby}" data-dataType-cscn="{if $a.dataType.cscn}1{else}0{/if}" data-dataType-cs="{if $a.dataType.cs}1{else}0{/if}" data-dataType-arcn="{if $a.dataType.arcn}1{else}0{/if}" data-dataType-ar="{if $a.dataType.ar}1{else}0{/if}" data-dataType-cn="{if $a.dataType.cn}1{else}0{/if}" data-dataType-ap="{if $a.dataType.ap}1{else}0{/if}" data-dataType-dn="{if $a.dataType.dn}1{else}0{/if}" value="{$class}" {if $form.export_type eq $class}selected="selected"{/if}>
-		{$class}
-		{if $a.version}({$a.version}){/if}
-	</option>
-    {/foreach}
-  </select> 
-  <br/>
-  <div id="data_type_row">
-    <b>Data Type</b>
-    <select id="data_type" name="data_type" data-selected="{$form.data_type|default:"cs"}">
-    </select>
+<div class="card mx-3">
+	<div class="card-body">
+		<form id="data-form" method="post" class="form" nama="f_a" onsubmit="return false">	
+			<input type="hidden" name="debug" value="{if $smarty.request.debug}1{else}0{/if}"/>
+			<input type="hidden" name="schedule_id" value="{$form.schedule_id|default:0}"/>
+			<input type="hidden" name="user_id" value="{$sessioninfo.id}"/>
+			<div class="row">
+				<div class="col-md-3">
+					<b class="form-label">From</b>
+				<div class="form-inline">
+					<input class="form-control"  type=text name=date_from value="{$form.date_from}" id="date_from">
+					&nbsp;&nbsp;	<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">To</b>
+				 <div class="form-inline">
+					<input class="form-control"  type=text name=date_to value="{$form.date_to}" id="date_to">
+				&nbsp;&nbsp;	<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				 </div>
+				</div>
+			
+			<div class="col-md-6">
+				<b class="form-label">Format</b> 
+				<select class="form-control" name="export_type" onchange="change_format();">
+				{foreach from=$accountings key=class item=a}
+				<option data-groupby="{'|'|implode:$a.groupby}" data-dataType-cscn="{if $a.dataType.cscn}1{else}0{/if}" data-dataType-cs="{if $a.dataType.cs}1{else}0{/if}" data-dataType-arcn="{if $a.dataType.arcn}1{else}0{/if}" data-dataType-ar="{if $a.dataType.ar}1{else}0{/if}" data-dataType-cn="{if $a.dataType.cn}1{else}0{/if}" data-dataType-ap="{if $a.dataType.ap}1{else}0{/if}" data-dataType-dn="{if $a.dataType.dn}1{else}0{/if}" value="{$class}" {if $form.export_type eq $class}selected="selected"{/if}>
+					{$class}
+					{if $a.version}({$a.version}){/if}
+				</option>
+				{/foreach}
+			  </select> 
+			</div>
+			<div class="col-md-6">
+			  <div id="data_type_row">
+				
+					<b class="form-label">Data Type</b>
+				<select class="form-control" id="data_type" name="data_type" data-selected="{$form.data_type|default:"cs"}">
+				</select>
+				</div>
+			</div> 
+				<div class="col-md-6">
+					<span id="groupby_row" style="margin: 0 0 0 20px;">
+						<b class="form-label">Group By</b> 
+						<select class="form-control" id="groupby" name="groupby" data-selected="{$form.groupby}">
+						  {foreach from=$groupby item=name}
+						  <option value="{$name}" {if $form.groupby eq $name}selected="selected"{/if}>{$name}</option>
+						  {/foreach}
+						</select></span>
+				</div>
+			  
 	
-	<span id="groupby_row" style="margin: 0 0 0 20px;">
-  <b>Group By</b> <select id="groupby" name="groupby" data-selected="{$form.groupby}">
-    {foreach from=$groupby item=name}
-    <option value="{$name}" {if $form.groupby eq $name}selected="selected"{/if}>{$name}</option>
-    {/foreach}
-  </select></span>
-  </div>  
-  {if $branches && !$is_consignment}
-  <b>Branch</b>
-  <select name="branch_id">
-    {foreach name="branch" from=$branches item=b}
-    <option value="{$b.id}">{$b.code}</option>
-    {/foreach}
-  </select>
-  <br/>
-  {else}
-    <input type="hidden" name="branch_id" value="{$form.branch_id.0}"/>
-  {/if}
-  <b>Generate Now</b>
-  <select id="generate_now" name="generate_now">
-    <option value="0">No</option>
-    <option value="1">Yes</option>
-  </select>
-  <br/>
-  <button class="btn btn-primary" name="">Generate</button>
-  <br/>
-  <span style="white-space:normal;color:#ff0000;">Please note that SageUBS and IA Accounting Software is no longer under our Accounting Software Export Support List.<br/>For any remaining Accounting Software listed, their compatibility is only verified until the 1st of July 2016.<br/>ARMS Software will not be held liable for any compatibility issues resulting from any accounting software upgrades from that period after.
-</span><br/>
-</form>
-
-<div style="padding:10px 0;">
-  <div class="tab" style="height:20px;white-space:nowrap;">
-  &nbsp;&nbsp;&nbsp;
-    <a href="javascript:void(0);" data-type="active" class="active">Active</a>
-    <a href="javascript:void(0);" data-type="archive" >Archive</a>
-  </div>
-  <div id="div_grn" style="border:1px solid #000">
-    <div id="data-result">
-
-    </div>
-  </div>
+			  <div class="col-md-6">
+				{if $branches && !$is_consignment}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+				  {foreach name="branch" from=$branches item=b}
+				  <option value="{$b.id}">{$b.code}</option>
+				  {/foreach}
+				</select>
+				<br/>
+				{else}
+				  <input type="hidden" name="branch_id" value="{$form.branch_id.0}"/>
+				{/if}
+			  </div>
+	
+			 <div class="col-md-6">
+				<b class="form-label">Generate Now</b>
+				<select class="form-control" id="generate_now" name="generate_now">
+				  <option value="0">No</option>
+				  <option value="1">Yes</option>
+				</select>
+			 </div>
+			</div>
+		  
+		  <button class="btn btn-primary mt-2" name="">Generate</button>
+		  <br/>
+		 <div class="alert alert-danger mx-3 mt-3">
+			<span >Please note that SageUBS and IA Accounting Software is no longer under our Accounting Software Export Support List.<br/>For any remaining Accounting Software listed, their compatibility is only verified until the 1st of July 2016.<br/>ARMS Software will not be held liable for any compatibility issues resulting from any accounting software upgrades from that period after.
+		 </div>
+		</span>
+		</form>
+		
+	</div>
 </div>
-
+<div class="row mx-3">
+	<div style="padding:10px 0;">
+		<div class="tab" style="white-space:nowrap;">
+		  <a href="javascript:void(0);" data-type="active" class="btn btn-outline-primary btn-rounded">Active</a>
+		  <a href="javascript:void(0);" data-type="archive" class="btn btn-outline-primary btn-rounded" >Archive</a>
+		</div>
+		<div id="div_grn mt-3">
+		  <div id="data-result">
+	  
+		  </div>
+		</div>
+	  </div>
+	  
+</div>
 <iframe id="_download" style="visibility: hidden;width:1px;height: 1px;" src=""></iframe>
 <iframe id="_download2" style="visibility: hidden;width:1px;height: 1px;" src=""></iframe>
 

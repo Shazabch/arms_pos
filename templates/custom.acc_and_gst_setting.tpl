@@ -121,7 +121,13 @@ var CUSTOM_ACC_AND_GST_SETTING = {
 {/literal}
 </script>
 <p style="color:red">{$status}</p>
-<h1>Custom Account Setting</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Custom Account Setting</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <form name="f_a"  method="post">
     <input type="hidden" name="a" value="save">
 	{if $smarty.const.BRANCH_CODE!='HQ'}
@@ -133,65 +139,93 @@ var CUSTOM_ACC_AND_GST_SETTING = {
 		<br/><br/>
 	{/if}
 	<div id="data-form-details" {if $smarty.const.BRANCH_CODE!="HQ" && !$use_own_branch}style="display:none;"{/if}>
-		<p style="color:blue">Note: <br/>
-			- Account Code only can accept maximum 50 characters.<br/>
-			- Account Name only can accept maximum 100 characters.
-		</p>
-		<table class="table" cellpadding="5" border="1">
-			<tr>
-				<th>Description</th>
-				<th>Account Code</th>
-				<th>Account Name</th>
-				<th>Description</th>
-				<th>Account Code</th>
-				<th>Account Name</th>
-			</tr>
-			<tbody>
-				{foreach from=$acc_list key=k item=item name=acc_list}
-					{if $smarty.foreach.acc_list.iteration %2 != 0}
-						<tr>
-					{/if}
-					<td class="inputs_desc">{$item}</td>
-					<td><input type="text" class="inputs_acc_code" name="data[acc][{$k}][account_code]" value="{$acc_setting[$k].account_code|escape:'html'}" maxlength="50"/></td>
-					<td><input type="text" class="inputs_acc_name" name="data[acc][{$k}][account_name]" value="{$acc_setting[$k].account_name|escape:'html'}" maxlength="100"/></td>
-					{if $smarty.foreach.acc_list.iteration % 2 == 0}
-						</tr>
-					{elseif $smarty.foreach.acc_list.iteration % 2 != 0 && $smarty.foreach.acc_list.last == $smarty.foreach.acc_list.iteration}
-						<td></td>
-						<td></td>
-						<td></td>
-						</tr>
-					{/if}
-				{/foreach}
-			</tbody>
-		</table>
+	
+		<div class="alert alert-primary mx-3 rounded">
+			<p ><b>Note:</b> <br/>
+				- Account Code only can accept maximum 50 characters.<br/>
+				- Account Name only can accept maximum 100 characters.
+			</p>
+			
+		</div>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table" cellpadding="5" class="report_table table mb-0 text-md-nowrap  table-hover"
+					>
+						<thead class="bg-gray-100 fs-09">
+							<tr>
+								<th class="text-center">Description</th>
+								<th class="text-center">Account Code</th>
+								<th class="text-center">Account Name</th>
+								<th class="text-center">Description</th>
+								<th class="text-center">Account Code</th>
+								<th class="text-center">Account Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=$acc_list key=k item=item name=acc_list}
+								{if $smarty.foreach.acc_list.iteration %2 != 0}
+									<tbody class="fs-08">
+										<tr>
+											{/if}
+											<td class="inputs_desc">{$item}</td>
+											<td><input type="text" class="inputs_acc_code form-control" name="data[acc][{$k}][account_code]" value="{$acc_setting[$k].account_code|escape:'html'}" maxlength="50"/></td>
+											<td><input type="text" class="inputs_acc_name form-control" name="data[acc][{$k}][account_name]" value="{$acc_setting[$k].account_name|escape:'html'}" maxlength="100"/></td>
+											{if $smarty.foreach.acc_list.iteration % 2 == 0}
+												</tr>
+									</tbody>
+								{elseif $smarty.foreach.acc_list.iteration % 2 != 0 && $smarty.foreach.acc_list.last == $smarty.foreach.acc_list.iteration}
+									<td></td>
+									<td></td>
+									<td></td>
+									</tr>
+								{/if}
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 
-		<br />
-
-		<h1>Custom Account GST Setting</h1>
-		<p style="color:blue">Note: <br/>
-			- GST Account Code only can accept maximum 50 characters.<br/>
-			- GST Account Name only can accept maximum 100 characters.
-		</p>
-		<table class="table" cellpadding="5" border="1">
-			<tr>
-				<th>Description</th>
-				<th>Account Code</th>
-				<th>Account Name</th>
-				<th>Description</th>
-				<th>Account Code</th>
-				<th>Account Name</th>
-			</tr>
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<h4 class="content-title mb-0 my-auto ml-4 text-primary">Custom Account GST Setting</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+		<div class="alert alert-primary rounded mx-3">
+			<p><b>Note:</b> <br/>
+				- GST Account Code only can accept maximum 50 characters.<br/>
+				- GST Account Name only can accept maximum 100 characters.
+			</p>
+		</div>
+		<div class="card mx-3">
+			<div class="card-body">
+				<table class="table" cellpadding="5" class="report_table table mb-0 text-md-nowrap  table-hover"
+		>
+			<thead class="bg-gray-100">
+				<tr>
+					<th class="text-center">Description</th>
+					<th class="text-center">Account Code</th>
+					<th class="text-center">Account Name</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Account Code</th>
+					<th class="text-center">Account Name</th>
+				</tr>
+			</thead>
 			<tbody>
 				{foreach from=$gst_list key=k item=item name=gst_list}
 					{if $smarty.foreach.gst_list.iteration %2 != 0}
-						<tr>
-					{/if}
-					<td class="inputs_gst_desc">{$item.code} @{$item.rate}%</td>
-					<td><input type="text" class="inputs_gst_acc_code" name="data[gst][{$item.id}][account_code]" value="{$gst_setting[$item.id].account_code|escape:'html'}" maxlength="50"/></td>
-					<td><input type="text" class="inputs_gst_acc_name" name="data[gst][{$item.id}][account_name]" value="{$gst_setting[$item.id].account_name|escape:'html'}" maxlength="100"/></td>
-					{if $smarty.foreach.gst_list.iteration % 2 == 0}
-						</tr>
+						<tbody class="fs-08">
+							<tr>
+								{/if}
+								<td class="inputs_gst_desc">{$item.code} @{$item.rate}%</td>
+								<td><input type="text" class="inputs_gst_acc_code form-control" name="data[gst][{$item.id}][account_code]" value="{$gst_setting[$item.id].account_code|escape:'html'}" maxlength="50"/></td>
+								<td><input type="text" class="inputs_gst_acc_name form-control" name="data[gst][{$item.id}][account_name]" value="{$gst_setting[$item.id].account_name|escape:'html'}" maxlength="100"/></td>
+								{if $smarty.foreach.gst_list.iteration % 2 == 0}
+									</tr>
+						</tbody>
 					{elseif $smarty.foreach.gst_list.iteration % 2 != 0 && $smarty.foreach.gst_list.last == $smarty.foreach.gst_list.iteration}
 						<td></td>
 						<td></td>
@@ -201,11 +235,13 @@ var CUSTOM_ACC_AND_GST_SETTING = {
 				{/foreach}
 			</tbody>
 		</table>
+			</div>
+		</div>
 	</div>
 </form>
 
 <div id="saving" style="position:fixed;bottom:0;background:#ddd;width:100%;text-align:center;left:0;padding:3px;opacity:0.9;">
-	<input id="btnSave" name="btnSave" type=button value="Save" onclick="CUSTOM_ACC_AND_GST_SETTING.save();">
+	<input id="btnSave" class="btn btn-primary" name="btnSave" type=button value="Save" onclick="CUSTOM_ACC_AND_GST_SETTING.save();">
 </div>
 {include file='footer.tpl'}
 

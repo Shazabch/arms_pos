@@ -36,112 +36,148 @@ function zoom_dept(dept_id)
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
-
-<form name=f1 class="noprint" action="{$smarty.server.PHP_SELF}" method=get style="border:1px solid #eee;padding:5px;white-space:nowrap;">
-<p>
-<b>GRA Date From</b> <input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp; <b>To</b> <input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
-
-<!-- calendar stylesheet -->
-<link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
-
-<!-- main calendar program -->
-<script type="text/javascript" src="js/jscalendar/calendar.js"></script>
-
-<!-- language for the calendar -->
-<script type="text/javascript" src="js/jscalendar/lang/calendar-en.js"></script>
-
-<!-- the following script defines the Calendar.setup helper function, which makes
-   adding a calendar a matter of 1 or 2 lines of code. -->
-<script type="text/javascript" src="js/jscalendar/calendar-setup.js"></script>
-
-{literal}
-<script type="text/javascript">
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 
-    Calendar.setup({
-        inputField     :    "added1",     // id of the input field
-        ifFormat       :    "%Y-%m-%d",      // format of the input field
-        button         :    "t_added1",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-		//,
-        //onUpdate       :    load_data
-    });
 
-    Calendar.setup({
-        inputField     :    "added2",     // id of the input field
-        ifFormat       :    "%Y-%m-%d",      // format of the input field
-        button         :    "t_added2",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-		//,
-        //onUpdate       :    load_data
-    });
+        <form name=f1 class="noprint" action="{$smarty.server.PHP_SELF}" method="get">
+            <p>
+                <div class="card mx-3">
+                    <div class="card-body">
+            <div class="form-inline">
+                <b class="form-label">GRA Date From</b> &nbsp;&nbsp;
+            <input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
+            <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
+            &nbsp;&nbsp;&nbsp;<b class="form-label">To</b>&nbsp;&nbsp; 
+            <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+            
+            </div>
+            <!-- calendar stylesheet -->
+            <link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
+            
+            <!-- main calendar program -->
+            <script type="text/javascript" src="js/jscalendar/calendar.js"></script>
+            
+            <!-- language for the calendar -->
+            <script type="text/javascript" src="js/jscalendar/lang/calendar-en.js"></script>
+            
+            <!-- the following script defines the Calendar.setup helper function, which makes
+               adding a calendar a matter of 1 or 2 lines of code. -->
+            <script type="text/javascript" src="js/jscalendar/calendar-setup.js"></script>
+            
+            {literal}
+            <script type="text/javascript">
+            
+            
+                Calendar.setup({
+                    inputField     :    "added1",     // id of the input field
+                    ifFormat       :    "%Y-%m-%d",      // format of the input field
+                    button         :    "t_added1",  // trigger for the calendar (button ID)
+                    align          :    "Bl",           // alignment (defaults to "Bl")
+                    singleClick    :    true
+                    //,
+                    //onUpdate       :    load_data
+                });
+            
+                Calendar.setup({
+                    inputField     :    "added2",     // id of the input field
+                    ifFormat       :    "%Y-%m-%d",      // format of the input field
+                    button         :    "t_added2",  // trigger for the calendar (button ID)
+                    align          :    "Bl",           // alignment (defaults to "Bl")
+                    singleClick    :    true
+                    //,
+                    //onUpdate       :    load_data
+                });
+            
+            </script>
+            {/literal}
+          
+            <p>
+            <!--input type=hidden name=a value="list"-->
+           <div class="row">
+            <div class="col-md-3">
+                {if $BRANCH_CODE eq 'HQ'}
+            <b class="form-label">Branch</b>
+            <select class="form-control" name=branch_id>
+            <option value="">-- All --</option>
+            {section name=i loop=$branch}
+            <option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{assign var=_br value=`$branch[i].code`}{/if}>{$branch[i].code}</option>
+            {/section}
+            </select>
+           
+            {/if}
+            </div>
 
-</script>
-{/literal}
-&nbsp;
-<p>
-<!--input type=hidden name=a value="list"-->
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b>
-<select name=branch_id>
-<option value="">-- All --</option>
-{section name=i loop=$branch}
-<option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{assign var=_br value=`$branch[i].code`}{/if}>{$branch[i].code}</option>
-{/section}
-</select>
-&nbsp;
-{/if}
-<b>Department</b>
-<select name=department_id>
-<option value="">-- All --</option>
-{section name=i loop=$dept}
-<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{assign var=_dp value=`$dept[i].description`}{/if}>{$dept[i].description}</option>
-{/section}
-</select>
-&nbsp;
-<b>Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]</b>
-{assign var=_st value='All'}
-<select name=returned>
-<option value="">-- All --</option>
-<option value="0" {if $smarty.request.returned eq '0'}selected{assign var=_st value='Saved & Waiting Approval'}{/if}>Saved & Waiting Approval</option>
-<option value="1" {if $smarty.request.returned eq '1'}selected{assign var=_st value='Approved'}{/if}>Approved</option>
-<option value="2" {if $smarty.request.returned eq '2'}selected{assign var=_st value='Completed'}{/if}>Completed</option>
-<option value="3" {if $smarty.request.returned eq '3'}selected{assign var=_st value='Un-checkout'}{/if}>Un-checkout</option>
-</select><br><br>
+           <div class="col-md-3">
+            <b class="form-label">Department</b>
+            <select class="form-control" name=department_id>
+            <option value="">-- All --</option>
+            {section name=i loop=$dept}
+            <option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{assign var=_dp value=`$dept[i].description`}{/if}>{$dept[i].description}</option>
+            {/section}
+            </select>
+           </div>
+         
+            <div class="col-md-3">
+                <b class="form-label">Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]</b>
+            {assign var=_st value='All'}
+            <select class="form-control" name=returned>
+            <option value="">-- All --</option>
+            <option value="0" {if $smarty.request.returned eq '0'}selected{assign var=_st value='Saved & Waiting Approval'}{/if}>Saved & Waiting Approval</option>
+            <option value="1" {if $smarty.request.returned eq '1'}selected{assign var=_st value='Approved'}{/if}>Approved</option>
+            <option value="2" {if $smarty.request.returned eq '2'}selected{assign var=_st value='Completed'}{/if}>Completed</option>
+            <option value="3" {if $smarty.request.returned eq '3'}selected{assign var=_st value='Un-checkout'}{/if}>Un-checkout</option>
+            </select>
+            </div>
 
-<b>Vendor</b>
-<select name=vendor_id>
-<option value="">-- All --</option>
-{section name=i loop=$vendor}
-<option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
-{/section}
-</select>
-&nbsp;&nbsp;&nbsp; <input class="btn btn-primary" type=submit value="Refresh">
+            <div class="col-md-3">
+                <b class="form-label">Vendor</b>
+            <select class="form-control" name=vendor_id>
+            <option value="">-- All --</option>
+            {section name=i loop=$vendor}
+            <option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
+            {/section}
+           </div>
+            </select>
+            </div>
+            <input class="btn btn-primary mt-3 ml-3" type=submit value="Refresh">
+            
+            </p>
+            
+            <p>
+               <div class="mt-4 ml-1">
+                {if $config.foreign_currency}
+                * {$LANG.BASE_CURRENCY_CONVERT_NOTICE}<br />
+            {/if}
+            * The Amount Is Rounding-Adjustment Exclusive.
+               </div>
+            </p>
+            
+            </form>
+        </div>
+    </div>
 
-</p>
-
-<p>
-	{if $config.foreign_currency}
-		* {$LANG.BASE_CURRENCY_CONVERT_NOTICE}<br />
-	{/if}
-	* The Amount Is Rounding-Adjustment Exclusive.
-</p>
-
-</form>
-<br>
-<h2>
-Date: From {$smarty.request.from|default:"-"} to {$smarty.request.to|default:"-"}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+                Date: From {$smarty.request.from|default:"-"} to {$smarty.request.to|default:"-"}
 &nbsp;&nbsp;
 Department: {$_dp|default:"All"}
 &nbsp;&nbsp;
 Vendor: {$_vd|default:"All"}
 &nbsp;&nbsp;
 Status: {$_st|default:"All"}
-</h2>
-
+            </h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <!-- print dialog -->
 <div id=print_dialog style="background:#fff;border:3px solid #000;width:250px;height:140px;position:absolute; padding:10px; display:none;">
 <form name=f_prn method=get>

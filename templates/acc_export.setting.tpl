@@ -21,27 +21,39 @@
 </style>
 
 {/literal}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE} - Setting</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+  <div class="card-body">
+    <form id="data-form" method=post class=form nama="f_a">
 
-<h1>{$PAGE_TITLE} - Setting</h1>
-<form id="data-form" method=post class=form nama="f_a">
-
-  <input type="hidden" name="load" value="1"/>
-  {*if $smarty.const.BRANCH_CODE!='HQ'}
-  <b>Use own Branch setting</b> <select name="use_own_branch">
-    <option value="0">No</option>
-    <option value="1">Yes</option>
-  </select><br/>
-  {/if*}
-  <b>Format</b> <select name="export_type" onchange="submit_form();">
-    {foreach from=$accountings key=class item=a}
-    <option {if $form.export_type eq $class}selected="selected"{/if}>{$class}</option>
-    {/foreach}
-  </select>
-
-  <button class="btn btn-primary" type="submit">Load</button><br/>
-  <span style="white-space:normal;color:#ff0000;">Please note that SageUBS and IA Accounting Software is no longer under our Accounting Software Export Support List.<br/>For any remaining Accounting Software listed, their compatibility is only verified until the 1st of July 2016.<br/>ARMS Software will not be held liable for any compatibility issues resulting from any accounting software upgrades from that period after.
-</span><br/>
-</form>
+      <input type="hidden" name="load" value="1"/>
+      {*if $smarty.const.BRANCH_CODE!='HQ'}
+      <b>Use own Branch setting</b> <select name="use_own_branch">
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select><br/>
+      {/if*}
+      <b class="form-label">Format</b> 
+      <select class="form-control" name="export_type" onchange="submit_form();">
+        {foreach from=$accountings key=class item=a}
+        <option {if $form.export_type eq $class}selected="selected"{/if}>{$class}</option>
+        {/foreach}
+      </select>
+    
+      <button class="btn btn-primary mt-2" type="submit">Load</button><br/>
+     <div class="alert alert-danger rounded mt-2">
+      <span style="white-space:normal;">Please note that SageUBS and IA Accounting Software is no longer under our Accounting Software Export Support List.<br/>For any remaining Accounting Software listed, their compatibility is only verified until the 1st of July 2016.<br/>ARMS Software will not be held liable for any compatibility issues resulting from any accounting software upgrades from that period after.
+     </div>
+    </span>
+    </form>
+  </div>
+</div>
 
 {if $msg}
 <font color="red">{$msg}</font>

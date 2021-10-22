@@ -78,13 +78,13 @@ img.img_delete_report_field:hover, img.img_delete_share_user:hover{
 	margin: 1px;
 	padding: 2px;
 	white-space: nowrap;
-	background-color:#fff;
+	
 	float:left;
 	min-width:140px;
 	cursor:pointer;
 	padding-right: 20px;
 	line-height: 25px;
-	border:1px solid #999;
+	
 }
 .div_droplist{
 	width:100%;
@@ -873,16 +873,28 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 		{include file="custom.setup_acc_export.report_field.tpl" tmp_field="__TMP_FIELD__"}
 	</ul>
 </div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Accounting Export Format {if $form.id}(ID#{$form.id}){else}(New){/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<h1>Accounting Export Format {if $form.id}(ID#{$form.id}){else}(New){/if}</h1>
 <form name="f_a" onSubmit="return false;" method="post" id="test">
 	<input type="hidden" name="id" value="{$form.id}" />
 	<input type="hidden" name="branch_id" value="{if $form.branch_id}{$form.branch_id}{else}{$sessioninfo.branch_id}{/if}" />
 	<input type="hidden" name="a" />
 	
-	{if $templates_list}
-		<p {if $view_only}style="display:none;"{/if}><b>Pre-list Templates</b>&nbsp;&nbsp;&nbsp;
-			<select name="template_list" id="template_list" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.templates_changed(this);">
+<div class="card mx-3">
+	<div class="card-body">
+		
+			{if $templates_list}
+		<p {if $view_only}style="display:none;"{/if}>
+			<b class="form-label">Pre-list Templates</b>
+			<select class="form-control" name="template_list" id="template_list" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.templates_changed(this);">
 				<option value="">-- Select --</option>
 				{foreach from=$templates_list key=k item=items}
 					<option value="{$items.tid}" {if $form.tid eq $items.tid}selected{/if}>{$items.t_title}</option>
@@ -892,45 +904,54 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 	{else}
 		<br />
 	{/if}
-	<table class="stdframe" style="background:#fff" cellspacing="5" cellpadding="4" border="0">
+
+	<table class="stdframe"  cellspacing="5" cellpadding="4" border="0">
+		<div class="row">
 		<tr>
-			<td><h2>Settings</h2><td>
+			<td><h3>Settings</h3><td>
 			<td></td>
 		</tr>
+		<div class="col-md-6">
+			<tr>
+				<td><b class="form-label">Title</b></td>
+				<td><input class="form-control" type="text" name="title" value="{$form.title|escape:'html'}" size="40" maxlength="100"/></td>
+			</tr>
+		</div>
+		<div class="col-md-6">
+			<tr>
+				<td><b class="form-label">File Format</b></td>
+				<td>
+					<select class="form-control" name="file_format">
+						<option value="">-- Select --</option>
+						{foreach from=$file_format_list key=k item=items}
+							<option value="{$k}" {if $form.file_format eq $k}selected{/if}>{$items}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+		</div>
 		<tr>
-			<td><b>Title</b></td>
-			<td><input type="text" name="title" value="{$form.title|escape:'html'}" size="40" maxlength="100"/></td>
-		</tr>
-		<tr>
-			<td><b>File Format</b></td>
+			<td><b class="form-label">Delimiter</b></td>
 			<td>
-				<select name="file_format">
-					<option value="">-- Select --</option>
-					{foreach from=$file_format_list key=k item=items}
-						<option value="{$k}" {if $form.file_format eq $k}selected{/if}>{$items}</option>
-					{/foreach}
-				</select>
+				<div class="form-inline">
+					<select class="form-control" name="delimiter" id="delimiter" {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}disabled{/if}>
+						<option value="">-- Select --</option>
+						<option value="," {if $form.delimiter eq ","}selected{/if}>,</option>
+						<option value="|" {if $form.delimiter eq "|"}selected{/if}>|</option>
+						<option value=";" {if $form.delimiter eq ";"}selected{/if}>;</option>
+					</select>
+					<span>
+					<div class="form-inline ">
+						&nbsp;&nbsp;&nbsp;<input type="checkbox" name="is_other" id ="is_other" value="1" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.is_other();" {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}checked{/if}>&nbsp;<b class="text-dark">Other</b>&nbsp;&nbsp;<input class="form-control" maxlength="1" size="5" type="text" name="other_delimiter" id ="other_delimiter"  {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}value="{$form.delimiter|escape:'html'}"{else}disabled="true"{/if}/>
+					</div>
+					</span>
+				</div>
 			</td>
 		</tr>
 		<tr>
-			<td><b>Delimiter</b></td>
+			<td><b class="form-label">Date Format</b></td>
 			<td>
-				<select name="delimiter" id="delimiter" {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}disabled{/if}>
-					<option value="">-- Select --</option>
-					<option value="," {if $form.delimiter eq ","}selected{/if}>,</option>
-					<option value="|" {if $form.delimiter eq "|"}selected{/if}>|</option>
-					<option value=";" {if $form.delimiter eq ";"}selected{/if}>;</option>
-				</select>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span>
-					<input type="checkbox" name="is_other" id ="is_other" value="1" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.is_other();" {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}checked{/if}>Other&nbsp;&nbsp;<input maxlength="1" size="5" type="text" name="other_delimiter" id ="other_delimiter"  {if $form.delimiter && ($form.delimiter neq "," && $form.delimiter neq "|" && $form.delimiter neq ";")}value="{$form.delimiter|escape:'html'}"{else}disabled="true"{/if}/>
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Date Format</b></td>
-			<td>
-				<select name="date_format">
+				<select class="form-control" name="date_format">
 					<option value="">-- Select --</option>
 					<option value="d/m/Y" {if $form.date_format eq "d/m/Y"}selected{/if}>DD/MM/YYYY</option>
 					<option value="j/n/Y" {if $form.date_format eq "j/n/Y"}selected{/if}>D/M/YYYY</option>
@@ -940,9 +961,9 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 			</td>
 		</tr>
 		<tr>
-			<td><b>Time Format</b></td>
+			<td><b class="form-label">Time Format</b></td>
 			<td>
-				<select name="time_format">
+				<select class="form-control" name="time_format">
 					<option value="">-- Select --</option>
 					<option value="h:i" {if $form.time_format eq "h:i"}selected{/if}>hh:mm (12 hr)</option>
 					<option value="H:i" {if $form.time_format eq "H:i"}selected{/if}>hh:mm (24 hr)</option>
@@ -952,9 +973,9 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 		</tr>
 		<tr>
 		
-			<td><b>Row Format</b></td>
+			<td><b class="form-label">Row Format</b></td>
 			<td>
-				<select id="row_format" name="row_format" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.change_row_format(this);">
+				<select class="form-control" id="row_format" name="row_format" onchange="SETUP_CUSTOM_ACC_EXPORT_OPEN.change_row_format(this);">
 					<option value="">-- Select --</option>
 					<option value="single_line" {if $form.row_format eq "single_line"}selected{/if}>Single Line</option>
 					<option value="two_row" {if $form.row_format eq "two_row"}selected{/if}>Two Row</option>
@@ -964,139 +985,151 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 			</td>
 		</tr>
 		<tr>
-			<td><b>Data Type</b></td>
+			<td><b class="form-label">Data Type</b></td>
 			<td id="get_data_type">
 				{if $form.data_type}
 					{include file="custom.setup_acc_export.data_type.tpl"}
 				{else}
-					<select id="data_type" name="data_type" disabled>
+					<select class="form-control" id="data_type" name="data_type" disabled>
 						<option value="">-- Select --</option>
 					</select>
 				{/if}
 			</td>
 		</tr>
 		<tr>
-			<td><b>Grouped By</b></td>
-			<td>Receipt</td>
+			<td><b class="form-label">Grouped By</b></td>
+			<td class="text-dark">Receipt</td>
 		</tr>
 		{if $form.id}
 			<tr>
-				<td><b>Created By</b></td>
+				<td><b class="form-label">Created By</b></td>
 				<td>
 					{$form.code}
 				</td>
 			</tr>
 		{/if}
+	</div>
 	</table>
-	<br />
-	<div class="stdframe" style="background:#fff" id="div_header_builder">
-		<table cellspacing="5" cellpadding="4" width="100%">
-			<tr>
-				<td><h2>Header Setting</h2></td>
-				<td></td>
-			<tr>
-			<tr>
-				<td>
-					<div id="div_droplist-header" class="div_droplist" style="width:auto; height:100px;">
-						<ul id="ul_droplist-header" name="ul_droplist-header" class="ul_droplist" style="height:100px;overflow:auto;">
-							{if $form.header_column}
-								{foreach from=$form.header_column key=k item=items}
-									<li>
-										<input type='text' name='header[]' {if $view_only}style='border:0;background-color:white;color:black'{else}style='border:0'{/if} value="{$items|escape:'html'}" maxlength="100"/>
-										{if !$view_only}
-											<img style='top:20%;right:0;position:absolute;' src='ui/icons/cancel.png' class='img_delete_report_field' title='Delete' name='delete_header[]' onclick='SETUP_CUSTOM_ACC_EXPORT_OPEN.delete_header_column(this);' />
-										{/if}
-									</li>
-								{/foreach}
-							{/if}
-						</ul>
-					</div>
-				</td>
-				<td valign="top" width="50px">
-					<input type="button" value="Add" onclick="SETUP_CUSTOM_ACC_EXPORT_OPEN.add_header_column();"/>
-				</td>
-			</tr>
-		</table>
+
+		
+	</div>
+</div>	
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="stdframe"  id="div_header_builder">
+				<table cellspacing="5" cellpadding="4" width="100%">
+					<tr>
+						<td><h3>Header Setting</h3></td>
+						<td></td>
+					<tr>
+					<tr>
+						<td>
+							<div id="div_droplist-header" class="div_droplist" style="width:auto; height:100px;">
+								<ul id="ul_droplist-header" name="ul_droplist-header" class="ul_droplist" style="height:100px;overflow:auto;">
+									{if $form.header_column}
+										{foreach from=$form.header_column key=k item=items}
+											<li>
+												<input type='text' class="form-control" name='header[]' {if $view_only}style='border:0;background-color:white;color:black'{else}style='border:0'{/if} value="{$items|escape:'html'}" maxlength="100"/>
+												{if !$view_only}
+													<img style='top:20%;right:0;position:absolute;' src='ui/icons/cancel.png' class='img_delete_report_field' title='Delete' name='delete_header[]' onclick='SETUP_CUSTOM_ACC_EXPORT_OPEN.delete_header_column(this);' />
+												{/if}
+											</li>
+										{/foreach}
+									{/if}
+								</ul>
+							</div>
+						</td>
+						<td valign="top" width="50px">
+							<input type="button" class="btn btn-primary" value="Add" onclick="SETUP_CUSTOM_ACC_EXPORT_OPEN.add_header_column();"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 	<br />
-	<div class="stdframe" id="div_report_builder" {if $form.data_type && $form.row_format}style="background:#fff;overflow:auto"{else}style="background:#fff;overflow:auto;display:none"{/if}>
-		<div id="divLeft" style="float:left;width:50%">
-			<table cellspacing="5" cellpadding="4" width="100%" id="tblLeft">
-				{if $form.row_format eq "single_line"}
-					{assign var=tmp_name value="Column"}
-				{elseif $form.row_format eq "two_row" || $form.row_format eq "no_repeat_master"}
-					{assign var=tmp_name value="Master"}
-					{assign var=tmp_name_detail value="Details"}
-				{elseif $form.row_format eq "ledger_format"}
-					{assign var=tmp_name value="Row"}
-					{assign var=tmp_name_detail value="Data"}
-				{/if}
-				<tr>
-					<td><h4 id="h_master">{$tmp_name}</h4></td>
-				</tr>
-				<tr>
-					<td valign="top">
-						<div id="div_droplist-master" class="div_droplist">
-							<ul id="ul_droplist-master" class="ul_droplist">
-								{foreach from=$form.data_column.master item=col_info name=fcol}
-									{if $col_info.field_type == "open_field"}
-										{if is_numeric($col_info.field_desc) && $col_info.field_desc == 0 && $col_info.field_desc !== "0.00"}
-											{assign var="tmp_desc" value="zero"}
-										{else}
-											{assign var="tmp_desc" value=$col_info.field_desc}
-										{/if}
-										
-										{if is_numeric($col_info.field_value) && $col_info.field_value == 0 && $col_info.field_value !== "0.00"}
-											{assign var="tmp_val" value="zero"}
-										{else}
-											{assign var="tmp_val" value=$col_info.field_value}
-										{/if}
-									{else}
-										{assign var="tmp_desc" value=$data_field[$col_info.field_type].field_desc}
-										{assign var="tmp_val" value=$col_info.field_value}
-									{/if}
-									{include file="custom.setup_acc_export.report_field.tpl" field_area='master' field_active=$col_info.field_active field_cancel=$col_info.field_cancel field_value=$tmp_val field_desc=$tmp_desc field_label_type=$col_info.field_label_type field_type=$col_info.field_type org_field_label=$col_info.org_field_label field_label=$col_info.field_label field_num=$smarty.foreach.fcol.iteration}
-								{/foreach}
-							</ul>
-						</div>
-					</td>
-				</tr>
-				<tr {if $form.row_format eq "single_line" || $form.row_format eq "ledger_format"}style="display:none" class="class_detail"{else}class="class_detail"{/if}>
-					<td><h4 id="h_detail">{$tmp_name_detail}</h4></td>
-				</tr>
-				<tr {if $form.row_format eq "single_line" || $form.row_format eq "ledger_format"}style="display:none" class="class_detail"{else}class="class_detail"{/if}>
-					<td valign="top">
-						<div id="div_droplist-detail" class="div_droplist">
-							<ul id="ul_droplist-detail" class="ul_droplist">
-								{foreach from=$form.data_column.detail item=col_info name=fcol}
-									{if $col_info.field_type == "open_field"}
-										{if is_numeric($col_info.field_desc) && $col_info.field_desc == 0 && $col_info.field_desc !== "0.00"}
-											{assign var="tmp_desc" value="zero"}
-										{else}
-											{assign var="tmp_desc" value=$col_info.field_desc}
-										{/if}
-										
-										{if is_numeric($col_info.field_value) && $col_info.field_value == 0 && $col_info.field_value !== "0.00"}
-											{assign var="tmp_val" value="zero"}
-										{else}
-											{assign var="tmp_val" value=$col_info.field_value}
-										{/if}
-									{else}
-										{assign var="tmp_desc" value=$data_field[$col_info.field_type].field_desc}
-										{assign var="tmp_val" value=$col_info.field_value}
-									{/if}
-									{include file="custom.setup_acc_export.report_field.tpl" field_area='detail' field_active=$col_info.field_active field_cancel=$col_info.field_cancel field_value=$tmp_val field_desc=$tmp_desc field_label_type=$col_info.field_label_type field_type=$col_info.field_type org_field_label=$col_info.org_field_label field_label=$col_info.field_label field_num=$smarty.foreach.fcol.iteration}
-								{/foreach}
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div id="divRight" style="float:left;width:50%">
-			{if $form.data_type}
-				{include file="custom.setup_acc_export.drag_field.tpl"}
-			{/if}
+	<div class="stdframe" id="div_report_builder" {if $form.data_type && $form.row_format}style="overflow:auto"{else}style="overflow:auto;display:none"{/if}>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div id="divLeft" style="float:left;width:50%">
+					<table cellspacing="5" cellpadding="4" width="100%" id="tblLeft">
+						{if $form.row_format eq "single_line"}
+							{assign var=tmp_name value="Column"}
+						{elseif $form.row_format eq "two_row" || $form.row_format eq "no_repeat_master"}
+							{assign var=tmp_name value="Master"}
+							{assign var=tmp_name_detail value="Details"}
+						{elseif $form.row_format eq "ledger_format"}
+							{assign var=tmp_name value="Row"}
+							{assign var=tmp_name_detail value="Data"}
+						{/if}
+						<tr>
+							<td><h4 id="h_master">{$tmp_name}</h4></td>
+						</tr>
+						<tr>
+							<td valign="top">
+								<div id="div_droplist-master" class="div_droplist">
+									<ul id="ul_droplist-master" class="ul_droplist">
+										{foreach from=$form.data_column.master item=col_info name=fcol}
+											{if $col_info.field_type == "open_field"}
+												{if is_numeric($col_info.field_desc) && $col_info.field_desc == 0 && $col_info.field_desc !== "0.00"}
+													{assign var="tmp_desc" value="zero"}
+												{else}
+													{assign var="tmp_desc" value=$col_info.field_desc}
+												{/if}
+												
+												{if is_numeric($col_info.field_value) && $col_info.field_value == 0 && $col_info.field_value !== "0.00"}
+													{assign var="tmp_val" value="zero"}
+												{else}
+													{assign var="tmp_val" value=$col_info.field_value}
+												{/if}
+											{else}
+												{assign var="tmp_desc" value=$data_field[$col_info.field_type].field_desc}
+												{assign var="tmp_val" value=$col_info.field_value}
+											{/if}
+											{include file="custom.setup_acc_export.report_field.tpl" field_area='master' field_active=$col_info.field_active field_cancel=$col_info.field_cancel field_value=$tmp_val field_desc=$tmp_desc field_label_type=$col_info.field_label_type field_type=$col_info.field_type org_field_label=$col_info.org_field_label field_label=$col_info.field_label field_num=$smarty.foreach.fcol.iteration}
+										{/foreach}
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr {if $form.row_format eq "single_line" || $form.row_format eq "ledger_format"}style="display:none" class="class_detail"{else}class="class_detail"{/if}>
+							<td><h4 id="h_detail">{$tmp_name_detail}</h4></td>
+						</tr>
+						<tr {if $form.row_format eq "single_line" || $form.row_format eq "ledger_format"}style="display:none" class="class_detail"{else}class="class_detail"{/if}>
+							<td valign="top">
+								<div id="div_droplist-detail" class="div_droplist">
+									<ul id="ul_droplist-detail" class="ul_droplist">
+										{foreach from=$form.data_column.detail item=col_info name=fcol}
+											{if $col_info.field_type == "open_field"}
+												{if is_numeric($col_info.field_desc) && $col_info.field_desc == 0 && $col_info.field_desc !== "0.00"}
+													{assign var="tmp_desc" value="zero"}
+												{else}
+													{assign var="tmp_desc" value=$col_info.field_desc}
+												{/if}
+												
+												{if is_numeric($col_info.field_value) && $col_info.field_value == 0 && $col_info.field_value !== "0.00"}
+													{assign var="tmp_val" value="zero"}
+												{else}
+													{assign var="tmp_val" value=$col_info.field_value}
+												{/if}
+											{else}
+												{assign var="tmp_desc" value=$data_field[$col_info.field_type].field_desc}
+												{assign var="tmp_val" value=$col_info.field_value}
+											{/if}
+											{include file="custom.setup_acc_export.report_field.tpl" field_area='detail' field_active=$col_info.field_active field_cancel=$col_info.field_cancel field_value=$tmp_val field_desc=$tmp_desc field_label_type=$col_info.field_label_type field_type=$col_info.field_type org_field_label=$col_info.org_field_label field_label=$col_info.field_label field_num=$smarty.foreach.fcol.iteration}
+										{/foreach}
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="divRight" style="float:left;width:50%">
+					{if $form.data_type}
+						{include file="custom.setup_acc_export.drag_field.tpl"}
+					{/if}
+				</div>
+			</div>
 		</div>
 	</div>
 </form>
@@ -1105,7 +1138,7 @@ var SETUP_CUSTOM_ACC_EXPORT_OPEN = {
 	{if !$view_only}
 		<input class="btn btn-success" id="btnSaveFormat" name="btnSaveFormat" type=button value="Save" onclick="SETUP_CUSTOM_ACC_EXPORT_OPEN.save();">
 	{/if}
-	<input class="btn btn-error" id="btnClose" name="btnClose" type=button value="Close" onclick="SETUP_CUSTOM_ACC_EXPORT_OPEN.close();">
+	<input class="btn btn-danger" id="btnClose" name="btnClose" type=button value="Close" onclick="SETUP_CUSTOM_ACC_EXPORT_OPEN.close();">
 </p>
 
 <div id="divPreview" title="Preview">

@@ -289,60 +289,80 @@ var SHIFT_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
 	<ul class="errmsg">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-danger rouded mx-3">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
 <div>
-	<a href="javascript:void(SHIFT_DIALOG.open(0))">
-		<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Shift
-	</a> 
+<div class="card mx-3">
+	<div class="card-body">
+		<a href="javascript:void(SHIFT_DIALOG.open(0))">
+			<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Shift
+		</a> 
+	</div>
 </div>
-<br />
+</div>
 
-<table class="report_table">
-	<tr class="header">
-		<th>&nbsp;</th>
-		<th>Code</th>
-		<th>Color</th>
-		<th>Description</th>
-		<th>Start Time</th>
-		<th>End Time</th>
-	</tr>
-	
-	<tbody id="tbody_shift_list">
-		{foreach from=$shift_list key=shift_id item=r}
-			<tr class="tr_shift" id="tr_shift-{$shift_id}">
-				<td>
-					{* Edit *}
-					<a href="javascript:void(SHIFT_DIALOG.open('{$shift_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
-					
-					{* Active / Inactve *}
-					<a href="javascript:void(SHIFT_SETUP.toggle_active('{$shift_id}'))">
-						<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_shift_active-{$shift_id}" />
-					</a>
-				</td>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table  class="report_table table mb-0 text-md-nowrap  table-hover"
+			>
+				<thead class="bg-grya-100">
+					<tr class="header">
+						<th>&nbsp;</th>
+						<th>Code</th>
+						<th>Color</th>
+						<th>Description</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+					</tr>
+				</thead>
 				
-				<td>{$r.code}</td>
-				<td>
-					<div style="margin:0;padding:0;border:1px solid black;">
-						<div title="{$r.shift_color}" style="background-color:{$r.shift_color}">&nbsp;</div>
-					</div>
-				</td>
-				<td>{$r.description}</td>
-				<td>{$r.start_time}</td>
-				<td>{$r.end_time}</td>
-			</tr>
-		{/foreach}
-	</tbody>
-</table>
-
+				<tbody id="tbody_shift_list" class="fs-08">
+					{foreach from=$shift_list key=shift_id item=r}
+						<tr class="tr_shift" id="tr_shift-{$shift_id}">
+							<td>
+								{* Edit *}
+								<a href="javascript:void(SHIFT_DIALOG.open('{$shift_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
+								
+								{* Active / Inactve *}
+								<a href="javascript:void(SHIFT_SETUP.toggle_active('{$shift_id}'))">
+									<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_shift_active-{$shift_id}" />
+								</a>
+							</td>
+							
+							<td>{$r.code}</td>
+							<td>
+								<div style="margin:0;padding:0;border:1px solid black;">
+									<div title="{$r.shift_color}" style="background-color:{$r.shift_color}">&nbsp;</div>
+								</div>
+							</td>
+							<td>{$r.description}</td>
+							<td>{$r.start_time}</td>
+							<td>{$r.end_time}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+</div>
 
 <script>SHIFT_SETUP.initialize();</script>
 {include file='footer.tpl'}

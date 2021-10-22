@@ -95,7 +95,13 @@ var CNOTE = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <div id="show_last">
 {if $smarty.request.t eq 'save'}
@@ -113,31 +119,38 @@ var CNOTE = {
 {/if}
 </div>
 
-<ul>
-	<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New CN</a></li>
-</ul>
-
-Hints:
-<ul>
-	<li> Once CN is approved it will automatically generate Adjustment.</li>
-	<li> When CN is reset, all generated adjustments will automatically become cancelled.</li>
-</li>
-
-<div id="div_tab" class="tab" style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	<a href="javascript:void(CNOTE.reload_list(1))" id="lst-1" class="active a_tab">Saved</a>
-	<a href="javascript:void(CNOTE.reload_list(2))" id="lst-2" class="a_tab">Waiting for Approval</a>
-	<a href="javascript:void(CNOTE.reload_list(3))" id="lst-3" class="a_tab">Rejected</a>
-	<a href="javascript:void(CNOTE.reload_list(4))" id="lst-4" class="a_tab">Cancelled/Terminated</a>
-	<a href="javascript:void(CNOTE.reload_list(5))" id="lst-5" class="a_tab">Approved</a>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New CN</a></li>
+		</ul>
+		
+		<div class="alert alert-primary rounded">
+			Hints:
+		<ul style="list-style-type: none;">
+			<li> Once CN is approved it will automatically generate Adjustment.</li>
+			<li> When CN is reset, all generated adjustments will automatically become cancelled.</li>
+		</li>
+		</div>
+	</div>
+</div>
+<div class="row mx-3">
+	
+<div id="div_tab" class="tab" style="white-space:nowrap;">
+	<a href="javascript:void(CNOTE.reload_list(1))" id="lst-1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+	<a href="javascript:void(CNOTE.reload_list(2))" id="lst-2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+	<a href="javascript:void(CNOTE.reload_list(3))" id="lst-3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+	<a href="javascript:void(CNOTE.reload_list(4))" id="lst-4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+	<a href="javascript:void(CNOTE.reload_list(5))" id="lst-5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
 	<a class="a_tab" id="lst-0">Find CN No 
 		<input id="inp_item_search" onKeyPress="CNOTE.check_and_search(event);" /> 
-		<input class="btn-primary" type="button" value="Go" onClick="CNOTE.reload_list(0);" />
+		<input class="btn btn-primary fs-08" type="button" value="Go" onClick="CNOTE.reload_list(0);" />
 	</a>
 	<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 </div>
+</div>
 
-<div id="data_list" style="border:1px solid #000">
+<div id="data_list" class="mt-2">
 	
 </div>
 

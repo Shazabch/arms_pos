@@ -47,12 +47,18 @@ USER_AUTOCOMPLETE = {
 {/literal}
 </script>
 
-<input type="text" readonly id="inp_selected_username" style="width:60px;"/>
-<input type="text" id="inp_search_username" style="width:200px;" placeholder="Please search username" onFocus="this.select();" value=""  />
-<input type="hidden" id="inp_selected_user_id" value="" />
-{if $btn_add}
-	<input class="btn btn-primary" type="button" value="{$btn_add_label|default:'OK'}" id="btn_add_user" onClick="USER_AUTOCOMPLETE.add_autocomplete_user_clicked();" />
-{/if}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="form-inline">
+			&nbsp;&nbsp;&nbsp;	<input class="form-control" type="text" readonly id="inp_selected_username" style="width:60px;"/>
+			&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" id="inp_search_username" style="width:200px;" placeholder="Please search username" onFocus="this.select();" value=""  />
+			<input type="hidden" id="inp_selected_user_id" value="" />
+			{if $btn_add}
+			&nbsp;&nbsp;	<input class="btn btn-primary" type="button" value="{$btn_add_label|default:'OK'}" id="btn_add_user" onClick="USER_AUTOCOMPLETE.add_autocomplete_user_clicked();" />
+			{/if}
+			</div>
+	</div>
+</div>
 <br />
 <span id="span_user_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 

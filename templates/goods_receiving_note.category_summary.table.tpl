@@ -4,7 +4,7 @@
 *}
 
 {foreach from=$tb key=id item=r}
-	<tbody id="r{$id}">
+	<tbody id="r{$id}" class="fs-08">
 		<tr>
 			<th nowrap align="left">
 			{if !$no_header_footer}

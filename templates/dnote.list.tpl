@@ -23,68 +23,74 @@
 	</div>
 	{/if}
 
-    <table width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
-		<tr bgcolor="#ffee99">
-			<th width="60">&nbsp;</th>
-			{if $BRANCH_CODE eq 'HQ'}
-				<th width="80">Branch</th>
-			{/if}
-			<th width="100">Inv No</th>
-			<th width="100">DN No</th>
-			<th>Type</th>
-			<th width="100">ID</th>
-			<th>Vendor</th>
-			<th>Gross Amount</th>
-			<th>GST Amount</th>
-			<th>Total Amount Inclusive GST</th>
-			<th>DN Date</th>
-			<th>Last Update</th>
-		</tr>
-		{foreach from=$dn_list item=r}
-		    <tr bgcolor="{cycle values=",#eeeeee"}">
-		        <td align="center">
-					<a href="{$smarty.server.PHP_SELF}?a=print_dn&id={$r.id}&branch_id={$r.branch_id}" target="_blank"><img src="ui/print.png" title="Print DN" border=0></a>
-				</td>
+   <div class="table-responsive">
+	<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover" style="padding:2px">
+		<thead class="bg-gray-100">
+			<tr >
+				<th width="60">&nbsp;</th>
 				{if $BRANCH_CODE eq 'HQ'}
-					<td align="center">{$r.branch_code}</td>
+					<th width="80">Branch</th>
 				{/if}
-				<td>{$r.inv_no}</td>
-		        <td>{$r.dn_no}</td>
-				<td>{$r.ref_table|upper}</td>
-				<td>{$r.report_prefix|upper}{$r.ref_id|string_format:"%05d"}</td>
-				<td>{$r.vendor_description}</td>
-				<td align="right">
-					{if !$r.currency_code}
-						{$r.total_gross_amount|number_format:2}
-					{else}
-						{$r.currency_code} {$r.total_gross_amount|number_format:2}
-						<br />
-						{assign var=base_grr_amount value=$r.total_gross_amount*$r.currency_rate}
-						{assign var=base_grr_amount value=$base_grr_amount|round2}
-						<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
+				<th width="100">Inv No</th>
+				<th width="100">DN No</th>
+				<th>Type</th>
+				<th width="100">ID</th>
+				<th>Vendor</th>
+				<th>Gross Amount</th>
+				<th>GST Amount</th>
+				<th>Total Amount Inclusive GST</th>
+				<th>DN Date</th>
+				<th>Last Update</th>
+			</tr>
+		</thead>
+		{foreach from=$dn_list item=r}
+		    <tbody class="fs-08">
+				<tr bgcolor="{cycle values=",#eeeeee"}">
+					<td align="center">
+						<a href="{$smarty.server.PHP_SELF}?a=print_dn&id={$r.id}&branch_id={$r.branch_id}" target="_blank"><img src="ui/print.png" title="Print DN" border=0></a>
+					</td>
+					{if $BRANCH_CODE eq 'HQ'}
+						<td align="center">{$r.branch_code}</td>
 					{/if}
-				</td>
-				<td align="right">{$r.total_gst_amount|number_format:2}</td>
-				<td align="right">
-					{if $r.is_under_gst}
-						{assign var=final_amt value=$r.total_amount}
-					{else}
-						{assign var=final_amt value=$r.total_gross_amount}
-					{/if}
-					
-					{if !$r.currency_code}
-						{$final_amt|number_format:2}
-					{else}
-						{$r.currency_code} {$final_amt|number_format:2}
-						<br />
-						{assign var=base_grr_amount value=$final_amt*$r.currency_rate}
-						{assign var=base_grr_amount value=$base_grr_amount|round2}
-						<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
-					{/if}
-				</td>
-		        <td align="center">{$r.dn_date}</td>
-				<td align="center">{$r.last_update}</td>
-		    </tr>
+					<td>{$r.inv_no}</td>
+					<td>{$r.dn_no}</td>
+					<td>{$r.ref_table|upper}</td>
+					<td>{$r.report_prefix|upper}{$r.ref_id|string_format:"%05d"}</td>
+					<td>{$r.vendor_description}</td>
+					<td align="right">
+						{if !$r.currency_code}
+							{$r.total_gross_amount|number_format:2}
+						{else}
+							{$r.currency_code} {$r.total_gross_amount|number_format:2}
+							<br />
+							{assign var=base_grr_amount value=$r.total_gross_amount*$r.currency_rate}
+							{assign var=base_grr_amount value=$base_grr_amount|round2}
+							<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
+						{/if}
+					</td>
+					<td align="right">{$r.total_gst_amount|number_format:2}</td>
+					<td align="right">
+						{if $r.is_under_gst}
+							{assign var=final_amt value=$r.total_amount}
+						{else}
+							{assign var=final_amt value=$r.total_gross_amount}
+						{/if}
+						
+						{if !$r.currency_code}
+							{$final_amt|number_format:2}
+						{else}
+							{$r.currency_code} {$final_amt|number_format:2}
+							<br />
+							{assign var=base_grr_amount value=$final_amt*$r.currency_rate}
+							{assign var=base_grr_amount value=$base_grr_amount|round2}
+							<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
+						{/if}
+					</td>
+					<td align="center">{$r.dn_date}</td>
+					<td align="center">{$r.last_update}</td>
+				</tr>
+			</tbody>
 		{/foreach}
 	</table>
+   </div>
 {/if}

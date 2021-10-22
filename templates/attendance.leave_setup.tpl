@@ -198,41 +198,61 @@ var LEAVE_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 <div>
-	<a href="javascript:void(LEAVE_DIALOG.open(0))">
-		<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Leave
-	</a> 
+	<div class="card mx-3">
+		<div class="card-body">
+			<a href="javascript:void(LEAVE_DIALOG.open(0))">
+				<img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add New Leave
+			</a> 
+		</div>
+	</div>
 </div>
 <br />
 
-<table class="report_table">
-	<tr class="header">
-		<th>&nbsp;</th>
-		<th>Code</th>
-		<th>Description</th>
-	</tr>
-	
-	<tbody id="tbody_leave_list">
-		{foreach from=$leave_list key=leave_id item=r}
-			<tr class="tr_leave" id="tr_leave-{$leave_id}">
-				<td>
-					{* Edit *}
-					<a href="javascript:void(LEAVE_DIALOG.open('{$leave_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
-					
-					{* Active / Inactve *}
-					<a href="javascript:void(LEAVE_SETUP.toggle_active('{$leave_id}'))">
-						<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_leave_active-{$leave_id}" />
-					</a>
-				</td>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover"
+			>
+				<thead class="bg-gray-100" style="height: 20px;">
+					<tr class="header">
+						<th>&nbsp;</th>
+						<th class="text-center">Code</th>
+						<th class="text-center">Description</th>
+					</tr>
+				</thead>
 				
-				<td>{$r.code}</td>
-				<td>{$r.description}</td>
-			</tr>
-		{/foreach}
-	</tbody>
-</table>
+				<tbody id="tbody_leave_list" class="fs-08">
+					{foreach from=$leave_list key=leave_id item=r}
+						<tr class="tr_leave" id="tr_leave-{$leave_id}">
+							<td>
+								{* Edit *}
+								<a href="javascript:void(LEAVE_DIALOG.open('{$leave_id}'))"><img src="ui/ed.png" title="Edit" border="0" /></a>
+								
+								{* Active / Inactve *}
+								<a href="javascript:void(LEAVE_SETUP.toggle_active('{$leave_id}'))">
+									<img src="{if $r.active}ui/deact.png{else}ui/act.png{/if}" title="{if $r.active}Deactivate{else}Activate{/if}" border="0" id="img_leave_active-{$leave_id}" />
+								</a>
+							</td>
+							
+							<td>{$r.code}</td>
+							<td>{$r.description}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 <script>LEAVE_SETUP.initialise();</script>
 {include file='footer.tpl'}

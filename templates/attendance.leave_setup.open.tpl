@@ -7,19 +7,19 @@
 	<table width="100%">
 		{* Code *}
 		<tr>
-			<td><b>Code</b></td>
+			<td><b class="form-label">Code<span class="text-danger" title="Required Field" > *</span></b></td>
 			<td colspan="2">
-				<input type="text" name="code" size="10" maxlength="10" value="{$form.code}" class="required" title="Code" onChange="this.value=this.value.toUpperCase();" />
-				<img src="ui/rq.gif" align="absbottom" title="Required Field" />
+				<input clas type="text" name="code" value="{$form.code}" class="required form-control" title="Code" onChange="this.value=this.value.toUpperCase();" />
+			
 			</td>
 		</tr>
 		
 		{* Description *}
 		<tr>
-			<td><b>Description</b></td>
+			<td><b class="form-label">Description<span class="text-danger"title="Required Field" > *</span></b></td>
 			<td colspan="2">
-				<input type="text" name="description" size="50" maxlength="100" value="{$form.description}" class="required" title="Description" />
-				<img src="ui/rq.gif" align="absbottom" title="Required Field" />
+				<input type="text" name="description"  value="{$form.description}" class="required form-control" title="Description" />
+				
 			</td>
 		</tr>
 
@@ -27,6 +27,6 @@
 </form>
 
 <p align="center" id="p_action">
-	<input type="button" value="Save" onClick="LEAVE_DIALOG.save_clicked();" id="btn_save" />
-	<input type="button" value="Close" onClick="LEAVE_DIALOG.close();" />
+	<input type="button" class="btn btn-primary" value="Save" onClick="LEAVE_DIALOG.save_clicked();" id="btn_save" />
+	<input type="button" value="Close" class="btn btn-danger" onClick="LEAVE_DIALOG.close();" />
 </p>

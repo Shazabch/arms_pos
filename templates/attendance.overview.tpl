@@ -417,31 +417,47 @@ var ATTENDANCE_OVERVIEW = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
-<form name="f_a"  method="post">
-	<span>
-		{if $BRANCH_CODE eq 'HQ'}
-			<span>
-				<b>Branch: </b>
-				<select name="branch_id" id="branch_id">
-					{foreach from=$branch_list key=bid item=b}
-						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-					{/foreach}
-				</select>&nbsp;&nbsp;&nbsp;&nbsp;
-			</span>
-		{else}
-			<input type="hidden" id="branch_id" name="branch_id" value="{$sessioninfo.branch_id}" />
-		{/if}
-		
-		<b>Date: </b>
-		<input type="text" name="date" value="{$smarty.request.date}" id="inp_date" readonly="1" size="12" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="submit" value="Refresh" />
-	</span>
-</form>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div style="background-color: white; margin: 20px; padding: 10px;" >
+	<form name="f_a"  method="post">
+		<span >
+			<div class="row">
+				<div class="col-md-6">
+					{if $BRANCH_CODE eq 'HQ'}
+				<span>
+					<b class="form-label">Branch: </b>
+					<select class="form-control" name="branch_id" id="branch_id">
+						{foreach from=$branch_list key=bid item=b}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+			{else}
+				<input type="hidden" id="branch_id" name="branch_id" value="{$sessioninfo.branch_id}" />
+			{/if}
+				</div>
+			
+			<div class="col-md-6">
+				<b class="form-label">Date: </b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="date" value="{$smarty.request.date}" id="inp_date" readonly="1" size="12" />
+			<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+			</div>
+			</div>
+			<input type="submit" class="btn btn-primary mt-2" value="Refresh" />
+		</span>
+	</form>
+	
+</div>
 
-
-<div class="div_card_list">
+<div class="div_card_list ml-2">
 	<div class="card">
 		<span class="card_header" style="background-color:#5335c1;">
 			<span>{$attendance_status.total_employee|default:'0'}</span>
@@ -497,11 +513,13 @@ var ATTENDANCE_OVERVIEW = {
 	</div>
 </div>
 
-<p style="margin-left: 2%;"><b>Department Attendance Analysis</b></p>
-<div id="div_chart_department_attendance_ratio" class="div_chart"></div>
-<div id="div_employee_daily_working_ratio" class="div_chart2"></div>
-<div id="div_recent_employee_daily_working_ratio" class="div_chart2"></div>
-
+<p style="margin-left: 2%;"><h3 style="margin-left: 20px;">Department Attendance Analysis</h3></p>
+<div style="background-color: white; margin: 20px; padding: 10px; height: 700px;">
+	<div id="div_chart_department_attendance_ratio" class="div_chart mt-3"></div>
+	<div id="div_employee_daily_working_ratio" class="div_chart2"></div>
+	<div id="div_recent_employee_daily_working_ratio" class="div_chart2"></div>
+	
+</div>
 <script>
 {literal}
 ATTENDANCE_OVERVIEW.initialize();

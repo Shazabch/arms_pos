@@ -1608,18 +1608,21 @@ function curtain_clicked(){
 }
 {/literal}
 </script>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$PAGE_TITLE}
 
-<h1>{$PAGE_TITLE}
-
-{if is_new_id($form.id)}
-	(NEW)
-{else}
-	ID#{$form.id}
-{/if}
-</h1>
-
-<h3>
-	Status:
+					{if is_new_id($form.id)}
+						(NEW)
+					{else}
+						ID#{$form.id}
+					{/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+		<h5 class="content-title mb-0 my-auto ml-4 text-primary">
+			Status:
 	{if $form.active and $form.status eq 1 and $form.approved eq 1}
 		Fully Approved
 	{elseif $form.active eq 1 and $form.status == 1}
@@ -1633,7 +1636,9 @@ function curtain_clicked(){
 	{elseif !$form.active}
 		Deleted
 	{/if}
-</h3>
+		</h5>
+	</div>
+</div>
 
 {if $form.adj_id_list}
 <div class="stdframe" style="background-color:#F0FFF0;">
@@ -1711,121 +1716,134 @@ function curtain_clicked(){
 	<input type="hidden" name="deleted_reason" />
 	<input type="hidden" id="do_id" name="do_id" value="{$form.do_id}"/>
 	{*<input type="hidden" id="do_items" name="do_items" value=""/>*}
-	<div class="stdframe">
-		<h4>General Information</h4>
-		<table width="100%">
-			{* CN Date *}
-			<tr>
-				<td width="120"><b>CN Date</b></td>
-				<td>
-					<input name="cn_date" id="inp_cn_date" size="10" onchange="CNOTE_OPEN.on_cn_date_changed();"  maxlength="10"  value="{$form.cn_date|date_format:"%Y-%m-%d"}" 
-					class="required" title="CN Date" />
-					{if $can_edit}
-						<img align="absmiddle" src="ui/calendar.gif" id="img_cn_date" style="cursor: pointer;" title="Select Date" />
-					{/if}
-					<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
-				</td>
-			</tr>
-			
-			<tr>
-				<td width="120"><b>Return Type</b></td>
-				<td>
-					<input type="hidden" name="return_type" value="{$form.return_type}" />
-					<input name="rbtn_return_type" class="return_type" onchange="CNOTE_OPEN.return_type_changed(this);" value="single_inv"  type="radio" {if $form.return_type neq "multiple_inv"}checked{/if} {if !is_new_id($form.id) && !$is_refresh}disabled{/if}>Single Invoice
-					<input name="rbtn_return_type" class="return_type" onchange="CNOTE_OPEN.return_type_changed(this);" value="multiple_inv" type="radio" {if $form.return_type eq "multiple_inv"}checked{/if} {if !is_new_id($form.id) && !$is_refresh}disabled{/if}>Multiple Invoice
-					<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
-				</td>
-			</tr>
-
-
-			{* Invoice *}
-			<tr id="tr_inv" {if $form.return_type eq "multiple_inv"}style="display:none"{/if}>
-				<td valign="top"><b>Invoice</b> [<a href="javascript:void(alert('Only accept DO Invoice Number'))">?</a>]</td>
-				<td>
-					<table>
-						<tr>
-							<td>No.</td>
-							<td>
-								<input type="text" id="inv_no" name="inv_no" size="10" class="required" title="Invoice No." value="{$form.inv_no}" onChange="uc(this); CNOTE_OPEN.check_do_no();" {if !is_new_id($form.id) && !$is_refresh}readonly{/if}/>
-								<img src="ui/rq.gif" align="absbottom" title="Required Field" />
-							</td>
-						</tr>
-						<tr>
-							<td>Date</td>
-							<td>
-								<input name="inv_date" id="inp_inv_date" size="10" maxlength="10"  value="{$form.inv_date|date_format:"%Y-%m-%d"}" class="required" title="Invoice Date" readonly/>
-								{*if $can_edit}
-									<img align="absmiddle" src="ui/calendar.gif" id="img_inv_date" style="cursor: pointer;" title="Select Date" />
-								{/if*}
-								<span><img src="ui/rq.gif" align="absbottom" title="Required Field" /></span>
-							</td>
-						</tr>
-					</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="stdframe">
+				<h4>General Information</h4>
+				<table width="100%">
+					{* CN Date *}
+					<tr>
+						<td width="120"><b class="form-label">CN Date<span class="text-danger" title="Required Field"> *</span></b></td>
+						<td>
+							<div class="form-inline">
+								<input  name="cn_date" id="inp_cn_date"  onchange="CNOTE_OPEN.on_cn_date_changed();"  maxlength="10"  value="{$form.cn_date|date_format:"%Y-%m-%d"}" 
+							class="required form-control" title="CN Date" />
+							{if $can_edit}
+								<img align="absmiddle" src="ui/calendar.gif" id="img_cn_date" style="cursor: pointer;" title="Select Date" />
+							{/if}
+							
+							</div>
+						</td>
+					</tr>
 					
-				</td>
-			</tr>
-						
-			{* Owner *}
-			{if !is_new_id($form.id)}
-				<tr>
-					<td align="left"><b>Owner</b></td>
-					<td style="color:blue;"><input type="hidden" name="owner_username" value="{$form.owner_username}" />{$form.owner_username}</td>
-				</tr>
-			{/if}
-
-			{* Remark *}
-			<tr>
-				<td valign="top"><b>Remarks</b></td>
-				<td>
-					<textarea rows="2" cols="68" name="remark" onchange="uc(this);">{$form.remark}</textarea>
-				</td>
-			</tr>
-			
-			{* Customer *}
-			<tr>
-				<td valign="top"><b>Customer</b></td>
-				<td>
-					<table>
-						<tr>
-							<td>Name</td>
-							<td>
-								<input type="text" id="cust_name" name="cust_name" size="30" maxlength="100" value="{$form.cust_name}" onChange="CNOTE_OPEN.cust_name_changed();" />
-								<img src="ui/rq.gif" align="absbottom" title="Required Field" />
-								{if $can_edit}
-									<input class="btn btn-primary" type=button value="Choose Debtor" onclick="CNOTE_OPEN.choose_debtor_to_add();" />
-									<input class="btn btn-primary" type=button value="Choose Branch" onclick="CNOTE_OPEN.choose_branch_to_add();" />
-								{/if}
-							</td>
-						</tr>
-						<tr>
-							<td>Address</td>
-							<td>
-								<textarea id="cust_address" name="cust_address" rows="3" cols="50">{$form.cust_address}</textarea>
-							</td>
-						</tr>
-						<tr>
-							<td>BRN</td>
-							<td><input type="text" id="cust_brn" name="cust_brn" size="30" maxlength="20" value="{$form.cust_brn}" /></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top"><b>Discount</b></td>
-				<td><input type="text" id="discount" name="discount" value="{$form.discount}" onchange="CNOTE_OPEN.totally_recalculate();"/> <b>[<a href="javascript:void(show_discount_help());">?</a>]</b> <font color="blue">Discount on Invoice: <span id="discount_on_invoice">-</span></font></td>
-			</tr>
-		</table>
+					<tr>
+						<td width="120"><b class="form-label">Return Type<span class="text-danger" title="Required Field"> *</span> </b></td>
+						<td>
+							<input type="hidden" name="return_type" value="{$form.return_type}" />
+							<input name="rbtn_return_type" class="return_type" onchange="CNOTE_OPEN.return_type_changed(this);" value="single_inv"  type="radio" {if $form.return_type neq "multiple_inv"}checked{/if} {if !is_new_id($form.id) && !$is_refresh}disabled{/if}>Single Invoice
+							<input name="rbtn_return_type" class="return_type" onchange="CNOTE_OPEN.return_type_changed(this);" value="multiple_inv" type="radio" {if $form.return_type eq "multiple_inv"}checked{/if} {if !is_new_id($form.id) && !$is_refresh}disabled{/if}>Multiple Invoice
+							
+						</td>
+					</tr>
 		
-		<div id="div_refresh" style="display:none; padding-top:10px; padding-left:130px; ">
-			<input id="refresh_btn" type="button" onclick="void(CNOTE_OPEN.refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
+		
+					{* Invoice *}
+					<tr id="tr_inv" {if $form.return_type eq "multiple_inv"}style="display:none"{/if}>
+						<td valign="top"><b class="form-label">Invoice</b> [<a href="javascript:void(alert('Only accept DO Invoice Number'))">?</a>]</td>
+						<td>
+							<table>
+								<tr>
+									<td class="form-label">No.<span class="text-danger" title="Required Field"> *</span></td>
+									<td>
+										<input type="text" id="inv_no" name="inv_no"  class="required form-control" title="Invoice No." value="{$form.inv_no}" onChange="uc(this); CNOTE_OPEN.check_do_no();" {if !is_new_id($form.id) && !$is_refresh}readonly{/if}/>
+										
+									</td>
+								</tr>
+								<tr>
+									<td class="form-label">Date<span class="text-danger" title="Required Field"> *</span></td>
+									<td>
+										<input name="inv_date" id="inp_inv_date"  value="{$form.inv_date|date_format:"%Y-%m-%d"}" class="required form-control title="Invoice Date" readonly/>
+										{*if $can_edit}
+											<img align="absmiddle" src="ui/calendar.gif" id="img_inv_date" style="cursor: pointer;" title="Select Date" />
+										{/if*}
+									
+									</td>
+								</tr>
+							</table>
+							
+						</td>
+					</tr>
+								
+					{* Owner *}
+					{if !is_new_id($form.id)}
+						<tr>
+							<td align="left"><b class="form-label">Owner</b></td>
+							<td style="color:blue;"><input type="hidden" name="owner_username" value="{$form.owner_username}" />{$form.owner_username}</td>
+						</tr>
+					{/if}
+		
+					{* Remark *}
+					<tr>
+						<td valign="top"><b class="form-label">Remarks</b></td>
+						<td>
+							<textarea class="form-control"  rows="2" cols="28" name="remark" onchange="uc(this);">{$form.remark}</textarea>
+						</td>
+					</tr>
+					
+					{* Customer *}
+					<tr>
+						<td valign="top"><b class="form-label">Customer</b></td>
+						<td>
+							<table>
+								<tr>
+									<td class="form-label">Name<span class="text-danger" title="Required Field"> *</span></td>
+									<td>
+										<input class="form-control" type="text" id="cust_name" name="cust_name" size="30" maxlength="100" value="{$form.cust_name}" onChange="CNOTE_OPEN.cust_name_changed();" />
+								
+										{if $can_edit}
+											<input class="btn btn-primary mt-2 mb-2" type=button value="Choose Debtor" onclick="CNOTE_OPEN.choose_debtor_to_add();" />
+											<input class="btn btn-primary  mt-2 mb-2" type=button value="Choose Branch" onclick="CNOTE_OPEN.choose_branch_to_add();" />
+										{/if}
+									</td>
+								</tr>
+								<tr>
+									<td class="form-label">Address</td>
+									<td>
+										<textarea class="form-control" id="cust_address"  name="cust_address" rows="3" cols="20">{$form.cust_address}</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td class="form-label">BRN</td>
+									<td><input class="form-control" type="text" id="cust_brn" name="cust_brn" size="30" maxlength="20" value="{$form.cust_brn}" /></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top"><b class="form-label">Discount</b></td>
+						<td>
+						<div class="form-inline">
+							<input class="form-control" type="text" id="discount" name="discount" value="{$form.discount}" onchange="CNOTE_OPEN.totally_recalculate();"/> 
+						<b>[<a href="javascript:void(show_discount_help());">?</a>]</b> 
+						<font color="blue">Discount on Invoice: <span id="discount_on_invoice">-</span></font>
+						</div>
+					</td>
+					</tr>
+				</table>
+				
+				<div id="div_refresh" style="display:none; padding-top:10px; padding-left:130px; ">
+					<input id="refresh_btn" type="button" onclick="void(CNOTE_OPEN.refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
+				</div>
+			</div>
+		
+			<span id="note1">
+				<div class="alert alert-primary">
+					<b>* NOTE:</b>{if $form.return_type eq "multiple_inv"} Price, UOM and GST Code will auto load from invoice when invoice no changed. Default Price will be 0.00 when item added
+				{else} Price, UOM and GST Code will auto load from invoice{/if}
+				</div>
+			</span>
 		</div>
 	</div>
-	
-	<br />
-	<span id="note1" style="color:blue">
-		* NOTE:{if $form.return_type eq "multiple_inv"} Price, UOM and GST Code will auto load from invoice when invoice no changed. Default Price will be 0.00 when item added
-		{else} Price, UOM and GST Code will auto load from invoice{/if}
-	</span>
 	<div id="div_sheets" style="{if !$form.cust_name}display:none;{/if}">
 		{include file='cnote.open.sheet.tpl'}
 		

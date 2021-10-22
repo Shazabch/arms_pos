@@ -49,12 +49,26 @@ REVISION HISTORY
 *}
 {include file=header.tpl}
 
-<h1>{$PAGE_TITLE}</h1>
-
-<form class="noprint" action="{$smarty.server.PHP_SELF}" method=get style="border:1px solid #eee;padding:5px;white-space:nowrap;">
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+<form class="noprint" action="{$smarty.server.PHP_SELF}" method="get" >
 <p>
-<b>GRA Date From</b> <input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp; <b>To</b> <input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+<div class="form-inline">
+	<b class="form-label">GRA Date From</b>&nbsp;&nbsp;
+<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
+<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
+&nbsp;<b class="form-label">To</b> &nbsp;&nbsp;
+<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
+<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
 
+</div>
 <!-- calendar stylesheet -->
 <link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
 
@@ -98,9 +112,12 @@ REVISION HISTORY
 </p>
 <p>
 <!--input type=hidden name=a value="list"-->
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b>
-<select name=branch_id>
+
+<div class="row">
+	<div class="col-md-3">
+		{if $BRANCH_CODE eq 'HQ'}
+<b class="form-label">Branch</b>
+<select class="form-control" name=branch_id>
 <option value="">-- All --</option>
 {section name=i loop=$branch}
 <option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{assign var=_br value=`$branch[i].code`}{/if}>{$branch[i].code}</option>
@@ -108,35 +125,47 @@ REVISION HISTORY
 </select>
 &nbsp;
 {/if}
-<b>Department</b>
-<select name=department_id>
+	</div>
+
+<div class="col-md-3">
+	<b class="form-label">Department</b>
+<select class="form-control" name=department_id>
 <option value="">-- All --</option>
 {section name=i loop=$dept}
 <option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{assign var=_dp value=`$dept[i].description`}{/if}>{$dept[i].description}</option>
 {/section}
 </select>
-&nbsp;
-<b>SKU Type</b>
-<select name=sku_type>
+</div>
+
+<div class="col-md-3">
+	<b class="form-label">SKU Type</b>
+<select class="form-control" name=sku_type>
 <option value="">-- All --</option>
 {section name=i loop=$sku_type}
 <option value="{$sku_type[i].code}" {if $smarty.request.sku_type eq $sku_type[i].code}selected{/if}>{$sku_type[i].code}</option>
 {/section}
 </select>
-&nbsp;
-<b>Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]</b>
+
+</div>
+<div class="col-md-3">
+	<b class="form-label">Status [<a href="javascript:void(alert('Un-checkout: includes Saved & Waiting Approval and Approved GRA.'));">?</a>]</b>
 {assign var=_st value='All'}
-<select name=returned>
+<select class="form-control" name=returned>
 <option value="">-- All --</option>
 <option value="0" {if $smarty.request.returned eq '0'}selected{assign var=_st value='Saved & Waiting Approval'}{/if}>Saved & Waiting Approval</option>
 <option value="1" {if $smarty.request.returned eq '1'}selected{assign var=_st value='Approved'}{/if}>Approved</option>
 <option value="2" {if $smarty.request.returned eq '2'}selected{assign var=_st value='Completed'}{/if}>Completed</option>
 <option value="3" {if $smarty.request.returned eq '3'}selected{assign var=_st value='Un-checkout'}{/if}>Un-checkout</option>
 </select>
-&nbsp;
-<input class="btn btn-primary" name=submit type=submit value="Refresh"> <input class="btn btn-primary" name=submit type=submit value="Print">
+</div>
+</div>
+
+<input class="btn btn-primary" name=submit type=submit value="Refresh"> 
+<input class="btn btn-info" name=submit type=submit value="Print">
 </p>
 
+	</div>
+</div>
 {if $config.foreign_currency}
 	<p>
 	* {$LANG.BASE_CURRENCY_CONVERT_NOTICE}
@@ -207,111 +236,128 @@ From:{$smarty.request.from}
 {assign var=count value=$count+1}
 {if $last_branch!=$gra[i].branch}
 {if !$smarty.request.branch_id && $BRANCH_CODE=='HQ'}
-<h4>{$gra[i].branch}</h4>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$gra[i].branch}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {/if}
-<table id=t1 class=sortable width=100% cellspacing=1 cellpadding=4 border=0 style="border:1px solid #000;padding:1px;">
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table id="t1" class="sortable report_table table mb-0 text-md-nowrap  table-hover"
+			>
 
-<tr bgcolor=#ffee99 height=24>
-    <th>No</th>
-	<th>GRA #</th>
-	<th>Vendor Code</th>
-	{if $config.enable_vendor_account_id}
-		<th>Account ID</th>
-	{/if}
-	<th>Vendor</th>
-	<th>DN No.</th>
-	<th>DN Amount</th>
-	<th>Department</th>
-	<th>SKU Type</th>
-	{if $sessioninfo.show_cost}
-		{if $got_rounding_adj}
-			<th>Amount<br />Before Round</th>
-			<th>Rounding<br />Adjust</th>
-		{/if}
-		{if $have_fc}
-			<th>Foreign Amount</th>
-			<th>Exchange Rate</th>
-		{/if}
-		<th>Amount ({$config.arms_currency.symbol})</th>
-		{if $is_under_gst}
-			<th>GST ({$config.arms_currency.symbol})</th>
-			<th>Amount <br />Incl. GST ({$config.arms_currency.symbol})</th>
-		{/if}
-	{/if}
-	<th>Returned Date</th>
-</tr>
-{/if}
-<tr {cycle values="bgcolor=#eeeeee,"}>
-	<td align=center>{$count}.</td>
-	<td>{$gra[i].report_prefix}{$gra[i].id|string_format:"%05d"}</td>
-	<td>{$gra[i].vendor_code}</td>
-	{if $config.enable_vendor_account_id}
-		<td>{$gra[i].account_id}</td>
-	{/if}
-	<td>{$gra[i].vendor}</td>
-	<td align=center>{$gra[i].misc_info.dn_no|default:"-"}</td>
-	<td align=right>{$gra[i].misc_info.dn_amount|default:0|number_format:2}</td>
-	<td>{$gra[i].department}</td>
-	<td align=center>{$gra[i].sku_type|upper}</td>
-	{if $sessioninfo.show_cost}
-		{if $got_rounding_adj}
-			<td class="r">
-				{if $gra[i].currency_code}{$gra[i].currency_code}{/if} {$gra[i].amount-$gra[i].rounding_adjust|number_format:2}
-			</td>
-			<td class="r">
-				{$gra[i].rounding_adjust|number_format:2}
-			</td>
-		{/if}
-		{if $gra[i].currency_code}
-			<td align="right">{$gra[i].currency_code} {$gra[i].amount|number_format:2}</td>
-			<td align="right">{$gra[i].currency_rate}</td>
-			{assign var=row_myr_amt value=$gra[i].amount*$gra[i].currency_rate}
-		{else}
-			{if $have_fc}
-				<td align="right">-</td>
-				<td align="right">-</td>
-			{/if}
-			{assign var=row_myr_amt value=$gra[i].amount}
-		{/if}
-		{assign var=row_myr_amt value=$row_myr_amt|round2}
-	
-		<td align=right {if $gra[i].currency_code}class="converted_base_amt"{/if}>
-			{$row_myr_amt|number_format:2}{if $gra[i].currency_code}*{/if}
-		</td>
-		{if $is_under_gst}
-			{assign var=row_gst_amount value=$row_myr_amt+$gra[i].gst}
-			{assign var=row_gst_amount value=$row_gst_amount|round2}
-			<td align=right>{$gra[i].gst|number_format:2}</td>
-			<td align=right {if $gra[i].currency_code}class="converted_base_amt"{/if}>
-				{$row_myr_amt+$gra[i].gst|number_format:2}{if $gra[i].currency_code}*{/if}
-			</td>
-		{/if}
-	{/if}
-	<td align=center>
-		{if $gra[i].return_timestamp > 0}
-			{$gra[i].return_timestamp|date_format:$config.dat_format}
-		{else}
-			<font color="red">Not Returned</font>
-		{/if}
-	</td>
-</tr>
-{assign var=total1 value=$total1+$row_myr_amt}
-{assign var=total_gst value=$total_gst+$gra[i].gst}
-{assign var=total_gst_amt value=$total_gst_amt+$row_gst_amount}
-{assign var=last_branch value=$gra[i].branch}
-{/section}
-{if $sessioninfo.show_cost}
-<tr class=sortbottom bgcolor=#ffee99 height=24>
-	<th colspan="{$nr_colspan}" align=right>Total</th>
-	<th align=right>{$total1|number_format:2}</th>
-	{if $is_under_gst}
-		<th align=right>{$total_gst|number_format:2}</th>
-		<th align=right>{$total_gst_amt|number_format:2}</th>
-	{/if}
-	<td>&nbsp;</td>
-</tr>
-{/if}
-</table>
+				<thead class="bg-gray-100">
+					<tr>
+						<th>No</th>
+						<th>GRA #</th>
+						<th>Vendor Code</th>
+						{if $config.enable_vendor_account_id}
+							<th>Account ID</th>
+						{/if}
+						<th>Vendor</th>
+						<th>DN No.</th>
+						<th>DN Amount</th>
+						<th>Department</th>
+						<th>SKU Type</th>
+						{if $sessioninfo.show_cost}
+							{if $got_rounding_adj}
+								<th>Amount<br />Before Round</th>
+								<th>Rounding<br />Adjust</th>
+							{/if}
+							{if $have_fc}
+								<th>Foreign Amount</th>
+								<th>Exchange Rate</th>
+							{/if}
+							<th>Amount ({$config.arms_currency.symbol})</th>
+							{if $is_under_gst}
+								<th>GST ({$config.arms_currency.symbol})</th>
+								<th>Amount <br />Incl. GST ({$config.arms_currency.symbol})</th>
+							{/if}
+						{/if}
+						<th>Returned Date</th>
+					</tr>	
+				</thead>
+				{/if}
+				<tbody class="fs-08">
+					<tr {cycle values="bgcolor=#eeeeee,"}>
+						<td align=center>{$count}.</td>
+						<td>{$gra[i].report_prefix}{$gra[i].id|string_format:"%05d"}</td>
+						<td>{$gra[i].vendor_code}</td>
+						{if $config.enable_vendor_account_id}
+							<td>{$gra[i].account_id}</td>
+						{/if}
+						<td>{$gra[i].vendor}</td>
+						<td align=center>{$gra[i].misc_info.dn_no|default:"-"}</td>
+						<td align=right>{$gra[i].misc_info.dn_amount|default:0|number_format:2}</td>
+						<td>{$gra[i].department}</td>
+						<td align=center>{$gra[i].sku_type|upper}</td>
+						{if $sessioninfo.show_cost}
+							{if $got_rounding_adj}
+								<td class="r">
+									{if $gra[i].currency_code}{$gra[i].currency_code}{/if} {$gra[i].amount-$gra[i].rounding_adjust|number_format:2}
+								</td>
+								<td class="r">
+									{$gra[i].rounding_adjust|number_format:2}
+								</td>
+							{/if}
+							{if $gra[i].currency_code}
+								<td align="right">{$gra[i].currency_code} {$gra[i].amount|number_format:2}</td>
+								<td align="right">{$gra[i].currency_rate}</td>
+								{assign var=row_myr_amt value=$gra[i].amount*$gra[i].currency_rate}
+							{else}
+								{if $have_fc}
+									<td align="right">-</td>
+									<td align="right">-</td>
+								{/if}
+								{assign var=row_myr_amt value=$gra[i].amount}
+							{/if}
+							{assign var=row_myr_amt value=$row_myr_amt|round2}
+						
+							<td align=right {if $gra[i].currency_code}class="converted_base_amt"{/if}>
+								{$row_myr_amt|number_format:2}{if $gra[i].currency_code}*{/if}
+							</td>
+							{if $is_under_gst}
+								{assign var=row_gst_amount value=$row_myr_amt+$gra[i].gst}
+								{assign var=row_gst_amount value=$row_gst_amount|round2}
+								<td align=right>{$gra[i].gst|number_format:2}</td>
+								<td align=right {if $gra[i].currency_code}class="converted_base_amt"{/if}>
+									{$row_myr_amt+$gra[i].gst|number_format:2}{if $gra[i].currency_code}*{/if}
+								</td>
+							{/if}
+						{/if}
+						<td align=center>
+							{if $gra[i].return_timestamp > 0}
+								{$gra[i].return_timestamp|date_format:$config.dat_format}
+							{else}
+								<font color="red">Not Returned</font>
+							{/if}
+						</td>
+					</tr>
+				</tbody>
+				{assign var=total1 value=$total1+$row_myr_amt}
+				{assign var=total_gst value=$total_gst+$gra[i].gst}
+				{assign var=total_gst_amt value=$total_gst_amt+$row_gst_amount}
+				{assign var=last_branch value=$gra[i].branch}
+				{/section}
+				{if $sessioninfo.show_cost}
+				<tr class=sortbottom bgcolor=#ffee99 height=24>
+					<th colspan="{$nr_colspan}" align=right>Total</th>
+					<th align=right>{$total1|number_format:2}</th>
+					{if $is_under_gst}
+						<th align=right>{$total_gst|number_format:2}</th>
+						<th align=right>{$total_gst_amt|number_format:2}</th>
+					{/if}
+					<td>&nbsp;</td>
+				</tr>
+				{/if}
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {include file=footer.tpl}

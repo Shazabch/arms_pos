@@ -68,17 +68,30 @@ function page_change(ele){
 </script>
 
 
-<h1>{$PAGE_TITLE}</h1>
-<br /><br /><br />
-
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:void(list_sel(1))" id="lst1" class="active a_tab">Active</a>
-<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab">Cancelled</a>
-<a class="a_tab" id="lst3">Find Inv No / DN No / ID <input id="inp_dn_search" onKeyPress="search_input_keypress(event);" /> <input class="btn-primary" type="button" value="Go" onClick="list_sel(3);" /></a>
-<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
-<div id="dn_list" style="border:1px solid #000">
+
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=tab style="white-space:nowrap;">
+			
+			<a href="javascript:void(list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Active</a>
+			<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded ">Cancelled</a>
+			&nbsp;&nbsp;<a class="a_tab" id="lst3">Find Inv No / DN No / ID 
+				<input id="inp_dn_search" onKeyPress="search_input_keypress(event);" /> 
+				<input class="btn btn-primary fs-08" type="button" value="Go" onClick="list_sel(3);" /></a>
+			<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+			</div>
+	
+<div id="dn_list" class="mt-3" >
+</div>
+</div>
 </div>
 </div>
 
