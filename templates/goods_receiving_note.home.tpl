@@ -342,7 +342,13 @@ function export_grn_item(id, bid){
 </script>
 
 {if $msg}<p align=center style="color:#00f">{$msg}</p>{/if} 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $smarty.request.t eq 'save'}
 <img src="/ui/approved.png" align="absmiddle"> GRN saved as {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"}<br>
 {elseif $smarty.request.t eq 'grr_save'}
@@ -449,7 +455,7 @@ function export_grn_item(id, bid){
 		<li><img src="/ui/notify_sku_approve.png" align="absmiddle" /><a href="/goods_receiving_note_approval.php">GRN Approval</a></li>
 	{/if}
 </ul>*}
-<ul>
+<ul style="list-style-type: none;">
 {if !$config.use_grn_future}
 <li> <form><img src=ui/new.png align="absmiddle"> <a href="javascript:void(togglediv('grr'))">Create GRN from GRR</a> &nbsp;&nbsp; <b>Find Document No.</b> <input name=find_grr value="{$smarty.request.find_grr}" size=5> <input type=submit value="Find"></form>
 <!--- from GRR -->
@@ -459,7 +465,7 @@ function export_grn_item(id, bid){
 </li>
 {/if}
 <!--- end from GRR -->
-<li> Existing GRN</li>
+<li class="bg-white" style="max-width: 150px;padding: 10px;"> <span class="ml-4">Existing GRN</span></li>
 </ul>
 {literal}
 <script>
@@ -470,9 +476,9 @@ function list_sel(n,s){
 	for(i=0;i<=7;i++){
 		if($('lst'+i) == null) continue;
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	if(use_grn_future != 0){
 		if(n == 7){
@@ -503,9 +509,9 @@ function list_sel(n,s){
 }
 
 function search_tab_clicked(obj){
-	$('lst'+tab).className = '';
+	$('lst'+tab).addClassName('selected');
 	$('search_area').show();
-	obj.className = 'active';
+	obj.addClassName('selected');
 	$('grn_list').update();
 	if($('grr_list') != undefined) $('grr_list').style.display = "none";
 	$('div_grn').style.display = "";
@@ -515,43 +521,48 @@ function search_tab_clicked(obj){
 
 <div style="padding:10px 0;">
 	<form name="f_s" onsubmit="list_sel(0,0); return false;">
-	<div class="tab" style="height:20px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-		{if $config.use_grn_future}
-			<a href="javascript:list_sel(7)" id="lst7">GRR</a>
-			<a href="javascript:list_sel(1)" id="lst1" class="active">Saved GRN</a>
-			<a href="javascript:list_sel(2)" id="lst2">Pending Documents</a>
-			<a href="javascript:list_sel(3)" id="lst3">Account Verification</a>
-			<a href="javascript:list_sel(4)" id="lst4">Cancelled/Terminated</a>
-			<a href="javascript:list_sel(5)" id="lst5">Waiting for Approval</a>
-			<a href="javascript:list_sel(6)" id="lst6">Approved</a>
-		{else}
-			<a href="javascript:list_sel(1)" id="lst1" class="active">Saved GRN</a>
-			<a href="javascript:list_sel(2)" id="lst2">Cancelled/Terminated</a>
-			<a href="javascript:list_sel(3)" id="lst3">Waiting for Verification</a>
-			<a href="javascript:list_sel(4)" id="lst4">Verified</a>
-		{/if}
-		<a name="find" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
-			Find GRN / Doc No / Vendor
-		</a>
+	<div class=" mx-3">
+		<div class="tab row mx-3 mb-3 " style="white-space:nowrap;">
+			{if $config.use_grn_future}
+				<a href="javascript:list_sel(7)" id="lst7" class="fs-07 ml-1 btn btn-outline-primary btn-rounded">GRR</a>
+				<a href="javascript:list_sel(1)" id="lst1" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Saved GRN</a>
+				<a href="javascript:list_sel(2)" id="lst2" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Pending Documents</a>
+				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Account Verification</a>
+				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+				<a href="javascript:list_sel(5)" id="lst5" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+				<a href="javascript:list_sel(6)" id="lst6" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Approved</a>
+			{else}
+				<a href="javascript:list_sel(1)" id="lst1" class="fs-07 ml-1 btn btn-outline-primary btn-rounded">Saved GRN</a>
+				<a href="javascript:list_sel(2)" id="lst2" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Verification</a>
+				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Verified</a>
+			{/if}
+			<a name="find" class="fs-07 ml-1  btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+				<span >Find GRN / Doc No / Vendor</span>
+			</a>
 	</div>
-	<div id="div_grn" style="border:1px solid #000">
+	</div>
+	<div id="div_grn" >
 		<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
-			<table>
-				<tr>
-					<th align="left">Vendor</th>
-					<td colspan="2">
-						<input name="vendor_id" type="hidden" size="1" value="{$smarty.request.vendor_id}" readonly>
-						<input id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
-						<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
-					</td>
-				</tr>
-				<tr>
-					<th align="left">Find GRN / Doc No / GRR</th>
-					<td><input name="search" id="search" name="find" value="{$smarty.request.search}"></td>
-					<td align="center"><input class="btn-primary" type="submit" value="Go"></td>
-				</tr>
-			</table>
+			<div class="card mx-3">
+				<div class="card-body">
+					<table>
+						<tr>
+							<th align="left" class="form-label">Vendor</th>
+							<td colspan="2">
+								<input name="vendor_id" type="hidden" size="1" value="{$smarty.request.vendor_id}" readonly>
+								<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
+								<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
+							</td>
+						</tr>
+						<tr>
+							<th align="left" class="form-label">Find GRN / Doc No / GRR</th>
+							<td><input class="form-control" name="search" id="search" name="find" value="{$smarty.request.search}"></td>
+							<td align="center"><input class="btn btn-primary" type="submit" value="Go"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
 		<div id="grn_list">
 			{include file=goods_receiving_note.list.tpl}
@@ -559,7 +570,7 @@ function search_tab_clicked(obj){
 	</div>
 	</form>
 	{if $config.use_grn_future}
-		<div id="grr_list" style="border:1px solid #000;{if !$smarty.request.find_grr}display:none{/if}">
+		<div id="grr_list" style="{if !$smarty.request.find_grr}display:none{/if}">
 			{include file=goods_receiving_note.grr_list.tpl}
 		</div>
 	{/if}

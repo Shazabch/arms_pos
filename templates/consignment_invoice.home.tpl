@@ -440,7 +440,7 @@ function check_and_change_financial_year(){
 {/if}
 </div>
 </form>
-<div id="invoice_list" style="border:1px solid #000">
+<div id="invoice_list" >
 </div>
 {include file=footer.tpl}
 

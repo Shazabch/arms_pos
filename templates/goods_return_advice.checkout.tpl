@@ -193,9 +193,9 @@ function init_calendar(){
 }
 
 function search_tab_clicked(obj){
-	$('lst'+tab).className = '';
+	$('lst'+tab).addClassName('selected');
 	$('search_area').show();
-	obj.className = 'active';
+	obj.addClassName('selected');
 	$('gra_list').update();
 }
 
@@ -225,7 +225,13 @@ function print_dn_ok(){
 
 {/literal}
 {if $msg}<p align=center style="color:#00f">{$msg}</p>{/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $smarty.request.t eq 'save'}
 <img src=/ui/approved.png align=absmiddle> GRA saved as {$smarty.request.report_prefix}{$smarty.request.id|string_format:"%05d"}<br>
 {elseif $smarty.request.t eq 'confirm'}
@@ -271,7 +277,7 @@ function print_dn_ok(){
 	</fieldset>
 	<p align="center">
 		<input class="btn btn-warning" type="button" value="Dispose" onclick="gra_dispose()">
-		<input class="btn btn-error" type="button" value="Close" onclick="curtain_clicked();">
+		<input class="btn btn-danger" type="button" value="Close" onclick="curtain_clicked();">
 		<input type="hidden" name="a" value="gra_disposal" />
 	</p>
 	</form>
@@ -320,9 +326,9 @@ function list_sel(n,s)
 	for(i=0;i<=ttl_tabs;i++)
 	{
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	$('gra_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -343,33 +349,36 @@ function list_sel(n,s)
 {/literal}
 <div style="padding:10px 0;">
 	<form name="f_l" onsubmit="list_sel(0,0);return false;">
-	<div class=tab style="height:20px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	<a href="javascript:list_sel(1)" id=lst1 class=active>{if $config.gra_no_approval_flow}Saved{else}Approved{/if} GRA</a>
-	<a href="javascript:list_sel(2)" id=lst2>Completed</a>
-	<a href="javascript:list_sel(3)" id=lst3>Cancelled/Terminated</a>
+	<div class="tab row  mx-4 mb-3" style="white-space:nowrap;">
+	<a href="javascript:list_sel(1)" id=lst1 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">{if $config.gra_no_approval_flow}Saved{else}Approved{/if} GRA</a>
+	<a href="javascript:list_sel(2)" id=lst2 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Completed</a>
+	<a href="javascript:list_sel(3)" id=lst3 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
 	{if $config.gra_enable_disposal}
-		<a href="javascript:list_sel(4)" id=lst4>Disposed</a>
+		<a href="javascript:list_sel(4)" id=lst4 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Disposed</a>
 	{/if}
-	<a name="find" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find GRA / Vendor</a>
+	<a name="find" class="fs08 ml-2 btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find GRA / Vendor</a>
 	</div>
-	<div style="border:1px solid #000">
+	<div >
 		<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
-			<table>
-				<tr>
-					<th align="left">Vendor</th>
-					<td colspan="2">
-						<input name="search_vendor_id" type="hidden" size="1" value="{$smarty.request.search_vendor_id}" readonly>
-						<input id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
-						<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
-					</td>
-				</tr>
-				<tr>
-					<th align="left">Find GRA</th>
-					<td><input name="search" id="search" name="find" value="{$smarty.request.search}"></td>
-					<td align="right"><input class="btn-primary" type="submit" value="Go"></td>
-				</tr>
-			</table>
+			<div class="card mx-3">
+				<div class="card-body">
+					<table>
+						<tr>
+							<th align="left" class="form-label">Vendor</th>
+							<td colspan="2">
+								<input class="form-control" name="search_vendor_id" type="hidden" size="1" value="{$smarty.request.search_vendor_id}" readonly>
+								<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$smarty.request.vendor}" size=50>
+								<div id="autocomplete_vendor_choices" class="autocomplete"></div><br />
+							</td>
+						</tr>
+						<tr>
+							<th align="left" class="form-label">Find GRA</th>
+							<td><input class="form-control" name="search" id="search" name="find" value="{$smarty.request.search}"></td>
+							<td align="right"><input class="btn-primary" type="submit" value="Go"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
 		<div id="gra_list" align="center">
 			{include file=goods_return_advice.list.tpl}

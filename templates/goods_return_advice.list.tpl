@@ -131,7 +131,7 @@ function print_cancel()
 {/literal}
 
 {if $form.is_summary}
-<div id=gra_list style="border:1px solid #000">
+<div id=gra_list >
 {/if}
 {if !$gra_list}
 <p align=center>-- No Record --</p>

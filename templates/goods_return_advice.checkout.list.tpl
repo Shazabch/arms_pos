@@ -63,121 +63,129 @@ REVISION HISTORY
 <div align="left">
 {$pagination}
 </div>
-<table border=0 cellspacing=1 cellpadding=4 width=100%>
-<tr bgcolor=#ffee99>
-<th>&nbsp;</th>
-<th>GRA</th>
-{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
-	<th>Branch</th>
-{/if}
-<th>Vendor Code</th>
-{if $config.enable_vendor_account_id}
-	<th>Account ID</th>
-{/if}
-<th>Vendor</th>
-<th>Vehicle No</th>
-<th>SKU Type</th>
-{if $config.gra_show_dn_info}
-<th>DN No</th>
-<th>DN Amount</th>
-{/if}
-{if $got_rounding_adj}
-	<th>Amount<br />Before Round</th>
-	<th>Rounding<br />Adjust</th>
-{/if}
-<th>Amount</th>
-<th>Added</th>
-<th>Last Update</th>
-{if $mode=='cancel'}
-<th>Reason</th>
-{/if}
-</tr>
-
-<tbody>
-{section name=i loop=$gra_list}
-<tr bgcolor="{cycle values="#eeeeee,"}">
-    <td nowrap>
-	<textarea id="remark_{$gra_list[i].id}_{$gra_list[i].branch_id}" style="display:none;">{$gra_list[i].remark2|escape:'html'}</textarea>
-    {if $gra_list[i].status==0}
-    {if $gra_list[i].returned==0 && !$gra_list[i].not_allow_checkout}
-	<a href="?a=open&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}"><img src=ui/lorry_go.png border=0 title="Check Out"></a>
-	<!--a href="javascript:void(do_print_checklist({$gra_list[i].id},{$gra_list[i].branch_id}))"><img src=ui/report_edit.png border=0 title="Print Checklist"></a-->
-	{else}
-	<a href="?a=view&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}"><img src=ui/view.png border=0 title="View"></a>
-	{/if}
-	{if $gra_list[i].returned}
-		<a href="javascript:void(do_print({$gra_list[i].id},{$gra_list[i].branch_id}))"><img src=ui/print.png border=0 title="Print"></a>
-		{if $gra_list[i].generate_arms_dn}
-			<img src="ui/icons/page_add.png" border="0" title="Generate ARMS DN" onclick="toggle_dn_printing_menu('{$gra_list[i].id}', '{$gra_list[i].branch_id}');">
-		{elseif $gra_list[i].print_arms_dn}
-			<a href="?a=print_arms_dn&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}" target="_blank">  		
-				<img src="ui/icons/page_copy.png" border="0" title="Print ARMS DN">
-			</a>
-		{/if}
-	{/if}
-	{else}
-	<img src=ui/rejected.png border=0 title="Cancel">
-	{/if}
-	</td>
-	<td>{$gra_list[i].report_prefix}{$gra_list[i].id|string_format:"%05d"}</td>
-	{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
-		<td>{$gra_list[i].branch_code}</td>
-	{/if}
-	<td>{$gra_list[i].vendor_code}</td>
-	{if $config.enable_vendor_account_id}
-		<td>{$gra_list[i].account_id}</td>
-	{/if}
-	<td>
-		{$gra_list[i].vendor}
-		{if preg_match('/\d/',$gra_list[i].approvals)}
-			<div class=small>Approvals: <font color="#0000ff">{get_user_list list=$gra_list[i].approvals aorder_id=$gra_list[i].approval_order_id}</font></div>
-		{/if}
-	</td>
-	<td>{$gra_list[i].transport|upper}</td>
-	<td align=center>{$gra_list[i].sku_type}</td>
-	{if $config.gra_show_dn_info}
-		<td align=center>{$gra_list[i].misc_info.dn_no|default:"-"}</td>
-		<td align=right>
-			{if $gra_list[i].misc_info.dn_amount}
-				{if !$gra_list[i].currency_code}
-					{$gra_list[i].misc_info.dn_amount|number_format:2}
-				{else}
-					{$gra_list[i].currency_code} {$gra_list[i].misc_info.dn_amount|number_format:2}
-					<br />
-					{assign var=base_grr_amount value=$gra_list[i].misc_info.dn_amount*$gra_list[i].currency_rate}
-					{assign var=base_grr_amount value=$base_grr_amount|round2}
-					<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
-				{/if}
-			{else}
-				-
-			{/if}
-		</td>
-	{/if}
-	{if $got_rounding_adj}
-		<td class="r">
-			{$gra_list[i].amount-$gra_list[i].rounding_adjust|number_format:2}
-		</td>
-		<td class="r">
-			{$gra_list[i].rounding_adjust|number_format:2}
-		</td>
-	{/if}
-	<td align=right>
-		{if !$gra_list[i].currency_code}
-			{$gra_list[i].amount|number_format:2}
-		{else}
-			{$gra_list[i].currency_code} {$gra_list[i].amount|number_format:2}
-			<br />
-			{assign var=base_grr_amount value=$gra_list[i].amount*$gra_list[i].currency_rate}
-			{assign var=base_grr_amount value=$base_grr_amount|round2}
-			<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
-		{/if}
-	</td>
-	<td align=center>{$gra_list[i].added}</td>
-	<td align=center>{$gra_list[i].last_update}</td>
-	{if $mode=='cancel'}
-	<td align=center>{$gra_list[i].remark}</td>
-	{/if}
-</tr>
-{/section}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table border=0 cellspacing=1 cellpadding=4 width=100%>
+				<tbody class="bg-gray-100">
+					<tr>
+						<th>&nbsp;</th>
+						<th>GRA</th>
+						{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
+							<th>Branch</th>
+						{/if}
+						<th>Vendor Code</th>
+						{if $config.enable_vendor_account_id}
+							<th>Account ID</th>
+						{/if}
+						<th>Vendor</th>
+						<th>Vehicle No</th>
+						<th>SKU Type</th>
+						{if $config.gra_show_dn_info}
+						<th>DN No</th>
+						<th>DN Amount</th>
+						{/if}
+						{if $got_rounding_adj}
+							<th>Amount<br />Before Round</th>
+							<th>Rounding<br />Adjust</th>
+						{/if}
+						<th>Amount</th>
+						<th>Added</th>
+						<th>Last Update</th>
+						{if $mode=='cancel'}
+						<th>Reason</th>
+						{/if}
+						</tr>
+				</tbody>
+				
+				<tbody class="fs-08">
+				{section name=i loop=$gra_list}
+				<tr bgcolor="{cycle values="#eeeeee,"}">
+					<td nowrap>
+					<textarea id="remark_{$gra_list[i].id}_{$gra_list[i].branch_id}" style="display:none;">{$gra_list[i].remark2|escape:'html'}</textarea>
+					{if $gra_list[i].status==0}
+					{if $gra_list[i].returned==0 && !$gra_list[i].not_allow_checkout}
+					<a href="?a=open&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}"><img src=ui/lorry_go.png border=0 title="Check Out"></a>
+					<!--a href="javascript:void(do_print_checklist({$gra_list[i].id},{$gra_list[i].branch_id}))"><img src=ui/report_edit.png border=0 title="Print Checklist"></a-->
+					{else}
+					<a href="?a=view&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}"><img src=ui/view.png border=0 title="View"></a>
+					{/if}
+					{if $gra_list[i].returned}
+						<a href="javascript:void(do_print({$gra_list[i].id},{$gra_list[i].branch_id}))"><img src=ui/print.png border=0 title="Print"></a>
+						{if $gra_list[i].generate_arms_dn}
+							<img src="ui/icons/page_add.png" border="0" title="Generate ARMS DN" onclick="toggle_dn_printing_menu('{$gra_list[i].id}', '{$gra_list[i].branch_id}');">
+						{elseif $gra_list[i].print_arms_dn}
+							<a href="?a=print_arms_dn&id={$gra_list[i].id}&branch_id={$gra_list[i].branch_id}" target="_blank">  		
+								<img src="ui/icons/page_copy.png" border="0" title="Print ARMS DN">
+							</a>
+						{/if}
+					{/if}
+					{else}
+					<img src=ui/rejected.png border=0 title="Cancel">
+					{/if}
+					</td>
+					<td>{$gra_list[i].report_prefix}{$gra_list[i].id|string_format:"%05d"}</td>
+					{if $smarty.request.t eq 0 && $BRANCH_CODE eq 'HQ'}
+						<td>{$gra_list[i].branch_code}</td>
+					{/if}
+					<td>{$gra_list[i].vendor_code}</td>
+					{if $config.enable_vendor_account_id}
+						<td>{$gra_list[i].account_id}</td>
+					{/if}
+					<td>
+						{$gra_list[i].vendor}
+						{if preg_match('/\d/',$gra_list[i].approvals)}
+							<div class=small>Approvals: <font color="#0000ff">{get_user_list list=$gra_list[i].approvals aorder_id=$gra_list[i].approval_order_id}</font></div>
+						{/if}
+					</td>
+					<td>{$gra_list[i].transport|upper}</td>
+					<td align=center>{$gra_list[i].sku_type}</td>
+					{if $config.gra_show_dn_info}
+						<td align=center>{$gra_list[i].misc_info.dn_no|default:"-"}</td>
+						<td align=right>
+							{if $gra_list[i].misc_info.dn_amount}
+								{if !$gra_list[i].currency_code}
+									{$gra_list[i].misc_info.dn_amount|number_format:2}
+								{else}
+									{$gra_list[i].currency_code} {$gra_list[i].misc_info.dn_amount|number_format:2}
+									<br />
+									{assign var=base_grr_amount value=$gra_list[i].misc_info.dn_amount*$gra_list[i].currency_rate}
+									{assign var=base_grr_amount value=$base_grr_amount|round2}
+									<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
+								{/if}
+							{else}
+								-
+							{/if}
+						</td>
+					{/if}
+					{if $got_rounding_adj}
+						<td class="r">
+							{$gra_list[i].amount-$gra_list[i].rounding_adjust|number_format:2}
+						</td>
+						<td class="r">
+							{$gra_list[i].rounding_adjust|number_format:2}
+						</td>
+					{/if}
+					<td align=right>
+						{if !$gra_list[i].currency_code}
+							{$gra_list[i].amount|number_format:2}
+						{else}
+							{$gra_list[i].currency_code} {$gra_list[i].amount|number_format:2}
+							<br />
+							{assign var=base_grr_amount value=$gra_list[i].amount*$gra_list[i].currency_rate}
+							{assign var=base_grr_amount value=$base_grr_amount|round2}
+							<span class="converted_base_amt">{$config.arms_currency.code} {$base_grr_amount|number_format:2}*</span>
+						{/if}
+					</td>
+					<td align=center>{$gra_list[i].added}</td>
+					<td align=center>{$gra_list[i].last_update}</td>
+					{if $mode=='cancel'}
+					<td align=center>{$gra_list[i].remark}</td>
+					{/if}
+				</tr>
+				{/section}
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
