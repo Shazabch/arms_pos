@@ -56,157 +56,167 @@ REVISION HISTORY
 {/if}
 
 {$pagination}
-<table class=sortable id=do_tbl width=100% cellpadding=4 cellspacing=1 border=0 style="padding:2px">
-<tr bgcolor=#ffee99>
-	<th class="ignore_sorting">&nbsp;</th>
-	<th>DO No.</th>
-	<th>Batch Code</th>
-	<th>Create By</th>
-	<th>Deliver To</th>
-	<th>Lorry No</th>
-	<th class="ignore_sorting">Paid</th>
-	{if $config.consignment_modules}
-		<th>Price Type</th>
-	{/if}
-	<th>Total Amount<br>({$config.arms_currency.symbol})</th>
-	{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
-		<th>Foreign Amount</th>
-	{/if}
-	{if $show_invoice_amt}
-		<th>Invoice Amount<br>({$config.arms_currency.symbol})</th>
-		{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
-			<th>Foreign Invoice<br />Amount</th>
-		{/if}
-	{/if}
-	<th>DO Date</th>
-	<th>PO No</th>
-	<th>Last Update</th>
-</tr>
-
-{section name=i loop=$do_list}
-{assign var=n value=$smarty.section.i.iteration-2}
-<tr bgcolor={cycle values=",#eeeeee"}>
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-		{if $do_list[i].checkout}
- 			<a href="do_checkout.php?a=view&id={$do_list[i].id}&branch_id={$do_list[i].branch_id}{if $do_list[i].do_type}&do_type={$do_list[i].do_type}{/if}">
-			<img src="ui/view.png" title="View Completed DO" border=0>
-		 	</a>
- 			<a href="javascript:void(do_print('{$do_list[i].id}','{$do_list[i].branch_id}'))">
-			<img src="ui/print.png" title="Print this DO" border=0>
-			</a>
-		{else}
- 			<a href="do_checkout.php?a=open&id={$do_list[i].id}&branch_id={$do_list[i].branch_id}{if $do_list[i].do_type}&do_type={$do_list[i].do_type}{/if}">
-			<img src="ui/lorry_go.png" title="Open this DO" border=0>
-			</a>	
- 		{/if}
- 	{/if}
-	</td>
-
-	
-	
-	<td>{*{if $do_list[i].do_no ne $do_list.$n.do_no}DO/{$do_list[i].do_no}{/if}*}
-    	{if $do_list[i].do_no}
-	        {$do_list[i].do_no}
-	        <br>
-			<font class="small" color=#009900>
-			    {$do_list[i].branch_prefix}{$do_list[i].id|string_format:"%05d"}(PD)
-			</font>
-		{else}
-		    {$do_list[i].branch_prefix}{$do_list[i].id|string_format:"%05d"}(PD)
-	    {/if}
-	</td>
-
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-		{$do_list[i].batch_code|default:"-"}
-	{/if}	
-	</td>
-	
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-		{$do_list[i].user_name}
-	{/if}	
-	</td>
-
-	<td>
-	{if $do_list[i].do_type eq 'credit_sales'}
-	    {assign var=debtor_id value=$do_list[i].debtor_id}
-	    Debtor: {$debtor.$debtor_id.code}
-		{if $debtor.$debtor_id.description}
-			<br />
-			<span class="small" style="color:blue;">({$debtor.$debtor_id.description})</span>
-		{/if}
-	{else}
-		{if $do_list[i].do_branch_id}
-			{$do_list[i].branch_name_2}
-		{elseif $do_list[i].open_info.name}
-			{$do_list[i].open_info.name}
-		{/if}
-		{foreach from=$do_list[i].d_branch.name item=pn name=pn}
-			{if $smarty.foreach.pn.iteration>1} ,{/if}
-			{$pn}
-		{/foreach}
-	{/if}
-	</td>	
-	
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-	{$do_list[i].checkout_info.lorry_no|default:"-"}
-	{/if}
-	</td>
-	<td align="center">
-	{if $do_list[i].do_type eq 'open' || $do_list[i].do_type eq 'credit_sales'} 
-		<button value="Paid" onclick="show_paid('{$do_list[i].id}','{$do_list[i].branch_id}')">Paid</button>
-		<img id="img_paid_status_{$do_list[i].id}_{$do_list[i].branch_id}" src="{if $do_list[i].paid}ui/approved.png{else}ui/icons/cancel.png{/if}" title="Paid Status"/>
-	{/if}
-	</td>
-  	{if $config.consignment_modules}
-  		<td>{$do_list[i].sheet_price_type|default:'-'}</td>
-  	{/if}
-  	
-	<td align=right>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-	{$do_list[i].total_amount|number_format:2}
-	{/if}
-	</td>
-	{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
-		<td align="right">{$do_list[i].total_foreign_amount|number_format:2}</td>
-	{/if}
-	{if $show_invoice_amt}
-	    <td align="right">
-		{if ($do_list[i].do_type eq 'transfer' and $config.do_transfer_have_discount) or ($do_list[i].do_type eq 'open' and $config.do_cash_sales_have_discount) or ($do_list[i].do_type eq 'credit_sales' and $config.do_credit_sales_have_discount)}
-			{$do_list[i].total_inv_amt|number_format:2}
-		{else}-{/if}
-		</td>
-		{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
-			<td align="right">{$do_list[i].total_foreign_inv_amt|number_format:2}</td>
-		{/if}
-	{/if}
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-	{$do_list[i].do_date|date_format:$config.dat_format}
-	{/if}
-	</td>
-	<td align=center>{$do_list[i].po_no|default:"-"}</td>
-	<td align=center>
-	{if $do_list[i].do_no ne $do_list.$n.do_no}
-	{$do_list[i].last_update}
-	{/if}
-	</td>
-</tr>
-{sectionelse}
-<tr>
-	{assign var=cols value=7}
-	{if ($do_list[i].do_type eq 'transfer' and $config.do_transfer_have_discount) or ($do_list[i].do_type eq 'open' and $config.do_cash_sales_have_discount) or ($do_list[i].do_type eq 'credit_sales' and $config.do_credit_sales_have_discount)}
-		{assign var=cols value=$cols+1}
-		{if $show_invoice_amt}{assign var=cols value=$cols+1}{/if}
-	{/if}
-	{if $show_invoice_amt}{assign var=cols value=$cols+1}{/if}
-	<td colspan=11 align=center>- no record -</td>
-</tr>
-{/section}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class=sortable id=do_tbl width=100% class="report_table table mb-0 text-md-nowrap  table-hover">
+				<thead class="bg-gray-100">
+					<tr >
+						<th class="ignore_sorting">&nbsp;</th>
+						<th>DO No.</th>
+						<th>Batch Code</th>
+						<th>Create By</th>
+						<th>Deliver To</th>
+						<th>Lorry No</th>
+						<th class="ignore_sorting">Paid</th>
+						{if $config.consignment_modules}
+							<th>Price Type</th>
+						{/if}
+						<th>Total Amount<br>({$config.arms_currency.symbol})</th>
+						{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
+							<th>Foreign Amount</th>
+						{/if}
+						{if $show_invoice_amt}
+							<th>Invoice Amount<br>({$config.arms_currency.symbol})</th>
+							{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
+								<th>Foreign Invoice<br />Amount</th>
+							{/if}
+						{/if}
+						<th>DO Date</th>
+						<th>PO No</th>
+						<th>Last Update</th>
+					</tr>
+					
+				</thead>
+				{section name=i loop=$do_list}
+				{assign var=n value=$smarty.section.i.iteration-2}
+				<tbody class="fs-08">
+					<tr bgcolor={cycle values=",#eeeeee"}>
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+							{if $do_list[i].checkout}
+								 <a href="do_checkout.php?a=view&id={$do_list[i].id}&branch_id={$do_list[i].branch_id}{if $do_list[i].do_type}&do_type={$do_list[i].do_type}{/if}">
+								<img src="ui/view.png" title="View Completed DO" border=0>
+								 </a>
+								 <a href="javascript:void(do_print('{$do_list[i].id}','{$do_list[i].branch_id}'))">
+								<img src="ui/print.png" title="Print this DO" border=0>
+								</a>
+							{else}
+								 <a href="do_checkout.php?a=open&id={$do_list[i].id}&branch_id={$do_list[i].branch_id}{if $do_list[i].do_type}&do_type={$do_list[i].do_type}{/if}">
+								<img src="ui/lorry_go.png" title="Open this DO" border=0>
+								</a>	
+							 {/if}
+						 {/if}
+						</td>
+					
+						
+						
+						<td>{*{if $do_list[i].do_no ne $do_list.$n.do_no}DO/{$do_list[i].do_no}{/if}*}
+							{if $do_list[i].do_no}
+								{$do_list[i].do_no}
+								<br>
+								<font class="small" color=#009900>
+									{$do_list[i].branch_prefix}{$do_list[i].id|string_format:"%05d"}(PD)
+								</font>
+							{else}
+								{$do_list[i].branch_prefix}{$do_list[i].id|string_format:"%05d"}(PD)
+							{/if}
+						</td>
+					
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+							{$do_list[i].batch_code|default:"-"}
+						{/if}	
+						</td>
+						
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+							{$do_list[i].user_name}
+						{/if}	
+						</td>
+					
+						<td>
+						{if $do_list[i].do_type eq 'credit_sales'}
+							{assign var=debtor_id value=$do_list[i].debtor_id}
+							Debtor: {$debtor.$debtor_id.code}
+							{if $debtor.$debtor_id.description}
+								<br />
+								<span class="small" style="color:blue;">({$debtor.$debtor_id.description})</span>
+							{/if}
+						{else}
+							{if $do_list[i].do_branch_id}
+								{$do_list[i].branch_name_2}
+							{elseif $do_list[i].open_info.name}
+								{$do_list[i].open_info.name}
+							{/if}
+							{foreach from=$do_list[i].d_branch.name item=pn name=pn}
+								{if $smarty.foreach.pn.iteration>1} ,{/if}
+								{$pn}
+							{/foreach}
+						{/if}
+						</td>	
+						
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+						{$do_list[i].checkout_info.lorry_no|default:"-"}
+						{/if}
+						</td>
+						<td align="center">
+						{if $do_list[i].do_type eq 'open' || $do_list[i].do_type eq 'credit_sales'} 
+							<button value="Paid" onclick="show_paid('{$do_list[i].id}','{$do_list[i].branch_id}')">Paid</button>
+							<img id="img_paid_status_{$do_list[i].id}_{$do_list[i].branch_id}" src="{if $do_list[i].paid}ui/approved.png{else}ui/icons/cancel.png{/if}" title="Paid Status"/>
+						{/if}
+						</td>
+						  {if $config.consignment_modules}
+							  <td>{$do_list[i].sheet_price_type|default:'-'}</td>
+						  {/if}
+						  
+						<td align=right>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+						{$do_list[i].total_amount|number_format:2}
+						{/if}
+						</td>
+						{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
+							<td align="right">{$do_list[i].total_foreign_amount|number_format:2}</td>
+						{/if}
+						{if $show_invoice_amt}
+							<td align="right">
+							{if ($do_list[i].do_type eq 'transfer' and $config.do_transfer_have_discount) or ($do_list[i].do_type eq 'open' and $config.do_cash_sales_have_discount) or ($do_list[i].do_type eq 'credit_sales' and $config.do_credit_sales_have_discount)}
+								{$do_list[i].total_inv_amt|number_format:2}
+							{else}-{/if}
+							</td>
+							{if $config.consignment_modules && is_array($config.masterfile_branch_region) && is_array($config.consignment_multiple_currency)}
+								<td align="right">{$do_list[i].total_foreign_inv_amt|number_format:2}</td>
+							{/if}
+						{/if}
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+						{$do_list[i].do_date|date_format:$config.dat_format}
+						{/if}
+						</td>
+						<td align=center>{$do_list[i].po_no|default:"-"}</td>
+						<td align=center>
+						{if $do_list[i].do_no ne $do_list.$n.do_no}
+						{$do_list[i].last_update}
+						{/if}
+						</td>
+					</tr>
+				</tbody>
+				{sectionelse}
+				<tr>
+					{assign var=cols value=7}
+					{if ($do_list[i].do_type eq 'transfer' and $config.do_transfer_have_discount) or ($do_list[i].do_type eq 'open' and $config.do_cash_sales_have_discount) or ($do_list[i].do_type eq 'credit_sales' and $config.do_credit_sales_have_discount)}
+						{assign var=cols value=$cols+1}
+						{if $show_invoice_amt}{assign var=cols value=$cols+1}{/if}
+					{/if}
+					{if $show_invoice_amt}{assign var=cols value=$cols+1}{/if}
+					<td colspan=11 align=center>- no record -</td>
+				</tr>
+				{/section}
+				</table>	
+		</div>
+	</div>
+</div>
 <script>
 ts_makeSortable($('do_tbl'));
 </script>

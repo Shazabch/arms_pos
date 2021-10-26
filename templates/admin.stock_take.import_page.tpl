@@ -482,256 +482,273 @@ function stock_date_changed(imported){
 
 {/literal}
 </script>
-
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <!-- Import -->
-<fieldset>
-<legend><b>Import</b></legend>
-<form name="import_stock_take" id="f_import" onSubmit="return check_form(this);">
-<input type="hidden" name="a" value="import_stock_take" />
-<table>
-	<tr>
-		{if $BRANCH_CODE eq 'HQ'}
-			<td><b>Branch</b> <select name="branch_id" onchange="stock_branch_change(0);">
-			<option value="">-- Please Select --</option>
-			{foreach from=$branch item=r}
-				<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
-			{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;</td>
-		{else}
-		    <input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-		{/if}
-		<td>
-			<div id="div_import_stock_take_date">
-				{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.import im_re=import type=0}
-			</div>
-		</td>
-		<td>
-			<span id="btn_import"><input type="submit" value="Import" /></span>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		    <b>Action </b> [<a href="javascript:void(alert('
-			1. No Auto Fill Zero\n
-			- The system will import all Stock Take according to the selected branch and date only, without zerolise the rest of the non-scanned Stock Take items.\n\n
-			2. Auto Add Zero for Same SKU Parent\n
-			- The system auto zerolise the rest of the items under the same SKU family (Parent & Child) base on the items that scanned from Stock Take.\n\n
-			3. Auto Add Zero for Non-scan Items\n
-			- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items.\n\n
-			4. Auto Add Zero for Selected Categories, Vendors & Brands\n
-			- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items base on the selected categories, vendors and brands.\n
-			'));">?</a>]
-			<select name="fill_zero_options" onchange="check_options(this);">
-		    	<option value="no_fill">No auto fill zero</option>
-		    	{if !$config.stock_take_hide_auto_zero_sku_parent_option}<option value="fill_parent">Auto add zero for same SKU parent</option>{/if}
-		    	<option value="fill_zero">Auto add zero for non-scan items</option>
-		    	<option value="fill_zero_by_category_vendor">Auto add zero for selected Categories, Vendors & Brands</option>
-		    </select>
-		    
-		    {*
-		    <input id="fill_zero_1" type="radio" name="fill_zero_options" value='no_fill' checked /><label for="fill_zero_1"><b>No auto fill zero</b></label> 
-		    <input id="fill_zero_2" type="radio" name="fill_zero_options" value='fill_parent' /><label for="fill_zero_2"><b>Auto add zero for same SKU parent</b></label> 
-		    <input id="fill_zero_3" type="radio" name="fill_zero_options" value='fill_zero' /><label for="fill_zero_3"><b>Auto add zero for non-scan items</b></label> 
-			<input type="checkbox" name="fill_zero" /> <b>Set quantity to zero for items not in stock take</b>
-			*}
-		</td>
-		<td id="td_sku_type" style="display:none;" colspan="{if BRANCH_CODE eq 'HQ'}2{else}1{/if}">
-			<b>SKU Type:</b>
-			<select name="sku_type">
-				<option value="">All</option>
-				{foreach from=$sku_type key=r item=st}
-					<option value="{$st.code}">{$st.description}</option>
-				{/foreach}
-			</select>
-		</td>
-	</tr>
-</table>
-	<div style="display:none;" id="fill_zero_by_category_vendor">
-		<table>
-			<tr>
-				<td><b>Category (Max lv10)</b></td>
-				<td>
-					<input id="inp_search_cat_autocomplete" name="search_cat_autocomplete" style="font-size:14px;width:500px;" onclick="reset_category_autocomplete();" />
-					<div id="div_search_cat_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-					<input type="button" value="Add" onclick="cat_add_autocomplete();" />
-					<input type="hidden" name="category_id" value="" />
-					<input type="hidden" name="category_desc" value="" />
-					<span id="span_cat_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
+<div class="card mx-3">
+	<div class="card-body">
+		<fieldset>
+			<legend><b>Import</b></legend>
+			<form name="import_stock_take" id="f_import" onSubmit="return check_form(this);">
+			<input type="hidden" name="a" value="import_stock_take" />
+			<table>
+				<tr>
+					{if $BRANCH_CODE eq 'HQ'}
+						<td><b class="form-label">Branch</b> 
+							<select class="form-control" name="branch_id" onchange="stock_branch_change(0);">
+						<option value="">-- Please Select --</option>
+						{foreach from=$branch item=r}
+							<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
+						{/foreach}
+						</select>&nbsp;&nbsp;&nbsp;</td>
+					{else}
+						<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+					{/if}
+					<td>
+						<div id="div_import_stock_take_date">
+							{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.import im_re=import type=0}
+						</div>
+					</td>
+					<td>
+						<span id="btn_import"><input type="submit" class="btn btn-primary ml-2" value="Import" /></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-inline">
+							<b class="form-label">Action </b> [<a href="javascript:void(alert('
+						1. No Auto Fill Zero\n
+						- The system will import all Stock Take according to the selected branch and date only, without zerolise the rest of the non-scanned Stock Take items.\n\n
+						2. Auto Add Zero for Same SKU Parent\n
+						- The system auto zerolise the rest of the items under the same SKU family (Parent & Child) base on the items that scanned from Stock Take.\n\n
+						3. Auto Add Zero for Non-scan Items\n
+						- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items.\n\n
+						4. Auto Add Zero for Selected Categories, Vendors & Brands\n
+						- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items base on the selected categories, vendors and brands.\n
+						'));">?</a>]
+						&nbsp;&nbsp;<select class="form-control" name="fill_zero_options" onchange="check_options(this);">
+							<option value="no_fill">No auto fill zero</option>
+							{if !$config.stock_take_hide_auto_zero_sku_parent_option}<option value="fill_parent">Auto add zero for same SKU parent</option>{/if}
+							<option value="fill_zero">Auto add zero for non-scan items</option>
+							<option value="fill_zero_by_category_vendor">Auto add zero for selected Categories, Vendors & Brands</option>
+						</select>
+						</div>
+						
+						{*
+						<input id="fill_zero_1" type="radio" name="fill_zero_options" value='no_fill' checked /><label for="fill_zero_1"><b>No auto fill zero</b></label> 
+						<input id="fill_zero_2" type="radio" name="fill_zero_options" value='fill_parent' /><label for="fill_zero_2"><b>Auto add zero for same SKU parent</b></label> 
+						<input id="fill_zero_3" type="radio" name="fill_zero_options" value='fill_zero' /><label for="fill_zero_3"><b>Auto add zero for non-scan items</b></label> 
+						<input type="checkbox" name="fill_zero" /> <b>Set quantity to zero for items not in stock take</b>
+						*}
+					</td>
+					<td id="td_sku_type" style="display:none;" colspan="{if BRANCH_CODE eq 'HQ'}2{else}1{/if}">
+						<b>SKU Type:</b>
+						<select name="sku_type">
+							<option value="">All</option>
+							{foreach from=$sku_type key=r item=st}
+								<option value="{$st.code}">{$st.description}</option>
+							{/foreach}
+						</select>
+					</td>
+				</tr>
+			</table>
+				<div style="display:none;" id="fill_zero_by_category_vendor">
 					<table>
 						<tr>
-							<td rowspan="5">
-								<select multiple name="category_list" id="category_list" style="width:497px;height:100px;">
-								{if $category}
+							<td><b>Category (Max lv10)</b></td>
+							<td>
+								<input id="inp_search_cat_autocomplete" name="search_cat_autocomplete" style="font-size:14px;width:500px;" onclick="reset_category_autocomplete();" />
+								<div id="div_search_cat_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+								<input type="button" value="Add" onclick="cat_add_autocomplete();" />
+								<input type="hidden" name="category_id" value="" />
+								<input type="hidden" name="category_desc" value="" />
+								<span id="span_cat_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
+								<table>
+									<tr>
+										<td rowspan="5">
+											<select multiple name="category_list" id="category_list" style="width:497px;height:100px;">
+											{if $category}
+												{foreach from=$category item=c}
+													{if $c.sku_item_code ne ''}
+														<option value="{$c.id}">{$c.description}</option>
+														{*<script>init_cat_array_list('{$c.id}')</script>*}
+													{/if}
+												{/foreach}
+											{/if}
+											</select>
+											<input type="hidden" name="category_id_list" value="" />
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td style="width:100px;"><input type="button" value="Remove" id="remove_cat" onClick="remove_cat_from_list();" disabled style="width:100px;"></td>
+									</tr>
+									<tr>
+										<td><input type="button" value="Clear" id="clear_cat" onClick="clear_cat_from_list();" disabled style="width:100px;"></td>
+									</tr>
 									{foreach from=$category item=c}
 										{if $c.sku_item_code ne ''}
-											<option value="{$c.id}">{$c.description}</option>
-											{*<script>init_cat_array_list('{$c.id}')</script>*}
+											<script>init_cat_array_list('{$c.id}')</script>
 										{/if}
 									{/foreach}
-								{/if}
-								</select>
-								<input type="hidden" name="category_id_list" value="" />
+			
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>&nbsp;</td></tr>
+								</table>
 							</td>
-							<td></td>
 						</tr>
 						<tr>
-							<td style="width:100px;"><input type="button" value="Remove" id="remove_cat" onClick="remove_cat_from_list();" disabled style="width:100px;"></td>
+							<td><b>Vendor</b></td>
+							<td>
+								<input id="inp_search_vendor_autocomplete" name="search_vendor_autocomplete" style="font-size:14px;width:500px;" onclick="reset_vendor_autocomplete();" />
+								<div id="div_search_vendor_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+								<input type="button" value="Add" onclick="vendor_add_autocomplete();" />
+								<input type="hidden" name="vendor_id" value="" />
+								<input type="hidden" name="vendor_desc" value="" />
+								<span id="span_vendor_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+							</td>
 						</tr>
 						<tr>
-							<td><input type="button" value="Clear" id="clear_cat" onClick="clear_cat_from_list();" disabled style="width:100px;"></td>
-						</tr>
-						{foreach from=$category item=c}
-							{if $c.sku_item_code ne ''}
-								<script>init_cat_array_list('{$c.id}')</script>
-							{/if}
-						{/foreach}
-
-						<tr><td>&nbsp;</td></tr>
-						<tr><td>&nbsp;</td></tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td><b>Vendor</b></td>
-				<td>
-					<input id="inp_search_vendor_autocomplete" name="search_vendor_autocomplete" style="font-size:14px;width:500px;" onclick="reset_vendor_autocomplete();" />
-					<div id="div_search_vendor_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-					<input type="button" value="Add" onclick="vendor_add_autocomplete();" />
-					<input type="hidden" name="vendor_id" value="" />
-					<input type="hidden" name="vendor_desc" value="" />
-					<span id="span_vendor_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
-					<table>
-						<tr>
-							<td rowspan="5">
-								<select multiple name="vendor_list" id="vendor_list" style="width:497px;height:100px;">
-								{if $vendors}
+							<td>&nbsp;</td>
+							<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
+								<table>
+									<tr>
+										<td rowspan="5">
+											<select multiple name="vendor_list" id="vendor_list" style="width:497px;height:100px;">
+											{if $vendors}
+												{foreach from=$vendors item=v}
+													{if $v.sku_item_code ne ''}
+														<option value="{$v.id}">{$v.description}</option>
+														{*<script>init_cat_array_list('{$c.id}')</script>*}
+													{/if}
+												{/foreach}
+											{/if}
+											</select>
+											<input type="hidden" name="vendor_id_list" value="" />
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td style="width:100px;"><input type="button" value="Remove" id="remove_vendor" onClick="remove_vendor_from_list();" disabled style="width:100px;"></td>
+									</tr>
+									<tr>
+										<td><input type="button" value="Clear" id="clear_vendor" onClick="clear_vendor_from_list();" disabled style="width:100px;"></td>
+									</tr>
 									{foreach from=$vendors item=v}
 										{if $v.sku_item_code ne ''}
-											<option value="{$v.id}">{$v.description}</option>
-											{*<script>init_cat_array_list('{$c.id}')</script>*}
+											<script>init_vendor_array_list('{$v.id}')</script>
 										{/if}
 									{/foreach}
-								{/if}
-								</select>
-								<input type="hidden" name="vendor_id_list" value="" />
+			
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>&nbsp;</td></tr>
+								</table>
 							</td>
-							<td></td>
 						</tr>
 						<tr>
-							<td style="width:100px;"><input type="button" value="Remove" id="remove_vendor" onClick="remove_vendor_from_list();" disabled style="width:100px;"></td>
+							<td><b>Brand</b></td>
+							<td>
+								<input id="inp_search_brand_autocomplete" name="search_brand_autocomplete" style="font-size:14px;width:500px;" onclick="reset_brand_autocomplete();" />
+								<div id="div_search_brand_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+								<input type="button" value="Add" onclick="brand_add_autocomplete();" />
+								<input type="hidden" name="brand_id" value="" />
+								<input type="hidden" name="brand_desc" value="" />
+								<span id="span_brand_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+							</td>
 						</tr>
 						<tr>
-							<td><input type="button" value="Clear" id="clear_vendor" onClick="clear_vendor_from_list();" disabled style="width:100px;"></td>
-						</tr>
-						{foreach from=$vendors item=v}
-							{if $v.sku_item_code ne ''}
-								<script>init_vendor_array_list('{$v.id}')</script>
-							{/if}
-						{/foreach}
-
-						<tr><td>&nbsp;</td></tr>
-						<tr><td>&nbsp;</td></tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td><b>Brand</b></td>
-				<td>
-					<input id="inp_search_brand_autocomplete" name="search_brand_autocomplete" style="font-size:14px;width:500px;" onclick="reset_brand_autocomplete();" />
-					<div id="div_search_brand_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-					<input type="button" value="Add" onclick="brand_add_autocomplete();" />
-					<input type="hidden" name="brand_id" value="" />
-					<input type="hidden" name="brand_desc" value="" />
-					<span id="span_brand_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
-					<table>
-						<tr>
-							<td rowspan="5">
-								<select multiple name="brand_list" id="brand_list" style="width:497px;height:100px;">
-								{if $brands}
+							<td>&nbsp;</td>
+							<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
+								<table>
+									<tr>
+										<td rowspan="5">
+											<select multiple name="brand_list" id="brand_list" style="width:497px;height:100px;">
+											{if $brands}
+												{foreach from=$brands item=b}
+													{if $b.sku_item_code ne ''}
+														<option value="{$b.id}">{$b.description}</option>
+														{*<script>init_cat_array_list('{$c.id}')</script>*}
+													{/if}
+												{/foreach}
+											{/if}
+											</select>
+											<input type="hidden" name="brand_id_list" value="" />
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td style="width:100px;"><input type="button" value="Remove" id="remove_brand" onClick="remove_brand_from_list();" disabled style="width:100px;"></td>
+									</tr>
+									<tr>
+										<td><input type="button" value="Clear" id="clear_brand" onClick="clear_brand_from_list();" disabled style="width:100px;"></td>
+									</tr>
 									{foreach from=$brands item=b}
 										{if $b.sku_item_code ne ''}
-											<option value="{$b.id}">{$b.description}</option>
-											{*<script>init_cat_array_list('{$c.id}')</script>*}
+											<script>init_brand_array_list('{$b.id}')</script>
 										{/if}
 									{/foreach}
-								{/if}
-								</select>
-								<input type="hidden" name="brand_id_list" value="" />
+			
+									<tr><td>&nbsp;</td></tr>
+									<tr><td>&nbsp;</td></tr>
+								</table>
 							</td>
-							<td></td>
 						</tr>
-						<tr>
-							<td style="width:100px;"><input type="button" value="Remove" id="remove_brand" onClick="remove_brand_from_list();" disabled style="width:100px;"></td>
-						</tr>
-						<tr>
-							<td><input type="button" value="Clear" id="clear_brand" onClick="clear_brand_from_list();" disabled style="width:100px;"></td>
-						</tr>
-						{foreach from=$brands item=b}
-							{if $b.sku_item_code ne ''}
-								<script>init_brand_array_list('{$b.id}')</script>
-							{/if}
-						{/foreach}
-
-						<tr><td>&nbsp;</td></tr>
-						<tr><td>&nbsp;</td></tr>
 					</table>
-				</td>
-			</tr>
-		</table>
+				</div>
+			</form>
+				{if $smarty.request.t eq 'import' and $smarty.request.msg}
+					<span style="color:blue;">- {$smarty.request.msg}</span>
+				{/if}
+			</fieldset>
+			
 	</div>
-</form>
-	{if $smarty.request.t eq 'import' and $smarty.request.msg}
-	    <span style="color:blue;">- {$smarty.request.msg}</span>
-	{/if}
-</fieldset>
-
+</div>
 <!-- Reset -->
-<fieldset>
-<legend><b>Reset</b></legend>
-<form name="reset_stock_take" id="f_reset" onSubmit="return check_form(this);">
-<input type="hidden" name="a" value="reset_stock_take" />
-<table>
-	<tr>
-		{if $BRANCH_CODE eq 'HQ'}
-			<td><b>Branch</b> <select name="branch_id" onchange="stock_branch_change(1);">
-			<option value="">-- Please Select --</option>
-			{foreach from=$branch item=r}
-				<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
-			{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;</td>
-        {else}
-		    <input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-		{/if}
-		<td>
-			<div id="div_reset_stock_take_date">
-				{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.reset im_re=reset type=1 }
-			</div>
-		</td>
-		<td>&nbsp;&nbsp;&nbsp;
-			<span id="btn_reset"><input class="btn btn-warning" type="submit" value="Reset"  /></span>
-		</td>
-	</tr>
-</table>
-</form>
-	{if $smarty.request.t eq 'reset' and $smarty.request.msg}
-	    <span style="color:blue;">- {$smarty.request.msg}</span>
-	{/if}
-</fieldset>
+<div class="card mx-3">
+	<div class="card-body">
+		<fieldset>
+			<legend><b>Reset</b></legend>
+			<form name="reset_stock_take" id="f_reset" onSubmit="return check_form(this);">
+			<input type="hidden" name="a" value="reset_stock_take" />
+			<table>
+				<tr>
+					{if $BRANCH_CODE eq 'HQ'}
+						<td><b class="form-label">Branch</b>
+						<select class="form-control" name="branch_id" onchange="stock_branch_change(1);">
+						<option value="">-- Please Select --</option>
+						{foreach from=$branch item=r}
+							<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
+						{/foreach}
+						</select>&nbsp;&nbsp;&nbsp;</td>
+					{else}
+						<input class="form-control" type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+					{/if}
+					<td>
+						<div id="div_reset_stock_take_date" class="ml-3">
+							{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.reset im_re=reset type=1 }
+						</div>
+					</td>
+					<td>&nbsp;&nbsp;&nbsp;
+						<span id="btn_reset"><input class="btn btn-warning fs-08" type="submit" value="Reset"  /></span>
+					</td>
+				</tr>
+			</table>
+			</form>
+				{if $smarty.request.t eq 'reset' and $smarty.request.msg}
+					<span style="color:blue;">- {$smarty.request.msg}</span>
+				{/if}
+			</fieldset>
+	</div>
+</div>
 {include file='footer.tpl'}

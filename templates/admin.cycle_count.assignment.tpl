@@ -472,7 +472,13 @@ var CC_CLONE_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $smarty.request.t eq 'saved'}
 	<p><img src="ui/approved.png" align="absmiddle"> Cycle Count Saved as ID#{$smarty.request.id}</p>
@@ -490,35 +496,45 @@ var CC_CLONE_DIALOG = {
 	<p><img src="ui/approved.png" align="absmiddle"> Cycle Count ID#{$smarty.request.id} Sent to Store Stock Take.</p>
 {/if}
 
-<ul>
-	{if $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT}
-		<li> <img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Cycle Count Assignment</a></li>
+
+	<div class="card mx-3">
+		<div class="card-body">
+			{if $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT}
+	<img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Cycle Count Assignment</a>
 	{/if}
-</ul>
+		</div>
+	</div>
 
 
-<div id="div_tab" class="tab" style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-	{if $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT}
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(1))" id="lst1" class="active a_tab">Saved</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(2))" id="lst2" class="a_tab">Waiting for Approval</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(3))" id="lst3" class="a_tab">Rejected</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(4))" id="lst4" class="a_tab">Cancelled</a>
-	{/if}
-	<a href="javascript:void(CC_ASSGN_LIST.list_sel(5))" id="lst5" class="a_tab">Approved</a>
-	<a href="javascript:void(CC_ASSGN_LIST.list_sel(6))" id="lst6" class="a_tab">Printed</a>
-	<a href="javascript:void(CC_ASSGN_LIST.list_sel(7))" id="lst7" class="a_tab">WIP</a>
-	<a href="javascript:void(CC_ASSGN_LIST.list_sel(8))" id="lst8" class="a_tab">Completed</a>
-	<a href="javascript:void(CC_ASSGN_LIST.list_sel(9))" id="lst9" class="a_tab">Sent to Store Stock Take</a>
-	<a class="a_tab" id="lst0">
-		Search [<span class="link" onclick="CC_ASSGN_LIST.toggle_search_info();">?</span>] 
-		<input id="inp_item_search" onKeyPress="CC_ASSGN_LIST.search_input_keypress(event);" /> 
-		<input type="button" value="Go" onClick="CC_ASSGN_LIST.list_sel(0);" />
-	</a>
-	<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+
+
+<div class="row mx-3 mb-2">
+	<div id=" div_tab " class="row tab" style="white-space:nowrap;">
+		<div class="col">
+			{if $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT}
+			<a href="javascript:void(CC_ASSGN_LIST.list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+			<a href="javascript:void(CC_ASSGN_LIST.list_sel(2))" id="lst2" class="a_tab btn-outline-primary btn-rounded">Waiting for Approval</a>
+			<a href="javascript:void(CC_ASSGN_LIST.list_sel(3))" id="lst3" class="a_tab btn-outline-primary btn-rounded">Rejected</a>
+			<a href="javascript:void(CC_ASSGN_LIST.list_sel(4))" id="lst4" class="a_tab btn-outline-primary btn-rounded">Cancelled</a>
+		{/if}
+		<a href="javascript:void(CC_ASSGN_LIST.list_sel(5))" id="lst5" class="a_tab btn-outline-primary btn-rounded">Approved</a>
+		<a href="javascript:void(CC_ASSGN_LIST.list_sel(6))" id="lst6" class="a_tab btn-outline-primary btn-rounded">Printed</a>
+		<a href="javascript:void(CC_ASSGN_LIST.list_sel(7))" id="lst7" class="a_tab btn-outline-primary btn-rounded">WIP</a>
+		<a href="javascript:void(CC_ASSGN_LIST.list_sel(8))" id="lst8" class="a_tab btn-outline-primary btn-rounded">Completed</a>
+		<a href="javascript:void(CC_ASSGN_LIST.list_sel(9))" id="lst9" class="a_tab btn-outline-primary btn-rounded">Sent to Store Stock Take</a>
+		</div>
+		<div class="col">
+			<a class="a_tab form-inline" id="lst0">
+				Search [<span class="link" onclick="CC_ASSGN_LIST.toggle_search_info();">?</span>] 
+				&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="CC_ASSGN_LIST.search_input_keypress(event);" /> 
+				&nbsp;<input type="button" class="btn btn-primary" value="Go" onClick="CC_ASSGN_LIST.list_sel(0);" />
+			</a>
+		</div>
+		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+	</div>
 </div>
 
-<div id="cc_list" style="border:1px solid #000;">
+<div id="cc_list" >
 </div>
 
 <script>CC_ASSGN_LIST.initialize();</script>

@@ -9,20 +9,20 @@
 
 *}
 
-<td>Shelf From</td>
+<td class="form-label mt-2"><b>Shelf From</b></td>
 <td>
 	<div id=div_shelf2>
-		<select name=shelf2>
+		<select class="form-control" name=shelf2>
 			{foreach from=$shelf item=val}
 				<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
 			{/foreach}
 		</select>
 	</div>
 </td>
-<td>To</td>
+<td class="form-label mt-2"><b>To</b></td>
 <td>
 	<div id=div_shelf3>
-		<select name=shelf3>
+		<select class="form-control" name=shelf3>
 			{foreach from=$shelf item=val}
 				<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
 			{/foreach}

@@ -125,117 +125,144 @@ var IMPORT_STOCK_TAKE = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
-	<ul class="errmsg">
+	<ul class="errmsg" style="list-style-type: none;">
 		{foreach from=$err item=e}
-			<li> {$e}</li>
+			<div class="alert alert-primary rounded mx-3">
+				<li> {$e}</li>
+			</div>
 		{/foreach}
 	</ul>
 {/if}
 
-<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return false;" method="post">
-	<input type="hidden" name="show_result" value="1" />
-	
-	<table border="0">
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* Please ensure the file extension <b>".csv"</b>.<br/>
-				* Please ensure the csv file contains header.<br/>
-				* This will import as Stock Take Pre Data, you need to use "Import / Reset Stock Take" Module to import again as Real Stock Take.<br/>
-				
-				{if $config.enable_fresh_market_sku}
-					* This module can import Fresh Market SKU and Non-Fresh Market SKU. But you need to refer to Fresh Market Stock Take Module after import Fresh Market SKU.<br/>
-				{/if}
-			</td>
-		</tr>
-		
-		{* Branch *}
-		{if $can_select_branch}
-			<tr>
-				<td><b>Branch</b></td>
-				<td>
-					<select name="branch_id" class="required" title="Branch">
-						<option value="">-- Please Select --</option>
-						{foreach from=$branches_list key=bid item=b}
-							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-						{/foreach}
-					</select>
-					<img src="/ui/rq.gif" align="absmiddle" />
-				</td>
-			</tr>
-		{/if}
-		
-		{* Date *}
-		<tr>
-			<td><b>Date</b></td>
-			<td>
-				<input name="date" id="inp_date" size="12" value="{$smarty.request.date|default:$smarty.now|date_format:'%Y-%m-%d'}" readonly /> 
-				<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date">
-				<img src="/ui/rq.gif" align="absmiddle" />
-			</td>
-		</tr>
-		
-		{* Location *}
-		<tr>
-			<td><b>Location</b></td>
-			<td>
-				<input type="text" name="location" maxlength="15" class="required" title="Location" value="{$smarty.request.location}" />
-				<img src="/ui/rq.gif" align="absmiddle" />
-				(Max 15 Characters)
-			</td>
-		</tr>
-		
-		{* Shelf No *}
-		<tr>
-			<td><b>Shelf No</b></td>
-			<td>
-				<input type="text" name="shelf_no" maxlength="15" class="required" title="Shelf No" value="{$smarty.request.shelf_no}" />
-				<img src="/ui/rq.gif" align="absmiddle" />
-				(Max 15 Characters)
-			</td>
-		</tr>
-				
-		{* Allow Duplicate Entry *}
-		</tr>
-			<td><b>Allow Duplicate Entry</b></td>
-			<td>
-				<input type="checkbox" name="sum_duplicate" value="1" {if $smarty.request.sum_duplicate}checked {/if} />
-				(if found duplicate will sum up qty)
-			</td>
-		</tr>
-		
-		{* CSV *}
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="button" value="Show Result" onClick="IMPORT_STOCK_TAKE.show_result();" />
-			</td>
-		</tr>
-		
-		
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="25%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_data.header item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample_data.items item=s}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return false;" method="post">
+			<input type="hidden" name="show_result" value="1" />
+			
+			<table border="0">
 				<tr>
-					{foreach from=$s item=i}
-						<td>{$i}</td>
-					{/foreach}
+					<td colspan="4" >
+						<div class="alert alert-primary">
+							<b>Note:</b><br />
+						* Please ensure the file extension <b>".csv"</b>.<br/>
+						* Please ensure the csv file contains header.<br/>
+						* This will import as Stock Take Pre Data, you need to use "Import / Reset Stock Take" Module to import again as Real Stock Take.<br/>
+						
+						{if $config.enable_fresh_market_sku}
+							* This module can import Fresh Market SKU and Non-Fresh Market SKU. But you need to refer to Fresh Market Stock Take Module after import Fresh Market SKU.<br/>
+						{/if}
+						</div>
+					</td>
 				</tr>
-			{/foreach}
-		</table>
+				
+				{* Branch *}
+				{if $can_select_branch}
+					<tr>
+						<td><b class="form-label ">Branch<pan class="text-danger"> *</pan></b></td>
+						<td>
+							<select name="branch_id" class="required form-control " title="Branch">
+								<option value="">-- Please Select --</option>
+								{foreach from=$branches_list key=bid item=b}
+									<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+								{/foreach}
+							</select>
+						</td>
+					</tr>
+				{/if}
+				
+				{* Date *}
+				<tr>
+					<td><b class="form-label mt-1">Date<span class="text-danger"> *</span></b></td>
+					<td>
+						<div class="form-inline mt-1">
+							<input class="form-control" name="date" id="inp_date" value="{$smarty.request.date|default:$smarty.now|date_format:'%Y-%m-%d'}" readonly /> 
+							&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date">
+						</div>
+					</td>
+				</tr>
+				
+				{* Location *}
+				<tr>
+					<td><b class="form-label mt-1">Location<span class="text-danger"> *</span></b></td>
+					<td>
+						<div class="form-inline mt-1">
+							<input type="text" name="location" maxlength="15" class="required form-control" title="Location" value="{$smarty.request.location}" />
+							&nbsp;&nbsp;(Max 15 Characters)
+						</div>
+					</td>
+				</tr>
+				
+				{* Shelf No *}
+				<tr>
+					<td><b class="form-label mt-1">Shelf No<span class="text-danger"> *</span></b></td>
+					<td>
+						<div class="form-inline mt-1">
+							<input type="text" name="shelf_no" maxlength="15" class="required form-control" title="Shelf No" value="{$smarty.request.shelf_no}" />
+						&nbsp;&nbsp;(Max 15 Characters)
+						</div>
+					</td>
+				</tr>
+						
+				{* Allow Duplicate Entry *}
+				</tr>
+					<td><b class="form-label">Allow Duplicate Entry</b></td>
+					<td>
+						<input type="checkbox" name="sum_duplicate" value="1" {if $smarty.request.sum_duplicate}checked {/if} />
+						(if found duplicate will sum up qty)
+					</td>
+				</tr>
+				
+				{* CSV *}
+				<tr>
+					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample">Download Sample</a>)</b></td>
+					<td>
+						<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
+						<input type="button" class="btn btn-primary" value="Show Result" onClick="IMPORT_STOCK_TAKE.show_result();" />
+					</td>
+				</tr>
+				
+				
+			</table>
+		</div>
 	</div>
-</form>
+			<div class="card mx-3">
+				<div class="card-body">
+					<div class="div_tbl">
+						<h3>Sample</h3><br>
+						<div class="table-responsive">
+							<table id="si_tbl" width="50%" class="report_table table mb-0 text-md-nowrap  table-hover">
+								<thead class="bg-gray-100">
+									<tr>
+										{foreach from=$sample_data.header item=i}
+											<th>{$i}</th>
+										{/foreach}
+									</tr>
+								</thead>
+								{foreach from=$sample_data.items item=s}
+									<tbody class="fs-08">
+										<tr>
+											{foreach from=$s item=i}
+												<td>{$i}</td>
+											{/foreach}
+										</tr>
+									</tbody>
+								{/foreach}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		
 
 
 {if $item_lists}

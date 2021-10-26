@@ -513,44 +513,83 @@ function set_has_tmp_photo(filepath){
 
 </script>
 {/literal}
-
-<h1>Category Master File</h1>
-<br>
-<ul>
-<li> <font color=blue>Level 1 = Line, Level 2 = Department</font></li>
-<li> Click on category to show the sub-categories.</li>
-{if $sessioninfo.privilege.MST_CATEGORY}
-<li> <a href="?a=export_csv">Click Here</a> to download the category as CSV.</li>
-	{if $BRANCH_CODE eq 'HQ'}
-	<li> <a href="?a=sync">Click Here</a> to regenerate category tree if category is missing from SKU Application.</li>
-    <li> <a href="#" onclick="add('0', '(0)', '1');">Click Here</a> to create a new Line.</li>
-	<li> To move a category to another parent, click the item's <img src=ui/move.png> icon once, then click on the target parent's <img src=ui/move.png> icon again.</li>
-	{/if}
-{/if}
-</ul>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Category Master File
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="alert alert-primary rounded mx-3">
+	<ul>
+		<li> <font color=blue>Level 1 = Line, Level 2 = Department</font></li>
+		<li> Click on category to show the sub-categories.</li>
+		{if $sessioninfo.privilege.MST_CATEGORY}
+		<li> <a href="?a=export_csv">Click Here</a> to download the category as CSV.</li>
+			{if $BRANCH_CODE eq 'HQ'}
+			<li> <a href="?a=sync">Click Here</a> to regenerate category tree if category is missing from SKU Application.</li>
+			<li> <a href="#" onclick="add('0', '(0)', '1');">Click Here</a> to create a new Line.</li>
+			<li> To move a category to another parent, click the item's <img src=ui/move.png> icon once, then click on the target parent's <img src=ui/move.png> icon again.</li>
+			{/if}
+		{/if}
+		</ul>
+</div>
 <div id=category_tree>
-<h3>Root Category</h3>
-<table border=0 width=100% cellpadding=0 cellspacing=0>
-<tr bgcolor={#TB_COLHEADER#}>
-<th bgcolor={#TB_CORNER#} rowspan=2 width=60>&nbsp;</th>
-<th rowspan=2 width=50>Code</th>
-<th rowspan=2>Description</th>
-<th rowspan=2 width=50>Area</th>
-<th colspan={count var=$sku_type}>Photos Required for SKU Application</th>
-<th rowspan=2 width=50>GRN PO Qty</th>
-<th rowspan=2 width=50>GRN Weight</th>
-</tr>
-<tr bgcolor={#TB_COLHEADER#} height=20>
-{foreach from=$sku_type item=v key=k}
-<th width=50 class=small>{$k}</th>
-{/foreach}
-</tr>
-<tr>
-<td colspan=9 id="sc0">
-{include file=masterfile_category_table.tpl}
-</td>
-</tr>
-</table>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+					Root Category
+				</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width=100%  class="report_table table mb-0 text-md-nowrap  table-hover"
+			>
+				<thead class="bg-gray-100">
+					<table border=0 width=100% cellpadding=0 cellspacing=0>
+						<tr bgcolor={#TB_COLHEADER#}>
+						<th  rowspan=2 width=60>&nbsp;</th>
+						<th rowspan=2 width=50 class="text-center">Code</th>
+						<th rowspan=2>Description</th>
+						<th rowspan=2 width=50>Area</th>
+						<th colspan={count var=$sku_type}>Photos Required for SKU Application</th>
+						<th rowspan=2 width=50>GRN PO Qty</th>
+						<th rowspan=2 width=50>GRN Weight</th>
+						</tr>
+						<tr bgcolor={#TB_COLHEADER#} height=20>
+						{foreach from=$sku_type item=v key=k}
+						<th width=50 class=small>{$k}</th>
+						{/foreach}
+						</tr>
+						<tr>
+						<td colspan=9 id="sc0">
+						{include file=masterfile_category_table.tpl}
+						</td>
+						</tr>
+						</table>
+				</thead>
+			<tbody class="fs-08">
+				<tr bgcolor={#TB_COLHEADER#} height=20>
+					{foreach from=$sku_type item=v key=k}
+					<th width=50 class=small>{$k}</th>
+					{/foreach}
+					</tr>
+			</tbody>
+				<tr>
+				<td colspan=9 id="sc0">
+				{include file=masterfile_category_table.tpl}
+				</td>
+				</tr>
+				</table>
+		</div>
+	</div>
+</div>
 
 </div>
 

@@ -18,23 +18,23 @@
 *}
 
 <fieldset style="width: 300px;">
-	<legend><b>Select By Range</b></legend>
+	<legend><b class="text-dark">Select By Range</b></legend>
 	<table>
 		<tr>
-			<td>Location From</td>
+			<td class="form-label mt-2"><b>Location From</b></td>
 			<td>
 				<div id=div_location2>
-					<select name=loc2 onChange="reload_shelf_range();">
+					<select class="form-control" name=loc2 onChange="reload_shelf_range();">
 						{foreach from=$loc item=val}
 							<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location|upper}</option>
 						{/foreach}
 					</select>
 				</div>
 			</td>
-			<td>To</td>
+			<td class="form-label mt-2"><b> To </b></td>
 			<td>
 				<div id=div_location3>
-					<select name=loc3 onChange="reload_shelf_range();">
+					<select class="form-control" name=loc3 onChange="reload_shelf_range();">
 						{foreach from=$loc item=val}
 							<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location|upper}</option>
 						{/foreach}
@@ -47,9 +47,9 @@
 			{include file='admin.stock_take.range.shelf.tpl'}
 		</tr>
 		<tr>
-			<td>Sku Type</td>
+			<td class="form-label mt-2"><b>Sku Type</b></td>
 			<td>
-				<select name='p_sku_type'>
+				<select class="form-control" name='p_sku_type'>
 				    <option value=''>All</option>
 				    {foreach from=$sku_type item=pcode}
 				    <option value='{$pcode.code}' {if $smarty.request.p_sku_type eq $pcode.code} selected {/if} >{$pcode.code}</option>
@@ -59,12 +59,13 @@
 		</tr>
 		{if $config.stock_take_count_sheet}
 		<tr>
-		    <td>Stock Count Sheet No.</td>
-		    <td><input name='count_sheet' type=text maxlength=5 size=10 value='{$smarty.request.count_sheet}' onChange="miz(this);" /></td>
+		    <td class="form-label">Stock Count Sheet No.</td>
+		    <td><input class="form-control" name='count_sheet' type=text maxlength=5 size=10 value='{$smarty.request.count_sheet}' onChange="miz(this);" /></td>
 		</tr>
 		{/if}
 	</table>
-	<br>
-	<input class="btn btn-primary" type=button value="Print Check List" onclick="print_sheet('sheet')">&nbsp;&nbsp;&nbsp;&nbsp;
+	<div class="form-inline mt-2">
+		<input class="btn btn-primary" type=button value="Print Check List" onclick="print_sheet('sheet')">&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="checkbox" name="print_with_qty" value=1> Print with quantity
+	</div>
 </fieldset>

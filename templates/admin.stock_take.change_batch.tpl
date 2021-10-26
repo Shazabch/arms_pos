@@ -205,7 +205,13 @@ function start_change_batch(){
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <!-- popup change batch -->
 <div id="div_change_batch" class="curtain_popup" style="position:absolute;z-index:10005;width:450px;height:450px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
@@ -221,62 +227,67 @@ function start_change_batch(){
 </div>
 
 {if $smarty.request.err_msg}<font color="red">{$smarty.request.err_msg|htmlentities}</font>{/if}
-<form name="f_a" action="admin.stock_take.php">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" action="admin.stock_take.php">
 
-	<input type=hidden name=a value=load_table_data>
-	<input type=hidden name=rpt_type>
-	{if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
-
-	<table>
-		<tr>
-		    {if $can_select_branch}<td><b>Branch</b></td>{/if}
-			<td valign=top><b>Date</b></td>
-			<td><b>Location</b></td>
-			<td><b>Shelf</b></td>
-			<td></td>
-		</tr>
-		<tr>
-		    {if $can_select_branch}
-		        <td>
-		            <select name="branch_id" onchange="branch_changed(this.value)" size="10">
-						{foreach from=$branches item=r}
-							<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
-						{/foreach}
-					</select>
-		        </td>
-		    {/if}
-			<td>
-			    <div id="div_date" style="min-width:100px;">
-					<select name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
-						{foreach from=$dat item=val}
-							<option value="{$val.date}" {if $smarty.request.date eq $val.date}selected {/if}>{$val.date}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-			<td>
-				<div id="div_location" style="min-width:100px;">
-					<select name="loc" onchange="load_shelf(this.value)" size=10 style="width:100%;">
-						{foreach from=$loc item=val}
-							<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-			<td>
-				<div id="div_shelf" style="min-width:100px;">
-					<select name="shelf" onchange="show_record()" size=10 style="width:100%;">
-						{foreach from=$shelf item=val}
-							<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-		</tr>
-	</table>
-</form>
-
-<input class="btn btn-primary" type="button" value="Change Batch" onclick="popup_change_batch();"  id="btn_change_batch" disabled />
+			<input type=hidden name=a value=load_table_data>
+			<input type=hidden name=rpt_type>
+			{if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
+		
+			<table>
+				<tr>
+					{if $can_select_branch}<td><b class="form-label text-center">Branch</b></td>{/if}
+					<td valign=top><b class="form-label text-center">Date</b></td>
+					<td><b class="form-label text-center">Location</b></td>
+					<td><b class="form-label text-center">Shelf</b></td>
+					<td></td>
+				</tr>
+				<tr>
+					{if $can_select_branch}
+						<td>
+							<select class="form-control" name="branch_id" onchange="branch_changed(this.value)" size="10">
+								{foreach from=$branches item=r}
+									<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
+								{/foreach}
+							</select>
+						</td>
+					{/if}
+					<td>
+						<div id="div_date" style="min-width:100px;">
+							<select class="form-control" name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
+								{foreach from=$dat item=val}
+									<option value="{$val.date}" {if $smarty.request.date eq $val.date}selected {/if}>{$val.date}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+					<td>
+						<div id="div_location" style="min-width:100px;">
+							<select class="form-control" name="loc" onchange="load_shelf(this.value)" size=10 style="width:100%;">
+								{foreach from=$loc item=val}
+									<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+					<td>
+						<div id="div_shelf" style="min-width:100px;">
+							<select class="form-control" name="shelf" onchange="show_record()" size=10 style="width:100%;">
+								{foreach from=$shelf item=val}
+									<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+		<input class="btn btn-primary" type="button" value="Change Batch" onclick="popup_change_batch();"  id="btn_change_batch" disabled />
+		
+	</div>
+</div>
 
 {include file='footer.tpl'}
 

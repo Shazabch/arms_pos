@@ -180,9 +180,8 @@ REVISION HISTORY
 	padding: 0 !important;
 }
 #div_multiple_print_header{
-    border:2px ridge #CE0000;
-	color:white;
-	background-color:#CE0000;
+
+	
 	padding:2px;
 	cursor:default;
 }
@@ -396,10 +395,12 @@ function price_indicator_changed(type, obj){
 		<input type=hidden name=a value="create_from_upload_file">
 		<input type=hidden name=create_type value="2">
 		{if $errm.top}
-			<div id=err><div class=errmsg><ul>
+			<div id=err><div class=errmsg><ul style="list-style-type: none;">
 			{foreach from=$errm.top item=e}
 			<div class="alert alert-danger">
-				<li> {$e}</li>
+				<div class="alert alert-danger rounded ">
+					<li> {$e}</li>
+				</div>
 			</div>
 			{/foreach}
 			</ul></div></div>
@@ -407,18 +408,20 @@ function price_indicator_changed(type, obj){
 		
 				<table border=0 cellspacing=0 cellpadding=4>
 					<tr>
-						<td valign=top width=120><b>DO Date</b></td>
+						<td valign=top width=120><b class="form-label">DO Date</b></td>
 						<td>
-						<input name="do_date" id="added1" size=10 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
+					<div class="form-inline">
+						<input class="form-control" name="do_date" id="added1" size=10 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
 						<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					</div>
 						</td>
 					</tr>
 					
 					{if $do_type eq 'transfer'}
 					<tr>
-						<td width=120><b>Delivery Branch</b></td>
+						<td width=120><b class="form-label">Delivery Branch</b></td>
 						<td>
-						<select name="do_branch_id">
+						<select class="form-control" name="do_branch_id">
 							{foreach item="curr_Branch" from=$branch}
 							<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
 							{/foreach}
@@ -428,7 +431,7 @@ function price_indicator_changed(type, obj){
 					{/if}
 					
 					<tr>
-						<td valign=top width=120><b>Price From</b></td>
+						<td valign=top width=120><b class="form-label">Price From</b></td>
 						<td>
 							{if $config.sku_multiple_selling_price}
 								{foreach from=$config.sku_multiple_selling_price key=i item=e}
@@ -448,7 +451,7 @@ function price_indicator_changed(type, obj){
 						</td>
 					</tr>
 					<tr>
-						<th align="left">Import Format</th>
+						<th align="left" class="form-label">Import Format</th>
 						<td>
 							<input type="radio" name="import_format" value="1" checked /> Default (ARMS CODE or MCODE | {$config.link_code_name|default:'Old Code'} | Qty)<br />
 							<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode)<br />
@@ -456,9 +459,9 @@ function price_indicator_changed(type, obj){
 						</td>
 					</tr>
 					<tr>
-						<th align="left">Delimiter</th>
+						<th align="left" class="form-label">Delimiter</th>
 						<td>
-							<select name="delimiter">
+							<select class="form-control" name="delimiter">
 								<option value="|">| (Pipe)</option>
 								<option value=",">, (Comma)</option>
 								<option value=";">; (Semicolon)</option>
@@ -466,8 +469,8 @@ function price_indicator_changed(type, obj){
 						</td>
 					</tr>
 					<tr>
-						<th align=left valign=top width=80>Import File</th>
-						<td align=left colspan=3><input name=files id=file type=file class="files" size=50> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span></td>
+						<th align=left valign=top width=80 class="form-label">Import File<span class="text-danger" title="Required Field"> *</span></th>
+						<td align=left colspan=3><input name=files id=file type=file class="files form-control" size=50> </td>
 					</tr>
 					
 					</table>
@@ -485,25 +488,27 @@ function price_indicator_changed(type, obj){
 		{if $do_type eq 'transfer'}
 		<li class="list-group-item list-group-item-action"> <img src=ui/new.png align=absmiddle> 
 		<a href="javascript:;" onclick="togglediv('create_from_po')">Create from PO</a>
-		<div id=create_from_po class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:#fff;">
+		<div id=create_from_po class=stdframe style="{if !$smarty.request.sku}display:none;{/if}margin:5px 0;background:white;padding:10px;border-radius:6px;">
 		<form name=f_b method=post>
 		<input type=hidden name=a value="create_from_po">
 		<input type=hidden name=create_type value="3">
 		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 		<table border=0 cellspacing=0 cellpadding=4>
 		<tr>
-		<th align=left width=120>DO Date</th>
+		<th align=left width=120 class="form-label">DO Date</th>
 		<td>
-		<input name="do_date" id="added2" size=12 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
-		<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+		<div class="form-inline">
+			<input class="form-control" name="do_date" id="added2" size=12 onchange="upper_lower_limit(this);"  maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
+		&nbsp;&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+		</div>
 		</td>
 		</tr>
 		
 		{if !$config.do_create_and_use_branch_from_po}
 			<tr>
-			<td width=120><b>Delivery Branch</b></td>
+			<td width=120><b class="form-label">Delivery Branch</b></td>
 			<td>
-			<select name="po_do_branch_id">
+			<select class="form-control" name="po_do_branch_id">
 				{foreach item="curr_Branch" from=$branch}
 				<option value={$curr_Branch.id} {if $curr_Branch.id==$branch_id or $smarty.request.branch_id==$curr_Branch.id}selected{/if}>{$curr_Branch.code}</option>
 				{/foreach}
@@ -513,7 +518,7 @@ function price_indicator_changed(type, obj){
 		{/if}
 		
 		<tr>
-		<td valign=top width=120><b>Price From</b></td>
+		<td valign=top width=120><b class="form-label">Price From</b></td>
 		<td>
 			{if $config.sku_multiple_selling_price}
 				{if $config.sku_multiple_selling_price}
@@ -536,18 +541,18 @@ function price_indicator_changed(type, obj){
 		</tr>
 		
 		<tr>
-		<th align=left width=120>PO No.</th>
+		<th align=left width=120 class="form-label">PO No.<span class="text-danger" title="Required Field"> *</span></th>
 		<td colspan=3>
-		<input id=po_no name=po_no maxlength=15 size=15 onchange="uc(this);"> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+		<input class="form-control" id=po_no name=po_no maxlength=15 size=15 onchange="uc(this);"> 
 		</td>
 		</tr>
 		</table>
 		
-		<input type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
+		<input class="form-control" type="hidden" name="do_type" value="{$do_type|default:'transfer'}" />
 		</form>
 		
 		<p align=center>
-		<input type=button value="Create" style="background-color:#f90; color:#fff;" onclick="do_create_from_po()" id="inp_do_create_from_po" />
+		<input type=button value="Create" class="btn btn-warning" onclick="do_create_from_po()" id="inp_do_create_from_po" />
 		</p>
 		
 		</div></li>
@@ -742,8 +747,8 @@ function show_paid(id, branch_id){
 }
 
 function show_multiple_print(){
-    curtain(true);
-	center_div($('div_multiple_print').show());
+    //curtain(true);
+	jQuery('#div_multiple_print').modal('show');
 }
 
 function search_do_for_multiple_print(){

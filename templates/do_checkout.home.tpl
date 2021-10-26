@@ -103,8 +103,13 @@ function curtain_clicked(){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {literal}
 <script>
 function list_sel(n,s){
@@ -112,9 +117,9 @@ function list_sel(n,s){
 	for(i=0;i<=2;i++)
 	{
 		if (i==n)
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		else
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 	}
 	$('do_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
 
@@ -264,15 +269,22 @@ function print_assignment_note_by_batch(){
 <form name=f_a onsubmit="list_sel(0,0);return false;">
 <input type=hidden name=a value=''>
 <input type=hidden name=do_no value=''>
-<div class=tab style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Saved</a>
-<a href="javascript:list_sel(2)" id=lst2>Completed</a>
-<a name=find_po id=lst0>Find DO / Branch <input id=search name=pono> <input class="btn-primary" type=submit value="Go"></a>
-<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+	<div class="tab row mx-5" style="white-space:nowrap;">
+	 <div class="col-md-6">
+		<a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Saved</a>
+		<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Completed</a>
+	 </div>
+		<div class="col-md-6">
+			<div class="">	
+			<a name=find_po class="form-inline" id=lst0 >
+			<b class="form-label">Find DO / Branch</b> 
+			&nbsp;<input id=search class="form-control" name=pono> 
+			&nbsp;<input class="btn btn-primary" type=submit value="Go"></a>
+		</div>
+		</div>
 </div>
 </form>
-<div id=do_list style="border:1px solid #000">
+<div id=do_list >
 </div>
 
 <iframe id=ifprint width=1 height=1 style="visibility:hidden"></iframe>

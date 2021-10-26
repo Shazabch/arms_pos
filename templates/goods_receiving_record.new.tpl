@@ -1631,8 +1631,7 @@ function fill_data_from_po(){
 <br>
 </div>
 
-<div class="card mx-3">
-	<div class="card-body">
+
 		<div id="grr_tbl">
 			<form name="f_a" method="post" action="{$smarty.server.PHP_SELF}" onsubmit="return check_a()">
 			<input type="hidden" name="a" value="save">
@@ -1648,15 +1647,16 @@ function fill_data_from_po(){
 			{if $errm.top}
 			<div id="err"><ul class="errmsg" style="list-style-type:none;">
 			{foreach from=$errm.top item=e}
-			<div class="alert alert-danger rounded">
+			<div class="alert alert-danger rounded mx-3">
 				<li> {$e} </li>
 			</div>
 			
 			{/foreach}
 			</ul></div>
 			{/if}
-			
-			<table class="stdframe" style="background:#fff" cellpadding="4" cellspacing="0" border="0">
+			<div class="card mx-3">
+				<div class="card-body">
+			<table class="stdframe"  cellpadding="4" cellspacing="0" border="0">
 			<tr>
 				<th align="left" class="form-label">Search from PO/DO</th>
 				<td>
@@ -1713,13 +1713,15 @@ function fill_data_from_po(){
 			<tr>
 				<td width="100"><b class="form-label"> Vendor<span class="text-danger" title="Required Field"> *</span></b></td>
 				<td colspan="6">
-					<input class="from-control" id="vendor_id" name="vendor_id" type="hidden" value="{$form.vendor_id}" readonly>
+					<div class="form-inline">
+						<input class="from-control" id="vendor_id" name="vendor_id" type="hidden" value="{$form.vendor_id}" readonly>
 					<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=80 {if $form.edit_on}disabled{/if} >
 					<input class="form-control" id="autocomplete_vendor" type="hidden" name="vendor_descrip" value="{$form.vendor}" size=80 >
 					<div id="autocomplete_vendor_choices" class="autocomplete"></div>
 					{if !$form.grn_used}
-						<input class="btn btn-primary" type="button" value="Find available PO" onclick="show_available_po(this)" class="grr_info">
+					&nbsp;&nbsp;	<input class="btn btn-primary " type="button" value="Find available PO" onclick="show_available_po(this)" class="grr_info">
 					{/if}
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -1820,123 +1822,129 @@ function fill_data_from_po(){
 				</td>
 			</tr>
 			</table>
-			
-			<br />
-			<font color="blue">
-			* Each GRR can only contain 1 invoice.<br />
-			{if $config.foreign_currency}
-				* The Exchange Rate will not be changed regardless of the change of Receiving Date if the document contains a PO with Foreign Currency.<br />
-			{/if}
-			</font> 
-		<div class="table-responsive">
-			<table id="tb"   class="report_table table mb-0 text-md-nowrap  table-hover">
-				<thead class="bg-gray-100">
-					<tr  class="small">
-						<th rowspan="2">&nbsp;</th>
-						<th rowspan="2">Reference No</th>
-						<th rowspan="2">Document Date</th>
-						<th colspan="4">Document Type</th>
-						<th rowspan="2">Received<br>Carton</th>
-						<th rowspan="2">Received<br>Pcs</th>
-						<th rowspan="2">Amount<br />Incl Tax<a href="javascript:void(alert('Please key in amount that Included Tax.'));">[?]</a></th>
-						<th rowspan="2" class="gst_info">GST Amount <a href="javascript:void(alert('Please key in tax amount only.'));">[?]</a></th>
-						<th rowspan="2" class="gst_info">GST Code</th>
-						
-						{* Tax *}
-						<th rowspan="2" class="tax_info">Tax Amount</th>
-						<th rowspan="2">Remark</th>
-					</tr>
-					<tr bgcolor="#fff" class="small">
-						<th width="50">PO</td>
-						<th width="50">INVOICE</td>
-						<th width="50">DO</td>
-						<th width="50">OTHER</td>
-					</tr>
-				</thead>
-				{assign var=idx value=0}
-				{foreach from=$form.id key=n item=dummy name=i}
-				{if $form.doc_no[$n] ne '' or $form.amount[$n]}
-				<tbody class="fs-08">
-					<tr class="gra_items" id="tr_{$idx}" bgcolor="{if $errm[$n]}#ff9999{else}{cycle name='r0' values=',#eeeeee'}{/if}" data-idx="{$idx}">
-						<td nowrap>{$idx+1}.
-						{if $form.id[$n]}<img src="/ui/remove16.png" valign="absmiddle" class="clickable" onclick="if (confirm('Are you sure?')) {literal}{{/literal} $('doc_{$idx}').value='';Element.hide('tr_{$idx}');recalc_row();{literal}}{/literal}" title="delete row">{/if}
-						</td>
-						<td>
-							<input class="form-control" type="hidden" name="id[{$idx}]" value="{$form.id[$n]}">
-							<input type="hidden" name="po_override_by_user_id[{$idx}]" value="{$form.po_override_by_user_id[$n]}">
-							
-							{if $form.type[$n] eq 'PO' && $form.id[$n]}
-								<input type="hidden" name="curr_po_no[{$idx}]" value="{$form.curr_po_no[$n]}">
-							{/if}
-							<input class="form-control" id="doc_{$idx}" name="doc_no[{$idx}]" value="{$form.doc_no[$n]}" size="15" onchange="uc(this);add_row({$idx}); check_duplicate_doc_no({$idx}); check_doc_no({$idx}); recalc_row();" maxlength="20">
-							
-						</td>
-						<td nowrap>
-							<div class="form-inline">
-								<input class="form-control" name="doc_date[{$idx}]" id="doc_date_{$idx}" value="{$form.doc_date[$n]|ifzero:''}" maxlength="10" size="8" readonly>
-							<img align="absmiddle" src="ui/calendar.gif" id="dd_added_{$idx}" style="cursor: pointer;" title="Select Document Date">
-							</div>
+			</div>
+			</div>
+			<div class="card mx-3">
+				<div class="card-body">
+		
+			<div class="alert alert-primary rounded">* Each GRR can only contain 1 invoice.<br />
+				{if $config.foreign_currency}
+					* The Exchange Rate will not be changed regardless of the change of Receiving Date if the document contains a PO with Foreign Currency.<br />
+				{/if}</div>
 
-							<script>init_calendar('{$idx}');</script>
-						</td>
-						<td align="center">
-							<input type="radio" class="doc_type[{$idx}]" onclick="hideamt({$idx}); check_duplicate_doc_no({$idx}); check_doc_no({$idx}); recalc_row();" name="type[{$idx}]" value="PO" {if $form.type[$n] eq 'PO'}checked{/if}>
-						</td>
-						<td align="center">
-							<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="INVOICE" {if $form.type[$n] eq 'INVOICE'}checked{/if}>
-						</td>
-						<td align="center">
-							<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="DO" {if $form.type[$n] eq 'DO'}checked{/if}>
-						</td>
-						<td align="center">
-							<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="OTHER" {if $form.type[$n] eq 'OTHER'}checked{/if}>
-						</td>
-						<td><input name="ctn[{$idx}]" value="{$form.ctn[$n]}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); recalc_row();" size="7" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
-						<td><input name="pcs[{$idx}]" value="{$form.pcs[$n]}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); recalc_row();" size="7" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
-						<td><input name="amount[{$idx}]" value="{$form.amount[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
-						<td class="gst_info">
-							<input  name="gst_amount[{$idx}]" value="{$form.gst_amount[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
-						<td class="gst_info">
-							<select class="form-control" name="gst_sel[{$idx}]" onchange="on_item_gst_changed(this, {$idx}); check_duplicate_doc_no({$idx});">
-								{foreach from=$gst_list key=rid item=gst}
-									<option value="{$gst.id}" gst_id="{$gst.id}" gst_code="{$gst.code}" gst_rate="{$gst.rate}" {if $form.gst_id[$n] eq $gst.id and $form.gst_code[$n] eq $gst.code and $form.gst_rate[$n] eq $gst.rate}selected {/if}>{$gst.code} ({$gst.rate}%)</option>
-								{/foreach}
-							</select>
-							<input class="form-control" type="hidden" name="gst_id[{$idx}]" value="{$form.gst_id[$n]|default:$gst_list.0.id}" />
-							<input class="form-control" type="hidden" name="gst_code[{$idx}]" value="{$form.gst_code[$n]|default:$gst_list.0.code}" />
-							<input class="form-control" type="hidden" name="gst_rate[{$idx}]" value="{if $form.gst_id[$n]}{$form.gst_rate[$n]}{else}{$gst_list.0.rate}{/if}" />
-						</td>
-						
-						{* Tax *}
-						<td class="tax_info">
-							<input name="tax[{$idx}]" value="{$form.tax[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r grr_item_tax form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if} />
-						</td>
-						
-						<td><input size="50" class="small form-control" name="remark[{$idx}]" value="{$form.remark[$n]}"></td>
-					</tr>
-				</tbody>
+		
+			 
+			<div class="table-responsive">
+				<table id="tb"   class="report_table table mb-0 text-md-nowrap  table-hover">
+					<thead class="bg-gray-100">
+						<tr  class="small">
+							<th rowspan="2">&nbsp;</th>
+							<th rowspan="2">Reference No</th>
+							<th rowspan="2">Document Date</th>
+							<th colspan="4">Document Type</th>
+							<th rowspan="2">Received<br>Carton</th>
+							<th rowspan="2">Received<br>Pcs</th>
+							<th rowspan="2">Amount<br />Incl Tax<a href="javascript:void(alert('Please key in amount that Included Tax.'));">[?]</a></th>
+							<th rowspan="2" class="gst_info">GST Amount <a href="javascript:void(alert('Please key in tax amount only.'));">[?]</a></th>
+							<th rowspan="2" class="gst_info">GST Code</th>
+							
+							{* Tax *}
+							<th rowspan="2" class="tax_info">Tax Amount</th>
+							<th rowspan="2">Remark</th>
+						</tr>
+						<tr bgcolor="#fff" class="small">
+							<th width="50">PO</td>
+							<th width="50">INVOICE</td>
+							<th width="50">DO</td>
+							<th width="50">OTHER</td>
+						</tr>
+					</thead>
+					{assign var=idx value=0}
+					{foreach from=$form.id key=n item=dummy name=i}
+					{if $form.doc_no[$n] ne '' or $form.amount[$n]}
+					<tbody class="fs-08">
+						<tr class="gra_items" id="tr_{$idx}" bgcolor="{if $errm[$n]}#ff9999{else}{cycle name='r0' values=',#eeeeee'}{/if}" data-idx="{$idx}">
+							<td nowrap>{$idx+1}.
+							{if $form.id[$n]}<img src="/ui/remove16.png" valign="absmiddle" class="clickable" onclick="if (confirm('Are you sure?')) {literal}{{/literal} $('doc_{$idx}').value='';Element.hide('tr_{$idx}');recalc_row();{literal}}{/literal}" title="delete row">{/if}
+							</td>
+							<td>
+								<input class="form-control" type="hidden" name="id[{$idx}]" value="{$form.id[$n]}">
+								<input type="hidden" name="po_override_by_user_id[{$idx}]" value="{$form.po_override_by_user_id[$n]}">
+								
+								{if $form.type[$n] eq 'PO' && $form.id[$n]}
+									<input type="hidden" name="curr_po_no[{$idx}]" value="{$form.curr_po_no[$n]}">
+								{/if}
+								<input class="form-control" id="doc_{$idx}" name="doc_no[{$idx}]" value="{$form.doc_no[$n]}" size="15" onchange="uc(this);add_row({$idx}); check_duplicate_doc_no({$idx}); check_doc_no({$idx}); recalc_row();" maxlength="20">
+								
+							</td>
+							<td nowrap>
+								<div class="form-inline">
+									<input class="form-control" name="doc_date[{$idx}]" id="doc_date_{$idx}" value="{$form.doc_date[$n]|ifzero:''}" maxlength="10" size="8" readonly>
+								<img align="absmiddle" src="ui/calendar.gif" id="dd_added_{$idx}" style="cursor: pointer;" title="Select Document Date">
+								</div>
+	
+								<script>init_calendar('{$idx}');</script>
+							</td>
+							<td align="center">
+								<input type="radio" class="doc_type[{$idx}]" onclick="hideamt({$idx}); check_duplicate_doc_no({$idx}); check_doc_no({$idx}); recalc_row();" name="type[{$idx}]" value="PO" {if $form.type[$n] eq 'PO'}checked{/if}>
+							</td>
+							<td align="center">
+								<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="INVOICE" {if $form.type[$n] eq 'INVOICE'}checked{/if}>
+							</td>
+							<td align="center">
+								<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="DO" {if $form.type[$n] eq 'DO'}checked{/if}>
+							</td>
+							<td align="center">
+								<input type="radio" class="doc_type[{$idx}]" onclick="showamt({$idx}); recalc_row(); check_duplicate_doc_no({$idx});" name="type[{$idx}]" value="OTHER" {if $form.type[$n] eq 'OTHER'}checked{/if}>
+							</td>
+							<td><input name="ctn[{$idx}]" value="{$form.ctn[$n]}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); recalc_row();" size="7" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
+							<td><input name="pcs[{$idx}]" value="{$form.pcs[$n]}" onchange="this.value=float(round(this.value, {$config.global_qty_decimal_points})); recalc_row();" size="7" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
+							<td><input name="amount[{$idx}]" value="{$form.amount[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
+							<td class="gst_info">
+								<input  name="gst_amount[{$idx}]" value="{$form.gst_amount[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if}></td>
+							<td class="gst_info">
+								<select class="form-control" name="gst_sel[{$idx}]" onchange="on_item_gst_changed(this, {$idx}); check_duplicate_doc_no({$idx});">
+									{foreach from=$gst_list key=rid item=gst}
+										<option value="{$gst.id}" gst_id="{$gst.id}" gst_code="{$gst.code}" gst_rate="{$gst.rate}" {if $form.gst_id[$n] eq $gst.id and $form.gst_code[$n] eq $gst.code and $form.gst_rate[$n] eq $gst.rate}selected {/if}>{$gst.code} ({$gst.rate}%)</option>
+									{/foreach}
+								</select>
+								<input class="form-control" type="hidden" name="gst_id[{$idx}]" value="{$form.gst_id[$n]|default:$gst_list.0.id}" />
+								<input class="form-control" type="hidden" name="gst_code[{$idx}]" value="{$form.gst_code[$n]|default:$gst_list.0.code}" />
+								<input class="form-control" type="hidden" name="gst_rate[{$idx}]" value="{if $form.gst_id[$n]}{$form.gst_rate[$n]}{else}{$gst_list.0.rate}{/if}" />
+							</td>
+							
+							{* Tax *}
+							<td class="tax_info">
+								<input name="tax[{$idx}]" value="{$form.tax[$n]}" onchange="mf(this); recalc_row();" size="10" maxlength="10" class="r grr_item_tax form-control" {if $form.type[$n] eq 'PO'}style="display:none"{/if} />
+							</td>
+							
+							<td><input size="50" class="small form-control" name="remark[{$idx}]" value="{$form.remark[$n]}"></td>
+						</tr>
+					</tbody>
+					
+					<script>
+					total_row = {$idx+++1};
+					</script>
+					
+					{if $errm[$n]}
+					<tr>
+					<td>&nbsp;</td>
+					<td colspan="8" class="errmsg">
+					<font class="small">
+					{foreach from=$errm[$n] item=e}
+					&middot; {$e}<br>
+					{/foreach}
+					</font>
+					</td></tr>
+					{/if}
+					
+					{/if}
+					{/foreach}
+					</table>
+			</div>
 				
-				<script>
-				total_row = {$idx+++1};
-				</script>
-				
-				{if $errm[$n]}
-				<tr>
-				<td>&nbsp;</td>
-				<td colspan="8" class="errmsg">
-				<font class="small">
-				{foreach from=$errm[$n] item=e}
-				&middot; {$e}<br>
-				{/foreach}
-				</font>
-				</td></tr>
-				{/if}
-				
-				{/if}
-				{/foreach}
-				</table>
+			</div>
 		</div>
-			
 			<p align="center">
 			<input class="btn btn-success mt-3" id="submitbtn" name="bsubmit" type="button" value="Save GRR" onclick="check_a()">
 			{if $form.grn_used}

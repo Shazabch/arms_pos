@@ -65,8 +65,9 @@ REVISION HISTORY
 </div>
 <div class="card mx-3">
 	<div class="card-body">
+
 		<div class="table-responsive">
-			<table border=0 cellspacing=1 cellpadding=4 width=100%>
+			<table class="report_table table mb-0 text-md-nowrap  table-hover"  width=100%>
 				<tbody class="bg-gray-100">
 					<tr>
 						<th>&nbsp;</th>

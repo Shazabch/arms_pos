@@ -460,9 +460,9 @@ var SEARCH_USER_DIALOG = {
 		this.f['user_type'].value = user_type;
 		
 		// Show Dialog
-		curtain(true);
-		center_div($('div_search_user_dialog').show());
-		
+		//curtain(true);
+		//center_div($('div_search_user_dialog').show());
+		jQuery('#div_search_user_dialog').modal('show');
 		// Focus on search input
 		USER_AUTOCOMPLETE.focus_inp_search_username();
 	},
@@ -544,25 +544,27 @@ var SAMPLE_SKU_DIALOG = {
 </script>
 
 {* Search User Dialog *}
-<div id="div_search_user_dialog" class="curtain_popup" style="position:absolute;z-index:10005;width:500px;height:100px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_search_user_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Search User</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="SEARCH_USER_DIALOG.close();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_search_user_dialog_content" style="padding:2px;">
-		<form name="f_search_user">
-			<input type="hidden" name="user_type" />
-			
-			<p align="center">
-				<b>Search User: &nbsp;&nbsp;&nbsp;</b>
-				{include file='user_autocomplete.tpl' btn_add=1}
-			</p>
-		</form>
+
+<div class="modal" id="div_search_user_dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header bg-danger" id="div_search_user_dialog_header">
+				<h6 class="modal-title text-white">Search User</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+			<div class="modal-body" id="div_search_user_dialog_content">
+				<form name="f_search_user">
+					<input type="hidden" name="user_type" />
+					
+					<p align="center">
+						<b class="form-label">Search User: &nbsp;&nbsp;&nbsp;</b>
+						{include file='user_autocomplete.tpl' btn_add=1}
+					</p>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
-
 {* Sample SKU Dialog *}
 <div id="div_sample_sku_dialog" class="curtain_popup" style="position:absolute;z-index:10005;width:600px;height:470px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
 	<div id="div_sample_sku_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Sample SKU</span>
@@ -574,9 +576,16 @@ var SAMPLE_SKU_DIALOG = {
 	<div id="div_sample_sku_dialog_content" style="padding:2px;height:430px;overflow-y:auto;">
 	</div>
 </div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
 
-<h1>{$PAGE_TITLE} - {if is_new_id($form.id)}NEW{else}{$form.doc_no}{/if}</h1>
-
+				{$PAGE_TITLE} - {if is_new_id($form.id)}NEW{else}{$form.doc_no}{/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if !is_new_id($form.id)}
 	<h3>Status:
 		{if !$form.active}
@@ -621,241 +630,255 @@ var SAMPLE_SKU_DIALOG = {
 	<input type="hidden" name="cancel_reason" />
 	<input type="hidden" name="approval_history_id" value="{$form.approval_history_id}" />
 	
-	<div class="stdframe" style="background:#fff;">
-		<h4>General Information</h4>
-		
-		<table>
-			{* Stock Take Branch *}
-			<tr>
-				<td width="200"><b>Stock Take Branch</b></td>
-				<td>
-					{if $BRANCH_CODE eq 'HQ' and $form.branch_id eq 1}
-						<select name="st_branch_id">
-							<option value="">-- Please Select --</option>
-							{foreach from=$branches key=bid item=b}
-								<option value="{$bid}" {if $bid eq $form.st_branch_id}selected {/if}>{$b.code}</option>
-							{/foreach}
-						</select>
-					{else}
-						<input type="hidden" name="st_branch_id" value="{$form.st_branch_id}" />
-						{$branches[$form.st_branch_id].code}
-					{/if}
-				</td>
-			</tr>
-			
-			{* Stock Take Content *}
-			<tr>
-				<td valign="top"><b>Stock Take Content</b></td>
-				<td>
-					<select name="st_content_type" onChange="CC_ASSGN.check_st_content_type();">
-						<option value="">-- Please Select --</option>
-						{foreach from=$st_content_type_list key=v item=r}
-							<option value="{$v}" {if $form.st_content_type eq $v}selected {/if}>{$r.desc}</option>
-						{/foreach}
-					</select>
-					
-					<div id="div_content_type_list">
-						{* Category + Vendor + Brand *}
-						<div id="div_content_type-cat_vendor_brand" class="div_content_type" style="{if $form.st_content_type ne 'cat_vendor_brand'}display:none;{/if}">
-							<br />
-							
-							<div class="stdframe">								
-								<table>
-									<tr>
-										<td width="100">Category</td>
-										<td>										
-											<div>
-												{include file='category_autocomplete.tpl' all=1 autocomplete_callback='CC_ASSGN.cat_changed();'}
-												<hr />
-											</div>
-										</td>
-									</tr>
-									
-									<tr>
-										<td>Vendor</td>
-										<td>
-											<select name="vendor_id" onChange="CC_ASSGN.vendor_changed();">
-												<option value="">-- All --</option>
-												{foreach from=$vendor_list key=vid item=r}
-													<option value="{$vid}" {if $form.vendor_id eq $vid}selected {/if}>{$r.code} - {$r.description}</option>
-												{/foreach}
-											</select>
-										</td>
-									</tr>
-									
-									<tr>
-										<td>Brand</td>
-										<td>
-											<select name="brand_id" onChange="CC_ASSGN.brand_changed();">
-												<option value="-1">-- All --</option>
-												<option value="0" {if isset($form.brand_id) and !$form.brand_id}selected {/if}>UN-BRANDED</option>
-												{foreach from=$brand_list key=brand_id item=r}
-													<option value="{$brand_id}" {if $form.brand_id eq $brand_id}selected {/if}>{$r.code} - {$r.description}</option>
-												{/foreach}
-											</select>
-										</td>
-									</tr>
-								</table>
-								
-							</div>
-						</div>
-						
-						{* SKU Group *}
-						<div id="div_content_type-sku_group" class="div_content_type" style="{if $form.st_content_type ne 'sku_group'}display:none;{/if}">
-							<br />
-							
-							<div class="stdframe">								
-								<table>
-									<tr>
-										<td width="100">SKU Group</td>
-										<td>
-											<input type="hidden" name="sku_group_bid" value="{$form.sku_group_bid}" />
-											<input type="hidden" name="sku_group_id" value="{$form.sku_group_id}" />
-											
-											<select name="tmp_sku_group_id" onChange="CC_ASSGN.sku_group_changed();">
-												<option value="">-- Please Select --</option>
-												{foreach from=$sku_group_list key=k item=r}
-													<option value="{$k}" {if $form.tmp_sku_group_id eq $k}selected {/if}>{$r.code} - {$r.description}</option>
-												{/foreach}
-											</select>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-			
-			{* Stock Take Date *}
-			<tr>
-				<td><b>Propose Stock Take Date</b></td>
-				<td>
-					<input name="propose_st_date" id="inp_st_date" size="10" maxlength="10"  value="{$form.propose_st_date|date_format:"%Y-%m-%d"}" />
-					{if $can_edit}
-						<img align="absmiddle" src="ui/calendar.gif" id="img_st_date" style="cursor: pointer;" title="Select Stock Take Date" />
-					{/if}
-				</td>
-			</tr>
-			
-			{* Stock Take Person *}
-			<tr>
-				<td><b>Stock Take Person</b></td>
-				<td>
-					<input type="hidden" name="pic_user_id" value="{$form.pic_user_id}" />
-					
-					<table width="100%" border="0" cellspacing="0" cellpadding="4">
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="stdframe" >
+				<h4>General Information</h4>
+				
+				<table>
+					{* Stock Take Branch *}
 					<tr>
-						<td valign="top" width="10px">
-						{if $can_edit}
-							<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_pic_click();" />
-						{/if}
-						</td>
-						<td valign="top">
-						<span id="span_pic_user">
-							{$form.pic_username}
-						</span>
-						</td>
-					</tr>
-					</table>
-					
-				</td>
-			</tr>
-			
-			{* Audit Person *}
-			<tr>
-				<td><b>Audit Person</b></td>
-				<td>
-					<table width="100%" border="0" cellspacing="0" cellpadding="4">
-					<tr>
-						<td valign="top" width="10px">
-						{if $can_edit}
-							<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_audit_person_click();" style="float:left;" />
-						{/if}
-						</td>
-						<td valign="top">
-						<span id="span_user_list-audit">
-							{foreach from=$form.audit_user_list item=tmp_user_id}
-								{include file='admin.cycle_count.assignment.open.user.tpl' user_type='audit' user=$user_list.$tmp_user_id}
-							{foreachelse}
-								{if !$can_edit}-{/if}	
-							{/foreach}
-						</span>
-						<span id="span_user_loading-audit"></span>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			
-			{* Notify Person *}
-			<tr>
-				<td><b>Notify Person</b></td>
-				<td>
-					<table width="100%" border="0" cellspacing="0" cellpadding="4">
-						<tr>
-							<td valign="top" width="10px">
-							{if $can_edit}
-								<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_notify_person_click();" style="float:left;" />
+						<td width="200"><b class="form-label">Stock Take Branch</b></td>
+						<td>
+							{if $BRANCH_CODE eq 'HQ' and $form.branch_id eq 1}
+								<select class="form-control" name="st_branch_id">
+									<option value="">-- Please Select --</option>
+									{foreach from=$branches key=bid item=b}
+										<option value="{$bid}" {if $bid eq $form.st_branch_id}selected {/if}>{$b.code}</option>
+									{/foreach}
+								</select>
+							{else}
+								<input type="hidden" name="st_branch_id" value="{$form.st_branch_id}" />
+								{$branches[$form.st_branch_id].code}
 							{/if}
-							</td>
-							<td valign="top">
-							<span id="span_user_list-notify">
-								{foreach from=$form.notify_user_list item=tmp_user_id}
-									{include file='admin.cycle_count.assignment.open.user.tpl' user_type='notify' user=$user_list.$tmp_user_id}
-								{foreachelse}
-									{if !$can_edit}-{/if}
+						</td>
+					</tr>
+					
+					{* Stock Take Content *}
+					<tr>
+						<td valign="top"><b class="form-label">Stock Take Content</b></td>
+						<td>
+							<select class="form-control" name="st_content_type" onChange="CC_ASSGN.check_st_content_type();">
+								<option value="">-- Please Select --</option>
+								{foreach from=$st_content_type_list key=v item=r}
+									<option value="{$v}" {if $form.st_content_type eq $v}selected {/if}>{$r.desc}</option>
 								{/foreach}
-							</span>
-							<span id="span_user_loading-notify"></span>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			
-			{* Notification Time *}
-			<tr>
-				<td><b>Notification Time</b></td>
-				<td>
-					Send Notification to above users
-					<input type="text" style="width:50px;text-align:right;" name="notify_day" value="{$form.notify_day|ifempty:7}" onChange="CC_ASSGN.notify_day_changed();" />
-					days before Propose Stock Take Month.
-				</td>
-			</tr>
-			
-			{* Remark *}
-			<tr>
-				<td><b>Remark</b></td>
-				<td><textarea name="remark" cols="68" rows="2">{$form.remark}</textarea></td>
-			</tr>
-		</table>
+							</select>
+							
+							<div id="div_content_type_list">
+								{* Category + Vendor + Brand *}
+								<div id="div_content_type-cat_vendor_brand" class="div_content_type" style="{if $form.st_content_type ne 'cat_vendor_brand'}display:none;{/if}">
+									<br />
+									
+									<div class="stdframe">								
+										<table>
+											<tr>
+												<td width="100" class="form-label">Category</td>
+												<td>										
+													<div>
+														{include file='category_autocomplete.tpl' all=1 autocomplete_callback='CC_ASSGN.cat_changed();'}
+														<hr />
+													</div>
+												</td>
+											</tr>
+											
+											<tr>
+												<td class="form-label">Vendor</td>
+												<td>
+													<select class="form-control" name="vendor_id" onChange="CC_ASSGN.vendor_changed();">
+														<option value="">-- All --</option>
+														{foreach from=$vendor_list key=vid item=r}
+															<option value="{$vid}" {if $form.vendor_id eq $vid}selected {/if}>{$r.code} - {$r.description}</option>
+														{/foreach}
+													</select>
+												</td>
+											</tr>
+											
+											<tr>
+												<td class="form-label">Brand</td>
+												<td>
+													<select class="form-control" name="brand_id" onChange="CC_ASSGN.brand_changed();">
+														<option value="-1">-- All --</option>
+														<option value="0" {if isset($form.brand_id) and !$form.brand_id}selected {/if}>UN-BRANDED</option>
+														{foreach from=$brand_list key=brand_id item=r}
+															<option value="{$brand_id}" {if $form.brand_id eq $brand_id}selected {/if}>{$r.code} - {$r.description}</option>
+														{/foreach}
+													</select>
+												</td>
+											</tr>
+										</table>
+										
+									</div>
+								</div>
+								
+								{* SKU Group *}
+								<div id="div_content_type-sku_group" class="div_content_type" style="{if $form.st_content_type ne 'sku_group'}display:none;{/if}">
+									<br />
+									
+									<div class="stdframe">								
+										<table>
+											<tr>
+												<td width="100" class="form-label mt-2">SKU Group</td>
+												<td>
+													<input type="hidden" name="sku_group_bid" value="{$form.sku_group_bid}" />
+													<input type="hidden" name="sku_group_id" value="{$form.sku_group_id}" />
+													
+													<select class="form-control" name="tmp_sku_group_id" onChange="CC_ASSGN.sku_group_changed();">
+														<option value="">-- Please Select --</option>
+														{foreach from=$sku_group_list key=k item=r}
+															<option value="{$k}" {if $form.tmp_sku_group_id eq $k}selected {/if}>{$r.code} - {$r.description}</option>
+														{/foreach}
+													</select>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					
+					{* Stock Take Date *}
+					<tr>
+						<td><b class="form-label">Propose Stock Take Date</b></td>
+						<td>
+							<div class="form-inline">
+								<input class="form-control" name="propose_st_date" id="inp_st_date"  value="{$form.propose_st_date|date_format:"%Y-%m-%d"}" />
+							{if $can_edit}
+							&nbsp;&nbsp;	<img align="absmiddle" src="ui/calendar.gif" id="img_st_date" style="cursor: pointer;" title="Select Stock Take Date" />
+							{/if}
+							</div>
+						</td>
+					</tr>
+					
+					{* Stock Take Person *}
+					<tr>
+						<td><b class="form-label">Stock Take Person</b></td>
+						<td>
+							<input class="form-control" type="hidden" name="pic_user_id" value="{$form.pic_user_id}" />
+							
+							<table width="100%" border="0" cellspacing="0" cellpadding="4">
+							<tr>
+								<td valign="top" width="100px">
+								{if $can_edit}
+									<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_pic_click();" />
+								{/if}
+								</td>
+								<td valign="top">
+								<span id="span_pic_user">
+									{$form.pic_username}
+								</span>
+								</td>
+							</tr>
+							</table>
+							
+						</td>
+					</tr>
+					
+					{* Audit Person *}
+					<tr>
+						<td><b class="form-label">Audit Person</b></td>
+						<td>
+							<table width="100%" border="0" cellspacing="0" cellpadding="4">
+							<tr>
+								<td valign="top" width="100px">
+								{if $can_edit}
+									<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_audit_person_click();" style="float:left;" />
+								{/if}
+								</td>
+								<td valign="top">
+								<span id="span_user_list-audit">
+									{foreach from=$form.audit_user_list item=tmp_user_id}
+										{include file='admin.cycle_count.assignment.open.user.tpl' user_type='audit' user=$user_list.$tmp_user_id}
+									{foreachelse}
+										{if !$can_edit}-{/if}	
+									{/foreach}
+								</span>
+								<span id="span_user_loading-audit"></span>
+								</td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					
+					{* Notify Person *}
+					<tr>
+						<td><b class="form-label">Notify Person</b></td>
+						<td>
+							<table width="100%" border="0" cellspacing="0" cellpadding="4">
+								<tr>
+									<td valign="top" width="100px">
+									{if $can_edit}
+										<img src="ui/ed.png" align="absmiddle" onClick="CC_ASSGN.search_notify_person_click();" style="float:left;" />
+									{/if}
+									</td>
+									<td valign="top">
+									<span id="span_user_list-notify">
+										{foreach from=$form.notify_user_list item=tmp_user_id}
+											{include file='admin.cycle_count.assignment.open.user.tpl' user_type='notify' user=$user_list.$tmp_user_id}
+										{foreachelse}
+											{if !$can_edit}-{/if}
+										{/foreach}
+									</span>
+									<span id="span_user_loading-notify"></span>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					{* Notification Time *}
+					<tr>
+						<td><b class="form-label">Notification Time</b></td>
+						<td>
+							<div class="form-inline">
+								Send Notification to above users&nbsp;
+							<input class="form-control" type="text" style="width:50px;text-align:right;" name="notify_day" value="{$form.notify_day|ifempty:7}" onChange="CC_ASSGN.notify_day_changed();" />
+							&nbsp;days before Propose Stock Take Month.
+							</div>
+						</td>
+					</tr>
+					
+					{* Remark *}
+					<tr>
+						<td><b class="form-label">Remark</b></td>
+						<td><textarea class="form-control" name="remark" cols="68" rows="2">{$form.remark}</textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 	
 	<br />
 	
-	<div class="stdframe" style="background-color: #fff;">
-		<h4>Items</h4>
-		
-		<table>
-			<tr>
-				<td width="200"><b>Estimate SKU Count</b></td>
-				<td>
-					<input type="text" name="estimate_sku_count" size="10" readonly value="{$form.estimate_sku_count|ifempty:'-'}" style="text-align:right;" />
-					{if $can_edit}
-						<input class="btn btn-primary" type="button" value="Calculate" onClick="CC_ASSGN.recalculate_estimate_sku();" id="btn_recalculate_estimate_sku" />
-						<span id="span_recalculate_estimate_sku_loading"></span>
-						<br />
-						<a href="javascript:void(CC_ASSGN.view_sample_sku_clicked());">View Sample SKU</a>
-					{/if}
-					
-					<br />
-					<span id="span_sku_count_too_many" style="color:red;{if $form.estimate_sku_count<=$cycle_count_too_many_sku_count}display:none;{/if}">
-						<img src="ui/messages.gif" align="absmiddle" /> Too many SKU in this cycle count. (More than {$cycle_count_too_many_sku_count} is considered too many)
-					</span>
-				</td>
-			</tr>
-		</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="stdframe">
+				<h4>Items</h4>
+				
+				<table>
+					<tr>
+						<td width="200"><b class="form-label">Estimate SKU Count</b></td>
+						<td>
+						<div class="form-inline">
+							<input class="form-control" type="text" name="estimate_sku_count" size="10" readonly value="{$form.estimate_sku_count|ifempty:'-'}" style="text-align:right;" />
+							{if $can_edit}
+								&nbsp;&nbsp;<input class="btn btn-primary fs-08" type="button" value="Calculate" onClick="CC_ASSGN.recalculate_estimate_sku();" id="btn_recalculate_estimate_sku" />
+								<span id="span_recalculate_estimate_sku_loading"></span>
+								<br />
+								&nbsp;&nbsp;<a href="javascript:void(CC_ASSGN.view_sample_sku_clicked());">View Sample SKU</a>
+							{/if}
+						</div>
+							
+							<br />
+							<span id="span_sku_count_too_many" style="color:red;{if $form.estimate_sku_count<=$cycle_count_too_many_sku_count}display:none;{/if}">
+								<img src="ui/messages.gif" align="absmiddle" /> Too many SKU in this cycle count. (More than {$cycle_count_too_many_sku_count} is considered too many)
+							</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 </form>
 
@@ -871,11 +894,11 @@ var SAMPLE_SKU_DIALOG = {
 			{if $form.status eq 0 || $form.status eq 2}
 				{* Draft *}
 				{if $can_edit}
-					<input type="button" value="Save & Close" style="font-weight:bold; background-color: #5d842e !important; border-color: #5d842e !important;color: #fff !important;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.save_form();" />
-					<input type="button" value="Confirm" style="font-weight: 600;background-color: #32405b ;border-color: #32405b ;color: #fff ;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.save_form(1);" />
+					<input type="button" value="Save & Close" class="btn btn-success" style="font-weight:bold;  !important;color: #fff !important;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.save_form();" />
+					<input type="button" value="Confirm" class="btn btn-primary" style="font-weight: 600;color: #fff ;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.save_form(1);" />
 					
 					{if !is_new_id($form.id)}
-						<input type="button" value="Cancel" style="background-color: #D89A11 !important;border-color: #D89A11 !important;color: #fff !important;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.cancel_form();" />
+						<input type="button" value="Cancel" class="btn btn-warning" style="!important;border-color: #D89A11 !important;color: #fff !important;padding: 4px 12px;font-size: 13px;line-height: 1.42857143;vertical-align: middle;" onclick="CC_ASSGN.cancel_form();" />
 					{/if}
 				{/if}
 			{elseif $form.status eq 1}
@@ -887,7 +910,7 @@ var SAMPLE_SKU_DIALOG = {
 				{/if}
 			{/if}
 		{/if}
-		<input type="button" value="Close" style="background-color: #e84118;border-color: #e84118;color: #fff;padding: 4px 12px;font-size: 13px;font-weight:bold;line-height: 1.42857143;vertical-align: middle;" onclick="document.location='{$smarty.server.PHP_SELF}'" />
+		<input type="button" value="Close" class="btn btn-warning" style=";padding: 4px 12px;font-size: 13px;font-weight:bold;line-height: 1.42857143;vertical-align: middle;" onclick="document.location='{$smarty.server.PHP_SELF}'" />
 	{/if}
 </p>
 

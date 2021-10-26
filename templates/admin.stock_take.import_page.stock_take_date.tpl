@@ -7,7 +7,8 @@
 *}
 
 
-<b>Date</b><select name="stock_take_date" >
+<b class="form-label">Date</b>
+<select class="form-control" name="stock_take_date" >
 {if $available_date}
 	<option value="">-- Please Select --</option>
 	{foreach from=$available_date item=val}
@@ -21,8 +22,8 @@
 
 {*
 <span id="div_{$im_re}_stock_take_sku">
-    <b>SKU Type</b>
-	<select name='sku_type'>
+    <b class="form-label">SKU Type</b>
+	<select class="form-control" name='sku_type'>
 	    <option value=''>-- No Data --</option>
 	</select>
 </span>

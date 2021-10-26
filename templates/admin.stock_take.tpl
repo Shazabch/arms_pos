@@ -128,9 +128,9 @@ function add(){
 
 function open(id)
 {
-  	curtain(true);
-	center_div('div_stock_take_details');
-	$('div_stock_take_details').show();
+  //	curtain(true);
+//	center_div('div_stock_take_details');
+	jQuery('#div_stock_take_details').modal('show');
   
 	$('div_stock_take_details_content').update(_loading_);
 	sku_autocomplete = undefined;
@@ -156,7 +156,7 @@ function reload_table()
 }
 
 function curtain_clicked(){
-	$('div_stock_take_details').hide();
+	jQuery('#div_stock_take_details').modal('hide');
 }
 
 function branch_changed(){
@@ -1103,91 +1103,103 @@ roundup_value = function (type,doc_allow_decimal,ele){
 {/literal}
 </script>
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
-
-<h1>Stock Take</h1>
-<h5>
-	Fresh Market sku need to go fresh market stock take, click <a style="color:blue;" href="/admin.fresh_market_stock_take.php">here</a>.
-</h5>
-<iframe width=1 height=1 style="visibility:hidden" name=ifprint2></iframe>
-<form name="selection" action="admin.stock_take.php">
-
-	<input type=hidden name=a value=load_table_data>
-	<input type=hidden name=rpt_type>
-	{if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
-
-	<table>
-		<tr>
-		    {if $can_select_branch}<td><b>Branch</b></td>{/if}
-			<td valign=top><b>Date</b></td>
-			<td><b>Location</b></td>
-			<td><b>Shelf</b></td>
-			<td></td>
-		</tr>
-		<tr>
-		    {if $can_select_branch}
-		        <td>
-		            <select name="branch_id" onchange="branch_changed(this.value)" size="10">
-						{foreach from=$branches item=r}
-							<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
-						{/foreach}
-					</select>
-		        </td>
-		    {/if}
-			<td>
-			    <div id="div_date" style="min-width:100px;">
-					<select name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
-						{foreach from=$dat item=val}
-							<option value="{$val.date}" {if $smarty.request.date eq $val.date}selected {/if}>{$val.date}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-			<td>
-				<div id="div_location" style="min-width:100px;">
-					<select name=loc onchange="load_shelf(this.value)" size=10 style="width:100%;">
-						{foreach from=$loc item=val}
-							<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-			<td>
-				<div id="div_shelf" style="min-width:100px;">
-					<select name=shelf onchange="show_record()" size=10 style="width:100%;">
-						{foreach from=$shelf item=val}
-							<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
-						{/foreach}
-					</select>
-				</div>
-			</td>
-			<td valign="top">
-			    <div id="range">
-					{include file='admin.stock_take.range.tpl'}
-				</div>
-			</td>
-		</tr>
-		<tr>
-		    <td><b>Sku Type: </b></td>
-   		    <td>
-				<select name='sku_type' onchange='sku_show_record();'>
-				    <option value=''>All</option>
-				    {foreach from=$sku_type item=code}
-				    <option value='{$code.code}' {if $smarty.request.sku_type eq $code.code} selected {/if}>{$code.code}</option>
-				    {/foreach}
-				</select>
-			</td>
-		</tr>
-	</table>
-</form>
-
-<div id="div_stock_take_details" style="position:absolute;z-index:10000;width:600px;display:none;border:2px solid #CE0000;height:450px;">
-	<div id="div_stock_take_details_header"><span style="float:left;">Stock Take Details</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="hidediv('div_stock_take_details');default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Stock Take</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
-	<div id="div_stock_take_details_content"></div>
+</div>	
+<h6 class="mx-3">
+	Fresh Market sku need to go fresh market stock take, click <a style="color:blue;" href="/admin.fresh_market_stock_take.php">here</a>.
+</h6>
+<iframe width=1 height=1 style="visibility:hidden" name=ifprint2></iframe>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="selection" action="admin.stock_take.php">
+
+			<input type=hidden name=a value=load_table_data>
+			<input type=hidden name=rpt_type>
+			{if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
+		
+			<table>
+				<tr>
+					{if $can_select_branch}<td><b class="form-label">Branch</b></td>{/if}
+					<td valign=top><b class="form-label">Date</b></td>
+					<td><b class="form-label">Location</b></td>
+					<td><b class="form-label">Shelf</b></td>
+					<td></td>
+				</tr>
+				<tr>
+					{if $can_select_branch}
+						<td>
+							<select class="form-control" name="branch_id" onchange="branch_changed(this.value)" size="10">
+								{foreach from=$branches item=r}
+									<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
+								{/foreach}
+							</select>
+						</td>
+					{/if}
+					<td>
+						<div id="div_date" style="min-width:120px;">
+							<select class="form-control" name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
+								{foreach from=$dat item=val}
+									<option value="{$val.date}" {if $smarty.request.date eq $val.date}selected {/if}>{$val.date}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+					<td>
+						<div id="div_location" style="min-width:120px;">
+							<select class="form-control" name=loc onchange="load_shelf(this.value)" size=10 style="width:100%;">
+								{foreach from=$loc item=val}
+									<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+					<td>
+						<div id="div_shelf" style="min-width:120px;">
+							<select class="form-control" name=shelf onchange="show_record()" size=10 style="width:100%;">
+								{foreach from=$shelf item=val}
+									<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
+								{/foreach}
+							</select>
+						</div>
+					</td>
+					<td valign="top">
+						<div id="range" class="ml-5">
+							{include file='admin.stock_take.range.tpl'}
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Sku Type: </b></td>
+					   <td>
+						<select class="form-control" name='sku_type' onchange='sku_show_record();'>
+							<option value=''>All</option>
+							{foreach from=$sku_type item=code}
+							<option value='{$code.code}' {if $smarty.request.sku_type eq $code.code} selected {/if}>{$code.code}</option>
+							{/foreach}
+						</select>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div class="modal" id="div_stock_take_details">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header" id="div_stock_take_details_header">
+				<h6 class="modal-title text-white " >Stock Take Details</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white mt-2">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+			<div class="modal-body"id="div_stock_take_details_content" >
+				
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- multiple add div -->
