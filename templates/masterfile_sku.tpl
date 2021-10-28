@@ -871,7 +871,14 @@ function detect_to_hide_context_menu(){
 </div>
 </div>
 <!-- End of Item Details-->
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 <div id=item_context_menu style="display:none;position:absolute;">
 <ul id=ul_menu class=contextmenu>
@@ -949,293 +956,310 @@ function detect_to_hide_context_menu(){
 {include file=popup.promotion_history.tpl}
 {include file=popup.size_color.tpl}
 
-<form name=f_a class=noprint style="line-height:24px" method=get>
-<input type=hidden name=a value=find> 
-<input type="hidden" name="load" value="1" />
-<div class=stdframe style='background:#fff;'>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name=f_a class=noprint style="line-height:24px" method=get>
+			<input type=hidden name=a value=find> 
+			<input type="hidden" name="load" value="1" />
+			<div class=stdframe >
+			
+				<table>
+					
+					<div class="row">
+						<div class="col-md-4">
+							<span class="form-inline"><b class="form-label">Find</b>&nbsp;
+								<input  style="width: 150px;" class="form-control" name=search_description value="{$smarty.request.search_description}" size=20> <b class="form-label">&nbsp;in&nbsp;</b> 
+								<select class="form-control" name="search_filter">
+									<option value="">-- All --</option>
+									{if $config.link_code_name}<option value="linkcode" {if $smarty.request.search_filter eq "linkcode"}selected {/if}>{$config.link_code_name}</option>{/if}
+									<option value="armscode" {if $smarty.request.search_filter eq "armscode"}selected {/if}>ARMS Code</option>
+									<option value="artno" {if $smarty.request.search_filter eq "artno"}selected {/if}>Artno</option>
+									<option value="mcode" {if $smarty.request.search_filter eq "mcode"}selected {/if}>Mcode</option>
+									<option value="description" {if $smarty.request.search_filter eq "description"}selected {/if}>Description</option>
+								</select></span>
+						</div>
+						
+						<div class="col-md-4">
+							
+							<span class="form-inline"><b class="form-label">&nbsp;Match Word With&nbsp;</b> 
+								<select class="form-control" name="match_method">
+									{foreach from=$matching_method_list key=method_type item=method_name}
+										<option value="{$method_type}" {if $smarty.request.match_method eq $method_type}selected{/if}>{$method_name}</option>
+									{/foreach}
+								</select></span>
+						</div>
+					
+						<div class="col-md-4">
+							
+							<span class="form-inline">
+								&nbsp;<b class="form-label">Sort By</b>&nbsp; 
+								<select class="form-control" name="sorting_type">
+									{foreach from=$sorting_list key=sort_type item=sort_name}
+										<option value="{$sort_type}" {if $smarty.request.sorting_type eq $sort_type}selected{/if}>{$sort_name}</option>
+									{/foreach}
+								</select>&nbsp;
+								<select class="form-control" name="sorting_sequence">
+									<option value="asc" {if $smarty.request.sorting_sequence eq 'asc'}selected{/if}>Ascending</option>&nbsp;&nbsp;&nbsp;&nbsp;
+									<option value="desc" {if $smarty.request.sorting_sequence eq 'desc' or !$smarty.request.sorting_sequence}selected{/if}>Descending</option>
+								</select>
+							</span>
+						</div>
 
-	<table>
-		<tr>
-			<td><span><b>Find</b> <input name=search_description value="{$smarty.request.search_description}" size=20> <b>in</b> 
-				<select name="search_filter">
-					<option value="">-- All --</option>
-					{if $config.link_code_name}<option value="linkcode" {if $smarty.request.search_filter eq "linkcode"}selected {/if}>{$config.link_code_name}</option>{/if}
-					<option value="armscode" {if $smarty.request.search_filter eq "armscode"}selected {/if}>ARMS Code</option>
-					<option value="artno" {if $smarty.request.search_filter eq "artno"}selected {/if}>Artno</option>
-					<option value="mcode" {if $smarty.request.search_filter eq "mcode"}selected {/if}>Mcode</option>
-					<option value="description" {if $smarty.request.search_filter eq "description"}selected {/if}>Description</option>
-				</select></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-			<td><span><b>Match Word With</b> 
-				<select name="match_method">
-					{foreach from=$matching_method_list key=method_type item=method_name}
-						<option value="{$method_type}" {if $smarty.request.match_method eq $method_type}selected{/if}>{$method_name}</option>
-					{/foreach}
-				</select></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-			<td>
-				<span>
-					<b>Sort By</b> 
-					<select name="sorting_type">
-						{foreach from=$sorting_list key=sort_type item=sort_name}
-							<option value="{$sort_type}" {if $smarty.request.sorting_type eq $sort_type}selected{/if}>{$sort_name}</option>
-						{/foreach}
-					</select>
-					<select name="sorting_sequence">
-						<option value="asc" {if $smarty.request.sorting_sequence eq 'asc'}selected{/if}>Ascending</option>&nbsp;&nbsp;&nbsp;&nbsp;
-						<option value="desc" {if $smarty.request.sorting_sequence eq 'desc' or !$smarty.request.sorting_sequence}selected{/if}>Descending</option>
-					</select>
-				</span>
-			</td>	
-		</tr>
-	</table>
-	
-	<a id="advancedsearch_btn" style="cursor:pointer;" onClick='filter_dropdown()'>{if $smarty.request.show_advanced_search}Hide{else}Show{/if} Advanced Filter</a>
-	<input name="show_advanced_search" id="inp_show_advanced_search" type="hidden" value="{$smarty.request.show_advanced_search}" />
-	
-	<table style="{if !$smarty.request.show_advanced_search}display:none;{/if}" id="tbl_advanced_filter">
-		<tr>
-			<td>
-				<span><b>Category</b></span>
-			</td>
-			<td>
-				<span>
-				<input type=radio name=s1 value=0 {if $smarty.request.s1==0}checked{/if} onclick="Element.hide('csel');"> All
-				<input type=radio name=s1 value=1 {if $smarty.request.s1==1}checked{/if} onclick="Element.show('csel');category.focus();"> Selected
-				<span id=csel style="{if $smarty.request.s1==0}display:none;{/if} white-space:normal;">
-				<input readonly name=category_id size=1 value="{$smarty.request.category_id}">
-				<input type=hidden name=category_tree value="{$smarty.request.category_tree}">
-				<input id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus=this.select() size=50><br>
-				<div id=autocomplete_category_choices class=autocomplete style="width:600px !important"></div>
-				<span id=str_cat_tree class=small style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
-				</span>
-			</span>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<span><b>Brand</b></span>
-			</td>
-			<td>
-				<span>
-				{dropdown all="-- All --" name=brand_id values=$brands key='id' value='description' selected=$smarty.request.brand_id}
-				</span>
-			</td>
-			<td>
-				<span><b>Selling Price Inclusive Tax</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-			<td>
-				<span>
-				<select name="incl_tax_filter">
-					<option value="">-- All --</option>
-					<option value="yes" {if $smarty.request.incl_tax_filter eq "yes"}selected {/if}>YES</option>
-					<option value="no" {if $smarty.request.incl_tax_filter eq "no"}selected {/if}>NO</option>
-				</select>
-				</span>
-			</td>
-		</tr>
-		
-		<tr>
-			<td>
-				<span><b>Vendor</b></span>
-			</td>
-			<td>
-				<span>{dropdown all="-- All --" name=vendor_id values=$vendors key='id' value='description' selected=$smarty.request.vendor_id}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-			<td>
-				<span><b>SKU Type</b></span>
-			</td>
-			<td>
-				<span><select name="sku_type">
-					<option value=''>-- All --</option>
-					{foreach from=$sku_type_list item=r}
-						<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.description}</option>
-					{/foreach}
-				</select></span>
-			</td>
-		</tr>
-		
-		
-		
-		<tr>
-			<td>
-				<span><b>Parent Child?</b></span>
-			</td>
-			<td>
-				<span><select name="parent_child_filter">
-					{foreach from=$parent_child key=k item=i}
-					<option value="{$k}" {if $smarty.request.parent_child_filter eq $k}selected{/if}>{$i}</option>
-					{/foreach}
-				</select></span>
-			</td>
-			<td>	
-
-			</td>
-			<td>
+						
+					</div>	
+					
+				</table>
 				
-			</td>
-		</tr>
-		
-		<tr>
-			<td>
-				<span><b>Scale Type</b></span>
-			</td>
-			<td>
-				<span><select name="scale_type">
-						<option value=''>-- All --</option>
-						{foreach from=$scale_type_list key=st_value item=st_name}
-							{if $st_value >= 0}
-								<option value="{$st_value}" {if $smarty.request.scale_type neq '' and $smarty.request.scale_type eq $st_value}selected {/if}>{$st_name}</option>
+			<div class="badge badge-dark p-1 mt-2 mb-2">
+				<a id="advancedsearch_btn" style="cursor:pointer;" onClick='filter_dropdown()'>{if $smarty.request.show_advanced_search}Hide{else}Show{/if} Advanced Filter</a>
+			</div>
+				<input name="show_advanced_search" id="inp_show_advanced_search" type="hidden" value="{$smarty.request.show_advanced_search}" />
+				
+				<table style="{if !$smarty.request.show_advanced_search}display:none;{/if}" id="tbl_advanced_filter">
+					<tr>
+						<td>
+							<span><b class="form-label">Category</b></span>
+						</td>
+						<td>
+							<span>
+							<input type=radio name=s1 value=0 {if $smarty.request.s1==0}checked{/if} onclick="Element.hide('csel');"> All
+							<input type=radio name=s1 value=1 {if $smarty.request.s1==1}checked{/if} onclick="Element.show('csel');category.focus();"> Selected
+							<span id=csel style="{if $smarty.request.s1==0}display:none;{/if} white-space:normal;">
+							<input readonly name=category_id size=1 value="{$smarty.request.category_id}">
+							<input type=hidden name=category_tree value="{$smarty.request.category_tree}">
+							<input class="form-control" id=autocomplete_category name=category value="{$smarty.request.category|default:'Enter keyword to search'}" onfocus=this.select() size=50><br>
+							<div id=autocomplete_category_choices class=autocomplete style="width:600px !important"></div>
+							<span id=str_cat_tree class=small style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
+							</span>
+						</span>
+						</td>
+					</tr>
+			
+					<tr>
+						<td>
+							<span><b class="form-label">Brand</b></span>
+						</td>
+						<td>
+							<span>
+							{dropdown all="-- All --" name=brand_id values=$brands key='id' value='description' selected=$smarty.request.brand_id}
+							</span>
+						</td>
+						<td>
+							<span><b class="form-label mt-4">Selling Price Inclusive Tax</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+						<td>
+							<span>
+							<select class="form-control" name="incl_tax_filter">
+								<option value="">-- All --</option>
+								<option value="yes" {if $smarty.request.incl_tax_filter eq "yes"}selected {/if}>YES</option>
+								<option value="no" {if $smarty.request.incl_tax_filter eq "no"}selected {/if}>NO</option>
+							</select>
+							</span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<span><b class="form-label mb-4">Vendor</b></span>
+						</td>
+						<td>
+							<span>{dropdown all="-- All --" name=vendor_id values=$vendors key='id' value='description' selected=$smarty.request.vendor_id}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+						<td>
+							<span><b class="form-label mb-4">SKU Type</b></span>
+						</td>
+						<td>
+							<span><select class="form-control mb-3" name="sku_type">
+								<option value=''>-- All --</option>
+								{foreach from=$sku_type_list item=r}
+									<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.description}</option>
+								{/foreach}
+							</select></span>
+						</td>
+					</tr>
+					
+					
+					
+					<tr>
+						<td>
+							<span><b class="form-label">Parent Child?</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="parent_child_filter">
+								{foreach from=$parent_child key=k item=i}
+								<option value="{$k}" {if $smarty.request.parent_child_filter eq $k}selected{/if}>{$i}</option>
+								{/foreach}
+							</select></span>
+						</td>
+						<td>	
+			
+						</td>
+						<td>
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<span><b class="form-label">Scale Type</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="scale_type">
+									<option value=''>-- All --</option>
+									{foreach from=$scale_type_list key=st_value item=st_name}
+										{if $st_value >= 0}
+											<option value="{$st_value}" {if $smarty.request.scale_type neq '' and $smarty.request.scale_type eq $st_value}selected {/if}>{$st_name}</option>
+										{/if}
+									{/foreach}
+							</select></span>
+						</td>
+						<td>
+							{if $branches_group.header and BRANCH_CODE eq 'HQ'}
+							<span><b class="form-label">Branch Group</b></span>
+						</td>
+						<td>
+								<span><select class="form-control" name="branches_group" id="select_branches_group">
+									<option value=''>-- All --</option>
+									{foreach from=$branches_group.header item=r}
+										<option value="{$r.id}" {if $smarty.request.branches_group eq $r.id}selected {/if}>{$r.code}</option>
+									{/foreach}
+								</select></span>
 							{/if}
-						{/foreach}
-				</select></span>
-			</td>
-			<td>
-				{if $branches_group.header and BRANCH_CODE eq 'HQ'}
-				<span><b>Branch Group</b></span>
-			</td>
-			<td>
-					<span><select name="branches_group" id="select_branches_group">
-						<option value=''>-- All --</option>
-						{foreach from=$branches_group.header item=r}
-							<option value="{$r.id}" {if $smarty.request.branches_group eq $r.id}selected {/if}>{$r.code}</option>
-						{/foreach}
-					</select></span>
-				{/if}
-			</td>
-		</tr>
-		
-		<tr>
-			<td>
-				<span><b>Active</b></span>
-			</td>
-			<td>
-				<span><select name="active">
-					<option value="" {if $smarty.request.active eq ''}selected {/if}>-- All --</option>
-					<option value="1" {if $smarty.request.active eq '1'}selected {/if}>Yes</option>
-					<option value="0" {if $smarty.request.active eq '0'}selected {/if}>No</option>
-				</select></span>
-			</td>
-			<td>
-				<span><b>Packing UOM</b></span>
-			</td>
-			<td>
-				<span><select name="uom_id">
-					<option value="" {if $smarty.request.uom_id eq ''}selected {/if}>-- All --</option>
-					{section name=j loop=$uom}
-					<option value="{$uom[j].id}" {if $smarty.request.uom_id eq $uom[j].id}selected{/if} > 
-						{$uom[j].code}
-					</option>
-					{/section}
-				</select></span>
-			</td>
-		</tr>
-		
-		
-		{if $config.enable_gst}
-		<tr>
-			<td>
-				<span><b>Input Tax</b></span>
-			</td>
-			<td>
-				<span><select name="input_tax_filter">
-				<option value="">-- All --</option>
-					{foreach from=$input_tax_list key=rid item=r}
-					<option value="{$r.id}" {if $smarty.request.input_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
-					{/foreach}
-				</select></span>
-			</td>
-			<td>
-				<span><b>Output Tax</b></span>
-			</td>
-			<td>
-				<span><select name="output_tax_filter">
-					<option value="">-- All --</option>
-					{foreach from=$output_tax_list key=rid item=r}
-						<option value="{$r.id}" {if $smarty.request.output_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
-					{/foreach}
-				</select></span>
-			</td>
-		</tr>
-		{/if}
-		
-		
-		
-		<tr>
-			<td>
-				<span><b>Item blocked in PO</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			</td>
-			<td>
-				<span>
-					{if BRANCH_CODE eq 'HQ'}
-						<select name="branch_id" onchange="show_hide_block(this)" id="branch_id">
-							<option value=''>-- No Filter --</option>
-							{foreach from=$branches item=r}
-								<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code}</option>
-							{/foreach}
-						</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<span><b class="form-label">Active</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="active">
+								<option value="" {if $smarty.request.active eq ''}selected {/if}>-- All --</option>
+								<option value="1" {if $smarty.request.active eq '1'}selected {/if}>Yes</option>
+								<option value="0" {if $smarty.request.active eq '0'}selected {/if}>No</option>
+							</select></span>
+						</td>
+						<td>
+							<span><b class="form-label">Packing UOM</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="uom_id">
+								<option value="" {if $smarty.request.uom_id eq ''}selected {/if}>-- All --</option>
+								{section name=j loop=$uom}
+								<option value="{$uom[j].id}" {if $smarty.request.uom_id eq $uom[j].id}selected{/if} > 
+									{$uom[j].code}
+								</option>
+								{/section}
+							</select></span>
+						</td>
+					</tr>
+					
+					
+					{if $config.enable_gst}
+					<tr>
+						<td>
+							<span><b class="form-label">Input Tax</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="input_tax_filter">
+							<option value="">-- All --</option>
+								{foreach from=$input_tax_list key=rid item=r}
+								<option value="{$r.id}" {if $smarty.request.input_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
+								{/foreach}
+							</select></span>
+						</td>
+						<td>
+							<span><b class="form-label">Output Tax</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name="output_tax_filter">
+								<option value="">-- All --</option>
+								{foreach from=$output_tax_list key=rid item=r}
+									<option value="{$r.id}" {if $smarty.request.output_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
+								{/foreach}
+							</select></span>
+						</td>
+					</tr>
 					{/if}
-
-					<span id=block {if $smarty.request.branch_id eq ''}style="display:none;" {/if}>
-
-					<select name="block" {if $smarty.request.branch_id eq ''} disabled {/if}>
-						{if BRANCH_CODE neq 'HQ'}
-						<option value="">-- No Filter --</option>
+					
+					
+					
+					<tr>
+						<td>
+							<span><b class="form-label mt-4">Item blocked in PO</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+						<td>
+							<span>
+								{if BRANCH_CODE eq 'HQ'}
+									<select class="form-control" name="branch_id" onchange="show_hide_block(this)" id="branch_id">
+										<option value=''>-- No Filter --</option>
+										{foreach from=$branches item=r}
+											<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code}</option>
+										{/foreach}
+									</select>
+								{/if}
+			
+								<span id=block {if $smarty.request.branch_id eq ''}style="display:none;" {/if}>
+			
+								<select name="block" {if $smarty.request.branch_id eq ''} disabled {/if}>
+									{if BRANCH_CODE neq 'HQ'}
+									<option value="">-- No Filter --</option>
+									{/if}
+									<option value="1" {if $smarty.request.block eq '1'}selected {/if}>Yes</option>
+									<option value="0" {if $smarty.request.block eq '0'}selected {/if}>No</option>
+								</select>
+			
+								</span>
+			
+							
+							</span>
+						</td>
+						{if $config.sku_application_require_multics}
+						<td>
+							<span><b class="form-label">Status</b></span>
+						</td>
+						<td>
+							<span><select class="form-control" name=status>
+								<option value=''>-- All --</option>
+								<option value=0 {if $smarty.request.status eq '0'}selected{/if}>No {$config.link_code_name}</option>
+								<option value=1 {if $smarty.request.status eq '1'}selected{/if}>Have {$config.link_code_name}</option>
+							</select></span>
+							
+						</td>
 						{/if}
-						<option value="1" {if $smarty.request.block eq '1'}selected {/if}>Yes</option>
-						<option value="0" {if $smarty.request.block eq '0'}selected {/if}>No</option>
-					</select>
-
-					</span>
-
-				
+					</tr>
+					
+					<tr>
+						<td>
+							<span><b class="form-label">Group by SKU</b></span>
+						</td>
+						<td>	
+							<span><input style="margin: 0;" type="checkbox" name="group_by_sku" value="1" {if $smarty.request.group_by_sku}checked{/if} /></span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<span>
+								{if $pagination}
+								{$pagination}
+								{/if}
+							</span>
+						</td>
+						<td></td>
+					</tr>
+					
+				</table>
+			
+				</br>
+				<span >
+					<input class=" btn btn-primary mt-2" name=submits type=submit value="Find">
+					{if $config.link_code_name && $config.sku_application_require_multics}<input type=button value="Print for {$config.link_code_name}" onclick="window.open('{$smarty.server.PHP_SELF}?print=1&{$smarty.server.QUERY_STRING}')">{/if}
 				</span>
-			</td>
-			{if $config.sku_application_require_multics}
-			<td>
-				<span><b>Status</b></span>
-			</td>
-			<td>
-				<span><select name=status>
-					<option value=''>-- All --</option>
-					<option value=0 {if $smarty.request.status eq '0'}selected{/if}>No {$config.link_code_name}</option>
-					<option value=1 {if $smarty.request.status eq '1'}selected{/if}>Have {$config.link_code_name}</option>
-				</select></span>
-				
-			</td>
-			{/if}
-		</tr>
-		
-		<tr>
-			<td>
-				<span><b>Group by SKU</b></span>
-			</td>
-			<td>	
-				<span><input style="margin: 0;" type="checkbox" name="group_by_sku" value="1" {if $smarty.request.group_by_sku}checked{/if} /></span>
-			</td>
-		</tr>
-		
-		<tr>
-			<td>
-				<span>
-					{if $pagination}
-					{$pagination}
-					{/if}
-				</span>
-			</td>
-			<td></td>
-		</tr>
-		
-	</table>
-
-	</br>
-	<span >
-		<input class=" btn btn-primary" name=submits type=submit value="Find">
-		{if $config.link_code_name && $config.sku_application_require_multics}<input type=button value="Print for {$config.link_code_name}" onclick="window.open('{$smarty.server.PHP_SELF}?print=1&{$smarty.server.QUERY_STRING}')">{/if}
-	</span>
-</div>	
-</form>
+			</div>	
+			</form>
+	</div>
+</div>
 
 {if $smarty.request.load}
 	{if $err_msg}

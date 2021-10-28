@@ -124,9 +124,9 @@ function popup_change_batch(){
 			return false;
     }*/
     
-	curtain(true);
-	center_div($('div_change_batch').show());
-	
+//	curtain(true);
+//	center_div($('div_change_batch').show());
+	jQuery('#div_change_batch').modal('show');
 	var params = {
 		a: 'ajax_load_change_batch_popup',
 		branch_id: document.f_a['branch_id'].value,
@@ -214,17 +214,19 @@ function start_change_batch(){
 </div>
 
 <!-- popup change batch -->
-<div id="div_change_batch" class="curtain_popup" style="position:absolute;z-index:10005;width:450px;height:450px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_change_batch_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Change Batch</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_change_batch_content" style="padding:2px;height:420px;overflow:auto;">
-
+<div class="modal" id="div_change_batch">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header bg-danger" id="div_change_batch_header">
+				<h6 class="modal-title text-white">Change Batch</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+			</div>
+			<div class="modal-body" id="div_change_batch_content">
+				
+			</div>
+		</div>
 	</div>
 </div>
+
 
 {if $smarty.request.err_msg}<font color="red">{$smarty.request.err_msg|htmlentities}</font>{/if}
 <div class="card mx-3">

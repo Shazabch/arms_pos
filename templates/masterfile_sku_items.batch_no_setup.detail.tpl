@@ -243,11 +243,16 @@ function ajax_add_batch_item(id, sid, obj){
 
 {/literal}
 </script>
-
-<h1>{$PAGE_TITLE} ({$grr.report_prefix}{$smarty.request.id|string_format:"%05d"})<br />
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$PAGE_TITLE} ({$grr.report_prefix}{$smarty.request.id|string_format:"%05d"})<br />
 Status: {if $form.batch_status eq '1'}Confirmed{else}Awaiting for Setup{/if}
-</h1>
-
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <form name="f_a" method="post">
 <input type=hidden name=a value="save">
 <input type=hidden name=id value="{$form.id}">
@@ -259,43 +264,47 @@ Status: {if $form.batch_status eq '1'}Confirmed{else}Awaiting for Setup{/if}
 <input type="hidden" name="grn_get_weight" value="{$grr.grn_get_weight}" />
 
 <br>
-<div class="stdframe">
-<h4>General Information</h4>
-<table  border=0 cellspacing=0 cellpadding=4>
-<tr>
-<td><b>GRR No</b></td><td>{$grr.report_prefix}{$grr.grr_id|string_format:"%05d"}/{$grr.grr_item_id}</td>
-<td colspan=2>&nbsp;</td>
-<td><b>GRR Date</b></td><td>{$grr.added|date_format:$config.dat_format}</td>
-<td><b>By</b></td><td>{$grr.u}</td>
-</tr><tr>
-<td><b>GRR Amount</b></td><td>{$grr.grr_amount|number_format:2}</td>
-<td><b>Received Qty</b></td><td>Ctn:{$grr.grr_ctn|number_format} / Pcs:{$grr.grr_pcs|number_format}</td>
-<td><b>Received Date</b></td><td>{$grr.rcv_date|date_format:$config.dat_format}</td>
-<td><b>By</b></td><td>{$grr.rcv_u}</td>
-</tr><tr>
-<td><b>Department</b></td>
-<td colspan=3>
-<input type=hidden name=department_id value="{$form.department_id}">
-{$grr.department}
-</td>
-</tr><tr>
-<td><b>Vendor</b></td><td colspan=3>{$grr.vendor}</td>
-<td><b>Lorry No</b></td><td>{$grr.transport}</td>
-</tr><tr>
-<td width=100><b>Document Type.</b></td><td width=100><font color=blue>{$grr.type}</font></td>
-<td width=100><b>Document No.</b></td><td width=100><font color=blue>{$grr.doc_no}</font></td>
-{if $grr.type eq 'PO'}
-<td width=100><b>PO Amount{if $grr.po_is_under_gst}<br />(Excluded GST){/if}</b></td><td width=100><font color=blue>{$grr.po_amount|number_format:2}</font></td>
-<td width=100><b>Partial Delivery</b></td><td width=100><font color=blue>{if $config.use_grn_future}{if $grr.pd_po}{$grr.pd_po} (Not Allowed){else}Allowed{/if}{else}{if $grr.partial_delivery}Allowed{else}Not Allowed{/if}{/if}</font></td>
-{/if}
-</tr>
-{if $form.grn_tax}
-	<tr>
-	    <td><b>Tax</b></td>
-	    <td>{$form.grn_tax|default:0}%</td>
-	</tr>
-{/if}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+			<h4>General Information</h4>
+			<table  border=0 cellspacing=0 cellpadding=4>
+			<tr>
+			<td><b>GRR No</b></td><td>{$grr.report_prefix}{$grr.grr_id|string_format:"%05d"}/{$grr.grr_item_id}</td>
+			<td colspan=2>&nbsp;</td>
+			<td><b>GRR Date</b></td><td>{$grr.added|date_format:$config.dat_format}</td>
+			<td><b>By</b></td><td>{$grr.u}</td>
+			</tr><tr>
+			<td><b>GRR Amount</b></td><td>{$grr.grr_amount|number_format:2}</td>
+			<td><b>Received Qty</b></td><td>Ctn:{$grr.grr_ctn|number_format} / Pcs:{$grr.grr_pcs|number_format}</td>
+			<td><b>Received Date</b></td><td>{$grr.rcv_date|date_format:$config.dat_format}</td>
+			<td><b>By</b></td><td>{$grr.rcv_u}</td>
+			</tr><tr>
+			<td><b>Department</b></td>
+			<td colspan=3>
+			<input type=hidden name=department_id value="{$form.department_id}">
+			{$grr.department}
+			</td>
+			</tr><tr>
+			<td><b>Vendor</b></td><td colspan=3>{$grr.vendor}</td>
+			<td><b>Lorry No</b></td><td>{$grr.transport}</td>
+			</tr><tr>
+			<td width=100><b>Document Type.</b></td><td width=100><font color=blue>{$grr.type}</font></td>
+			<td width=100><b>Document No.</b></td><td width=100><font color=blue>{$grr.doc_no}</font></td>
+			{if $grr.type eq 'PO'}
+			<td width=100><b>PO Amount{if $grr.po_is_under_gst}<br />(Excluded GST){/if}</b></td><td width=100><font color=blue>{$grr.po_amount|number_format:2}</font></td>
+			<td width=100><b>Partial Delivery</b></td><td width=100><font color=blue>{if $config.use_grn_future}{if $grr.pd_po}{$grr.pd_po} (Not Allowed){else}Allowed{/if}{else}{if $grr.partial_delivery}Allowed{else}Not Allowed{/if}{/if}</font></td>
+			{/if}
+			</tr>
+			{if $form.grn_tax}
+				<tr>
+					<td><b>Tax</b></td>
+					<td>{$form.grn_tax|default:0}%</td>
+				</tr>
+			{/if}
+			</table>
+			</div>
+	</div>
 </div>
 
 <div id="err"></div>
@@ -304,55 +313,61 @@ Status: {if $form.batch_status eq '1'}Confirmed{else}Awaiting for Setup{/if}
 
 <input type="hidden" name="deleted_batch_item_list" value="">
 <div style="overflow:auto;">
-<table width=100% id=tbl_item style="border:1px solid #000; padding:1px;" class="input_no_border body" cellspacing=1 cellpadding=4>
-<thead>
-<tr height=32 bgcolor="#ffee99" class="small">
-	<th>#</th>
-	<th>ARMS</th>
-	<th>Artno</th>
-	<th>Mcode</th>
-	<th width=75%>Description</th>
-	<th>Recv<br>Qty</th>
-</tr>
-</thead>
-
-<tbody id="grn_items" class="grn_items">
-{foreach from=$form.items item=mitem name=mfitem}
-	{assign var=qty value=$mitem.ctn*$mitem.uom_fraction+$mitem.pcs}
-	<tr id="titem{$mitem.id}" class="multiple_add_container" bgcolor="{cycle name=r1 values=",#eeeeee"}" onmouseout="this.bgColor='{cycle name=r2 values=",#eeeeee"}';" onmouseover="this.bgColor='#ffffcc';">
-		<td nowrap>
-			{if $qty > 0}
-				<img src=ui/add_child.png style="vertical-align:top;" class=clickable title="Add Batch No for {$mitem.sku_item_code}" onclick="ajax_add_batch_item('{$mitem.id}', '{$mitem.sku_item_id}', this)" align=absmiddle>
-			{/if}
-			{$smarty.foreach.mfitem.iteration}.
-		</td>
-		<td>{$mitem.sku_item_code}</td>
-		<td align="center">{$mitem.artno|default:"-"}</td>
-		<td align="center">{$mitem.mcode|default:"-"}</td>
-		<td>{$mitem.description}</td>
-		<td align="right">
-			{$qty|default:0}
-			<input type="hidden" name="grn_item_qty[{$mitem.id}]" value="{$qty}" title="{$mitem.sku_item_code}">
-			<input type="hidden" name="sku_item_code[{$mitem.id}]" value="{$mitem.sku_item_code}">
-			<input type="hidden" name="sku_id[{$mitem.id}]" value="{$mitem.sku_id}">
-		</td>
-	</tr>
-	{foreach from=$form.batch_items item=item name=fitem}
-		{if $mitem.id eq $item.grn_item_id && $mitem.branch_id eq $item.branch_id}
-			{include file="masterfile_sku_items.batch_no_setup.detail_row.tpl"}
-		{/if}
-	{/foreach}
-{/foreach}
-</tbody>
-
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width=100% id=tbl_item style=" padding:1px;" class="input_no_border body">
+				<thead class="bg-gray-100">
+				<tr height=32  class="small">
+					<th>#</th>
+					<th>ARMS</th>
+					<th>Artno</th>
+					<th>Mcode</th>
+					<th width=75%>Description</th>
+					<th>Recv<br>Qty</th>
+				</tr>
+				</thead>
+				
+				<tbody id="grn_items" class="grn_items fs-08">
+				{foreach from=$form.items item=mitem name=mfitem}
+					{assign var=qty value=$mitem.ctn*$mitem.uom_fraction+$mitem.pcs}
+					<tr id="titem{$mitem.id}" class="multiple_add_container" bgcolor="{cycle name=r1 values=",#eeeeee"}" onmouseout="this.bgColor='{cycle name=r2 values=",#eeeeee"}';" onmouseover="this.bgColor='#ffffcc';">
+						<td nowrap>
+							{if $qty > 0}
+								<img src=ui/add_child.png style="vertical-align:top;" class=clickable title="Add Batch No for {$mitem.sku_item_code}" onclick="ajax_add_batch_item('{$mitem.id}', '{$mitem.sku_item_id}', this)" align=absmiddle>
+							{/if}
+							{$smarty.foreach.mfitem.iteration}.
+						</td>
+						<td>{$mitem.sku_item_code}</td>
+						<td align="center">{$mitem.artno|default:"-"}</td>
+						<td align="center">{$mitem.mcode|default:"-"}</td>
+						<td>{$mitem.description}</td>
+						<td align="right">
+							{$qty|default:0}
+							<input type="hidden" name="grn_item_qty[{$mitem.id}]" value="{$qty}" title="{$mitem.sku_item_code}">
+							<input type="hidden" name="sku_item_code[{$mitem.id}]" value="{$mitem.sku_item_code}">
+							<input type="hidden" name="sku_id[{$mitem.id}]" value="{$mitem.sku_id}">
+						</td>
+					</tr>
+					{foreach from=$form.batch_items item=item name=fitem}
+						{if $mitem.id eq $item.grn_item_id && $mitem.branch_id eq $item.branch_id}
+							{include file="masterfile_sku_items.batch_no_setup.detail_row.tpl"}
+						{/if}
+					{/foreach}
+				{/foreach}
+				</tbody>
+				
+				</table>
+		</div>
+	</div>
+</div>
 </div>
 
 <p align=center>
 	<input class="btn btn-success" type=button id="save_btn" value="Save" onclick="document.f_a.a.value='save'; do_save();">
 	
 	<input class="btn btn-primary" type=button id="confirm_btn" value="Confirm" onclick="document.f_a.a.value='confirm'; do_confirm();">
-<input class="btn btn-error" type=button value="Close" onclick="do_close()">
+<input class="btn btn-danger" type=button value="Close" onclick="do_close()">
 </p>
 
 </form>

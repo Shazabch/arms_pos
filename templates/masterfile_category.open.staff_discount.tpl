@@ -28,7 +28,7 @@
 
 		<!-- All Staff -->
 		<tr>
-			<td><b>All Staff</b></td>
+			<td><b class="form-label">All Staff</b></td>
 			<td nowrap>
 				{include file='masterfile_category.open.staff_discount.input.tpl' bid=0 staff_col='staff' is_edit=$is_edit b_cat_disc=$form.category_staff_disc_by_branch.0 editable=$form.category_staff_disc_by_branch.0.set_override}
 			</td>
@@ -52,7 +52,7 @@
 			{/if}
 			
 			<tr>
-				<td><b>{$staff_desc}</b></td>
+				<td><b class="form-label">{$staff_desc}</b></td>
 				<td nowrap>
 					{include file='masterfile_category.open.staff_discount.input.tpl' bid=0 is_edit=$is_edit staff_col='staff' type_col=$staff_type b_cat_disc=$form.category_staff_disc_by_branch.0 editable=$form.category_staff_disc_by_branch.0.set_override}
 				</td>

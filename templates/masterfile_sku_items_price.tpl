@@ -1394,7 +1394,14 @@ function calculate_rsp(sid, bid, target_input){
 
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 <div id="div_si_list" style="padding:5px;border:1px solid #000;overflow:hidden;width:600px;height:500px;position:absolute;background:#fff;display:none;z-index:10000;">
 	<div style="text-align:right"><img src="/ui/closewin.png" onclick="curtain_clicked();"></div>
@@ -1429,62 +1436,80 @@ function calculate_rsp(sid, bid, target_input){
 </div>
 
 
-<form name="f_a" method="post">
-<input type="hidden" name="a" value="find" onsubmit="return false;">
-<table>
-	<th align="left">Search SKU</th>
-	<td>
-		<input name="sku_item_id" size="3" type="hidden">
-		<input name="sku_item_code" size="13" type="hidden">
-		<input id="autocomplete_sku" name="sku" size="50" onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off" onkeypress="if(event.keyCode==13) search_sku_item();">
-		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-	</td>
-	<td><input class="btn btn-primary" type="button" value="Find" onclick="search_sku_item();"></td>
-</tr><tr>
-	<td>&nbsp;</td>
-	<td>
-		<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-		<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-		<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="3"> ARMS Code
-		<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="4"> Description
-	</td>
-</tr>
-
-<tr>
-	<th align="left">Scan Barcode</th>
-	<td><input id="grn_barcode" name="grn_barcode" onkeypress="if(event.keyCode==13) ajax_search_barcode_item(this.value);"> <input class="btn btn-primary" type="button" value="Find" onclick="ajax_search_barcode_item(document.f_a['grn_barcode'].value);"></td>
-</tr>
-
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		{if $config.enable_grn_barcoder}
-			<input type="radio" name="grn_barcode_type" value="0" onChange="grn_barcode_type_changed();" /> GRN Barcoder &nbsp;&nbsp;&nbsp;&nbsp;
-		{/if}
-		<input type="radio" name="grn_barcode_type" value="1" checked onChange="grn_barcode_type_changed();" /> ARMS Code / MCode / Art.No / {$config.link_code_name} &nbsp;&nbsp;&nbsp;&nbsp;
-	</td>
-</tr>
-
-</table>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post">
+			<input type="hidden" name="a" value="find" onsubmit="return false;">
+			<table>
+				<th align="left">Search SKU</th>
+				<td>
+					<input name="sku_item_id" size="3" type="hidden">
+					<input name="sku_item_code" size="13" type="hidden">
+					<input class="form-control" id="autocomplete_sku" name="sku" size="50" onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off" onkeypress="if(event.keyCode==13) search_sku_item();">
+					<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+				</td>
+				<td><input class="btn btn-primary" type="button" value="Find" onclick="search_sku_item();"></td>
+			</tr><tr>
+				<td>&nbsp;</td>
+				<td>
+					<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+					<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+					<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="3"> ARMS Code
+					<input onchange="reset_sku_autocomplete()" type="radio" name="search_type" value="4"> Description
+				</td>
+			</tr>
+			
+			<tr>
+				<th align="left">Scan Barcode</th>
+				<td>
+					<div class="form-inline">
+						<input class="form-control" id="grn_barcode" name="grn_barcode" onkeypress="if(event.keyCode==13) ajax_search_barcode_item(this.value);">
+					&nbsp;&nbsp; <input class="btn btn-primary" type="button" value="Find" onclick="ajax_search_barcode_item(document.f_a['grn_barcode'].value);"></td>
+					</div>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+					{if $config.enable_grn_barcoder}
+						<input type="radio" name="grn_barcode_type" value="0" onChange="grn_barcode_type_changed();" /> GRN Barcoder &nbsp;&nbsp;&nbsp;&nbsp;
+					{/if}
+					<input type="radio" name="grn_barcode_type" value="1" checked onChange="grn_barcode_type_changed();" /> ARMS Code / MCode / Art.No / {$config.link_code_name} &nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+			</tr>
+			
+			</table>
+			</form>
+	</div>
+</div>
 
 {if $smarty.request.a}
 {if !$items}
-<h3>{$smarty.request.code} not found</h3>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$smarty.request.code} not found</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="alert alert-primary rounded mx-3">
+	Note: Check that you have access to the correct departments.
+</div>
 
-Note: Check that you have access to the correct departments.
 {else}
 <br>
 
-<ul>
-	{if $config.sku_multiple_selling_price}
-		<li> Mprice {if !$config.consignment_modules}or Qprice{/if} set to 0 will use normal price.</li>
-	{/if}
-	{if $config.sku_change_price_always_apply_to_same_uom}
-		<li> Change selling price will automatically apply to all SKU with same UOM and ArtNo.</li>
-	{/if}
-	<li>Please key in unit price for Multi Quantity Price Setting </li>
-</ul>
+<div class="alert alert-primary rounded mx-3">
+	<ul>
+		{if $config.sku_multiple_selling_price}
+			<li> Mprice {if !$config.consignment_modules}or Qprice{/if} set to 0 will use normal price.</li>
+		{/if}
+		{if $config.sku_change_price_always_apply_to_same_uom}
+			<li> Change selling price will automatically apply to all SKU with same UOM and ArtNo.</li>
+		{/if}
+		<li>Please key in unit price for Multi Quantity Price Setting </li>
+	</ul>
+</div>
 
 <br>
 
@@ -1494,39 +1519,42 @@ Note: Check that you have access to the correct departments.
 	</p>
 {/if}
 
-<div class=tab style="height:20px;white-space:nowrap; background: #fff">
-&nbsp;&nbsp;&nbsp;
+<div class="tab row mx-3 mb-2" style="white-space:nowrap; background:">
 
 <!-- Selling Price-->
-<a href="javascript:list_sel(1,'mprice')" id=lst1 class=active>Selling Price</a>
+<a href="javascript:list_sel(1,'mprice')" id=lst1 class="btn btn-outline-primary btn-rounded">Selling Price</a>
 
 {if !$config.consignment_modules}
 	<!-- QPrice -->
 	{if $config.sku_multiple_quantity_price}
-	<a href="javascript:list_sel(2,'qprice')" id=lst2>Multi Quantity Price</a>
+&nbsp;&nbsp;	<a href="javascript:list_sel(2,'qprice')" id=lst2 class="btn btn-outline-primary btn-rounded">Multi Quantity Price</a>
 	{/if}
 	
 	<!-- Active Promotion -->
-	<a href="javascript:list_sel(3,'promo')" id=lst3>Active Promotions</a>
+	&nbsp;&nbsp;<a href="javascript:list_sel(3,'promo')" id=lst3 class="btn btn-outline-primary btn-rounded">Active Promotions</a>
 {/if}
 
 </div>
-<div style="border:1px solid #000;padding:2px;">
-	<!-- Selling price and mprice -->
-	<div id=mprice class=tabcontent>
-		{include file=masterfile_sku_items_price.mprice.tpl}
-	</div>
-	
-	<!-- Qprice -->
-	{if $config.sku_multiple_quantity_price}
-		<div id=qprice class=tabcontent style="display:none">
-		{include file=masterfile_sku_items_price.qprice.tpl}
+<div class="card mx-3">
+	<div class="card-body">
+		<div style="">
+			<!-- Selling price and mprice -->
+			<div id=mprice class=tabcontent>
+				{include file=masterfile_sku_items_price.mprice.tpl}
+			</div>
+			
+			<!-- Qprice -->
+			{if $config.sku_multiple_quantity_price}
+				<div id=qprice class=tabcontent style="display:none">
+				{include file=masterfile_sku_items_price.qprice.tpl}
+				</div>
+			{/if}
+			
+			<!-- Active Promotion -->
+			<input type=hidden id=item_ids value="{section loop=$items name=i}{$items[i].id},{/section}">
+			<div id=promo class=tabcontent style="display:none">
+			</div>
 		</div>
-	{/if}
-	
-	<!-- Active Promotion -->
-	<input type=hidden id=item_ids value="{section loop=$items name=i}{$items[i].id},{/section}">
-	<div id=promo class=tabcontent style="display:none">
 	</div>
 </div>
 {/if}
@@ -1545,11 +1573,11 @@ function list_sel(n,s)
 		{
 			if (i==n)
 			{
-			    $('lst'+i).className='active';
+			    $('lst'+i).addClassName('selected');
 			}
 			else
 			{
-			    $('lst'+i).className='';
+			    $('lst'+i).removeClassName('selected');
 			}
 		}
 	}

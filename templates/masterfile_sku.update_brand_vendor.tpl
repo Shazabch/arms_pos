@@ -88,12 +88,20 @@ var UPDATE_MODULE = {
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm}
-	<div class="errmsg">
-		<ul>
-			<li>{$errm}</li>
-		</ul>
+	<div class="alert alert-danger mx-3">
+		<div class="errmsg">
+			<ul>
+				<li>{$errm}</li>
+			</ul>
+		</div>
 	</div>
 {/if}
 <span id="span_loading" style="display:none; background:yellow; padding:2px;">
@@ -103,38 +111,62 @@ var UPDATE_MODULE = {
 	<input type="hidden" name="a" value="show_result" />
 	<input type="hidden" name="method" value="{$method}" />
 	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* This module will update the {$method|ucwords} and Price Type from SKU Masterfile.<br/>
-				* {$method|ucwords} Code or Price Type is optional but cannot left both empty.<br/>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample&method={$method}">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="25%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers.$method item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample.$method item=s}
+	<div class="card mx-3">
+		<div class="card-body">
+			<table>
 				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
+					
+						<td colspan="4" >
+							<div class="alert alert-primary">
+							<b>Note:</b><br />
+							* This module will update the {$method|ucwords} and Price Type from SKU Masterfile.<br/>
+							* {$method|ucwords} Code or Price Type is optional but cannot left both empty.<br/>
+						</div>
+						</td>
+					
 				</tr>
-			{/foreach}
-		</table>
+				<tr>
+					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method={$method}">Download Sample</a>)</b></td>
+					<td>
+					&nbsp;&nbsp;	<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
+						<input type="Submit" class="btn btn-primary" value="Show Result" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="div_tbl">
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<h4 class="content-title mb-0 my-auto ml-4 text-primary">Sample</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="si_tbl" width="100%">
+						<thead class="bg-gray-100">
+							<tr >
+								{foreach from=$sample_headers.$method item=i}
+									<th>{$i}</th>
+								{/foreach}
+							</tr>
+						</thead>
+						{foreach from=$sample.$method item=s}
+							<tbody class="fs-08">
+								<tr>
+									{foreach from=$s item=i}
+										<td>{$i}</td>
+									{/foreach}
+									</tr>
+							</tbody>
+						{/foreach}
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div id="div_invalid" style="display: none">
 		<div style="border: solid 2px red; padding: 5px; background-color: yellow">

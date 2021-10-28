@@ -258,26 +258,37 @@ function toggle_view_type(ele){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger rounded mx-3">
+	The following error(s) has occured:
 <ul class=err style="color:red;">
 {foreach from=$err item=e}
 <li> {$e}</li>
 {/foreach}
+</div>
 </ul>
 {/if}
 
 {if $suc}
-<ul class=err>
-{foreach from=$suc item=s}
-<li><font color="green"> {$s} </font></li>
-{/foreach}
-</ul>
+<div class="alert alert-danger rounded mx-3">
+	<ul class=err>
+		{foreach from=$suc item=s}
+		<li><font color="green"> {$s} </font></li>
+		{/foreach}
+		</ul>
+</div>
 {/if}
 <p>
-<font color="red">*</font> <b>Noted: </b>Codes can only be activated by assigned branches.
+<div class="alert alert-primary rounded mx-3">
+	<b>Noted: </b>Codes can only be activated by assigned branches.
+</div>
 
 <form name="f_a" onsubmit="return check_form()">
     <input type="hidden" name="id" id="id" value="">
@@ -285,130 +296,143 @@ The following error(s) has occured:
 	<input type="hidden" name="mr_id" id="mr_id" value="{$form.mr_id}">
 	<input type="hidden" name="mr_branch_id" id="mr_branch_id" value="{$form.mr_branch_id}">
 
-	<div class="stdframe">
-	<table>
-		<tr>
-		    <td><b>Valid Date</b></td>
-		    <td style="width:100px"><b>Date Start</b></td>
-			<td>
-				<input type="text" name="valid_from" value="{$form.valid_from}" id="inp_valid_from" readonly="1" size=12 onchange="calculate_date_end()" />
-				<img align="absmiddle" src="ui/calendar.gif" id="img_valid_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			</td>
-		</tr>
-		<tr>
-		    <td>&nbsp;</td>
-		    <td>
-				<select name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);'>
-				    <option value='valid_to'>Date End</option>
-				    <option id="opt_valid_duration" value='valid_duration'>Duration</option>
-				</select>
-			</td>
-		    <td>
-				<span id='date_end_id'>
-					<input type="text" name="valid_to" value="{$form.valid_to}" id="inp_valid_to" onchange="check_date(this)" readonly="1" size=12 />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_valid_to" style="cursor: pointer;" title="Select Date"/>
-				</span>
-				<span id='date_duration_id'>
-				    <select name="valid_duration" id="inp_valid_duration" onchange="calculate_date_end();">
-				        {section name=mon loop=13 start=1}
-					        <option id="opt_duration_{$smarty.section.mon.index}" value="{$smarty.section.mon.index}">{$smarty.section.mon.index}</option>
-	              {/section}
-				    </select>
-					<b>(Months)</b>
-				</span>
-			</td>
-		</tr>
-		<tr id="date_duration_id2">
-		    <td>&nbsp;</td>
-		    <td>
-				<b>Date End</b>
-			</td>
-			<td><input id="show_date_end" readonly="1" size=12></td>
-		</tr>
-		{if $config.voucher_add_activate_option}
-			<tr>
-				<td><b>Activate by</b></td>
-				<td>
-					<select id="activate_by_id" name="activate_by" onchange="toggle_view_type(this)" {if $form.mr_id && $form.mr_branch_id}onfocus="this.blur();" readonly{/if}>
-						<option value="code" {if $smarty.request.activate_by eq "code"} selected {/if}>Codes</option>
-						<option value="batch_no" {if $smarty.request.activate_by eq "batch_no"} selected {/if}>Batch No</option>
-					</select>
-				</td>
-			</tr>
-		{/if}
-		<tr id="view_code_id">
-		    <td>
-				<b>List of codes</b><br /><br />
-				<b>Total voucher<br /> in box = <span id="total_voucher_id">0</span></b>
-			</td>
-		    <td colspan=2><textarea id="id_codes" onkeyup="count_voucher(this)" cols="20" rows="20" height="200px" name="codes" {if $form.mr_id && $form.mr_branch_id}readonly{/if}>{$form.codes}</textarea></td>
-		</tr>
-		{if $config.voucher_add_activate_option}
-			<tr id="view_batch_id">
-				<td>
-					<b>List of batch no</b><br /><br />
-					<b>Total batch no<br /> selected in box = <span id="total_batch_id">0</span></b>
-				</td>
-				<td colspan=2>
-					<div style="width:300px;height:330px;border:1px solid black;padding:5px;overflow-x:hidden;overflow-y:auto;">
-						<input id="all_id" type="checkbox" onclick="tick_all_batch(this);"><label for="all_id"><b>All</b></label><br />
-						{foreach name="foreach_batch" from=$batch_nos key=batch_no item=i}
-							{if $config.voucher_allow_cross_branch_activate && ($smarty.foreach.foreach_batch.first || $i.branch_code ne $prv_branch_code)}
-								<br /><b>{$i.branch_code}</b><br />
-							{/if}
-							<input id="batch_no_{$batch_no}_id" class="batch_no_class" name="batch_nos[{$batch_no}]" onchange="count_total_batch()" value="{$batch_no}" type="checkbox" {if $smarty.request.batch_nos.$batch_no eq $batch_no} checked {/if}><label for="batch_no_{$batch_no}_id"><b>Batch No:</b> {$batch_no} (From {$i.min_code} To {$i.max_code})</label><br />
-							{assign var=prv_branch_code value=$i.branch_code}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+			<table>
+				<tr>
+					<td><b class="form-label">Valid Date</b></td>
+					<td style="width:100px"><b class="form-label">Date Start</b></td>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" type="text" name="valid_from" value="{$form.valid_from}" id="inp_valid_from" readonly="1" size=12 onchange="calculate_date_end()" />
+						<img align="absmiddle" src="ui/calendar.gif" id="img_valid_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<select class="form-control" name='rdo_end' id='rdo_end_id' onchange='calculate_date_end();toggle_date_type(this);'>
+							<option value='valid_to'>Date End</option>
+							<option id="opt_valid_duration" value='valid_duration'>Duration</option>
+						</select>
+					</td>
+					<td>
+						<span id='date_end_id'>
+							<div class="form-inline">
+								<input class="form-control" type="text" name="valid_to" value="{$form.valid_to}" id="inp_valid_to" onchange="check_date(this)" readonly="1" size=12 />
+							<img align="absmiddle" src="ui/calendar.gif" id="img_valid_to" style="cursor: pointer;" title="Select Date"/>
+							</div>
+						</span>
+						<span id='date_duration_id'>
+							<div class="form-inline">
+								<select class="form-control" name="valid_duration" id="inp_valid_duration" onchange="calculate_date_end();">
+									{section name=mon loop=13 start=1}
+										<option id="opt_duration_{$smarty.section.mon.index}" value="{$smarty.section.mon.index}">{$smarty.section.mon.index}</option>
+							  {/section}
+								</select>
+								&nbsp;&nbsp;<b class="form-label">(Months)</b>
+							</div>
+						</span>
+					</td>
+				</tr>
+				<tr id="date_duration_id2">
+					<td>&nbsp;</td>
+					<td>
+						<b class="form-label">Date End</b>
+					</td>
+					<td><input class="form-control" id="show_date_end" readonly="1" size=12></td>
+				</tr>
+				{if $config.voucher_add_activate_option}
+					<tr>
+						<td><b class="form-label">Activate by</b></td>
+						<td>
+							<select class="form-control" id="activate_by_id" name="activate_by" onchange="toggle_view_type(this)" {if $form.mr_id && $form.mr_branch_id}onfocus="this.blur();" readonly{/if}>
+								<option value="code" {if $smarty.request.activate_by eq "code"} selected {/if}>Codes</option>
+								<option value="batch_no" {if $smarty.request.activate_by eq "batch_no"} selected {/if}>Batch No</option>
+							</select>
+						</td>
+					</tr>
+				{/if}
+				<tr id="view_code_id">
+					<td>
+						<b class="form-label">List of codes</b><br /><br />
+						<b class="form-label">Total voucher<br /> in box = <span id="total_voucher_id">0</span></b>
+					</td>
+					<td colspan=2><textarea class="form-control" id="id_codes" onkeyup="count_voucher(this)" cols="20" rows="20" height="200px" name="codes" {if $form.mr_id && $form.mr_branch_id}readonly{/if}>{$form.codes}</textarea></td>
+				</tr>
+				{if $config.voucher_add_activate_option}
+					<tr id="view_batch_id">
+						<td>
+							<b class="form-label">List of batch no</b><br /><br />
+							<b class="form-label">Total batch no<br /> selected in box = <span id="total_batch_id">0</span></b>
+						</td>
+						<td colspan=2>
+							<div style="width:300px;height:330px;border:1px solid black;padding:5px;overflow-x:hidden;overflow-y:auto;">
+								<input id="all_id" type="checkbox" onclick="tick_all_batch(this);"><label for="all_id"><b>All</b></label><br />
+								{foreach name="foreach_batch" from=$batch_nos key=batch_no item=i}
+									{if $config.voucher_allow_cross_branch_activate && ($smarty.foreach.foreach_batch.first || $i.branch_code ne $prv_branch_code)}
+										<br /><b>{$i.branch_code}</b><br />
+									{/if}
+									<input id="batch_no_{$batch_no}_id" class="batch_no_class" name="batch_nos[{$batch_no}]" onchange="count_total_batch()" value="{$batch_no}" type="checkbox" {if $smarty.request.batch_nos.$batch_no eq $batch_no} checked {/if}><label for="batch_no_{$batch_no}_id"><b>Batch No:</b> {$batch_no} (From {$i.min_code} To {$i.max_code})</label><br />
+									{assign var=prv_branch_code value=$i.branch_code}
+								{/foreach}
+							</div>
+						</td>
+					</tr>
+				{/if}
+				<tr>
+					<td><b class="form-label">Active Remark</b></td>
+					<td colspan=2>
+						<select class="form-control" name="active_remark">
+						{foreach from=$config.voucher_active_remark_prefix item=remark}
+							<option value="{$remark}" {if $form.active_remark eq $remark} selected {/if}>{$remark}</option>
 						{/foreach}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Interbranch</b></td>
+					<td colspan=2 id="branch_check_id">
+						<input  type="checkbox" id="all_branch_id" onclick="toggle_all_check(this)"> <label for="all_branch_id">All</label> &nbsp;&nbsp;
+						{assign var=a value=$form.interbranch}
+						{foreach from=$branches key=bid item=bcode}
+							{if $bcode==$BRANCH_CODE}<img src="ui/checked.gif">{/if}
+							<input {if $bcode==$BRANCH_CODE}style="display:none;" {else}class="br_checkbox" {/if} type="checkbox" name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if} > <label for="interbranch_{$bid}">{$bcode}</label> &nbsp;&nbsp;
+						{/foreach}
+					</td>
+				</tr>
+				{if $config.voucher_show_advanced_options}
+					<tr>
+						<td valign="top"><b>More Options</b></td>
+						<td colspan=2>
+							<input type="checkbox" name="disallow_disc_promo" value="1" {if $form.disallow_disc_promo}checked{/if} > Disallow to use with discounts/promotions <br />
+							<input type="checkbox" name="disallow_other_voucher" value="1" {if $form.disallow_other_voucher}checked{/if} > Disallow to use with other vouchers
+						</td>
+					</tr>
+				{/if}
+				
+				<tr>
+					<td>
+						<b class="form-label">
+							Link to Membership
+						</b>
+					</td>
+					<td colspan="2">
+					<div class="form-inline">
+						<input class="form-control" type="text" name="member_link" maxlength="20" value="{$form.member_link}" />&nbsp;&nbsp; (NRIC / Card No)
 					</div>
-				</td>
-			</tr>
-		{/if}
-		<tr>
-		    <td><b>Active Remark</b></td>
-		    <td colspan=2>
-		        <select name="active_remark">
-				{foreach from=$config.voucher_active_remark_prefix item=remark}
-				    <option value="{$remark}" {if $form.active_remark eq $remark} selected {/if}>{$remark}</option>
-				{/foreach}
-				</select>
-			</td>
-		</tr>
-		<tr>
-		    <td><b>Interbranch</b></td>
-		    <td colspan=2 id="branch_check_id">
-				<input type="checkbox" id="all_branch_id" onclick="toggle_all_check(this)"> <label for="all_branch_id">All</label> &nbsp;&nbsp;
-				{assign var=a value=$form.interbranch}
-				{foreach from=$branches key=bid item=bcode}
-					{if $bcode==$BRANCH_CODE}<img src="ui/checked.gif">{/if}
-					<input {if $bcode==$BRANCH_CODE}style="display:none;" {else}class="br_checkbox" {/if} type="checkbox" name="interbranch[{$bid}]" id="interbranch_{$bid}" value="{$bid}" {if $bcode==$BRANCH_CODE || $form.interbranch.$bid} checked {/if} > <label for="interbranch_{$bid}">{$bcode}</label> &nbsp;&nbsp;
-				{/foreach}
-			</td>
-		</tr>
-		{if $config.voucher_show_advanced_options}
-			<tr>
-				<td valign="top"><b>More Options</b></td>
-				<td colspan=2>
-					<input type="checkbox" name="disallow_disc_promo" value="1" {if $form.disallow_disc_promo}checked{/if} > Disallow to use with discounts/promotions <br />
-					<input type="checkbox" name="disallow_other_voucher" value="1" {if $form.disallow_other_voucher}checked{/if} > Disallow to use with other vouchers
-				</td>
-			</tr>
-		{/if}
-		
-		<tr>
-			<td>
-				<b>
-					Link to Membership
-				</b>
-			</td>
-			<td colspan="2">
-				<input type="text" name="member_link" maxlength="20" value="{$form.member_link}" /> (NRIC / Card No)
-			</td>
-		</tr>
-	</table>
-    </div>
-    <p>
-		<button class="btn btn-primary" name=a value="activate_form">Activate Codes</button>
-	</p>
+					</td>
+				</tr>
+			</table>
+			</div>
+			<p>
+				<button class="btn btn-primary mt-2" name=a value="activate_form">Activate Codes</button>
+			</p>
+	</div>
+</div>
+   
 </form>
 </p>
 

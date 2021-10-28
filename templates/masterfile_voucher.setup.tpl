@@ -26,10 +26,14 @@
 var currency_symbol = '{$config.arms_currency.symbol}';
 {literal}
 function myCreateFunction(divName){
+	
 	divName.up('tr').insertAdjacentHTML('afterend', "<tr><td><img title=\"Add\" src=\"ui/icons/add.png\" align=\"absmiddle\" onclick=\"myCreateFunction(this);\"><input size=\"10\" name=\"mytext[]\" type=\"text\"/><img title=\"Delete\" src=\"ui/icons/delete.png\" align=\"absmiddle\"  onclick=\"removeText(this)\"></td></tr>");
 }
 		
-function removeText(obj){
+f
+<div class="form-inline">
+	unction removeText(</div>
+obj){
 	if (confirm("Are you sure?")){
 		var myControls = document.forms["f_a"].elements["mytext[]"];
 
@@ -79,45 +83,72 @@ function check_form(){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
-	<ul style="color:red;">
+<div class="alert alert-danger mx-3 rounded">
+	<ul>
 	    {foreach from=$err item=e}
 	        <li> {$e}</li>
 	    {/foreach}
 	</ul>
+</div>
 {/if}
 <p>
-<form name="f_a" method="post">
-	<div class="stdframe">
-		<table>
-			<tr>
-				<th>Value ({$config.arms_currency.symbol})</th>
-			</tr>
-			{if $voucher}
-				{foreach from=$voucher item=value}
-					<tr>
-						<td><img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);"><input size="10" name="mytext[]" type="text" value="{$value}"/><img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);"></td>
-					</tr>
-				{/foreach}
-			{elseif $config.voucher_value_prefix}
-				{foreach from=$config.voucher_value_prefix item=value}
-					<tr>
-						<td><img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);"><input size="10" name="mytext[]" type="text" value="{$value}"/><img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);"></td>
-					</tr>
-				{/foreach}
-			{else}
-				<tr>
-					<td><img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);"><input size="10" name="mytext[]" type="text" value=""/><img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);"></td>
-				</tr>
-			{/if}
-		</table>
-	
-    </div>
-    <p>
-		<button class="btn btn-success" name=a value="save_form" onclick="return check_form();">Save</button>
-	</p>
-</form>
+	<div class="card mx-3">
+		<div class="card-body">
+			<form name="f_a" method="post">
+				<div class="stdframe">
+					<table>
+						<tr>
+							<th class="form-label">Value ({$config.arms_currency.symbol})</th>
+						</tr>
+						{if $voucher}
+							{foreach from=$voucher item=value}
+								<tr>
+									
+									<td>
+									<div class="form-inline">
+										<img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);">&nbsp;&nbsp;<input size="10" name="mytext[]" type="text" class="form-control" value="{$value}"/>&nbsp;&nbsp;<img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);">
+									</div>	
+									</td>
+								</tr>
+							{/foreach}
+						{elseif $config.voucher_value_prefix}
+							{foreach from=$config.voucher_value_prefix item=value}
+								<tr>
+									
+									<td>
+									<div class="form-inline">
+										<img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);">&nbsp;&nbsp;<input size="10" name="mytext[]" type="text" class="form-control" value="{$value}"/>&nbsp;&nbsp;<img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);">
+									</div>	
+									</td>
+								</tr>
+							{/foreach}
+						{else}
+							<tr>
+								
+								<td>
+								<div class="form-inline">
+									<img title="Add" src="ui/icons/add.png" align="absmiddle" onclick="myCreateFunction(this);">&nbsp;&nbsp;<input size="10" name="mytext[]" type="text" class="form-control" value=""/>&nbsp;&nbsp;<img title="Delete" src="ui/icons/delete.png" align="absmiddle" onclick="removeText(this);">
+								</div>	
+								</td>
+							</tr>
+						{/if}
+					</table>
+				
+				</div>
+				<p>
+					<button class="btn btn-success mt-2 ml-4" name=a value="save_form" onclick="return check_form();">Save</button>
+				</p>
+			</form>
+		</div>
+	</div>
 </p>
 {include file=footer.tpl}

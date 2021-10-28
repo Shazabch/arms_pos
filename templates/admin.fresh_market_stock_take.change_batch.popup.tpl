@@ -9,23 +9,23 @@
 		<legend>Selected Stock Info</legend>
 		<table>
 			<tr>
-				<td width="100"><b>Branch</b></td>
+				<td width="100"><b class="form-label">Branch</b></td>
 				<td>{$data.branch_code}</td>
 			</tr>
 			<tr>
-				<td><b>Date</b></td>
+				<td><b class="form-label">Date</b></td>
 				<td>{$data.date}</td>
 			</tr>
 			<tr>
-				<td><b>Location</b></td>
+				<td><b class="form-label">Location</b></td>
 				<td>{$data.loc|default:'-- All --'}</td>
 			</tr>
 			<tr>
-				<td><b>Shelf</b></td>
+				<td><b class="form-label">Shelf</b></td>
 				<td>{$data.shelf|default:'-- All --'}</td>
 			</tr>
 			<tr>
-				<td><b>Total Item</b></td>
+				<td><b class="form-label">Total Item</b></td>
 				<td>{$data.item_count|number_format}</td>
 			</tr>
 		</table>
@@ -40,28 +40,34 @@
 		
 		<table>
 			<tr>
-				<td width="100"><b>Branch</b></td>
+				<td width="100"><b class="form-label">Branch</b></td>
 				<td>{$data.branch_code}</td>
 			</tr>
 			<tr>
-				<td><b>Date</b></td>
+				<td><b class="form-label">Date</b></td>
 				<td>
-					<input name="n_date" id="inp_n_date" size="12" value="{$data.date}" readonly /> 
-					<img align="absmiddle" src="/ui/calendar.gif" id="img_n_date" style="cursor: pointer;" title="Select Date" />
+					<div class="form-inline">
+						<input class="form-control" name="n_date" id="inp_n_date" size="12" value="{$data.date}" readonly /> 
+					&nbsp;&nbsp;<img align="absmiddle" src="/ui/calendar.gif" id="img_n_date" style="cursor: pointer;" title="Select Date" />
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<td><b>Location</b></td>
+				<td><b class="form-label">Location</b></td>
 				<td>
-					<input name="n_loc" size="12" value="{$data.loc}" readonly /> 
-					<input type="checkbox" name="keep_o_loc" value="1" checked onChange="toggle_new_stock_info_chx('n_loc', this);" /> Keep existing
+					<div class="form-inline">
+						<input class="form-control" name="n_loc" size="12" value="{$data.loc}" readonly /> 
+					&nbsp;&nbsp;<input type="checkbox" name="keep_o_loc" value="1" checked onChange="toggle_new_stock_info_chx('n_loc', this);" />&nbsp; Keep existing
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<td><b>Shelf</b></td>
+				<td><b class="form-label">Shelf</b></td>
 				<td>
-					<input name="n_shelf" size="12" value="{$data.shelf}" readonly /> 
-					<input type="checkbox" name="keep_o_shelf" value="1" checked onChange="toggle_new_stock_info_chx('n_shelf', this);" /> Keep existing
+					<div class="form-inline">
+						<input class="form-control" name="n_shelf" size="12" value="{$data.shelf}" readonly /> 
+					&nbsp;&nbsp;<input type="checkbox" name="keep_o_shelf" value="1" checked onChange="toggle_new_stock_info_chx('n_shelf', this);" />&nbsp; Keep existing
+					</div>
 				</td>
 			</tr>
 		</table>

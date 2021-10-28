@@ -77,167 +77,212 @@ function toggle_all_price(){
 </script>
 
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
-The following error(s) has occured:
-<ul class="errmsg">
+<div class="alert alert-danger mx-3 rounded">
+	<b>The following error(s) has occured:</b>
+<ul class="errmsg " >
 {foreach from=$err item=e}
-<li> {$e}
+<div class="alert alert-danger mx-3 rounded">
+		<li> {$e}</li>
+
+</div>
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form name="f" method="post" class="form">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f" method="post" class="form">
 
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id">
-	    {foreach from=$branches key=bid item=bcode}
-	        <option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$bcode}</option>
-	    {/foreach}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
+			<div class="row">
+				<div class="col-md-3">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label mt-2">Branch</b>
+				<select class="form-control" name="branch_id">
+					{foreach from=$branches key=bid item=bcode}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$bcode}</option>
+					{/foreach}
+				</select>
+			{/if}
+				</div>
 
-<b>Sku Type</b>
-<select name="sku_type">
-	<option value="all" {if $smarty.request.sku_type eq 'all' || !$smarty.request.sku_type}selected {/if}>All</option>
-    {foreach from=$sku_type key=scode item=stype}
-        <option value="{$scode}" {if $smarty.request.sku_type eq $scode}selected {/if}>{$stype}</option>
-    {/foreach}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<b>Status</b>
-<select name="status">
-	<option value="all" {if $smarty.request.status eq 'all' || !$smarty.request.status}selected {/if}>All</option>
-	<option value="1" {if $smarty.request.status eq '1'}selected {/if}>Active</option>
-	<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<span>
-<b>Brand</b>
-<select name="brand_id">
-	<option value="" {if $smarty.request.brand_id === ''}selected {/if}>-- All --</option>
-	<option value="0" {if $smarty.request.brand_id === '0'}selected {/if}>UNBRANDED</option>
-	{foreach from=$brand_list key=brand_id item=r}
-		<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
-	{/foreach}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-</span>
-	
-<span>
-<b>Vendor</b>
-<select name="vendor_id">
-	<option value="">-- All --</option>
-	{foreach from=$vendor_list key=vid item=r}
-		<option value="{$vid}" {if $smarty.request.vendor_id eq $vid}selected {/if}>{$r.description}</option>
-	{/foreach}
-</select>
-</span>	
-<p>
-	<b>Blocked Item in PO:</b>
-	<select name="blocked_po">
-		<option value="">-- No Filter --</option>
-		<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
-		<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
-	</select>
-	
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>Sort by</b>
-	<select name="sort_by">
-	    <option value="sku_item_code" {if $smarty.request.sort_by eq "sku_item_code"}selected {/if}>ARMS Code</option>
-	    <option value="mcode" {if $smarty.request.sort_by eq "mcode"}selected {/if}>Manufacture Code</option>
-	    <option value="artno" {if $smarty.request.sort_by eq "artno"}selected {/if}>Article No</option>
-	    <option value="description" {if $smarty.request.sort_by eq "description"}selected {/if}>Description</option>
-		<optgroup label="Price">
-		<option value="normal" {if $smarty.request.sort_by eq 'normal'}selected {/if}>Normal</option>
-		{foreach from=$config.sku_multiple_selling_price item=multiple_price}
-			<option value="{$multiple_price}" {if $smarty.request.sort_by eq $multiple_price}selected {/if}>{$multiple_price|ucfirst}</option>
-		{/foreach}
-		</optgroup>
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-
-<p>
-{if $config.allow_all_sku_branch_for_selected_reports}
-	{assign var=cat_level value=1}
-	{assign var=cat_notice value="* Category start from Department level."}
-{else}
-	{assign var=cat_level value=2}
-	{assign var=cat_notice value="* Category start from 3rd level."}
-{/if}
-{include file="category_autocomplete.tpl" cat_level=$cat_level}
-</p>
-
-<table>
-	<td valign="top"><b style="line-height:20px;">Price List</b></td>
-	<td>
-		<div style="width:130px;height:120px;border:1px solid black;padding:5px;overflow-x:hidden;overflow-y:auto;">
-			<!-- All -->
-			<input type="checkbox" id="p_all" onChange="toggle_all_price();" /> <label for="p_all"><b>All</b></label><br />
+			<div class="col-md-3">
+				<b class="form-label mt-2">Sku Type</b>
+			<select class="form-control" name="sku_type">
+				<option value="all" {if $smarty.request.sku_type eq 'all' || !$smarty.request.sku_type}selected {/if}>All</option>
+				{foreach from=$sku_type key=scode item=stype}
+					<option value="{$scode}" {if $smarty.request.sku_type eq $scode}selected {/if}>{$stype}</option>
+				{/foreach}
+			</select>
+			</div>
 			
-			<!-- Normal -->
-			<input name="price_list[normal]" class="inp_price" id="p_normal" type="checkbox" value="normal" {if $smarty.request.price_list.normal}checked {/if}>
-			<label for="p_normal">Normal</label><br>
+			<div class="col-md-3">
+				<b class="form-label mt-2">Status</b>
+			<select class="form-control" name="status">
+				<option value="all" {if $smarty.request.status eq 'all' || !$smarty.request.status}selected {/if}>All</option>
+				<option value="1" {if $smarty.request.status eq '1'}selected {/if}>Active</option>
+				<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
+			</select>
+			</div>
 			
-			<!-- price type -->
-		    {foreach from=$config.sku_multiple_selling_price item=multiple_price}
-			    <input name="price_list[{$multiple_price}]" class="inp_price" id="p_{$multiple_price}" type="checkbox" value="{$multiple_price}" {if $smarty.request.price_list.$multiple_price }checked {/if}>
-				<label for="p_{$multiple_price}">{$multiple_price|ucfirst}</label><br>
-		    {/foreach}
-		</div>
-
-	</td>
-</table>
-
-
-<p>
-	<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-		<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-	{/if}
-	<input type=button onclick="do_print()" value="Print">
-</p>			
-{$cat_notice}
-</form>
+			<div class="col-md-3">
+				<span>
+					<b class="form-label mt-2">Brand</b>
+					<select class="form-control" name="brand_id">
+						<option value="" {if $smarty.request.brand_id === ''}selected {/if}>-- All --</option>
+						<option value="0" {if $smarty.request.brand_id === '0'}selected {/if}>UNBRANDED</option>
+						{foreach from=$brand_list key=brand_id item=r}
+							<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
+						{/foreach}
+					</select>
+					</span>
+			</div>
+				
+			<div class="col-md-3">
+				<span>
+					<b class="form-label mt-2">Vendor</b>
+					<select class="form-control" name="vendor_id">
+						<option value="">-- All --</option>
+						{foreach from=$vendor_list key=vid item=r}
+							<option value="{$vid}" {if $smarty.request.vendor_id eq $vid}selected {/if}>{$r.description}</option>
+						{/foreach}
+					</select>
+					</span>	
+			</div>
+			
+				<div class="col-md-3">
+					<b class="form-label mt-2">Blocked Item in PO:</b>
+				<select class="form-control" name="blocked_po">
+					<option value="">-- No Filter --</option>
+					<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
+					<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
+				</select>
+				</div>
+				<div class="col-md-3">
+					<b class="form-label mt-2">Sort by</b>
+				<select class="form-control" name="sort_by">
+					<option value="sku_item_code" {if $smarty.request.sort_by eq "sku_item_code"}selected {/if}>ARMS Code</option>
+					<option value="mcode" {if $smarty.request.sort_by eq "mcode"}selected {/if}>Manufacture Code</option>
+					<option value="artno" {if $smarty.request.sort_by eq "artno"}selected {/if}>Article No</option>
+					<option value="description" {if $smarty.request.sort_by eq "description"}selected {/if}>Description</option>
+					<optgroup label="Price">
+					<option value="normal" {if $smarty.request.sort_by eq 'normal'}selected {/if}>Normal</option>
+					{foreach from=$config.sku_multiple_selling_price item=multiple_price}
+						<option value="{$multiple_price}" {if $smarty.request.sort_by eq $multiple_price}selected {/if}>{$multiple_price|ucfirst}</option>
+					{/foreach}
+					</optgroup>
+				</select>
+				</div>
+			</div>
+		
+			
+			<p>
+			{if $config.allow_all_sku_branch_for_selected_reports}
+				{assign var=cat_level value=1}
+				{assign var=cat_notice value="* Category start from Department level."}
+			{else}
+				{assign var=cat_level value=2}
+				{assign var=cat_notice value="* Category start from 3rd level."}
+			{/if}
+			{include file="category_autocomplete.tpl" cat_level=$cat_level}
+			</p>
+			
+			<table>
+				<td valign="top"><b style="line-height:20px;" class="form-label">Price List</b></td>
+				<td>
+					<div style="width:130px;height:120px;padding:5px;overflow-x:hidden;overflow-y:auto;">
+						<!-- All -->
+						<input type="checkbox" id="p_all" onChange="toggle_all_price();" /> <label for="p_all"><b>All</b></label><br />
+						
+						<!-- Normal -->
+						<input name="price_list[normal]" class="inp_price" id="p_normal" type="checkbox" value="normal" {if $smarty.request.price_list.normal}checked {/if}>
+						<label for="p_normal">Normal</label><br>
+						
+						<!-- price type -->
+						{foreach from=$config.sku_multiple_selling_price item=multiple_price}
+							<input name="price_list[{$multiple_price}]" class="inp_price" id="p_{$multiple_price}" type="checkbox" value="{$multiple_price}" {if $smarty.request.price_list.$multiple_price }checked {/if}>
+							<label for="p_{$multiple_price}">{$multiple_price|ucfirst}</label><br>
+						{/foreach}
+					</div>
+			
+				</td>
+			</table>
+			
+			
+			<p>
+				<button class="btn btn-primary mt-2" name="a" value="show_report">{#SHOW_REPORT#}</button>
+				{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+					<button class="btn btn-info mt-2" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+				{/if}
+				<input type=button class="btn btn-info mt-2" onclick="do_print()" value="Print">
+			</p>			
+			{$cat_notice}
+			</form>
+	</div>
+</div>
 {/if}
 {if !$table}
 {if !$err && $generate}<p align=center>-- No Data --</p>{/if}
 {else}
-<h2>{$report_title}</h2>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <p>
 Table printed at {$time_printed}<br>
 </p>
-<table class="rpt_table" width=100% cellspacing=0 cellpadding=0>
-	<tr class="header">
-		<th rowspan=2 width="45px">#</th>
-	    <th rowspan=2 width="100px">ARMS Code</th>
-	    <th rowspan=2 width="100px">Manufacture Code</th>
-	    <th rowspan=2 width="150px">Article No.</th>
-	    <th rowspan=2>Description</th>
-	    <th colspan="{$price_col}">Price</th>	
-	</tr>
-	<tr class="header">
-	    {foreach from=$smarty.request.price_list item=ptype}
-		    <th width="80px">{$ptype}</th>
-	    {/foreach}
-	</tr>	
-	
-	{foreach from=$table key=sid item=s name=t}
-		<tr>
-			<td>{$smarty.foreach.t.iteration}.</td>
-			<td>{$s.sku_item_code|default:"&nbsp;"}</td>
-			<td>{$s.mcode|default:"&nbsp;"}</td>
-			<td>{$s.artno|default:"&nbsp;"}</td>
-			<td>{$s.description|default:"&nbsp;"}</td>
-			{foreach from=$s.price item=ptype}
-				<td class="r">{$ptype|number_format:2|ifzero:"-"}</td>
-			{/foreach}
-		</tr>
-		{assign var=ttl_batch_qty value=$ttl_batch_qty+$table.$sku_key.batch_qty}
-		{assign var=ttl_sb_qty value=$ttl_sb_qty+$table.$sku_key.sb_qty}
-	{/foreach}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="rpt_table" width=100% >
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th rowspan=2 width="45px">#</th>
+						<th rowspan=2 width="100px">ARMS Code</th>
+						<th rowspan=2 width="100px">Manufacture Code</th>
+						<th rowspan=2 width="150px">Article No.</th>
+						<th rowspan=2>Description</th>
+						<th colspan="{$price_col}">Price</th>	
+					</tr>
+					<tr class="header">
+						{foreach from=$smarty.request.price_list item=ptype}
+							<th width="80px">{$ptype}</th>
+						{/foreach}
+					</tr>	
+					
+				</thead>
+				{foreach from=$table key=sid item=s name=t}
+					<tbody class="fs-08">
+						<tr>
+							<td>{$smarty.foreach.t.iteration}.</td>
+							<td>{$s.sku_item_code|default:"&nbsp;"}</td>
+							<td>{$s.mcode|default:"&nbsp;"}</td>
+							<td>{$s.artno|default:"&nbsp;"}</td>
+							<td>{$s.description|default:"&nbsp;"}</td>
+							{foreach from=$s.price item=ptype}
+								<td class="r">{$ptype|number_format:2|ifzero:"-"}</td>
+							{/foreach}
+						</tr>
+					</tbody>
+					{assign var=ttl_batch_qty value=$ttl_batch_qty+$table.$sku_key.batch_qty}
+					{assign var=ttl_sb_qty value=$ttl_sb_qty+$table.$sku_key.sb_qty}
+				{/foreach}
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {include file=footer.tpl}

@@ -663,7 +663,14 @@ function check_selling_price_settings(chx_selected){
 {include file=bom.refresh.price_list.tpl}
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if !$errm}
 <div id=show_last style="font-weight:bold;">
@@ -685,26 +692,30 @@ function check_selling_price_settings(chx_selected){
 <input type=hidden name=brand_id value="{$form.brand_id}">
 <input type=hidden name=category_id value="{$form.category_id}">
 
-<div class="stdframe" style="background:#fff">
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-<td><b>SKU</b></td>
-<td>
-	<select name="sku_bom" onchange="load_sku_bom(this);">
-	{section name=i loop=$sku_bom}
-	<option value={$sku_bom[i].id} {if $form.sku_bom eq $sku_bom[i].id}selected{/if}>{$sku_bom[i].id} ({$sku_bom[i].category},{$sku_bom[i].brand})</option>
-	{/section}
-	</select>
-</td>
-</tr>
-
-<tr>
-<td><b>ARMS Code</b></td>
-<td id=sku_bom_item>
-{include file=bom.refresh.sku_bom_items.tpl}
-</td>
-</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<table border=0 cellspacing=0 cellpadding=4>
+			<tr>
+			<td><b class="form-label">SKU</b></td>
+			<td>
+				<select class="form-control" name="sku_bom" onchange="load_sku_bom(this);">
+				{section name=i loop=$sku_bom}
+				<option value={$sku_bom[i].id} {if $form.sku_bom eq $sku_bom[i].id}selected{/if}>{$sku_bom[i].id} ({$sku_bom[i].category},{$sku_bom[i].brand})</option>
+				{/section}
+				</select>
+			</td>
+			</tr>
+			
+			<tr>
+			<td><b class="form-label">ARMS Code</b></td>
+			<td id=sku_bom_item>
+			{include file=bom.refresh.sku_bom_items.tpl}
+			</td>
+			</tr>
+			</table>
+			</div>
+	</div>
 </div>
 
 <br>

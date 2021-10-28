@@ -125,12 +125,20 @@ var UPDATE_SKU_PO_REORDER_QTY_MODULE = {
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm}
 	<div class="errmsg">
-		<ul>
-			<li>{$errm}</li>
-		</ul>
+		<div class="alert alert-danger mx-3 rounded">
+			<ul>
+				<li>{$errm}</li>
+			</ul>
+		</div>
 	</div>
 {/if}
 <span id="span_loading" style="display:none; background:yellow; padding:2px;">
@@ -140,60 +148,82 @@ var UPDATE_SKU_PO_REORDER_QTY_MODULE = {
 	<input type="hidden" name="a" value="show_result" />
 	<input type="hidden" name="method" value="1" />
 	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* This module will update the PO Reorder Qty from SKU Masterfile.<br/>
-				* Min Qty is optional.<br/>
-				* Notify Person is optional but must exists if provided.<br/>
-				* Notify Person must have the privilege "NT_STOCK_REORDER".
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Update PO Reorder Qty by</b></td>
-			<td>
-				<select name="update_type" onchange="UPDATE_SKU_PO_REORDER_QTY_MODULE.toggle_update_type(this);">
-					{foreach from=$upd_type_list key=upd_type item=upd_desc}
-						<option value="{$upd_type}" {if $smarty.request.update_type eq $upd_type}selected{/if}>{$upd_desc}</option>
-					{/foreach}
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td  id="div_branch_list" {if $smarty.request.update_type ne 'branch'}style="display:none;"{/if}>
-				<input type="checkbox" id="all_branch_chkbx" onclick="UPDATE_SKU_PO_REORDER_QTY_MODULE.toggle_all_branches(this);" /> <b>All</b> &nbsp;&nbsp;
-				{foreach from=$branch_list key=bid item=bcode}
-					<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
-				{/foreach}
-			</td>
-		</tr>
-	</div>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="25%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers.1 item=i}
-					<th>{$i}</th>
-				{/foreach}
+<div class="card mx-3">
+	<div class="card-body">
+		<table>
+			<tr>
+				<td colspan="4" >
+					<div class="alert alert-primary rounded ">
+						<b>Note:</b><br />
+					* This module will update the PO Reorder Qty from SKU Masterfile.<br/>
+					* Min Qty is optional.<br/>
+					* Notify Person is optional but must exists if provided.<br/>
+					* Notify Person must have the privilege "NT_STOCK_REORDER".
+					</div>
+				</td>
 			</tr>
-			{foreach from=$sample.1 item=s}
-				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
-				</tr>
-			{/foreach}
+			<tr>
+				<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
+				<td>
+				&nbsp;	<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
+					&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
+				</td>
+			</tr>
+			<tr>
+				<td><b class="form-label">Update PO Reorder Qty by</b></td>
+				<td>
+					<select class="form-control" name="update_type" onchange="UPDATE_SKU_PO_REORDER_QTY_MODULE.toggle_update_type(this);">
+						{foreach from=$upd_type_list key=upd_type item=upd_desc}
+							<option value="{$upd_type}" {if $smarty.request.update_type eq $upd_type}selected{/if}>{$upd_desc}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td  id="div_branch_list" {if $smarty.request.update_type ne 'branch'}style="display:none;"{/if}>
+					<input type="checkbox" id="all_branch_chkbx" onclick="UPDATE_SKU_PO_REORDER_QTY_MODULE.toggle_all_branches(this);" /> <b>All</b> &nbsp;&nbsp;
+					{foreach from=$branch_list key=bid item=bcode}
+						<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
+					{/foreach}
+				</td>
+			</tr>
+		</div>
 		</table>
+	</div>
+</div>
+	<div class="div_tbl">
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<h4 class="content-title mb-0 my-auto ml-4 text-primary">Sample</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="si_tbl" width="100%">
+					<thead class="bg-gray-100">
+						<tr >
+							{foreach from=$sample_headers.1 item=i}
+								<th>{$i}</th>
+							{/foreach}
+						</tr>
+					</thead>
+					{foreach from=$sample.1 item=s}
+						<tbody class="fs-08">
+							<tr>
+								{foreach from=$s item=i}
+									<td>{$i}</td>
+								{/foreach}
+								</tr>
+						</tbody>
+					{/foreach}
+				</table>
+			</div>
+		</div>
+	</div>
 	</div>
 	<div id="div_invalid" style="display: none">
 		<div style="border: solid 2px red; padding: 5px; background-color: yellow">

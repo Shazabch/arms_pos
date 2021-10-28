@@ -559,10 +559,20 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd SKU Group</a> (Alt+A)</div>
 
+<div class="card mx-3">
+	<div class="card-body">
+		<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd SKU Group</a> (Alt+A)</div>
+	</div>
+</div>
 <div id=supp_popup style="display:none"></div>
 <div id="sku_table" style="display:none"></div>
 <div id="div_dummy" style="display:none;"></div>
@@ -585,8 +595,8 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 					<p>
 						<div id="div_sku_group">{include file="sku_items_autocomplete_multiple_sku_group.tpl"}</div>
 						<div align="right">
-							<input type="button" value="Save" onClick="submitForm();" id="btn_save">
-							<input type="button" value="Close" onclick="f_a.reset(); hidediv('ndiv');hidediv('supp_popup');">
+							<input type="button" class="btn btn-primary" value="Save" onClick="submitForm();" id="btn_save">
+							<input type="button" class="btn btn-danger" value="Close" onclick="f_a.reset(); hidediv('ndiv');hidediv('supp_popup');">
 						</div>
 					</p>
 				</form>
@@ -595,16 +605,16 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 	</div>
 </div>*}
 
-<div class="ndiv" id="div_sku_group_popup" style="position:absolute;left:150;top:150;display:none;z-index:2000;">
+<div class="ndiv" id="div_sku_group_popup" style="position:absolute;left:420;top:100;display:none;z-index:2000;">
 	<div class="blur">
 		<div class="shadow">
 			<div class="content">
-				<div style="height:20px;background-color:#6883C6;position:absolute;left:0;top:0;width:100%;color:white;font-weight:bold;padding:2px;" id="div_sku_group_popup_header">
-					<div class=small style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(closeDiv())"><img src=ui/closewin.png border=0 align=absmiddle></a></div>
-					SKU Group Information
+				<div style="background-color: gainsboro; padding: 10px; height:30px;position:absolute;left:0;top:0;width:100%;font-weight:bold;padding:2px;" id="div_sku_group_popup_header">
+					<div class=small style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(closeDiv())"><span class="mt-1"><img src=ui/closewin.png border=0 align=absmiddle></span></a></div>
+					<div class="mt-1">SKU Group Information</div>
 				</div>
 								
-				<div id="div_sku_group_popup_content" style="margin-top:20px;min-width:400px;min-height:400px;">
+				<div id="div_sku_group_popup_content" style="padding: 10px; margin-top:20px;min-width:400px;min-height:400px; background-color: #ffffff;">
 					<form method=post name="f_a" target="_irs" onSubmit="return false;">
 						<input type="hidden" name="a" value="">
 						<input type="hidden" name="sku_group_id" value="">
@@ -615,7 +625,7 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 							<div id="div_sku_group">{include file="sku_items_autocomplete_multiple_sku_group.tpl"}</div>
 							<div align="right">
 								<input class="btn btn-primary" type="button" value="Save" onClick="submitForm();" id="btn_save">
-								<input class="btn btn-primary" type="button" value="Close" onclick="closeDiv();">
+								<input class="btn btn-danger" type="button" value="Close" onclick="closeDiv();">
 							</div>
 						</p>
 					</form>

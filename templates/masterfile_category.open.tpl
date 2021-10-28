@@ -81,21 +81,21 @@
 	
 	<table id="tb">
 		<tr>
-			<td><b>Code</b> (Optional)</td>
+			<td><b class="form-label mt-2">Code</b> (Optional)</td>
 			<td>
-				<input onBlur="uc(this)" id="cat_code_id" name="code" size="17" maxlength="15" value="{$form.code}" />
+				<input class="form-control mt-2" onBlur="uc(this)" id="cat_code_id" name="code" size="17" maxlength="15" value="{$form.code}" />
 			</td>
 		</tr>
 		<tr>
-			<td><b>Description</b></td>
+			<td><b class="form-label">Description<span class="text-danger" title="Required Field"> *</span></b></td>
 			<td>
-				<input onBlur="uc(this)" name="description" size="50" value="{$form.description}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+				<input class="form-control" onBlur="uc(this)" name="description" size="50" value="{$form.description}" /> 
 			</td>
 		</tr>
 		<tr>
-			<td valign="top"><b>Area</b> (Optional)</td>
+			<td valign="top"><b class="form-label">Area</b> (Optional)</td>
 			<td>
-				<input onBlur="this.value=round2(this.value)" name="area" size="20" value="{$form.area}" />
+				<input class="form-control" onBlur="this.value=round2(this.value)" name="area" size="20" value="{$form.area}" />
 			</td>
 		</tr>
 		{if $form.level<4}
@@ -103,7 +103,7 @@
 				{* Category Discount *}
 				<tr>
 					<td valign="top">
-						<b>Discount</b>
+						<b class="form-label">Discount</b>
 						<a href="javascript:void(alert('Note: Branches and member type Settings only available at counter BETA v168.\n\nInherit: Member Type (Branch) -> Member Type (All) -> Member (Branch) -> Member (All)\n\nRequire privilege CATEGORY_DISCOUNT_EDIT to use this.'));">
 							<img src="/ui/icons/information.png" align="absmiddle" />
 						</a>
@@ -117,7 +117,7 @@
 				{* Category Points *}
 				<tr>
 					<td valign="top">
-						<b>Reward Point</b>
+						<b class="form-label">Reward Point</b>
 						<a href="javascript:void(alert('Note: Branches and member type Settings only available at counter BETA v168.\n\nInherit: Member Type (Branch) -> Member Type (All) -> Member (Branch) -> Member (All) \n\nRequire privilege MEMBER_POINT_REWARD_EDIT to use this.'));">
 							<img src="/ui/icons/information.png" align="absmiddle" />
 						</a>
@@ -132,7 +132,7 @@
 				{if $config.membership_enable_staff_card and $config.membership_staff_type}
 					<tr>
 						<td valign="top">
-							<b>Staff Discount</b>
+							<b class="form-label">Staff Discount</b>
 							<a href="javascript:void(alert('Note: Branches and Staff type Settings only available at counter alpha version.\n\nInherit: Staff Type (Branch) -> Staff Type (All) -> Staff (Branch) -> Staff (All)\n\nRequire privilege CATEGORY_STAFF_DISCOUNT_EDIT to use this.'));">
 								<img src="/ui/icons/information.png" align="absmiddle" />
 							</a>
@@ -148,7 +148,7 @@
 		{*if $form.level < 11}
 			<!-- Return Policy Settings -->
 			<tr>
-				<td valign="top"><b>Return Policy Settings</b></td>
+				<td valign="top"><b class="form-label">Return Policy Settings</b></td>
 				<td style="padding:2px;">
 					<table class="report_table">
 						{foreach from=$branch_list key=bid item=b}
@@ -156,7 +156,7 @@
 								<tr>
 									<th>{$b.code}</th>
 									<td>
-										<select name="return_policy[{$bid}]">
+										<select class="form-control" name="return_policy[{$bid}]">
 											<option value="">No Return Policy</option>
 											{if $form.level > 1}
 												<option value="inherit" {if $form.return_policy.$bid eq 'inherit'}selected{/if}>Inherit (Follow Category)</option>
@@ -182,18 +182,18 @@
 		{if $form.level==2}
 			<tbody id="grn_options">
 				<tr>
-					<td valign="top"><b>Show PO Qty<br>in GRN Worksheet</b></td>
+					<td valign="top"><b class="form-label">Show PO Qty<br>in GRN Worksheet</b></td>
 					<td>
-						<select name="grn_po_qty">
+						<select class="form-control" name="grn_po_qty">
 							<option value="0">No</option>
 							<option value="1" {if $form.grn_po_qty eq 1}selected {/if}>Yes</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top"><b>GRN with Weight</b></td>
+					<td valign="top"><b class="form-label">GRN with Weight</b></td>
 					<td>
-						<select name="grn_get_weight">
+						<select class="form-control" name="grn_get_weight">
 							<option value="0">No</option>
 							<option value="1" {if $form.grn_get_weight eq 1}selected {/if}>Yes</option>
 						</select>
@@ -206,13 +206,13 @@
 				<td colspan="2">
 					<div id="photo_tb">
 						<br>
-						<b>Photos required for SKU Application</b>
+						<b class="form-label">Photos required for SKU Application</b>
 						<table>
 							{foreach from=$sku_type key=k item=t}
 								<tr>
-									<td>{$t.description}</td>
+									<td class="form-label">{$t.description}</td>
 									<td>
-										<select name="min_sku_photo[{$k}]">
+										<select class="form-control" name="min_sku_photo[{$k}]">
 											<option value="-1" {if $form.min_sku_photo.$k eq -1}selected {/if}>Inherit (Follow parent category)</option>
 											<option value="0" {if $form.min_sku_photo.$k eq 0}selected {/if}>Not required</option>
 											<option value="1" {if $form.min_sku_photo.$k eq 1}selected {/if}>At least 1</option>
@@ -233,9 +233,9 @@
 		{if $config.enable_no_inventory_sku}
 			<!-- No Inventory-->
 			<tr>
-				<td><b>SKU Without Inventory</b></td>
+				<td><b class="form-label">SKU Without Inventory</b></td>
 				<td>
-				    <select name="no_inventory">
+				    <select class="form-control" name="no_inventory">
 						{if $form.level ne 1}
 							<option value="inherit" {if !$form.no_inventory || $form.no_inventory eq "inherit"}selected {/if}>Inherit</option>
 						{/if}
@@ -255,9 +255,9 @@
 		{if $config.enable_fresh_market_sku}
 			<!-- Is Fresh Market SKU-->
 			<tr>
-				<td><b>Is Fresh Market SKU</b></td>
+				<td><b class="form-label">Is Fresh Market SKU</b></td>
 				<td>
-				    <select name="is_fresh_market">
+				    <select class="form-control" name="is_fresh_market">
 						{if $form.level ne 1}
 							<option value="inherit" {if !$form.is_fresh_market || $form.is_fresh_market eq "inherit"}selected {/if}>Inherit</option>
 						{/if}
@@ -276,9 +276,9 @@
 
 		{if $is_gst}
 		<tr>
-			<td><b>Input Tax</b></td>
+			<td><b class="form-label">Input Tax</b></td>
 			<td>
-				<select name="input_tax">
+				<select class="form-control" name="input_tax">
 					{if $form.level eq 1}
 						<option value="-1">Inherit (Follow GST Setting: {$root_info.input_tax.code} [{$root_info.input_tax.rate}%])</option>
 					{/if}
@@ -293,9 +293,9 @@
 		</tr>
 
 		<tr>
-			<td><b>Output Tax</b></td>
+			<td><b class="form-label">Output Tax</b></td>
 			<td>
-				<select name="output_tax">
+				<select class="form-control" name="output_tax">
 					{if $form.level eq 1}
 						<option value="-1">Inherit (Follow GST Setting: {$root_info.output_tax.code} [{$root_info.output_tax.rate}%])</option>
 					{/if}
@@ -311,9 +311,9 @@
 
 		{if $form.inclusive_tax eq 'no' or $root_info.inclusive_tax eq 'no'}
 			<tr>
-				<td><b>Selling Price Inclusive Tax</b></td>
+				<td><b class="form-label">Selling Price Inclusive Tax</b></td>
 				<td>
-					<select name="inclusive_tax">
+					<select class="form-control" name="inclusive_tax">
 						<option value="inherit" {if $form.inclusive_tax eq 'inherit'}selected {/if}>
 							Inherit (Follow {if $form.level eq 1}GST Settings{else}Parent Category{/if}: {$root_info.inclusive_tax|@ucwords})
 						</option>
@@ -328,9 +328,9 @@
 		{/if}
 		{if $form.level gt 1}
 		<tr>
-			<td><b>Can Auto load all po items for GRN</b></td>
+			<td><b class="form-label">Can Auto load all po items for GRN</b></td>
 			<td>
-				<select name="grn_auto_load_po_items">
+				<select class="form-control" name="grn_auto_load_po_items">
 					<option value="0" {if $form.grn_auto_load_po_items eq "0"}selected {/if}>No</option>
 					<option value="1" {if $form.grn_auto_load_po_items eq "1"}selected {/if}>Yes</option>
 				</select>
@@ -340,9 +340,9 @@
 		
 		{if $config.enable_one_color_matrix_ibt && $form.level >= 2}
 			<tr>
-				<td><b>Use Matrix Settings</b></td>
+				<td><b class="form-label">Use Matrix Settings</b></td>
 				<td>
-					<select name="use_matrix" onchange="matrix_changed();">
+					<select class="form-control" name="use_matrix" onchange="matrix_changed();">
 						{if $form.level >= 3}
 							<option value="inherit" {if !$form.use_matrix || $form.use_matrix eq "inherit"}selected {/if}>Inherit</option>
 						{/if}
@@ -362,8 +362,8 @@
 		
 		{* if $config.enable_suite_device}
 		<tr>
-			<td><b>Show in ARMS Suite POS Dashboard</b></td>
-			<td><input name="show_in_suite_pos" value="1" type="checkbox" {if $form.show_in_suite_pos}checked{/if} /></td>
+			<td><b class="form-label">Show in ARMS Suite POS Dashboard</b></td>
+			<td><input class="form-control" name="show_in_suite_pos" value="1" type="checkbox" {if $form.show_in_suite_pos}checked{/if} /></td>
 		</tr>
 		{/if *}
 		
@@ -415,9 +415,9 @@
 		{/if}
 
 		<tr>
-			<td><b>Hide category at POS</b></td>
+			<td><b class="form-label">Hide category at POS</b></td>
 			<td>
-			    <select name="hide_at_pos">
+			    <select class="form-control" name="hide_at_pos">
 					<option value="1" {if $form.hide_at_pos}selected {/if}>Yes</option>
 					<option value="0" {if !$form.hide_at_pos}selected {/if}>No</option>
 			    </select>
@@ -426,7 +426,7 @@
 
 		<tr>
 			<td colspan="2">
-				<h5>PROMOTION / POS IMAGE <img src="/ui/add.png" align=absmiddle onclick="add_image({$form.id})"></h5>
+				<h6>PROMOTION / POS IMAGE <img src="/ui/add.png" align=absmiddle onclick="add_image({$form.id})"></h6>
 				<div id=cat_photo>
 				{if $form.cat_photo}
 				<div id="pos_img" class=imgrollover>
@@ -442,23 +442,24 @@
 			<td align="center" colspan="2">
 				<br>
 				<input class="btn btn-success" type="button" value="Save" onClick="save_category();" id="btn_save_cat" />  
-				<input class="btn btn-error" type="button" value="Close" onClick="default_curtain_clicked();" />
+				<input class="btn btn-danger" type="button" value="Close" onClick="default_curtain_clicked();" />
 			</td>
 		</tr>
 	</table>
 </form>
 
 <!-- popup div -->
-<div id=upload_popup style="display:none;">
+<div id=upload_popup   style="display:none;">
 <form onsubmit="return upload_check()" name=upl target=_ifs enctype="multipart/form-data" method=post>
 <h4>Select an image</h4>
-<input type=hidden name=a value="add_photo">
+&nbsp;&nbsp;&nbsp;<input type=hidden name=a value="add_photo">
 <input type=hidden name=id value="0"> 
 <input name=fnew type=file><br>
 <ul>
 	<li>Photo must be a valid JPEG image or JPG file.</li>
 </ul>
-<br><input type=submit value="Upload"> <input type=button value="Cancel" onclick="curtain_clicked2()">
+<input type=submit value="Upload" class="btn btn-sm btn-primary">
+ <input type=button value="Cancel" class="btn btn-sm btn-danger" onclick="curtain_clicked2()">
 </form>
 <iframe name=_ifs width=1 height=1 style="visibility:hidden"></iframe>
 </div>

@@ -18,13 +18,13 @@
 			</th>
 		</tr>
 		<tr class="header">
-			<th>All
-				<input type="checkbox" name="category_disc_by_branch[0][set_override]" value="1" {if $form.category_disc_by_branch.0.set_override}checked {/if} title="Override" onChange="category_discount_branch_override_changed(0);" id="inp_category_disc_override-0" {if !$is_edit || !$sessioninfo.privilege.CATEGORY_DISCOUNT_EDIT}disabled {/if} />
+			<th >All
+				<input  type="checkbox" name="category_disc_by_branch[0][set_override]" value="1" {if $form.category_disc_by_branch.0.set_override}checked {/if} title="Override" onChange="category_discount_branch_override_changed(0);" id="inp_category_disc_override-0" {if !$is_edit || !$sessioninfo.privilege.CATEGORY_DISCOUNT_EDIT}disabled {/if} />
 			</th>
 			{if !$hide_branches}
 				{foreach from=$branch_list key=bid item=b}
 					{if $bid>1}
-						<th>{$b.code}
+						<th >{$b.code}
 							<input type="checkbox" name="category_disc_by_branch[{$bid}][set_override]" value="1" {if $form.category_disc_by_branch.$bid.set_override}checked {/if} title="Override" onChange="category_discount_branch_override_changed('{$bid}');" id="inp_category_disc_override-{$bid}" {if !$is_edit || !$sessioninfo.privilege.CATEGORY_DISCOUNT_EDIT}disabled {/if} />
 						</th>
 					{/if}
@@ -34,7 +34,7 @@
 
 		<!-- Member -->
 		<tr>
-			<td><b>Member</b></td>
+			<td><b class="form-label">Member</b></td>
 			<td nowrap>
 				{include file='masterfile_category.open.discount.input.tpl' bid=0 member_col='member' is_edit=$is_edit b_cat_disc=$form.category_disc_by_branch.0 editable=$form.category_disc_by_branch.0.set_override}
 			</td>
@@ -51,7 +51,7 @@
 		
 		<!-- Non-member -->
 		<tr>
-			<td><b>Non-Member</b></td>
+			<td><b class="form-label">Non-Member</b></td>
 			<td nowrap>
 				{include file='masterfile_category.open.discount.input.tpl' bid=0 is_edit=$is_edit b_cat_disc=$form.category_disc_by_branch.0 editable=$form.category_disc_by_branch.0.set_override}
 			</td>
@@ -80,7 +80,7 @@
 			{/if}
 			
 			<tr>
-				<td><b>{$mtype_desc}</b></td>
+				<td><b class="form-label">{$mtype_desc}</b></td>
 				<td nowrap>
 					{include file='masterfile_category.open.discount.input.tpl' bid=0 is_edit=$is_edit member_col='member' type_col=$mt b_cat_disc=$form.category_disc_by_branch.0 editable=$form.category_disc_by_branch.0.set_override}
 				</td>

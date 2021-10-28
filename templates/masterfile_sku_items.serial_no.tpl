@@ -435,106 +435,130 @@ function toggle_sn_choice(obj){
 	<div class="small" style="position:absolute; right:10px;">
 		<a href="javascript:void(curtain_clicked())"><img src=ui/closewin.png border=0 align=absmiddle></a>
 	</div>
-	<p><b>
-	<font color="#f00;">Important:</font><br>
+	<div class="alert alert-primary rounded mx-3">
+		<b>Important:</b><br>
 	* To insert different S/N, press "Enter" to proceed next row.<br />
 	* To use insert S/N by range, the S/N MUST in numberic format.
-	</b></p>
+	</div>
+	
 	<form name="f_sn" method="post">
 		<hr>
-		<b>Insert S/N by <input type="radio" name="sn_choice" value="1" onclick="toggle_sn_choice(this);" checked> List <input type="radio" name="sn_choice" value="2" onclick="toggle_sn_choice(this);"> Range</b><br />
+		<b class="form-label">Insert S/N by <input type="radio" name="sn_choice" value="1" onclick="toggle_sn_choice(this);" checked> List <input type="radio" name="sn_choice" value="2" onclick="toggle_sn_choice(this);"> Range</b><br />
 		<table width="100%">
 			<tr id="tr_sn_list">
 				<td colspan="2">
-					<textarea name="serial_no_list" id="serial_no_list" cols="30" rows="{$sn_rows}" wrap="off"></textarea>
+					<textarea class="form-control" name="serial_no_list" id="serial_no_list" cols="30" rows="{$sn_rows}" wrap="off"></textarea>
 					<br />&nbsp;&nbsp;<i><span id="linecount">0</span> Item(s)</i>
 				</td>
 			</tr>
 			<tbody id="tbody_sn_by_range" style="display:none;">
 				<tr>
-					<td width="30"><b>From</b></td>
-					<td><input type="text" name="sn_from" size="15" onchange="mi(this);" /></td>
+					<td width="30" ><b class="form-label">From</b></td>
+					<td><input class="form-control" type="text" name="sn_from" size="15" onchange="mi(this);" /></td>
 				</tr>
 				<tr>
-					<td><b>To</b></td>
-					<td><input type="text" name="sn_to" size="15" onchange="mi(this);" /></td>
+					<td><b class="form-label">To</b></td>
+					<td><input class="form-control" type="text" name="sn_to" size="15" onchange="mi(this);" /></td>
 				</tr>
 			</tbody>
 			<tr>
-				<td><b>Remarks</b></td>
-				<td><textarea type="text" name="remark" cols="22" rows="3" /></textarea></td>
+				<td><b class="form-label">Remarks</b></td>
+				<td><textarea class="form-control" type="text" name="remark" cols="22" rows="3" /></textarea></td>
 			</tr>
 			<tr align="center">
 				<td colspan="2">
-					<input type="button" value="Add" onclick="add_sn_items(this);">
-					<input type="button" value="Back" onclick="curtain_clicked();">
+					<input type="button" class="btn btn-primary" value="Add" onclick="add_sn_items(this);">
+					<input type="button" class="btn btn-danger" value="Back" onclick="curtain_clicked();">
 				</td>
 			</tr>
 		</table>
 	</form>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 <div class=stdframe style="background:#fff;">
 <div id=history_popup style="padding:5px;border:1px solid #000;overflow:hidden;width:300px;height:300px;position:absolute;background:#fff;display:none;">
 <div style="text-align:right"><img src="/ui/closewin.png" onclick="Element.hide('history_popup')"></div>
 <div id=history_popup_content></div>
 </div>
-<form name="f_a" method="post">
-<input type="hidden" name="a" value="search">
-<table>
-<tr>
-	{if $BRANCH_CODE eq 'HQ'}
-		<td><b>Located Branch</b></td>
-		<td>
-			<select name="branch_id" onKeyPress="return disableEnterKey(event);" onchange="if(document.f_a.sku_item_id.value) find_items(); ">
-				<option value="">-- All --</option>
-				{foreach from=$branch_list item=r}
-					<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
-					{if $smarty.request.branch eq $r.id}
-						{assign var=bcode value=$r.code}
-					{/if}
-				{/foreach}
-			</select>&nbsp;&nbsp;&nbsp;&nbsp;
-			<b>Serial No</b> <input type="text" name="sn_filter" value="{$form.sn_filter}">
-		</td>
-	{else}
-		<td><b>Serial No</b></td>
-		<td><input type="text" name="sn_filter" value="{$form.sn_filter}"></td>
-	{/if}
-</tr>
-<tr>
-	<th align="left">Search SKU</th>
-	<td {if $BRANCH_CODE eq 'HQ'}colspan="3"{/if}>
-		<input name="sku_item_id" size=3 type=hidden>
-		<input name="sku_item_code" size=13 type=hidden>
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" onchange="clear_dtl();" onKeyPress="return disableEnterKey(event);" style="font-size:14px;width:500px;">
-		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td {if $BRANCH_CODE eq 'HQ'}colspan="3"{/if}>
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-		<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-	</td>
-</tr>
-<tr>
-	<td>&nbsp;</td>
-	<td colspan="2">
-		<input class="btn btn-primary" type="button" value="Search" onclick="find_items(this);">
-		{if file_exists('masterfile_sku_items.serial_no.import_grn_items.php')}
-			<input class="btn btn-primary" type="button" value="Import from GRN" onclick="window.open('masterfile_sku_items.serial_no.import_grn_items.php', '_blank');">
-		{/if}
-	</td>
-</tr>
-</table>
 
-<input name="item_del_list" type="hidden">
-<div id="serial_no_div"></div>
-</form>
+		<form name="f_a" method="post">
+			<div class="card mx-3">
+				<div class="card-body">
+			<input type="hidden" name="a" value="search">
+			<table>
+			<tr>
+				
+					{if $BRANCH_CODE eq 'HQ'}
+					<div class="row">
+						<div class="col-md-6">
+				
+								<b class="form-label">Located Branch</b>
+						<select class="form-control" name="branch_id" onKeyPress="return disableEnterKey(event);" onchange="if(document.f_a.sku_item_id.value) find_items(); ">
+							<option value="">-- All --</option>
+							{foreach from=$branch_list item=r}
+								<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
+								{if $smarty.request.branch eq $r.id}
+									{assign var=bcode value=$r.code}
+								{/if}
+							{/foreach}
+						</select>
+							
+						</div>
+						<div class="col-md-6">
+							
+								<b class="form-label">Serial No</b> <input class="form-control" type="text" name="sn_filter" value="{$form.sn_filter}">
+							
+						</div>
+					
+					</div>
+				{else}
+					<td><b>Serial No</b></td>
+					<td><input type="text" name="sn_filter" value="{$form.sn_filter}"></td>
+				{/if}
+				
+			</tr>
+			<tr>
+				<th align="left" class="form-label mt-3">Search SKU</th>
+				<td {if $BRANCH_CODE eq 'HQ'}colspan="3"{/if}>
+					<input name="sku_item_id" size=3 type=hidden>
+					<input name="sku_item_code" size=13 type=hidden>
+					<input class="form-control mt-2" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" onchange="clear_dtl();" onKeyPress="return disableEnterKey(event);" style="font-size:14px;width:500px;">
+					<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td {if $BRANCH_CODE eq 'HQ'}colspan="3"{/if}>
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+					<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2">
+					<input class="btn btn-primary mt-3" type="button" value="Search" onclick="find_items(this);">
+					{if file_exists('masterfile_sku_items.serial_no.import_grn_items.php')}
+						<input class="btn btn-info mt-3" type="button" value="Import from GRN" onclick="window.open('masterfile_sku_items.serial_no.import_grn_items.php', '_blank');">
+					{/if}
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>			
+			<input name="item_del_list" type="hidden">
+			<div id="serial_no_div"></div>
+			</form>
+	
 {include file="footer.tpl"}
 {literal}
 <script>

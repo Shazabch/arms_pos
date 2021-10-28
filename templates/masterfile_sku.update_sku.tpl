@@ -20,14 +20,7 @@
 }
 
 #download_csv{
-	background-color: #32405b;
-	border-color: #32405b;
-	color: #fff;
-	padding: 4px 12px;
-	font-size: 13px;
-	line-height: 1.42857143;
-	vertical-align: middle;
-	font-weight: bold;
+
 }
 </style>
 {/literal}
@@ -111,70 +104,89 @@ var UPDATE_SKU_INFO = {
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm}
 	<div class="errmsg">
+	<div class="alert alert-danger rounded mx-3">
 		<ul>
 			<li>{$errm}</li>
 		</ul>
+	</div>
 	</div>
 {/if}
 <span id="span_loading" style="display:none; background:yellow; padding:2px;">
 	<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 </span>
-<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" >
-	<input type="hidden" name="a" value="download_csv" />
-	<input type="hidden" name="method" value="1" />
-	<span style="color:#0000ff;">
-	Note:<br />
-	* This module will update the SKU Info.<br />
-	* The SKU Code column can be the ARMS Code, MCode, {$config.link_code_name} or Artno.<br />
-	</span><br>
-	<table>
-		<tr>
-			<td><b>Fields To Update</td>
-			<td>
-				{foreach from=$fields key=field_id item=field}
-					{assign var="hide" value="0"}
-					{assign var="field" value=$field}
-					{if $field_id eq 'rsp_discount'}
-						{assign var="hide" value="1"}
-					{/if}
-					{if $field_id eq 'rsp_price'}
-						{assign var="field" value="RSP and RSP Discount"}
-					{/if}
-					<span {if $hide}style="display:none;"{/if}><input type="checkbox" id="{$field_id}" name="fields[]" value="{$field_id}" >{$field}<br></span>
-				{/foreach}
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="Submit" value="Download Sample CSV File" name="download_csv" id="download_csv" />
-			</td>
-		</tr>
-	</table>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" >
+			<input type="hidden" name="a" value="download_csv" />
+			<input type="hidden" name="method" value="1" />
+			<span >
+		<div class="alert alert-primary rounded">
+			<b>Note:</b><br />
+			* This module will update the SKU Info.<br />
+			* The SKU Code column can be the ARMS Code, MCode, {$config.link_code_name} or Artno.<br />
+		</div>
+			</span>
+			<br>
+			<table>
+				<tr>
+					<td><b class="form-label ">Fields To Update</td>
+					<td>
+						{foreach from=$fields key=field_id item=field}
+							{assign var="hide" value="0"}
+							{assign var="field" value=$field}
+							{if $field_id eq 'rsp_discount'}
+								{assign var="hide" value="1"}
+							{/if}
+							{if $field_id eq 'rsp_price'}
+								{assign var="field" value="RSP and RSP Discount"}
+							{/if}
+							<span {if $hide}style="display:none;"{/if}><input type="checkbox" id="{$field_id}" name="fields[]" value="{$field_id}" >{$field}<br></span>
+						{/foreach}
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="Submit" class="btn btn-primary mt-2" value="Download Sample CSV File" name="download_csv" id="download_csv" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
 <br>
 <form name="f_b" enctype="multipart/form-data" class="stdframe" onsubmit="return UPDATE_SKU_INFO.validate(this);" method="post">
 	<input type="hidden" name="a" value="upload_csv" />
 	<input type="hidden" name="method" value="1" />
 	<input type="hidden" name="file_name" value="{$file_name}" />
 
-	<table>
-		<tr>
-			<td><b>Upload CSV</b>&emsp;&emsp;</td>
-			<td>
-				<input type="file" name="update_csv"/>
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>
-				<input type="Submit" value="Show Result" name="upload_csv" />
-			</td>
-		</tr>
-	</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<table>
+			<tr>
+				<td><b class="form-label">Upload CSV</b></td>
+				<td>
+					<input type="file" name="update_csv"/>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="Submit" class="btn btn-primary mt-2" value="Show Result" name="upload_csv" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
 	<div class="div_tbl" style="display: none;">
 		<h3>Sample</h3>
 		<table id="si_tbl" width="25%">

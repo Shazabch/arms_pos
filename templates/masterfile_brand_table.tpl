@@ -31,32 +31,42 @@ Page:&nbsp;&nbsp;
 {/if}
 <span style="color:#CE0000;"><b>(Total of {$bcount} records)</b></span>
 <br /><br />
-<table class="sortable" id="brand_tbl" border=0 cellpadding=4 cellspacing=1>
-<tr>
-{if $sessioninfo.privilege.MST_BRAND}
-<th bgcolor="{#TB_CORNER#}" width="40">&nbsp;</th>
-{/if}
-<th bgcolor="{#TB_COLHEADER#}">&nbsp;</th>
-<th bgcolor="{#TB_COLHEADER#}">Code</th>
-<th bgcolor="{#TB_COLHEADER#}">Description</th>
-<th bgcolor="{#TB_COLHEADER#}">SKU in-used</th>
-</tr>
-{section name=i loop=$brands}
-<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
-{if $sessioninfo.privilege.MST_BRAND}
-<td bgcolor={#TB_ROWHEADER#} nowrap>
-<a href="javascript:void(ed({$brands[i].id}))"><img src=ui/ed.png title="Edit" border=0></a>
-<a href="javascript:void(act({$brands[i].id},{if $brands[i].active}0))"><img src=ui/deact.png title="Deactivate" border=0>{else}1))"><img src=ui/act.png title="Activate" border=0>{/if}</a>
-</td>
-{/if}
-<td><a href="javascript:void(showtd({$brands[i].id}, '{$brands[i].description|escape:"javascript"}'))"><img src=ui/table.png title="open Trade Discount Table" border=0></a></td>
-<td><b>{$brands[i].code}</b>{if !$brands[i].active}<br><span class=small>(inactive)</span>{/if}</td>
-<td>{$brands[i].description}</td>
-{assign var=bid value=`$brands[i].id`}
-<td><a href="/masterfile_sku.php?load=1&brand_id={$brands[i].id}" title="Show SKU" target=_blank>{$brand_count[$bid]}</a></td>
-</tr>
-{/section}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive" class=" table mb-0 text-md-nowrap  table-hover">
+			<table class="sortable" id="brand_tbl" width="100%">
+				<thead class="bg-gray-100">
+					<tr>
+						{if $sessioninfo.privilege.MST_BRAND}
+						<th width="40">&nbsp;</th>
+						{/if}
+						<th >&nbsp;</th>
+						<th >Code</th>
+						<th >Description</th>
+						<th >SKU in-used</th>
+						</tr>
+				</thead>
+				{section name=i loop=$brands}
+				<tbody class="fs-08">
+					<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
+						{if $sessioninfo.privilege.MST_BRAND}
+						<td bgcolor={#TB_ROWHEADER#} nowrap>
+						<a href="javascript:void(ed({$brands[i].id}))"><img src=ui/ed.png title="Edit" border=0></a>
+						<a href="javascript:void(act({$brands[i].id},{if $brands[i].active}0))"><img src=ui/deact.png title="Deactivate" border=0>{else}1))"><img src=ui/act.png title="Activate" border=0>{/if}</a>
+						</td>
+						{/if}
+						<td><a href="javascript:void(showtd({$brands[i].id}, '{$brands[i].description|escape:"javascript"}'))"><img src=ui/table.png title="open Trade Discount Table" border=0></a></td>
+						<td><b>{$brands[i].code}</b>{if !$brands[i].active}<br><span class=small>(inactive)</span>{/if}</td>
+						<td>{$brands[i].description}</td>
+						{assign var=bid value=`$brands[i].id`}
+						<td><a href="/masterfile_sku.php?load=1&brand_id={$brands[i].id}" title="Show SKU" target=_blank>{$brand_count[$bid]}</a></td>
+						</tr>
+				</tbody>
+				{/section}
+				</table>
+		</div>
+	</div>
+</div>
 {if $smarty.request.a ne 'ajax_reload_table'}
 </div>
 

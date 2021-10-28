@@ -128,108 +128,132 @@ function tdloaded()
 }
 </script>
 {/literal}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">Brand Master File</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			{if $sessioninfo.privilege.MST_BRAND}
+				<li>
+					<a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Brand</a> (Alt+A)
+				</li>
+			{/if}
+			<li>
+				<a href="report.brand_discount_table.php" target="_blank">
+					<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
+					Brand Discount Table
+				</a>
+			</li>
+			<li>
+				<a href="?a=export_brand" target="_blank">
+					<img src="ui/new.png" title="Export As CSV" align="absmiddle" border="0" />
+					Export As CSV
+				</a>		
+			</li>
+		</ul>
+	</div>
+</div>
 
-<h1>Brand Master File</h1>
-
-<ul>
-	{if $sessioninfo.privilege.MST_BRAND}
-		<li>
-			<a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Brand</a> (Alt+A)
-		</li>
-	{/if}
-	<li>
-	    <a href="report.brand_discount_table.php" target="_blank">
-			<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
-			Brand Discount Table
-		</a>
-	</li>
-	<li>
-		<a href="?a=export_brand" target="_blank">
-			<img src="ui/new.png" title="Export As CSV" align="absmiddle" border="0" />
-			Export As CSV
-		</a>		
-	</li>
-</ul>
-
-<form name="search_form" id="search_form" onsubmit="return reload_table()">
-<p>
-<b>Description</b> :&nbsp;
-	<input type="text" name="desc" size="15" />
-
-&nbsp;&nbsp;&nbsp;
-	
-<b>Status</b> :&nbsp;
-	<select name="status">
-		<option value="">All</option>
-		<option value="1">Active</option>
-		<option value="0">Inactive</option>
-	</select>
-
-&nbsp;&nbsp;&nbsp;
-
-<b>Starts With</b> :&nbsp;
-	<select name="starts_with">
-		<option value="">All</option>
-		<option value="A">A</option>
-		<option value="B">B</option>
-		<option value="C">C</option>
-		<option value="D">D</option>
-		<option value="E">E</option>
-		<option value="F">F</option>
-		<option value="G">G</option>
-		<option value="H">H</option>
-		<option value="I">I</option>
-		<option value="J">J</option>
-		<option value="K">K</option>
-		<option value="L">L</option>
-		<option value="M">M</option>
-		<option value="N">N</option>
-		<option value="O">O</option>
-		<option value="P">P</option>
-		<option value="Q">Q</option>
-		<option value="R">R</option>
-		<option value="S">S</option>
-		<option value="T">T</option>
-		<option value="U">U</option>
-		<option value="V">V</option>
-		<option value="W">W</option>
-		<option value="X">X</option>
-		<option value="Y">Y</option>
-		<option value="Z">Z</option>
-		<option value="others">Others</option>
-	</select>
-<input type=button value="Search" onclick="reload_table()" />
-</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="search_form" id="search_form" onsubmit="return reload_table()">
+			<p>
+				<div class="row">
+					
+			<div class="col-md-3">
+				<b>Description :</b> 
+			<input type="text" class="form-control" name="desc" size="15" />
+		
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Status :</b> 
+				<select class="form-control" name="status">
+					<option value="">All</option>
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
+				</select>
+		
+			</div>
+		
+		<div class="col-md-3">
+			<b class="form-label">Starts With :</b> 
+			<select class="form-control" name="starts_with">
+				<option value="">All</option>
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+				<option value="E">E</option>
+				<option value="F">F</option>
+				<option value="G">G</option>
+				<option value="H">H</option>
+				<option value="I">I</option>
+				<option value="J">J</option>
+				<option value="K">K</option>
+				<option value="L">L</option>
+				<option value="M">M</option>
+				<option value="N">N</option>
+				<option value="O">O</option>
+				<option value="P">P</option>
+				<option value="Q">Q</option>
+				<option value="R">R</option>
+				<option value="S">S</option>
+				<option value="T">T</option>
+				<option value="U">U</option>
+				<option value="V">V</option>
+				<option value="W">W</option>
+				<option value="X">X</option>
+				<option value="Y">Y</option>
+				<option value="Z">Z</option>
+				<option value="others">Others</option>
+			</select>
+		</div>
+		<div class="col-md-3">
+			<input type="button" class="btn btn-primary  mt-4" value="Search" onclick="reload_table()" />
+		</div>
+				</div>
+			</p>
+			</form>
+	</div>
+</div>
 
 {include file=masterfile_brand_table.tpl}
 
 <br>
 
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:150;display:none;">
+<div class="ndiv" id="ndiv" style=" display: none; max-width: 550px;margin-left: 300px; bottom: 350px; background-color: white;">
 <div class="blur"><div class="shadow"><div class="content">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method=post name=f_b target=_irs onSubmit="return check_b()">
-<div id=bmsg style="padding:10 0 10 0px;"></div>
+<div id=bmsg class="ml-2  mt-3" style="padding:10 0 10 0px;"></div>
 <input type=hidden name=a value="a">
 <input type=hidden name=id value="">
 <table id="tb" >
 <tr>
-<td><b>Code</b> (Optional)</td>
-<td><input onBlur="uc(this)" name=code size=10 maxlength=6></td>
+<td><b class="form-label ml-2 mt-2">Code</b> &nbsp;&nbsp;(Optional)</td>
+<td><input class="form-control mt-2" onBlur="uc(this)" name=code size=10 maxlength=6></td>
 </tr><tr>
-<td><b>Description</b></td>
-<td><input onBlur="uc(this)" name=description size=50> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td><b class="form-label ml-2 mt-2">Description<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="form-control mt-2" onBlur="uc(this)" name=description size=50> 
 </tr>
 <td align=center colspan=2>
 <br>
 <div id=abtn style="display:none;">
-<input type=submit value="Add"> <input type=button value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
+<input type=submit class="btn btn-primary mb-2" value="Add"> 
+<input type=button class="btn btn-danger mb-2" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
 </div>
 <div id=ebtn style="display:none;">
-<input type=submit value="Update"> <input type=button value="Restore" onclick="ed(lastn)"> <input type=button value="Close" onclick="f_b.reset(); hidediv('ndiv');">
+<input type=submit class="btn btn-primary mb-2" value="Update"> 
+<input type=button class="btn btn-info mb-2" value="Restore" onclick="ed(lastn)"> 
+<input type=button class="btn btn-danger mb-2" value="Close" onclick="f_b.reset(); hidediv('ndiv');">
 </div>
 </td></tr>
 </table>

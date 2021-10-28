@@ -23,35 +23,44 @@
 {config_load file=site.conf}
 <div id="udiv" class="stdframe">
 
-<table class="sortable" id="sku_group_tbl" border=0 cellpadding=4 cellspacing=1>
-<tr>
-	<th bgcolor="{#TB_CORNER#}" width="40" >&nbsp;</th>
-	<th bgcolor="{#TB_COLHEADER#}" >Code</th>
-	<th bgcolor="{#TB_COLHEADER#}" width="300">Description</th>
-	<th bgcolor="{#TB_COLHEADER#}" >Numbers of<br>SKU</th>
-</tr>
-{foreach from=$sku_group item=r}
-<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
-	<td bgcolor={#TB_ROWHEADER#} nowrap>
-		<a href="javascript:editGroup('{$r.sku_group_id}','{$r.branch_id}');"><img src=ui/ed.png title="Edit" border=0></a>
-		{if $r.can_edit_share}
-		<a href="javascript:deleteGroup('{$r.sku_group_id}','{$r.branch_id}');"><img src=ui/deact.png title="Delete" border=0></a>
-		{/if}
-		
-		{if $config.enable_vendor_portal}
-			<a href="masterfile_sku_group.vp_date_control.php?a=open&sku_group_bid={$r.branch_id}&sku_group_id={$r.sku_group_id}" target="_blank"><img src="/ui/icons/calendar_edit.png" title="Vendor Portal SKU Group Item Date Control" border="0" /></a>
-			{if $r.can_edit_share}
-			<a href="javascript:editShare('{$r.sku_group_id}','{$r.branch_id}');"><img src="/ui/icons/user_add.png" title="Edit share user" border=0 /></a>
-			{/if}
-		{/if}
-	</td>
-
-	<td><b>{$r.code}</b></td>
-	<td nowrap>{$r.description}</td>
-	<td class="r">{$r.item_count|default:'0'}</td>
-</tr>
-{/foreach}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="sortable" width="100%" id="sku_group_tbl" class=" table mb-0 text-md-nowrap  table-hover"
+			>
+				<thead class="bg-gray-100">
+					<tr>
+						<th  >&nbsp;</th>
+						<th >Code</th>
+						<th >Description</th>
+						<th >Numbers of<br>SKU</th>
+					</tr>	
+				</thead>
+				{foreach from=$sku_group item=r}
+				<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
+					<td bgcolor={#TB_ROWHEADER#} nowrap>
+						<a href="javascript:editGroup('{$r.sku_group_id}','{$r.branch_id}');"><img src=ui/ed.png title="Edit" border=0></a>
+						{if $r.can_edit_share}
+						<a href="javascript:deleteGroup('{$r.sku_group_id}','{$r.branch_id}');"><img src=ui/deact.png title="Delete" border=0></a>
+						{/if}
+						
+						{if $config.enable_vendor_portal}
+							<a href="masterfile_sku_group.vp_date_control.php?a=open&sku_group_bid={$r.branch_id}&sku_group_id={$r.sku_group_id}" target="_blank"><img src="/ui/icons/calendar_edit.png" title="Vendor Portal SKU Group Item Date Control" border="0" /></a>
+							{if $r.can_edit_share}
+							<a href="javascript:editShare('{$r.sku_group_id}','{$r.branch_id}');"><img src="/ui/icons/user_add.png" title="Edit share user" border=0 /></a>
+							{/if}
+						{/if}
+					</td>
+				
+					<td><b>{$r.code}</b></td>
+					<td nowrap>{$r.description}</td>
+					<td class="r">{$r.item_count|default:'0'}</td>
+				</tr>
+				{/foreach}
+				</table>
+		</div>
+	</div>
+</div>
 </div>
 
 <script type="text/javascript">

@@ -37,7 +37,7 @@
 		
 		<!-- Member -->
 		<tr>
-			<td><b>Member</b></td>
+			<td><b class="form-label">Member</b></td>
 			<td align="center">
 				{include file='masterfile_category.open.point.input.tpl' bid=0 is_edit=$is_edit b_cat_point=$form.category_point_by_branch.0 editable=$form.category_point_by_branch.0.set_override}
 			</td>
@@ -67,7 +67,7 @@
 			{/if}
 			
 			<tr>
-				<td><b>{$mtype_desc}</b></td>
+				<td><b class="form-label">{$mtype_desc}</b></td>
 				<td align="center">
 					{include file='masterfile_category.open.point.input.tpl' bid=0 is_edit=$is_edit type_col=$mt b_cat_point=$form.category_point_by_branch.0 editable=$form.category_point_by_branch.0.set_override}
 				</td>

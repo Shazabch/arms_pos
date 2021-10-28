@@ -290,13 +290,13 @@ function toggle_all_allowed_user(ele){
 {/literal}
 <table border="0">
 <tr>
-	<td width="100"><b>Code</b></td>
-	<td><input onBlur="uc(this)" name=code size=10 maxlength=6 value="{$table.code}"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+	<td width="100"><b class="form-label">Code<span class="text-danger" title="Required Field"> *</span></b></td>
+	<td><input class="form-control" onBlur="uc(this)" name=code size=10 maxlength=6 value="{$table.code}"> </td>
 	<td colspan="2">&nbsp;</td>
 </tr>
 <tr>
-	<td><b>Description</b></td>
-	<td><input name=description size=50 value="{$table.description}"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+	<td><b class="form-label">Description<span class="text-danger" title="Required Field"> *</span></b></td>
+	<td><input class="form-control" name=description size=50 value="{$table.description}"> 
 		<td colspan="2">&nbsp;</td>
 </tr>
 </table>
@@ -307,11 +307,14 @@ function toggle_all_allowed_user(ele){
 </div>
 <table>
 <tr>
-	<td width="100"><b>Search SKU</b></td>
+	<td width="100"><b class="form-label">Search SKU</b></td>
 	<td>
 		<input id="sku_item_id" name="sku_item_id" size=3 type=hidden>
 		<input id="sku_item_code" name="sku_item_code" size=13 type=hidden>
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off"> <input type=button value="Add" onclick='add_autocomplete()'>
+	<div class="form-inline">
+		<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off"> 
+		&nbsp;&nbsp;<input type=button class="btn btn-primary" value="Add" onclick='add_autocomplete()'>
+	</div>
 		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>
@@ -326,9 +329,9 @@ function toggle_all_allowed_user(ele){
 	</td>
 </tr>
 <tr>
-	<td><b>Department</b></td>
+	<td><b class="form-label">Department</b></td>
 	<td colspan="3">
-	    <select name="dept_id" id="sel_department_id" onChange="dept_changed();">
+	    <select class="form-control" name="dept_id" id="sel_department_id" onChange="dept_changed();">
             <option value="">-- Please Select --</option>
             {foreach from=$departments item=r}
                 <option value="{$r.id}" {if $table.dept_id eq $r.id}selected {/if}>{$r.description}</option>
@@ -338,19 +341,21 @@ function toggle_all_allowed_user(ele){
 	</td>
 </tr>
 <tr>
-	<td><b>Search Vendor</b></td>
+	<td><b class="form-label">Search Vendor</b></td>
 	<td>
-		<input name="vendor_id" id="vendor_id" size=1 value="{$form.vendor_id}" readonly>
-		<input id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
-		<input class="btn btn-primary" type="button" value="Load SKU" onclick="load_vendor_sku()" />
+		<div class="form-inline">
+			<input class="form-control" name="vendor_id" id="vendor_id" size=1 value="{$form.vendor_id}" readonly>
+		&nbsp;&nbsp;<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=50>
+		&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="Load SKU" onclick="load_vendor_sku()" />
+		</div>
 		<div id="autocomplete_vendor_choices" class="autocomplete"></div>
 	</td>
 </tr>
 <tr>
-    <td><b>Branch</b></td>
+    <td><b class="form-label">Branch</b></td>
     <td>
         {if $BRANCH_CODE eq 'HQ'}
-            <select name="vbranch_id" id="vbranch_id">
+            <select class="form-control" name="vbranch_id" id="vbranch_id">
 	            {foreach from=$branches item=r}
 	                <option value="{$r.id}">{$r.code}</option>
 	            {/foreach}
@@ -362,11 +367,14 @@ function toggle_all_allowed_user(ele){
     </td>
 </tr>
 <tr>
-	<td colspan="2"><b>Text format Import (ARMS Code & MCode) Separate with "," (e.g: 9415007022510 &nbsp; ,&nbsp; 9555335609998)</b></td>
+	<td colspan="2"><b class="form-label mt-2">Text format Import (ARMS Code & MCode) Separate with "," (e.g: 9415007022510 &nbsp; ,&nbsp; 9555335609998)</b></td>
 </tr>
 <tr>
-    <td colspan="2"><textarea name="text_import" id="text_import" cols="60"></textarea>
-	<input class="btn btn-primary" type="button" onClick="import_by_text();" value="Import" style="margin-bottom: 40px;" />
+    <td colspan="2">
+		<div class="form-inline">
+			<textarea class="form-control" name="text_import" id="text_import" cols="60"></textarea>
+	&nbsp;&nbsp;<input class="btn btn-primary mt-5" type="button" onClick="import_by_text();" value="Import" style="margin-bottom: 40px;" />
+		</div>
 	</td>
 </tr>
 </table>
@@ -398,8 +406,8 @@ function toggle_all_allowed_user(ele){
 				</tr>
 				<tr>
 					<td>
-						<input type=button value="Remove" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:80px;">
-                        <input type=button value="Clear" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:80px;">
+						<input type=button value="Remove" class="btn btn-danger" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:80px;">
+                        <input type=button value="Clear " class="btn btn-info" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:80px;">
 					</td>
 				</tr>
 			</table>
@@ -417,28 +425,32 @@ function toggle_all_allowed_user(ele){
 
 *}
 
-<div style="height:200px;overflow:auto;border:2px inset grey;">
-	<table class="report_table" width="100%">
-		<tr class="header">
-			<td><input type="checkbox" id="inp_toggle_all_items" onChange="toggle_all_items();" /></td>
-			<th>ARMS Code</th>
-			<th>Artno</th>
-			<th>MCode</th>
-			<th>Description</th>
-			<th>Added by</th>
-			<th>Timestamp</th>
-		</tr>
-		
-		<tbody id="tbody_sku_item_code_row_list">
-			{foreach from=$group_item item=item}
-				{include file="masterfile_sku_group_popup.item_row.tpl"}
-			{/foreach}
-		</tbody>	
-	</table>
+<div class="table-responsive">
+	<div style="height:200px;overflow:auto;border:1px inset grey;">
+		<table class="report_table" width="100%">
+			<div class="thead bg-gray-100">
+				<tr class="header">
+					<td><input type="checkbox" id="inp_toggle_all_items" onChange="toggle_all_items();" /></td>
+					<th>ARMS Code</th>
+					<th>Artno</th>
+					<th>MCode</th>
+					<th>Description</th>
+					<th>Added by</th>
+					<th>Timestamp</th>
+				</tr>
+			</div>
+			
+			<tbody class="fs-08" id="tbody_sku_item_code_row_list">
+				{foreach from=$group_item item=item}
+					{include file="masterfile_sku_group_popup.item_row.tpl"}
+				{/foreach}
+			</tbody>	
+		</table>
+	</div>
 </div>
 <p>
-	<input type="button" class="btn btn-primary" value="Select / Un-select All" onClick="toggle_sku_item_group_select_all();" />
-	<input type="button" class="btn btn-error" value="Delete" onClick="delete_sku_item_group_clicked();" />
+	<input type="button" class="btn btn-primary mt-2" value="Select / Un-select All" onClick="toggle_sku_item_group_select_all();" />
+	<input type="button" class="btn btn-danger mt-2" value="Delete" onClick="delete_sku_item_group_clicked();" />
 	<span id="span_sku_item_group_list_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Processing...</span>
 </p>
 

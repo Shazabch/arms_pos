@@ -141,49 +141,62 @@ var PO_REORDER_QTY_BY_BRANCH_MODULE = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
-<div class="stdframe" style="background:#fff;">
-
-<form name="f_a" method="post">
-<input type="hidden" name="a" value="search">
-<table>
-<tr>
-	<td colspan="2">
-		<ul>
-			<li> This module will only show the item which enable PO Reorder Qty By Child. (Set this in SKU Masterfile)</li>
-		</ul>
-	</td>
-</tr>
-<tr>
-	<th>Search SKU</th>
-	<td>
-		<input name="sku_item_id" size=3 type="hidden" />
-		<input name="sku_item_code" size=13 type="hidden" />
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" onKeyPress="return PO_REORDER_QTY_BY_BRANCH_MODULE.disableEnterKey(event);" style="font-size:14px;width:500px;">
-		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-	</td>
-	<td><input type="button" value="Search" onclick="PO_REORDER_QTY_BY_BRANCH_MODULE.find_items(this);"></td>
-</tr><tr>
-	<td>&nbsp;</td>
-	<td>
-		<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-		<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-		<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-		<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-	</td>
-</tr>
-
-</table>
-
-<div id="div_err_msg" class="errmsg"></div>
-
-<input name="item_del_list" type="hidden">
-<div id="div_sku_items">
-{if $smarty.request.show_type}
-	{include file="masterfile_sku_items.po_reorder_qty_by_branch.items.tpl"}
-{/if}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+
+			<form name="f_a" method="post">
+			<input type="hidden" name="a" value="search">
+			<table>
+			<tr>
+				<td colspan="2">
+					<div class="alert alert-primary rounded">
+						<ul>
+							<li> This module will only show the item which enable PO Reorder Qty By Child. (Set this in SKU Masterfile)</li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th class="form-label">Search SKU</th>
+				<td>
+					<input name="sku_item_id" size=3 type="hidden" />
+					<input name="sku_item_code" size=13 type="hidden" />
+					<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" onKeyPress="return PO_REORDER_QTY_BY_BRANCH_MODULE.disableEnterKey(event);" style="font-size:14px;width:500px;">
+					<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+				</td>
+				<td><input type="button" class="btn btn-primary" value="Search" onclick="PO_REORDER_QTY_BY_BRANCH_MODULE.find_items(this);"></td>
+			</tr><tr>
+				<td>&nbsp;</td>
+				<td>
+					<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+					<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+					<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+					<input onchange="PO_REORDER_QTY_BY_BRANCH_MODULE.reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+				</td>
+			</tr>
+			
+			</table>
+			
+			<div id="div_err_msg" class="errmsg"></div>
+			
+			<input name="item_del_list" type="hidden">
+			<div id="div_sku_items">
+			{if $smarty.request.show_type}
+				{include file="masterfile_sku_items.po_reorder_qty_by_branch.items.tpl"}
+			{/if}
+			</div>
+			</form>
+			</div>
+	</div>
+</div>
 {include file="footer.tpl"}
 {literal}
 <script>

@@ -1,4 +1,4 @@
-{*
+z{*
 12/13/2010 10:37:31 AM Alex
 - add used_time filter
 4/22/2011 11:11:19 AM Alex
@@ -351,7 +351,13 @@ function export_voucher(batch_no, branch_id){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <!-- voucher export -->
 <form name="f_e" method="post">
@@ -469,89 +475,113 @@ function export_voucher(batch_no, branch_id){
 <iframe style="visibility:hidden;" width="1" height="1" name="ifprint"></iframe>
 <form name=f_a class=noprint style="line-height:24px" method="post">
 	<input type='hidden' name=a value="voucher_list">
-	<div class=stdframe style='background:#fff;'>
-		{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name=branch_id onchange="ajax_load_batch(this);">
-			<option value="">All</option>
-			{foreach from=$branches item=branch}
-			<option value="{$branch.id}" {if $branch.id eq $smarty.request.branch_id}selected{/if}>{$branch.code}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		{/if}
-		<b>Batch No</b>
-		<select name="batch_no" id="batch_no_id">
-		{if !$batch_no}
-			<option value="">No Data</option>
-		{else}
-		    <option value="">All</option>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class=stdframe >
+				<div class="row">
+					<div class="col-md-3">
+						{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name=branch_id onchange="ajax_load_batch(this);">
+					<option value="">All</option>
+					{foreach from=$branches item=branch}
+					<option value="{$branch.id}" {if $branch.id eq $smarty.request.branch_id}selected{/if}>{$branch.code}</option>
+					{/foreach}
+				</select>	
+				{/if}
+					</div>
 
-			{foreach from=$batch_no item=bat_no}
-			<option value="{$bat_no.batch_no}" {if $smarty.request.batch_no eq $bat_no.batch_no} selected {/if}>{$bat_no.batch_no}</option>
-			{/foreach}
-		{/if}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Voucher Value({$config.arms_currency.symbol})</b>
-		<select name="voucher_value">
-		    <option value="">All</option>
-			{foreach from=$vs_list item=voucher_value}
-				<option value="{$voucher_value}" {if $smarty.request.voucher_value eq $voucher_value} selected {/if}>{$voucher_value}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Allow Interbranch</b>
-		<select name="interbranch">
-		    <option value="">All</option>
-			{foreach from=$branches item=branch}
-				<option value="{$branch.id}" {if $branch.id eq $smarty.request.interbranch}selected{/if}>{$branch.code}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Actived</b>
-		<select id="active_id" name="active"  onchange="toggle_expired(this)">
-		    <option value="">All</option>
-			<option value="1" {if $smarty.request.active eq '1'}selected {/if}>Yes</option>
-			<option value="0" {if $smarty.request.active eq '0'}selected {/if}>No</option>
-		</select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Expired</b>
-		<select id="expired_id" name="expired">
-		    <option value="">All</option>
-			<option value="1" {if $smarty.request.expired eq '1'}selected {/if}>Yes</option>
-			<option value="0" {if $smarty.request.expired eq '0'}selected {/if}>No</option>
-		</select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Cancelled</b>
-		<select name="cancel_status">
-		    <option value="">All</option>
-			<option value="1" {if $smarty.request.cancel_status eq '1'}selected {/if}>Yes</option>
-			<option value="0" {if $smarty.request.cancel_status eq '0'}selected {/if}>No</option>
-		</select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Date Filter</b>
-		<select name="date_filter" onChange="date_filter_changed();">
-			<option value="">No Filter</option>
-			<option value="activated" {if $smarty.request.date_filter eq 'activated'}selected {/if}>Activated</option>
-			<option value="used_time" {if $smarty.request.date_filter eq 'used_time'}selected {/if}>Used Time</option>
-			<option value="last_update" {if $smarty.request.date_filter eq 'last_update'}selected {/if}>Last Update</option>
-			<option value="added" {if $smarty.request.date_filter eq 'added'}selected {/if}>Added</option>
-		</select>
-		<span id="span_date_filter" style="{if !$smarty.request.date_filter}display:none;{/if}">&nbsp;&nbsp;
-			<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-			<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-			&nbsp;&nbsp;&nbsp;&nbsp;
-		</span>
-		<br>
-		<b>Search by Code</b>
-		<input name="search_value" value="{$smarty.request.search_value}">
-		&nbsp;&nbsp;
+				<div class="col-md-3">
+					<b class="form-label">Batch No</b>
+				<select class="form-control" name="batch_no" id="batch_no_id">
+				{if !$batch_no}
+					<option value="">No Data</option>
+				{else}
+					<option value="">All</option>
+		
+					{foreach from=$batch_no item=bat_no}
+					<option value="{$bat_no.batch_no}" {if $smarty.request.batch_no eq $bat_no.batch_no} selected {/if}>{$bat_no.batch_no}</option>
+					{/foreach}
+				{/if}
+				</select>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label"> Voucher Value({$config.arms_currency.symbol})</b>
+				<select class="form-control" name="voucher_value">
+					<option value="">All</option>
+					{foreach from=$vs_list item=voucher_value}
+						<option value="{$voucher_value}" {if $smarty.request.voucher_value eq $voucher_value} selected {/if}>{$voucher_value}</option>
+					{/foreach}
+				</select>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Allow Interbranch</b>
+				<select class="form-control" name="interbranch">
+					<option value="">All</option>
+					{foreach from=$branches item=branch}
+						<option value="{$branch.id}" {if $branch.id eq $smarty.request.interbranch}selected{/if}>{$branch.code}</option>
+					{/foreach}
+				</select>
+				</div>
 
-		<input type="button" onclick="reset_page();" value='Refresh'>
+				<div class="col-md-3">
+					<b class="form-label">Actived</b>
+				<select class="form-control" id="active_id" name="active"  onchange="toggle_expired(this)">
+					<option value="">All</option>
+					<option value="1" {if $smarty.request.active eq '1'}selected {/if}>Yes</option>
+					<option value="0" {if $smarty.request.active eq '0'}selected {/if}>No</option>
+				</select>
+				</div>
+
+				<div class="col-md-3">
+					<b class="form-label">Expired</b>
+				<select class="form-control" id="expired_id" name="expired">
+					<option value="">All</option>
+					<option value="1" {if $smarty.request.expired eq '1'}selected {/if}>Yes</option>
+					<option value="0" {if $smarty.request.expired eq '0'}selected {/if}>No</option>
+				</select>
+				</div>
+			
+				<div class="col-md-3">
+					<b class="form-label">Cancelled</b>
+				<select class="form-control" name="cancel_status">
+					<option value="">All</option>
+					<option value="1" {if $smarty.request.cancel_status eq '1'}selected {/if}>Yes</option>
+					<option value="0" {if $smarty.request.cancel_status eq '0'}selected {/if}>No</option>
+				</select>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Date Filter</b>
+				<select class="form-control" name="date_filter" onChange="date_filter_changed();">
+					<option value="">No Filter</option>
+					<option value="activated" {if $smarty.request.date_filter eq 'activated'}selected {/if}>Activated</option>
+					<option value="used_time" {if $smarty.request.date_filter eq 'used_time'}selected {/if}>Used Time</option>
+					<option value="last_update" {if $smarty.request.date_filter eq 'last_update'}selected {/if}>Last Update</option>
+					<option value="added" {if $smarty.request.date_filter eq 'added'}selected {/if}>Added</option>
+				</select>
+				</div>
+
+				<span id="span_date_filter" style="{if !$smarty.request.date_filter}display:none;{/if}">&nbsp;&nbsp;
+					<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+					<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+					<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				</span>
+				</div>
+				<br>
+			<div class="form-inline">
+				<b class="form-label">Search by Code</b>
+				&nbsp;<input class="form-control" name="search_value" value="{$smarty.request.search_value}">
+			
+				&nbsp;&nbsp;<input type="button" class="btn btn-primary" onclick="reset_page();" value='Refresh'>
+			</div>
+			</div>
+		</div>
 	</div>
 	<div style="margin:5px 0" align=right id="voucher_listing_id">
 		{include file="masterfile_voucher.list.tpl"}

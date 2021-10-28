@@ -74,49 +74,65 @@ function check_b()
 
 </script>
 {/literal}
-
-<h1>UOM Master File</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">UOM Master File</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $sessioninfo.privilege.MST_UOM}
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd UOM</a> (Alt+A)</div>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd UOM</a> (Alt+A)</div>
+</div>
 {/if}
 
 <br>
 
-<ul>
-	<li>UOM cannot be modified when got SKU in-used.</li>
-</ul>
+<div class="alert alert-primary rounded mx-3">
+	<ul style="list-style-type: none;">
+		<li>UOM cannot be modified when got SKU in-used.</li>
+	</ul>
+</div>
 
 <br />
-{include file=masterfile_uom_table.tpl}
+<div class="card mx-3">
+	<div class="card-body">
+		{include file=masterfile_uom_table.tpl}
 
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:150;display:none;">
+	</div>
+</div>
+<div class="ndiv " id="ndiv" style=" display: none; max-width: 550px;margin-left: 300px; bottom: 350px; background-color: white;">
 <div class="blur"><div class="shadow"><div class="content">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2 mb-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method=post name=f_b target=_irs onSubmit="return check_b()">
-<div id=bmsg style="padding:10 0 10 0px;"></div>
+<div id=bmsg class="mt-3 ml-2" style="padding:10 0 10 0px;"></div>
 <input type=hidden name=a value="a">
 <input type=hidden name=id value="">
-<table id="tb" >
+<table id="tb"  >
 <tr>
-<td><b>Code</b></td>
-<td><input onBlur="uc(this)" name=code size=10 maxlength=6> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td><b class="form-label ml-2 mt-2">Code<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="form-control mt-2" onBlur="uc(this)" name=code size=10 maxlength=6> 
 </tr><tr>
-<td><b>Description</b></td>
-<td><input name=description size=50> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td><b class="form-label ml-2 mt-1">Description<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="form-control mt-2" name=description size=50> 
 </tr><tr>
-<td valign=top><b>Fraction</b></td>
-<td><input name=fraction size=20 onchange="float(mf(this));"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td valign=top><b class="form-label ml-2 mt-1">Fraction<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="form-control mt-2" name=fraction size=20 onchange="float(mf(this));"> 
 </tr>
 <tr>
 <td align=center colspan=2>
 <br>
 <div id=abtn style="display:none;">
-<input type=submit value="Add"> <input type=button value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
+<input type=submit value="Add" class="btn btn-primary mb-2"> 
+<input type=button class="btn btn-danger mb-2" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
 </div>
 <div id=ebtn style="display:none;">
-<input type=submit value="Update"> <input type=button value="Restore" onclick="ed(lastn)"> <input type=button value="Close" onclick="f_b.reset(); hidediv('ndiv');">
+<input type=submit class="btn btn-primary mb-2" value="Update">
+ <input type=button class="btn btn-info mb-2" value="Restore" onclick="ed(lastn)"> 
+ <input type=button class="btn btn-danger mb-2" value="Close" onclick="f_b.reset(); hidediv('ndiv');">
 </div>
 </td>
 </tr>

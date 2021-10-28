@@ -124,14 +124,22 @@ var UPDATE_SKU_CATEGORY_DISCOUNT_MODULE = {
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm}
 	<div class="errmsg">
-		<ul>
-			{foreach from=$errm item=e}
-				<li> {$e}</li>
-			{/foreach}
-		</ul>
+		<div class="alert alert-danger mx-3 rounded">
+			<ul>
+				{foreach from=$errm item=e}
+					<li> {$e}</li>
+				{/foreach}
+			</ul>
+		</div>
 	</div>
 {/if}
 	
@@ -143,59 +151,79 @@ var UPDATE_SKU_CATEGORY_DISCOUNT_MODULE = {
 	<input type="hidden" name="a" value="show_result" />
 	<input type="hidden" name="method" value="1" />
 	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* This module will update the Category Discount from SKU Masterfile.<br/>
-				* Member and Non-member fields are mandantory.<br />
-				* Category Discount field can accepts only "Inherit", "No" or "Override".<br />
-				&nbsp;&nbsp;&nbsp;> Inherit = Follow Category<br />
-				&nbsp;&nbsp;&nbsp;> No = No Discount<br />
-				&nbsp;&nbsp;&nbsp;> Override = Override Discount<br />
-				* Insert "clear" onto the discount value will clean up the Discount value from database.<br />
-				<br />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-		<tr>
-			<td valign="top"><div style="margin-top:3px;"><b>Update Category Discount by</b></div></td>
-			<td>
-				<input type="radio" name="update_method" value="all_branch" onclick="UPDATE_SKU_CATEGORY_DISCOUNT_MODULE.toggle_branch_update_method();" {if !$smarty.request.update_method || $smarty.request.update_method eq 'all_branch'}checked{/if} />&nbsp;<b>All Branch</b>
-				<br />
-				<input type="radio" name="update_method" value="by_branch" onclick="UPDATE_SKU_CATEGORY_DISCOUNT_MODULE.toggle_branch_update_method();" {if $smarty.request.update_method eq 'by_branch'}checked{/if} />&nbsp;<b>By Branch</b>
-				<br />
-				<div id="div_branch_list" style="margin-left:2px; margin-top:3px;">
-					{foreach from=$branch_list key=bid item=bcode}
-						<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
-					{/foreach}
-				</div>
-			</td>
-		</tr>
-	</div>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="25%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers.1 item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample.1 item=s}
+	<div class="card mx-3">
+		<div class="card-body">
+			<table>
 				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
+					<td colspan="4" >
+					<div class="alert alert-primary rounded">
+						<b>Note:</b><br />
+						* This module will update the Category Discount from SKU Masterfile.<br/>
+						* Member and Non-member fields are mandantory.<br />
+						* Category Discount field can accepts only "Inherit", "No" or "Override".<br />
+						&nbsp;&nbsp;&nbsp;> Inherit = Follow Category<br />
+						&nbsp;&nbsp;&nbsp;> No = No Discount<br />
+						&nbsp;&nbsp;&nbsp;> Override = Override Discount<br />
+						* Insert "clear" onto the discount value will clean up the Discount value from database.<br />
+						<br />
+					</div>
+					</td>
 				</tr>
-			{/foreach}
-		</table>
+				<tr>
+					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
+					<td>
+						&nbsp;&nbsp;<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
+						&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top"><div style="margin-top:3px;"><b class="form-label">Update Category Discount by</b></div></td>
+					<td>
+						&nbsp;<input type="radio" name="update_method" value="all_branch" onclick="UPDATE_SKU_CATEGORY_DISCOUNT_MODULE.toggle_branch_update_method();" {if !$smarty.request.update_method || $smarty.request.update_method eq 'all_branch'}checked{/if} />&nbsp;<b>All Branch</b>
+						<br />
+						&nbsp;<input type="radio" name="update_method" value="by_branch" onclick="UPDATE_SKU_CATEGORY_DISCOUNT_MODULE.toggle_branch_update_method();" {if $smarty.request.update_method eq 'by_branch'}checked{/if} />&nbsp;<b>By Branch</b>
+						<br />
+						<div id="div_branch_list" style="margin-left:2px; margin-top:3px;">
+							{foreach from=$branch_list key=bid item=bcode}
+								<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
+							{/foreach}
+						</div>
+					</td>
+				</tr>
+			</div>
+			</table>
+		</div>
+	</div>
+	<div class="div_tbl">
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<h4 class="content-title mb-0 my-auto ml-4 text-primary">Sample</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+		<div class="card mx-3">
+			<div class="card-body">
+				<table id="si_tbl" width="100%">
+					<thead class="bg-gray-100">
+						<tr >
+							{foreach from=$sample_headers.1 item=i}
+								<th>{$i}</th>
+							{/foreach}
+						</tr>
+					</thead>
+					{foreach from=$sample.1 item=s}
+						<tbody class="fs-08">
+							<tr>
+								{foreach from=$s item=i}
+									<td>{$i}</td>
+								{/foreach}
+								</tr>
+						</tbody>
+					{/foreach}
+				</table>
+			</div>
+		</div>
 	</div>
 	<div id="div_invalid" style="display: none">
 		<div style="border: solid 2px red; padding: 5px; background-color: yellow">

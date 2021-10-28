@@ -105,78 +105,80 @@
 {assign var=first_header value=1}
 {section loop=$items name=i}
 	<!-- Header -->
-	<tr height="24" bgcolor="#ffee99">
-		<th>ARMS Code</th>
-		
-		{if $BRANCH_CODE eq 'HQ'}
-		<th>Description</th>
-		<th align="right"><input type="checkbox" onclick="toggle_check_all_col_row_item('{$items[i].id}',this.checked);" class="cb_check_all" /></th>
-		{else}
-		<th colspan="2">Description</th>
-		{/if}
-		
-		{if $BRANCH_CODE eq 'HQ'}
-			{if !$show_by_region_code}
-				<!-- HQ -->
-				<th title="HQ - {$branch.1.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'1');" class="cb_all_col cb_all_col_{$items[i].id}" />HQ&nbsp;&nbsp;&nbsp;&nbsp;</th>
+	<thead class="bg-gray-100">
+		<tr height="24" >
+			<th>ARMS Code</th>
+			
+			{if $BRANCH_CODE eq 'HQ'}
+			<th>Description</th>
+			<th align="right"><input type="checkbox" onclick="toggle_check_all_col_row_item('{$items[i].id}',this.checked);" class="cb_check_all" /></th>
+			{else}
+			<th colspan="2">Description</th>
 			{/if}
 			
-			{if $config.sku_use_region_price and $config.masterfile_branch_region and !$show_by_region_code}
-				<!-- Change Price by Region -->
-				
-				<!-- Region -->
-				{foreach from=$config.masterfile_branch_region key=region_code item=rg}
-					<th class="region_header">
-						<input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$region_code}');" class="cb_all_col cb_all_col_{$items[i].id}" />
-						<a href="javascript:void(change_price_by_region('{$region_code}'))">
-							{$rg.name}
-						</a>
-					</th>
-				{/foreach}
-				
-				<!-- Those branch have no region -->
-				{foreach from=$region_branch.no_region item=b}
-					{if $b.code ne 'HQ'}
-						<th title="{$b.code} - {$b.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$b.id}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$b.code}</th>
-					{/if}
-				{/foreach}
-			{else}
-				<!-- Normal Change Price Method: by branch -->
-				{if $smarty.request.show_by_region_code}
-				<th class="region_header">
-					<input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$smarty.request.show_by_region_code}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$smarty.request.show_by_region_code}
-				</th>
+			{if $BRANCH_CODE eq 'HQ'}
+				{if !$show_by_region_code}
+					<!-- HQ -->
+					<th title="HQ - {$branch.1.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'1');" class="cb_all_col cb_all_col_{$items[i].id}" />HQ&nbsp;&nbsp;&nbsp;&nbsp;</th>
 				{/if}
-				{foreach from=$branch item=b}
-					{if $b.code ne 'HQ'}
-						<th title="{$b.code} - {$b.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$b.id}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$b.code}</th>
-					{/if}
-				{/foreach}
-			{/if}
-		{else}
-		
-			{if $first_header}
-			<th>Price Type</th>
-			<th align="right"><input type="checkbox" onclick="toggle_check_all_col_row(this.checked);" class="cb_check_all" /></th>
-			{else}
-			<th colspan="2">Price Type</th>
-			{/if}
-			{assign var=first_header value=0}
-			
-			<th>
-			{if $col_select}<input type="checkbox" onchange="toggle_check_all_column2(this.checked,'normal');" class="cb_all_col2 cb_all_col2_{$items[i].id}" />{/if}
-			Selling
-			</th>
-			{if $config.sku_multiple_selling_price}
-				{foreach from=$config.sku_multiple_selling_price item=s}
-					<th>
-					{if $col_select}<input type="checkbox" onchange="toggle_check_all_column2(this.checked,'{$s}');" class="cb_all_col2 cb_all_col2_{$items[i].id}" />{/if}
-					{if $config.membership_type[$s] && $config.membership_type[$s] neq $s}{$config.membership_type[$s]} ({$s}){else}{$s}{/if}
+				
+				{if $config.sku_use_region_price and $config.masterfile_branch_region and !$show_by_region_code}
+					<!-- Change Price by Region -->
+					
+					<!-- Region -->
+					{foreach from=$config.masterfile_branch_region key=region_code item=rg}
+						<th class="region_header">
+							<input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$region_code}');" class="cb_all_col cb_all_col_{$items[i].id}" />
+							<a href="javascript:void(change_price_by_region('{$region_code}'))">
+								{$rg.name}
+							</a>
+						</th>
+					{/foreach}
+					
+					<!-- Those branch have no region -->
+					{foreach from=$region_branch.no_region item=b}
+						{if $b.code ne 'HQ'}
+							<th title="{$b.code} - {$b.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$b.id}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$b.code}</th>
+						{/if}
+					{/foreach}
+				{else}
+					<!-- Normal Change Price Method: by branch -->
+					{if $smarty.request.show_by_region_code}
+					<th class="region_header">
+						<input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$smarty.request.show_by_region_code}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$smarty.request.show_by_region_code}
 					</th>
-				{/foreach}
+					{/if}
+					{foreach from=$branch item=b}
+						{if $b.code ne 'HQ'}
+							<th title="{$b.code} - {$b.description}"><input type="checkbox" onchange="toggle_check_all_column(this.checked,{$items[i].id},'{$b.id}');" class="cb_all_col cb_all_col_{$items[i].id}" />{$b.code}</th>
+						{/if}
+					{/foreach}
+				{/if}
+			{else}
+			
+				{if $first_header}
+				<th>Price Type</th>
+				<th align="right"><input type="checkbox" onclick="toggle_check_all_col_row(this.checked);" class="cb_check_all" /></th>
+				{else}
+				<th colspan="2">Price Type</th>
+				{/if}
+				{assign var=first_header value=0}
+				
+				<th>
+				{if $col_select}<input type="checkbox" onchange="toggle_check_all_column2(this.checked,'normal');" class="cb_all_col2 cb_all_col2_{$items[i].id}" />{/if}
+				Selling
+				</th>
+				{if $config.sku_multiple_selling_price}
+					{foreach from=$config.sku_multiple_selling_price item=s}
+						<th>
+						{if $col_select}<input type="checkbox" onchange="toggle_check_all_column2(this.checked,'{$s}');" class="cb_all_col2 cb_all_col2_{$items[i].id}" />{/if}
+						{if $config.membership_type[$s] && $config.membership_type[$s] neq $s}{$config.membership_type[$s]} ({$s}){else}{$s}{/if}
+						</th>
+					{/foreach}
+				{/if}
 			{/if}
-		{/if}
-	</tr>
+		</tr>
+	</thead>
 	
 	<!-- Items -->
 	<tr {if !$items[i].active}class="inactive"{/if} class="tr_mprice_row tr_mprice_row_by_uom_id-{$items[i].packing_uom_id} tr_mprice_row_by_uom_fraction-{$items[i].packing_uom_fraction}" id="tr_mprice_row-{$items[i].id}">
@@ -303,7 +305,7 @@
 								<div style="position:absolute;bottom:0;">
 								{*if $config.sku_multiple_selling_price*}
 								<div>
-									<font color="green"><b>normal</b></font>
+									<font color="green"><b class="form-label">normal</b></font>
 									{if $gst_settings}
 										<font color="#da4" style="padding-left:19;font-weight:bold;">GST ({$items[i].gst_rate}%)</font>
 										<font color="#f90" style="padding-left:9;font-weight:bold;">{if $items[i].inclusive_tax eq 'no'}After{else}Before{/if} GST</font>
@@ -315,7 +317,7 @@
 									{assign var=selling_price_foc value=$items[i].region_price.$region_code.normal.selling_price_foc|default:$items[i].default_selling_price_foc}
 									
 									<!-- Price -->
-									<input name="region_price[{$items[i].id}][{$region_code}]" value="{$selling_price|number_format:2:".":""}" onchange="mf(this);check_foc_cb(this);" onfocus="this.select()" size="5" mprice_type="normal" is_region_price="1" class="inp_region_price region_selling inp_region_price_{$items[i].id}" id="inp_region_price-normal-{$items[i].id}-{$region_code}" {*if $selling_price_foc and $items[i].allow_selling_foc}readonly {/if*} readonly />
+									<input name="region_price[{$items[i].id}][{$region_code}]" value="{$selling_price|number_format:2:".":""}" onchange="mf(this);check_foc_cb(this);" onfocus="this.select()" size="5" mprice_type="normal" is_region_price="1" class="inp_region_price region_selling inp_region_price_{$items[i].id} form-control" id="inp_region_price-normal-{$items[i].id}-{$region_code}" {*if $selling_price_foc and $items[i].allow_selling_foc}readonly {/if*} readonly />
 									
 									{if $gst_settings}
 										<!-- GST Amount -->
@@ -328,10 +330,10 @@
 											{assign var=gst_selling_price value=$selling_price+$gst_amt}
 										{/if}
 										{assign var=gst_selling_price value=$gst_selling_price|round:2}
-										<input type="text" name="region_gst_amount[{$items[i].id}][{$region_code}]" value="{$gst_amt|number_format:2:'.':''}" size="5" style="background:#da4;" readonly />
+										<input class="form-control" type="text" name="region_gst_amount[{$items[i].id}][{$region_code}]" value="{$gst_amt|number_format:2:'.':''}" size="5" style="background:#da4;" readonly />
 
 										<!-- sp before/after gst -->
-										<input type="text" name="region_gst_price[{$items[i].id}][{$region_code}]" onchange="mf(this);calculate_region_gst({$items[i].id}, 'normal', '{$region_code}', this);{if $sessioninfo.privilege.SHOW_COST}update_gp('{$items[i].id}','normal', '{$region_code}');{/if}" onfocus="this.select()" value="{$gst_selling_price|number_format:2:'.':''}" class="region_gst_selling inp_region_gst_price_{$items[i].id}" id="inp_region_gst_price-normal-{$items[i].id}-{$region_code}" style="background:#f90;" size="5" readonly />
+										<input type="text" name="region_gst_price[{$items[i].id}][{$region_code}]" onchange="mf(this);calculate_region_gst({$items[i].id}, 'normal', '{$region_code}', this);{if $sessioninfo.privilege.SHOW_COST}update_gp('{$items[i].id}','normal', '{$region_code}');{/if}" onfocus="this.select()" value="{$gst_selling_price|number_format:2:'.':''}" class="region_gst_selling inp_region_gst_price_{$items[i].id} form-control" id="inp_region_gst_price-normal-{$items[i].id}-{$region_code}" style="background:#f90;" size="5" readonly />
 									{/if}
 									
 									<!-- View Branch Selling Price -->
@@ -376,7 +378,7 @@
 										{if $gp_selling_price ne 0}
 											{assign var=gpp value=$gp/$gp_selling_price*100}
 										{/if}
-										<table cellpadding="2" cellspacing="1" style="border:1px solid #999; padding:5px; background-color:#fe9">
+										<table cellpadding="2" cellspacing="1" style="border:1px solid #999; padding:10px; background-color:#fe9">
 											<tr class="header">
 												<th style="background:white;" align="left"><!--S.B: <font style="color:{if $items[i].stock_bal.$region_code >= 0}blue{else}red{/if};">{$items[i].stock_bal.$region_code}|default:'-'}-->&nbsp;</th>
 												<th style="background:white;">GP</th>
@@ -788,7 +790,7 @@
 							<input type="text" name="gst_price[{$items[i].id}][{$bid}]" onchange="item_gst_price_changed('{$items[i].id}', '{$bid}');" onfocus="this.select()" value="{$gst_selling_price|number_format:2:'.':''}" class="inp_gst_price inp_gst_price_{$items[i].id}" id="inp_gst_price-normal-{$items[i].id}-{$bid}" style="background:#f90;" size="5" readonly />
 						{/if}
 						
-						<img src="/ui/icons/zoom.png" onclick="price_history(this,{$items[i].id},{$bid})" title="View History">
+						<img  onclick="price_history(this,{$items[i].id},{$bid})" title="View History">
 						
 						{* RSP Discount *}
 						{if $items[i].use_rsp}

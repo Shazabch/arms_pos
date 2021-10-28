@@ -343,8 +343,8 @@ function disableEnterKey(e){
 function list_sel(n,s){
 	var i;
 	for(i=0;i<=2;i++){
-		if (i==n) $('lst'+i).className='active';
-		else $('lst'+i).className='';
+		if (i==n) $('lst'+i).addClassName('selected');
+		else $('lst'+i).removeClassName('selected');
 	}
 	//if (s=='') return;
 	$('grn_list').innerHTML = '<img src=ui/clock.gif align=absmiddle> Loading...';
@@ -490,8 +490,8 @@ function auto_generate_sn(sid, grn_id){
 		<input type="hidden" name="branch_id" value="">
 		<input type="checkbox" name="print_sn_report" checked disabled> S/N List by GRN Report
 		<p align="center">
-			<input type="button" value="Print" onclick="print_ok()"> 
-			<input type="button" value="Cancel" onclick="print_cancel()">
+			<input type="button" class="btn btn-info" value="Print" onclick="print_ok()"> 
+			<input type="button" value="Cancel" class="btn btn-danger" onclick="print_cancel()">
 		</p>
 	</form>
 	</div>
@@ -515,30 +515,47 @@ function auto_generate_sn(sid, grn_id){
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
-<form onsubmit="list_sel(2,0);return false;" name="f_tab">
-	<div class=tab style="height:25px;white-space:nowrap;">
-		&nbsp;&nbsp;
-		<a href="javascript:list_sel(0)" class="btn btn-outline-primary rounded" id="lst0" {if !$t}class="active"{/if}>Waiting for Import</a>
-		<a href="javascript:list_sel(1)" class="btn btn-outline-primary rounded" id="lst1" {if $t eq 1}class="active"{/if}>Imported</a>
-		<a name="find" id="lst2" class="btn btn-outline-primary rounded" {if $t eq 2}class="active"{/if}>Find GRN / Doc No / Serial No <input id="search" name=find" value="{$smarty.request.search|default:$search}"> <input type="submit" value="Go"></a>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
 	</div>
+</div>
+
+<form onsubmit="list_sel(2,0);return false;" name="f_tab">
+<div >
+	<div class="tab row mx-3" style="white-space:nowrap;">
+		<a href="javascript:list_sel(0)" class="btn btn-outline-primary btn-rounded" id="lst0" {if !$t}class="active"{/if}>Waiting for Import</a>
+	&nbsp;&nbsp;	<a href="javascript:list_sel(1)" class="btn btn-outline-primary btn-rounded" id="lst1" {if $t eq 1}class="active"{/if}>Imported</a>
+		<a name="find" id="lst2"  {if $t eq 2}class="active"{/if}>
+			<div class="form-inline">
+				&nbsp;&nbsp;Find GRN / Doc No / Serial No 
+			<input id="search" class="form-control" name="find" value="{$smarty.request.search|default:$search}">
+			&nbsp;&nbsp; <input type="submit" class="btn btn-primary" value="Go">
+			</div></a>
+	</div>
+</div>
 </form>
-<div class="stdframe" style="padding:2px; background:#fff;">
-	<form name="f_a" method="post">
-		<input type="hidden" name="a" value="save">
-		<div id="grn_list">
-			{include file="masterfile_sku_items.serial_no.import_items.list.tpl"}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<form name="f_a" method="post">
+				<input type="hidden" name="a" value="save">
+				<div id="grn_list">
+					{include file="masterfile_sku_items.serial_no.import_items.list.tpl"}
+				</div>
+				<div id="imported_dtl_items">
+					{if count($sn_items)>0}
+						{include file="masterfile_sku_items.serial_no.import_items.list_row.tpl"}
+					{/if}
+				</div>
+				<div id="sn_items_btn" align="center" {if count($sn_items) eq 0}style="display:none;"{/if}>
+					<input type="button" class="btn btn-primary" value="Save" onclick="save_sn_items(this);">
+				</div>
+			</form>
 		</div>
-		<div id="imported_dtl_items">
-			{if count($sn_items)>0}
-				{include file="masterfile_sku_items.serial_no.import_items.list_row.tpl"}
-			{/if}
-		</div>
-		<div id="sn_items_btn" align="center" {if count($sn_items) eq 0}style="display:none;"{/if}>
-			<input type="button" value="Save" onclick="save_sn_items(this);">
-		</div>
-	</form>
+	</div>
 </div>
 
 {include file="footer.tpl"}

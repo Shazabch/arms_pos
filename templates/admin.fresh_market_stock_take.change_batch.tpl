@@ -239,7 +239,7 @@ function start_change_batch(){
 		<tr>
 		    {if $can_select_branch}
 		        <td>
-		            <select name="branch_id" onchange="branch_changed(this.value)" size="10">
+		            <select class="form-control" name="branch_id" onchange="branch_changed(this.value)" size="10">
 						{foreach from=$branches item=r}
 							<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
 						{/foreach}
@@ -248,7 +248,7 @@ function start_change_batch(){
 		    {/if}
 			<td>
 			    <div id="div_date" style="min-width:100px;">
-					<select name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
+					<select class="form-control" name="dat" onchange="load_location(this.value)" size=10 style="width:100%;">
 						{foreach from=$dat item=val}
 							<option value="{$val.date}" {if $smarty.request.date eq $val.date}selected {/if}>{$val.date}</option>
 						{/foreach}
@@ -257,7 +257,7 @@ function start_change_batch(){
 			</td>
 			<td>
 				<div id="div_location" style="min-width:100px;">
-					<select name="loc" onchange="load_shelf(this.value)" size=10 style="width:100%;">
+					<select class="form-control" name="loc" onchange="load_shelf(this.value)" size=10 style="width:100%;">
 						{foreach from=$loc item=val}
 							<option value="{$val.location}" {if $smarty.request.location eq $val.location}selected {/if}>{$val.location}</option>
 						{/foreach}
@@ -266,7 +266,7 @@ function start_change_batch(){
 			</td>
 			<td>
 				<div id="div_shelf" style="min-width:100px;">
-					<select name="shelf" onchange="show_record()" size=10 style="width:100%;">
+					<select class="form-control" name="shelf" onchange="show_record()" size=10 style="width:100%;">
 						{foreach from=$shelf item=val}
 							<option value="{$val.shelf}" {if $smarty.request.shelf eq $val.shelf}selected {/if}>{$val.shelf}</option>
 						{/foreach}

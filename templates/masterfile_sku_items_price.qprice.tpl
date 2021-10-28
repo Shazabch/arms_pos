@@ -32,48 +32,52 @@
 <input type="hidden" name="sku_item_id" value="{$items[0].id}">
 <input name="form_branch_id" value="{$sessioninfo.branch_id}" type="hidden">
 <table border="0" cellspacing="1" cellpadding="2" width="100%" id="qprice_tbl">
-<tr height=24 bgcolor=#ffee99><th>ARMS Code</th><th>Description</th><th>&nbsp;</th></tr>
+<thead class="bg-gray-100">
+	<tr ><th>ARMS Code</th><th>Description</th><th>&nbsp;</th></tr>
+</thead>
 {section loop=$items name=i}
 <input type=hidden name=code[{$items[i].id}] value="{$items[i].sku_item_code}">
 <tr><td valign=top>{$items[i].sku_item_code}<br>{$items[i].mcode} {$items[i].artno}</td><td valign=top>{$items[i].description}</td>
 <td valign=top>
 	<table border=0 cellspacing=1 cellpadding=2>
-	<tr height=24 bgcolor=#ffee99>
-	<th>&nbsp;</th>
-	<th>Min Qty<br>(>=)</th>
-	{if $BRANCH_CODE eq 'HQ'}
-		<!-- HQ -->
-		<th title="HQ - {$branch.1.description}">HQ <img src="/ui/icons/zoom.png" onclick="get_price_history(this,{$items[i].id},1,'{$branch.1.code}','qprice')" title="View History"></th>
-		
-		<!-- Normal Change Price Method: by branch -->
-		{foreach from=$branch item=b}
-			{if $b.code ne 'HQ'}
-				<th title="{$b.code} - {$b.description}">{$b.code} <img src="/ui/icons/zoom.png" onclick="get_price_history(this,{$items[i].id},{$b.id},'{$b.code}','qprice')" title="View History"></th>
-			{/if}
-		{/foreach}
-	{else}
-		<th>Selling</th>
-	{/if}
-	</tr>
-	<tbody id="qprice_row" class="row_template" background="">
+<thead class="bg-gray-100">
+	<tr >
+		<th>&nbsp;</th>
+		<th>Min Qty<br>(>=)</th>
+		{if $BRANCH_CODE eq 'HQ'}
+			<!-- HQ -->
+			<th title="HQ - {$branch.1.description}">HQ <img src="/ui/icons/zoom.png" onclick="get_price_history(this,{$items[i].id},1,'{$branch.1.code}','qprice')" title="View History"></th>
+			
+			<!-- Normal Change Price Method: by branch -->
+			{foreach from=$branch item=b}
+				{if $b.code ne 'HQ'}
+					<th title="{$b.code} - {$b.description}">{$b.code} <img src="/ui/icons/zoom.png" onclick="get_price_history(this,{$items[i].id},{$b.id},'{$b.code}','qprice')" title="View History"></th>
+				{/if}
+			{/foreach}
+		{else}
+			<th>Selling</th>
+		{/if}
+		</tr>
+</thead>
+	<tbody id="qprice_row" class="row_template fs-08" background="">
 		<tr>
 			<td><img src="/ui/icons/add.png" onclick="qprice_addrow(this)" title="Insert row below"><img class="deleteicon" src="/ui/icons/delete.png" onclick="qprice_delrow(this)"></td>
-			<td><input name="min_qty[{$items[i].id}][]" class="minqty" size="3" onchange="minqty_check(this)"></td>
+			<td><input clas name="min_qty[{$items[i].id}][]" class="minqty form-control" size="3" onchange="minqty_check(this)"></td>
 			{if $BRANCH_CODE eq 'HQ'}
 				<!-- HQ -->
 				<td>
-					<input name="price[{$items[i].id}][1][]" size="3" onchange="mf(this,2);copy_to_branch(this,'price[{$items[i].id}]', '{$items[i].id}', '1');" class="inp_qprice" />
+					<input name="price[{$items[i].id}][1][]" size="3" onchange="mf(this,2);copy_to_branch(this,'price[{$items[i].id}]', '{$items[i].id}', '1');" class="inp_qprice form-control" />
 				</td>
 					
 				{foreach from=$branch item=b}
 					{if $b.code ne 'HQ'}
 						<td>
-							<input name="price[{$items[i].id}][{$b.id}][]" size="3" onchange="mf(this,2);{if $b.code eq 'HQ'}copy_to_branch(this,'price[{$items[i].id}]', '{$items[i].id}', '{$b.id}');{/if}" class="inp_qprice" />
+							<input name="price[{$items[i].id}][{$b.id}][]" size="3" onchange="mf(this,2);{if $b.code eq 'HQ'}copy_to_branch(this,'price[{$items[i].id}]', '{$items[i].id}', '{$b.id}');{/if}" class="inp_qprice form-control" />
 						</td>
 					{/if}
 				{/foreach}
 			{else}
-				<td><input class="inp_qprice" name="price[{$items[i].id}][]" size=3></td>
+				<td><input class="inp_qprice form-control" name="price[{$items[i].id}][]" size=3></td>
 			{/if}
 		</tr>
 		{if $config.sku_multiple_quantity_mprice}
@@ -82,7 +86,7 @@
 	</tbody>
 
 	{foreach from=$items[i].min_qty key=min_qty item=qprice}
-		<tbody id="qprice_row" class="row_template" background="">
+		<tbody id="qprice_row" class="row_template fs-08" background="">
 			<tr>
 				<td><img src="/ui/icons/add.png" onclick="qprice_addrow(this)" title="Insert row below"><img src="/ui/icons/delete.png" onclick="qprice_delrow(this)"></td>
 				<td><input size=3 name="min_qty[{$items[i].id}][]" class="minqty" value="{$min_qty}" onchange="minqty_check(this)"></td>

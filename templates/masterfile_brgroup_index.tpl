@@ -134,48 +134,59 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 {literal}
 </script>
 {/literal}
-
-<h1>Brand Group Master File</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Brand Group Master File
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $sessioninfo.privilege.MST_BRANDGROUP}
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Brand Group</a> (Alt+A)</div>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Brand Group</a> (Alt+A)</div>
+</div>
 {/if}
 
-<br>
-{include file=masterfile_brgroup_table.tpl}
+<div class="card mx-3">
+	<div class="card-body">
+		{include file=masterfile_brgroup_table.tpl}
+	</div>
+</div>
 
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:150;display:none;">
+<div class="ndiv" id="ndiv" style=" display: none; max-width: 550px;margin-left: 300px; bottom:100px; background-color: white;">
 <div class="blur"><div class="shadow"><div class="content">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method=post name=f_b target=_irs onSubmit="return check_b()">
-<div id=bmsg style="padding:10 0 10 0px;"></div>
+<div id=bmsg class="ml-2 mt-3" style="padding:10 0 10 0px;"></div>
 <input type=hidden name=a value="a">
 <input type=hidden name=id value="">
 <input type=hidden name=_brands value="">
 <table id="tb" >
 <tr>
-<td><b>Code</b></td>
-<td><input onBlur="uc(this)" name=code size=10 maxlength=6> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td><b class="form-label ml-2 mt-2">Code<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="form-control mt-2" onBlur="uc(this)" name=code size=10 maxlength=6> </td>
 </tr><tr>
-<td><b>Description</b></td>
-<td><input name=description size=50> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+<td><b class="form-label ml-2 mt-2">Description<span class="text-danger" title="Required Field"> *</span></b></td>
+<td><input class="mt-2 form-control" name=description size=50> </td>
 </tr><tr>
 <td colspan=2><br>
-<b>Select Brands to group</b><br>
+<b class="form-label ml-2 mt-2">Select Brands to group</b><br>
 <table class=small>
 <tr>
 <td>
-<select name=sel_brand size=10 style="width:160px">
+&nbsp;&nbsp;&nbsp;<select class="form-control ml-5" name=sel_brand size=10 style="width:160px">
 </select>
 </td>
 <td align=center>
-<input type=button value="<<" onclick="mv(src_brand, sel_brand)"><br><br>
-<input type=button value=">>" onclick="mv(sel_brand, src_brand)"><br><br>
-<input type=button value="Reset" onclick="resetlist()">
+<input type=button class="btn btn-dark btn-sm" value="<<" onclick="mv(src_brand, sel_brand)"><br><br>
+<input type=button class="btn btn-dark btn-sm" value=">>" onclick="mv(sel_brand, src_brand)"><br><br>
+&nbsp;&nbsp;<input type=button class="btn btn-primary " value="Reset" onclick="resetlist()">&nbsp;&nbsp;
 <td>
-<select name=src_brand size=10 style="width:160px">
+&nbsp;&nbsp;&nbsp;<select class="form-control" name=src_brand size=10 style="width:160px">
 </select>
 </td>
 </tr>
@@ -185,7 +196,8 @@ Array('{$brands[i].id}','{$brands[i].description|escape:"javascript"}'),
 <td align=center colspan=2>
 <br>
 <div id=abtn style="display:none;">
-<input type=submit value="Add"> <input type=button value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
+<input type=submit class="btn  btn-primary mb-3" value="Add">
+ <input type=button class="btn btn-danger mb-3" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
 </div>
 <div id=ebtn style="display:none;">
 <input type=submit value="Update"> <input type=button value="Restore" onclick="ed(lastn)"> <input type=button value="Close" onclick="f_b.reset(); hidediv('ndiv');">

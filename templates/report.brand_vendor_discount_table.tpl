@@ -16,6 +16,10 @@
 	width: 200px;
 	overflow-x:hidden;
 	overflow-y:auto;
+	border: 2px solid gainsboro;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 10px;
 }
 
 .ul_sel{
@@ -149,15 +153,24 @@ function toggle_chx(chx, type){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $err}
+<div class="alert alert-danger mx-3 rounded">
 	The following error(s) has occured:
 	<ul class="err">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+</div>
 {/if}
 
 
@@ -165,77 +178,82 @@ function toggle_chx(chx, type){
 <form name="f_a" method="post" class="stdframe">
 	<input type="hidden" name="subm" value="1" />
 	
-	<table>
-	    <tr>
-			{if $can_select_branch}
-			    <td>
-				    <fieldset>
-				        <legend>Branch</legend>
-					    <div class="div_sel">
-					        <ul class="ul_sel">
-					        	<li><input type="checkbox" onChange="toggle_chx(this, 'branch');" /> <b>All</b></li>
-						        {foreach from=$branches key=bid item=r}
-						            {if !$branches_group.have_group.$bid}
-						        		<li>
-											<img src="ui/pixel.gif" width="20" height="1" />
-											<input type="checkbox" name="branch_id[]" value="{$bid}" {if is_array($smarty.request.branch_id)}{if in_array($bid, $smarty.request.branch_id)}checked {/if}{/if} onChange="VB_DISCOUNT_TABLE.branch_chx_changed();" /> {$r.code}
-										</li>
-						        	{/if}
-						        {/foreach}
-						        {if $branches_group.header}
-						            {foreach from=$branches_group.header key=bgid item=bg}
-						                <li>
-						                    <ul class="ul_sel">
-						                        <li>
-													<img src="ui/pixel.gif" width="20" />
-													<input type="checkbox" onChange="toggle_chx(this, 'branch');" />
-													<b>{$bg.code}</b>
-												</li>
-						                        {foreach from=$branches_group.items.$bgid item=r}
-                                                    <li>
-														<img src="ui/pixel.gif" width="40" height="1" />
-														<input type="checkbox" name="branch_id[]" value="{$r.branch_id}" {if is_array($smarty.request.branch_id)}{if in_array($r.branch_id, $smarty.request.branch_id)}checked {/if}{/if} onChange="VB_DISCOUNT_TABLE.branch_chx_changed();" /> {$r.code}
+<div class="card mx-3">
+	<div class="card-body">
+		<table>
+			<tr>
+				{if $can_select_branch}
+					<td>
+						<fieldset>
+							<legend class="form-label ml-3">Branch</legend>
+							<div class="div_sel">
+								<ul class="ul_sel">
+									<li><input type="checkbox" onChange="toggle_chx(this, 'branch');" /> <b>All</b></li>
+									{foreach from=$branches key=bid item=r}
+										{if !$branches_group.have_group.$bid}
+											<li>
+												<img src="ui/pixel.gif" width="20" height="1" />
+												<input type="checkbox" name="branch_id[]" value="{$bid}" {if is_array($smarty.request.branch_id)}{if in_array($bid, $smarty.request.branch_id)}checked {/if}{/if} onChange="VB_DISCOUNT_TABLE.branch_chx_changed();" /> {$r.code}
+											</li>
+										{/if}
+									{/foreach}
+									{if $branches_group.header}
+										{foreach from=$branches_group.header key=bgid item=bg}
+											<li>
+												<ul class="ul_sel">
+													<li>
+														<img src="ui/pixel.gif" width="20" />
+														<input type="checkbox" onChange="toggle_chx(this, 'branch');" />
+														<b>{$bg.code}</b>
 													</li>
-						                        {/foreach}
-						                    </ul>
-						                </li>
-						            {/foreach}
-						        {/if}
-					        </ul>
-					    </div>
-				    </fieldset>
-			    </td>
-			{/if}
-			<td>
-			    <fieldset>
-			        <legend>{$REPORT_TABLE_TYPE|capitalize}</legend>
-				    <div class="div_sel" id="div_vb_sel">
-				        {include file='report.brand_vendor_discount_table.brand_vendor_sel.tpl'}
-				    </div>
-			    </fieldset>
-			</td>
-			<td>
-			    <fieldset>
-			        <legend>Price Type</legend>
-				    <div class="div_sel" id="div_price_type_sel">
-				        {include file='report.brand_vendor_discount_table.price_type_sel.tpl'}
-				    </div>
-			    </fieldset>
-			</td>
-			<td>
-			    <fieldset>
-			        <legend>Department</legend>
-				    <div class="div_sel" id="div_dept_sel">
-				        {include file='report.brand_vendor_discount_table.dept_sel.tpl'}
-				    </div>
-			    </fieldset>
-			</td>
-	    </tr>
-	</table>
+													{foreach from=$branches_group.items.$bgid item=r}
+														<li>
+															<img src="ui/pixel.gif" width="40" height="1" />
+															<input type="checkbox" name="branch_id[]" value="{$r.branch_id}" {if is_array($smarty.request.branch_id)}{if in_array($r.branch_id, $smarty.request.branch_id)}checked {/if}{/if} onChange="VB_DISCOUNT_TABLE.branch_chx_changed();" /> {$r.code}
+														</li>
+													{/foreach}
+												</ul>
+											</li>
+										{/foreach}
+									{/if}
+								</ul>
+							</div>
+						</fieldset>
+					</td>
+				{/if}
+				<td>
+					<fieldset>
+						<legend class="form-label ml-3">{$REPORT_TABLE_TYPE|capitalize}</legend>
+						<div class="div_sel" id="div_vb_sel">
+							{include file='report.brand_vendor_discount_table.brand_vendor_sel.tpl'}
+						</div>
+					</fieldset>
+				</td>
+				<td>
+					<fieldset>
+						<legend class="form-label ml-3">Price Type</legend>
+						<div class="div_sel" id="div_price_type_sel">
+							{include file='report.brand_vendor_discount_table.price_type_sel.tpl'}
+						</div>
+					</fieldset>
+				</td>
+				<td>
+					<fieldset>
+						<legend class="form-label ml-3">Department</legend>
+						<div class="div_sel" id="div_dept_sel">
+							{include file='report.brand_vendor_discount_table.dept_sel.tpl'}
+						</div>
+					</fieldset>
+				</td>
+			</tr>
+		</table>
+
 	<input class="btn btn-primary" type="submit" value="Show" />
 	{if $sessioninfo.privilege.EXPORT_EXCEL}
-		<button class="btn btn-primary" name="output_excel">{#OUTPUT_EXCEL#}</button>
+		<button class="btn btn-info" name="output_excel">{#OUTPUT_EXCEL#}</button>
 	{/if}
+</div>
+</div>
 </form>
 {/if}
 

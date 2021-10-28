@@ -83,7 +83,8 @@ div.imgrollover:hover
 }
 
 #upload_popup {
-	border:2px solid #000;
+	border: 4px solid gainsboro;
+	border-radius: 10px;
 	background:#fff;
 	width:350px;
 	height:165px;
@@ -593,11 +594,12 @@ function set_has_tmp_photo(filepath){
 
 </div>
 
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:50;display:none;z-index:10000;">
+<div class="ndiv" id="ndiv" style="background-color:#ffffff;  border: 4px solid gainsboro;border-radius: 10px; position:absolute;left:150;top:50;display:none;z-index:10000;">
 <div class="blur"><div class="shadow"><div class="content">
 
 <div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(default_curtain_clicked())" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
-<div id="div_open_cat" style="min-width:400px;min-height:400px;">
+
+<div id="div_open_cat" style="margin: 15px;">
 	{include file='masterfile_category.open.tpl'}
 </div>
 </div></div></div>
