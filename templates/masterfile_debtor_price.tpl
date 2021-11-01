@@ -310,39 +310,62 @@ function refresh_debtor(debtor_id){
 </div>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger rounded mx-3">
+		The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
-<br />
-
-<form name="f_debtor" method="post" onSubmit="return false;" class="stdframe" style="background-color:#fff;" action="{$smarty.server.PHP_SELF}">
-	{include file='debtor_autocomplete.tpl' add_value="Show" parent_form="document.f_debtor"}
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_debtor" method="post" onSubmit="return false;" class="stdframe" style="background-color:#fff;" action="{$smarty.server.PHP_SELF}">
+			{include file='debtor_autocomplete.tpl' add_value="Show" parent_form="document.f_debtor"}
+		</form>
+	</div>
+</div>
 
 {if $form}
-<br />
-<h3>{$form.info.code} - {$form.info.description}</h3>
-
-<form name="f_a" method="post" onSubmit="return false;" class="stdframe">
-	<input type="hidden" name="debtor_id" value="{$form.debtor_id}" />
-	{include file='sku_items_autocomplete.tpl' no_add_button=1}
-	
-	<input type="button" value="Reload All SKU" onClick="DEBTOR_PRICE.reload_all_sku();" />
-	<input type="button" value="Find" onClick="DEBTOR_PRICE.find_sku();" />
-</form>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$form.info.code} - {$form.info.description}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" onSubmit="return false;" class="stdframe">
+			<input type="hidden" name="debtor_id" value="{$form.debtor_id}" />
+			{include file='sku_items_autocomplete.tpl' no_add_button=1}
+			
+			<input type="button" class="btn btn-primary" value="Reload All SKU" onClick="DEBTOR_PRICE.reload_all_sku();" />
+			<input type="button" class="btn btn-primary" value="Find" onClick="DEBTOR_PRICE.find_sku();" />
+		</form>
+	</div>
+</div>
 <br />
 
 <span id="span_loading_sku_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
-<div id="div_sku_list">
-	{include file='masterfile_debtor_price.sku_list.tpl'}
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="div_sku_list">
+			{include file='masterfile_debtor_price.sku_list.tpl'}
+		</div>
+	</div>
 </div>
 {/if}
 

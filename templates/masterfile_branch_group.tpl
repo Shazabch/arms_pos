@@ -130,18 +130,30 @@ function ucwords(ele){
 </script>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Branch Group</a> (Alt+A)</div>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Branch Group</a> (Alt+A)</div>
+</div>
 
 <br>
-<div id="div_table">{include file='masterfile_branch_group.table.tpl'}</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="div_table">{include file='masterfile_branch_group.table.tpl'}</div>
+	</div>
+</div>
 
 <!-- Branch Group poppup -->
-<div class="ndiv" id="ndiv" style="position:absolute;left:150px;top:100px;display:none;z-index:10000;width:600px;">
+<div class="ndiv" id="ndiv" style="background-color:#ffffff; padding:10px; border:1px solid gray;border-radius:7px;position:absolute;left:350px;top:100px;display:none;z-index:10000;width:600px;">
 <div class="shadow"><div class="content">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(default_curtain_clicked())" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(default_curtain_clicked())" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
 
 <br />
 <div id="div_branch_group_table"></div>

@@ -103,61 +103,92 @@ var UPDATE_MODULE = {
 {/literal}
 </script>
 
-
-
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li><b>{$e}</b></li>
-	    {/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul >
+			{foreach from=$err item=e}
+				<li><b>{$e}</b></li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
 <span id="span_loading" style="display:none; background:yellow; padding:2px;">
 	<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 </span>
-<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return UPDATE_MODULE.check_file(this);" method="post">
-	<input type="hidden" name="a" value="show_result" />
-	<input type="hidden" name="file_name" value="{$file_name}" />
-    <table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* Please ensure the file extension <b>".csv"</b>.<br />
-				* Please ensure the import file contains header.<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-	</table>
-	
-    <div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			<tr>
-			{foreach from=$sample item=s}
-				<td>{$s}</td>
-			{/foreach}
-			</tr>
-		</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return UPDATE_MODULE.check_file(this);" method="post">
+			<input type="hidden" name="a" value="show_result" />
+			<input type="hidden" name="file_name" value="{$file_name}" />
+			<table>
+				<tr>
+					
+						<td colspan="4">
+							<div class="alert alert-primary mx-3 rounded">
+							<b>Note:</b><br />
+							* Please ensure the file extension <b>".csv"</b>.<br />
+							* Please ensure the import file contains header.<br /><br />
+						</div>
+						</td>
+					
+				</tr>
+				<tr>
+					<td><b class="form-label">&nbsp;&nbsp;Upload CSV <br />&nbsp;&nbsp;(<a href="?a=download_sample">Download Sample</a>)</b></td>
+					<td>
+						&nbsp;&nbsp;<input type="file" name="update_csv"/>
+						<input type="Submit" class="btn btn-primary" value="Show Result" />
+					</td>
+				</tr>
+			</table>
+			
+			<div class="div_tbl">
+				<div class="breadcrumb-header justify-content-between">
+					<div class="my-auto">
+						<div class="d-flex">
+							<h4 class="content-title mb-0 my-auto ml-4 text-primary">Sample</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+						</div>
+					</div>
+				</div>
+				<div >
+					<div >
+						<div class="table-responsive">
+							<table id="si_tbl" class=" table mb-0 text-md-nowrap  table-hover">
+								
+								<thead class="bg-gray-100">
+									<tr >
+										{foreach from=$sample_headers item=i}
+											<th>{$i}</th>
+										{/foreach}
+									</tr>
+								</thead>
+								<tbody class="fs-08">
+									<tr>
+										{foreach from=$sample item=s}
+											<td>{$s}</td>
+										{/foreach}
+										</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="div_invalid" style="display: none">
+				<div style="border: solid 2px red; padding: 5px; background-color: yellow">
+					<p style="font-weight: bold">* Update Successfully. Click <a id="invalid_link" href='#' download>this</a> to download and view the invalid data.</p>
+				</div>
+			</div>
+		</form>
 	</div>
-	<div id="div_invalid" style="display: none">
-		<div style="border: solid 2px red; padding: 5px; background-color: yellow">
-			<p style="font-weight: bold">* Update Successfully. Click <a id="invalid_link" href='#' download>this</a> to download and view the invalid data.</p>
-		</div>
-	</div>
-</form>
+</div>
 <br>
 {if $item_lists}
 	<div id="div_result" class="div_result">

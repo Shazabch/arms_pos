@@ -88,7 +88,13 @@ function get_counter_name(val){
 {/literal}
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if !$no_header_footer}
 <!-- Item Details -->
@@ -100,84 +106,110 @@ function get_counter_name(val){
 <!-- End of Item Details-->
 
 {if $err}
-The following error(s) has occured:
-<ul class=err>
+<div class="alert alert-danger rounded mx-3">
+	<b>The following error(s) has occured:</b>
+<ul style="list-style-type: none;" class=err>
 {foreach from=$err item=e}
 <li style="color:red;"> {$e}</li>
 {/foreach}
 </ul>
+</div>
 {/if}
 
-<form name="f_a" method="get" class="form" >
-	<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id" id="branch_id" onchange='get_counter_name(this.value)'>
-			<option value="all" {if $smarty.request.branch_id eq 'All'}selected {/if}>--All--</option>
-			{foreach from=$branches key=id item=branch}
-			<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
-			{/foreach}
-		</select> &nbsp;&nbsp;
-	{/if}
-
-	<b>Counter</b>
-	<span id="counter_name_id">
-	<select name="counter_name" >
-		{if !$counters}
-		    <option value=''>No Data</option>
-		{else}
-		    {foreach name=counter_total from=$counters item=c}
-		    {/foreach}
-
-			{if $smarty.foreach.counter_total.total >1 }
-			    <option value='all' {if $smarty.request.counter_name eq "all"} selected {/if} >-- All --</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="get" class="form" >
+			<p>
+			<div class="row">
+				<div class="col-md-3">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id" id="branch_id" onchange='get_counter_name(this.value)'>
+					<option value="all" {if $smarty.request.branch_id eq 'All'}selected {/if}>--All--</option>
+					{foreach from=$branches key=id item=branch}
+					<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
+					{/foreach}
+				</select> &nbsp;&nbsp;
 			{/if}
-		  {foreach from=$counters key=cn  item=c}
-		      <option value="{$c.network_name}" {if $smarty.request.counter_name eq $cn}selected {/if} >{$c.network_name}</option>
-		  {/foreach}
-	  {/if}
-	</select>
-	</span>&nbsp;&nbsp;
+				</div>
+		
+			<div class="col-md-3">
+				<b class="form-label">Counter</b>
+			<span id="counter_name_id" name="counter_name">
+			<select   class="form-control"  >
+				{if !$counters}
+					<option value=''>No Data</option>
+				{else}
+					{foreach name=counter_total from=$counters item=c}
+					{/foreach}
+		
+					{if $smarty.foreach.counter_total.total >1 }
+						<option value='all' {if $smarty.request.counter_name eq "all"} selected {/if} >-- All --</option>
+					{/if}
+				  {foreach from=$counters key=cn  item=c}
+					  <option value="{$c.network_name}" {if $smarty.request.counter_name eq $cn}selected {/if} >{$c.network_name}</option>
+				  {/foreach}
+			  {/if}
+			</select>
+			</span>
+			</div>
+		
+			<div class="col-md-3">
+				<b class="form-label">Voucher Amount</b>
+			<select class="form-control" name="voucher_amount">
+				<option value="all" {if $smarty.request.voucher_amount eq 'all'} Selected {/if} >All</option>
+				{foreach from=$vs_list item=voucher_value}
+					<option value="{$voucher_value}" {if $smarty.request.voucher_amount eq $voucher_value} selected {/if}>{$voucher_value}</option>
+				{/foreach}
+			</select>
+			</div>
+		
+			<div class="col-md-3">
+				<b class="form-label">Status</b>
+			<select class="form-control" name="status">
+				<option value="all" {if $smarty.request.status eq 'all'} Selected {/if} >All</option>
+				<option value="normal" {if $smarty.request.status eq 'normal'} Selected {/if} >Normal</option>
+				<option value="abnormal" {if $smarty.request.status eq 'abnormal'} Selected {/if} >Abnormal</option>
+			</select>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">POS Date From</b>
+			<div class="form-inline">
+			<input class="form-control" type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1">&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
 
-    <b>Voucher Amount</b>
-	<select name="voucher_amount">
-		<option value="all" {if $smarty.request.voucher_amount eq 'all'} Selected {/if} >All</option>
-		{foreach from=$vs_list item=voucher_value}
-			<option value="{$voucher_value}" {if $smarty.request.voucher_amount eq $voucher_value} selected {/if}>{$voucher_value}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;
-
-	<b>Status</b>
-	<select name="status">
-		<option value="all" {if $smarty.request.status eq 'all'} Selected {/if} >All</option>
-		<option value="normal" {if $smarty.request.status eq 'normal'} Selected {/if} >Normal</option>
-		<option value="abnormal" {if $smarty.request.status eq 'abnormal'} Selected {/if} >Abnormal</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<b>POS Date From</b>
-	<input type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-
-	<b>To</b>
-	<input type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	</p>
-	<p>
-	<b>Voucher Code: </b><input name="search_code" value="{$smarty.request.search_code}"> (Optional)
-	</p>
-	<p>
-	<button class="btn btn-primary" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-		<button class="btn btn-primary" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
-	{/if}
-	</p>
-</form>
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+			<div class="form-inline">	
+			<input class="form-control" type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1">&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Voucher Code: </b><input class="form-control" name="search_code" value="{$smarty.request.search_code}"> (Optional)
+			</div>
+			</div>
+			
+			<p>
+			<button class="btn btn-primary mt-2" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+		</form>
+	</div>
+</div>
 
 {/if}
-
-<h2>{$report_title}</h2>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $detail}
 {foreach from=$top_head key=bid item=b_code}
 	<h3>Branch: {$b_code}</h3>
@@ -187,42 +219,52 @@ The following error(s) has occured:
 		{assign var=total_amount value=0}
 
 		<h4>Counter: {$count_name}</h4>
-		<table class="report_table">
-			<tr class=header>
-				<th>Date</th>
-				<th>Receipt No</th>
-				<th>Voucher Code</th>
-				<th>Voucher Used</th>
-				<th>Amount</th>
-				<th>Status</th>
-				<th>Approved by</th>
-			</tr>
-
-			{foreach from=$detail.$bid.$count_id key=date item=dcrdata}
-			    {foreach from=$dcrdata key=receipt_no item=crdata}
-			        {foreach from=$crdata key=voucher_code item=data}
-						<tr {if $data.status ne "OK"}style="color:red;"{/if} >
-						    <td>{$date}</td>
-						    <td><a onclick="trans_detail('{$count_id}','{$date}','{$data.pos_id}','{$bid}');" href="javascript:void(0)">{receipt_no_prefix_format branch_id=$bid counter_id=$count_id receipt_no=$receipt_no}</a></td>
-						    <td>{$voucher_code}</td>
-						    <td class="r">{$data.used}</td>
-						    <td class="r">{$data.amount|ifzero|number_format:2}</td>
-						    <td>{$data.status}</td>
-						    <td>{$data.approved_by|default:'-'}</td>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="" class="report_table table mb-0 text-md-nowrap  table-hover" width="100%" >
+						<thead class="bg-gray-100">
+							<tr class=header>
+								<th>Date</th>
+								<th>Receipt No</th>
+								<th>Voucher Code</th>
+								<th>Voucher Used</th>
+								<th>Amount</th>
+								<th>Status</th>
+								<th>Approved by</th>
+							</tr>
+						</thead>
+			
+						{foreach from=$detail.$bid.$count_id key=date item=dcrdata}
+							{foreach from=$dcrdata key=receipt_no item=crdata}
+								{foreach from=$crdata key=voucher_code item=data}
+									<tbody class="fs-08">
+										<tr {if $data.status ne "OK"}style="color:red;"{/if} >
+											<td>{$date}</td>
+											<td><a onclick="trans_detail('{$count_id}','{$date}','{$data.pos_id}','{$bid}');" href="javascript:void(0)">{receipt_no_prefix_format branch_id=$bid counter_id=$count_id receipt_no=$receipt_no}</a></td>
+											<td>{$voucher_code}</td>
+											<td class="r">{$data.used}</td>
+											<td class="r">{$data.amount|ifzero|number_format:2}</td>
+											<td>{$data.status}</td>
+											<td>{$data.approved_by|default:'-'}</td>
+										</tr>
+									</tbody>
+									{assign var=total_used value=$total_used+$data.used}
+									{assign var=total_amount value=$total_amount+$data.amount}
+								{/foreach}
+							{/foreach}
+						{/foreach}
+						<tr class=header>
+							<th colspan='3'>Total</th>
+							<td class="r">{$total_used}</td>
+							<td class="r">{$total_amount|number_format:2}</td>
+							<td></td>
+							<td></td>
 						</tr>
-						{assign var=total_used value=$total_used+$data.used}
-						{assign var=total_amount value=$total_amount+$data.amount}
-					{/foreach}
-			    {/foreach}
-			{/foreach}
-			<tr class=header>
-			    <th colspan='3'>Total</th>
-			    <td class="r">{$total_used}</td>
-			    <td class="r">{$total_amount|number_format:2}</td>
-			    <td></td>
-			    <td></td>
-			</tr>
-		</table>
+					</table>
+				</div>
+			</div>
+		</div>
 	{/foreach}
 {/foreach}
 {else}

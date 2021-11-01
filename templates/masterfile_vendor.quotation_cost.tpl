@@ -316,37 +316,60 @@ function refresh_vendor(vendor_id){
 </div>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $sessioninfo.privilege.MST_VENDOR_IMPORT_QUOTATION_COST}
-	<div><img src="ui/table_row_insert.png" align="absmiddle">&nbsp;<a href="masterfile_vendor.import_quotation_cost.php">Import Quotation Cost</a></img></div>
+	<div class="card mx-3">
+		<div class="card-body"><img src="ui/table_row_insert.png" align="absmiddle">&nbsp;<a href="masterfile_vendor.import_quotation_cost.php">Import Quotation Cost</a></img></div>
+	</div>
 {/if}
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger rounded mx-3">
+		The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
 <br />
 
-<form name="f_vendor" method="post" onSubmit="return false;" class="stdframe" style="background-color:#fff;" action="{$smarty.server.PHP_SELF}">
-	{include file='vendor_autocomplete.tpl' add_value="Show" parent_form="document.f_vendor"}
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_vendor" method="post" onSubmit="return false;" class="stdframe"  action="{$smarty.server.PHP_SELF}">
+			{include file='vendor_autocomplete.tpl' add_value="Show" parent_form="document.f_vendor"}
+		</form>
+	</div>
+</div>
 
 {if $form}
-<br />
-<h3>{$form.info.code} - {$form.info.description}</h3>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$form.info.code} - {$form.info.description}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 <form name="f_a" method="post" onSubmit="return false;" class="stdframe">
 	<input type="hidden" name="vendor_id" value="{$form.vendor_id}" />
-	{include file='sku_items_autocomplete.tpl' no_add_button=1}
+	<div class="card mx-3">
+		<div class="card-body">
+			{include file='sku_items_autocomplete.tpl' no_add_button=1}
+			<input class="btn btn-primary" type="button" value="Reload All SKU" onClick="VENDOR_QUOTATION_COST.reload_all_sku();" />
+	<input class="btn btn-info" type="button" value="Find" onClick="VENDOR_QUOTATION_COST.find_sku();" />
+		</div>
+	</div>
 	
-	<input class="btn btn-primary" type="button" value="Reload All SKU" onClick="VENDOR_QUOTATION_COST.reload_all_sku();" />
-	<input class="btn btn-primary" type="button" value="Find" onClick="VENDOR_QUOTATION_COST.find_sku();" />
+	
 </form>
 <br />
 

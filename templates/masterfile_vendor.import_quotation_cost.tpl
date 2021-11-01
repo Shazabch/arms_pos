@@ -113,69 +113,95 @@ var IMPORT_QUOTATION_COST_MODULE = {
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $errm}
 	<div class="errmsg">
-		<ul>
+	<div class="alert alert-danger rounded mx-3">
+		<ul style="list-style-type: none;">
 			<li>{$errm}</li>
 		</ul>
+	</div>
 	</div>
 {/if}
 <span id="span_loading" style="display:none; background:yellow; padding:2px;">
 	<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 </span>
-<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_QUOTATION_COST_MODULE.validate(this);" method="post">
-	<input type="hidden" name="a" value="show_result" />
-	<input type="hidden" name="method" value="1" />
-	<input type="hidden" name="file_name" value="{$file_name}" />
-	<table>
-		<tr>
-			<td colspan="4" style="color:#0000ff;">
-				Note:<br />
-				* This module will import the Quotation Cost base on Vendor.<br/>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-			<td>
-				<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-				<input type="Submit" value="Show Result" />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Branch</b></td>
-			<td id="branch_list">
-				<input type="checkbox" id="all_branch_chkbx" onclick="IMPORT_QUOTATION_COST_MODULE.toggle_all_branches(this);" /> <b>All</b> &nbsp;&nbsp;
-				{foreach from=$branch_list key=bid item=bcode}
-					<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
-				{/foreach}
-			</td>
-		</tr>
-	</div>
-	</table>
-	<div class="div_tbl">
-		<h3>Sample</h3>
-		<table id="si_tbl" width="25%">
-			<tr bgcolor="#ffffff">
-				{foreach from=$sample_headers.1 item=i}
-					<th>{$i}</th>
-				{/foreach}
-			</tr>
-			{foreach from=$sample.1 item=s}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" enctype="multipart/form-data" class="stdframe" onsubmit="return IMPORT_QUOTATION_COST_MODULE.validate(this);" method="post">
+			<input type="hidden" name="a" value="show_result" />
+			<input type="hidden" name="method" value="1" />
+			<input type="hidden" name="file_name" value="{$file_name}" />
+			<table>
 				<tr>
-				{foreach from=$s item=i}
-					<td>{$i}</td>
-				{/foreach}
+					<td colspan="4" >
+						<div class="alert alert-primary rounded ">
+							<b>Note:</b><br />
+						* This module will import the Quotation Cost base on Vendor.<br/>
+						</div>
+					</td>
 				</tr>
-			{/foreach}
-		</table>
+				<tr>
+					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
+					<td>
+						&nbsp;&nbsp;<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Branch</b></td>
+					<td id="branch_list">
+						<input  type="checkbox" id="all_branch_chkbx" onclick="IMPORT_QUOTATION_COST_MODULE.toggle_all_branches(this);" /> <b>All</b> &nbsp;&nbsp;
+						{foreach from=$branch_list key=bid item=bcode}
+							<input type="checkbox" class="branch_sel_list" name="branch_list[{$bid}]" value="1" {if $smarty.request.branch_list.$bid}checked{/if} /> <b>{$bcode}</b>&nbsp;&nbsp;
+						{/foreach}
+					</td>
+				</tr>
+			</div>
+			</table>
+			<div class="div_tbl">
+				<div class="breadcrumb-header justify-content-between">
+					<div class="my-auto">
+						<div class="d-flex">
+							<h4 class="content-title mb-0 my-auto ml-4 text-primary">Sample</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+						</div>
+					</div>
+				</div>
+			<div class="table-respponsive">
+				<table id="si_tbl" width="100%">
+					<thead class="bg-gray-100">
+						<tr >
+							{foreach from=$sample_headers.1 item=i}
+								<th>{$i}</th>
+							{/foreach}
+						</tr>
+					</thead>
+					{foreach from=$sample.1 item=s}
+						<tbody class="fs-08">
+							<tr>
+								{foreach from=$s item=i}
+									<td>{$i}</td>
+								{/foreach}
+								</tr>
+						</tbody>
+					{/foreach}
+				</table>
+			</div>
+			</div>
+			<div id="div_invalid" style="display: none">
+				<div style="border: solid 2px red; padding: 5px; background-color: yellow">
+					<p style="font-weight: bold">* Update Successfully. Click <a id="invalid_link" href='#' download>this</a> to download and view the invalid data.</p>
+				</div>
+			</div>
+		</form>
 	</div>
-	<div id="div_invalid" style="display: none">
-		<div style="border: solid 2px red; padding: 5px; background-color: yellow">
-			<p style="font-weight: bold">* Update Successfully. Click <a id="invalid_link" href='#' download>this</a> to download and view the invalid data.</p>
-		</div>
-	</div>
-</form>
+</div>
 <br>
 {if $item_lists}
 	<form name="f_b" method="post">

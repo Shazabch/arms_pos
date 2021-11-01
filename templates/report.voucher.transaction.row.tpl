@@ -3,7 +3,7 @@
 - commit the changes done by alex.
 *}
 
-<tbody id="tbody_{if $is_fresh_market}fm_row{else}cat_row{/if}-{$cat_id}" class="{if $is_fresh_market}is_fresh_market_row{/if}">
+<tbody id="tbody_{if $is_fresh_market}fm_row{else}cat_row{/if}-{$cat_id}" class="fs-08  {if $is_fresh_market}is_fresh_market_row{/if}">
 	<tr>
 		{if ($type!='total')}
 		<th nowrap align="left">

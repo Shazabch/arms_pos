@@ -243,64 +243,87 @@ function check_gst_allow_edit(){
 </script>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Debtor</a> (Alt+A)</div>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Debtor</a> (Alt+A)</div>
+</div>
 
-<form name="search_form" id="search_form" onsubmit="return reload_table()">
-<p>
-<b>Code / Description</b> :&nbsp;
-	<input type="text" name="desc" size="15" />
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="search_form" id="search_form" onsubmit="return reload_table()">
+			<p>
+			<div class="row">
+				<div class="col-md-4">
+					<b class="form-label">Code / Description :</b> 
+				<input class="form-control" type="text" name="desc" size="15" />
+			
+				</div>
+			
+				<div class="col-md-4">
+					<b class="form-label">Status :</b>
+				<select class="form-control" name="status">
+					<option value="">All</option>
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
+				</select>
+			
+				</div>
+		
+				<div class="col-md-4">
+					<b class="form-label">Starts With :</b>
+				<select class="form-control" name="starts_with">
+					<option value="">All</option>
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+					<option value="F">F</option>
+					<option value="G">G</option>
+					<option value="H">H</option>
+					<option value="I">I</option>
+					<option value="J">J</option>
+					<option value="K">K</option>
+					<option value="L">L</option>
+					<option value="M">M</option>
+					<option value="N">N</option>
+					<option value="O">O</option>
+					<option value="P">P</option>
+					<option value="Q">Q</option>
+					<option value="R">R</option>
+					<option value="S">S</option>
+					<option value="T">T</option>
+					<option value="U">U</option>
+					<option value="V">V</option>
+					<option value="W">W</option>
+					<option value="X">X</option>
+					<option value="Y">Y</option>
+					<option value="Z">Z</option>
+					<option value="others">Others</option>
+				</select>
+				</div>
+			</div>
 
-&nbsp;&nbsp;&nbsp;
-	
-<b>Status</b> :&nbsp;
-	<select name="status">
-		<option value="">All</option>
-		<option value="1">Active</option>
-		<option value="0">Inactive</option>
-	</select>
-
-&nbsp;&nbsp;&nbsp;
-
-<b>Starts With</b> :&nbsp;
-	<select name="starts_with">
-		<option value="">All</option>
-		<option value="A">A</option>
-		<option value="B">B</option>
-		<option value="C">C</option>
-		<option value="D">D</option>
-		<option value="E">E</option>
-		<option value="F">F</option>
-		<option value="G">G</option>
-		<option value="H">H</option>
-		<option value="I">I</option>
-		<option value="J">J</option>
-		<option value="K">K</option>
-		<option value="L">L</option>
-		<option value="M">M</option>
-		<option value="N">N</option>
-		<option value="O">O</option>
-		<option value="P">P</option>
-		<option value="Q">Q</option>
-		<option value="R">R</option>
-		<option value="S">S</option>
-		<option value="T">T</option>
-		<option value="U">U</option>
-		<option value="V">V</option>
-		<option value="W">W</option>
-		<option value="X">X</option>
-		<option value="Y">Y</option>
-		<option value="Z">Z</option>
-		<option value="others">Others</option>
-	</select>
-<input type=button value="Search" onclick="reload_table()" />
-</p>
-</form>
+			<input type="button" class="btn btn-primary mt-2" value="Search" onclick="reload_table()" />
+			</p>
+			</form>
+	</div>
+</div>
 
 <br>
-<div id="div_table" class="stdframe">
-	{include file='masterfile_debtor.table.tpl'}
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="div_table" class="stdframe">
+			{include file='masterfile_debtor.table.tpl'}
+		</div>
+	</div>
 </div>
 
 <div id="div_debtor_details" class="debtor_details" style="position:absolute;z-index:10000;width:700px;height:600px;display:none;border:2px solid #CE0000;">

@@ -129,11 +129,13 @@ DEBTOR_AUTOCOMPLETE_MAIN{$ext} {literal} = {
 <table width="100%">
     <!-- Debtor -->
     <tr>
-        <td width="100"><b>Search Debtor</b></td>
+        <td width="100"><b class="form-label">Search Debtor</b></td>
         <td>
         	<input type="hidden" id="inp_debtor_id{$ext}" name="debtor_id" >
-            <input type="text" id="inp_search_debtor_autocomplete{$ext}" name="search_debtor_autocomplete" size="30" style="font-size:14px;width:400px;" onClick="this.select();" />
-            <input type="button" id="inp_add_debtor_autocomplete{$ext}" value="{$add_value|default:'Add'}" />
+          <div class="form-inline">
+			<input class="form-control" type="text" id="inp_search_debtor_autocomplete{$ext}" name="search_debtor_autocomplete" size="30" style="font-size:14px;width:400px;" onClick="this.select();" />
+          &nbsp;&nbsp;  <input class="btn btn-primary" type="button" id="inp_add_debtor_autocomplete{$ext}" value="{$add_value|default:'Add'}" />
+		  </div>
             <div id="div_search_debtor_autocomplete_choices{$ext}" class="autocomplete" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100"></div>
         </td>
     </tr>

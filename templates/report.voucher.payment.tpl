@@ -32,79 +32,111 @@
 {/literal}
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if !$no_header_footer}
 
-<form name="f_a" method=post class="form">
-	<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-			{foreach from=$branches key=id item=branch}
-			<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
-			{/foreach}
-		</select> &nbsp;&nbsp;
-	{/if}
-
-	<b>Date From</b>
-	<input type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-
-	<b>To</b>
-	<input type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-
-	</p>
-	<p>
-	<button class="btn btn-primary" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-		<button class="btn btn-primary" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
-	{/if}
-	</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method=post class="form">
+			<div class="row">
+				
+			<div class="col-md-4">
+				{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					{foreach from=$branches key=id item=branch}
+					<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
+					{/foreach}
+				</select>
+			{/if}
+			</div>
+		
+			<div class="col-md-4">
+				<b class="form-label">Date From</b>
+				<div class="form-inline">
+					<input class="form-control" type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+			</div>
+		
+		
+			<div class="col-md-4">
+				<b class="form-label">To</b>
+				<div class="form-inline">
+					<input class="form-control" type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				</div>
+			</div>
+			</div>
+		
+		
+			<button class="btn btn-primary mt-2" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
+			{/if}
+			
+		</form>
+	</div>
+</div>
 
 {/if}
-
-<h2>{$report_title}</h2>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $detail}
-<table class="report_table" id="report_tbl">
-	<tr class=header>
-		<th>Date</th>
-			{foreach from=$branches key=id item=branch}
-				{if $id ne $form.branch_id}
-				<th>{$branch.code}</th>
-				{/if}
-			{/foreach}
-		<th>Total Paid</th>
-	</tr>
-	<tbody id="content_id">
-	{foreach from=$detail key=date item=data}
-	    {assign var=total_paid value=0}
-		<tr>
-		    <td>{$date}</td>
-			{foreach from=$branches key=id item=branch}
-			{if $id ne $form.branch_id}
-			    <td class="r">{$data.$id.paid|number_format:2|ifzero}</td>
-		    	{assign var=total_paid value=$total_paid+$data.$id.paid}
-			{/if}
-			{/foreach}
-			<td class="r">{$total_paid|number_format:2|ifzero}</td>
-		</tr>
-	{/foreach}
-	</tbody>
-	<tr class="header">
-	    <th align="right">Total</th>
-		{foreach from=$branches key=id item=branch}
-			{if $id ne $form.branch_id}
-				<td class="r">{$total.$id.paid|number_format:2|ifzero}</td>
-		    	{assign var=all_total_paid value=$all_total_paid+$total.$id.paid}
-			{/if}
-		{/foreach}
-		<td class="r">{$all_total_paid|number_format:2|ifzero}</td>
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover" id="report_tbl">
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th>Date</th>
+							{foreach from=$branches key=id item=branch}
+								{if $id ne $form.branch_id}
+								<th>{$branch.code}</th>
+								{/if}
+							{/foreach}
+						<th>Total Paid</th>
+					</tr>
+				</thead>
+				<tbody class="fs-08" id="content_id">
+				{foreach from=$detail key=date item=data}
+					{assign var=total_paid value=0}
+					<tr>
+						<td>{$date}</td>
+						{foreach from=$branches key=id item=branch}
+						{if $id ne $form.branch_id}
+							<td class="r">{$data.$id.paid|number_format:2|ifzero}</td>
+							{assign var=total_paid value=$total_paid+$data.$id.paid}
+						{/if}
+						{/foreach}
+						<td class="r">{$total_paid|number_format:2|ifzero}</td>
+					</tr>
+				{/foreach}
+				</tbody>
+				<tr class="header">
+					<th align="right">Total</th>
+					{foreach from=$branches key=id item=branch}
+						{if $id ne $form.branch_id}
+							<td class="r">{$total.$id.paid|number_format:2|ifzero}</td>
+							{assign var=all_total_paid value=$all_total_paid+$total.$id.paid}
+						{/if}
+					{/foreach}
+					<td class="r">{$all_total_paid|number_format:2|ifzero}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 {else}
 	{if $table}- No Data -{/if}
 {/if}

@@ -14,34 +14,34 @@
 <input type="hidden" name="id" value="{$form.id}">
 <table>
     <tr>
-	    <td><b>Code</b></td>
-		<td colspan="3"><input type="text" name="code" value="{$form.code}" style="width:100px;" onChange="ucwords(this);" maxlength="10"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+	    <td><b class="form-label">Code<span class="text-danger" title="Required Field"> *</span></b></td>
+		<td colspan="3"><input class="form-control" type="text" name="code" value="{$form.code}" style="width:100px;" onChange="ucwords(this);" maxlength="10"> </td>
 	</tr>
 	<tr>
-	    <td><b>Description</b></td>
-		<td colspan="3"><input type="text" name="description" value="{$form.description}" style="width:400px;" onChange="ucwords(this);" maxlength="100"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+	    <td><b class="form-label">Description<span class="text-danger" title="Required Field"> *</span></b></td>
+		<td colspan="3"><input class="form-control" type="text" name="description" value="{$form.description}" style="width:400px;" onChange="ucwords(this);" maxlength="100"> </td>
 	</tr>
 </table>
 <table>
 	<tr>
-	    <th><br />Select Branch</th>
+	    <th class="form-label"><br />Select Branch</th>
 	    <td></td>
-	    <th><br />Selected Branch <img src="ui/rq.gif" align="absbottom" title="Required Field"></th>
+	    <th class="form-label"><br />Selected Branch <span class="text-danger" title="Required Field"> *</span></th>
 	</tr>
 	<tr>
 	    <td>
-	        <select id="select_branches" multiple style="height:300px;width:240px;">
+	        <select class="form-control ml-3" id="select_branches" multiple style="height:300px;width:240px;">
 	            {foreach from=$branches key=bid item=r}
 	                <option value="{$bid}">{$r.code} - {$r.description}</option>
 	            {/foreach}
 	        </select>
 	    </td>
 	    <td>
-	        <button onClick="insert_branch();">>></button><br /><br />
-	        <button onClick="remove_branch();"><<</button>
+	        <button class="btn btn-sm btn-dark" onClick="insert_branch();">>></button><br /><br />
+	        <button class="btn btn-sm btn-dark" onClick="remove_branch();"><<</button>
 	    </td>
 	    <td>
-	        <select multiple name="branches_list[]" id="select_branches_list" style="height:300px;width:240px;">
+	        <select class="form-control" multiple name="branches_list[]" id="select_branches_list" style="height:300px;width:240px;">
 	            {foreach from=$branches_list key=bid item=r}
 	                <option value="{$bid}">{$r.code} - {$r.description}</option>
 	            {/foreach}
@@ -51,6 +51,6 @@
 </table>
 </form>
 <p style="text-align:right;">
-	<input type="button" value="Save" id="btn_save" onClick="save();" />
-	<input type="button" value="Close" onClick="default_curtain_clicked();" />
+	<input type="button" class="btn btn-primary" value="Save" id="btn_save" onClick="save();" />
+	<input type="button" class="btn btn-danger" value="Close" onClick="default_curtain_clicked();" />
 </p>

@@ -45,127 +45,165 @@
 {/literal}
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if !$no_header_footer}
 
-<form name="f_a" method=post class="form">
-	<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-			<option value="all" {if $smarty.request.branch_id eq 'All'}selected {/if}>--All--</option>
-			{foreach from=$branches key=id item=branch}
-			<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
-			{/foreach}
-		</select> &nbsp;&nbsp;
-	{/if}
-	<b>POS Date From</b>
-	<input type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method=post class="form">
+			<p>
+			<div class="row">
+				<div class="col-md-3">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					<option value="all" {if $smarty.request.branch_id eq 'All'}selected {/if}>--All--</option>
+					{foreach from=$branches key=id item=branch}
+					<option value="{$branch.id}" {if $smarty.request.branch_id eq $branch.id}selected{/if}>{$branch.code}</option>
+					{/foreach}
+				</select> &nbsp;&nbsp;
+			{/if}
+				</div>
+			<div class="col-md-3">
+				<b class="form-label">POS Date From</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+		
+			</div>
 
-	<b>To</b>
-	<input type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-
-	<input type="checkbox" name="by_monthly" id="by_monthly_id" value="1" {if $smarty.request.by_monthly}checked {/if} />
-	<label for="by_monthly_id"><b>Group Monthly</b></label>
-
-	<br>
-	<b>Voucher Code: </b><input name="search_code" value="{$smarty.request.search_code}">
-
-	</p>
-	<p>
-	<button class="btn btn-primary" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-		<button class="btn btn-primary" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
-	{/if}
-	</p>
-
-</form>
+		<div class="col-md-3">
+			<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
+		
+		
+			<input type="checkbox" name="by_monthly" id="by_monthly_id" value="1" {if $smarty.request.by_monthly}checked {/if} />
+			<label for="by_monthly_id"><b class="form-label">Group Monthly</b></label>
+		</div>
+			<div class="col-md-3">
+				<b class="form-label">Voucher Code: </b><input class="form-control" name="search_code" value="{$smarty.request.search_code}">
+			</div>
+		
+			</div>
+			</p>
+			<p>
+			<button class="btn btn-primary mt-2" name=a value=show_report >{#SHOW_REPORT#}</button>&nbsp;&nbsp;
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" name=a value=output_excel >{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+		
+		</form>
+	</div>
+</div>
 {/if}
-<font color="red">*</font> Red color indicate not belong to ARMS code
-<h2>{$report_title}</h2>
-
+<div class="alert alert-danger rounded mx-3">
+	<font color="red">*</font> Red color indicate not belong to ARMS code
+</div>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if $tb}
 
-<table class="tb" cellspacing="0" cellpadding="2" border="0" id="tbl_cat">
-    <tr>
-		<th align="left">Voucher Code</th>
-		<th align="left">Amt</th>
-        <th align="left">&nbsp;</th>
-		{assign var=lasty value=0}
-		{assign var=lastm value=0}
-		{foreach from=$uq_cols key=dt item=d}
-		    <th valign="bottom">
-			{if $smarty.request.by_monthly}
-				{if $lasty ne $d.y}
-					<span class="small">{$d.y}</span><br />
-					{assign var=lasty value=$d.y}
-				{/if}
-				{$d.m|str_month|truncate:3:''}
-				</th>
-			{else}
-				{if $lastm ne $d.m or $lasty ne $d.y}
-				    <span class="small">{$d.m|string_format:'%02d'}/{$d.y}</span><br />
-				    {assign var=lastm value=$d.m}
-					{assign var=lasty value=$d.y}
-				{/if}
-				{$d.d}
-				</th>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="tb table mb-0 text-md-nowrap  table-hover" id="tbl_cat" width="100%">
+				<thead class="bg-gray-100">
+					<tr>
+						<th align="left">Voucher Code</th>
+						<th align="left">Amt</th>
+						<th align="left">&nbsp;</th>
+						{assign var=lasty value=0}
+						{assign var=lastm value=0}
+						{foreach from=$uq_cols key=dt item=d}
+							<th valign="bottom">
+							{if $smarty.request.by_monthly}
+								{if $lasty ne $d.y}
+									<span class="small">{$d.y}</span><br />
+									{assign var=lasty value=$d.y}
+								{/if}
+								{$d.m|str_month|truncate:3:''}
+								</th>
+							{else}
+								{if $lastm ne $d.m or $lasty ne $d.y}
+									<span class="small">{$d.m|string_format:'%02d'}/{$d.y}</span><br />
+									{assign var=lastm value=$d.m}
+									{assign var=lasty value=$d.y}
+								{/if}
+								{$d.d}
+								</th>
+							{/if}
+						{/foreach}
+						<th>Total<br />Qty</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				
+				{assign var=colspan value=$columnspan+5}
+				
+			<tbody class="fs-08">
+				{if $code_amount}
+				<tr>
+					<td colspan="{$colspan}" style="background:#0afaff"><b>{$code_qty} ARMS Voucher</b></td>
+				</tr>
+				{foreach from=$code_amount name=arms_voucher key=id item=r}
+					   {include file='report.voucher.transaction.row.tpl' row=$tb.$id.data vc_code=$id type="arms"}
+				{/foreach}
+				{assign var=id value=''}
+				{include file='report.voucher.transaction.row.tpl' row=$total_arms_voucher type="total"}
 			{/if}
-		{/foreach}
-		<th>Total<br />Qty</th>
-		<th>Amount</th>
-	</tr>
-	
-	{assign var=colspan value=$columnspan+5}
-	
-	{if $code_amount}
-		<tr>
-			<td colspan="{$colspan}" style="background:#0afaff"><b>{$code_qty} ARMS Voucher</b></td>
-		</tr>
-	    {foreach from=$code_amount name=arms_voucher key=id item=r}
-		   	{include file='report.voucher.transaction.row.tpl' row=$tb.$id.data vc_code=$id type="arms"}
-	    {/foreach}
-	    {assign var=id value=''}
-	    {include file='report.voucher.transaction.row.tpl' row=$total_arms_voucher type="total"}
-	{/if}
-	{if $unknown_code}
-		<tr style="background:#ffaaa0">
-			<td colspan="{$colspan}"><b>{$unknown_qty} Not ARMS Voucher</b></td>
-		</tr>
-	    {foreach from=$unknown_code name=unknown_voucher key=id item=r}
-		   	{include file='report.voucher.transaction.row.tpl' row=$tb.$id.data vc_code=$id type="unknown"}
-	    {/foreach}
-	    {assign var=id value=''}
-	    {include file='report.voucher.transaction.row.tpl' row=$total_not_arms_voucher type="total"}
-	{/if}
-
-	<tr class=sortbottom style="background:#8888ff">
-		<th align="right">Grand Total</th>
-        <th align="left">&nbsp;</th>
-		<th style="font-size:8pt">Qty<br>Amt</th>
-		{foreach from=$uq_cols key=dt item=d}
-			{assign var=fmt value="%0.2f"}
-			{assign var=fmt value="%d"}
-			{assign var=qty value=$tb_total.total.$dt.used}
-  			{assign var=val value=$tb_total.total.$dt.amt}
-			{capture assign=tooltip}
-				Qty:{$qty|number_format}  /  Amt:{$val|string_format:'%.2f'}
-			{/capture}
-			{if $val}
-				<td class="small" align="right" title="{$tooltip}">{$qty}<br />{$val|number_format:2}</td>
-			{else}
-			    <td class="small" align="right">&nbsp;</td>
+			{if $unknown_code}
+				<tr style="background:#ffaaa0">
+					<td colspan="{$colspan}"><b>{$unknown_qty} Not ARMS Voucher</b></td>
+				</tr>
+				{foreach from=$unknown_code name=unknown_voucher key=id item=r}
+					   {include file='report.voucher.transaction.row.tpl' row=$tb.$id.data vc_code=$id type="unknown"}
+				{/foreach}
+				{assign var=id value=''}
+				{include file='report.voucher.transaction.row.tpl' row=$total_not_arms_voucher type="total"}
 			{/if}
-		{/foreach}
-
-		<td class="small" align="right">{$tb_total.total.total.used}</td>
-		<td class="small" align="right">{$tb_total.total.total.amt|number_format:2}</td>
-	</tr>
-</table>
-
+		
+			<tr class=sortbottom style="background:#8888ff">
+				<th align="right">Grand Total</th>
+				<th align="left">&nbsp;</th>
+				<th style="font-size:8pt">Qty<br>Amt</th>
+				{foreach from=$uq_cols key=dt item=d}
+					{assign var=fmt value="%0.2f"}
+					{assign var=fmt value="%d"}
+					{assign var=qty value=$tb_total.total.$dt.used}
+					  {assign var=val value=$tb_total.total.$dt.amt}
+					{capture assign=tooltip}
+						Qty:{$qty|number_format}  /  Amt:{$val|string_format:'%.2f'}
+					{/capture}
+					{if $val}
+						<td class="small" align="right" title="{$tooltip}">{$qty}<br />{$val|number_format:2}</td>
+					{else}
+						<td class="small" align="right">&nbsp;</td>
+					{/if}
+				{/foreach}
+		
+				<td class="small" align="right">{$tb_total.total.total.used}</td>
+				<td class="small" align="right">{$tb_total.total.total.amt|number_format:2}</td>
+			</tr>
+			</tbody>
+			</table>
+			
+		</div>
+	</div>
+</div>
 {else}
 	{if $table}- No Data -{/if}
 {/if}
