@@ -561,7 +561,15 @@ function profile_image_clicked(){
 }
 </style>
 {/literal}
-<h1>{*$config.membership_cardname*}Membership {if $add_mode}(Add New Member){/if}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{*$config.membership_cardname*}Membership {if $add_mode}(Add New Member){/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <div class=errmsg>
 {if $errmsg}<ul>{foreach item=m from=$errmsg}<li>{$m}{/foreach}</ul>{/if}
@@ -634,462 +642,479 @@ function profile_image_clicked(){
 {/if}
 
 {if $config.membership_data_use_custom_field.principal_card}
-	<table class="body">
-		<tr>
-			<td><b>Principal NRIC</b></td><td>
-			<input name="principal_nric" size="15" maxlength="15" value="{$form.parent_nric}" readonly />
-			<input type="hidden" name="old_principal_nric" value="{$form.parent_nric}">
-			<input type="button" value="Find" id="find_principal" onclick="principal_nric_verify(this);" {if $form.parent_nric}style="display:none;"{/if}>
-			<input type="button" value="Unlink Relation" id="unlink_principal"  onclick="principal_unlink(this);" {if !$form.parent_nric}style="display:none;"{/if}>
-			<span id="pnric_loading"></span>
-			</td>
-		</tr>
-	</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<table class="body">
+				<tr>
+					<div class="form-inline">
+						<b class="form-label">Principal NRIC</b>
+						&nbsp;&nbsp;	<input class="form-control" name="principal_nric" size="15" maxlength="15" value="{$form.parent_nric}" readonly />
+							<input type="hidden" name="old_principal_nric" value="{$form.parent_nric}">
+							&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="Find" id="find_principal" onclick="principal_nric_verify(this);" {if $form.parent_nric}style="display:none;"{/if}>
+							<input class="btn btn-danger" type="button" value="Unlink Relation" id="unlink_principal"  onclick="principal_unlink(this);" {if !$form.parent_nric}style="display:none;"{/if}>
+					</div>
+					<span id="pnric_loading"></span>
+				</tr>
+			</table>
+		</div>
+	</div>
 {/if}
 
-<div class="stdframe">
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
 
-<div id="ic_org" style="display:none; padding:10px; background-color: #fff; border:4px solid #999; position:absolute; top:150px; left:150px;">
-<div class="small" style="position:absolute; right:10px;"><a href="javascript:void(hidediv('ic_org'))"><img src="ui/closewin.png" border="0" align="absmiddle"></a></div>
-<div id="full_ic_photo_display_area"><img src="{$form.ic_path}"></div>
-</div>
-
-{if !$add_mode}
-	<table align=right>
-		<tr>
-			<td align=center>
-				<h4>Scanned IC Image</h4>
-				<div id="div_ic_photo_area">
-					<img src="{$form.ic_path}" width="200" style="border:1px solid #999; padding:8px; background-color:#fff;cursor:pointer;z-index:100" onClick="{if $BRANCH_CODE eq $form.apply_branch_code || $config.single_server_mode}show_context_menu(this);{else}showdiv('ic_org');{/if}" title="Click to view full size or update photo"><br />
-					Click to view full size {if $BRANCH_CODE eq $form.apply_branch_code || $config.single_server_mode}/ Update photo {/if}<br />
-				</div>
-			</td>
-		</tr>
-	</table>
-{/if}
-
-
-<h3>Member's Particular</h3>
-<h4>Please update the data if necessary. <font color=red size=+2>*</font> = Required field</h4>
-<table class=body>
-<tr>
-	<td><b>Apply Branch</b></td><td>
-		{if $add_mode}
-			{if $BRANCH_CODE eq 'HQ'}
-			<select name="apply_branch_id">
-				{foreach from=$branch_list key=r item=branch}
-				<option value="{$branch_list.$r.id}" {if $sessioninfo.branch_id eq $branch_list.$r.id}selected{/if}>{$branch_list.$r.code}</option>
-				{/foreach}
-			</select>
-			{else}
-			<input type="hidden" name="apply_branch_id" value="{$sessioninfo.branch_id}">
-			{$smarty.const.BRANCH_CODE}
-			{/if}
-		{else}
-			{if $BRANCH_CODE eq 'HQ'}
-				{assign var=branch_list_selected value=false}
-				<select name="apply_branch_id" class="required" title="Apply Branch ID">
-					{foreach from=$branch_list key=r item=branch}
-						<option value="{$branch_list.$r.id}" {if $form.apply_branch_id eq $branch_list.$r.id}{assign var=branch_list_selected value=true} selected{/if}>{$branch_list.$r.code}</option>
-					{/foreach}
-					{if $form.apply_branch_id && $branch_list_selected eq false}
-						<option value="{$form.apply_branch_id}" selected>{$form.apply_branch_code}</option>
-					{/if}
-				</select>
-			{elseif $BRANCH_CODE neq 'HQ' && $form.apply_branch_id > 0}
-				<input type="hidden" name="apply_branch_id" value="{$form.apply_branch_id}" />
-				{$form.apply_branch_code}
-			{else}
-				<input type="hidden" name="apply_branch_id" value="{$sessioninfo.branch_id}" />
-				{$BRANCH_CODE}
-			{/if}
-		{/if}
-		
-		{*
-		{$form.apply_branch_code|default:$smarty.const.BRANCH_CODE}
-		*}
-	</td>
-</tr><tr>
-	<td nowrap><b>NRIC / Passport no.</b></td><td><input type="text" name="nric" value="{$form.nric}" onblur="ucz(this)" class="required" title="NRIC / Passport No." {if (!$add_mode && !$update) || !$sessioninfo.privilege.MEMBERSHIP_TOPEDIT}readonly{/if}> <font color=red size=+2>*</font></td>
-</tr>
-
-{if $add_mode && $config.membership_add_member_can_issue_card && $config.membership_auto_verify_member}
-<tr><td>
-<b>Card number</b></td><td><input type="text" name="add_card_no" class="required" title="Card No" size="{$config.membership_length}" maxlength="{$config.membership_length}" onchange="validate_newcard(this)" value="{$form.add_card_no}" id="inp_add_card_no" /> <font color=red size=+2>*</font><span id="card_check" class="small"></span>
-</td></tr>
-<tr><td>
-{assign var=issue_date value=$form.issue_date}
-{if !$issue_date}
-	{assign var=issue_date value=$smarty.now|date_format:'%d/%m/%Y'}
-{/if}
-<b>Issue Date</b></td><td><input type="text" name="issue_date" id="issue_date" class="required" title="Issue Date" size="10" value="{$issue_date}"> <img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Issue Date"><font color=red size=+2>*</font> (Max {$MAX_MYSQL_DATETIME})
-</td></tr>
-<tr><td>
-{assign var=expiry_date value=$form.expiry_date}
-{if !$expiry_date}
-	{assign var=expiry_date value=$smarty.now|date_add:'+1 year'|date_format:'%d/%m/%Y'}
-{/if}
-<b>Expiry Date</b></td><td><input type="text" name="expiry_date" id="expiry_date" class="required" title="Expiry Date" size="10" onchange="uc(this)" value="{$expiry_date}"> <img align="absmiddle" src="ui/calendar.gif" id="t_added3" style="cursor: pointer;" title="Select Next Expiry Date"><font color=red size=+2>*</font> (Max {$MAX_MYSQL_DATETIME})
-</td></tr>
-{/if}
-
-<tr>
-	<td><b>Full Name</b></td><td>
-	<input type="text" name="name" size="50" maxlength="80" value="{$form.name}" onBlur="uc(this)" onChange="chg(this.name)" {if !$config.membership_required_fields || $config.membership_required_fields.name}class="required" title="Name"{/if} {if (!$add_mode && !$update) || !$sessioninfo.privilege.MEMBERSHIP_TOPEDIT}readonly{/if}> {if !$config.membership_required_fields || $config.membership_required_fields.name}<font color=red size=+2>*</font>{/if}</td>
-</tr>
-
-{* Member Type *}
-{if $config.membership_type}
-	<tr>
-		<td><b>Membership Type</b></td>
-		<td>
-			<input type="hidden" name="old_member_type" value="{$form.member_type}" />
-	
-			<select name="member_type" {if !$config.membership_required_fields || $config.membership_required_fields.member_type}class="required" title="Membership Type"{/if}>
-				{foreach from=$config.membership_type key=member_type item=mtype_desc}
-					{if is_numeric($member_type)}
-						{assign var=mt value=$mtype_desc}
-					{else}
-						{assign var=mt value=$member_type}
-					{/if}
-					<option value="{$mt}" {if $mt eq $form.member_type}selected{/if}>{$mtype_desc}</option>
-				{/foreach}
-			</select>
-			{if !$config.membership_required_fields || $config.membership_required_fields.member_type}<font color=red size=+2>*</font>{/if}
-		</td>
-	</tr>
-{/if}
-
-{* Staff Type *}
-{if $config.membership_enable_staff_card}
-	<tr>
-		<td><b>Staff Type</b></td>
-		<td>
-			<input type="hidden" name="old_staff_type" value="{$form.staff_type}" />
+			<div id="ic_org" style="display:none; padding:10px; background-color: #fff; border:4px solid #999; position:absolute; top:150px; left:150px;">
+			<div class="small" style="position:absolute; right:10px;"><a href="javascript:void(hidediv('ic_org'))"><img src="ui/closewin.png" border="0" align="absmiddle"></a></div>
+			<div id="full_ic_photo_display_area"><img src="{$form.ic_path}"></div>
+			</div>
 			
-			{if $sessioninfo.privilege.MEMBERSHIP_UPDATE_STAFF_TYPE}
-			<select name="staff_type">
-				<option value="">-- Not Staff --</option>
-				{foreach from=$config.membership_staff_type key=staff_type item=staff_label}
-					<option value="{$staff_type}" {if $staff_type eq $form.staff_type}selected {/if}>{$staff_label}</option>
-				{/foreach}
-			</select>
-			{else}
-				<input type="hidden" name="staff_type" value="{$form.staff_type}" />
+			{if !$add_mode}
+				<table align=right>
+					<tr>
+						<td align=center>
+							<h4>Scanned IC Image</h4>
+							<div id="div_ic_photo_area">
+								<img src="{$form.ic_path}" width="200" style="border:1px solid #999; padding:8px; background-color:#fff;cursor:pointer;z-index:100" onClick="{if $BRANCH_CODE eq $form.apply_branch_code || $config.single_server_mode}show_context_menu(this);{else}showdiv('ic_org');{/if}" title="Click to view full size or update photo"><br />
+								Click to view full size {if $BRANCH_CODE eq $form.apply_branch_code || $config.single_server_mode}/ Update photo {/if}<br />
+							</div>
+						</td>
+					</tr>
+				</table>
+			{/if}
+			
+			
+			<h3 class="text-primary">Member's Particular</h3>
+			<h5>Please update the data if necessary. <font color=red size=+2>*</font> = Required field</h5>
+			<table class="body mt-2">
+			<tr>
+				<td><b class="form-label">Apply Branch</b></td><td>
+					{if $add_mode}
+						{if $BRANCH_CODE eq 'HQ'}
+						<select class="form-control" name="apply_branch_id">
+							{foreach from=$branch_list key=r item=branch}
+							<option value="{$branch_list.$r.id}" {if $sessioninfo.branch_id eq $branch_list.$r.id}selected{/if}>{$branch_list.$r.code}</option>
+							{/foreach}
+						</select>
+						{else}
+						<input type="hidden" name="apply_branch_id" value="{$sessioninfo.branch_id}">
+						{$smarty.const.BRANCH_CODE}
+						{/if}
+					{else}
+						{if $BRANCH_CODE eq 'HQ'}
+							{assign var=branch_list_selected value=false}
+							<select name="apply_branch_id" class="required" title="Apply Branch ID">
+								{foreach from=$branch_list key=r item=branch}
+									<option value="{$branch_list.$r.id}" {if $form.apply_branch_id eq $branch_list.$r.id}{assign var=branch_list_selected value=true} selected{/if}>{$branch_list.$r.code}</option>
+								{/foreach}
+								{if $form.apply_branch_id && $branch_list_selected eq false}
+									<option value="{$form.apply_branch_id}" selected>{$form.apply_branch_code}</option>
+								{/if}
+							</select>
+						{elseif $BRANCH_CODE neq 'HQ' && $form.apply_branch_id > 0}
+							<input type="hidden" name="apply_branch_id" value="{$form.apply_branch_id}" />
+							{$form.apply_branch_code}
+						{else}
+							<input type="hidden" name="apply_branch_id" value="{$sessioninfo.branch_id}" />
+							{$BRANCH_CODE}
+						{/if}
+					{/if}
+					
+					{*
+					{$form.apply_branch_code|default:$smarty.const.BRANCH_CODE}
+					*}
+				</td>
+			</tr>
+			<tr>
+				<td nowrap><b class="form-label">NRIC / Passport no.<span class="text-danger" > *</span></b></td><td>
+					<input type="text" name="nric" value="{$form.nric}" onblur="ucz(this)" class="required form-control" title="NRIC / Passport No." {if (!$add_mode && !$update) || !$sessioninfo.privilege.MEMBERSHIP_TOPEDIT}readonly{/if}></td>
+			</tr>
+			
+			{if $add_mode && $config.membership_add_member_can_issue_card && $config.membership_auto_verify_member}
+			<tr><td>
+			<b class="form-label">Card number<span class="text-danger"> *</span></b></td>
+			<td><input type="text" name="add_card_no" class="form-control required" title="Card No" size="{$config.membership_length}" maxlength="{$config.membership_length}" onchange="validate_newcard(this)" value="{$form.add_card_no}" id="inp_add_card_no" /><span id="card_check" class="small"></span>
+			</td></tr>
+			<tr><td>
+			{assign var=issue_date value=$form.issue_date}
+			{if !$issue_date}
+				{assign var=issue_date value=$smarty.now|date_format:'%d/%m/%Y'}
+			{/if}
+			<b class="form-label">Issue Date<span class="text-danger"> *</span></b></td>
+			<td><div class="form-inline"><input type="text" name="issue_date" id="issue_date" class="form-control required" title="Issue Date" size="68" value="{$issue_date}">&nbsp;&nbsp; <img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Issue Date">&nbsp; (Max {$MAX_MYSQL_DATETIME})</div>
+			</td></tr>
+			<tr><td>
+			{assign var=expiry_date value=$form.expiry_date}
+			{if !$expiry_date}
+				{assign var=expiry_date value=$smarty.now|date_add:'+1 year'|date_format:'%d/%m/%Y'}
+			{/if}
+			<b class="form-label">Expiry Date<span class="text-danger"> *</span></b></td>	
+			<td><div class="form-inline"><input type="text" name="expiry_date" id="expiry_date" class="form-control required" title="Expiry Date" size="68" onchange="uc(this)" value="{$expiry_date}">&nbsp;&nbsp; <img align="absmiddle" src="ui/calendar.gif" id="t_added3" style="cursor: pointer;" title="Select Next Expiry Date">&nbsp;(Max {$MAX_MYSQL_DATETIME})</div>
+			</td></tr>
+			{/if}
+			
+			<tr>
+				<td><b class="form-label">Full Name<span class="text-danger"> *</span></b></td><td>
+				<input type="text" name="name" size="50" maxlength="80" value="{$form.name}" onBlur="uc(this)" onChange="chg(this.name)" {if !$config.membership_required_fields || $config.membership_required_fields.name}class="form-control required" title="Name"{/if} {if (!$add_mode && !$update) || !$sessioninfo.privilege.MEMBERSHIP_TOPEDIT}readonly{/if}> {if !$config.membership_required_fields || $config.membership_required_fields.name}{/if}</td>
+			</tr>
+			
+			{* Member Type *}
+			{if $config.membership_type}
+				<tr>
+					<td><b class="form-label">Membership Type</b></td>
+					<td>
+						<input class="form-control" type="hidden" name="old_member_type" value="{$form.member_type}" />
 				
-				{if $form.staff_type}
-					{$config.membership_staff_type[$form.staff_type]|default:$form.staff_type}
-				{else}
-					-- Not Staff --
+						<select class="form-control" name="member_type" {if !$config.membership_required_fields || $config.membership_required_fields.member_type}class="required" title="Membership Type"{/if}>
+							{foreach from=$config.membership_type key=member_type item=mtype_desc}
+								{if is_numeric($member_type)}
+									{assign var=mt value=$mtype_desc}
+								{else}
+									{assign var=mt value=$member_type}
+								{/if}
+								<option value="{$mt}" {if $mt eq $form.member_type}selected{/if}>{$mtype_desc}</option>
+							{/foreach}
+						</select>
+						{if !$config.membership_required_fields || $config.membership_required_fields.member_type}<font color=red size=+2>*</font>{/if}
+					</td>
+				</tr>
+			{/if}
+			
+			{* Staff Type *}
+			{if $config.membership_enable_staff_card}
+				<tr>
+					<td><b class="form-label">Staff Type</b></td>
+					<td>
+						<input type="hidden" name="old_staff_type" value="{$form.staff_type}" />
+						
+						{if $sessioninfo.privilege.MEMBERSHIP_UPDATE_STAFF_TYPE}
+						<select class="form-control" name="staff_type">
+							<option value="">-- Not Staff --</option>
+							{foreach from=$config.membership_staff_type key=staff_type item=staff_label}
+								<option value="{$staff_type}" {if $staff_type eq $form.staff_type}selected {/if}>{$staff_label}</option>
+							{/foreach}
+						</select>
+						{else}
+							<input type="hidden" name="staff_type" value="{$form.staff_type}" />
+							
+							{if $form.staff_type}
+								{$config.membership_staff_type[$form.staff_type]|default:$form.staff_type}
+							{else}
+								-- Not Staff --
+							{/if}
+						{/if}
+					</td>
+				</tr>
+			{/if}
+			
+			<tr>
+				<td><b class="form-label">Title</b></td><td>
+				<input id=des1 name=designation type=radio value="Mr" {if $form.designation eq 'Mr'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Mr
+				<input id=des2 name=designation type=radio value="Mrs" {if $form.designation eq 'Mrs'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Mrs
+				<input id=des3 name=designation type=radio value="Ms" {if $form.designation eq 'Ms'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Ms
+				<input id=des4 name=designation type=radio value="Others" {if $form.designation eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Others
+				{if !$config.membership_required_fields || $config.membership_required_fields.designation}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Gender</b></td><td>
+				<input id=gender1 name=gender type=radio value="M" {if $form.gender eq 'M'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.gender}class="required" title="Gender"{/if}>Male
+				<input id=gender2 name=gender type=radio value="F" {if $form.gender eq 'F'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.gender}class="required" title="Gender"{/if}>Female
+				{if !$config.membership_required_fields || $config.membership_required_fields.gender}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Date of Birth</b></td><td>
+			<div class="form-inline">
+				DD&nbsp; <input class="form-control" type="text" name=dob_d size=2 maxlength=2 value="{$form.dob_d}"{if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Day)"{/if}>
+				&nbsp;MM&nbsp; <input class="form-control" type="text" name=dob_m size=2 maxlength=2 value="{$form.dob_m}"{if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Month)"{/if}>
+				&nbsp;YYYY&nbsp; <input class="form-control" type="text" name=dob_y size=4 maxlength=4 value="{$form.dob_y}" onBlur="if (this.value.length==2)this.value='19'+this.value" {if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Year)"{/if}>
+			</div>
+				{if !$config.membership_required_fields || $config.membership_required_fields.dob}<font color=red size=+2>*</font>{/if}
+				<input type="hidden" name="old_dob" value="{$form.dob}" />
+				</td>
+			</tr><tr>
+			<td>&nbsp;</td>
+			</tr><tr>
+				<td><b class="form-label">Marital Status</b></td><td>
+				<input id=ms1 name=marital_status type=radio value="1" {if $form.marital_status == 1}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.marital_status}class="required" title="Marital Status"{/if}>Married
+				<input id=ms2 name=marital_status type=radio value="0" {if $form.marital_status != '' && $form.marital_status == 0}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.marital_status}class="required" title="Marital Status"{/if}>Single
+				{if !$config.membership_required_fields || $config.membership_required_fields.marital_status}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">National</b></td><td>
+				<input id=nt1 name=national type=radio value="Malaysian" {if $form.national eq 'Malaysian'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.national}class="required" title="National"{/if}>Malaysian
+				<input id=nt2 name=national type=radio value="Others" {if $form.national eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.national}class="required" title="National"{/if}>Others
+				{if !$config.membership_required_fields || $config.membership_required_fields.national}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Race</b></td><td>
+				<input id=race1 name=race type=radio value="Malay" {if $form.race eq 'Malay'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Malay
+				<input id=race2 name=race type=radio value="Chinese" {if $form.race eq 'Chinese'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Chinese
+				<input id=race3 name=race type=radio value="Indian" {if $form.race eq 'Indian'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Indian
+				<input id=race4 name=race type=radio value="Others" {if $form.race eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Others
+				{if !$config.membership_required_fields || $config.membership_required_fields.race}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Level of Education</b></td><td>
+				<input id=edu1 name=education_level type=radio value="Secondary" {if $form.education_level eq 'Secondary'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>Secondary
+				<input id=edu2 name=education_level type=radio value="College" {if $form.education_level eq 'College'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>College
+				<input id=edu3 name=education_level type=radio value="University" {if $form.education_level eq 'University'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>University
+				<input id=edu4 name=education_level type=radio value="Others" {if $form.education_level eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>Others
+				{if !$config.membership_required_fields || $config.membership_required_fields.education_level}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Preferred Language</b></td><td>
+				<input id=lang1 name=preferred_lang type=radio value="Malay" {if $form.preferred_lang eq 'Malay'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>Malay
+				<input id=lang2 name=preferred_lang type=radio value="Chinese" {if $form.preferred_lang eq 'Chinese'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>Chinese
+				<input id=lang3 name=preferred_lang type=radio value="English" {if $form.preferred_lang eq 'English'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>English
+				{if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+			<td>&nbsp;</td>
+			</tr><tr>
+				<td><b class="form-label">Address</b></td><td>
+				<input class="form-control" type="text" name=address size=80 maxlength=100 value="{$form.address}" onBlur="uc(this)" {if !$config.membership_required_fields || $config.membership_required_fields.address}class="required" title="Address"{/if}>
+				{if !$config.membership_required_fields || $config.membership_required_fields.address}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Post Code</b></td><td>
+				<input class="form-control" type="text" name=postcode size=5 maxlength=10 value="{$form.postcode}" {if !$config.membership_required_fields || $config.membership_required_fields.postcode}class="required" title="Post Code"{/if}>
+				{if !$config.membership_required_fields || $config.membership_required_fields.postcode}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">City</b></td><td>
+				<input class="form-control" type="text" name=city size=20 maxlength=50 value="{$form.city}" onBlur="uc(this)" {if !$config.membership_required_fields || $config.membership_required_fields.city}class="required" title="City"{/if}>
+				{if !$config.membership_required_fields || $config.membership_required_fields.city}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">State</b></td><td>
+					<select class="form-control" name="state" {if !$config.membership_required_fields || $config.membership_required_fields.state}class="required" title="State"{/if}>
+						{if $form.state}
+						<option value="{$form.state}">{$form.state}</option>
+						{/if}
+						<option value="">-----------</option>
+						{if $config.membership_state_settings}
+							{foreach from=$config.membership_state_settings item=state}
+								<option value="{$state}">{$state}</option>
+							{/foreach}
+						{/if}
+					</select>
+					{if !$config.membership_required_fields || $config.membership_required_fields.state}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Phone (Home)</b></td><td>
+				<input class="form-control" type="text" name=phone_1 size=15 maxlength=15 value="{$form.phone_1}" {if $config.membership_required_fields.phone_1}class="required" title="Phone (Home)"{/if}>
+				{if $config.membership_required_fields.phone_1}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Phone (Office)</b></td><td>
+				<input class="form-control" type="text" name=phone_2 size=15 maxlength=15 value="{$form.phone_2}" {if $config.membership_required_fields.phone_2}class="required" title="Phone (Office)"{/if}>
+				{if $config.membership_required_fields.phone_2}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Phone (Mobile)</b></td><td>
+				<input class="form-control" type="text" name=phone_3 size=15 maxlength=15 value="{$form.phone_3}" {if $config.membership_required_fields.phone_3}class="required" title="Phone (Mobile)"{/if}>
+				{if $config.membership_required_fields.phone_3}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Email Address</b></td><td>
+				<input class="form-control" type="text" name=email size=30 maxlength=50 value="{$form.email}" onBlur="lc(this)" {if $config.membership_required_fields.email}class="required" title="Email Address"{/if}>
+				{if $config.membership_required_fields.email}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr>
+			{if $config.membership_data_use_custom_field.recruit_by}
+				<tr>
+					<td><b class="form-label">Recruit By</b></td><td>
+					<input class="form-control" type="text" name=username size=15 maxlength=15 value="{$form.recruit_name}" onchange="user_verify(this);" {if $config.membership_required_fields.recruit_by}class="required" title="Recruit By"{/if}> <span id="rb_loading"></span>
+					<input type="hidden" name="recruit_by" value="{$form.recruit_by}">
+					{if $config.membership_required_fields.recruit_by}<font color=red size=+2>*</font>{/if}
+					</td>
+				</tr>
+			{/if}
+			{if $config.membership_extra_info}
+				{foreach from=$config.membership_extra_info key=col item=info}
+					<tr>
+						<td><b class="form-label">{$info.description}</b></td>
+						<td>
+							<input class="form-control" type="text" name="{$col}" size="{$info.input_size}" maxlength="{$info.input_size}" value="{$form.$col}" {if $info.onblur}onblur="{$info.onblur}"{/if} {if $info.onchange}onchange="{$info.onchange}"{/if} {if $config.membership_required_fields.$col}class="required" title="{$info.description}"{/if}>
+							{if $config.membership_required_fields.$col}<font color=red size=+2>*</font>{/if}
+						</td>
+					</tr>
+				{/foreach}
+			{/if}
+			<tr>
+			<td>&nbsp;</td>
+			</tr><tr>
+				<td><b class="form-label">Occupation</b></td><td>
+				<input id=occ1 name=occupation type=radio value="Administrative" {if $form.occupation eq 'Administrative'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Administrative
+				<input id=occ2 name=occupation type=radio value="Executive" {if $form.occupation eq 'Executive'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Executive
+				<input id=occ3 name=occupation type=radio value="Professional" {if $form.occupation eq 'Professional'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Professional
+				<input id=occ4 name=occupation type=radio value="Businessman" {if $form.occupation eq 'Businessman'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Businessman
+				<input id=occ5 name=occupation type=radio value="Skilled Worker" {if $form.occupation eq 'Skilled Worker'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Skilled Worker
+				{if !$config.membership_required_fields || $config.membership_required_fields.occupation}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td>&nbsp;</td><td>
+				<input id=occ6 name=occupation type=radio value="Housewife" {if $form.occupation eq 'Housewife'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Housewife
+				<input id=occ7 name=occupation type=radio value="Student" {if $form.occupation eq 'Student'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Student
+				<input id=occ8 name=occupation type=radio value="Teacher" {if $form.occupation eq 'Teacher'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Teacher
+				<input id=occ9 name=occupation type=radio value="Government Servant" {if $form.occupation eq 'Government Servant'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Government Servant
+				<input id=occ10 name=occupation type=radio value="Others" {if $form.occupation eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Others
+				</td>
+			</tr><tr>
+				<td><b class="form-label">Income</b></td><td>
+				<input id=income1 name=income type=radio value="{$config.arms_currency.symbol}1000 & Below" {if $form.income eq $config.arms_currency.symbol|cat:'1000 & Below'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}1000 & Below
+				<input id=income2 name=income type=radio value="{$config.arms_currency.symbol}1001-{$config.arms_currency.symbol}2000" {if $form.income eq $config.arms_currency.symbol|cat:'1001-'|cat:$config.arms_currency.symbol|cat:'2000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}1001-{$config.arms_currency.symbol}2000
+				<input id=income3 name=income type=radio value="{$config.arms_currency.symbol}2001-{$config.arms_currency.symbol}4000" {if $form.income eq $config.arms_currency.symbol|cat:'2001-'|cat:$config.arms_currency.symbol|cat:'4000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}2001-{$config.arms_currency.symbol}4000
+				{if $config.membership_required_fields.income}<font color=red size=+2>*</font>{/if}
+				</td>
+			</tr><tr>
+				<td>&nbsp;</td><td>
+				<input id=income4 name=income type=radio value="{$config.arms_currency.symbol}4001-{$config.arms_currency.symbol}7000" {if $form.income eq $config.arms_currency.symbol|cat:'4001-'|cat:$config.arms_currency.symbol|cat:'7000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}4001-{$config.arms_currency.symbol}7000
+				<input id=income5 name=income type=radio value="{$config.arms_currency.symbol}7001-{$config.arms_currency.symbol}10000" {if $form.income eq $config.arms_currency.symbol|cat:'7001-'|cat:$config.arms_currency.symbol|cat:'10000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}7001-{$config.arms_currency.symbol}10000
+				<input id=income6 name=income type=radio value="{$config.arms_currency.symbol}10000 & Above" {if $form.income eq $config.arms_currency.symbol|cat:'10000 & Above'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}10000 & Above
+				</td>
+			</tr><tr>
+			<td>&nbsp;</td>
+			</tr>
+			{if $config.membership_data_use_customize_value}
+				{foreach from=$config.membership_data_use_customize_value item=row_value key=row}
+					{assign var=title value=$config.membership_data_use_customize_value.$row.title}
+					{assign var=type value=$config.membership_data_use_customize_value.$row.type}
+					{assign var=input_name value=$config.membership_data_use_customize_value.$row.input_name}
+					<tr>
+						<td valign="top"><b class="form-label">{$title}</b></td><td>
+						<table><tr>
+							{assign var=rows_count value=1}
+							{foreach from=$config.membership_data_use_customize_value.$row.value item=value_name key=value_type}
+								<td>
+									<input class="form-control" type="{$type}" name="{$input_name}[{$value_type}]" {if $form.$input_name.$value_type}checked{/if}> {$value_name}
+								</td>
+								{if $rows_count eq '5'}
+									{assign var=rows_count value=0}
+									</tr><tr>
+								{/if}
+							{assign var=rows_count value=$rows_count+1}
+							{/foreach}
+						</tr></table>
+					</tr>
+				{/foreach}
+			{else}
+				{if !$config.membership_not_malaysian}
+					<tr>
+						<td valign=top><b class="form-label">Choice of Newspaper</b></td><td>
+						<table ><tr><td>
+							<input type=checkbox name="newspaper[nst]" {if $form.newspaper.nst}checked{/if}> New Strait Time
+							</td><td>
+							<input type=checkbox name="newspaper[thestar]" {if $form.newspaper.thestar}checked{/if}> The Star
+							</td><td>
+							<input type=checkbox name="newspaper[kwongwah]" {if $form.newspaper.kwongwah}checked{/if}> Kwong Wah Yit Poh
+							</td>
+						</tr><tr><td>
+							<input type=checkbox name="newspaper[sinchew]" {if $form.newspaper.sinchew}checked{/if}> Sin Chew Jit Poh
+							</td><td>
+							<input type=checkbox name="newspaper[nanyang]" {if $form.newspaper.nanyang}checked{/if}> Nanyang Siang Poh
+							</td><td>
+							<input type=checkbox name="newspaper[guangming]" {if $form.newspaper.guangming}checked{/if}> Guang Ming
+							</td>
+						</tr><tr><td>
+							<input type=checkbox name="newspaper[utusan]" {if $form.newspaper.utusan}checked{/if}> Utusan Malaysia
+							</td><td>
+							<input type=checkbox name="newspaper[bharian]" {if $form.newspaper.bharian}checked{/if}> Berita Harian
+							</td><td>
+							<input type=checkbox name="newspaper[malaymail]" {if $form.newspaper.malaymail}checked{/if}> Malay Mail
+							</td>
+						</tr><tr><td>
+							<input type=checkbox name="newspaper[thesun]" {if $form.newspaper.thesun}checked{/if}> The Sun
+							</td><td>
+							<input type=checkbox name="newspaper[tamil]" {if $form.newspaper.tamil}checked{/if}> Tamil Newspaper
+							</td><td>
+							<input type=checkbox name="newspaper[chinapress]" {if $form.newspaper.chinapress}checked{/if}> China Press
+							</td>
+						</tr></table>
+					</tr><tr>
+						<td valign=top><b class="form-label">Other VIP Card</b></td><td>
+						<table ><tr><td>
+							<input type=checkbox name="other_vip_card[sunshine]" {if $form.other_vip_card.sunshine}checked{/if}> Sunshine
+							</td><td>
+							<input type=checkbox name="other_vip_card[thestore]" {if $form.other_vip_card.thestore}checked{/if}> The Store
+							</td><td>
+							<input type=checkbox name="other_vip_card[fajar]" {if $form.other_vip_card.fajar}checked{/if}> Fajar
+							</td>
+						</tr><tr><td>
+							<input type=checkbox name="other_vip_card[parkson]" {if $form.other_vip_card.parkson}checked{/if}> Parkson
+							</td><td>
+							<input type=checkbox name="other_vip_card[jusco]" {if $form.other_vip_card.jusco}checked{/if}> Jaya Jusco
+							</td><td>
+							<input type=checkbox name="other_vip_card[yawata]" {if $form.other_vip_card.yawata}checked{/if}> Yawata
+							</td>
+						</tr><tr><td>
+							<input type=checkbox name="other_vip_card[pacific]" {if $form.other_vip_card.pacific}checked{/if}> Pacific
+							</td><td>
+							<input type=checkbox name="other_vip_card[makro]" {if $form.other_vip_card.makro}checked{/if}> Makro
+							</td><td>
+							<input type=checkbox name="other_vip_card[metrojaya]" {if $form.other_vip_card.metrojaya}checked{/if}> Metro Jaya
+							</td>
+						</tr></table>
+					</tr>
 				{/if}
 			{/if}
-		</td>
-	</tr>
-{/if}
-
-<tr>
-	<td><b>Title</b></td><td>
-	<input id=des1 name=designation type=radio value="Mr" {if $form.designation eq 'Mr'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Mr
-	<input id=des2 name=designation type=radio value="Mrs" {if $form.designation eq 'Mrs'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Mrs
-	<input id=des3 name=designation type=radio value="Ms" {if $form.designation eq 'Ms'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Ms
-	<input id=des4 name=designation type=radio value="Others" {if $form.designation eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.designation}class="required" title="Designation"{/if}>Others
-	{if !$config.membership_required_fields || $config.membership_required_fields.designation}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Gender</b></td><td>
-	<input id=gender1 name=gender type=radio value="M" {if $form.gender eq 'M'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.gender}class="required" title="Gender"{/if}>Male
-	<input id=gender2 name=gender type=radio value="F" {if $form.gender eq 'F'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.gender}class="required" title="Gender"{/if}>Female
-	{if !$config.membership_required_fields || $config.membership_required_fields.gender}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Date of Birth</b></td><td>
-	DD <input type="text" name=dob_d size=2 maxlength=2 value="{$form.dob_d}"{if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Day)"{/if}>
-	MM <input type="text" name=dob_m size=2 maxlength=2 value="{$form.dob_m}"{if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Month)"{/if}>
-	YYYY <input type="text" name=dob_y size=4 maxlength=4 value="{$form.dob_y}" onBlur="if (this.value.length==2)this.value='19'+this.value" {if !$config.membership_required_fields || $config.membership_required_fields.dob}class="required" title="Date of Birth (Year)"{/if}>
-	{if !$config.membership_required_fields || $config.membership_required_fields.dob}<font color=red size=+2>*</font>{/if}
-	<input type="hidden" name="old_dob" value="{$form.dob}" />
-	</td>
-</tr><tr>
-<td>&nbsp;</td>
-</tr><tr>
-	<td><b>Marital Status</b></td><td>
-	<input id=ms1 name=marital_status type=radio value="1" {if $form.marital_status == 1}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.marital_status}class="required" title="Marital Status"{/if}>Married
-	<input id=ms2 name=marital_status type=radio value="0" {if $form.marital_status != '' && $form.marital_status == 0}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.marital_status}class="required" title="Marital Status"{/if}>Single
-	{if !$config.membership_required_fields || $config.membership_required_fields.marital_status}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>National</b></td><td>
-	<input id=nt1 name=national type=radio value="Malaysian" {if $form.national eq 'Malaysian'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.national}class="required" title="National"{/if}>Malaysian
-	<input id=nt2 name=national type=radio value="Others" {if $form.national eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.national}class="required" title="National"{/if}>Others
-	{if !$config.membership_required_fields || $config.membership_required_fields.national}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Race</b></td><td>
-	<input id=race1 name=race type=radio value="Malay" {if $form.race eq 'Malay'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Malay
-	<input id=race2 name=race type=radio value="Chinese" {if $form.race eq 'Chinese'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Chinese
-	<input id=race3 name=race type=radio value="Indian" {if $form.race eq 'Indian'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Indian
-	<input id=race4 name=race type=radio value="Others" {if $form.race eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.race}class="required" title="Race"{/if}>Others
-	{if !$config.membership_required_fields || $config.membership_required_fields.race}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Level of Education</b></td><td>
-	<input id=edu1 name=education_level type=radio value="Secondary" {if $form.education_level eq 'Secondary'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>Secondary
-	<input id=edu2 name=education_level type=radio value="College" {if $form.education_level eq 'College'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>College
-	<input id=edu3 name=education_level type=radio value="University" {if $form.education_level eq 'University'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>University
-	<input id=edu4 name=education_level type=radio value="Others" {if $form.education_level eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.education_level}class="required" title="Level of Education"{/if}>Others
-	{if !$config.membership_required_fields || $config.membership_required_fields.education_level}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Preferred Language</b></td><td>
-	<input id=lang1 name=preferred_lang type=radio value="Malay" {if $form.preferred_lang eq 'Malay'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>Malay
-	<input id=lang2 name=preferred_lang type=radio value="Chinese" {if $form.preferred_lang eq 'Chinese'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>Chinese
-	<input id=lang3 name=preferred_lang type=radio value="English" {if $form.preferred_lang eq 'English'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}class="required" title="Preferred Language"{/if}>English
-	{if !$config.membership_required_fields || $config.membership_required_fields.preferred_lang}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-<td>&nbsp;</td>
-</tr><tr>
-	<td><b>Address</b></td><td>
-	<input type="text" name=address size=80 maxlength=100 value="{$form.address}" onBlur="uc(this)" {if !$config.membership_required_fields || $config.membership_required_fields.address}class="required" title="Address"{/if}>
-	{if !$config.membership_required_fields || $config.membership_required_fields.address}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Post Code</b></td><td>
-	<input type="text" name=postcode size=5 maxlength=10 value="{$form.postcode}" {if !$config.membership_required_fields || $config.membership_required_fields.postcode}class="required" title="Post Code"{/if}>
-	{if !$config.membership_required_fields || $config.membership_required_fields.postcode}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>City</b></td><td>
-	<input type="text" name=city size=20 maxlength=50 value="{$form.city}" onBlur="uc(this)" {if !$config.membership_required_fields || $config.membership_required_fields.city}class="required" title="City"{/if}>
-	{if !$config.membership_required_fields || $config.membership_required_fields.city}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>State</b></td><td>
-		<select name="state" {if !$config.membership_required_fields || $config.membership_required_fields.state}class="required" title="State"{/if}>
-			{if $form.state}
-			<option value="{$form.state}">{$form.state}</option>
+			<tr>
+				<td valign=top><b class="form-label">Credit Card</b></td><td>
+				<input bgcolor="#000000" type=checkbox name="credit_card[visa]" {if $form.credit_card.visa}checked{/if}> Visa
+				<input type=checkbox name="credit_card[master]" {if $form.credit_card.master}checked{/if}> Master
+				<input type=checkbox name="credit_card[amex]" {if $form.credit_card.amex}checked{/if}> Amex
+				<input type=checkbox name="credit_card[diners]" {if $form.credit_card.diners}checked{/if}> Diners
+				<input type=checkbox name="credit_card[others]" {if $form.credit_card.others}checked{/if}> Others
+			</tr>
+			
+			{if $config.enable_gst}
+			<tr>
+				<td valign=top><b class="form-label">Always Print Full Tax Invoice</b></td>
+				<td>
+					<select class="form-control" name="print_full_tax_invoice">
+						<option value="0" {if !$form.print_full_tax_invoice}selected{/if}>No</option>
+						<option value="1" {if $form.print_full_tax_invoice eq 1}selected{/if}>Yes</option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td valign=top><b class="form-label">GST Type</b></td>
+				<td>
+					<select class="form-control" name="gst_type">
+						<option value="" {if !$form.gst_type}selected{/if}>--</option>
+						{foreach from=$gst_list item=r}
+							<option value="{$r.id}" {if $form.gst_type eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
 			{/if}
-			<option value="">-----------</option>
-			{if $config.membership_state_settings}
-				{foreach from=$config.membership_state_settings item=state}
-					<option value="{$state}">{$state}</option>
-				{/foreach}
+			
+			<tr>
+				<td valign=top><b class="form-label">Remark</b></td>
+				<td>
+					<textarea class="form-control" rows="3" cols="40" name="remark">{$form.remark}</textarea>
+				</td>
+			</tr>
+			
+			{if $config.membership_pmr}
+			<tr>
+				<td valign=top><b class="form-label">{$config.membership_pmr_name}</b></td>
+				<td>
+					<textarea class="form-control" rows="3" cols="40" name="pmr">{$form.pmr}</textarea>
+				</td>
+			</tr>
 			{/if}
-		</select>
-		{if !$config.membership_required_fields || $config.membership_required_fields.state}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Phone (Home)</b></td><td>
-	<input type="text" name=phone_1 size=15 maxlength=15 value="{$form.phone_1}" {if $config.membership_required_fields.phone_1}class="required" title="Phone (Home)"{/if}>
-	{if $config.membership_required_fields.phone_1}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Phone (Office)</b></td><td>
-	<input type="text" name=phone_2 size=15 maxlength=15 value="{$form.phone_2}" {if $config.membership_required_fields.phone_2}class="required" title="Phone (Office)"{/if}>
-	{if $config.membership_required_fields.phone_2}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Phone (Mobile)</b></td><td>
-	<input type="text" name=phone_3 size=15 maxlength=15 value="{$form.phone_3}" {if $config.membership_required_fields.phone_3}class="required" title="Phone (Mobile)"{/if}>
-	{if $config.membership_required_fields.phone_3}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td><b>Email Address</b></td><td>
-	<input type="text" name=email size=30 maxlength=50 value="{$form.email}" onBlur="lc(this)" {if $config.membership_required_fields.email}class="required" title="Email Address"{/if}>
-	{if $config.membership_required_fields.email}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr>
-{if $config.membership_data_use_custom_field.recruit_by}
-	<tr>
-		<td><b>Recruit By</b></td><td>
-		<input type="text" name=username size=15 maxlength=15 value="{$form.recruit_name}" onchange="user_verify(this);" {if $config.membership_required_fields.recruit_by}class="required" title="Recruit By"{/if}> <span id="rb_loading"></span>
-		<input type="hidden" name="recruit_by" value="{$form.recruit_by}">
-		{if $config.membership_required_fields.recruit_by}<font color=red size=+2>*</font>{/if}
-		</td>
-	</tr>
-{/if}
-{if $config.membership_extra_info}
-	{foreach from=$config.membership_extra_info key=col item=info}
-		<tr>
-			<td><b>{$info.description}</b></td>
-			<td>
-				<input type="text" name="{$col}" size="{$info.input_size}" maxlength="{$info.input_size}" value="{$form.$col}" {if $info.onblur}onblur="{$info.onblur}"{/if} {if $info.onchange}onchange="{$info.onchange}"{/if} {if $config.membership_required_fields.$col}class="required" title="{$info.description}"{/if}>
-				{if $config.membership_required_fields.$col}<font color=red size=+2>*</font>{/if}
-			</td>
-		</tr>
-	{/foreach}
-{/if}
-<tr>
-<td>&nbsp;</td>
-</tr><tr>
-	<td><b>Occupation</b></td><td>
-	<input id=occ1 name=occupation type=radio value="Administrative" {if $form.occupation eq 'Administrative'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Administrative
-	<input id=occ2 name=occupation type=radio value="Executive" {if $form.occupation eq 'Executive'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Executive
-	<input id=occ3 name=occupation type=radio value="Professional" {if $form.occupation eq 'Professional'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Professional
-	<input id=occ4 name=occupation type=radio value="Businessman" {if $form.occupation eq 'Businessman'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Businessman
-	<input id=occ5 name=occupation type=radio value="Skilled Worker" {if $form.occupation eq 'Skilled Worker'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Skilled Worker
-	{if !$config.membership_required_fields || $config.membership_required_fields.occupation}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td>&nbsp;</td><td>
-	<input id=occ6 name=occupation type=radio value="Housewife" {if $form.occupation eq 'Housewife'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Housewife
-	<input id=occ7 name=occupation type=radio value="Student" {if $form.occupation eq 'Student'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Student
-	<input id=occ8 name=occupation type=radio value="Teacher" {if $form.occupation eq 'Teacher'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Teacher
-	<input id=occ9 name=occupation type=radio value="Government Servant" {if $form.occupation eq 'Government Servant'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Government Servant
-	<input id=occ10 name=occupation type=radio value="Others" {if $form.occupation eq 'Others'}checked{/if} {if !$config.membership_required_fields || $config.membership_required_fields.occupation}class="required" title="Occupation"{/if}> Others
-	</td>
-</tr><tr>
-	<td><b>Income</b></td><td>
-	<input id=income1 name=income type=radio value="{$config.arms_currency.symbol}1000 & Below" {if $form.income eq $config.arms_currency.symbol|cat:'1000 & Below'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}1000 & Below
-	<input id=income2 name=income type=radio value="{$config.arms_currency.symbol}1001-{$config.arms_currency.symbol}2000" {if $form.income eq $config.arms_currency.symbol|cat:'1001-'|cat:$config.arms_currency.symbol|cat:'2000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}1001-{$config.arms_currency.symbol}2000
-	<input id=income3 name=income type=radio value="{$config.arms_currency.symbol}2001-{$config.arms_currency.symbol}4000" {if $form.income eq $config.arms_currency.symbol|cat:'2001-'|cat:$config.arms_currency.symbol|cat:'4000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}2001-{$config.arms_currency.symbol}4000
-	{if $config.membership_required_fields.income}<font color=red size=+2>*</font>{/if}
-	</td>
-</tr><tr>
-	<td>&nbsp;</td><td>
-	<input id=income4 name=income type=radio value="{$config.arms_currency.symbol}4001-{$config.arms_currency.symbol}7000" {if $form.income eq $config.arms_currency.symbol|cat:'4001-'|cat:$config.arms_currency.symbol|cat:'7000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}4001-{$config.arms_currency.symbol}7000
-	<input id=income5 name=income type=radio value="{$config.arms_currency.symbol}7001-{$config.arms_currency.symbol}10000" {if $form.income eq $config.arms_currency.symbol|cat:'7001-'|cat:$config.arms_currency.symbol|cat:'10000'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}7001-{$config.arms_currency.symbol}10000
-	<input id=income6 name=income type=radio value="{$config.arms_currency.symbol}10000 & Above" {if $form.income eq $config.arms_currency.symbol|cat:'10000 & Above'}checked{/if} {if $config.membership_required_fields.income}class="required" title="Income"{/if}> {$config.arms_currency.symbol}10000 & Above
-	</td>
-</tr><tr>
-<td>&nbsp;</td>
-</tr>
-{if $config.membership_data_use_customize_value}
-	{foreach from=$config.membership_data_use_customize_value item=row_value key=row}
-		{assign var=title value=$config.membership_data_use_customize_value.$row.title}
-		{assign var=type value=$config.membership_data_use_customize_value.$row.type}
-		{assign var=input_name value=$config.membership_data_use_customize_value.$row.input_name}
-		<tr>
-			<td valign="top"><b>{$title}</b></td><td>
-			<table><tr>
-				{assign var=rows_count value=1}
-				{foreach from=$config.membership_data_use_customize_value.$row.value item=value_name key=value_type}
-					<td>
-						<input type="{$type}" name="{$input_name}[{$value_type}]" {if $form.$input_name.$value_type}checked{/if}> {$value_name}
-					</td>
-					{if $rows_count eq '5'}
-						{assign var=rows_count value=0}
-						</tr><tr>
-					{/if}
-				{assign var=rows_count value=$rows_count+1}
-				{/foreach}
-			</tr></table>
-		</tr>
-	{/foreach}
-{else}
-	{if !$config.membership_not_malaysian}
-		<tr>
-			<td valign=top><b>Choice of Newspaper</b></td><td>
-			<table ><tr><td>
-				<input type=checkbox name="newspaper[nst]" {if $form.newspaper.nst}checked{/if}> New Strait Time
-				</td><td>
-				<input type=checkbox name="newspaper[thestar]" {if $form.newspaper.thestar}checked{/if}> The Star
-				</td><td>
-				<input type=checkbox name="newspaper[kwongwah]" {if $form.newspaper.kwongwah}checked{/if}> Kwong Wah Yit Poh
-				</td>
-			</tr><tr><td>
-				<input type=checkbox name="newspaper[sinchew]" {if $form.newspaper.sinchew}checked{/if}> Sin Chew Jit Poh
-				</td><td>
-				<input type=checkbox name="newspaper[nanyang]" {if $form.newspaper.nanyang}checked{/if}> Nanyang Siang Poh
-				</td><td>
-				<input type=checkbox name="newspaper[guangming]" {if $form.newspaper.guangming}checked{/if}> Guang Ming
-				</td>
-			</tr><tr><td>
-				<input type=checkbox name="newspaper[utusan]" {if $form.newspaper.utusan}checked{/if}> Utusan Malaysia
-				</td><td>
-				<input type=checkbox name="newspaper[bharian]" {if $form.newspaper.bharian}checked{/if}> Berita Harian
-				</td><td>
-				<input type=checkbox name="newspaper[malaymail]" {if $form.newspaper.malaymail}checked{/if}> Malay Mail
-				</td>
-			</tr><tr><td>
-				<input type=checkbox name="newspaper[thesun]" {if $form.newspaper.thesun}checked{/if}> The Sun
-				</td><td>
-				<input type=checkbox name="newspaper[tamil]" {if $form.newspaper.tamil}checked{/if}> Tamil Newspaper
-				</td><td>
-				<input type=checkbox name="newspaper[chinapress]" {if $form.newspaper.chinapress}checked{/if}> China Press
-				</td>
-			</tr></table>
-		</tr><tr>
-			<td valign=top><b>Other VIP Card</b></td><td>
-			<table ><tr><td>
-				<input type=checkbox name="other_vip_card[sunshine]" {if $form.other_vip_card.sunshine}checked{/if}> Sunshine
-				</td><td>
-				<input type=checkbox name="other_vip_card[thestore]" {if $form.other_vip_card.thestore}checked{/if}> The Store
-				</td><td>
-				<input type=checkbox name="other_vip_card[fajar]" {if $form.other_vip_card.fajar}checked{/if}> Fajar
-				</td>
-			</tr><tr><td>
-				<input type=checkbox name="other_vip_card[parkson]" {if $form.other_vip_card.parkson}checked{/if}> Parkson
-				</td><td>
-				<input type=checkbox name="other_vip_card[jusco]" {if $form.other_vip_card.jusco}checked{/if}> Jaya Jusco
-				</td><td>
-				<input type=checkbox name="other_vip_card[yawata]" {if $form.other_vip_card.yawata}checked{/if}> Yawata
-				</td>
-			</tr><tr><td>
-				<input type=checkbox name="other_vip_card[pacific]" {if $form.other_vip_card.pacific}checked{/if}> Pacific
-				</td><td>
-				<input type=checkbox name="other_vip_card[makro]" {if $form.other_vip_card.makro}checked{/if}> Makro
-				</td><td>
-				<input type=checkbox name="other_vip_card[metrojaya]" {if $form.other_vip_card.metrojaya}checked{/if}> Metro Jaya
-				</td>
-			</tr></table>
-		</tr>
-	{/if}
-{/if}
-<tr>
-	<td valign=top><b>Credit Card</b></td><td>
-	<input bgcolor="#000000" type=checkbox name="credit_card[visa]" {if $form.credit_card.visa}checked{/if}> Visa
-	<input type=checkbox name="credit_card[master]" {if $form.credit_card.master}checked{/if}> Master
-	<input type=checkbox name="credit_card[amex]" {if $form.credit_card.amex}checked{/if}> Amex
-	<input type=checkbox name="credit_card[diners]" {if $form.credit_card.diners}checked{/if}> Diners
-	<input type=checkbox name="credit_card[others]" {if $form.credit_card.others}checked{/if}> Others
-</tr>
-
-{if $config.enable_gst}
-<tr>
-	<td valign=top><b>Always Print Full Tax Invoice</b></td>
-	<td>
-		<select name="print_full_tax_invoice">
-			<option value="0" {if !$form.print_full_tax_invoice}selected{/if}>No</option>
-			<option value="1" {if $form.print_full_tax_invoice eq 1}selected{/if}>Yes</option>
-		</select>
-	</td>
-</tr>
-
-<tr>
-	<td valign=top><b>GST Type</b></td>
-	<td>
-		<select name="gst_type">
-			<option value="" {if !$form.gst_type}selected{/if}>--</option>
-			{foreach from=$gst_list item=r}
-				<option value="{$r.id}" {if $form.gst_type eq $r.id}selected{/if}>{$r.code} - {$r.description}</option>
-			{/foreach}
-		</select>
-	</td>
-</tr>
-{/if}
-
-<tr>
-	<td valign=top><b>Remark</b></td>
-	<td>
-		<textarea rows="3" cols="40" name="remark">{$form.remark}</textarea>
-	</td>
-</tr>
-
-{if $config.membership_pmr}
-<tr>
-	<td valign=top><b>{$config.membership_pmr_name}</b></td>
-	<td>
-		<textarea rows="3" cols="40" name="pmr">{$form.pmr}</textarea>
-	</td>
-</tr>
-{/if}
-
-</table>
+			
+			</table>
+			</div>
+			{if !$read_only}
+			<p align=center><input class="btn btn-success mt-2" id="save_btn" type="button" value="Save" onclick="check_a();"> 
+				<input class="btn btn-warning mt-2" type=reset value="Reset" onclick="return confirm('Forfeit changes?')"></p>
+			{/if}
+	</div>
 </div>
-{if !$read_only}
-<p align=center><input class="btn btn-success" id="save_btn" type="button" value="Save" onclick="check_a();"> <input class="btn btn-warning" type=reset value="Reset" onclick="return confirm('Forfeit changes?')"></p>
-{/if}
 </form>
 
 {if !$read_only}

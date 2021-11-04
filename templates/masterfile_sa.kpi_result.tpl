@@ -141,35 +141,51 @@ var SALES_AGENT_KPI_RESULT_MODULE = {
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <div>
 	
-<form name="f_a" onSubmit="return false;">
-	<input type="hidden" name="a" value="ajax_reload_sa_kpi_list" />
-	<span>
-		<b>Sales Agent:</b>
-		<select name="sa_id">
-			<option value="" {if !$smarty.request.sa_id}selected{/if}>-- Please Select --</option>
-			{foreach from=$sa_list key=sa_id item=sa}
-				<option value="{$sa_id}" {if $smarty.request.sa_id eq $sa_id}selected{/if}>{$sa.code} - {$sa.name}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<span>
-		<b>Year:</b>
-		<select name="year">
-			{foreach from=$year_list key=dummy item=yr}
-				<option value="{$yr}" {if $yr eq $smarty.request.year}selected{/if}>{$yr}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<input id="inp_reload_sa_kpi" type="button" value="Show" onClick="SALES_AGENT_KPI_RESULT_MODULE.reload_sa_kpi_list();" />
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;">
+			<input type="hidden" name="a" value="ajax_reload_sa_kpi_list" />
+			<div class="row">
+				<div class="col">
+					<span>
+						<b class="form-label">Sales Agent:</b>
+						<select class="form-control" name="sa_id">
+							<option value="" {if !$smarty.request.sa_id}selected{/if}>-- Please Select --</option>
+							{foreach from=$sa_list key=sa_id item=sa}
+								<option value="{$sa_id}" {if $smarty.request.sa_id eq $sa_id}selected{/if}>{$sa.code} - {$sa.name}</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+				<div class="col">
+					
+				<span>
+					<b class="form-label">Year:</b>
+					<select class="form-control" name="year">
+						{foreach from=$year_list key=dummy item=yr}
+							<option value="{$yr}" {if $yr eq $smarty.request.year}selected{/if}>{$yr}</option>
+						{/foreach}
+					</select>
+				</span>
+				</div>
+				
+				<div class="col">
+					<input id="inp_reload_sa_kpi" class="btn btn-primary mt-4" type="button" value="Show" onClick="SALES_AGENT_KPI_RESULT_MODULE.reload_sa_kpi_list();" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 <span id="span_loading_kpi_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 	
 </div>

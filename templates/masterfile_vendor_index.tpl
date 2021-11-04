@@ -741,194 +741,230 @@ function tax_percent_changed(){
 	</div>
 </div>
 <!-- End of VENDOR PORTAL KEY DIALOG -->
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Vendor Master File</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			{if $sessioninfo.privilege.MST_VENDOR}
+				<li><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Vendor</a> (Alt+A)</li>
+			{/if}
+			<li>
+				<a href="report.vendor_discount_table.php" target="_blank">
+					<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
+					Vendor Discount Table
+				</a>
+			</li>
+			<li>
+				<form name="f_a">
+					<input type="hidden" name="a" value="do_export">
+					<a href="javascript:void(document.f_a.submit())">
+						<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
+						Export As CSV (SQL Accounting)
+					</a>
+				</form>
+			</li>
+			{if $config.payment_voucher_vendor_maintenance && BRANCH_CODE eq "HQ"}
+				<li>
+					<a href="masterfile_vendor.import_pymt_vch.php" target="_blank">
+						<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
+						Import / Export Payment Voucher Code by CSV
+					</a>
+				</li>
+			{/if}
+		</ul>
+	</div>
+</div>
 
-<h1>Vendor Master File</h1>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="search_form" id="search_form" onsubmit="return reload_table()">
+			<p>
+			<div class="row">
+				
+			<div class="col">
+				<b class="form-label">Description :</b>
+				<input class="form-control" type="text" name="desc" size="15" />
+			</div>
+				
+			<div class="col">
+				<b class="form-label">Status :</b>
+				<select class="form-control" name="status">
+					<option value="">All</option>
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
+				</select>
+			</div>
+			
+			<div class="col">
+				<b class="form-label">Starts With :</b>
+				<select class="form-control" name="starts_with">
+					<option value="">All</option>
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+					<option value="F">F</option>
+					<option value="G">G</option>
+					<option value="H">H</option>
+					<option value="I">I</option>
+					<option value="J">J</option>
+					<option value="K">K</option>
+					<option value="L">L</option>
+					<option value="M">M</option>
+					<option value="N">N</option>
+					<option value="O">O</option>
+					<option value="P">P</option>
+					<option value="Q">Q</option>
+					<option value="R">R</option>
+					<option value="S">S</option>
+					<option value="T">T</option>
+					<option value="U">U</option>
+					<option value="V">V</option>
+					<option value="W">W</option>
+					<option value="X">X</option>
+					<option value="Y">Y</option>
+					<option value="Z">Z</option>
+					<option value="others">Others</option>
+				</select>
+			</div>
+			<div class="col">
+				<input type="button" class="btn btn-primary mt-4" value="Search" onclick="reload_table()" />
+			</div>
+			</div>
+			</p>
+			</form>
+	</div>
+</div>
 
-<ul>
-	{if $sessioninfo.privilege.MST_VENDOR}
-		<li><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Vendor</a> (Alt+A)</li>
-	{/if}
-	<li>
-	    <a href="report.vendor_discount_table.php" target="_blank">
-			<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
-			Vendor Discount Table
-		</a>
-	</li>
-	<li>
-		<form name="f_a">
-			<input type="hidden" name="a" value="do_export">
-			<a href="javascript:void(document.f_a.submit())">
-				<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
-				Export As CSV (SQL Accounting)
-			</a>
-		</form>
-	</li>
-	{if $config.payment_voucher_vendor_maintenance && BRANCH_CODE eq "HQ"}
-		<li>
-			<a href="masterfile_vendor.import_pymt_vch.php" target="_blank">
-				<img src="ui/new.png" title="Enter Report" align="absmiddle" border="0" />
-				Import / Export Payment Voucher Code by CSV
-			</a>
-		</li>
-	{/if}
-</ul>
-
-<form name="search_form" id="search_form" onsubmit="return reload_table()">
-<p>
-<b>Description</b> :&nbsp;
-	<input type="text" name="desc" size="15" />
-
-&nbsp;&nbsp;&nbsp;
-	
-<b>Status</b> :&nbsp;
-	<select name="status">
-		<option value="">All</option>
-		<option value="1">Active</option>
-		<option value="0">Inactive</option>
-	</select>
-
-&nbsp;&nbsp;&nbsp;
-
-<b>Starts With</b> :&nbsp;
-	<select name="starts_with">
-		<option value="">All</option>
-		<option value="A">A</option>
-		<option value="B">B</option>
-		<option value="C">C</option>
-		<option value="D">D</option>
-		<option value="E">E</option>
-		<option value="F">F</option>
-		<option value="G">G</option>
-		<option value="H">H</option>
-		<option value="I">I</option>
-		<option value="J">J</option>
-		<option value="K">K</option>
-		<option value="L">L</option>
-		<option value="M">M</option>
-		<option value="N">N</option>
-		<option value="O">O</option>
-		<option value="P">P</option>
-		<option value="Q">Q</option>
-		<option value="R">R</option>
-		<option value="S">S</option>
-		<option value="T">T</option>
-		<option value="U">U</option>
-		<option value="V">V</option>
-		<option value="W">W</option>
-		<option value="X">X</option>
-		<option value="Y">Y</option>
-		<option value="Z">Z</option>
-		<option value="others">Others</option>
-	</select>
-<input type=button value="Search" onclick="reload_table()" />
-</p>
-</form>
-
-{include file=masterfile_vendor_table.tpl}
+<div class="card mx-3">
+	<div class="card-body">
+		{include file=masterfile_vendor_table.tpl}
+	</div>
+</div>
 
 <br>
 
 <!-- start vendor -->
-<div class="ndiv" id="ndiv" style="position:absolute;left:150;top:100;display:none;">
-<div class="blur"><div class="shadow"><div class="content">
+<div class="ndiv" id="ndiv" style="background-color: white;  position:absolute;left:350;top:150;display:none;">
+<div class="blur"><div class="shadow"><div class="content" style="margin: 20px;">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2 ml-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ndiv'))" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method=post name=f_b target=_irs onSubmit="return check_b()">
-<div id=bmsg style="padding:10 0 10 0px;"></div>
+<div id=bmsg class="mt-2 mr-2" style="padding:10 0 10 0px;"></div>
 <input type=hidden name=a value="a">
 <input type=hidden name=id value="">
 <input type=hidden name=_vendortype_code value="">
 <table id="tb"  border=0>
 <tr>
-<td><b>Vendor Code<font color="red" size="+1">*</font></b></td>
-<td {if !$config.ci_auto_gen_artno} colspan=3 {/if} ><input onBlur="uc(this)" name=code size=10 maxlength=10></td>
+<td><b class="form-label">Vendor Code<font color="red" size="+1">*</font></b></td>
+<td {if !$config.ci_auto_gen_artno} colspan=3 {/if} >
+	<input class="form-control" onBlur="uc(this)" name=code size=10 maxlength=10></td>
 {if $config.ci_auto_gen_artno}
-	<td><b>Prefix Code</b></td>
-	<td><input onBlur="uc(this)" name=prefix_code size=2 maxlength=1></td>
+	<td><b class="form-label">Prefix Code</b></td>
+	<td><input class="form-control" onBlur="uc(this)" name=prefix_code size=2 maxlength=1></td>
 {/if}
 </tr><tr>
 <tr>
-	<td><b>Internal Code [<a href="javascript:void(alert('Currently use for\n- Auto search by GRR for IBT DO.'));">?</a>]</b></td>
-	<td><input onBlur="uc(this)" name="internal_code" size="15" maxlength="15" /></td>
+	<td><b class="form-label">Internal Code [<a href="javascript:void(alert('Currently use for\n- Auto search by GRR for IBT DO.'));">?</a>]</b></td>
+	<td><input class="form-control" onBlur="uc(this)" name="internal_code"  /></td>
 </tr>
-<td><b>Vendor Name<font color="red" size="+1">*</font></b></td>
-<td colspan=3><input onBlur="uc(this)" name=description size=50></td>
+<td><b class="form-label">Vendor Name<font color="red" size="+1">*</font></b></td>
+<td colspan=3><input class="form-control" onBlur="uc(this)" name=description size=50></td>
 </tr><tr>
-<td><b>Company No.<font color="red" size="+1">*</font></b></td>
-<td><input name=company_no size=20 maxlength=30></td>
-<td><b>Vendor Type</b></td>
-<td><select name=vendortype_code>
+<td><b class="form-label">Company No.<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" name=company_no size=20 maxlength=30></td>
+<td><b class="form-label">Vendor Type</b></td>
+<td><select class="form-control" name=vendortype_code>
 {section name=i loop=$vendortype}
 <option value="{$vendortype[i].code}">{$vendortype[i].code} - {$vendortype[i].description}</option>
 {/section}
 </select></td>
 </tr><tr>
-<td><b>GRR without PO</b></td>
-<td><select name=allow_grr_without_po><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
+<td><b class="form-label">GRR without PO</b></td>
+<td><select class="form-control" name=allow_grr_without_po><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
 {if $config.use_grn_future}
-<td><b>GRN items without PO</b></td>
-<td><select name=allow_grn_without_po><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
+<td><b class="form-label">GRN items without PO</b></td>
+<td><select class="form-control" name=allow_grn_without_po><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
 </tr>
 {else}
 	<td colspan="2">&nbsp;</td>
 	</tr>
 {/if}
 <tr>
-<td><b>PO without Checkout GRA</b></td>
-<td><select name=allow_po_without_checkout_gra><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
+<td><b class="form-label">PO without Checkout GRA</b></td>
+<td><select class="form-control" name=allow_po_without_checkout_gra><option value=1>Allowed</option><option value=0>Not Allowed</option></select></td>
 {if $config.use_grn_future}
-<td><b>GRN items qty not allow <br />to over PO qty</b></td>
-<td><select name=grn_qty_no_over_po_qty><option value=0>No</option><option value=1>Yes</option></select></td>
+<td><b class="form-label">GRN items qty not allow <br />to over PO qty</b></td>
+<td><select class="form-control" name=grn_qty_no_over_po_qty><option value=0>No</option><option value=1>Yes</option></select></td>
 {else}
 	<td colspan="2">&nbsp;</td>
 	</tr>
 {/if}
 </tr><tr>
-<td><b>Term<font color="red" size="+1">*</font></b></td>
-<td><input name=term size=4></td>
-<td><b>Grace Period</b></td>
-<td><input name=grace_period size=4></td>
+<td><b class="form-label">Term<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" name=term size=4></td>
+<td><b class="form-label">Grace Period</b></td>
+<td><input class="form-control" name=grace_period size=4></td>
 </tr><tr>
-<td><b>Prompt Payment</b></td>
-<td colspan=3>Term <input name=prompt_payment_term size=4> Discount (%) <input name=prompt_payment_discount size=4></td>
+<td><b class="form-label">Prompt Payment</b></td>
+	<td colspan=3>
+		<div class="form-inline">
+			Term &nbsp;
+		<input class="form-control" name=prompt_payment_term >&nbsp; Discount (%) &nbsp; 
+		<input class="form-control" name=prompt_payment_discount >
+		</div>
+	</td>
 </tr><tr>
-<td><b>Fast Payment</b></td>
-<td colspan=3>Term <input name=fast_payment_term size=4> Discount (%) <input name=fast_payment_discount size=4></td>
+<td><b class="form-label">Fast Payment</b></td>
+<td colspan=3>
+	<div class="form-inline">
+		Term &nbsp;
+	<input class="form-control" name=fast_payment_term >&nbsp; Discount (%) &nbsp; 
+	<input class="form-control" name=fast_payment_discount >
+	</div>
+</td>
 </tr><tr id="tr_alt" style="display:none">
 <td colspan=4><br>
 Below is the default contact information for this vendor.<br>
 To create alternate contact for branch, <a href="javascript:void(showalt())">click here &#187;</a>.
 
 </tr><tr>
-<td><b>Credit Limit<font color="red" size="+1">*</font></b></td>
-<td><input name=credit_limit size=10></td>
-<td><b>Bank Account<font color="red" size="+1">*</font></b></td>
-<td><input name=bank_account size=20></td>
+<td><b class="form-label">Credit Limit<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" name=credit_limit size=10></td>
+<td><b class="form-label">Bank Account<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" name=bank_account size=20></td>
 </tr><tr>
-<td ><b>Address<font color="red" size="+1">*</font></b></td>
-<td colspan=3><textarea name=address rows=5 cols=50></textarea></td>
+<td ><b class="form-label">Address<font color="red" size="+1">*</font></b></td>
+<td colspan=3><textarea class="form-control" name=address rows=5 cols=50></textarea></td>
 </tr><tr>
-<td><b>Phone #1<font color="red" size="+1">*</font></b></td>
-<td><input name=phone_1 size=20></td>
-<td><b>Phone #2</b></td>
-<td><input name=phone_2 size=20></td>
+<td><b class="form-label">Phone #1<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" name=phone_1 size=20></td>
+<td><b class="form-label">Phone #2</b></td>
+<td><input class="form-control" name=phone_2 size=20></td>
 </tr><tr>
-<td><b>Fax No.</b></td>
-<td colspan=3><input name=phone_3 size=20></td>
+<td><b class="form-label">Fax No.</b></td>
+<td colspan=3><input class="form-control" name=phone_3 size=20></td>
 </tr><tr>
-<td><b>Contact Person<font color="red" size="+1">*</font></b></td>
-<td><input onBlur="uc(this)" name=contact_person size=20></td>
-<td><b>Contact Email{*<font color="red" size="+1">*</font>*}</b></td>
-<td><input onBlur="lc(this)" name=contact_email size=20></td>
+<td><b class="form-label">Contact Person<font color="red" size="+1">*</font></b></td>
+<td><input class="form-control" onBlur="uc(this)" name=contact_person size=20></td>
+<td><b class="form-label">Contact Email{*<font color="red" size="+1">*</font>*}</b></td>
+<td><input class="form-control" onBlur="lc(this)" name=contact_email size=20></td>
 </tr><tr>
-	<td><b>Enable Stock Reorder Notify</b></td>
+	<td><b class="form-label">Enable Stock Reorder Notify</b></td>
 	<td><input type="checkbox" name="enable_stock_reoder_notify" value="1" />
 </tr>
 {if $config.enable_vendor_account_id}
 	<tr>
-	<td><b>Account ID</b></td>
-	<td colspan="3"><input name=account_id size=20></td>
+	<td><b class="form-label">Account ID</b></td>
+	<td colspan="3"><input class="form-control" name=account_id size=20></td>
 	</tr>
 {/if}
 <!--tr>
@@ -945,10 +981,10 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 
 {if $config.enable_gst}
 	<tr>
-		<td><b>GST Registered</b></td>
+		<td><b class="form-label">GST Registered</b></td>
 		<!--td><input type="checkbox" name="gst_register" value="1" /></td-->
 		<td colspan="3">
-			<select name="gst_register" onchange="gst_info_onload();">
+			<select class="form-control" name="gst_register" onchange="gst_info_onload();">
 				<option value="0">No</option>
 				<option value="-1">Yes</option>
 				{foreach from=$gst_list key=dummy item=r}
@@ -959,12 +995,14 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 	</tr>
 
 	<tr id="tr_gst_info">
-		<td><b>GST Registration Number<font color="red" size="+1">*</font></b></td>
-		<td><input name="gst_register_no" size="20" value="" /></td>
-		<td><b>GST Start Date<font color="red" size="+1">*</font></b></td>
+		<td><b class="form-label">GST Registration Number<font color="red" size="+1">*</font></b></td>
+		<td><input class="form-control" name="gst_register_no" size="20" value="" /></td>
+		<td><b class="form-label">GST Start Date<font color="red" size="+1">*</font></b></td>
 		<td>
-			<input size="10" type="text" name="gst_start_date" value="" id="gst_start_date">
+			<div class="form-inline">
+				<input class="form-control" size="10" type="text" name="gst_start_date" value="" id="gst_start_date">
 			<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select GST Start Date">
+			</div>
 		</td>
 	</tr>
 	<tr>
@@ -973,10 +1011,10 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 				<legend><b>GL Code</b></legend>
 				<table>
 					<tr>
-						<td><b>Purchase Account Code</b></td>
-						<td><input type="text" name="account_payable_code" value=""/></td>
-						<td><b>Purchase Account Name</b></td>
-						<td><input type="text" name="account_payable_name" value=""/></td>
+						<td><b class="form-label">Purchase Account Code</b></td>
+						<td><input class="form-control" type="text" name="account_payable_code" value=""/></td>
+						<td><b class="form-label">Purchase Account Name</b></td>
+						<td><input class="form-control" type="text" name="account_payable_name" value=""/></td>
 					</tr>
 				</table>
 
@@ -986,22 +1024,22 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 {/if}
 
 <tr>
-	<td><b>{$config.arms_tax_settings.name} Tax Registered</b></td>
+	<td><b class="form-label">{$config.arms_tax_settings.name} Tax Registered</b></td>
 	<td>
-		<select name="tax_register" onchange="tax_registered_changed();">
+		<select class="form-control" name="tax_register" onchange="tax_registered_changed();">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</select>
 	</td>
-	<td class="td_tax_details"><b>Tax Percentage</b></td>
+	<td class="td_tax_details"><b class="form-label">Tax Percentage</b></td>
 	<td class="td_tax_details">
-		<input type="text" name="tax_percent" onChange="tax_percent_changed();" />
+		<input class="form-control" type="text" name="tax_percent" onChange="tax_percent_changed();" />
 	</td>
 </tr>
 <tr>
-	<td><b>Delivery Type</b></td>
+	<td><b class="form-label">Delivery Type</b></td>
 	<td colspan="3">
-		<select name="delivery_type">
+		<select class="form-control" name="delivery_type">
 			<option value="">Warehouse</option>
 			<option value="D">Direct</option>
 		</select>
@@ -1011,10 +1049,13 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 	<td align="center" colspan="4">
 		<br>
 		<div id="abtn" style="display:none;">
-			<input class="btn btn-warning" type="submit" value="Add"> <input type="button" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
+			<input class="btn btn-warning mb-2" type="submit" value="Add">
+			 <input type="button" class="btn btn-danger mb-2" value="Cancel" onclick="f_b.reset(); hidediv('ndiv');">
 		</div>
 		<div id="ebtn" style="display:none;">
-			<input class="btn btn-primary" type="submit" value="Update"> <input class="btn btn-warning "type="button" value="Restore" onclick="ed(lastn)"> <input class="btn btn-error" type="button" value="Close" onclick="f_b.reset(); hidediv('ndiv');">
+			<input class="btn btn-primary mb-2" type="submit" value="Update">
+			 <input class="btn btn-warning mb-2 "type="button" value="Restore" onclick="ed(lastn)">
+			 <input class="btn btn-danger mb-2" type="button" value="Close" onclick="f_b.reset(); hidediv('ndiv');">
 		</div>
 	</td>
 </tr>
@@ -1027,23 +1068,23 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 
 
 <!-- start payment vocher maintenance div -->
-<div class="ndiv" id="vvc_div" style="position:absolute;left:250;top:100;display:none;">
+<div class="ndiv" id="vvc_div" style="position:absolute;left:540;top:100;display:none;background-color: white;">
 {include file=masterfile_vendor_index.vvc.tpl}
 </div>
 <!-- end of div -->
 
 <!-- start vendor block branch -->
-<div class="ndiv" id="vbb_div" style="position:absolute;left:250;top:100;display:none;">
+<div class="ndiv" id="vbb_div" style="position:absolute;left:540;top:100;display:none;background-color: white;">
 {include file=masterfile_vendor_index.vbb.tpl}
 </div>
 <!-- end vendor block branch-->
 
 
 <!-- start vendor TRADE_DISCOUNT table -->
-<div class="ndiv" id="ddiv" style="position:absolute;left:180;top:150;display:none;">
-<div class="blur"><div class="shadow"><div class="content">
+<div class="ndiv" id="ddiv" style="position:absolute;left:480;top:350px;;display:none;background-color: white;">
+<div class="blur"><div class="shadow"><div class="content" style="margin: 20px;">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ddiv'))" ><img src=ui/closewin.png border=0 align=absmiddle></a></div>
+<div class="small mt-2 mr-2" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ddiv'))" ><img src=ui/closewin.png border=0 align=absmiddle></a></div>
 
 <form method=post name=f_d target=_irs>
 <div id=tmsg style="padding:10 0 10 0px;"></div>
@@ -1051,7 +1092,7 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 <input type=hidden name=vendor_id value="">
 <b>Trade Discount Table for <span id=td_name>#</span></b><br>
 <br>
-<b>Select Department</b> <select name=department_id onchange="showtd(vendor_id.value)">
+<b class="form-label">Select Department</b> <select class="form-control" name=department_id onchange="showtd(vendor_id.value)">
 {section name=i loop=$department}
 <option value={$department[i].id}>{$department[i].description}</option>
 {/section}
@@ -1068,7 +1109,7 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 </tr>
 <tr>
 {section name=i loop=$skutype}
-<td><input size=5 name="commission[{$skutype[i].code}][{$branches[b].id}]" {if !$sessioninfo.privilege.MST_VENDOR}disabled{/if}></td>
+<td><input class="form-control" size=5 name="commission[{$skutype[i].code}][{$branches[b].id}]" {if !$sessioninfo.privilege.MST_VENDOR}disabled{/if}></td>
 {/section}
 </tr>
 </table>
@@ -1082,9 +1123,9 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 
 <p align=center>
 {if $sessioninfo.privilege.MST_VENDOR}
-<input type=submit value="Save">
+<input type=submit class="btn btn-primary mb-2" value="Save">
 {/if}
-<input type=button value="Close" onclick="f_d.reset(); hidediv('ddiv');">
+<input type=button class="btn btn-danger mb-2" value="Close" onclick="f_d.reset(); hidediv('ddiv');">
 </p>
 
 </form>
@@ -1092,7 +1133,7 @@ To create alternate contact for branch, <a href="javascript:void(showalt())">cli
 </div>
 
 <!-- start alt-contact -->
-<div class="ndiv" id="adiv" style="position:absolute;left:180;top:150;display:none;">
+<div class="ndiv" id="adiv" style="position:absolute;left:180;top:150;display:none;background-color: white;">
 <div class="blur"><div class="shadow"><div class="content">
 
 <div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('adiv'))" accesskey="X"><img src=ui/closewin.png border=0 align=absmiddle></a><br>Close (Alt+X)</div>

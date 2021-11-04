@@ -29,9 +29,7 @@ a{
 }
 
 .mthly_comm_note{
-	background-color:yellow; 
-	font-weight:bold;
-	color: red;
+
 }
 </style>
 {/literal}
@@ -710,26 +708,33 @@ function add_autocomplete(){
 {/literal}
 
 {if $load_temp_table}
-	<div id="temp_sac_row" class="temp_sac_row">
+	<div id="temp_sac_row" class="temp_sac_row mb-3">
 		<table id="sac_item___saci__id" class="sac_items" style="display:none;" width="100%">
 			<tr>
-				<td colspan="2">
-					<b>Date Start: </b>
-					<input size="10" type="text" name="selected_date_from[__saci__id]" id="selected_date_from___saci__id">
-					<input type="hidden" name="date_to[__saci__id]" value="{$smarty.now|date_format:'%Y-%m-%d'}" id="date_to___saci__id">
-					<img align="absmiddle" src="ui/calendar.gif" id="ds___saci__id" style="cursor: pointer;" title="Select Date">
-				</td>
-				<td align="right" colspan="2">
-					<a onclick="SA_COMMISSION_MODULE.toggle_condition_dialog(__saci__id);">Add Commission Item <img src="ui/icons/money_add.png" title="Add Commission Item" width="15" border="0"></a> &nbsp;&nbsp;&nbsp;
-					<a onclick="SA_COMMISSION_MODULE.delete_commission(__saci__id);">Delete Commission <img src="ui/del.png" title="Delete Commission" width="15" border="0"></a>
-				</td>
+				<div class="form-inline">
+					<td colspan="2">
+						<div class="form-inline">
+							<b class="form-label">Date Start: </b>
+						&nbsp;&nbsp;<input class="form-control" size="10" type="text" name="selected_date_from[__saci__id]" id="selected_date_from___saci__id">
+						&nbsp;<input type="hidden" name="date_to[__saci__id]" value="{$smarty.now|date_format:'%Y-%m-%d'}" id="date_to___saci__id">
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ds___saci__id" style="cursor: pointer;" title="Select Date">
+						</div>
+					</td>
+					<td align="right" colspan="2">
+						<a onclick="SA_COMMISSION_MODULE.toggle_condition_dialog(__saci__id);">Add Commission Item <img src="ui/icons/money_add.png" title="Add Commission Item" width="15" border="0"></a> &nbsp;&nbsp;&nbsp;
+						<a onclick="SA_COMMISSION_MODULE.delete_commission(__saci__id);">Delete Commission <img src="ui/del.png" title="Delete Commission" width="15" border="0"></a>
+					</td>
+				</div>
 			</tr>
-			<tr>
-				<th bgcolor="{#TB_CORNER#}" width="6%">&nbsp;</th>
-				<th bgcolor="{#TB_COLHEADER#}" width="34%">Condition</th>
-				<th bgcolor="{#TB_COLHEADER#}" width="34%">Additional Filter</th>
-				<th bgcolor="{#TB_COLHEADER#}" width="26%">Commission Method</th>
-			</tr>
+			<br>
+			<tbody class="bg-gray-100 mt-2">
+				<tr>
+					<th width="6%">&nbsp;</th>
+					<th  width="34%">Condition</th>
+					<th  width="34%">Additional Filter</th>
+					<th  width="26%">Commission Method</th>
+				</tr>
+			</tbody>
 			<tr id="no_data___saci__id">
 				<td colspan="4" align="center" bgcolor="{#TB_CORNER#}">No Data</td>
 			</tr>
@@ -766,8 +771,17 @@ function add_autocomplete(){
 		</table>
 	</div>
 {/if}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Commission ({if is_new_id($form.id)}New{else}#{$form.id|string_format:"%05d"}{if !$form.active} 
+	- Inactive{/if}{/if})
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Commission ({if is_new_id($form.id)}New{else}#{$form.id|string_format:"%05d"}{if !$form.active} - Inactive{/if}{/if})</h1>
 <!-- commission condition dialog -->
 <div id="div_sa_cc_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:650px;height:350px;display:none;border:2px solid #1569C7;background-color:#1569C7;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
 	<div id="div_sa_cc_dialog_header" style="border:2px ridge #1569C7;color:white;background-color:#1569C7;padding:2px;cursor:default;"><span style="float:left;" id="span_sa_cc_dialog_header">Choose Condition</span>
@@ -782,52 +796,60 @@ function add_autocomplete(){
 </div>
 
 {if $err.mst}
-<div id=err><div class=errmsg><ul>
-{foreach from=$err.mst item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$err.mst item=e}
+		<li> {$e}</li>
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
-<form name="f_a" method="post" onsubmit="return false;">
-	<input type="hidden" name="a" value="save_commission">
-	<input type="hidden" name="id" value="{$form.id}">
-	<div class="stdframe">
-	<h4>General Information</h4>
-	<table border="0" cellspacing="0" cellpadding="4">
-		<tr>
-			<td><b>Branch</b></td>
-			<td>
-				{$form.branch_code|default:$BRANCH_CODE}
-				<input type="hidden" name="branch_id" id="branch_id" value="{$form.branch_id}">
-			</td>
-		</tr>
-		<tr>
-			<td><b>Title</b></td>
-			<td><input type="text" id="title" name="title" maxlength="200" size="80" value="{$form.title}" class="required" title="Title" /></td>
-		</tr>
-		<tr>
-			<td><b>Owner</b></td>
-			<td>
-				{$form.username|default:$sessioninfo.u}
-			</td>
-		</tr>
-	</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" onsubmit="return false;">
+			<input type="hidden" name="a" value="save_commission">
+			<input type="hidden" name="id" value="{$form.id}">
+			<div class="stdframe">
+			<h4>General Information</h4>
+			<table border="0" cellspacing="0" cellpadding="4">
+				<tr>
+					<td><b class="form-label">Branch</b></td>
+					<td>
+						{$form.branch_code|default:$BRANCH_CODE}
+						<input class="form-control" type="hidden" name="branch_id" id="branch_id" value="{$form.branch_id}">
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Title</b></td>
+					<td><input  type="text" id="title" name="title" maxlength="200" size="80" value="{$form.title}" class="required form-control" title="Title" /></td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Owner</b></td>
+					<td>
+						{$form.username|default:$sessioninfo.u}
+					</td>
+				</tr>
+			</table>
+			</div>
+			<br />
+			<div>
+				<a id="sac_add_link" style="cursor:pointer;"><img src="ui/icons/calculator_add.png" title="Create New Commission" align="absmiddle" border="0"> Create New Commission</a><br /><br />
+				<div class="alert alert-danger">
+					<span class="mthly_comm_note"><b>Note:</b> Commission by Sales or Qty range must set from beginning of the month<br />
+				</div>
+			</div>
+			<br />
+			<div id="items" class="stdframe">
+				{include file="masterfile_sa_commission.open.item.tpl"}
+			</div>
+			<p align="center">
+				<input class="btn btn-success mt-2" type=button id="save_btn" name="save_btn" value="Save">
+				<input class="btn btn-danger mt-2" type=button id="close_btn" name="close_btn" value="Close">
+			</p>
+		</form>
 	</div>
-	<br />
-	<div>
-		<a id="sac_add_link" style="cursor:pointer;"><img src="ui/icons/calculator_add.png" title="Create New Commission" align="absmiddle" border="0"> Create New Commission</a><br /><br />
-		<span class="mthly_comm_note">Note: Commission by Sales or Qty range must set from beginning of the month<br />
-	</div>
-	<br />
-	<div id="items" class="stdframe">
-		{include file="masterfile_sa_commission.open.item.tpl"}
-	</div>
-	<p align="center">
-		<input class="btn btn-success" type=button id="save_btn" name="save_btn" value="Save">
-		<input class="btn btn-error" type=button id="close_btn" name="close_btn" value="Close">
-	</p>
-</form>
+</div>
 
 <script>
 var sac_items = $('items').getElementsByClassName('sac_items');

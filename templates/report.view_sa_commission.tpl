@@ -88,112 +88,139 @@ function toggle_price_type(condition){
 </script>
 
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class="err">
 {foreach from=$err item=e}
-<li> {$e}
+<li> {$e} </li>
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form name="f_a" method="post" class="form" action="{$smarty.server.PHP_SELF}" onSubmit="passArrayToInput();">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" class="form" action="{$smarty.server.PHP_SELF}" onSubmit="passArrayToInput();">
 
-<p>
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id">
-		<option value="">-- All --</option>
-		{foreach from=$branches item=b}
-			<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		{/foreach}
-		{if $branch_group.header}
-			<optgroup label="Branch Group">
-				{foreach from=$branch_group.header item=r}
-					{capture assign=bgid}bg,{$r.id}{/capture}
-					<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+			<div class="row">
+			<div class="col">
+				{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+						<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+					{/foreach}
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header item=r}
+								{capture assign=bgid}bg,{$r.id}{/capture}
+								<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+			{/if}
+			</div>
+			<div class="col">
+				<b class="form-label">Date From</b>
+			<div class="form-inline">
+				 <input class="form-control" size="10" type="text" name="date_from" value="{$smarty.request.date_from}{$form.date_from}" id="date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+			</div>
+			</div>
+			
+			<div class="col">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+			<input class="form-control" size="10" type="text" name="date_to" value="{$smarty.request.date_to}{$form.date_to}" id="date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+			</div>
+			</div>
+		
+			<div class="col">
+				<b class="form-label">Filter By</b>
+			<select class="form-control" name="filter_by" onchange="toggle_filter();">
+				<option value="">-- All --</option>
+				<option value="sku" {if $smarty.request.filter_by eq 'sku'}selected{/if}>SKU</option>
+				<option value="dept_brand" {if $smarty.request.filter_by eq 'dept_brand'}selected{/if}>Department + Brand</option>
+			</select>
+			</div>
+		
+			<div class="col">
+				<b class="form-label">Sales Agent</b>
+			<select class="form-control" name="sa_id">
+			   <option value="">-- All --</option>
+				{foreach from=$sa item=sa}
+					<option value="{$sa.id}" {if $smarty.request.sa_id eq $sa.id}selected {/if}>{$sa.code} - {$sa.name}</option>
 				{/foreach}
-			</optgroup>
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-
-<b>Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from}{$form.date_from}" id="date_from">
-<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-<b>To</b>
-<input size="10" type="text" name="date_to" value="{$smarty.request.date_to}{$form.date_to}" id="date_to">
-<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Filter By</b>
-<select name="filter_by" onchange="toggle_filter();">
-	<option value="">-- All --</option>
-	<option value="sku" {if $smarty.request.filter_by eq 'sku'}selected{/if}>SKU</option>
-	<option value="dept_brand" {if $smarty.request.filter_by eq 'dept_brand'}selected{/if}>Department + Brand</option>
-</select>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Sales Agent</b>
-<select name="sa_id">
-   <option value="">-- All --</option>
-    {foreach from=$sa item=sa}
-        <option value="{$sa.id}" {if $smarty.request.sa_id eq $sa.id}selected {/if}>{$sa.code} - {$sa.name}</option>
-    {/foreach}
-</select>
-</p>
-
-<div id="filter_sku" {if $smarty.request.filter_by ne 'sku'}style="display:none;"{/if}>
-	{include file="sku_items_autocomplete_multiple.tpl"}
+			</select>
+			</div>
+		</div>
+			
+			<div id="filter_sku" {if $smarty.request.filter_by ne 'sku'}style="display:none;"{/if}>
+				{include file="sku_items_autocomplete_multiple.tpl"}
+			</div>
+			<div id="filter_cb" {if $smarty.request.filter_by ne 'dept_brand'}style="display:none;"{/if}>
+			<p>
+			<b><u>Category + Brand Combinations (Either One)</u></b><br />
+			{include file="category_autocomplete.tpl" all=true}
+			
+			<b class="form-label">Brand</b>
+			<select class="form-control" name="brand_id">
+				<option value="">-- All --</option>
+				<option value="0" {if $smarty.request.brand_id eq '0'}selected{/if}>UNBRANDED</option>
+				{foreach from=$brand_list item=b}
+					<option value="{$b.id}" {if $smarty.request.brand_id eq $b.id}selected{/if}>{$b.description}</option>
+				{/foreach}
+			</select>
+			</p>
+			
+			<p>
+			<b><u>Additional Filter (Optional)</u></b><br />
+			
+			<b class="form-label">SKU Type</b>&nbsp;
+			<select class="form-control" name="sku_type">
+				<option value="">-- All --</option>
+				{foreach from=$sku_type_list item=st}
+					<option value="{$st.code}" {if $smarty.request.sku_type eq $st.code}selected{/if}>{$st.code}</option>
+				{/foreach}
+			</select><br />
+			<b class="form-label">Price Type </b>&nbsp;
+			<input class="form-control" type="checkbox" style="margin-left:0;" id="cpt_toggle" onclick="toggle_price_type(true);"> All 
+			{foreach from=$price_type_list item=pt}
+				{assign var=pt_code value=$pt.code}
+				<input type="checkbox" style="margin-left:0;" name="price_type[{$pt_code}]" {if $smarty.request.price_type.$pt_code}checked{/if} class="price_type_list" /> {$pt_code}
+			{/foreach}<br />
+			
+			<b class="form-label">Vendor</b>&nbsp;
+			<select class="form-control" name="vendor_id" id="vendor_id">
+				<option value="">-- All --</option>
+				{foreach from=$vendor item=r}
+					<option value="{$r.id}" {if $smarty.request.vendor_id eq $r.id}selected {/if}>{$r.description}</option>
+				{/foreach}
+			</select>&nbsp;&nbsp;
+			</p>
+			</div>
+			
+			<input type="hidden" name="subm" value="1">
+			<button class="btn btn-primary mt-2" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-2" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			<br>
+			</form>
+	</div>
 </div>
-<div id="filter_cb" {if $smarty.request.filter_by ne 'dept_brand'}style="display:none;"{/if}>
-<p>
-<b><u>Category + Brand Combinations (Either One)</u></b><br />
-{include file="category_autocomplete.tpl" all=true}
-
-<b>Brand</b>
-<select name="brand_id">
-	<option value="">-- All --</option>
-	<option value="0" {if $smarty.request.brand_id eq '0'}selected{/if}>UNBRANDED</option>
-	{foreach from=$brand_list item=b}
-		<option value="{$b.id}" {if $smarty.request.brand_id eq $b.id}selected{/if}>{$b.description}</option>
-	{/foreach}
-</select>
-</p>
-
-<p>
-<b><u>Additional Filter (Optional)</u></b><br />
-
-<b>SKU Type</b>&nbsp;
-<select name="sku_type">
-	<option value="">-- All --</option>
-	{foreach from=$sku_type_list item=st}
-		<option value="{$st.code}" {if $smarty.request.sku_type eq $st.code}selected{/if}>{$st.code}</option>
-	{/foreach}
-</select><br />
-<b>Price Type </b>&nbsp;
-<input type="checkbox" style="margin-left:0;" id="cpt_toggle" onclick="toggle_price_type(true);"> All 
-{foreach from=$price_type_list item=pt}
-	{assign var=pt_code value=$pt.code}
-	<input type="checkbox" style="margin-left:0;" name="price_type[{$pt_code}]" {if $smarty.request.price_type.$pt_code}checked{/if} class="price_type_list" /> {$pt_code}
-{/foreach}<br />
-
-<b>Vendor</b>&nbsp;
-<select name="vendor_id" id="vendor_id">
-    <option value="">-- All --</option>
-    {foreach from=$vendor item=r}
-        <option value="{$r.id}" {if $smarty.request.vendor_id eq $r.id}selected {/if}>{$r.description}</option>
-    {/foreach}
-</select>&nbsp;&nbsp;
-</p>
-</div>
-
-<input type="hidden" name="subm" value="1">
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-<br>
-</form>
 
 {/if}
 {if !$table}

@@ -1269,15 +1269,24 @@ function add_autocomplete(){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger rounded mx-3">
+		The following error(s) has occured:
 	<ul class="err">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
 {if !$err && $form}
@@ -1304,9 +1313,13 @@ function add_autocomplete(){
 		</div>
 	</div>
 	<!-- End of choose sku or category DIALOG -->
-
-	<h2>{if $form.code}{$form.code} - {/if}{$form.description}</h2>
-	
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{if $form.code}{$form.code} - {/if}{$form.description}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 	<table style="display:none;">								
 		{include file="masterfile_vendor.vendor_portal.branch_profit_row.tpl" bid='__TMP_BID__' row_no='__TMP_ROW_NO__'}
 		
@@ -1362,33 +1375,40 @@ function add_autocomplete(){
 		<input type="hidden" name="a" value="ajax_update_vendor_portal" />
 		<input type="hidden" name="vendor_id" value="{$form.id}" />
 		
-		<table>
-			<!-- Active -->
-			<tr>
-				<td width="200"><b>Active</b>
-					[<a href="javascript:void(alert('Activate to allow vendor to access Vendor Portal'));">?</a>]
-				</td>
-				<td>
-					<input type="radio" name="active_vendor_portal" value="1" {if $form.active_vendor_portal}checked {/if} onChange="VENDOR_PORTAL.active_vendor_portal_changed();" /> Yes
-					<input type="radio" name="active_vendor_portal" value="0" {if !$form.active_vendor_portal}checked {/if} onChange="VENDOR_PORTAL.active_vendor_portal_changed();" /> No
-					<span style="color:red;{if $form.active_vendor_portal}display:none;{/if}" id="span_active_vendor_portal_msg">
-						(Vendor will not able to login even got login ticket)
-					</span>
-				</td>
-			</tr>
-			
-			{* Start Date *}
-			<tr>
-				<td><b>Start Date</b></td>
-				<td>
-					<input type="text" name="start_date" id="inp_start_date" size="12" value="{$form.start_date}" title="Start Date" class="inp_start_date" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_start_date" style="cursor: pointer;" title="Select Date" />
-				</td>
-			</tr>
-		</table>	
-			
-		<br />
-		<b>Branch Access Settings</b>
+		<div class="card mx-3">
+			<div class="card-body">
+				<table>
+					<!-- Active -->
+					<tr>
+						<td width="250"><b class="form-label">Active</b>
+							[<a href="javascript:void(alert('Activate to allow vendor to access Vendor Portal'));">?</a>]
+						</td>
+						<td>
+							<input type="radio" name="active_vendor_portal" value="1" {if $form.active_vendor_portal}checked {/if} onChange="VENDOR_PORTAL.active_vendor_portal_changed();" /> Yes
+							<input type="radio" name="active_vendor_portal" value="0" {if !$form.active_vendor_portal}checked {/if} onChange="VENDOR_PORTAL.active_vendor_portal_changed();" /> No
+							<span style="color:red;{if $form.active_vendor_portal}display:none;{/if}" id="span_active_vendor_portal_msg">
+								(Vendor will not able to login even got login ticket)
+							</span>
+						</td>
+					</tr>
+					
+					{* Start Date *}
+					<tr>
+						<td><b class="form-label">Start Date</b></td>
+						<td>
+							<div class="form-inline">
+								<input type="text" name="start_date" id="inp_start_date" size="20" value="{$form.start_date}" title="Start Date" class="inp_start_date form-control" />
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_start_date" style="cursor: pointer;" title="Select Date" />
+							</div>
+						</td>
+					</tr>
+				</table>	
+					
+			</div>
+		</div>
+		<div class="card mx-3">
+			<div class="card-body">
+				<b>Branch Access Settings</b>
 		{* <div style="width:98%;height:350px;border:2px inset grey;overflow-y:auto;"> *}
 			<table width="100%" cellpadding="0" cellspacing="0" class="report_table" style="background-color:#fff;" id="tbl_branch_access_setting">
 				<tr class="header">
@@ -1407,7 +1427,7 @@ function add_autocomplete(){
 							
 							<!-- sku group -->
 							<td valign="top">
-								<select name="sku_group_info[{$bid}]" style="width:250px">
+								<select class="form-control" name="sku_group_info[{$bid}]" style="width:250px">
 									<option value="">-- Please Select SKU Group --</option>
 									{foreach from=$sku_group_list item=sg}
 										{capture assign=sg_id}{$sg.branch_id}|{$sg.sku_group_id}{/capture}
@@ -1418,13 +1438,15 @@ function add_autocomplete(){
 							
 							<!-- Login Ticket -->
 							<td nowrap>
-								<input type="text" name="login_ticket[{$bid}]" value="{$form.branch_info.$bid.login_ticket}" size="12" readonly="" />
+								<div class="form-inline mb-4">
+									<input class="form-control" type="text" name="login_ticket[{$bid}]" value="{$form.branch_info.$bid.login_ticket}" size="12" readonly="" />
 								<span id="span_clone_ticket-{$bid}" style="{if !$form.branch_info.$bid.login_ticket}display:none;{/if}">
 									<img src="/ui/icons/application_tile_vertical.png" title="Use this ticket for all branches" align="absmiddle" class="clickable" onClick="VENDOR_PORTAL.clone_ticket('{$bid}')" />
 								</span>
-								<br />
-								<br />
-								<input class="btn btn-primary" type="button" id="btn_generate_ticket-{$bid}" value="{if $form.branch_info.$bid.login_ticket}Clear{else}Generate{/if}" onClick="VENDOR_PORTAL.generate_ticket_clicked('{$bid}');" style="width:100px;" />
+								&nbsp;&nbsp;<input class="btn btn-primary" type="button" id="btn_generate_ticket-{$bid}" value="{if $form.branch_info.$bid.login_ticket}Clear{else}Generate{/if}" onClick="VENDOR_PORTAL.generate_ticket_clicked('{$bid}');" style="width:100px;" />
+								</div>
+								
+								
 							</td>
 							
 							<!-- Expire Date -->
@@ -1438,9 +1460,11 @@ function add_autocomplete(){
 									{/if}
 									{if !$expire_date}{assign var=expire_date value=$default_expire_date}{/if}
 									
-									<input type="text" name="expire_date[{$bid}]" id="inp_expire_date-{$bid}" size="12" value="{$expire_date|date_format:"%Y-%m-%d"}" title="Expire Date" readonly class="inp_expire_date" />
-									<img align="absmiddle" src="ui/calendar.gif" id="img_expire_date-{$bid}" style="cursor: pointer;" title="Select Date" />
-									<br />
+									<div class="form-inline">
+										<input  type="text" name="expire_date[{$bid}]" id="inp_expire_date-{$bid}" size="20" value="{$expire_date|date_format:"%Y-%m-%d"}" title="Expire Date" readonly class="form-control inp_expire_date" />
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expire_date-{$bid}" style="cursor: pointer;" title="Select Date" />
+									</div>
+							
 								</span>
 								
 								<input type="checkbox" name="no_expire[{$bid}]" value="1" {if $form.branch_info.$bid.expire_date eq '9999-12-31'}checked {/if} id="inp_no_expire-{$bid}" onChange="VENDOR_PORTAL.toggle_no_expire('{$bid}');" /> No Expire Date
@@ -1449,14 +1473,14 @@ function add_autocomplete(){
 						<tr>
 							{* Email *}
 							<td>
-								<b> Email [<a href="javascript:void(alert('You can enter multiple email separate by \',\'. Sample:\n==================\nadmin@example.com,user@example.com'))">?</a>]:</b>
-								<input type="text" name="contact_email[{$bid}]" value="{$form.branch_info.$bid.contact_email}" style="width:300px;" maxlength="200" />
+								<b class="form-label"> Email [<a href="javascript:void(alert('You can enter multiple email separate by \',\'. Sample:\n==================\nadmin@example.com,user@example.com'))">?</a>]:</b>
+								<input class="form-control" type="text" name="contact_email[{$bid}]" value="{$form.branch_info.$bid.contact_email}" style="width:300px;" maxlength="200" />
 							</td>
 							
 							{* Link to Debtor *}
 							<td colspan="2">
-								<b>Link to Debtor: </b>
-								<select name="link_debtor_id[{$bid}]">
+								<b class="form-label">Link to Debtor: </b>
+								<select class="form-control" name="link_debtor_id[{$bid}]">
 									<option value="">-- No Link --</option>
 									{foreach from=$debtor_list key=debtor_id item=r}
 										<option value="{$debtor_id}" {if $form.branch_info.$bid.link_debtor_id eq $debtor_id}selected {/if}>{$r.code} - {$r.description}</option>
@@ -1468,9 +1492,9 @@ function add_autocomplete(){
 						<tr>
 							{* Report Profit *}
 							<td valign="top">
-								<b>Report Profit:</b>
+								<b class="form-label mt-2">Report Profit:</b>
 								<br />
-								{* <input name="sales_report_profit[{$bid}]" value="{$form.sales_report_profit.$bid}" size=3>% *}
+								{* <input class="form-control" name="sales_report_profit[{$bid}]" value="{$form.sales_report_profit.$bid}" size=3>% *}
 
 								<table id="tbl_report_profit-{$bid}" class="tbl_report_profit report_table" cellpadding="2" cellspacing="0">
 									<tr class="tr_header2">
@@ -1489,20 +1513,22 @@ function add_autocomplete(){
 									</tbody>
 								</table>
 								<br />
-								<button class="btn btn-primary" onClick="VENDOR_PORTAL.add_branch_profit_row_clicked('{$bid}');">+</button>
-								<button class="btn btn-primary" onClick="VENDOR_PORTAL.add_branch_profit_row_copy_clicked('{$bid}');" id="btn_branch_profit_row_copy-{$bid}" class="btn_branch_profit_row_copy">Copy</button>
-								<button class="btn btn-success" onClick="VENDOR_PORTAL.add_branch_profit_row_paste_clicked('{$bid}');" class="btn_branch_profit_row_paste">Paste</button>
+								<button class="btn btn-primary btn-sm" onClick="VENDOR_PORTAL.add_branch_profit_row_clicked('{$bid}');">+</button>
+								<button class="btn btn-primary btn-sm" onClick="VENDOR_PORTAL.add_branch_profit_row_copy_clicked('{$bid}');" id="btn_branch_profit_row_copy-{$bid}" class="btn_branch_profit_row_copy">Copy</button>
+								<button class="btn btn-success btn-sm" onClick="VENDOR_PORTAL.add_branch_profit_row_paste_clicked('{$bid}');" class="btn_branch_profit_row_paste">Paste</button>
 		
 								<span id="span_branch_profit_row_loading-{$bid}" style="padding:2px;background:yellow;display:none;"><br /><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 							</td>
 							
 							{* Bonus *}
 							<td colspan="2" valign="top">
-								<b>Bonus:</b>
+								<b class="form-label mt-2">Bonus:</b>
 								
-								Year <input type="text" size="4" id="inp_branch_bonus_y-{$bid}" onChange="miz(this);" value="{$smarty.now|date_format:"%Y"}" /> 
-								Month <input type="text" size="4" id="inp_branch_bonus_m-{$bid}" onChange="miz(this);" value="{$smarty.now|date_format:"%m"}" />
-								<button class="btn btn-primary" onClick="VENDOR_PORTAL.add_new_branch_bonus_group_clicked('{$bid}');">Add Monthly Bonus Group</button>
+								<div class="form-inline">
+									Year&nbsp; <input class="form-control" type="text" size="4" id="inp_branch_bonus_y-{$bid}" onChange="miz(this);" value="{$smarty.now|date_format:"%Y"}" /> 
+								&nbsp;Month&nbsp; <input class="form-control" type="text" size="4" id="inp_branch_bonus_m-{$bid}" onChange="miz(this);" value="{$smarty.now|date_format:"%m"}" />
+								&nbsp;&nbsp;<button class="btn btn-primary" onClick="VENDOR_PORTAL.add_new_branch_bonus_group_clicked('{$bid}');">Add Monthly Bonus Group</button>
+								</div>
 								<div id="div_branch_bonus_group_list-{$bid}">
 									{* loop year list *}
 									{foreach from=$form.branch_info.$bid.sales_bonus_by_step key=y item=m_bonus_list}
@@ -1524,6 +1550,8 @@ function add_autocomplete(){
 				{/foreach}
 			</table>
 		{* </div> *}
+			</div>
+		</div>
 		
 			<p align="center" id="p_action_button">
 				<input class="btn btn-success" type="button" value="Save" onClick="VENDOR_PORTAL.update_clicked();" id="btn_update_vendor_portal" />

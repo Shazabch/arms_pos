@@ -107,118 +107,170 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class="err">
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a" onSubmit="return view_type_check();">
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Apply Branch</b>
-		<select name="apply_branch_id">
-			 <option value="">-- All --</option>
-			 {foreach from=$branches key=bid item=b}
-				{if !$branches_group.have_group.$bid}
-					<option value="{$bid}" {if $smarty.request.apply_branch_id eq $bid}selected {/if}>{$b.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a" onSubmit="return view_type_check();">
+			<p>
+				<div class="row">
+					{if $BRANCH_CODE eq 'HQ'}
+					<div class="col">
+						<b class="form-label">Apply Branch</b>
+					<select class="form-control" name="apply_branch_id">
+						 <option value="">-- All --</option>
+						 {foreach from=$branches key=bid item=b}
+							{if !$branches_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.apply_branch_id eq $bid}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+						{foreach from=$branches_group.header key=bgid item=bg}
+							<optgroup label="{$bg.code}">
+								{foreach from=$branches_group.items.$bgid key=bid item=b}
+									<option value="{$bid}" {if $smarty.request.apply_branch_id eq $bid}selected {/if}>{$b.code}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+					</div>
+					<div class="col">
+						<b class="form-label">Sales From Branch</b>
+					<select class="form-control" name="sales_branch_id">
+						 <option value="">-- All --</option>
+						 {foreach from=$branches key=bid item=b}
+							{if !$branches_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.sales_branch_id eq $bid}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+						{foreach from=$branches_group.header key=bgid item=bg}
+							<optgroup label="{$bg.code}">
+								{foreach from=$branches_group.items.$bgid key=bid item=b}
+									<option value="{$bid}" {if $smarty.request.sales_branch_id eq $bid}selected {/if}>{$b.code}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+					</div>
 				{/if}
-			{/foreach}
-			{foreach from=$branches_group.header key=bgid item=bg}
-				<optgroup label="{$bg.code}">
-					{foreach from=$branches_group.items.$bgid key=bid item=b}
-						<option value="{$bid}" {if $smarty.request.apply_branch_id eq $bid}selected {/if}>{$b.code}</option>
-					{/foreach}
-				</optgroup>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Sales From Branch</b>
-		<select name="sales_branch_id">
-			 <option value="">-- All --</option>
-			 {foreach from=$branches key=bid item=b}
-				{if !$branches_group.have_group.$bid}
-					<option value="{$bid}" {if $smarty.request.sales_branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/if}
-			{/foreach}
-			{foreach from=$branches_group.header key=bgid item=bg}
-				<optgroup label="{$bg.code}">
-					{foreach from=$branches_group.items.$bgid key=bid item=b}
-						<option value="{$bid}" {if $smarty.request.sales_branch_id eq $bid}selected {/if}>{$b.code}</option>
-					{/foreach}
-				</optgroup>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-
-	<b>Date Before Renewal From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-	&nbsp;&nbsp;
-
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-</p>
-
-<p>
-	<b>Item Count From</b>
-	<input type="text" name="item_count_from" value="{$smarty.request.item_count_from}" size="5" />
-	&nbsp;&nbsp;
-	
-	<b>To</b>
-	<input type="text" name="item_count_to" value="{$smarty.request.item_count_to}" size="5" />
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<b>Member Card</b>
-	<input type="text" name="card_no" value="{$smarty.request.card_no}" size="15" /> (Optional)
-</p>
-<p>
-<input type="hidden" name="submit" value="1" />
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+			
+				<div class="col">
+					<b class="form-label">Date Before Renewal From</b> 
+				<div class="form-inline">
+					<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+				</div>
+				</div>
+				
+			
+				<div class="col">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+				</div>
+				</div>
+				</div>
+			</p>
+			
+			<p>
+				<div class="row">
+					<div class="col">
+						<b class="form-label">Item Count From</b>
+				<input class="form-control" type="text" name="item_count_from" value="{$smarty.request.item_count_from}" size="5" />
+				
+					</div>
+				<div class="col">
+					<b class="form-label">To</b>
+				<input class="form-control" type="text" name="item_count_to" value="{$smarty.request.item_count_to}" size="5" />
+				
+				</div>
+				<div class="col">
+					<b class="form-label">Member Card</b>
+				<input class="form-control" type="text" name="card_no" value="{$smarty.request.card_no}" size="15" /> (Optional)
+				</div>
+				
+				
+				</div>
+			</p>
+			<p>
+			<input type="hidden" name="submit" value="1" />
+			<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+			</form>
+	</div>
+</div>
 {/if}
 
 {if !$table}
 {if $smarty.request.submit && !$err}<p align="center">-- No data --</p>{/if}
 {else}
-	<h2>{$report_title}</h2>
-	<table id="report_tbl" class="rpt_table" width="100%" cellspacing="0" cellpadding="0">
-		<tr class="header">
-			<th width="3%">#</th>
-		    <th width="10%">Card No</th>
-		    <th width="10%">NRIC</th>
-		    <th width="47%">Address</th>
-		    <th width="10%">DOB</th>
-		    <th width="5%">Item Count</th>
-		    <th width="5%">Points</th>
-		</tr>
-	{foreach from=$table key=r item=item name=mm}
-		<tr id="tr_member_{$item.card_no}" bgcolor="{cycle name=r values=',#eeeeee'}">
-			<td>{$smarty.foreach.mm.iteration}. <img src="/ui/expand.gif" onclick="javascript:void(show_member_details('{$item.card_no}', '{$item.issue_date}', '{$item.expiry_date}', this));" align="absmiddle"> </td>
-			<td align="center">{$item.card_no}</td>
-			<td align="center">{$item.nric}</td>
-			<td>{$item.address|default:'-'}</td>
-			<td align="center">{$item.dob|default:'-'}</td>
-			<td align="right">{$item.trans_count|number_format:0|default:'-'}</td>
-			<td align="right">{$item.points|number_format:0|ifzero:'-'}</td>
-		</tr>
-		{assign var=ttl_tc value=$ttl_tc+$item.trans_count}
-		{assign var=ttl_points value=$ttl_points+$item.points}
-	{/foreach}
-		<tr class="header">      
-		    <th class="r" colspan="5">Total</th>
-			<th class="r">{$ttl_tc|number_format:0|ifzero:'-'}</th>
-			<th class="r">{$ttl_points|number_format:0|ifzero:'-'}</th>
-		</tr>
-	</table>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table id="report_tbl" class=" rpt_table mb-0 text-md-nowrap  table-hover" width="100%" >
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th width="3%">#</th>
+							<th width="10%">Card No</th>
+							<th width="10%">NRIC</th>
+							<th width="47%">Address</th>
+							<th width="10%">DOB</th>
+							<th width="5%">Item Count</th>
+							<th width="5%">Points</th>
+						</tr>
+					</thead>
+				{foreach from=$table key=r item=item name=mm}
+					<div class="tbody fs-08">
+						<tr id="tr_member_{$item.card_no}" bgcolor="{cycle name=r values=',#eeeeee'}">
+							<td>{$smarty.foreach.mm.iteration}. <img src="/ui/expand.gif" onclick="javascript:void(show_member_details('{$item.card_no}', '{$item.issue_date}', '{$item.expiry_date}', this));" align="absmiddle"> </td>
+							<td align="center">{$item.card_no}</td>
+							<td align="center">{$item.nric}</td>
+							<td>{$item.address|default:'-'}</td>
+							<td align="center">{$item.dob|default:'-'}</td>
+							<td align="right">{$item.trans_count|number_format:0|default:'-'}</td>
+							<td align="right">{$item.points|number_format:0|ifzero:'-'}</td>
+						</tr>
+					</div>
+					{assign var=ttl_tc value=$ttl_tc+$item.trans_count}
+					{assign var=ttl_points value=$ttl_points+$item.points}
+				{/foreach}
+					<tr class="header">      
+						<th class="r" colspan="5">Total</th>
+						<th class="r">{$ttl_tc|number_format:0|ifzero:'-'}</th>
+						<th class="r">{$ttl_points|number_format:0|ifzero:'-'}</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

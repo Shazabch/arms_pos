@@ -808,9 +808,17 @@ var OUTLET_PHOTO_DIALOG = {
 }
 </script>
 {/literal}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Branch Master File</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Branch Master File</h1>
-
+<div class="card mx-3">
+	<div class="card-body">
+		
 {if $allow_add_branch}
 <div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Branch</a> (Alt+A)</div><br>
 {/if}
@@ -826,9 +834,8 @@ var OUTLET_PHOTO_DIALOG = {
 {if !$config.consignment_modules && $config.enable_gst}
 	<div><a href="javascript:void(show_gst_interbranch());"><img src="ui/icons/page.png" title="GST Interbranch Settings" align="absmiddle" border="0"> GST Interbranch Settings</a></div><br>
 {/if}
-
-
-<br>
+	</div>
+</div>
 
 <!-- printing area -->
 <form name="fprint" target="ifprint">
@@ -843,7 +850,7 @@ var OUTLET_PHOTO_DIALOG = {
 <!-- End of Div Sort Branch Sequence -->
 
 <!-- start payment vocher maintenance div -->
-<div class="ndiv" id="vvc_div" style="position:absolute;left:300;top:100;display:none;">
+<div class="ndiv" id="vvc_div" style="position:absolute;left:300;top:100;display:none;background-color: white;">
 {include file=masterfile_branch_index.vvc.tpl}
 </div>
 <div class="ndiv" >

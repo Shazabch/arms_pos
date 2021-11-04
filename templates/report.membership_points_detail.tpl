@@ -119,7 +119,14 @@ function curtain_clicked(){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
 The following error(s) has occured:
@@ -146,106 +153,140 @@ The following error(s) has occured:
 </div>
 <!-- End of Item Details-->
 
-<form method="post" class="form" name="f_a">
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		    <option value="">-- All --</option>
-		    {foreach from=$branches item=b}
-		        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		    {/foreach}
-		    {if $branch_group.header}
-		        <optgroup label="Branch Group">
-					{foreach from=$branch_group.header item=r}
-					    {capture assign=bgid}bg,{$r.id}{/capture}
-						<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a">
+			<p>
+				<div class="row">
+					{if $BRANCH_CODE eq 'HQ'}
+				<div class="col">
+					<b class="form-label">Branch</b>
+					<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches item=b}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+						{/foreach}
+						{if $branch_group.header}
+							<optgroup label="Branch Group">
+								{foreach from=$branch_group.header item=r}
+									{capture assign=bgid}bg,{$r.id}{/capture}
+									<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+								{/foreach}
+							</optgroup>
+						{/if}
+					</select>
+				</div>
+				{/if}
+				<div class="col">
+					<b>Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+			</div>
+				</div>
+				<div class="col">
+					<b>To</b>
+				 <div class="form-inline">
+					<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+				 </div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">Type</b>
+				<select class="form-control" name="type">
+					<option value="">-- All --</option>
+					{foreach from=$type key=val item=desc}
+						<option value="{$val}" {if $smarty.request.type eq $val}selected {/if}>{$desc}</option>
 					{/foreach}
-				</optgroup>
+				</select>
+				</div>
+				</div>
+			</p>
+			<p>
+			* View in maximum 1 year
+			</b></p>
+			</p>
+			<p>
+			<input type="hidden" name="submit" value="1" />
+			<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
 			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<b>Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>Type</b>
-	<select name="type">
-		<option value="">-- All --</option>
-		{foreach from=$type key=val item=desc}
-			<option value="{$val}" {if $smarty.request.type eq $val}selected {/if}>{$desc}</option>
-		{/foreach}
-	</select>
-</p>
-<p>
-* View in maximum 1 year
-</b></p>
-</p>
-<p>
-<input type="hidden" name="submit" value="1" />
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+			</p>
+			</form>
+	</div>
+</div>
 {/if}
 
 {if !$table}
 {if $smarty.request.submit && !$err}<p align="center">-- No data --</p>{/if}
 {else}
-	<h2>{$report_title}</h2>
-	<table class="rpt_table" width="100%" cellspacing="0" cellpadding="0" id="report_tbl">
-		<tr class="header">
-			<th>Date</th>
-			<th>Branch</th>
-			<th>Card No</th>
-			<th>Name</th>
-			<th>NRIC</th>
-			<th>Issue Date</th>
-			<th>Expiry Date</th>
-			<th>Remarks</th>
-			<th>Type</th>
-			<th>Cashier</th>
-			<th>Points</th>
-		</tr>
-		<tbody>
-			{foreach from=$table key=ar item=r}
-				<tr>
-					<td align="center">
-						{if $r.type ne 'ENTRY' && $r.type ne 'ADJUST' && $r.type ne ''}
-							<a href="javascript:void(0);" onclick="sales_details('{$r.points_date}','{$r.card_no}','{$r.type}','{$r.branch_id}','{$r.date}')">
-							{$r.points_date|default:"&nbsp;"}
-							</a>
-						{else}
-							{$r.points_date|default:"&nbsp;"}
-						{/if}
-					</td>
-					<td align="center">{$r.branch_code}</td>
-					<td>{$r.card_no|default:"&nbsp;"}</td>
-					<td>{$r.name|default:"&nbsp;"}</td>
-					<td>{$r.nric|default:"&nbsp;"}</td>
-					<td align="center">{$r.issue_date|default:"&nbsp;"}</td>
-					<td align="center">{$r.expiry_date|default:"&nbsp;"}</td>
-					<td>{$r.remark|default:"&nbsp;"}</td>
-					<td align="center">
-						{assign var=curr_type value=$r.type}
-						{$type.$curr_type}
-					</td>
-					<td align="center">{$r.cashier_name|default:"-"}</td>
-					<td align="right">
-						{$r.points|default:0|number_format:0}
-					</td>
-					{assign var=ttl_points value=$ttl_points+$r.points}
-				</tr>
-			{/foreach}
-		</tbody>
-		<tr class="header">
-			<th colspan="10" align="right">Total</th>
-			<th align="right">{$ttl_points|number_format:0}</th>
-		</tr>
-	</table>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="rpt_table" width="100%" id="report_tbl">
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>Date</th>
+							<th>Branch</th>
+							<th>Card No</th>
+							<th>Name</th>
+							<th>NRIC</th>
+							<th>Issue Date</th>
+							<th>Expiry Date</th>
+							<th>Remarks</th>
+							<th>Type</th>
+							<th>Cashier</th>
+							<th>Points</th>
+						</tr>
+					</thead>
+					<tbody class="fs-08">
+						{foreach from=$table key=ar item=r}
+							<tr>
+								<td align="center">
+									{if $r.type ne 'ENTRY' && $r.type ne 'ADJUST' && $r.type ne ''}
+										<a href="javascript:void(0);" onclick="sales_details('{$r.points_date}','{$r.card_no}','{$r.type}','{$r.branch_id}','{$r.date}')">
+										{$r.points_date|default:"&nbsp;"}
+										</a>
+									{else}
+										{$r.points_date|default:"&nbsp;"}
+									{/if}
+								</td>
+								<td align="center">{$r.branch_code}</td>
+								<td>{$r.card_no|default:"&nbsp;"}</td>
+								<td>{$r.name|default:"&nbsp;"}</td>
+								<td>{$r.nric|default:"&nbsp;"}</td>
+								<td align="center">{$r.issue_date|default:"&nbsp;"}</td>
+								<td align="center">{$r.expiry_date|default:"&nbsp;"}</td>
+								<td>{$r.remark|default:"&nbsp;"}</td>
+								<td align="center">
+									{assign var=curr_type value=$r.type}
+									{$type.$curr_type}
+								</td>
+								<td align="center">{$r.cashier_name|default:"-"}</td>
+								<td align="right">
+									{$r.points|default:0|number_format:0}
+								</td>
+								{assign var=ttl_points value=$ttl_points+$r.points}
+							</tr>
+						{/foreach}
+					</tbody>
+					<tr class="header">
+						<th colspan="10" align="right">Total</th>
+						<th align="right">{$ttl_points|number_format:0}</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

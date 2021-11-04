@@ -8,7 +8,13 @@
 
 {include file=header.tpl}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <script>
 var phpself = '{$smarty.server.PHP_SELF}';
@@ -19,10 +25,10 @@ function commission_list_sel(n,s){
 	for(i=0;i<=2;i++){
 		if ($('lst'+i)!=undefined){
 			if (i==n){
-			    $('lst'+i).className='active';			
+			    $('lst'+i).addClassName('selected');			
 			}
 			else{
-				$('lst'+i).className='';
+				$('lst'+i).removeClassName('selected');
 			}			    
 		}
 	}
@@ -128,19 +134,36 @@ function ajax_toggle_commission_status(id, bid){
 {/if}
 </div>
 
-<img src="ui/new.png" align="absmiddle"> 
+<div class="card mx-3">
+	<div class="card-body">
+		<img src="ui/new.png" align="absmiddle"> 
 <a href="{$smarty.server.PHP_SELF}?a=open_commission">Create New Commission</a>
+	</div>
+</div>
 
 <br /><br />
 <form onsubmit="commission_list_sel(0,0); return false;">
-	<div class="tab" style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
-		<a href="javascript:commission_list_sel(1)" id="lst1" class="active">Saved Commission</a>
-		<a href="javascript:commission_list_sel(2)" id="lst2">Inactive Commission</a>
-		<a name="find" id="lst0">Find Commission <input id="search" name="find" value="{$smarty.request.search}"> <input type="submit" value="Go"></a>
+	<div >
+		<div class="tab row mx-3" style="white-space:nowrap;">
+			<div class="col">
+				<a href="javascript:commission_list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded">Saved Commission</a>
+			&nbsp;&nbsp;<a href="javascript:commission_list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded">Inactive Commission</a>
+			</div>
+			<div class="col">
+				<div class="form-inline">
+					<a name="find" id="lst0">Find Commission 
+						<input id="search" class="form-control" name="find" value="{$smarty.request.search}"> 
+						<input type="submit" class="btn btn-primary" value="Go"></a>
+				</div>
+			</div>
+		</div>
 	</div>
 </form>
-<div id="sac_list" style="border:1px solid #000">
-	{include file="masterfile_sa_commission.list.tpl"}
+<div id="sac_list" >
+		<div class="card mx-3">
+			<div class="card-body">
+				{include file="masterfile_sa_commission.list.tpl"}
+			</div>
+		</div>
 </div>
 {include file="footer.tpl"}

@@ -562,7 +562,13 @@ function use_voucher(branch_id, id, obj){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $smarty.request.msg}{assign var=msg value=$smarty.request.msg}{/if}
 {if $msg}<p align=center><font color=red>{$msg}</font></p>{/if}
@@ -583,93 +589,123 @@ function use_voucher(branch_id, id, obj){
 </div>
 <!-- End of Special Div -->
 
-<form name="f_b" method="post" onSubmit="refresh_item_list();return false;">
-	<input type="hidden" name="a" value="refresh_item_list" />
-	
-	{if $BRANCH_CODE eq 'HQ'}
-	    <b>Available Branch</b>
-	    <select name="branch_id">
-	        <option value="">-- All --</option>
-	        {foreach from=$branches key=bid item=b}
-	    	    {if !$branches_group.have_group.$bid}
-	    	    	<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_b" method="post" onSubmit="refresh_item_list();return false;">
+			<input type="hidden" name="a" value="refresh_item_list" />
+			
+			<div class="row">
+				<div class="col-md-3">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Available Branch</b>
+					<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches key=bid item=b}
+							{if !$branches_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+							{/if}
+						{/foreach}
+						{if $branches_group.header}
+						<optgroup label="Branches Group">
+							{foreach from=$branches_group.header key=bgid item=bg}
+								<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+								{foreach from=$branches_group.items.$bgid item=r}
+									<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+								{/foreach}
+							{/foreach}
+						</optgroup>
+						{/if}
+						
+					</select>
+				{else}
+					<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
 				{/if}
-	    	{/foreach}
-	    	{if $branches_group.header}
-	    	<optgroup label="Branches Group">
-		    	{foreach from=$branches_group.header key=bgid item=bg}
-		    	    <option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-		    	    {foreach from=$branches_group.items.$bgid item=r}
-		    	        <option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-		    	    {/foreach}
-		    	{/foreach}
-            </optgroup>
-	    	{/if}
-	    	
-	    </select>&nbsp;&nbsp;
-	{else}
-		<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
-	{/if}
-	
-	<b>Status</b>
-	<select name=active>
-		<option value="All" {if $smarty.request.active == 'All'}selected {/if}>-- All --</option>
-		<option value="1" {if $smarty.request.active == '1'}selected {/if}>Draft</option>
-		<option value="2" {if $smarty.request.active == '2'}selected {/if}>Pending</option>
-		<option value="3" {if $smarty.request.active == '3'}selected {/if}>Active</option>
-		<option value="4" {if $smarty.request.active == '4'}selected {/if}>Expired/Cancelled</option>
-	</select>&nbsp;&nbsp;
-	
-	<b>Point Range</b>
-	<select name="point_range" onChange="toggle_point_range();">
-	    <option value="">-- All --</option>
-	    <option value="between">Between</option>
-	</select>&nbsp;&nbsp;
-	<span id="span_point_range" style="display:none;">
-	    <b>Min</b><input type="text" size="5" name="point_range_min" value="{$smarty.request.point_range_min}" />
-	    <b>Max</b><input type="text" size="5" name="point_range_max" value="{$smarty.request.point_range_max|default:'100'}" />
-	</span>&nbsp;&nbsp;
-	
-	<b>Sort by</b>
-    <select name="sort_by" onChange="toggle_sort_by();">
-	    <option value="">No Sorting</option>
-	    <option value="sku_item_code">ARMS Code</option>
-	    <option value="description">Description</option>
-	    <option value="point">Point</option>
-	    <option value="receipt_amount">Receipt Amount</option>
-	</select>&nbsp;&nbsp;
-	<span id="span_sort_by" style="display:none;">
-	    <select name="order_by">
-	        <option value="asc">Ascending</option>
-	        <option value="desc">Descending</option>
-	    </select>
-	</span>&nbsp;&nbsp;
-	
-	<script>toggle_point_range();</script>
-	<script>toggle_sort_by();</script>
-	
-	<p>
-		<input type="checkbox" name="filter_sku" align="absmiddle" onChange="toggle_filter_sku();" {if $smarty.request.filter_sku}checked {/if} /> <b>SKU Filter</b>
-		<div id="div_sku_items" style="border:1px solid #cfcfcf; background: #efefef;display:none;">
-		{include file='sku_items_autocomplete_multiple_add2.tpl' skip_dept_filter=1 is_dbl_sku=1 parent_form='document.f_b'}
-		</div>
-	</p>
-	
-	<p>
-	    <b>Show <input type="text" size="2" name="limit" onChange="miz(this);" value="30" class="r" /> Item(s)</b>&nbsp;&nbsp;
-	    <input type="submit" name="refresh" value="Refresh" />
-	</p>
-</form>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Status</b>
+				<select class="form-control" name=active>
+					<option value="All" {if $smarty.request.active == 'All'}selected {/if}>-- All --</option>
+					<option value="1" {if $smarty.request.active == '1'}selected {/if}>Draft</option>
+					<option value="2" {if $smarty.request.active == '2'}selected {/if}>Pending</option>
+					<option value="3" {if $smarty.request.active == '3'}selected {/if}>Active</option>
+					<option value="4" {if $smarty.request.active == '4'}selected {/if}>Expired/Cancelled</option>
+				</select>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Point Range</b>
+				<select class="form-control" name="point_range" onChange="toggle_point_range();">
+					<option value="">-- All --</option>
+					<option value="between">Between</option>
+				</select>
+					<div class="form-inline">
+						<span id="span_point_range" style="display:none;">
+							<div class="form-inline mt-2">
+								<b class="form-label">&nbsp;Min&nbsp;</b><input class="form-control" type="text" size="5" name="point_range_min" value="{$smarty.request.point_range_min}" />
+							<b class="form-label">&nbsp;Max&nbsp;</b><input class="form-control" type="text" size="5" name="point_range_max" value="{$smarty.request.point_range_max|default:'100'}" />
+							</div>
+						</span>=
+					</div>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Sort by</b>
+				<select class="form-control" name="sort_by" onChange="toggle_sort_by();">
+					<option value="">No Sorting</option>
+					<option value="sku_item_code">ARMS Code</option>
+					<option value="description">Description</option>
+					<option value="point">Point</option>
+					<option value="receipt_amount">Receipt Amount</option>
+				</select>
+				
+					<span id="span_sort_by" style="display:none;">
+						<select class="form-control mt-2" name="order_by">
+							<option value="asc">Ascending</option>
+							<option value="desc">Descending</option>
+						</select>
+					</span>
+				</div>
+			</div>
+			
+			<script>toggle_point_range();</script>
+			<script>toggle_sort_by();</script>
+			
+			<p>
+				<input type="checkbox" name="filter_sku" align="absmiddle" onChange="toggle_filter_sku();" {if $smarty.request.filter_sku}checked {/if} /> <b>SKU Filter</b>
+				<div id="div_sku_items" style="border:1px solid #cfcfcf; background: #efefef;display:none;">
+				{include file='sku_items_autocomplete_multiple_add2.tpl' skip_dept_filter=1 is_dbl_sku=1 parent_form='document.f_b'}
+				</div>
+			</p>
+			
+			<p>
+				<div class="form-inline">
+					<b>Show 
+						&nbsp;<input clas type="text" size="2" name="limit" onChange="miz(this);" value="30" class="r form-control" /> Item(s)</b>&nbsp;&nbsp;
+					<input type="submit" class="btn btn-primary" name="refresh" value="Refresh" />
+				</div>
+			</p>
+		</form>
+	</div>
+</div>
 
 <form name="f_item">
 	<input type="hidden" name="a" value="ajax_save_item" />
-    <div id="tb_div" class="stdframe"></div>
+   <div class="card mx-3">
+	   <div class="card-body">
+		<div id="tb_div" class="stdframe"></div>
+	   </div>
+   </div>
 </form>
 
 <div class=stdframe>
 	<form name=f_a method=post onSubmit="return false;">
 		<input type=hidden name=a value=ajax_get_sku_by_code>
-		{include file=sku_items_autocomplete_multiple_add.tpl is_promo=1 check_item_list=1}
+	<div class="card mx-3">
+		<div class="card-body">
+			{include file=sku_items_autocomplete_multiple_add.tpl is_promo=1 check_item_list=1}
+		</div>
+	</div>
 	</form>
 	<span id="span_adding_item" style="background:#ff0;"></span>
 </div>

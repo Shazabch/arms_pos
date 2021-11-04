@@ -124,7 +124,7 @@ function display_hide_company_logo(){
 {/literal}
 </script>
 
-<form name="f_b" method="post" target="if1" enctype="multipart/form-data" onSubmit="return false;">
+<form name="f_b" method="post" target="if1" style="z-index: 100900000;" enctype="multipart/form-data" onSubmit="return false;">
 	<div id="bmsg" style="padding:10 0 10 0px;"></div>
 	
 	<input type="hidden" name="a" value="ajax_update_branch" />

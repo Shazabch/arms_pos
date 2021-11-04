@@ -111,54 +111,80 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a">
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		    <option value="">-- All --</option>
-		    {foreach from=$branches item=b}
-		        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		    {/foreach}
-		    {if $branch_group.header}
-		        <optgroup label="Branch Group">
-					{foreach from=$branch_group.header item=r}
-					    {capture assign=bgid}bg,{$r.id}{/capture}
-						<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a">
+			<p>
+			<div class="row">
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+						<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
 					{/foreach}
-				</optgroup>
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header item=r}
+								{capture assign=bgid}bg,{$r.id}{/capture}
+								<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
 			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<b>Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-</p>
-<p>
-* View in maximum 1 year
-</b></p>
-</p>
-<p>
-<input type="hidden" name="submit" value="1" />
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+				</div>
+			<div class="col">
+				<b class="form-label">Date From</b> 
+		<div class="form-inline">
+			<input  class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+		</div>
+			</div>
+			<div class="col">
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+			</div>
+			</div>
+			</div>
+			</p>
+			<p>
+			* View in maximum 1 year
+			</b></p>
+			</p>
+			<p>
+			<input type="hidden" name="submit" value="1" />
+			<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+			</form>
+	</div>
+</div>
 {/if}
 
 {if !$table}

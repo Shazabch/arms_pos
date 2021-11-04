@@ -74,97 +74,129 @@ function print_statement(comp_code, bid, obj){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
-<li> {$e}
+<li> {$e} </li>
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method="post" name="f_print">
-	<input type="hidden" name="a">
-	<input type="hidden" name="company_code">
-	<input type="hidden" name="branch_id">
-	<input type="hidden" name="date_from" value="{$smarty.request.date_from}">
-	<input type="hidden" name="date_to" value="{$smarty.request.date_to}">
-	<input type="hidden" name="sales_type" value="{$smarty.request.sales_type}">
-	<input type="hidden" name="sa_id" value="{$smarty.request.sa_id}">
-</form>
-<form method="post" class="form" name="f_a">
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		    <option value="">-- All --</option>
-		    {foreach from=$branches item=b}
-		        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		    {/foreach}
-		    {if $branch_group.header}
-		        <optgroup label="Branch Group">
-					{foreach from=$branch_group.header item=r}
-					    {capture assign=bgid}bg,{$r.id}{/capture}
-						<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
-					{/foreach}
-				</optgroup>
-			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<b>Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-</p>
-<p>
-	<b>Sales From</b>
-	<select name="sales_type">
-		<option value="">-- All --</option>
-		<option value="open" {if $smarty.request.sales_type eq 'open'}selected{/if}>DO - Cash Sales</option>
-		<option value="credit_sales" {if $smarty.request.sales_type eq 'credit_sales'}selected{/if}>DO - Credit Sales</option>
-		<option value="pos"{if $smarty.request.sales_type eq 'pos'}selected{/if}>POS</option>
-	</select>
-	<!--b>Department</b>
-	<select name="department_id">
-		<option value=0>-- All --</option>
-		{foreach from=$departments item=dept}
-			<option value={$dept.id} {if $smarty.request.department_id eq $dept.id}selected{/if}>{$dept.description}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-
-	<b>SKU Type</b>
-	<select name="sku_type">
-		<option value="">-- All --</option>
-		{foreach from=$sku_type item=t}
-			<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
-		{/foreach}
-	</select-->
-	&nbsp;&nbsp;&nbsp;&nbsp;
-
-	<b>Sales Agent</b>
-	<select name="sa_id">
-	   <option value="">-- All --</option>
-		{foreach from=$sa item=sa}
-			<option value="{$sa.id}" {if $smarty.request.sa_id eq $sa.id}selected {/if}>{$sa.code} - {$sa.name}</option>
-		{/foreach}
-	</select>
-</p>
-<p>
-* View in maximum 1 year.<br />
-* This report requires sales to be finalised and will available for viewing on the next day 9AM.
-</p>
-<p>
-<input type="hidden" name="submit" value="1" />
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" name="f_print">
+			<input type="hidden" name="a">
+			<input type="hidden" name="company_code">
+			<input type="hidden" name="branch_id">
+			<input type="hidden" name="date_from" value="{$smarty.request.date_from}">
+			<input type="hidden" name="date_to" value="{$smarty.request.date_to}">
+			<input type="hidden" name="sales_type" value="{$smarty.request.sales_type}">
+			<input type="hidden" name="sa_id" value="{$smarty.request.sa_id}">
+		</form>
+		<form method="post" class="form" name="f_a">
+		<p>
+		<div class="row">
+			{if $BRANCH_CODE eq 'HQ'}
+			<div class="col">
+				<b class="form-label">Branch</b>
+			<select class="form-control" name="branch_id">
+				<option value="">-- All --</option>
+				{foreach from=$branches item=b}
+					<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+				{/foreach}
+				{if $branch_group.header}
+					<optgroup label="Branch Group">
+						{foreach from=$branch_group.header item=r}
+							{capture assign=bgid}bg,{$r.id}{/capture}
+							<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+						{/foreach}
+					</optgroup>
+				{/if}
+			</select>
+			</div>
+		{/if}
+		<div class="col">
+			<b class="form-label">Date From</b>
+		<div class="form-inline">
+			<input class="form-control" size="25" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
+		&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+		</div>
+		</div>
+		<div class="col">
+			<b class="form-label">To</b>
+		<div class="form-inline">
+			<input class="form-control" size="25" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
+		&nbsp;&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+		</div>
+		</div>
+		</div>
+		</p>
+		<p>
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Sales From</b>
+			<select class="form-control" name="sales_type">
+				<option value="">-- All --</option>
+				<option value="open" {if $smarty.request.sales_type eq 'open'}selected{/if}>DO - Cash Sales</option>
+				<option value="credit_sales" {if $smarty.request.sales_type eq 'credit_sales'}selected{/if}>DO - Credit Sales</option>
+				<option value="pos"{if $smarty.request.sales_type eq 'pos'}selected{/if}>POS</option>
+			</select>
+				</div>
+			<!--b>Department</b>
+			<select name="department_id">
+				<option value=0>-- All --</option>
+				{foreach from=$departments item=dept}
+					<option value={$dept.id} {if $smarty.request.department_id eq $dept.id}selected{/if}>{$dept.description}</option>
+				{/foreach}
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		
+			<b>SKU Type</b>
+			<select name="sku_type">
+				<option value="">-- All --</option>
+				{foreach from=$sku_type item=t}
+					<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
+				{/foreach}
+			</select-->
+			<div class="col">
+				<b class="form-label">Sales Agent</b>
+			<select class="form-control" name="sa_id">
+			   <option value="">-- All --</option>
+				{foreach from=$sa item=sa}
+					<option value="{$sa.id}" {if $smarty.request.sa_id eq $sa.id}selected {/if}>{$sa.code} - {$sa.name}</option>
+				{/foreach}
+			</select>
+			</div>
+			</div>
+		</p>
+		<div class="alert alert-primary rounded">
+			<p>
+				* View in maximum 1 year.<br />
+				* This report requires sales to be finalised and will available for viewing on the next day 9AM.
+				</p>
+		</div>
+		<p>
+		<input type="hidden" name="submit" value="1" />
+		<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
+		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+		<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+		{/if}
+		</p>
+		</form>
+	</div>
+</div>
 {/if}
 
 {if !$table && !$range_table}

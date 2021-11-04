@@ -61,55 +61,58 @@
 		Note: <label class="highlight_row_title"><img width="17" src="/ui/pixel.gif" /></label> Highlighted item(s) indicate nearly expire.
 	</div>
 	{/if}
-    <table width=100% style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border small body" border=0 cellspacing=1 cellpadding=1 id="tbl_items">
-	<thead>
-		<tr bgcolor=#ffffff>
-		  	<th rowspan=2>#</th>
-			<th rowspan=2>Status</th>
-		  	<th rowspan=2><input type="checkbox" onChange="toggle_all_status(this);"></th>
-			<th rowspan=2>Created By</th>
-			<th rowspan=2>Available to</th>
-			<th rowspan=2>Arms Code</th>
-			<th rowspan=2>Description</th>
-			<th rowspan=2>Cost</th>
-			<th rowspan=2>Selling<br>Price</th>
-			<th rowspan=2>Stock<br>Balance</th>
-			<th rowspan=2>Point</th>
-			<th rowspan=2>Cash</th>
-			<th colspan=2>Valid</th>
-			<th colspan="4">Receipt</th>
-			{if $config.membership_redemption_use_enhanced}
-				<th rowspan="2">Cancelled By</th>
-				<th rowspan="2">Cancelled Date</th>
-			{/if}
-			<th rowspan=2>Created By</th>
-			<th rowspan=2>Approved By</th>
-			{if $config.membership_use_voucher}
-				<th rowspan=2>Voucher Value</th>
-			{/if}
-		</tr>
-		<tr bgcolor=#ffffff>
-			<th>Date Start</th>
-			<th>Date End</th>
-			<th>Amount</th>
-			<th>Date Start</th>
-			<th>Date End</th>
-			<th>Use Current Date</th>
-		</tr>
-	</thead>
-	<tbody id="tbody_item_list">
-		{foreach from=$redemption_items item=item name=fitem}
-			{include file='membership.redemption_setup.list.row.tpl'}
-			<script>items_row_count = int('{$smarty.foreach.fitem.iteration}');</script>
-		{foreachelse}
-			<tr id="tr_no_item">
-				<td colspan="21" align="center"><p style="padding:10px;" class="large">-- No Item --</p></td>
+   <div class="table-responsive">
+	<table width=100% class="input_no_border small body table mb-0 text-md-nowrap  table-hover"
+	id="tbl_items">
+		<thead class="bg-gray-100">
+			<tr >
+				  <th rowspan=2>#</th>
+				<th rowspan=2>Status</th>
+				  <th rowspan=2><input type="checkbox" onChange="toggle_all_status(this);"></th>
+				<th rowspan=2>Created By</th>
+				<th rowspan=2>Available to</th>
+				<th rowspan=2>Arms Code</th>
+				<th rowspan=2>Description</th>
+				<th rowspan=2>Cost</th>
+				<th rowspan=2>Selling<br>Price</th>
+				<th rowspan=2>Stock<br>Balance</th>
+				<th rowspan=2>Point</th>
+				<th rowspan=2>Cash</th>
+				<th colspan=2>Valid</th>
+				<th colspan="4">Receipt</th>
+				{if $config.membership_redemption_use_enhanced}
+					<th rowspan="2">Cancelled By</th>
+					<th rowspan="2">Cancelled Date</th>
+				{/if}
+				<th rowspan=2>Created By</th>
+				<th rowspan=2>Approved By</th>
+				{if $config.membership_use_voucher}
+					<th rowspan=2>Voucher Value</th>
+				{/if}
 			</tr>
-		{/foreach}
-	    <tr id="tbl_footer">
-		</tr>
-	</tbody>
-	</table>
+			<tr >
+				<th>Date Start</th>
+				<th>Date End</th>
+				<th>Amount</th>
+				<th>Date Start</th>
+				<th>Date End</th>
+				<th>Use Current Date</th>
+			</tr>
+		</thead>
+		<tbody class="fs-08" id="tbody_item_list">
+			{foreach from=$redemption_items item=item name=fitem}
+				{include file='membership.redemption_setup.list.row.tpl'}
+				<script>items_row_count = int('{$smarty.foreach.fitem.iteration}');</script>
+			{foreachelse}
+				<tr id="tr_no_item">
+					<td colspan="21" align="center"><p style="padding:10px;" class="large">-- No Item --</p></td>
+				</tr>
+			{/foreach}
+			<tr id="tbl_footer">
+			</tr>
+		</tbody>
+		</table>
+   </div>
 	
 	<div id="div_save_area" {if !$redemption_items}style="display:none;"{/if}>
 	    <p style="text-align:center;padding:10px;background:#fff;">

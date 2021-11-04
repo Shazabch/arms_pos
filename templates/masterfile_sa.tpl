@@ -858,32 +858,51 @@ var SEARCH_LEADER_DIALOG = {
 </div>
 <iframe name="if_sa_photo" style="width:1px;height:1px;visibility:hidden;"></iframe>
 
-<h1>{$PAGE_TITLE}</h1>
-<div>
-	<a onclick="SALES_AGENT_MODULE.sa_table_appear('add');" style="cursor:pointer;"><img src="ui/icons/user_add.png" title="Create Sales Agent" align="absmiddle" border="0"> Create New Sales Agent</a> <span id="span_loading"></span><br /><br />
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<a onclick="SALES_AGENT_MODULE.sa_table_appear('add');" style="cursor:pointer;"><img src="ui/icons/user_add.png" title="Create Sales Agent" align="absmiddle" border="0"> Create New Sales Agent</a> <span id="span_loading"></span><br /><br />
+	</div>
 </div>
 
 <p>
-	<form name="f_a" onSubmit="SALES_AGENT_MODULE.reload_sa_list();return false;">
-		<input type="hidden" name="a" value="ajax_reload_sa_list" />
-		<span>
-			<b>Code / Name:</b>
-			<input type="text" name="code_or_name" />
-			&nbsp;&nbsp;&nbsp;&nbsp;
-		</span>
-		
-		<span>
-			<b>Status:</b>
-			<select name="status">
-				<option value="">All</option>
-				<option value="1">Active</option>
-				<option value="0">Inactive</option>
-			</select>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-		</span>
-		
-		<input id="inp_reload_sa" type="button" value="Search" onClick="SALES_AGENT_MODULE.reload_sa_list();" />
-	</form>
+	<div class="card mx-3">
+		<div class="card-body">
+			<form name="f_a" onSubmit="SALES_AGENT_MODULE.reload_sa_list();return false;">
+				<input type="hidden" name="a" value="ajax_reload_sa_list" />
+			<div class="row">
+				<div class="col">
+					<span>
+						<b class="form-label">Code / Name:</b>
+						<input class="form-control" type="text" name="code_or_name" />
+						
+					</span>
+				</div>
+				
+				<div class="col">
+					<span>
+						<b class="form-label">Status:</b>
+						<select class="form-control" name="status">
+							<option value="">All</option>
+							<option value="1">Active</option>
+							<option value="0">Inactive</option>
+						</select>
+					</span>
+				</div>
+				
+				<div class="col">
+					<input class="btn btn-primary mt-4" id="inp_reload_sa" type="button" value="Search" onClick="SALES_AGENT_MODULE.reload_sa_list();" />
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
 	<span id="span_loading_sa_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 </p>
 
@@ -966,13 +985,13 @@ var SEARCH_LEADER_DIALOG = {
 	</div>
 </div>
 
-<div class="ndiv" id="div_sa_table" style="position:absolute;width:670px;height:300px;display:none;z-index:10000;">
+<div class="ndiv" id="div_sa_table" style="background-color: white; border-radius: 10px; position:absolute;  width:670px;height:300px;display:none;z-index:10000;">
 <div class="blur"><div class="shadow"><div class="content">
 
-<div class="small" style="position:absolute; right:10; text-align:right;"><a onclick="SALES_AGENT_MODULE.sa_table_fade();" accesskey="C"><img src="ui/closewin.png" border="0" align="absmiddle" style="pointer:cursor;"></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2 mr-2" style="position:absolute; right:10; text-align:right;"><a onclick="SALES_AGENT_MODULE.sa_table_fade();" accesskey="C"><img src="ui/closewin.png" border="0" align="absmiddle" style="pointer:cursor;"></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method="post" name="f_b" onSubmit="return SALES_AGENT_MODULE.validate();">
-	<div id="bmsg" style="padding:10 0 10 0px;"></div>
+	<div id="bmsg" class="mt-2 ml-2" style="padding:10 0 10 0px;"></div>
 	<div id="err_msg" style="color:#CE0000; display:none; font-weight:bold;"></div>
 	<input type="hidden" name="a" value="add">
 	<input type="hidden" name="id" value="">
@@ -980,40 +999,44 @@ var SEARCH_LEADER_DIALOG = {
 		<tr><td valign="top">
 		<table id="tb">
 			<tr>
-			<td><b>Code</b></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Code<span class="text-danger" title="Required Field"></span></b></td>
 			<td>
 				{if $config.masterfile_sa_code_prefix}{$config.masterfile_sa_code_prefix}&nbsp;{/if}
-				<input onBlur="uc(this)" name="code" size="20" maxlength="20" value=""> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+				<input class="form-control" onBlur="uc(this)" name="code" size="20" maxlength="20" value=""> 
 			</tr><tr>
-			<td><b>Name</b></td>
-			<td><input onBlur="uc(this)" name="name" size="30" maxlength="40"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Name<span class="text-danger" title="Required Field"></span></b></td>
+			<td><input class="form-control" onBlur="uc(this)" name="name" size="30" maxlength="40"> 
 			</tr><tr>
-			<td><b>Company Code</b></td>
-			<td><input onBlur="uc(this)" name="company_code" size="20" maxlength="20"></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Company Code</b></td>
+			<td><input class="form-control" onBlur="uc(this)" name="company_code" size="20" maxlength="20"></td>
 			</tr><tr>
-			<td><b>Company Name</b></td>
-			<td><input onBlur="uc(this)" name="company_name" size="30" maxlength="40"></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Company Name</b></td>
+			<td><input class="form-control" onBlur="uc(this)" name="company_name" size="30" maxlength="40"></td>
 			</tr><tr>
-			<td><b>Email</b></td>
-			<td><input onBlur="lc(this);" name="email" size="20"></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Email</b></td>
+			<td><input class="form-control" onBlur="lc(this);" name="email" size="20"></td>
 			</tr><tr>
-			<td valign="top"><b>Phone No</b></td>
-			<td><input name="phone_1" size="12"></td>
+			<td valign="top"><b class="form-label">&nbsp;&nbsp;&nbsp;Phone No</b></td>
+			<td><input class="form-control" name="phone_1" size="12"></td>
 			</tr><tr>
-			<td valign="top"><b>Ticket No</b></td>
+			<div class="form-inline">
+				<td valign="top"><b class="form-label">&nbsp;&nbsp;&nbsp;Ticket No</b></td>
 			<td>
-				<input name="ticket_no" size="10" readonly>
-				<input type="hidden" name="old_ticket_no">
-				<input type="button" name="ticket_btn" value="Generate">
+				<div class="form-inline">
+					<input class="form-control" name="ticket_no" size="10" readonly>
+				<input class="form-control" type="hidden" name="old_ticket_no">
+				&nbsp;&nbsp;&nbsp;<input class="btn btn-primary" type="button" name="ticket_btn" value="Generate">
+				</div>
 			</td>
+			</div>
 			</tr><tr>
-			<td valign="top"><b>Valid Before</b></td>
-			<td><input name="ticket_valid_before" size="18" readonly></td>
+			<td valign="top"><b class="form-label">&nbsp;&nbsp;&nbsp;Valid Before</b></td>
+			<td><input class="form-control" name="ticket_valid_before" size="18" readonly></td>
 			</tr>
 			<tr>
-				<td><b>Position</b></td>
+				<td><b class="form-label">&nbsp;&nbsp;&nbsp;Position</b></td>
 				<td>
-					<select name="position_id">
+					<select class="form-control" name="position_id">
 						<option value="">-- Please Select --</option>
 						{foreach from=$position_list key=position_id item=r}
 							<option value="{$position_id}">{$r.code} - {$r.description}</option>
@@ -1022,7 +1045,7 @@ var SEARCH_LEADER_DIALOG = {
 				</td>
 			</tr>
 			<tr>
-				<td><b>Leader</b></td>
+				<td><b class="form-label">&nbsp;&nbsp;&nbsp;Leader</b></td>
 				<td>
 					<img src="ui/ed.png" align="absmiddle" onClick="SALES_AGENT_MODULE.search_leader_click();" style="float:left;" />
 					<span id="span_leader_list">
@@ -1032,19 +1055,19 @@ var SEARCH_LEADER_DIALOG = {
 			</tr>
 		</table>
 		</td><td valign="top">
-		<b>Address</b><br />
-		<textarea name="address" rows="5" cols="30"></textarea><br />
+		<b class="form-label">Address</b><br />
+		<textarea class="form-control" name="address" rows="5" cols="30"></textarea><br />
 		</td></tr>
 	</table>
 	<!-- bottom -->
 	<div align="center" id="abtn" style="display:none;">
-		<input type="button" value="Add" id="add_btn"> 
-		<input type="button" value="Cancel" id="cancel_btn">
+		<input type="button" class="btn btn-primary mt-2 mb-2" value="Add" id="add_btn"> 
+		<input type="button" class="btn btn-danger mt-2 mb-2" value="Cancel" id="cancel_btn">
 	</div>
 	<div align="center" id="ebtn" style="display:none;">
-		<input type="button" value="Update" id="update_btn"> 
-		<input type="button" value="Restore" id="edit_btn"> 
-		<input type="button" value="Close" id="close_btn">
+		<input type="button" class="btn btn-primary mt-2 mb-2" value="Update" id="update_btn"> 
+		<input type="button" class="btn btn-info mt-2 mb-2" value="Restore" id="edit_btn"> 
+		<input type="button" class="btn btn-danger mt-2 mb-2" value="Close" id="close_btn">
 	</div>
 </form>
 </div></div></div>

@@ -289,35 +289,53 @@ var SALES_AGENT_POSITION_SETUP_MODULE = {
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<div>
-	<a onclick="SALES_AGENT_POSITION_SETUP_MODULE.sa_position_table_appear('add');" style="cursor:pointer;"><img src="ui/icons/user_add.png" title="Create Position" align="absmiddle" border="0"> Create New Position</a> <span id="span_loading"></span><br /><br />
+<div class="card mx-3">
+	<div class="card-body">
+		<a onclick="SALES_AGENT_POSITION_SETUP_MODULE.sa_position_table_appear('add');" style="cursor:pointer;"><img src="ui/icons/user_add.png" title="Create Position" align="absmiddle" border="0"> Create New Position</a> <span id="span_loading"></span><br /><br />
+	</div>
 </div>
 
 <div>
 	
-<form name="f_a" onSubmit="return false;">
-	<input type="hidden" name="a" value="ajax_reload_position_list" />
-	
-	<span>
-		<b>Code or Description:</b>
-		<input type="text" name="code_or_description" />
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<span>
-		<b>Status:</b>
-		<select name="status">
-			<option value="">All</option>
-			<option value="1">Active</option>
-			<option value="0">Inactive</option>
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<input id="inp_reload_position" type="button" value="Search" onClick="SALES_AGENT_POSITION_SETUP_MODULE.reload_position_list();" />
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;">
+			<input type="hidden" name="a" value="ajax_reload_position_list" />
+			
+		<div class="row">
+			<div class="col">
+				<span>
+					<b class="form-label">Code or Description:</b>
+					<input class="form-control" type="text" name="code_or_description" />
+				</span>
+			</div>
+			
+			<div class="col">
+				<span>
+					<b class="form-label">Status:</b>
+					<select class="form-control" name="status">
+						<option value="">All</option>
+						<option value="1">Active</option>
+						<option value="0">Inactive</option>
+					</select>
+				</span>
+			</div>
+			
+			<div class="col">
+				<input id="inp_reload_position" class="btn btn-primary mt-4" type="button" value="Search" onClick="SALES_AGENT_POSITION_SETUP_MODULE.reload_position_list();" />
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
 <span id="span_loading_position_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 	
 </div>
@@ -329,37 +347,37 @@ var SALES_AGENT_POSITION_SETUP_MODULE = {
 </div>
 <br>
 
-<div class="ndiv" id="div_sa_position_table" style="position:absolute;width:400px;height:200px;display:none;z-index:10000;">
+<div class="ndiv" id="div_sa_position_table" style="position:absolute;width:400px;height:280px;display:none;z-index:10000; border-radius: 8px; background-color:white ;">
 <div class="blur"><div class="shadow"><div class="content">
 
-<div class="small" style="position:absolute; right:10; text-align:right;"><a onclick="SALES_AGENT_POSITION_SETUP_MODULE.sa_position_table_fade();" accesskey="C"><img src="ui/closewin.png" border="0" align="absmiddle" style="pointer:cursor;"></a><br><u>C</u>lose (Alt+C)</div>
+<div class="small mt-2 mr-2" style=" position:absolute; right:10; text-align:right;"><a onclick="SALES_AGENT_POSITION_SETUP_MODULE.sa_position_table_fade();" accesskey="C"><img src="ui/closewin.png" border="0" align="absmiddle" style="pointer:cursor;"></a><br><u>C</u>lose (Alt+C)</div>
 
 <form method="post" name="f_b" onSubmit="return SALES_AGENT_POSITION_SETUP_MODULE.validate();">
-	<div id="bmsg" style="padding:10 0 10 0px;"></div>
-	<div id="err_msg" style="color:#CE0000; display:none; font-weight:bold;"></div>
+	<div id="bmsg" class="mt-2 ml-2" style="padding:10 0 10 0px;"></div>
+	<div id="err_msg" style="color:#CE0000; display:none; font-weight:bold; padding: 10px;"></div>
 	<input type="hidden" name="a" value="add">
 	<input type="hidden" name="id" value="">
 	<table>
 		<tr>
-			<td><b>Code</b></td>
-			<td><input onBlur="uc(this)" name="code" size="20" maxlength="20"> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Codespan<span class="text-danger" title="Required Field"> *</span></b></td>
+			<td><input class="form-control" onBlur="uc(this)" name="code" size="20" maxlength="20"> 
 		</tr>
 		<tr>
-			<td><b>Description</b></td>
+			<td><b class="form-label">&nbsp;&nbsp;&nbsp;Description</b></td>
 			<td>
-				<textarea name="description" rows="5" cols="30"></textarea>
+				<textarea class="form-control" name="description" rows="5" cols="30"></textarea>
 			</td>
 		</tr>
 	</table>
 	<!-- bottom -->
 	<div align="center" id="abtn" style="display:none;">
-		<input type="button" value="Add" id="add_btn"> 
-		<input type="button" value="Cancel" id="cancel_btn">
+		<input type="button" class="btn btn-primary mb-2 mt-2" value="Add" id="add_btn"> 
+		<input type="button" class="btn btn-danger mb-2 mt-2" value="Cancel" id="cancel_btn">
 	</div>
 	<div align="center" id="ebtn" style="display:none;">
-		<input type="button" value="Update" id="update_btn"> 
-		<input type="button" value="Restore" id="restore_btn"> 
-		<input type="button" value="Close" id="close_btn">
+		<input type="button" class="btn btn-primary" value="Update" id="update_btn"> 
+		<input type="button" class="btn btn-info" value="Restore" id="restore_btn"> 
+		<input type="button" class="btn btn-danger" value="Close" id="close_btn">
 	</div>
 </form>
 </div></div></div>

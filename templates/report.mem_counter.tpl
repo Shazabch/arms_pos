@@ -272,40 +272,59 @@ function init_calendar()
 				<tr>
 					<td colspan="2" align="right">
 						<br />
-						<button onclick="cd_save();">Save</button>&nbsp;
-						<button onclick="cd_cancel();">Cancel</button>
+						<button onclick="cd_save();" class="btn btn-primary">Save</button>&nbsp;
+						<button onclick="cd_cancel();" class="btn btn-danger">Cancel</button>
 					</td>
 				</tr>
 			</table>
 		</div>
 	</div>
 </form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Membership Counter Report</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Membership Counter Report</h1>
 <p>
-<form name="f_d">
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id" onChange="reload_list()">
-	<option value="">All</option>
-	{section name=i loop=$branches}
-	<option value="{$branches[i].id}" {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
-	{/section}
-	</select> &nbsp;&nbsp;
-{/if}
-
-<b>Date</b> <input size=10 id=sdate name=date value="{$smarty.now|date_format:"%d/%m/%Y"}"> <img align=absbottom src="ui/calendar.gif" id="bdate" style="cursor: pointer;" title="Select Date"> &nbsp;&nbsp;
-<script>
-init_calendar();
-</script>
-<input type=button value="Reload" onclick="reload_list()"> <input type=button value="Print" onclick="do_print()">
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_d">
+			<div class="row">
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id" onChange="reload_list()">
+				<option value="">All</option>
+				{section name=i loop=$branches}
+				<option value="{$branches[i].id}" {if $smarty.request.branch_id eq $branches[i].id}selected{/if}>{$branches[i].code}</option>
+				{/section}
+				</select>
+			{/if}
+			
+				</div>
+			<div class="col">
+				<b class="form-label">Date</b> <div class="form-inline">
+					<input class="form-control" size=30 id=sdate name=date value="{$smarty.now|date_format:"%d/%m/%Y"}"> &nbsp;<img align=absbottom src="ui/calendar.gif" id="bdate" style="cursor: pointer;" title="Select Date"> &nbsp;&nbsp;
+				</div>
+			</div>
+			</div>
+			<script>
+			init_calendar();
+			</script>
+			<input type="button" class="btn btn-primary mt-2" value="Reload" onclick="reload_list()"> 
+			<input type=button class="btn btn-info mt-2" value="Print" onclick="do_print()">
+			</form>
+	
 </p>
 
 <div id="udiv">
 {php}show_table();{/php}
 </div>
-
+</div>
+</div>
 {literal}
 <script>
 new Draggable('cd_menu_dialog',{ handle: 'cd_menu_dialog_header'});

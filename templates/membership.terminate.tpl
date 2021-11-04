@@ -51,70 +51,100 @@ function init_calendar(sstr){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
-<div class=stdframe>
-<form action="{$smarty.server.PHP_SELF}" method=post>
-<input type=hidden name=a value=list>
-{if BRANCH_CODE eq 'HQ'}
-<b>Apply Branch</b> 
-<select name=branch_id>
-<option value="">-- All --</option>
-{foreach from=$branch item=b}
-<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected{assign var=_br value=`$b.code`}{/if}>{$b.code}</option>
-{/foreach}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-<b>Membership Expiry Date</b>
-<input name="expiry" id="expiry" size=10 value="{$smarty.request.expiry|default:$smarty.now|date_format:'%Y-%m-%d'}">
-<img align=absbottom src="ui/calendar.gif" id="img_expiry" style="cursor: pointer;" title="Select Date"/>&nbsp;
-<input type=submit value="Retrieve">
-</form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
 </div>
-
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe>
+			<form action="{$smarty.server.PHP_SELF}" method=post>
+			<div class="row">
+				<input type=hidden name=a value=list>
+			<div class="col">
+				{if BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Apply Branch</b> 
+			<select class="form-control" name=branch_id>
+			<option value="">-- All --</option>
+			{foreach from=$branch item=b}
+			<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected{assign var=_br value=`$b.code`}{/if}>{$b.code}</option>
+			{/foreach}
+			</select>
+			{/if}
+			</div>
+			<div class="col">
+				<b class="form-label">Membership Expiry Date</b>
+			<div class="form-inline">
+				<input class="form-control" name="expiry" id="expiry" size="30" value="{$smarty.request.expiry|default:$smarty.now|date_format:'%Y-%m-%d'}">
+			&nbsp;<img align=absbottom src="ui/calendar.gif" id="img_expiry" style="cursor: pointer;" title="Select Date"/>&nbsp;
+			</div>
+			</div>
+			<div class="col">
+				<input class="btn btn-primary mt-4"  type=submit value="Retrieve">
+			</div>
+			</div>
+			</form>
+			</div>
+			
+	</div>
+</div>
 {if $smarty.request.a eq 'list'}
 {if !$members}
 <!-- no data -->
-<p>-- no record found --</p>
+<p class="mx-3">-- no record found --</p>
 {else}
 <form name="f_a" action="{$smarty.server.PHP_SELF}" method=post>
 <input type=hidden name=a value=terminate>
 <p>{count var=$members} memberships expired on {$smarty.request.expiry}. Click here to <button>Terminate</button> the selected Member(s).</p>
 
-<table class=tb cellspacing=0 cellpadding=4>
-<tr bgcolor=#ffee99>
-	<th>&nbsp;</th>
-	<th>NRIC</th>
-	<th>{$config.membership_cardname} No</th>
-	<th>Name</th>
-	<th>Issue Date</th>
-	<th>Expiry Date</th>
-	<th>Apply Branch</th>
-	<th>Points</th>
-</tr>
-{assign var=n value=1}
-{foreach from=$members item=m}
-{assign var=total_points value=$total_points+$m.points}
-<tr>
-	<td><input type=checkbox name=nric[] value="{$m.nric}" onchange="recalc_total_points(this, '{$m.points|default:0}');" checked> {$n++}.</td>
-	<td>{$m.nric|default:'&nbsp;'}</td>
-	<td>{$m.card_no|default:'&nbsp;'}</td>
-	<td>{$m.name|default:'&nbsp;'}</td>
-	<td>{$m.issue_date|date_format:'%d/%m/%Y'|default:'&nbsp;'}</td>
-	<td>{$m.next_expiry_date|date_format:'%d/%m/%Y'|default:'&nbsp;'}</td>
-	<td>{$m.branch_code|default:'&nbsp;'}</td>
-	<td align="right" {if $m.points}style="color:#f00;"{/if}>
-		{$m.points|number_format|default:'-'}
-	</td>
-</tr>
-{/foreach}
-<input type="hidden" id="total_points" name="total_points" value="{$total_points|default:0}">
-<tr>
-	<th align="right" colspan="7">Total</th>
-	<th align="right" {if $total_points}style="color:#f00;"{/if} id="m_total_points">
-		{$total_points|number_format|default:'-'}
-	</th>
-</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table  class="tb table mb-0 text-md-nowrap  table-hover" >
+				<thead class="bg-gray-100">
+					<tr >
+						<th>&nbsp;</th>
+						<th>NRIC</th>
+						<th>{$config.membership_cardname} No</th>
+						<th>Name</th>
+						<th>Issue Date</th>
+						<th>Expiry Date</th>
+						<th>Apply Branch</th>
+						<th>Points</th>
+					</tr>
+				</thead>
+				{assign var=n value=1}
+				{foreach from=$members item=m}
+				{assign var=total_points value=$total_points+$m.points}
+				<tbody class="fs-08">
+					<tr>
+						<td><input type=checkbox name=nric[] value="{$m.nric}" onchange="recalc_total_points(this, '{$m.points|default:0}');" checked> {$n++}.</td>
+						<td>{$m.nric|default:'&nbsp;'}</td>
+						<td>{$m.card_no|default:'&nbsp;'}</td>
+						<td>{$m.name|default:'&nbsp;'}</td>
+						<td>{$m.issue_date|date_format:'%d/%m/%Y'|default:'&nbsp;'}</td>
+						<td>{$m.next_expiry_date|date_format:'%d/%m/%Y'|default:'&nbsp;'}</td>
+						<td>{$m.branch_code|default:'&nbsp;'}</td>
+						<td align="right" {if $m.points}style="color:#f00;"{/if}>
+							{$m.points|number_format|default:'-'}
+						</td>
+					</tr>
+				</tbody>
+				{/foreach}
+				<input type="hidden" id="total_points" name="total_points" value="{$total_points|default:0}">
+				<tr>
+					<th align="right" colspan="7">Total</th>
+					<th align="right" {if $total_points}style="color:#f00;"{/if} id="m_total_points">
+						{$total_points|number_format|default:'-'}
+					</th>
+				</tr>
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 </form>
 {/if}

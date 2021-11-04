@@ -745,7 +745,7 @@ var PN_DIALOG = {
 		<textarea id="msg" cols="40" rows="10" onkeyup="sms_length_upd();" maxlength="760"></textarea>
 		
 		<p>
-			<span id="div_sms_credit_balance"></span> &nbsp;&nbsp;
+			<span id="div_sms_credit_balance"></span> 
 			<span id="div_sms_length_dis"></span>
 			[<a href="javascript:void(0)" onclick="alert('{$LANG.MEMBERSHIP_SMS_INFO|escape:javascript}');">?</a>]
 		</p>
@@ -765,14 +765,22 @@ var PN_DIALOG = {
 	</div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-	<ul class="errmsg">
-		{foreach from=$err item=e}
-			<li> {$e}</li>
-		{/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul class="errmsg">
+			{foreach from=$err item=e}
+				<li> {$e}</li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
 
 {if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user && $sms_info}
@@ -826,246 +834,328 @@ var PN_DIALOG = {
 <input name=refresh type=hidden value=1>
 <input name=sms type=hidden value=''>
 <input name="a" type=hidden value="member_list" />
-<div class=stdframe style='background:#fff;'>
-	<b>Branch</b>
-	<select name="branch_id">
-		<option value="">-- All --</option>
-		{foreach from=$branches item=branch_id key=branch}
-			<option value="{$branch_id}" {if $smarty.request.branch_id eq $branch_id}selected{/if}>{$branch}</option>
-		{/foreach}
-	</select>
-	<b>Race</b>
-	<select name="race">
-		<option value="">-- All --</option>
-		{foreach from=$races item=race}
-			<option value="{$race}" {if $smarty.request.race eq $race}selected{/if}>{$race}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	<b>National</b>
-	<select name="national">
-		<option value="">-- All --</option>
-		{foreach from=$nationals item=national}
-			<option value="{$national}" {if $smarty.request.national eq $national}selected{/if}>{$national}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	<b>City</b>
-	<select name="city">
-		<option value="">-- All --</option>
-		{foreach from=$cities item=city}
-			<option value="{$city}" {if $smarty.request.city eq $city}selected{/if}>{$city}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	<b>State</b>
-	<select name="state">
-		<option value="">-- All --</option>
-		{foreach from=$states item=state}
-			<option value="{$state}" {if $smarty.request.state eq $state}selected{/if}>{$state}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	<b>Postcode</b>
-	<select name="postcode">
-		<option value="">-- All --</option>
-		{foreach from=$postcode item=p}
-			<option value="{$p}" {if $smarty.request.postcode eq $p}selected{/if}>{$p}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	<b>Date Filter</b>
-	<select name="date_filter" onChange="date_filter_changed();">
-		<option value="">No Filter</option>
-		{foreach from=$date_filter key=k item=df}
-			<option value="{$k}" {if $smarty.request.date_filter eq $k}selected{/if}>{$df}</option>
-		{/foreach}
-	</select>
-	<span id="span_date_filter" style="{if !$smarty.request.date_filter}display:none;{/if}">&nbsp;&nbsp;
-		<b>From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from}" id="date_from">
-		<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to}" id="date_to">
-		<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	</span>
-	
-	<p>
-		<b>Search by </b>(<a href="#" onClick="alert('Search by Phone will including Phone (Home), Phone (Office) and Phone (Mobile).')">?</a>)
-		<select name="search_type">
-			{foreach from=$search_type key=l item=st}
-				<option value="{$l}" {if $smarty.request.search_type eq $l}selected{/if}>{$st}</option>
-			{/foreach}
-		</select>
-		<input name="search_value" value="{$smarty.request.search_value}">&nbsp;&nbsp;
-		<b>Terminated</b>
-		<select name="terminated">
-			<option value=''>-- All --</option>
-			<option value='y' {if $smarty.request.terminated eq 'y'}selected{/if}>Yes</option>
-			<option value='n' {if $smarty.request.terminated eq 'n'}selected{/if}>No</option>
-		</select>
-		<b>Blocked</b>
-		<select name="blocked">
-			<option value=''>-- All --</option>
-			<option value='y' {if $smarty.request.blocked eq 'y'}selected{/if}>Yes</option>
-			<option value='n' {if $smarty.request.blocked eq 'n'}selected{/if}>No</option>
-		</select>
-		<b>Verified</b>
-		<select name="verified">
-			<option value=''>-- All --</option>
-			<option value='y' {if $smarty.request.verified eq 'y'}selected{/if}>Yes</option>
-			<option value='n' {if $smarty.request.verified eq 'n'}selected{/if}>No</option>
-		</select>&nbsp;&nbsp;
-		<b>Expiry</b>
-		<select name="expiry">
-			<option value=''}>-- All --</option>
-			<option value='y' {if $smarty.request.expiry eq 'y'}selected{/if}>Yes</option>
-			<option value='n' {if $smarty.request.expiry eq 'n'}selected{/if}>No</option>
-		</select>&nbsp;&nbsp;
-		<b>Point From</b>
-		<input type="text" name="point_from" value="{$smarty.request.point_from}" size="5" onChange="mi(this);" /> <b>To</b>
-		<input type="text" name="point_to" value="{$smarty.request.point_to}" size="5" onChange="mi(this);" />
-	</p>
-	<p>
-		<b>Gender</b>
-		<select name="gender">
-			<option value=''>-- All --</option>
-			<option value='M' {if $smarty.request.gender eq 'M'}selected{/if}>Male</option>
-			<option value='F' {if $smarty.request.gender eq 'F'}selected{/if}>Female</option>
-		</select>&nbsp;&nbsp;
-		<b>Age From</b>
-		<input type="text" name="age_from" value="{$smarty.request.age_from}" size="5" onChange="miz(this);" /> <b>To</b>
-		<input type="text" name="age_to" value="{$smarty.request.age_to}" size="5" onChange="miz(this);" />
-		&nbsp;&nbsp;
-		{if $config.membership_type}
-			<b>Member Type</b>
-			<select name="member_type">
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe >
+			<div class="row">
+				<div class="col-md-3">
+					<b class="form-label">Branch</b>
+			<select class="form-control" name="branch_id">
 				<option value="">-- All --</option>
-				{foreach from=$config.membership_type key=member_type item=member_type_label}
-					<option value="{$member_type}" {if $smarty.request.member_type eq $member_type}selected {/if}>{$member_type_label}</option>
+				{foreach from=$branches item=branch_id key=branch}
+					<option value="{$branch_id}" {if $smarty.request.branch_id eq $branch_id}selected{/if}>{$branch}</option>
 				{/foreach}
-			</select>&nbsp;&nbsp;
-		{/if}
-		{if $config.membership_enable_staff_card}
-			<b>Staff Type</b>
-			<select name="staff_type">
+			</select>
+				</div>
+			<div class="col-md-3">
+				<b class="form-label">Race</b>
+			<select class="form-control" name="race">
 				<option value="">-- All --</option>
-				{foreach from=$config.membership_staff_type key=staff_type item=staff_type_label}
-					<option value="{$staff_type}" {if $smarty.request.staff_type eq $staff_type}selected {/if}>{$staff_type_label}</option>
-				{/foreach}
-			</select>&nbsp;&nbsp;
-		{/if}
-		
-		<span>
-			<b>Birthday Month From</b>
-			<select name="birthday_month_from">
-				<option value='0' {if $smarty.request.birthday_month_from eq '0'}selected {/if}>No Filter</option>
-				{foreach from=$months key=month item=month_name}
-					<option value="{$month}" {if $smarty.request.birthday_month_from eq $month}selected {/if}>{$month_name}</option>
+				{foreach from=$races item=race}
+					<option value="{$race}" {if $smarty.request.race eq $race}selected{/if}>{$race}</option>
 				{/foreach}
 			</select>
-			<b>To</b>
-			<select name="birthday_month_to">
-				<option value='0' {if $smarty.request.birthday_month_to eq '0'}selected {/if}>No Filter</option>
-				{foreach from=$months key=month item=month_name}
-					<option value="{$month}" {if $smarty.request.birthday_month_to eq $month}selected {/if}>{$month_name}</option>
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">National</b>
+			<select class="form-control" name="national">
+				<option value="">-- All --</option>
+				{foreach from=$nationals item=national}
+					<option value="{$national}" {if $smarty.request.national eq $national}selected{/if}>{$national}</option>
 				{/foreach}
 			</select>
-		</span>&nbsp;&nbsp;
-		
-		<span>
-			<b>Birthday Day From</b>
-			<select name="birthday_day_from">
-				<option value='0' {if $smarty.request.birthday_day_from eq $smarty.section.day.index}selected {/if}>No Filter</option>
-				{section name=day start=1 loop=32 step=1}
-					<option value='{$smarty.section.day.index}' {if $smarty.request.birthday_day_from eq $smarty.section.day.index}selected {/if}>{$smarty.section.day.index}</option>
-				{/section}
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">City</b>
+			<select class="form-control" name="city">
+				<option value="">-- All --</option>
+				{foreach from=$cities item=city}
+					<option value="{$city}" {if $smarty.request.city eq $city}selected{/if}>{$city}</option>
+				{/foreach}
 			</select>
-			<b>To</b>
-			<select name="birthday_day_to">
-				<option value='0' {if $smarty.request.birthday_day_to eq $smarty.section.day.index}selected {/if}>No Filter</option>
-				{section name=day start=1 loop=32 step=1}
-					<option value='{$smarty.section.day.index}' {if $smarty.request.birthday_day_to eq $smarty.section.day.index}selected {/if}>{$smarty.section.day.index}</option>
-				{/section}
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">State</b>
+			<select class="form-control" name="state">
+				<option value="">-- All --</option>
+				{foreach from=$states item=state}
+					<option value="{$state}" {if $smarty.request.state eq $state}selected{/if}>{$state}</option>
+				{/foreach}
 			</select>
-		</span>&nbsp;&nbsp;
-	</p>
-	
-	{if $config.membership_mobile_settings}
-		<p>
-			<span>
-				<b>Mobile Registered</b>
-				<select name="mobile_registered" onChange="MEMBER_LISTING.mobile_registered_changed();">
-					<option value="">-- All --</option>
-					<option value='y' {if $smarty.request.mobile_registered eq 'y'}selected{/if}>Yes</option>
-					<option value='n' {if $smarty.request.mobile_registered eq 'n'}selected{/if}>No</option>
-				</select>&nbsp;&nbsp;
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">Postcode</b>
+			<select class="form-control" name="postcode">
+				<option value="">-- All --</option>
+				{foreach from=$postcode item=p}
+					<option value="{$p}" {if $smarty.request.postcode eq $p}selected{/if}>{$p}</option>
+				{/foreach}
+			</select>
+			</div>
+			<div class="col-md-3">
+				<b class="form-label">Date Filter</b>
+			<select class="form-control" name="date_filter" onChange="date_filter_changed();">
+				<option value="">No Filter</option>
+				{foreach from=$date_filter key=k item=df}
+					<option value="{$k}" {if $smarty.request.date_filter eq $k}selected{/if}>{$df}</option>
+				{/foreach}
+			</select>
+			</div>
+			</div>
+			<span id="span_date_filter" style="{if !$smarty.request.date_filter}display:none;{/if}">
+				<div class="row">
+				<div class="col-md-3">
+					<b class="form-label">From</b> 
+					<div class="form-inline">
+						<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from}" id="date_from">
+					<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					</div>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">To</b>
+					<div class="form-inline">
+						<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to}" id="date_to">
+						<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+					</div>
+				</div>
+				</div>
+				
 			</span>
 			
-			<div id="div_mobile_filter" style="{if $smarty.request.mobile_registered ne 'y'}display:none;{/if}">
-				<fieldset>
-					<legend><b>Mobile Filters</b></legend>
-					<b>Register Date From</b> 
-					<input size="10" type="text" name="mobile_registered_date_from" value="{$smarty.request.mobile_registered_date_from}" id="inp_mobile_registered_date_from" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_mobile_registered_date_from" style="cursor: pointer;" title="Select Date" />
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<b>To</b> 
-					<input size="10" type="text" name="mobile_registered_date_to" value="{$smarty.request.mobile_registered_date_to}" id="inp_mobile_registered_date_to" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_mobile_registered_date_to" style="cursor: pointer;" title="Select Date">
-					&nbsp;&nbsp;&nbsp;&nbsp;
-				</fieldset>
-			</div>
-		</p>
-	{/if}
-	
-	
-	
-	<p>
-		<fieldset style="width:500px;" class="stdframe">
-			<legend>Fields</legend>
-			<table width="100%">
-				<tr>
-					<td>
-						<input type="checkbox" onChange="toggle_export_field(this);" /> <b>All</b>
-					</td>
-				</tr>
+			<p>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-inline">
+							<b class="form-label">Search by </b>(<a href="#" onClick="alert('Search by Phone will including Phone (Home), Phone (Office) and Phone (Mobile).')">?</a>)
+							<select class="form-control" name="search_type">
+							{foreach from=$search_type key=l item=st}
+								<option value="{$l}" {if $smarty.request.search_type eq $l}selected{/if}>{$st}</option>
+							{/foreach}
+						</select>
+						<input class="form-control" name="search_value" value="{$smarty.request.search_value}">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b class="form-label">Terminated</b>
+				<select class="form-control" name="terminated">
+					<option value=''>-- All --</option>
+					<option value='y' {if $smarty.request.terminated eq 'y'}selected{/if}>Yes</option>
+					<option value='n' {if $smarty.request.terminated eq 'n'}selected{/if}>No</option>
+				</select>
+					</div>
+				<div class="col-md-3">
+					<b class="form-label">Blocked</b>
+				<select class="form-control" name="blocked">
+					<option value=''>-- All --</option>
+					<option value='y' {if $smarty.request.blocked eq 'y'}selected{/if}>Yes</option>
+					<option value='n' {if $smarty.request.blocked eq 'n'}selected{/if}>No</option>
+				</select>
+				</div>
+				<div class="col-md-3">
+					<b class="form-label">Verified</b>
+				<select class="form-control" name="verified">
+					<option value=''>-- All --</option>
+					<option value='y' {if $smarty.request.verified eq 'y'}selected{/if}>Yes</option>
+					<option value='n' {if $smarty.request.verified eq 'n'}selected{/if}>No</option>
+				</select>
+				</div>
+				<div class="col-md-3">
+					<b class="form-label">Expiry</b>
+				<select class="form-control" name="expiry">
+					<option value=''}>-- All --</option>
+					<option value='y' {if $smarty.request.expiry eq 'y'}selected{/if}>Yes</option>
+					<option value='n' {if $smarty.request.expiry eq 'n'}selected{/if}>No</option>
+				</select>
+				</div>
+				<div class="col-md-3">
+					<b class="form-label">Point From</b>
+				<input class="form-control" type="text" name="point_from" value="{$smarty.request.point_from}" size="5" onChange="mi(this);" /> 
+					
+				</div>
+				<div class="col-md-3">
+					<b class="form-label">To</b>
+				<input class="form-control" type="text" name="point_to" value="{$smarty.request.point_to}" size="5" onChange="mi(this);" />
+				</div>
+				</div>
+			</p>
+			<p>
+				<div class="row">
+					<div class="col-md-3">
+						<b class="form-label">Gender</b>
+				<select class="form-control" name="gender">
+					<option value=''>-- All --</option>
+					<option value='M' {if $smarty.request.gender eq 'M'}selected{/if}>Male</option>
+					<option value='F' {if $smarty.request.gender eq 'F'}selected{/if}>Female</option>
+				</select>
+					</div>
+				<div class="col-md-3">
+					<b class="form-label">Age From</b>
+				<input class="form-control" type="text" name="age_from" value="{$smarty.request.age_from}" size="5" onChange="miz(this);" /> 
 				
-				<tr>
-				{assign var=row_count value=-1}
-				{foreach from=$available_field key=field item=label_field}
-					{assign var=row_count value=$row_count+1}
-					{if $row_count%3 eq 0}
-					</tr>
-					<tr>
-					{/if}
-					<td>
-						<input type="checkbox" name="export_field[{$field}]" value="1" class="chx_export_field" {if $smarty.request.export_field.$field}checked{/if} /> 
-						<b>{$label_field.label}</b>
-						</td>
-				{/foreach}
-				</tr>
-			</table>
-		</fieldset>
-	</p>
-	
-	<p>
-		<input class="btn btn-primary" type="submit" value="Refresh" onClick="submit_form('refresh');">
-		<button class="btn btn-primary" onClick="submit_form('print');"><img src="/ui/print.png" align="absmiddle" /> Print</button>
-		<button class="btn btn-primary" name="output_excel" onClick="check_export_excel();return false;">{#OUTPUT_EXCEL#} Excel</button>
-		<button class="btn btn-primary" name="output_csv" onClick="check_export_csv();return false;">{#OUTPUT_EXCEL#} CSV </button>
-		<button class="btn btn-primary" onClick="submit_form('print_mailing_list');"><img src="/ui/print.png" align="absmiddle" /> Print Mailing List</button>
-		{if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user}
-			<button class="btn btn-primary" onClick="send_sms();return false;"><img src="ui/icons/ipod_cast.png" align="absmiddle" /> SMS Broadcast</button>
-		{/if}
-		{if $config.membership_mobile_settings and $config.enable_push_notification and $sessioninfo.privilege.MEMBERSHIP_ALLOW_PN and $smarty.request.mobile_registered eq 'y'}
-			<button class="btn btn-primary" onClick="PN_DIALOG.open();return false;"><img src="/ui/icons/note_go.png" align="absmiddle" /> Send Push Notification</button>
-		{/if}
-	</p>
-	
-	<ul>
-		<li> Please do not select too many fields for printing, as the paper may not have space to fit all of them.</li>
-		{if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user}
-			<li> Please note that the iSMS will send every 5 minutes from 9AM to 10PM.</li>
-		{/if}
-	</ul>
-	{*<input type=button value="Add Member" onclick="window.location = '/membership.php?a=add';">*}
+				</div>
+				<div class="col-md-3">
+					<b class="form-label">To</b>
+				<input class="form-control" type="text" name="age_to" value="{$smarty.request.age_to}" size="5" onChange="miz(this);" />
+				</div>
+			
+				{if $config.membership_type}
+					<div class="col-md-3">
+						<b class="form-label">Member Type</b>
+					<select class="form-control" name="member_type">
+						<option value="">-- All --</option>
+						{foreach from=$config.membership_type key=member_type item=member_type_label}
+							<option value="{$member_type}" {if $smarty.request.member_type eq $member_type}selected {/if}>{$member_type_label}</option>
+						{/foreach}
+					</select>
+					</div>
+				{/if}
+				{if $config.membership_enable_staff_card}
+					<div class="col-md-3">
+						<b class="form-label">Staff Type</b>
+					<select class="form-control" name="staff_type">
+						<option value="">-- All --</option>
+						{foreach from=$config.membership_staff_type key=staff_type item=staff_type_label}
+							<option value="{$staff_type}" {if $smarty.request.staff_type eq $staff_type}selected {/if}>{$staff_type_label}</option>
+						{/foreach}
+					</select>
+					</div>
+				{/if}
+				
+					<div class="col-md-3">
+						<b class="form-label">Birthday Month From</b>
+					<select class="form-control" name="birthday_month_from">
+						<option value='0' {if $smarty.request.birthday_month_from eq '0'}selected {/if}>No Filter</option>
+						{foreach from=$months key=month item=month_name}
+							<option value="{$month}" {if $smarty.request.birthday_month_from eq $month}selected {/if}>{$month_name}</option>
+						{/foreach}
+					</select>
+					</div>
+
+					<div class="col-md-3">
+						<b class="form-label">To</b>
+					<select class="form-control" name="birthday_month_to">
+						<option value='0' {if $smarty.request.birthday_month_to eq '0'}selected {/if}>No Filter</option>
+						{foreach from=$months key=month item=month_name}
+							<option value="{$month}" {if $smarty.request.birthday_month_to eq $month}selected {/if}>{$month_name}</option>
+						{/foreach}
+					</select>
+					</div>
+
+					<div class="col-md-3">
+						<b class="form-label">Birthday Day From</b>
+					<select class="form-control" name="birthday_day_from">
+						<option value='0' {if $smarty.request.birthday_day_from eq $smarty.section.day.index}selected {/if}>No Filter</option>
+						{section name=day start=1 loop=32 step=1}
+							<option value='{$smarty.section.day.index}' {if $smarty.request.birthday_day_from eq $smarty.section.day.index}selected {/if}>{$smarty.section.day.index}</option>
+						{/section}
+					</select>
+					</div>
+					<div class="col-md-3">
+						<b class="form-label">To</b>
+					<select class="form-control" name="birthday_day_to">
+						<option value='0' {if $smarty.request.birthday_day_to eq $smarty.section.day.index}selected {/if}>No Filter</option>
+						{section name=day start=1 loop=32 step=1}
+							<option value='{$smarty.section.day.index}' {if $smarty.request.birthday_day_to eq $smarty.section.day.index}selected {/if}>{$smarty.section.day.index}</option>
+						{/section}
+					</select>
+					</div>
+			
+				</div>
+			</p>
+			
+			{if $config.membership_mobile_settings}
+				<p>
+					<span>
+						<b class="form-label">Mobile Registered</b>
+						<select class="form-control" name="mobile_registered" onChange="MEMBER_LISTING.mobile_registered_changed();">
+							<option value="">-- All --</option>
+							<option value='y' {if $smarty.request.mobile_registered eq 'y'}selected{/if}>Yes</option>
+							<option value='n' {if $smarty.request.mobile_registered eq 'n'}selected{/if}>No</option>
+						</select>
+					</span>
+					
+					<div id="div_mobile_filter" style="{if $smarty.request.mobile_registered ne 'y'}display:none;{/if}">
+						<fieldset>
+							<legend><b class="form-label">Mobile Filters</b></legend>
+						<div class="row">
+							<div class="col">
+								<b class="form-label">Register Date From</b> 
+							<div class="form-inline">
+								<input class="form-control" size="20" type="text" name="mobile_registered_date_from" value="{$smarty.request.mobile_registered_date_from}" id="inp_mobile_registered_date_from" />
+						&nbsp;	<img align="absmiddle" src="ui/calendar.gif" id="img_mobile_registered_date_from" style="cursor: pointer;" title="Select Date" />
+							</div>
+							</div>
+							
+							<div class="col">
+								<b class="form-label">To</b> 
+						<div class="form-inlilne">
+							<input size="10" type="text" name="mobile_registered_date_to" value="{$smarty.request.mobile_registered_date_to}" id="inp_mobile_registered_date_to" />
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_mobile_registered_date_to" style="cursor: pointer;" title="Select Date">
+						</div>
+							</div>
+						</div>
+							
+						</fieldset>
+					</div>
+				</p>
+			{/if}
+			
+			
+			
+			<p>
+				<fieldset style="width:500px;" class="stdframe">
+					<legend>Fields</legend>
+					<table width="100%">
+						<tr>
+							<td>
+								<input type="checkbox" onChange="toggle_export_field(this);" /> <b>All</b>
+							</td>
+						</tr>
+						
+						<tr>
+						{assign var=row_count value=-1}
+						{foreach from=$available_field key=field item=label_field}
+							{assign var=row_count value=$row_count+1}
+							{if $row_count%3 eq 0}
+							</tr>
+							<tr>
+							{/if}
+							<td>
+								<input type="checkbox" name="export_field[{$field}]" value="1" class="chx_export_field" {if $smarty.request.export_field.$field}checked{/if} /> 
+								<b>{$label_field.label}</b>
+								</td>
+						{/foreach}
+						</tr>
+					</table>
+				</fieldset>
+			</p>
+			
+			<p>
+				<input class="btn btn-primary" type="submit" value="Refresh" onClick="submit_form('refresh');">
+				<button class="btn btn-primary" onClick="submit_form('print');"><img src="/ui/print.png" align="absmiddle" /> Print</button>
+				<button class="btn btn-info" name="output_excel" onClick="check_export_excel();return false;">{#OUTPUT_EXCEL#} Excel</button>
+				<button class="btn btn-info" name="output_csv" onClick="check_export_csv();return false;">{#OUTPUT_EXCEL#} CSV </button>
+				<button class="btn btn-primary" onClick="submit_form('print_mailing_list');"><img src="/ui/print.png" align="absmiddle" /> Print Mailing List</button>
+				{if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user}
+					<button class="btn btn-primary" onClick="send_sms();return false;"><img src="ui/icons/ipod_cast.png" align="absmiddle" /> SMS Broadcast</button>
+				{/if}
+				{if $config.membership_mobile_settings and $config.enable_push_notification and $sessioninfo.privilege.MEMBERSHIP_ALLOW_PN and $smarty.request.mobile_registered eq 'y'}
+					<button class="btn btn-primary" onClick="PN_DIALOG.open();return false;"><img src="/ui/icons/note_go.png" align="absmiddle" /> Send Push Notification</button>
+				{/if}
+			</p>
+			
+			<ul>
+				<li> Please do not select too many fields for printing, as the paper may not have space to fit all of them.</li>
+				{if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user}
+					<li> Please note that the iSMS will send every 5 minutes from 9AM to 10PM.</li>
+				{/if}
+			</ul>
+			{*<input type=button value="Add Member" onclick="window.location = '/membership.php?a=add';">*}
+		</div>
+	</div>
 </div>
-<div style="margin:5px 0;" align=right>
+<div style="margin:5px 0;" align=right class="mx-3">
 	{$pagination}
 	<br />
 	<div style="float:left;"><font style="color:red; font-size:16px; font-weight:bold;">*</font> Indicate points is not up to date.</div>
@@ -1075,13 +1165,17 @@ var PN_DIALOG = {
 </form>
 
 {if $members}
-	<span id="span_loading"></span>
+	<div class="card mx-3">
+		<div class="card-body">
+			<span id="span_loading"></span>
 	<div id="div_content">
 		{include file="membership.listing.table.tpl"}
 	</div>
 	<p align=center>{$pagination2}</p>
 {else}
 	<p align=center>- No Data -</p>
+		</div>
+	</div>
 {/if}
 
 {include file=footer.tpl}
