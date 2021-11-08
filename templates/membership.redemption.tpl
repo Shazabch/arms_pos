@@ -81,24 +81,28 @@ function curtain_clicked(){
 </div>
 
 <div align="center">
-<h1>{$PAGE_TITLE}</h1>
+<h1 class="text-primary mt-3">{$PAGE_TITLE}</h1>
 <form name="f_a" class="biginput" onSubmit="return check_f();" method="post">
 
-<input type="hidden" name="a" value="check_and_show_items" />
+<div class="card mx-3">
+	<div class="card-body">
+		<input type="hidden" name="a" value="check_and_show_items" />
 	<table>
 	    <tr>
-	        <th><h2>Card No</h2></th>
-	        <td><input type="text" name="card_no" value="{$card_no}" /></td>
+	        <th><h3 class="form-label">Card No : </h3></th>
+	        <td><input class="form-control" type="text" name="card_no" value="{$card_no}" /></td>
 	    </tr>
 	    <tr>
-	        <th><h2>NRIC</h2></th>
-	        <td><input type="text" name="nric" value="{$nric}" /></td>
+	        <th><h3 class="form-label">NRIC : </h3></th>
+	        <td><input class="form-control" type="text" name="nric" value="{$nric}" /></td>
 	    </tr>
 	</table>
 	<div align="center">
 		<input type="hidden" name="proceed" />&nbsp;&nbsp;
-		<input class="btn btn-primary" style="font-size: 13px" type=button value="Enter" onclick="check_f()">
+		<input class="btn btn-primary  mt-2" style="font-size: 13px" type=button value="Enter" onclick="check_f()">
 	</div>
+	</div>
+</div>
 </form>
 
 {if $err}

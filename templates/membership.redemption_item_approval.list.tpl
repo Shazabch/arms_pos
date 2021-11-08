@@ -13,15 +13,17 @@
 *}
 
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul> 
+	<div class="alert alert-danger mx-3 rounded">
+		<ul >
+			{foreach from=$err item=e}
+				<li>{$e}</li>
+			{/foreach}
+		</ul> 
+	</div>
 {else}
-    <table width=100% style="padding:5px; background-color:#fe9" class="input_no_border small body" border=0 cellspacing=1 cellpadding=1 id="tbl_items">
-	<thead>
-		<tr bgcolor=#ffffff>
+    <table width=100%  class="input_no_border small body table mb-0 text-md-nowrap  table-hover"  id="tbl_items">
+	<thead class="bg-gray-100">
+		<tr >
 			{if $smarty.request.t ne '3'}
 		  		<th rowspan=2><input type="checkbox" onChange="toggle_all_status(this);"></th>
 		  	{/if}
@@ -49,7 +51,7 @@
 				<th rowspan=2>Voucher<br />Value</th>
 			{/if}
 		</tr>
-		<tr bgcolor=#ffffff>
+		<tr >
 			<th>Date Start</th>
 			<th>Date End</th>
 			<th>Amount</th>
@@ -58,7 +60,7 @@
 			<th>Use Current Date</th>
 		</tr>
 	</thead>
-	<tbody id="tbody_item_list">
+	<tbody id="tbody_item_list" class="fs-08">
 		{foreach from=$redemption_items item=item name=fitem}
 			{include file='membership.redemption_item_approval.list_row.tpl'}
 			<script>items_row_count = int('{$smarty.foreach.fitem.iteration}');</script>

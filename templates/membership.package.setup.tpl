@@ -76,7 +76,13 @@ var MEMBERSHIP_PACKAGE_SETUP = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $smarty.request.t eq 'saved'}
 	<p><img src="ui/approved.png" align="absmiddle"> Package {$smarty.request.doc_no} Saved</p>
@@ -86,26 +92,38 @@ var MEMBERSHIP_PACKAGE_SETUP = {
 	<p><img src="ui/cancel.png" align="absmiddle" /> Package {$smarty.request.doc_no} was cancelled</p>
 {/if}
 
-<ul>
-	<li><img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Package</a></li>
-</ul>
 
-<div id="div_tab" class="tab" style="height:25px;white-space:nowrap;">
-	&nbsp;&nbsp;&nbsp;
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			<li><img src="ui/new.png" align="absmiddle" /> <a href="?a=open">Create New Package</a></li>
+		</ul>
 	
-	<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(1))" id="lst1" class="active a_tab">Saved</a>
-	<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(2))" id="lst2" class="a_tab">Confirmed</a>
-	<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(3))" id="lst3" class="a_tab">Cancelled</a>
-	
-	<a class="a_tab" id="lst0">
-		Search [<span class="link" onclick="MEMBERSHIP_PACKAGE_SETUP.toggle_search_info();">?</span>] 
-		<input id="inp_item_search" onKeyPress="MEMBERSHIP_PACKAGE_SETUP.search_input_keypress(event);" /> 
-		<input type="button" value="Go" onClick="MEMBERSHIP_PACKAGE_SETUP.list_sel(0);" />
-	</a>
-	<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+	</div>
 </div>
 
-<div id="package_list" style="border:1px solid #000;">
+<div class="row mx-3 mb-3">
+	<div id="div_tab" class="tab" style="white-space:nowrap;">
+		<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+		<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded">Confirmed</a>
+		<a href="javascript:void(MEMBERSHIP_PACKAGE_SETUP.list_sel(3))" id="lst3" class="a_tab btn btn-outline-primary btn-rounded">Cancelled</a>
+		
+		<a class="a_tab" id="lst0">
+		<div class="form-inline mt-2">
+			Search [<span class="link" onclick="MEMBERSHIP_PACKAGE_SETUP.toggle_search_info();">?</span>] 
+			&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="MEMBERSHIP_PACKAGE_SETUP.search_input_keypress(event);" /> 
+			&nbsp;<input class="btn btn-primary" type="button" value="Go" onClick="MEMBERSHIP_PACKAGE_SETUP.list_sel(0);" />
+		</div>
+		</a>
+		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+	</div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="package_list" >
+		</div>
+	</div>
 </div>
 
 <script>MEMBERSHIP_PACKAGE_SETUP.initialize();</script>

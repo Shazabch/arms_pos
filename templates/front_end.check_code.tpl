@@ -92,24 +92,35 @@ function replacement_item_code_clicked(params){
 
 <!-- Replacement Iten Popup -->
 {if $config.enable_replacement_items}{include file='replacement_items_popup.tpl'}{/if}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Check Code</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Check Code</h1>
-- Use this module for SKU lookup.
-<br><br>
-<div align="center">
-<h2 align="center">Scan or Enter the code{if $config.enable_sn_bn}, Batch or Serial No{/if} to Search</h2>
-<br>
-<form name="f1" class="biginput" onsubmit="return fsubmit()">
-<input type="hidden" name="a" value="find">
-	<table>
-		<tr>
-			<td><input size="20" name="code"></td>
-			<td><input type="submit" value="Find"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="checkbox" name="show_child" value="1"> Show child items</td>
-		</tr>
-	</table>
+<div class="alert alert-primary mx-3 rounded" style="max-width: 350px;">
+	- Use this module for SKU lookup.
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div align="center">
+			<h2 align="center" class="form-label">Scan or Enter the code{if $config.enable_sn_bn}, Batch or Serial No{/if} to Search</h2>
+			
+			<form name="f1" class="biginput" onsubmit="return fsubmit()">
+			<input type="hidden" name="a" value="find">
+				<table>
+					<tr>
+						<td><input class="form-control" size="20" name="code"></td>
+						<td>&nbsp;<input class="btn btn-primary" type="submit" value="Find"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="checkbox" name="show_child" value="1"> Show child items</td>
+					</tr>
+				</table>
+			</div>
+	</div>
 </div>
 <br>
 <div id="result" style="display:none;">

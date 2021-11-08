@@ -69,26 +69,30 @@ var PACKAGE_REDEMPTION = {
 </script>
 <br />
 
-<div align="center">
-	<h1>Package Redemption</h1>
-	<form name="f_a" class="biginput" onSubmit="PACKAGE_REDEMPTION.check_member();return false;" method="post">
-		<input type="hidden" name="a" value="ajax_check_member" />
-		
-		<table>
-			<tr>
-				<th><h2>NRIC / Card No</h2></th>
-				<td>
-					<input type="text" name="nric_card_no" title="NRIC / Card No" class="required" />
-				</td>
-			</tr>
-		</table>
+<div class="card mx-3">
+	<div class="card-body">
 		<div align="center">
-			<input class="btn btn-primary" style="font-size: 13px" type="button" value="Enter" onclick="PACKAGE_REDEMPTION.check_member();">
+			<h3 class="text-primary mb-2">Package Redemption</h3>
+			<form name="f_a" class="biginput" onSubmit="PACKAGE_REDEMPTION.check_member();return false;" method="post">
+				<input type="hidden" name="a" value="ajax_check_member" />
+				
+				<table>
+					<tr>
+						<th><h5 class="text-primary">NRIC / Card No&nbsp;&nbsp;</h5></th>
+						<td>
+							<input type="text" name="nric_card_no" title="NRIC / Card No" class="required form-control" />
+						</td>
+					</tr>
+				</table>
+				<div align="center">
+					<input class="btn btn-primary mt-2" style="font-size: 13px" type="button" value="Enter" onclick="PACKAGE_REDEMPTION.check_member();">
+				</div>
+			</form>
+		
+			<br /><span style="color:red;font-weight: bold;" id="span_err_msg"></span>
+		
 		</div>
-	</form>
-
-	<br /><span style="color:red;font-weight: bold;" id="span_err_msg"></span>
-
+	</div>
 </div>
 
 <script>PACKAGE_REDEMPTION.initialise();</script>

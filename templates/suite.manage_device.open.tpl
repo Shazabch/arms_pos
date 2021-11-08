@@ -26,28 +26,28 @@
 			<table width="100%">
 				{* Device Code *}
 				<tr>
-					<td width="100"><b>Device Code</b></td>
+					<td width="100"><b class="form-label">Device Code<span class="text-danger"> *</span></b></td>
 					<td colspan="3">
-						<input type="text" name="device_code" value="{$form.device_code}" style="width:100px;" maxlength="20" class="required" title="Device Code" />
-						<img src="ui/rq.gif" align="absmiddle" />
+						<input clas type="text" name="device_code" value="{$form.device_code}" style="width:100px;" maxlength="20" class="required form-control" title="Device Code" />
+						
 					</td>
 				</tr>
 				
 				{* Device Name *}
 				<tr>
-					<td width="100"><b>Device Name</b></td>
+					<td width="100"><b class="form-label">Device Name<span class="text-danger"> *</span></b></td>
 					<td colspan="3">
-						<input type="text" name="device_name" value="{$form.device_name}" style="width:300px;" maxlength="200" class="required" title="Device Name" />
-						<img src="ui/rq.gif" align="absmiddle" />
+						<input type="text" name="device_name" value="{$form.device_name}" style="width:300px;" maxlength="200" class="required form-control" title="Device Name" />
+						
 					</td>
 				</tr>
 				
 				{* Device Type *}
 				<tr>
-					<td width="100"><b>Device Type</b></td>
+					<td width="100"><b class="form-label">Device Type</b></td>
 					<td colspan="3">
 						{if $sessioninfo.id eq 1}
-							<select name="device_type" onChange="DEVICE_SETUP_POPUP.check_device_type();">
+							<select class="form-control" name="device_type" onChange="DEVICE_SETUP_POPUP.check_device_type();">
 								{foreach from=$device_type_list key=k item=v}
 									<option value="{$k}" {if $form.device_type eq $k}selected {/if}>{$v}</option>
 								{/foreach}
@@ -61,7 +61,7 @@
 				
 				{* Special data *}
 				<tr class="tr_special_data tr_special_data-barcoder" style="{if $form.device_type ne 'barcoder'}display:none;{/if}">
-					<td width="100"><b>Skip Dongle Checking</b> 
+					<td width="100"><b class="form-label">Skip Dongle Checking</b> 
 						[<a href="javascript:void(alert('v2.0.0 and above'))">?</a>]
 					</td>
 					<td colspan="3">
@@ -76,7 +76,7 @@
 				{* Allowed Branches *}
 				{if $BRANCH_CODE eq 'HQ'}
 					<tr class="tr_branch_list" style="{if $form.device_type eq 'arms_fnb' || $form.device_type eq 'pos'}display: none{/if}">
-						<td width="100"><b>Allowed Branches</b></td>
+						<td width="100"><b class="form-label">Allowed Branches</b></td>
 						<td colspan="3">
 							<span>
 								<input type="checkbox" value="1" onChange="DEVICE_SETUP_POPUP.toggle_allowed_branches();" id="inp_toggle_allowed_branches" /> All &nbsp;&nbsp;&nbsp;&nbsp;
@@ -91,21 +91,23 @@
 				{/if}
 				
 				{* Access Code*}
-				<td width="100"><b>Access Token</b></td>
+				<td width="100"><b class="form-label">Access Token<span class="text-danger"> *</span></b></td>
 				<td colspan="3">
-					<input type="text" name="device_access_token" value="{$form.device_access_token}" style="width:100px;" maxlength="10" readonly class="required" title="Device Access Token" />
+					<div class="form-inline">
+						<input  type="text" name="device_access_token" value="{$form.device_access_token}" style="width:100px;" maxlength="10" readonly class="required form-control" title="Device Access Token" />
 					{if $sessioninfo.id eq 1}
-						<input type="button" value="Generate" onClick="DEVICE_SETUP_POPUP.generate_access_token_clicked();" style="width:100px;" />
-						<img src="ui/rq.gif" align="absmiddle" />
+						&nbsp;&nbsp;<input type="button" class="btn btn-primary" value="Generate" onClick="DEVICE_SETUP_POPUP.generate_access_token_clicked();" style="width:100px;" />
+						
 					{/if}
+					</div>
 				</td>
 			</table>
 		</div>
 		
 		<div style="height:20px;text-align:center" id="div_btn_update">
 			<div style="position:absolute;padding-left:10px;" id="div_device_updating"></div>
-			<input type="button" value="Save" onClick="DEVICE_SETUP_POPUP.save();" />
-			<input type="button" value="Close" onClick="DEVICE_SETUP_POPUP.close();" />
+			<input type="button" class="btn btn-primary" value="Save" onClick="DEVICE_SETUP_POPUP.save();" />
+			<input type="button" class="btn btn-danger" value="Close" onClick="DEVICE_SETUP_POPUP.close();" />
 		</div>
 	</form>
 </div>

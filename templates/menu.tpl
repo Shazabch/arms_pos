@@ -807,7 +807,7 @@
 	 					</ul>
 				</li>
 								{if $sessioninfo.privilege.MST_SKU_UPDATE or $sessioninfo.privilege.MST_SKU_APPLY or $sessioninfo.privilege.MST_SKU}
-				<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">SKU reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
+				<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">SKU</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.php">SKU Listing</a></li>
 								{if $sessioninfo.privilege.MST_SKU_UPDATE_PRICE}

@@ -35,11 +35,22 @@
 
 {if $sessioninfo.level>=1000}
 <br>
-<h1>SQL Replication Status</h1>
-{php}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">SQL Replication Status</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		{php}
 ini_set('display_errors',1);
 include("replica_status.php");
 {/php}
 {/if}
+	</div>
+</div>
 
 {include file=footer.tpl}

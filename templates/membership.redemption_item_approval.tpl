@@ -201,44 +201,58 @@ function update_selected_item(v){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $smarty.request.msg}{assign var=msg value=$smarty.request.msg}{/if}
 {if $msg}<p align=center><font color=red>{$msg}</font></p>{/if}
 
 {if $BRANCH_CODE eq 'HQ'}
-	<div style="padding:2px;">
-		<b>Select Branch: </b>
-		<select name="branch_id" id="branch_id" onchange="list_sel('{$smarty.request.t|default:1}');">
-		<option value="">All</option>
-			{foreach from=$filter_branches item=branch_id key=branch}
-				<option value="{$branch_id}" {if $branch_id eq $smarty.request.branch_id}selected{/if}>{$branch}</option>
-			{/foreach}
-		</select>
-	</div><br>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div style="padding:2px;">
+				<b class="form-label">Select Branch: </b>
+				<select class="form-control" name="branch_id" id="branch_id" onchange="list_sel('{$smarty.request.t|default:1}');">
+				<option value="">All</option>
+					{foreach from=$filter_branches item=branch_id key=branch}
+						<option value="{$branch_id}" {if $branch_id eq $smarty.request.branch_id}selected{/if}>{$branch}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+	</div>
 {/if}
 
-<div class="tab" style="height:25px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-	<a href="javascript:void(list_sel(1))" id=lst1 class="active a_tab">Waiting for Approval</a>
-	<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab">Approved</a>
-	<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab">Inactive</a>
-	&nbsp;&nbsp;<label class="highlight_row_title"><img width="17" src="/ui/pixel.gif" /></label> Highlighted item(s) indicate nearly expire
+<div class="tab row mx-3 mb-3" style="white-space:nowrap;">
+	<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+&nbsp;	<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
+&nbsp;	<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded ">Inactive</a>
+&nbsp;&nbsp;	<label class="highlight_row_title"><img width="17" src="/ui/pixel.gif" /></label>&nbsp;<span class="mt-1"> Highlighted item(s) indicate nearly expire</span>
 </div>
 
 <form name="f_item">
-    <div id="tb_div" style="border:1px solid #000"></div>
+    <div class="card mx-3">
+		<div class="card-body">
+			<div id="tb_div" ></div>
+		</div>
+	</div>
 </form>
 
 <div id="div_confirm_area">
     <p style="text-align:center;padding:10px;background:#fff;">
 		<input class="btn btn-success" name="confirm_btn" type="button" value="Confirm Selected Item(s)" onclick="update_selected_item('1');" >&nbsp;&nbsp;
-		<input class="btn btn-error" name="reject_btn" type="button" value="Reject Selected Item(s)" onclick="update_selected_item('4');" >
+		<input class="btn btn-danger" name="reject_btn" type="button" value="Reject Selected Item(s)" onclick="update_selected_item('4');" >
     </p>
 </div>
 <div id="div_reset_area">
     <p style="text-align:center;padding:10px;background:#fff;">
-    	<input class="btn btn-error" name="reset_btn" type="button" value="Reset Selected Item(s)" onclick="update_selected_item('2');" >&nbsp;&nbsp;
+    	<input class="btn btn-danger" name="reset_btn" type="button" value="Reset Selected Item(s)" onclick="update_selected_item('2');" >&nbsp;&nbsp;
     	<input class="btn btn-warning" name="cancel_btn" type="button" value="Cancel Selected Item(s)" onclick="update_selected_item('3');" >
     </p>
 </div>

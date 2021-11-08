@@ -115,99 +115,135 @@ var MEMBER_PACKAGE_REPORT = {
 {/if}
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
-	<ul class="errmsg">
-		{foreach from=$err item=e}
-			<li> {$e}</li>
-		{/foreach}
-	</ul>
+	<div class="alert alert-danger">
+		<ul class="errmsg">
+			{foreach from=$err item=e}
+				<li> {$e}</li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
 
-<div class="noprint stdframe">
-	<form name="f_a" method="post" onSubmit="return false;">
-		<input type="hidden" name="load_report" value="1" />
-		<input type="hidden" name="export_excel" />
-		
-		{if $BRANCH_CODE eq 'HQ'}
-			<span>
-				<b>Branch</b>
-				<select name="branch_id">
-					<option value=''>-- All --</option>
-					{foreach from=$branch_list key=bid item=b}
-						{if !$branch_group_list.have_group.$bid}
-							<option value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>{$b.code} - {$b.description}</option>
-						{/if}
-					{/foreach}
-					
-					{if $branch_group_list.group}
-						<optgroup label='Branch Group'>
-							{foreach from=$branch_group_list.group key=bgid item=bg}
-								<option  class="bg" value="{$bgid*-1}" {if $bgid*-1 eq $smarty.request.branch_id}selected {/if}>{$bg.code} - {$bg.description}</option>
-								{foreach from=$bg.itemList key=bid item=b}
-									<option class="bg_item" value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;{$b.code} - {$b.description}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="noprint stdframe">
+			<form name="f_a" method="post" onSubmit="return false;">
+				<input type="hidden" name="load_report" value="1" />
+				<input type="hidden" name="export_excel" />
+				
+				<div class="row">
+					<div class="col">
+						{if $BRANCH_CODE eq 'HQ'}
+						<span>
+							<b class="form-label">Branch</b>
+							<select class="form-control" name="branch_id">
+								<option value=''>-- All --</option>
+								{foreach from=$branch_list key=bid item=b}
+									{if !$branch_group_list.have_group.$bid}
+										<option value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>{$b.code} - {$b.description}</option>
+									{/if}
 								{/foreach}
-							{/foreach}
-						</optgroup>
+								
+								{if $branch_group_list.group}
+									<optgroup label='Branch Group'>
+										{foreach from=$branch_group_list.group key=bgid item=bg}
+											<option  class="bg" value="{$bgid*-1}" {if $bgid*-1 eq $smarty.request.branch_id}selected {/if}>{$bg.code} - {$bg.description}</option>
+											{foreach from=$bg.itemList key=bid item=b}
+												<option class="bg_item" value="{$bid}" {if $bid eq $smarty.request.branch_id}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;{$b.code} - {$b.description}</option>
+											{/foreach}
+										{/foreach}
+									</optgroup>
+								{/if}
+							</select>
+						</span>
+					{else}
+						<input class="form-control" type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 					{/if}
-				</select>&nbsp;&nbsp;&nbsp;&nbsp;
-			</span>
-		{else}
-			<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-		{/if}
-		
-		<span>
-			<b>Date From</b>
-			<input type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			<b>To</b>
-			<input type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=12 />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-		</span>
-		
-		<p>
-			<span>
-				<b>Show By</b>
-				<select name="show_by">
-					{foreach from=$show_by_list key=k item=v}
-						<option value="{$k}" {if $smarty.request.show_by eq $k}selected {/if}>{$v}</option>
-					{/foreach}
-				</select>&nbsp;&nbsp;&nbsp;&nbsp;
-			</span>
-			
-			<span>
-				<b>Sort By</b>
-				<select name="sort_by">
-					{foreach from=$sort_by_list key=k item=v}
-						<option value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$v}</option>
-					{/foreach}
-				</select>
-				<select name="sort_order">
-					<option value="top" {if $smarty.request.sort_order eq 'top'}selected {/if}>Top</option>
-					<option value="btm" {if $smarty.request.sort_order eq 'btm'}selected {/if}>Bottom</option>
-				</select>
-			</span>
-		<p>
-		
-		{if $config.masterfile_enable_sa}
-			<p>
-				<b>Sales Agent</b>
-				<input type="checkbox" name="all_sa" value="1" {if !$smarty.request.sa_id_list || $smarty.request.all_sa}checked{/if} onChange="MEMBER_PACKAGE_REPORT.toggle_all_sa();" /> All
-				<div id="div_sa_id_list" style="border: 1px solid black;background-color: #fff; height: 150px;overflow-y:auto;width: 300px;{if !$smarty.request.sa_id_list || $smarty.request.all_sa}display:none;{/if}" >
-					{foreach from=$sa_list key=sa_id item=sa}
-						<input type="checkbox" class="cbx_sa_id_list" name="sa_id_list[{$sa_id}]" value="{$sa_id}" {if !$smarty.request.all_sa and $smarty.request.sa_id_list.$sa_id}checked {/if}>{$sa.code} - {$sa.name}<br />
-					{/foreach}
-				</div>
-			</p>
-		{/if}
-		
-		<input class="btn btn-primary" type="button" value='Show Report' onClick="MEMBER_PACKAGE_REPORT.show_report();" /> &nbsp;&nbsp;
+					</div>
+					
+					
 
-		{if $sessioninfo.privilege.EXPORT_EXCEL}
-			<button class="btn btn-primary" name="output_excel" onClick="MEMBER_PACKAGE_REPORT.show_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
-		{/if}
-	</form>
+					<div class="col">
+							<b class="form-label">Date From</b>
+							<div class="form-inline">
+								<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size=22 />
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+							</div>
+					</div>
+
+					<div class="col">
+						<b>To</b>
+						<div class="form-inline">
+							<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size=22 />
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+						</div>
+					</div>	
+					
+					
+					
+				</div>
+				<p>
+					
+					<div class="row">
+						<div class="col">
+							<b class="form-label">Show By</b>
+						<select class="form-control" name="show_by">
+							{foreach from=$show_by_list key=k item=v}
+								<option value="{$k}" {if $smarty.request.show_by eq $k}selected {/if}>{$v}</option>
+							{/foreach}
+						</select>
+						</div>
+					
+						<div class="col">
+							<b class="form-label">Sort By</b>
+						<div class="form-inline">
+							<select class="form-control" name="sort_by">
+								{foreach from=$sort_by_list key=k item=v}
+									<option value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$v}</option>
+								{/foreach}
+							</select>
+							&nbsp;&nbsp;&nbsp;<select class="form-control" name="sort_order">
+								<option value="top" {if $smarty.request.sort_order eq 'top'}selected {/if}>Top</option>
+								<option value="btm" {if $smarty.request.sort_order eq 'btm'}selected {/if}>Bottom</option>
+							</select>
+						</div>
+						</div>
+					</div>
+					
+				<p>
+				
+				{if $config.masterfile_enable_sa}
+					<p>
+					<div class="form-inline form-label">
+						<b class="">Sales Agent</b>
+						&nbsp;&nbsp;<input type="checkbox" name="all_sa" value="1" {if !$smarty.request.sa_id_list || $smarty.request.all_sa}checked{/if} onChange="MEMBER_PACKAGE_REPORT.toggle_all_sa();" />&nbsp; All
+						<div id="div_sa_id_list" style="border: 1px solid black;background-color: #fff; height: 150px;overflow-y:auto;width: 300px;{if !$smarty.request.sa_id_list || $smarty.request.all_sa}display:none;{/if}" >
+							{foreach from=$sa_list key=sa_id item=sa}
+								<input type="checkbox" class="cbx_sa_id_list" name="sa_id_list[{$sa_id}]" value="{$sa_id}" {if !$smarty.request.all_sa and $smarty.request.sa_id_list.$sa_id}checked {/if}>{$sa.code} - {$sa.name}<br />
+							{/foreach}
+						</div>
+					</div>
+					</p>
+				{/if}
+				
+				<input class="btn btn-primary" type="button" value='Show Report' onClick="MEMBER_PACKAGE_REPORT.show_report();" /> &nbsp;&nbsp;
+		
+				{if $sessioninfo.privilege.EXPORT_EXCEL}
+					<button class="btn btn-primary" name="output_excel" onClick="MEMBER_PACKAGE_REPORT.show_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+				{/if}
+			</form>
+		</div>
+	</div>
 </div>
 
 {if $smarty.request.load_report and !$err}

@@ -16,26 +16,26 @@
 	
 	{* Title *}
 	<td>
-		<input type="text" name="package_items[{$item_guid}][title]" style="width:200px;" maxlength="100" value="{$item.title|escape:html}" title="Item Title" class="required" />
+		<input  type="text" name="package_items[{$item_guid}][title]" style="width:200px;" maxlength="100" value="{$item.title|escape:html}" title="Item Title" class="required form-control" />
 	</td>
 	
 	{* Description *}
 	<td>
-		<input type="text" name="package_items[{$item_guid}][description]" style="width:100%;" maxlength="200" value="{$item.description|escape:html}" title="Item Description" class="required" />
+		<input type="text" name="package_items[{$item_guid}][description]" style="width:100%;" maxlength="200" value="{$item.description|escape:html}" title="Item Description" class="required form-control" />
 	</td>
 	
 	{* Remark *}
 	<td>
-		<textarea name="package_items[{$item_guid}][remark]" rows="2" cols="50">{$item.remark|escape:html}</textarea>
+		<textarea class="form-control" name="package_items[{$item_guid}][remark]" rows="2" cols="50">{$item.remark|escape:html}</textarea>
 	</td>
 	
 	{* Entry Needed *}
 	<td align="center">
-		<input type="text" name="package_items[{$item_guid}][entry_need]" style="width:80px;text-align:right;" value="{$item.entry_need|ifzero:''}" onChange="mi(this, 1, 1);" title="Item Entry Needed" class="required" />
+		<input type="text" name="package_items[{$item_guid}][entry_need]" style="width:80px;text-align:right;" value="{$item.entry_need|ifzero:''}" onChange="mi(this, 1, 1);" title="Item Entry Needed" class="required form-control" />
 	</td>
 	
 	{* Max Redeem *}
 	<td align="center">
-		<input type="text" name="package_items[{$item_guid}][max_redeem]" style="width:80px;text-align:right;" value="{$item.max_redeem|ifzero:''}" onChange="mi(this, 1, 1);" />
+		<input class="form-control" type="text" name="package_items[{$item_guid}][max_redeem]" style="width:80px;text-align:right;" value="{$item.max_redeem|ifzero:''}" onChange="mi(this, 1, 1);" />
 	</td>
 </tr>

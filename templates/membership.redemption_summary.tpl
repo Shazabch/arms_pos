@@ -72,69 +72,106 @@ option.bg_item{
 </style>
 {/literal}
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 <iframe style="visibility:hidden;" width="1" height="1" name="ifprint"></iframe>
 {if !$no_header_footer}
-<form name="f_a" class="noprint" method="post" style="border:1px solid #eee;padding:5px;white-space:nowrap;">
-	<input type="hidden" name="a" value="" />
-
-	<p>
-	<b>Redemption Date From</b>
-	<input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	<b>To</b> <input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
-	
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>By user</b>
-	<select name="user_id">
-	<option value="0">-- All --</option>
-	{section name=i loop=$user}
-	<option value="{$user[i].user_id}" {if $smarty.request.user_id eq $user[i].user_id}selected {/if}>{$user[i].u}</option>
-	{/section}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>Status</b>
-	<select name="status">
-		<option value="">-- All --</option>
-		{foreach from=$status_list key=k item=v}
-			<option value="{$k}" {if $smarty.request.status eq $k}selected {/if}>{$v}</option>
-		{/foreach}
-	</select>
-	</p>
-	
-	{if $BRANCH_CODE eq 'HQ'}
-	    <b>Branch</b>
-		<select name="branch_id">
-	    	<option value="">-- All --</option>
-	    	{foreach from=$branches key=bid item=b}
-	    	    {if !$branches_group.have_group.$bid}
-	    	    	<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-				{/if}
-	    	{/foreach}
-	    	{if $branches_group.header}
-	    	<optgroup label="Branches Group">
-		    	{foreach from=$branches_group.header key=bgid item=bg}
-		    	    <option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-		    	    {foreach from=$branches_group.items.$bgid item=r}
-		    	        <option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-		    	    {/foreach}
-		    	{/foreach}
-            </optgroup>
-	    	{/if}
-	    	
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<span>
-		<b>Type: </b>
-		{foreach from=$type_list key=k item=v}
-			<input type="radio" name="show_type" value="{$k}" {if $smarty.request.show_type eq $k or (!$smarty.request.show_type and $k eq 1)}checked {/if}/> {$v}
-		{/foreach}
-	</span>
-	<p>
-		<input type="button" value="Refresh" onClick="submit_form('refresh');" />
-		<input type="button" value="Print" onClick="submit_form('print');" />
-		<input type="button" value="Export" onClick="submit_form('export_excel');" />
-	</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="noprint" method="post" style="padding:5px;white-space:nowrap;">
+			<input type="hidden" name="a" value="" />
+		
+			<p>
+			<div class="row">
+			<div class="col-md-3">
+				<b class="form-label">Redemption Date From</b>
+				<div class="form-inline">
+					
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=22 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=22 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			</div>
+			</div>
+			
+		
+			<div class="col-md-3">
+				<b class="form-label">By user</b>
+			<select class="form-control" name="user_id">
+			<option value="0">-- All --</option>
+			{section name=i loop=$user}
+			<option value="{$user[i].user_id}" {if $smarty.request.user_id eq $user[i].user_id}selected {/if}>{$user[i].u}</option>
+			{/section}
+			</select>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Status</b>
+			<select class="form-control" name="status">
+				<option value="">-- All --</option>
+				{foreach from=$status_list key=k item=v}
+					<option value="{$k}" {if $smarty.request.status eq $k}selected {/if}>{$v}</option>
+				{/foreach}
+			</select>
+			</div>
+			</div>
+			</p>
+			
+			<div class="row">
+				{if $BRANCH_CODE eq 'HQ'}
+				<div class="col-md-3">
+					<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches key=bid item=b}
+						{if !$branches_group.have_group.$bid}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+						{/if}
+					{/foreach}
+					{if $branches_group.header}
+					<optgroup label="Branches Group">
+						{foreach from=$branches_group.header key=bgid item=bg}
+							<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+							{foreach from=$branches_group.items.$bgid item=r}
+								<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+							{/foreach}
+						{/foreach}
+					</optgroup>
+					{/if}
+					
+				</select>
+				</div>
+			{/if}
+			<div class="col-md-3">
+				<span>
+					<b class="form-label mt-4">Type: </b>
+					{foreach from=$type_list key=k item=v}
+						<input  type="radio" name="show_type" value="{$k}" {if $smarty.request.show_type eq $k or (!$smarty.request.show_type and $k eq 1)}checked {/if}/> {$v}
+					{/foreach}
+				</span>
+			</div>
+			
+			<div class="col-md-3 mt-4">
+				<p>
+					<input type="button" class="btn btn-info" value="Refresh" onClick="submit_form('refresh');" />
+					<input type="button" class="btn btn-primary" value="Print" onClick="submit_form('print');" />
+					<input type="button" class="btn btn-info" value="Export" onClick="submit_form('export_excel');" />
+				</p>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
 {/if}
 <br>
 {if !$table}

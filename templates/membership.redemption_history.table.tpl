@@ -23,23 +23,25 @@ Page
 {/if}
 
 <table id="items_tbl" width="100%" cellpadding="4" cellspacing="1" border="0" style="padding:2px">
-<tr bgcolor=#ffee99>
-	<th width="100" nowrap>&nbsp;</th>
-	<th width="100">Redemption No</th>
-	<th>Card No</th>
-	<th>NRIC</th>
-	<th>Qty Redempt</th>
-	<th>Points Used</th>
-	<th>Cash Needed</th>
-	<th>Created By</th>
-	<th>Date</th>
-	<th>Print Count</th>
-	{if $smarty.request.t eq 4 or $smarty.request.t eq 5}
-	    <th width="100">Cancel By</th>
-	{/if}
-	<th>last_update</th>
-</tr>
-<tbody id="tbody_item_list">
+<thead class="bg-gray-100">
+	<tr >
+		<th width="100" nowrap>&nbsp;</th>
+		<th width="100">Redemption No</th>
+		<th>Card No</th>
+		<th>NRIC</th>
+		<th>Qty Redempt</th>
+		<th>Points Used</th>
+		<th>Cash Needed</th>
+		<th>Created By</th>
+		<th>Date</th>
+		<th>Print Count</th>
+		{if $smarty.request.t eq 4 or $smarty.request.t eq 5}
+			<th width="100">Cancel By</th>
+		{/if}
+		<th>last_update</th>
+	</tr>
+</thead>
+<tbody class="fs-08" id="tbody_item_list">
 {foreach from=$items item=r}
     {cycle values=",#eeeeee" assign=tr_color}
 	<tr bgcolor="{$tr_color}" class="data_row">

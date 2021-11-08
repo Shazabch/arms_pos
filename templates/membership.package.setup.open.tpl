@@ -374,9 +374,9 @@ var SEARCH_SKU_DIALOG = {
 		this.f.reset();
 		
 		// Show Dialog
-		curtain(true);
-		center_div($('div_search_sku_dialog').show());
-		
+		//curtain(true);
+		//center_div($('div_search_sku_dialog').show());
+		jQuery('#div_search_sku_dialog').modal('show');
 		this.focus_search_field();
 		
 	},
@@ -409,25 +409,39 @@ function add_autocomplete(){
 </script>
 
 {* Search SKU Dialog *}
-<div id="div_search_sku_dialog" class="curtain_popup" style="position:absolute;z-index:10005;width:650px;height:150px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_search_sku_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Search SKU</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="SEARCH_SKU_DIALOG.close();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_search_sku_dialog_content" style="padding:2px;">
-		<form name="f_search_sku">			
-			<p align="center">
-				{include file='sku_items_autocomplete.tpl' parent_form='document.f_search_sku' _add_value='Select'}
-			</p>
-		</form>
-	</div>
+
+<!--popuup starts-->
+<div class="modal" id="div_search_sku_dialog" >
+    <div class="modal-dialog modal modal-dialog-centered " role="document">
+        <div class="modal-content modal-content-demo" >
+            <div class="modal-header bg-danger" id="div_search_sku_dialog_header">
+                <h6 class="modal-title text-white">Search SKU</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body" id="div_search_sku_dialog_content" >
+                <form name="f_search_sku">			
+					<p align="center">
+						{include file='sku_items_autocomplete.tpl' parent_form='document.f_search_sku' _add_value='Select'}
+					</p>
+				</form>
+            </div>
+        </div>
+    </div>
 </div>
+<!--popup ends-->
 
-<h1>Package ({if $form.id}{$form.doc_no}{else}NEW{/if})</h1>
-
-<h3>Status:
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Package ({if $form.id}{$form.doc_no}{else}NEW{/if})</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h5 class="content-title mb-0 my-auto ml-4 text-primary">
+				Status:
 	{if $form.active}
 		{if $form.status eq 1}
 			Confirmed
@@ -437,143 +451,166 @@ function add_autocomplete(){
 	{else}
 		Cancelled
 	{/if}
-</h3>
+			</h5><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<form name="f_a" method="post" ENCTYPE="multipart/form-data">
-	<input type="hidden" name="a" value="save" />
-	<input type="hidden" name="branch_id" value="{$form.branch_id}" />
-	<input type="hidden" name="id" value="{$form.id}" />
-	<input type="hidden" name="unique_id" value="{$form.unique_id}" />
-	<input type="hidden" name="doc_no" value="{$form.doc_no}" />
-	<input type="hidden" name="cancel_reason" />
-	
-	<div class="stdframe" style="background:#fff">
-		<h4>General Information</h4>
-		
-		<table border="0" cellspacing="0" cellpadding="4">
-			{* Title *}
-			<tr>
-				<th width="150" align="left">Title</th>
-				<td>
-					<input type="text" name="title" maxlength="100" style="width:300px;" value="{$form.title|escape:html}" title="Title" class="required" />
-				</td>
-			</tr>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" ENCTYPE="multipart/form-data">
+			<input type="hidden" name="a" value="save" />
+			<input type="hidden" name="branch_id" value="{$form.branch_id}" />
+			<input type="hidden" name="id" value="{$form.id}" />
+			<input type="hidden" name="unique_id" value="{$form.unique_id}" />
+			<input type="hidden" name="doc_no" value="{$form.doc_no}" />
+			<input type="hidden" name="cancel_reason" />
 			
-			{* Valid Date *}
-			<tr>
-				<th align="left">Valid Date</th>
-				<td>
-					<input type="text" name="valid_from" id="inp_valid_from" size="10" maxlength="10"  value="{$form.valid_from|escape:html}" title="Valid Date From" class="required" />
-					{if $can_edit}
-						<img align="absmiddle" src="ui/calendar.gif" id="img_valid_from" style="cursor: pointer;" title="Select Date" />
-					{/if}
-					to
-					<input type="text" name="valid_to" id="inp_valid_to" size="10" maxlength="10"  value="{$form.valid_to|escape:html}" title="Valid Date To" class="required" />
-					{if $can_edit}
-						<img align="absmiddle" src="ui/calendar.gif" id="img_valid_to" style="cursor: pointer;" title="Select Date" />
-					{/if}
-				</td>
-			</tr>
-			
-			{* Remark *}
-			<tr>
-				<th align="left" valign="top">Remark</th>
-				<td>
-					<textarea name="remark" style="width:300px;height:100px;">{$form.remark|escape:html}</textarea>
-				</td>
-			</tr>
-			
-			{* Branches *}
-			<tr>
-				<th align="left" valign="top">Allowed Branches</th>
-				<td>
-					<table class="small" border="0" id="tbl_allowed_branches">
-						{if $form.branch_id eq 1}
-							{* Created by HQ *}
-							{foreach from=$branches_list key=bid item=b}
-								<tr>
-									<td valign="top">
-										<input type="checkbox" class="chx_allowed_branches" name="allowed_branches[{$bid}]" value="{$bid}" {if $form.allowed_branches.$bid}checked {/if} onChange="MEMBERSHIP_PACKAGE.allowed_branch_changed();" /> {$b.code}
-									</td>
-								</tr>
-							{/foreach}
-						{else}
-							{* Created by Branch *}
-							{assign var=bid value=$form.branch_id}
-							<tr>
-								<td valign="top">
-									<input type="checkbox" class="chx_allowed_branches" name="allowed_branches[{$bid}]" value="{$bid}" checked style="display:none;" /> {$branches_list.$bid.code}
-								</td>
-							</tr>
-						{/if}
+			<div class="stdframe" style="background:#fff">
+				<h4>General Information</h4>
+				
+				<div class="table-responsive">
+					<table border="0" cellspacing="0" cellpadding="4">
+						{* Title *}
+						<tr>
+							<th width="150" align="left" class="form-label">Title</th>
+							<td>
+								<input  type="text" name="title" maxlength="100" style="width:300px;" value="{$form.title|escape:html}" title="Title" class="required form-control" />
+							</td>
+						</tr>
+						
+						{* Valid Date *}
+						<tr>
+							<th align="left" class="form-label">Valid Date</th>
+							<td>
+							<div class="form-inline">
+								<input  type="text" name="valid_from" id="inp_valid_from" size="10" maxlength="10"  value="{$form.valid_from|escape:html}" title="Valid Date From" class="required form-control" />
+								{if $can_edit}
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_valid_from" style="cursor: pointer;" title="Select Date" />
+								{/if}
+							
+								<b class="form-label">&nbsp;to&nbsp;</b>
+								<input type="text" name="valid_to" id="inp_valid_to" size="10" maxlength="10"  value="{$form.valid_to|escape:html}" title="Valid Date To" class="required form-control" />
+								{if $can_edit}
+								&nbsp;	<img align="absmiddle" src="ui/calendar.gif" id="img_valid_to" style="cursor: pointer;" title="Select Date" />
+								{/if}
+							</div>	
+							</td>
+						</tr>
+						
+						{* Remark *}
+						<tr>
+							<th align="left" valign="top" class="form-label">Remark</th>
+							<td>
+								<textarea class="form-control" name="remark" style="width:300px;height:100px;">{$form.remark|escape:html}</textarea>
+							</td>
+						</tr>
+						
+						{* Branches *}
+						<tr>
+							<th align="left" valign="top" class="form-label">Allowed Branches</th>
+							<td>
+								<table class="small" border="0" id="tbl_allowed_branches">
+									{if $form.branch_id eq 1}
+										{* Created by HQ *}
+										{foreach from=$branches_list key=bid item=b}
+											<tr>
+												<td valign="top">
+													<input type="checkbox" class="chx_allowed_branches" name="allowed_branches[{$bid}]" value="{$bid}" {if $form.allowed_branches.$bid}checked {/if} onChange="MEMBERSHIP_PACKAGE.allowed_branch_changed();" /> {$b.code}
+												</td>
+											</tr>
+										{/foreach}
+									{else}
+										{* Created by Branch *}
+										{assign var=bid value=$form.branch_id}
+										<tr>
+											<td valign="top">
+												<input type="checkbox" class="chx_allowed_branches" name="allowed_branches[{$bid}]" value="{$bid}" checked style="display:none;" /> {$branches_list.$bid.code}
+											</td>
+										</tr>
+									{/if}
+								</table>
+							</td>
+						</tr>
+						
+						{* Linked SKU *}
+						<tr>
+							<th align="left" valign="top" class="form-label">Linked SKU</th>
+							<td>
+								<input class="form-control" type="hidden" name="link_sku_item_id" value="{$form.link_sku_item_id}" />
+								
+								{if $can_edit}
+									<input style="margin-bottom: 5px;" class="btn btn-sm btn-dark" type="button" value="Edit SKU" onClick="SEARCH_SKU_DIALOG.open();" />
+								{/if}
+								<div id="div_linked_sku_info">
+									{if $form.linked_sku_info}
+										{include file='membership.package.setup.open.linked_sku_info.tpl' linked_sku_info=$form.linked_sku_info}
+									{/if}
+								</div>
+								<div >
+									<div class="alert alert-danger rounded">
+										<img src="ui/messages.gif" align="absmiddle" /> Alert!!!<br />
+									<ul>
+										{*<li>Once Package is confirmed, this SKU will become unable to sell at POS Counter until this Package enabled the selling.</li>*}
+										<li>The SKU will only be able to sell at the allowed branches.</li>
+										<li>One SKU can only be used by one Package.</li>
+									</ul>
+									</div>
+								</div>
+							</td>
+						</tr>
+						
+						{* Total Credit Earn *}
+						<tr>
+							<th align="left" class="form-label">Total Credit Earn</th>
+							<td>
+								<input class="form-control" type="text" name="total_entry_earn" value="{$form.total_entry_earn|default:0}" style="width:50px;" maxlength="5" onChange="MEMBERSHIP_PACKAGE.total_entry_earn_changed();" />
+							</td>
+						</tr>
 					</table>
-				</td>
-			</tr>
+				</div>
+			</div>
 			
-			{* Linked SKU *}
-			<tr>
-				<th align="left" valign="top">Linked SKU</th>
-				<td>
-					<input type="hidden" name="link_sku_item_id" value="{$form.link_sku_item_id}" />
-					
-					{if $can_edit}
-						<input style="margin-bottom: 5px;" type="button" value="Edit SKU" onClick="SEARCH_SKU_DIALOG.open();" />
-					{/if}
-					<div id="div_linked_sku_info">
-						{if $form.linked_sku_info}
-							{include file='membership.package.setup.open.linked_sku_info.tpl' linked_sku_info=$form.linked_sku_info}
-						{/if}
-					</div>
-					<div style="color:red;background-color:yellow;padding:5px;border:1px solid red;">
-						<img src="ui/messages.gif" align="absmiddle" /> Alert!!!<br />
-						<ul>
-							{*<li>Once Package is confirmed, this SKU will become unable to sell at POS Counter until this Package enabled the selling.</li>*}
-							<li>The SKU will only be able to sell at the allowed branches.</li>
-							<li>One SKU can only be used by one Package.</li>
-						</ul>
-					</div>
-				</td>
-			</tr>
-			
-			{* Total Credit Earn *}
-			<tr>
-				<th align="left">Total Credit Earn</th>
-				<td>
-					<input type="text" name="total_entry_earn" value="{$form.total_entry_earn|default:0}" style="width:50px;" maxlength="5" onChange="MEMBERSHIP_PACKAGE.total_entry_earn_changed();" />
-				</td>
-			</tr>
-		</table>
-	</div>
-	
-	<br />
-	<h4>Redemption Items</h4>
-	<div class="stdframe" style="background:#fff">
-		<table class="report_table" width="100%">
-			<tr class="header">
-				{if $can_edit}
-					<th width="80">&nbsp;</th>
-				{/if}
-				<th width="210">Title</th>
-				<th>Description</th>
-				<th width="400">Remark</th>
-				<th width="90">Credit Needed</th>
-				<th width="90">Max Redeem Count [<a href="javascript:void(alert('0 = No limit'))">?</a>]</th>
-			</tr>
-			
-			<tbody id="tbody_package_items_list">
-				{foreach from=$form.package_items key=item_guid item=item}
-					{include file='membership.package.setup.open.item.tpl'}
-				{/foreach}
-			</tbody>
-		</table>
 		
-		{if $can_edit}
-			<p>
-				<input type="button" value="Add Item" onClick="MEMBERSHIP_PACKAGE.add_item_clicked();" />
-			</p>
-		{/if}
+		</div>
 	</div>
-</form>
+			<div class="card mx-3">
+				<div class="card-body">
+					<h4>Redemption Items</h4>
+			<div class="stdframe" >
+				<div class="table-responsive">
+					<table class="report_table" width="100%">
+						<thead class="bg-gray-100">
+							<tr class="header">
+								{if $can_edit}
+									<th width="80">&nbsp;</th>
+								{/if}
+								<th width="210">Title</th>
+								<th>Description</th>
+								<th width="400">Remark</th>
+								<th width="90">Credit Needed</th>
+								<th width="90">Max Redeem Count [<a href="javascript:void(alert('0 = No limit'))">?</a>]</th>
+							</tr>
+						</thead>
+						
+						<tbody class="fs-08" id="tbody_package_items_list">
+							{foreach from=$form.package_items key=item_guid item=item}
+								{include file='membership.package.setup.open.item.tpl'}
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				
+				{if $can_edit}
+					<p>
+						<input type="button" class="btn btn-primary mt-2" value="Add Item" onClick="MEMBERSHIP_PACKAGE.add_item_clicked();" />
+					</p>
+				{/if}
+			</div>
+		</form>
+				</div>
+			</div>
+
 
 <p id="p_submit_btn" align="center">
 	{if $can_edit}
@@ -586,7 +623,7 @@ function add_autocomplete(){
 			{/if}
 		{/if}
 	{/if}
-	<input class="btn btn-error" type="button" value="Close" onclick="document.location='{$smarty.server.PHP_SELF}'" />
+	<input class="btn btn-danger" type="button" value="Close" onclick="document.location='{$smarty.server.PHP_SELF}'" />
 </p>
 
 

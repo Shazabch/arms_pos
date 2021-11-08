@@ -20,15 +20,15 @@
 	</div>
 	{/if}
 	<div class="position-absolute text-center text-info" data-placement="left" data-toggle="tooltip-primary" title="Check Code" style="right: 20px; top: 115px; z-index: 999999;">
-		<div class="card p-2">
+		<div class="card p-2 mt-5 mr-2">
 			<a href="/price_check" data-placement="left" data-toggle="tooltip-primary" title="Price Checker" class="link-stretched text-reset"><i class="fas fa-tag fa-3x" target=_fe></i></a>
 			<span class="fs-07 mt-1 font-weight-bold">Price Check</span>
 		</div>
 	</div>
 
 	{if $smarty.server.PHP_SELF ne '/login.php'}
-	<div>
-	<a href="/index.php" title="User Login"><img src="/ui/fe_login.png" border=0 target=_fe><br>User Login</a>
+	<div class="card p-2 mt-2 mr-4" style="float: right;">
+	<a href="/index.php" title="User Login"><img src="/ui/fe_login.png" border=0 target=_fe><br><b class="text-info">User Login</b></a>
 	</div>
 	{/if}
 

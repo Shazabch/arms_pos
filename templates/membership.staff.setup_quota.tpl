@@ -59,9 +59,9 @@ var STAFF_SETUP_QUOTA = {
 		
 		$('div_quota_history_dialog_content').update(_loading_);
 		
-		curtain(true);
-		center_div($('div_quota_history_dialog').show());
-		
+		//curtain(true);
+		//center_div($('div_quota_history_dialog').show());
+		jQuery('#div_quota_history_dialog').modal('show');
 		new Ajax.Request(phpself, {
 			parameters: params,
 			onComplete: function(msg){
@@ -93,50 +93,71 @@ var STAFF_SETUP_QUOTA = {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <!-- Quota History DIALOG -->
-<div id="div_quota_history_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:400px;height:300px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_quota_history_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;" id="span_mnm_choose_item_type_dialog_header">Quota History</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_quota_history_dialog_content" style="padding:2px;height:270px;overflow:auto;">
-
-	</div>
+<div class="modal" id="div_quota_history_dialog">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_quota_history_dialog_header">
+                <h6 class="modal-title text-center text-white" id="span_mnm_choose_item_type_dialog_header">Quota History</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body">
+                <div id="div_quota_history_dialog_content" style="padding:2px;height:270px;overflow:auto;"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-- End of Quota History DIALOG -->
 	
-<ul>
-	<li> Please note after you update monthly quota, you will need to wait the cron to auto update those related member quota.</li>
-</ul>
+<div class="alert alert-primary mx-3 rounded">
+	<ul style="list-style-type: none;">
+		<li> Please note after you update monthly quota, you will need to wait the cron to auto update those related member quota.</li>
+	</ul>
+</div>
 
-<form name="f_a" onSubmit="return false;" class="stdframe">
-	<input type="hidden" name="a" value="ajax_update_staff_quota" />
-	
-	<table class="report_table" style="background-color:#fff;">
-		<tr class="header">
-			<th>Staff Type</th>
-			<th>Monthly Quota</th>
-		</tr>
-		{foreach from=$config.membership_staff_type key=v item=mem_label}
-			<tr>
-				<td>{$mem_label}</td>
-				<td align="center">
-					<input type="text" size="5" name="quota_value[{$v}]" value="{$data.data.$v.quota_value}" style="text-align:right;" />
-					<img src="/ui/icons/zoom.png" title="View History" align="absmdiddle" class="clickable" onClick="STAFF_SETUP_QUOTA.view_history_clicked('{$v}');" />
-				</td>
-			</tr>
-		{/foreach}
-	</table>
-	
-	<p id="p_action_button">
-		<input type="button" value="Update" onClick="STAFF_SETUP_QUOTA.update_clicked();" id="btn_update_form" />
-		<span id="span_update_form_loading" style="padding:2px;background:yellow;display:none;"><br /><img src="ui/clock.gif" align="absmiddle" /> Processing...</span>
-	</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" onSubmit="return false;" class="stdframe">
+			<input type="hidden" name="a" value="ajax_update_staff_quota" />
+			
+			<table class="report_table" >
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th>Staff Type</th>
+						<th>Monthly Quota</th>
+					</tr>
+				</thead>
+				{foreach from=$config.membership_staff_type key=v item=mem_label}
+					<tboody class="fs-08">
+						<tr>
+							<td>{$mem_label}</td>
+							<td align="center">
+								<div class="form-inline">
+								&nbsp;	<input type="text" class="form-control" size="5" name="quota_value[{$v}]" value="{$data.data.$v.quota_value}" style="text-align:right;" />
+								&nbsp;<img src="/ui/icons/zoom.png" title="View History" align="absmdiddle" class="clickable" onClick="STAFF_SETUP_QUOTA.view_history_clicked('{$v}');" />
+								</div>
+							</td>
+						</tr>
+					</tboody>
+				{/foreach}
+			</table>
+			
+			<p id="p_action_button">
+				<input type="button" class="btn btn-primary mt-2 " value="Update" onClick="STAFF_SETUP_QUOTA.update_clicked();" id="btn_update_form" />
+				<span id="span_update_form_loading" style="padding:2px;background:yellow;display:none;"><br /><img src="ui/clock.gif" align="absmiddle" /> Processing...</span>
+			</p>
+		</form>
+	</div>
+</div>
 
 <script type="text/javascript">
 	STAFF_SETUP_QUOTA.initialize();

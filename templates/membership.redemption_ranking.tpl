@@ -87,70 +87,111 @@ option.bg_item{
 {assign var=hdr value=3}
 {/if}
 <body {if $skip_header}onload="window.print()"{/if}>
-<h{$hdr|default:1}>{$PAGE_TITLE}</h{$hdr|default:1}>
+<h{$hdr|default:1}><div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div></h{$hdr|default:1}>
 
 {if !$no_header_footer}
-<form name="f_a" class="noprint" method="post" style="border:1px solid #eee;padding:5px;white-space:nowrap;">
-	<input type="hidden" name="a" value="show_ranking" />
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="noprint" method="post" style="padding:5px;white-space:nowrap;">
+			<input type="hidden" name="a" value="show_ranking" />
+		
+			<p>
+			<div class="row">
+			<div class="col">
+				<b class="form-label">Redemption Date From</b>
+				<div class="form-inline">
+					<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=16 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
+				</div>
+			</div>
+			
+			<div class="col">
+				
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=16 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			</div>
+			</div>
+		
+		<div class="col">
+			<b class="form-label">PostCode</b>
+			<input class="form-control" type="text" size="5" name="postcode" value="{$smarty.request.postcode}" />
+		</div>
+			
+		<div class="col">
+			<b class="form-label">State</b>
+			<input class="form-control" type="text" size="20" name="state" value="{$smarty.request.state}" />
+		</div>
+			
+		<div class="col">
+			<b class="form-label">City</b>
+			<input class="form-control" type="text" size="20" name="city" value="{$smarty.request.city}" />
+		</div>
+			</div>
+			</p>
+			
+			<p>
+			<div class="row">
+				<div class="col">
+					<div class="form-inline mt-4">
+						<select class="form-control" name="top_or_btm">
+							<option value="top" {if $smarty.request.top_or_btm eq 'top'}selected {/if}>Top</option>
+							<option value="btm" {if $smarty.request.top_or_btm eq 'btm'}selected {/if}>Bottom</option>
+						</select>
+						&nbsp;&nbsp;<input class="form-control" type="text" size="12" name="show_rows" value="{$smarty.request.show_rows}" /> (Max 1000)
+					</div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">By</b>
+				<select class="form-control" name="sort_by">
+					<option value="qty" {if $smarty.request.sort_by eq 'qty'}selected {/if}>Qty</option>
+					<option value="pt_need" {if $smarty.request.sort_by eq 'pt_need'}selected {/if}>Point</option>
+					<option value="cash_need" {if $smarty.request.sort_by eq 'cash_need'}selected {/if}>Cash</option>
+				</select>
+				</div>
 
-	<p>
-	<b>Redemption Date From</b>
-	<input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	<b>To</b> <input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
-
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>PostCode</b>
-	<input type="text" size="5" name="postcode" value="{$smarty.request.postcode}" />
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>State</b>
-	<input type="text" size="20" name="state" value="{$smarty.request.state}" />
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>City</b>
-	<input type="text" size="20" name="city" value="{$smarty.request.city}" />
-	</p>
-	
-	<p>
-	<select name="top_or_btm">
-	    <option value="top" {if $smarty.request.top_or_btm eq 'top'}selected {/if}>Top</option>
-	    <option value="btm" {if $smarty.request.top_or_btm eq 'btm'}selected {/if}>Bottom</option>
-	</select>
-	<input type="text" size="5" name="show_rows" value="{$smarty.request.show_rows}" /> (Max 1000)
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>By</b>
-	<select name="sort_by">
-	    <option value="qty" {if $smarty.request.sort_by eq 'qty'}selected {/if}>Qty</option>
-	    <option value="pt_need" {if $smarty.request.sort_by eq 'pt_need'}selected {/if}>Point</option>
-	    <option value="cash_need" {if $smarty.request.sort_by eq 'cash_need'}selected {/if}>Cash</option>
-	</select>
-	{if $BRANCH_CODE eq 'HQ'}
-	    &nbsp;&nbsp;&nbsp;&nbsp;
-	    <b>Branch</b>
-		<select name="branch_id">
-	    	<option value="">-- All --</option>
-	    	{foreach from=$branches key=bid item=b}
-	    	    {if !$branches_group.have_group.$bid}
-	    	    	<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch</b>
+					<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches key=bid item=b}
+							{if !$branches_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+							{/if}
+						{/foreach}
+						{if $branches_group.header}
+						<optgroup label="Branches Group">
+							{foreach from=$branches_group.header key=bgid item=bg}
+								<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+								{foreach from=$branches_group.items.$bgid item=r}
+									<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+								{/foreach}
+							{/foreach}
+						{/if}
+						</optgroup>
+					</select>
 				{/if}
-	    	{/foreach}
-	    	{if $branches_group.header}
-	    	<optgroup label="Branches Group">
-		    	{foreach from=$branches_group.header key=bgid item=bg}
-		    	    <option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-		    	    {foreach from=$branches_group.items.$bgid item=r}
-		    	        <option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-		    	    {/foreach}
-		    	{/foreach}
-	    	{/if}
-	    	</optgroup>
-		</select>
-	{/if}
-	</p>
-	<p>
-		<input type="button" value="Refresh" onClick="submit_form('refresh');">
-		<input type="button" value="Print" onClick="submit_form('print');" />
-		<input type="button" value="Export" onClick="submit_form('export_excel');" />
-	</p>
-</form>
+				</div>
+			
+			</p>
+			<div class="col mt-4">
+				<p>
+					<input type="button" class="btn btn-info" value="Refresh" onClick="submit_form('refresh');">
+					<input type="button" class="btn btn-primary" value="Print" onClick="submit_form('print');" />
+					<input type="button" class="btn btn-info" value="Export" onClick="submit_form('export_excel');" />
+				</p>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
 {/if}
 <br />
 

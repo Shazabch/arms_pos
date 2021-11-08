@@ -346,7 +346,7 @@ hide_div_sku_autocomplete_popup_notification = function(){
 		{/if}
 		
 		{if !$no_add_button}
-			<input type=button class="btn btn-primary" value="{$_add_value|default:'Add'}" onclick='add_autocomplete()'>
+			<input type=button class="btn btn-primary mt-2 mb-2" value="{$_add_value|default:'Add'}" onclick='add_autocomplete()'>
 		{/if}
 		{if $_multiple_add_value}
 			<input class="btn btn-primary" type=button value="{$_multiple_add_value|default:'Multiple Add'}" onclick='multiple_add_autocomplete()'>
