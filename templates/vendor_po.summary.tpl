@@ -15,39 +15,66 @@ function zoom_vendor(vendor_id){
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<form name="f1" class="noprint" action="{$smarty.server.PHP_SELF}" method=get style="border:1px solid #eee;padding:5px;white-space:nowrap;">
-	<input type="hidden" name="a" value="show">
-	<p>
-		<b>Date From</b> 
-		<input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp; &nbsp;
 
-		<b>To</b> 
-		<input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-
-		{if $BRANCH_CODE eq 'HQ'}
-			<b>Branch</b>
-			<select name=branch_id>
-			<option value="">-- All --</option>
-			{section name=i loop=$branch}
-			<option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{assign var=_br value=`$branch[i].code`}{/if}>{$branch[i].code}</option>
-			{/section}
-			</select>
-			&nbsp;&nbsp;
-
-			<b>Vendor</b>
-			<select name=vendor_id id="vendor_id">
-			<option value="">-- All --</option>
-			{section name=i loop=$vendor}
-			<option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
-			{/section}
-			</select> &nbsp;&nbsp;
-		{/if}
-		<input type="submit" value="Refresh">
-		<input type="button" onclick="do_print()" value="Print">
-	</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f1" class="noprint" action="{$smarty.server.PHP_SELF}" method=get style="padding:5px;white-space:nowrap;">
+			<input type="hidden" name="a" value="show">
+			<p>
+			<div class="row">
+				<div class="col-md-3">
+					<b class="form-label">Date From</b> 
+				<div class="form-inline">
+					<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=20 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
+				</div>
+				</div>
+		
+				<div class="col-md-3">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=20 /> &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/> 
+				</div>
+				</div>
+		
+				{if $BRANCH_CODE eq 'HQ'}
+					<div class="col-md-3">
+						<b class="form-label">Branch</b>
+					<select class="form-control" name=branch_id>
+					<option value="">-- All --</option>
+					{section name=i loop=$branch}
+					<option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{assign var=_br value=`$branch[i].code`}{/if}>{$branch[i].code}</option>
+					{/section}
+					</select>
+					</div>
+					
+		
+					<div class="col-md-3">
+						<b class="form-label">Vendor</b>
+					<select class="form-control" name=vendor_id id="vendor_id">
+					<option value="">-- All --</option>
+					{section name=i loop=$vendor}
+					<option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
+					{/section}
+					</select> 
+					</div>
+				{/if}
+				<div class="col-md-3 px-2">
+					<input class="btn btn-primary mt-3 ml-1" type="submit" value="Refresh">
+				<input class="btn btn-info mt-3 ml-1" type="button" onclick="do_print()" value="Print">
+				</div>
+			</div>
+			</p>
+		</form>
+	</div>
+</div>
 <br>
 
 {if $smarty.request.a eq 'show'}

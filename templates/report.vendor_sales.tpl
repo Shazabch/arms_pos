@@ -188,133 +188,181 @@ var VENDOR_REPORT = {
 
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
-	<div><div class="errmsg"><ul>
-	{foreach from=$err item=e}
-		<li> {$e}</li>
-	{/foreach}
-	</ul></div></div>
+	<div class="alert alert-danger mx-3 rounded">
+		<div><div class="errmsg"><ul>
+			{foreach from=$err item=e}
+				<li> {$e}</li>
+			{/foreach}
+			</ul></div></div>
+	</div>
 {/if}
 
 {if !$no_header_footer}
-<form name="f_a" class="noprint stdframe" style="background-color:#fff" method="post" onSubmit="return false;">
-	<input type="hidden" name="show_report" value="1" />
-	<input type="hidden" name="export_excel" />
-	
-	{if $BRANCH_CODE eq 'HQ'}
-		{* Branch *}
-		<b>Branch </b>
-		<select name="branch_id" onChange="VENDOR_REPORT.branch_id_changed();">
-			<option value="">-- Please Select --</option>
-			{foreach from=$branch_list key=bid item=b}
-				{if !$branch_group.have_group.$bid}
-					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-				{/if}
-			{/foreach}
-			{if $branch_group}
-				{foreach from=$branch_group.header key=bgid item=bg}
-					<optgroup label="{$bg.code}">
-						{foreach from=$branch_group.items.$bgid key=bid item=r}
-							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$branch_list.$bid.code} - {$branch_list.$bid.description}</option>
-						{/foreach}
-					</optgroup>
-				{/foreach}
-				{*<optgroup label="Branch Group">
-					{foreach from=$branch_group.header key=bgid item=bg}
-						<option value="bg,{$bgid}" class="bg" {if $smarty.request.branch_id eq "bg,`{$bgid}`"}selected {/if}>{$bg.code}</option>
-						{foreach from=$branch_group.items.$bgid key=bid item=r}
-							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$branch_list.$bid.code} - {$branch_list.$bid.description}</option>
-						{/foreach}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="noprint stdframe" style="background-color:#fff" method="post" onSubmit="return false;">
+			<input type="hidden" name="show_report" value="1" />
+			<input type="hidden" name="export_excel" />
+			
+		<div class="row">
+			<div class="col-md-3">
+				{if $BRANCH_CODE eq 'HQ'}
+				{* Branch *}
+				<b class="form-label mt-2">Branch </b>
+				<select class="form-control" name="branch_id" onChange="VENDOR_REPORT.branch_id_changed();">
+					<option value="">-- Please Select --</option>
+					{foreach from=$branch_list key=bid item=b}
+						{if !$branch_group.have_group.$bid}
+							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+						{/if}
 					{/foreach}
-				</optgroup>*}
+					{if $branch_group}
+						{foreach from=$branch_group.header key=bgid item=bg}
+							<optgroup label="{$bg.code}">
+								{foreach from=$branch_group.items.$bgid key=bid item=r}
+									<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$branch_list.$bid.code} - {$branch_list.$bid.description}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+						{*<optgroup label="Branch Group">
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<option value="bg,{$bgid}" class="bg" {if $smarty.request.branch_id eq "bg,`{$bgid}`"}selected {/if}>{$bg.code}</option>
+								{foreach from=$branch_group.items.$bgid key=bid item=r}
+									<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$branch_list.$bid.code} - {$branch_list.$bid.description}</option>
+								{/foreach}
+							{/foreach}
+						</optgroup>*}
+					{/if}
+				</select>
 			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	
-	{* Vendor *}
-	<b>Vendor</b>
-	<select name="vendor_id">
-		{foreach from=$vendor_list key=vid item=r}
-			<option value="{$vid}" {if $smarty.request.vendor_id eq $vid}selected {/if}>{$r.description}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<p>
-		{* SKU Type *}
-		<b>SKU Type</b>
-		<select name="sku_type">
-			<option value="">-- All --</option>
-			{foreach from=$sku_type_list item=r}
-				<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
+			
+			<div class="col-md-3">
+				{* Vendor *}
+			<b class="form-label mt-2">Vendor</b>
+			<select class="form-control" name="vendor_id">
+				{foreach from=$vendor_list key=vid item=r}
+					<option value="{$vid}" {if $smarty.request.vendor_id eq $vid}selected {/if}>{$r.description}</option>
+				{/foreach}
+			</select>
+			</div>
+			
+			
+			<div class="col-md-3">
+				{* SKU Type *}
+				<b class="form-label mt-2">SKU Type</b>
+				<select class="form-control" name="sku_type">
+					<option value="">-- All --</option>
+					{foreach from=$sku_type_list item=r}
+						<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
+					{/foreach}
+				</select>
+			</div>
+				
+			<div class="col-md-3">
+				{* Price Type *}
+				<b class="form-label mt-2">Price Type</b>
+				<select class="form-control" name="price_type">
+					<option value="">-- All --</option>
+					{foreach from=$price_type_list item=r}
+						<option value="{$r.price_type}" {if $smarty.request.price_type eq $r.price_type}selected {/if}>{$r.price_type}</option>
+					{/foreach}
+				</select>
+				
+			</div>
+				
+			<div class="col-md-3">
+				{* Department *}
+				<b class="form-label mt-2">Department</b>
+				<select class="form-control" name="dept_id">
+					<option value="">-- All --</option>
+					{foreach from=$dept_list item=r}
+						<option value="{$r.id}" {if $smarty.request.dept_id eq $r.id}selected {/if}>{$r.description}</option>
+					{/foreach}
+				</select>
+			
+			</div>
+			
+			<div class="col-md-3">
+				{* Date From *}
+			<b class="form-label mt-2">Date From</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size="23" />
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				{* Date To *}
+			<b class="form-label mt-2">To</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size="23" />
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+			</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="row ml-1 mt-3">
+					{* Group Monthly *}
+				<div class="form-label form-inline">
+					<input type="checkbox" name="by_monthly" id="chx_by_monthly" {if $smarty.request.by_monthly}checked {/if} value="1" /> <label for="chx_by_monthly"><b>&nbsp;Group Monthly</b></label>&nbsp;&nbsp; 
+				</div>
+				
+				{* Use GRN *}
+				<div class="form-label form-inline">
+					<input type="checkbox" name="use_grn" id="chx_use_grn" onChange="VENDOR_REPORT.use_grn_changed();" {if $smarty.request.use_grn}checked {/if} value="1" /> <label for="chx_use_grn"><b>&nbsp;Use GRN</b></label> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]&nbsp;&nbsp; 
+				</div>
+				
+				{* Show All Items *}
+				{*<input type="checkbox" name="show_all_items" id="chx_show_all_item" {if $smarty.request.show_all_items}checked {/if} onChange="VENDOR_REPORT.show_all_sku_changed();" value="1" /> <label for="chx_show_all_item"><b>&nbsp;Show All Items</b></label>&nbsp;&nbsp; *}
+				
+				<!-- Group by SKU -->
+				<div class="form-label form-inline">
+					<input type="checkbox" name="group_by_sku" id="chx_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> <label for="chx_group_by_sku"><b>&nbsp;Group by SKU</b></label>&nbsp;&nbsp;
+				</div>
+				
+				<!-- Show Balance -->
+				<div class="form-label form-inline">
+					<input type="checkbox" name="show_balance" id="chx_show_bal" {if $smarty.request.show_balance}checked {/if} value="1" /> <label for="chx_show_bal"><b>&nbsp;Show Balance</b></label>&nbsp;&nbsp; 
+				</div>
+				</div>
+			</div>
 		
-		{* Price Type *}
-		<b>Price Type</b>
-		<select name="price_type">
-			<option value="">-- All --</option>
-			{foreach from=$price_type_list item=r}
-				<option value="{$r.price_type}" {if $smarty.request.price_type eq $r.price_type}selected {/if}>{$r.price_type}</option>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		{* Department *}
-		<b>Department</b>
-		<select name="dept_id">
-			<option value="">-- All --</option>
-			{foreach from=$dept_list item=r}
-				<option value="{$r.id}" {if $smarty.request.dept_id eq $r.id}selected {/if}>{$r.description}</option>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	</p>
-	
-	{* Date From *}
-	<b>Date From</b>
-	<input type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size="12" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-	
-	{* Date To *}
-	<b>To</b>
-	<input type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size="12" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
-	
-	{* Group Monthly *}
-	<input type="checkbox" name="by_monthly" id="chx_by_monthly" {if $smarty.request.by_monthly}checked {/if} value="1" /> <label for="chx_by_monthly"><b>Group Monthly</b></label>&nbsp;&nbsp; 
-	
-	{* Use GRN *}
-	<input type="checkbox" name="use_grn" id="chx_use_grn" onChange="VENDOR_REPORT.use_grn_changed();" {if $smarty.request.use_grn}checked {/if} value="1" /> <label for="chx_use_grn"><b>Use GRN</b></label> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]&nbsp;&nbsp; 
-	
-	{* Show All Items *}
-	{*<input type="checkbox" name="show_all_items" id="chx_show_all_item" {if $smarty.request.show_all_items}checked {/if} onChange="VENDOR_REPORT.show_all_sku_changed();" value="1" /> <label for="chx_show_all_item"><b>Show All Items</b></label>&nbsp;&nbsp; *}
-	
-	<!-- Group by SKU -->
-	<input type="checkbox" name="group_by_sku" id="chx_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> <label for="chx_group_by_sku"><b>Group by SKU</b></label>&nbsp;&nbsp;
-	
-	<!-- Show Balance -->
-	<input type="checkbox" name="show_balance" id="chx_show_bal" {if $smarty.request.show_balance}checked {/if} value="1" /> <label for="chx_show_bal"><b>Show Balance</b></label>&nbsp;&nbsp; 
-
-	<p>
-		{* Report Type *}
-		<b>Report Type: </b>
-		<label><input name="report_type" type="radio" value="qty" {if $smarty.request.report_type eq 'qty' or $smarty.request.report_type eq ''}checked {/if} />Sales Qty</label>
-		<label><input name="report_type" type="radio" value="amt" {if $smarty.request.report_type eq 'amt'}checked {/if} />Sales Amount</label>
-		{if $config.enable_gst || $config.enable_tax}
-			<label><input name="report_type" type="radio" value="gst" {if $smarty.request.report_type eq 'gst'}checked {/if} />Tax Amount</label>
-			<label><input name="report_type" type="radio" value="amt_inc_gst" {if $smarty.request.report_type eq 'amt_inc_gst'}checked {/if} />Sales Amount Included Tax</label>
-		{/if}
-		&nbsp;&nbsp;&nbsp;
-		
-		<input type="button" value='Show Report' onClick="VENDOR_REPORT.submit_form();" /> 
-		<input type="button" value="Print" onclick="VENDOR_REPORT.do_print();" />
-		
-		{if $sessioninfo.privilege.EXPORT_EXCEL}
-			<input type=button value="Export to Excel" onclick="VENDOR_REPORT.submit_form('excel');" />
-		{/if}
-	</p>
-	
-</form>
+			
+				<div class="col-md-3">
+					{* Report Type *}
+				<b class="form-label mt-2">Report Type: </b>
+				<label><input name="report_type" type="radio" value="qty" {if $smarty.request.report_type eq 'qty' or $smarty.request.report_type eq ''}checked {/if} />Sales Qty</label>
+				<label><input name="report_type" type="radio" value="amt" {if $smarty.request.report_type eq 'amt'}checked {/if} />Sales Amount</label>
+				{if $config.enable_gst || $config.enable_tax}
+					<label><input name="report_type" type="radio" value="gst" {if $smarty.request.report_type eq 'gst'}checked {/if} />Tax Amount</label>
+					<label><input name="report_type" type="radio" value="amt_inc_gst" {if $smarty.request.report_type eq 'amt_inc_gst'}checked {/if} />Sales Amount Included Tax</label>
+				{/if}
+				
+				</div>
+		</div>
+				
+				<input type="button" class="btn btn-info" value='Show Report' onClick="VENDOR_REPORT.submit_form();" /> 
+				<input type="button" class="btn btn-primary" value="Print" onclick="VENDOR_REPORT.do_print();" />
+				
+				{if $sessioninfo.privilege.EXPORT_EXCEL}
+					<input type=button class="btn btn-info" value="Export to Excel" onclick="VENDOR_REPORT.submit_form('excel');" />
+				{/if}
+			
+			
+		</form>
+	</div>
+</div>
 <script type="text/javascript">VENDOR_REPORT.initialize();</script>
 {/if}
 
@@ -328,13 +376,22 @@ var VENDOR_REPORT = {
 			{$b_info.address|nl2br}<br>
 			Tel: {$b_info.phone_1}{if $b_info.phone_2} / {$b_info.phone_2}{/if} &nbsp;&nbsp; Fax: {$b_info.phone_3}
 		</div>
-		<h2>{$report_title}</h2>
-		<ul>
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+	<div class="alert alert-primary mx-3 rounded">
+			
+		<ul style="list-style-type:none;">
 			<li> Item mark with <span class="not_up_to_date">*</span> is not up to date, stock balance may incorrect.</li>
 			{if $smarty.request.use_grn}
 				<li><span class="got_multi_vendor">*</span> Got GRN by multiple vendor. sales qty may not fully show under your selected vendor.</li>
 			{/if}
 		</ul>
+	</div>
 		
 		{assign var=show_balance value=$smarty.request.show_balance}
 		{assign var=show_type value=$smarty.request.report_type}
@@ -343,208 +400,224 @@ var VENDOR_REPORT = {
 			{* Show by Monthly *}
 			{foreach from=$date_from_to_list key=y item=from_to_info}
 				{if $from_to_info.got_data}
-					<h3>{$y}</h3>
-					
-					<table width="100%" class="report_table small">
-						<tr class="header">
-							<th>&nbsp;</th>
-							<th>ARMS Code</th>
-							<th title="SKU Type">S.T</th>
-							<th>Art No/MCode</th>
-							<th>SKU Description</th>
-							<th title="Price Type">P.T</th>
-							
-							{* Opening *}
-							{if $show_balance}
-								<th>Opening<br />Qty</th>
-							{/if}
-							
-							{assign var=yr_is_under_gst value=0}
-							{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
-								<th>{$month_list[$ym_info.m]}</th>
-								
-								{if $is_under_gst.$ym}
-									{assign var=yr_is_under_gst value=1}
-								{/if}
-							{/foreach}
-							
-							<th title="Total Sales Qty">T.Qty</th>
-							<th title="Total Sales Amount">T.Amount</th>
-							{if $yr_is_under_gst}
-								<th> Tax</th>
-								<th>Amount Inc Tax</th>
-							{/if}
-							
-							{if $show_balance}
-								{* In *}
-								<th title="In Qty">In [<a href="javascript:void(VENDOR_REPORT.show_balance_in_info())">?</a>]</th>
-								
-								{* Out *}
-								<th title="Out Qty">Out [<a href="javascript:void(VENDOR_REPORT.show_balance_out_info())">?</a>]</th>
-								
-								{* Closing *}
-								<th title="Closing Qty">Closing</th>
-							{/if}
-							
-							{* AVG Price *}
-							<th title="Average Selling Price">AVG Price</th>
-						</tr>
-						
-						{* Loop for item sales *}
-						{assign var=count_no value=0}
-						{foreach from=$data.item_sales key=item_key item=item_sales_info name=fitem}
-							{* this item got sales in this year *}							
-							{if (!$smarty.request.group_by_sku && $from_to_info.sid_list.$item_key) || ($smarty.request.group_by_sku && $from_to_info.sku_id_list.$item_key)}
-								{assign var=item_info value=$data.item_info.$item_key.info}
-								{assign var=item_total_info value=$data.item_total.$item_key.by_year.$y}
-								{assign var=balance_info value=$from_to_info.balance_info.$item_key.total}
-								{capture assign=count_price_type}{count var=$from_to_info.item_price_type_list.$item_key}{/capture}
-								{assign var=count_no value=$count_no+1}
-								<tr>
-									<td rowspan="{$count_price_type}">{$count_no}.</td>
-									<td rowspan="{$count_price_type}" nowrap>
-										{$item_info.sku_item_code}
-										{if $data.item_info.$item_key.changed}<span class="not_up_to_date">*</span>{/if}
-										{if $data.item_info.$item_key.multi_vendor}<span class="got_multi_vendor">*</span>{/if}
-									</td>
-									<td rowspan="{$count_price_type}">{$item_info.sku_type|substr:0:1}</td>
-									<td rowspan="{$count_price_type}">{$item_info.artno_mcode|default:'-'}</td>
-									<td rowspan="{$count_price_type}">{$item_info.description|default:'-'}</td>
-									
-									{foreach from=$from_to_info.item_price_type_list.$item_key item=price_type name=fds}
-										{if $smarty.foreach.fds.first}
-											{* Price Type *}
-											{if $price_type eq $no_price_type}
-												<td>-</td>
-											{else}
-												<td>{$price_type}</td>
-											{/if}
+				<div class="breadcrumb-header justify-content-between">
+					<div class="my-auto">
+						<div class="d-flex">
+							<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$y}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+						</div>
+					</div>
+				</div>
+				
+					<div class="card mx-3">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table width="100%" class="report_table small table mb-0 text-md-nowrap  table-hover">
+									<thead class="bg-gray-100">
+										<tr class="header">
+											<th>&nbsp;</th>
+											<th>ARMS Code</th>
+											<th title="SKU Type">S.T</th>
+											<th>Art No/MCode</th>
+											<th>SKU Description</th>
+											<th title="Price Type">P.T</th>
 											
 											{* Opening *}
 											{if $show_balance}
-												<td align="right" rowspan="{$count_price_type}">{$balance_info.opening.qty|qty_nf}</td>
+												<th>Opening<br />Qty</th>
 											{/if}
 											
+											{assign var=yr_is_under_gst value=0}
 											{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
-												{assign var=daily_sales value=$item_sales_info.$ym.$price_type}
-												<td align="right">
-													{if $show_type eq 'qty'}
-														{$daily_sales.total.$show_type|qty_nf|ifzero:'&nbsp;'}
-													{else}
-														{$daily_sales.total.$show_type|number_format:2|ifzero:'&nbsp;'}
-													{/if}
-												</td>
+												<th>{$month_list[$ym_info.m]}</th>
+												
+												{if $is_under_gst.$ym}
+													{assign var=yr_is_under_gst value=1}
+												{/if}
 											{/foreach}
 											
-											{* Total Sales Qty *}
-											<td align="right" rowspan="{$count_price_type}">{$item_total_info.qty|qty_nf}</td>
-											
-											{* Total Sales Amt *}
-											<td align="right" rowspan="{$count_price_type}">{$item_total_info.amt|number_format:2}</td>
-											
+											<th title="Total Sales Qty">T.Qty</th>
+											<th title="Total Sales Amount">T.Amount</th>
 											{if $yr_is_under_gst}
-												{* Total GST Amt*}
-												<td align="right" rowspan="{$count_price_type}">{$item_total_info.gst|number_format:2}</td>
-								
-												{* Total Amount Include GST*}
-												<td align="right" rowspan="{$count_price_type}">{$item_total_info.amt_inc_gst|number_format:2}</td>
+												<th> Tax</th>
+												<th>Amount Inc Tax</th>
 											{/if}
 											
 											{if $show_balance}
 												{* In *}
-												<td align="right" rowspan="{$count_price_type}">{$balance_info.in.qty|qty_nf}</td>
+												<th title="In Qty">In [<a href="javascript:void(VENDOR_REPORT.show_balance_in_info())">?</a>]</th>
 												
 												{* Out *}
-												<td align="right" rowspan="{$count_price_type}">{$balance_info.out.qty|qty_nf}</td>
+												<th title="Out Qty">Out [<a href="javascript:void(VENDOR_REPORT.show_balance_out_info())">?</a>]</th>
 												
 												{* Closing *}
-												<td align="right" rowspan="{$count_price_type}">{$balance_info.closing.qty|qty_nf}</td>
+												<th title="Closing Qty">Closing</th>
 											{/if}
 											
-											{* AVG Selling *}
-											<td align="right" rowspan="{$count_price_type}">{$item_total_info.avg_selling|number_format:2}</td>
+											{* AVG Price *}
+											<th title="Average Selling Price">AVG Price</th>
+										</tr>
+									</thead>
+									
+									{* Loop for item sales *}
+									{assign var=count_no value=0}
+									{foreach from=$data.item_sales key=item_key item=item_sales_info name=fitem}
+										{* this item got sales in this year *}							
+										{if (!$smarty.request.group_by_sku && $from_to_info.sid_list.$item_key) || ($smarty.request.group_by_sku && $from_to_info.sku_id_list.$item_key)}
+											{assign var=item_info value=$data.item_info.$item_key.info}
+											{assign var=item_total_info value=$data.item_total.$item_key.by_year.$y}
+											{assign var=balance_info value=$from_to_info.balance_info.$item_key.total}
+											{capture assign=count_price_type}{count var=$from_to_info.item_price_type_list.$item_key}{/capture}
+											{assign var=count_no value=$count_no+1}
+											<tbody class="fs-08">
+												<tr>
+													<td rowspan="{$count_price_type}">{$count_no}.</td>
+													<td rowspan="{$count_price_type}" nowrap>
+														{$item_info.sku_item_code}
+														{if $data.item_info.$item_key.changed}<span class="not_up_to_date">*</span>{/if}
+														{if $data.item_info.$item_key.multi_vendor}<span class="got_multi_vendor">*</span>{/if}
+													</td>
+													<td rowspan="{$count_price_type}">{$item_info.sku_type|substr:0:1}</td>
+													<td rowspan="{$count_price_type}">{$item_info.artno_mcode|default:'-'}</td>
+													<td rowspan="{$count_price_type}">{$item_info.description|default:'-'}</td>
+													
+													{foreach from=$from_to_info.item_price_type_list.$item_key item=price_type name=fds}
+														{if $smarty.foreach.fds.first}
+															{* Price Type *}
+															{if $price_type eq $no_price_type}
+																<td>-</td>
+															{else}
+																<td>{$price_type}</td>
+															{/if}
+															
+															{* Opening *}
+															{if $show_balance}
+																<td align="right" rowspan="{$count_price_type}">{$balance_info.opening.qty|qty_nf}</td>
+															{/if}
+															
+															{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
+																{assign var=daily_sales value=$item_sales_info.$ym.$price_type}
+																<td align="right">
+																	{if $show_type eq 'qty'}
+																		{$daily_sales.total.$show_type|qty_nf|ifzero:'&nbsp;'}
+																	{else}
+																		{$daily_sales.total.$show_type|number_format:2|ifzero:'&nbsp;'}
+																	{/if}
+																</td>
+															{/foreach}
+															
+															{* Total Sales Qty *}
+															<td align="right" rowspan="{$count_price_type}">{$item_total_info.qty|qty_nf}</td>
+															
+															{* Total Sales Amt *}
+															<td align="right" rowspan="{$count_price_type}">{$item_total_info.amt|number_format:2}</td>
+															
+															{if $yr_is_under_gst}
+																{* Total GST Amt*}
+																<td align="right" rowspan="{$count_price_type}">{$item_total_info.gst|number_format:2}</td>
+												
+																{* Total Amount Include GST*}
+																<td align="right" rowspan="{$count_price_type}">{$item_total_info.amt_inc_gst|number_format:2}</td>
+															{/if}
+															
+															{if $show_balance}
+																{* In *}
+																<td align="right" rowspan="{$count_price_type}">{$balance_info.in.qty|qty_nf}</td>
+																
+																{* Out *}
+																<td align="right" rowspan="{$count_price_type}">{$balance_info.out.qty|qty_nf}</td>
+																
+																{* Closing *}
+																<td align="right" rowspan="{$count_price_type}">{$balance_info.closing.qty|qty_nf}</td>
+															{/if}
+															
+															{* AVG Selling *}
+															<td align="right" rowspan="{$count_price_type}">{$item_total_info.avg_selling|number_format:2}</td>
+														{/if}
+													{/foreach}
+												</tr>
+												
+											</tbody>
+											{foreach from=$from_to_info.item_price_type_list.$item_key item=price_type name=fds}
+												{if !$smarty.foreach.fds.first}
+													<tr>
+														{* Price Type *}
+														{if $price_type eq $no_price_type}
+															<td>-</td>
+														{else}
+															<td>{$price_type}</td>
+														{/if}
+														
+														{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
+															{assign var=daily_sales value=$item_sales_info.$ym.$price_type}
+															<td align="right">
+																{if $show_type eq 'qty'}
+																	{$daily_sales.total.$show_type|qty_nf|ifzero:'&nbsp;'}
+																{else}
+																	{$daily_sales.total.$show_type|number_format:2|ifzero:'&nbsp;'}
+																{/if}
+															</td>
+														{/foreach}
+													</tr>
+													
+												{/if}
+											{/foreach}
 										{/if}
 									{/foreach}
-								</tr>
-								
-								{foreach from=$from_to_info.item_price_type_list.$item_key item=price_type name=fds}
-									{if !$smarty.foreach.fds.first}
-										<tr>
-											{* Price Type *}
-											{if $price_type eq $no_price_type}
-												<td>-</td>
-											{else}
-												<td>{$price_type}</td>
-											{/if}
-											
-											{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
-												{assign var=daily_sales value=$item_sales_info.$ym.$price_type}
-												<td align="right">
-													{if $show_type eq 'qty'}
-														{$daily_sales.total.$show_type|qty_nf|ifzero:'&nbsp;'}
-													{else}
-														{$daily_sales.total.$show_type|number_format:2|ifzero:'&nbsp;'}
-													{/if}
-												</td>
-											{/foreach}
-										</tr>
+									
+									{* Total *}
+									<tr class="header">
+										{assign var=balance_info value=$from_to_info.balance_info.total.total}
+										{assign var=sales_info value=$from_to_info.group_total.sales}
 										
-									{/if}
-								{/foreach}
-							{/if}
-						{/foreach}
-						
-						{* Total *}
-						<tr class="header">
-							{assign var=balance_info value=$from_to_info.balance_info.total.total}
-							{assign var=sales_info value=$from_to_info.group_total.sales}
-							
-							<td align="right" colspan="6"><b>Total</b></td>
-							
-							{* Opening *}
-							{if $show_balance}
-								<td align="right">{$balance_info.opening.qty|qty_nf}</td>
-							{/if}
-							
-							{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
-								<td align="right">
-									{if $show_type eq 'qty'}
-										{$sales_info.$ym.$show_type|qty_nf|ifzero:'&nbsp;'}
-									{else}
-										{$sales_info.$ym.$show_type|number_format:2|ifzero:'&nbsp;'}
-									{/if}
-								</td>
-							{/foreach}
-							
-							{* Total Sales Qty *}
-							<td align="right">{$sales_info.total.qty|qty_nf}</td>
-							
-							{* Total Sales Amt *}
-							<td align="right">{$sales_info.total.amt|number_format:2}</td>
-							
-							{if $yr_is_under_gst}
-								{* Total GST Amt*}
-								<td align="right">{$sales_info.total.gst|number_format:2}</td>
-								
-								{* Total Amount Include GST*}
-								<td align="right">{$sales_info.total.amt_inc_gst|number_format:2}</td>
-							{/if}
-							
-							{if $show_balance}
-								{* In *}
-								<td align="right">{$balance_info.in.qty|qty_nf}</td>
-								
-								{* Out *}
-								<td align="right">{$balance_info.out.qty|qty_nf}</td>
-								
-								{* Closing *}
-								<td align="right">{$balance_info.closing.qty|qty_nf}</td>
-							{/if}
-							
-							{* AVG Selling *}
-							<td align="right">{$sales_info.total.avg_selling|number_format:2}</td>
-						</tr>
-					</table>
+										<td align="right" colspan="6"><b>Total</b></td>
+										
+										{* Opening *}
+										{if $show_balance}
+											<td align="right">{$balance_info.opening.qty|qty_nf}</td>
+										{/if}
+										
+										{foreach from=$from_to_info.date_info.ym_list key=ym item=ym_info}
+											<td align="right">
+												{if $show_type eq 'qty'}
+													{$sales_info.$ym.$show_type|qty_nf|ifzero:'&nbsp;'}
+												{else}
+													{$sales_info.$ym.$show_type|number_format:2|ifzero:'&nbsp;'}
+												{/if}
+											</td>
+										{/foreach}
+										
+										{* Total Sales Qty *}
+										<td align="right">{$sales_info.total.qty|qty_nf}</td>
+										
+										{* Total Sales Amt *}
+										<td align="right">{$sales_info.total.amt|number_format:2}</td>
+										
+										{if $yr_is_under_gst}
+											{* Total GST Amt*}
+											<td align="right">{$sales_info.total.gst|number_format:2}</td>
+											
+											{* Total Amount Include GST*}
+											<td align="right">{$sales_info.total.amt_inc_gst|number_format:2}</td>
+										{/if}
+										
+										{if $show_balance}
+											{* In *}
+											<td align="right">{$balance_info.in.qty|qty_nf}</td>
+											
+											{* Out *}
+											<td align="right">{$balance_info.out.qty|qty_nf}</td>
+											
+											{* Closing *}
+											<td align="right">{$balance_info.closing.qty|qty_nf}</td>
+										{/if}
+										
+										{* AVG Selling *}
+										<td align="right">{$sales_info.total.avg_selling|number_format:2}</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
 				{/if}
 			{/foreach}
 		{else}

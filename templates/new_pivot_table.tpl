@@ -125,120 +125,149 @@ function show_formula_help()
 }
 </script>
 {/literal}
-
-<h1>{$title}</h1>
-
-<br>
-<div class="stdframe" style="background:#fe9;border-color:#fc6;">
-<form>
-<b>Load Existing Pivot</b> <input type=hidden name=a value="edit">
-<select name=id>
-<option value="">-- Select a Pivot Table to modify --</option>
-{section name=i loop=$pivots}
-<option value={$pivots[i].id}>{$pivots[i].title}</option>
-{/section}
-</select>
-<input type=submit value="Load">
-<input type=button value="New Table" onclick="document.location='{$smarty.server.PHP_SELF}?a=new'">
-<input type=button value="Delete Selected" onclick="if (confirm('Are you sure?')) document.location='{$smarty.server.PHP_SELF}?a=delete&id='+form.id.value">
-</form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
 </div>
-<br>
-<div class="stdframe" style="background:#fff">
-<form id=fa style="padding:5px 0">
-	<input name=id type=hidden value="{$form.id|default:0}">
-	<b>Name the table</b> <input name=title size=50 maxlength=50 value="{$form.title|default:'Pivot Table'}"> 
-	<b>Report Grouping</b> 
-		<input type=radio name=rpt_group value='Sales' {if $form.rpt_group eq 'Sales'}checked{/if}> Sales 
-		<input type=radio name=rpt_group value='Officer' {if $form.rpt_group eq 'Officer'}checked{/if}> Officer 
-		<input type=radio name=rpt_group value='Management' {if $form.rpt_group eq 'Management'}checked{/if}> Management
-	<br>
-	<input type=button value="Save" onclick="save_table()">
-	<input id=save_as type=button value="Save As" onclick="save_new_table()" {if $form.id==0}style="display:none"{/if}>
-	<input id="previewbtn" type=button value="Preview Pivot" onclick="preview_table()">
-</form>
-<hr noshade size=1>
-<table border=0 cellpadding=0 cellspacing=5><tr>
-<td valign=top>
-	<div id=droptarget>
-	<table cellspacing=4 cellpadding=0>
-	<tr>
-		<td style="border:1px solid #999;">
-		    <div id=drop_pg style="width:150px;height:50px;background:url(images/pv_page.jpg);">
-		    <ul id=l_pg class="droplist">
-	{foreach name=i from=$form.l_pg item=ll}
-			<li id="{$ll}">{$ll}</li>
-	{/foreach}
-			</ul>
-			</div>
-		</td>
 
-	</tr>
-	<tr>
-		<td id=drop_delete align=center style="border:1px solid #999;">
-		<font color=red>-drop here to remove-</font>
-		</td>
-		<td style="border:1px solid #999;">
-			<div id=drop_col style="width:300px; height:100px;background:url(images/pv_col.jpg);">
-			<ul id=l_cols class="droplist">
-	{foreach name=i from=$form.l_cols item=ll}
-			<li id="{$ll}">{$ll}</li>
-	{/foreach}
-			</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<form>
+			<b class="form-label">Load Existing Pivot</b> <input class="form-control" type=hidden name=a value="edit">
+			<select class="form-control" name=id>
+			<option value="">-- Select a Pivot Table to modify --</option>
+			{section name=i loop=$pivots}
+			<option value={$pivots[i].id}>{$pivots[i].title}</option>
+			{/section}
+			</select>
+			<input type=submit class="btn btn-info mt-2" value="Load">
+			<input type=button class="btn btn-primary mt-2" value="New Table" onclick="document.location='{$smarty.server.PHP_SELF}?a=new'">
+			<input type=button class="btn btn-danger mt-2" value="Delete Selected" onclick="if (confirm('Are you sure?')) document.location='{$smarty.server.PHP_SELF}?a=delete&id='+form.id.value">
+			</form>
 			</div>
-		</td>
-	</tr><tr>
-		<td style="border:1px solid #999;">
-		    <div id=drop_row style="width:150px; height:350px;background:url(images/pv_row.jpg);">
-			<ul id=l_rows class="droplist">
-	{foreach name=i from=$form.l_rows item=ll}
-			<li id="{$ll}">{$ll}</li>
-	{/foreach}
-			</ul>
-			</div>
-		</td>
-		<td style="border:1px solid #999;">
-		    <div id=drop_data style="width:300px; height:350px;background:url(images/pv_data.jpg);">
-	  		<ul id=l_data class="droplist">
-	{foreach name=i from=$form.l_data item=ll}
-			<li id="{$ll}">{$ll}</li>
-	{/foreach}
-			</ul>
-			</div>
-		</td>
-	</tr>
-	</table>
 	</div>
+</div>
 
-	<div id=preview style="width:452px; height:510px; overflow:scroll; padding:5px; border:2px solid black; display:none;">
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<form id=fa style="padding:5px 0">
+				<div class="row">
+				<div class="col">
+					<input name=id type=hidden value="{$form.id|default:0}">
+					<b class="form-label">Name the table</b> 
+					<input class="form-control" name=title size=50 maxlength=50 value="{$form.title|default:'Pivot Table'}"> 
+				</div>
+				<div class="col">
+					<b class="form-label">Report Grouping</b> 
+					<div class="mt-3">
+						<input type=radio name=rpt_group value='Sales' {if $form.rpt_group eq 'Sales'}checked{/if}> Sales 
+					<input type=radio name=rpt_group value='Officer' {if $form.rpt_group eq 'Officer'}checked{/if}> Officer 
+					<input type=radio name=rpt_group value='Management' {if $form.rpt_group eq 'Management'}checked{/if}> Management
+					</div>
+				</div>
+				
+				<div class="col">
+					<input type=button class="btn btn-primary mt-4" value="Save" onclick="save_table()">
+				<input id=save_as class="btn btn-primary mt-4" type=button value="Save As" onclick="save_new_table()" {if $form.id==0}style="display:none"{/if}>
+				<input id="previewbtn" class="btn btn-info mt-4" type=button value="Preview Pivot" onclick="preview_table()">
+				</div>
+				</div>
+			</form>
+			
+			<table class=" table mb-0 text-md-nowrap  table-hover"><tr>
+			<td valign=top>
+				<div id=droptarget>
+				<table cellspacing=4 cellpadding=0>
+				<tr>
+					<td style="border:1px solid #999;">
+						<div id=drop_pg style="width:150px;height:50px;background:url(images/pv_page.jpg);">
+						<ul id=l_pg class="droplist">
+				{foreach name=i from=$form.l_pg item=ll}
+						<li id="{$ll}">{$ll}</li>
+				{/foreach}
+						</ul>
+						</div>
+					</td>
+			
+				</tr>
+				<tr>
+					<td id=drop_delete align=center style="border:1px solid #999;">
+					<font color=red>-drop here to remove-</font>
+					</td>
+					<td style="border:1px solid #999;">
+						<div id=drop_col style="width:300px; height:100px;background:url(images/pv_col.jpg);">
+						<ul id=l_cols class="droplist">
+				{foreach name=i from=$form.l_cols item=ll}
+						<li id="{$ll}">{$ll}</li>
+				{/foreach}
+						</ul>
+						</div>
+					</td>
+				</tr><tr>
+					<td style="border:1px solid #999;">
+						<div id=drop_row style="width:150px; height:350px;background:url(images/pv_row.jpg);">
+						<ul id=l_rows class="droplist">
+				{foreach name=i from=$form.l_rows item=ll}
+						<li id="{$ll}">{$ll}</li>
+				{/foreach}
+						</ul>
+						</div>
+					</td>
+					<td style="border:1px solid #999;">
+						<div id=drop_data style="width:300px; height:350px;background:url(images/pv_data.jpg);">
+						  <ul id=l_data class="droplist">
+				{foreach name=i from=$form.l_data item=ll}
+						<li id="{$ll}">{$ll}</li>
+				{/foreach}
+						</ul>
+						</div>
+					</td>
+				</tr>
+				</table>
+				</div>
+			
+				<div id=preview style="width:452px; height:510px; overflow:scroll; padding:5px; border:2px solid black; display:none;">
+				</div>
+			
+			</td><td valign=top>
+			<!--- the field window -->
+			<h4 class="form-label">Fields</h4>
+			<div class="alert alert-primary" style="max-width: 300px;">
+				Drag a field into the table on your left
+			</div>
+			
+			<ul class="dragable" id=fields style="padding:2px;">
+			{foreach from=$fields item=field}
+			<li id="f[{$field}]" style="float:left; width:100px; cursor:pointer; " onmouseover="this.style.background='#d6e0ff'" onmouseout="this.style.background='#fff'">{$field}</li>
+			{/foreach}
+			</ul>
+			
+			<br style="clear:both">
+			<p align=center>
+			<div class="form-inline">
+				<b class="form-label">
+					Data Formula:&nbsp;
+				</b> <select class="form-control" id=newdata_type>
+				<option value="SUM">Sum</option>
+				<option value="COUNT">Count</option>
+				<option value="UNIQUE">Unique Count</option>
+				<option value="MIN">Min</option>
+				<option value="MAX">Max</option>
+				<option value="AVG">Average</option>
+				</select>&nbsp; [<a href="javascript:void(show_formula_help())">Help</a>]
+			</div>
+			</p>
+			
+			</td>
+			</tr></table>
+			
+			</div>
 	</div>
-
-</td><td valign=top>
-<!--- the field window -->
-<h4>Fields</h4>
-Drag a field into the table on your left<br>
-
-<ul class="dragable" id=fields style="padding:2px;">
-{foreach from=$fields item=field}
-<li id="f[{$field}]" style="float:left; width:100px; cursor:pointer; " onmouseover="this.style.background='#cf9'" onmouseout="this.style.background='#fff'">{$field}</li>
-{/foreach}
-</ul>
-
-<br style="clear:both">
-<p align=center>
-Data Formula: <select id=newdata_type>
-<option value="SUM">Sum</option>
-<option value="COUNT">Count</option>
-<option value="UNIQUE">Unique Count</option>
-<option value="MIN">Min</option>
-<option value="MAX">Max</option>
-<option value="AVG">Average</option>
-</select> [<a href="javascript:void(show_formula_help())">Help</a>]
-</p>
-
-</td>
-</tr></table>
-
 </div>
 
 <br><br>

@@ -200,9 +200,9 @@ var DEVICE_SETUP_POPUP = {
 		
 		$('div_device_details_dialog_content').update(_loading_);
 		
-		curtain(true);
-		center_div($('div_device_details_dialog').show());
-		
+		//curtain(true);
+		//center_div($('div_device_details_dialog').show());
+		jQuery('#div_device_details_dialog').modal('show');
 		new Ajax.Request(phpself, {
 			method: 'post',
 			parameters: params,
@@ -314,28 +314,43 @@ var DEVICE_SETUP_POPUP = {
 }
 {/literal}
 </script>
-
-<div id="div_device_details_dialog" class="curtain_popup" style="position:absolute;z-index:10005;width:650px;height:400px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_device_details_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Device Information</span>
-		<span style="float:right;">
-			{*<img src="/ui/closewin.png" align="absmiddle" onClick="DEVICE_SETUP_POPUP.close();" class="clickable"/>*}
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_device_details_dialog_content" style="padding:2px;">
+<div class="modal"  id="div_device_details_dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_device_details_dialog_header">
+                <h6 class="modal-title text-white">Device Information</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+            </div>
+			<div style="clear:both;"></div>
+			<div class="modal-body">
+                <div id="div_device_details_dialog_content" style="padding:2px;">
 		
-	</div>
+				</div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
 
-<ul>
-	{if $sessioninfo.id eq 1}
-		<li>
-			<a href="javascript:void(DEVICE_SETUP.add_device())" /><img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add Device</a>
-		</li>
-	{/if}
-</ul>
+
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			{if $sessioninfo.id eq 1}
+				<li>
+					<a href="javascript:void(DEVICE_SETUP.add_device())" /><img src="ui/new.png" title="New" align="absmiddle" border="0" /> Add Device</a>
+				</li>
+			{/if}
+		</ul>
+	</div>
+</div>
 
 <div id="div_reload_device_list" style="height:20px;"></div>
 <div id="div_table" class="stdframe">
