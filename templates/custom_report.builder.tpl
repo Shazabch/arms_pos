@@ -181,21 +181,35 @@ function curtain_clicked(){
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if isset($smarty.request.t)}
-	{if $smarty.request.t eq 'save'}
+	<div class="card mx-3">
+		<div class="card-body">
+			{if $smarty.request.t eq 'save'}
 		<img src="/ui/approved.png" align="absmiddle"> Report ID#{$smarty.request.id} saved.<br>
 	{elseif $smarty.request.t eq 'delete'}
 		<img src="/ui/cancel.png" align="absmiddle"> Report ID#{$smarty.request.id} was deleted.<br>
 	{/if}
 	<br />
+		</div>
+	</div>
 {/if}
 
 <br/>
-<p><a href="?a=open"><img src="ui/icons/page_add.png" align="absmiddle" border="0" /> Create New Report</a></p>
+<div class="card mx-3">
+	<div class="card-body">
+		<p><a href="?a=open"><img src="ui/icons/page_add.png" align="absmiddle" border="0" /> Create New Report</a></p>
 <p><a href="#" onclick="REPORT_BUILDER.edit_age_group_clicked();"><img src="ui/ed.png" align="absmiddle" border="0" /> Age Group Settings</a><p>
 
+	</div>
+</div>
 <div id="wait_popup" style="display:none;position:absolute;z-index:10000;background:#fff;border:1px solid #000;padding:5px;width:200;height:100">
 <p align="center">
 	Please wait..
@@ -208,42 +222,52 @@ function curtain_clicked(){
 {include file="custom_report.age_group_settings.tpl"}
 </div>
 <div id="div_report_table">
-<table width="100%" class="report_table">
-	<tr class="header">
-		<th width="40">&nbsp;&nbsp;</th>
-		<th>Report Title</th>
-		<th>Group</th>
-		<th>Owner</th>
-		<th>Added</th>
-		<th>Last Update</th>
-	</tr>
-	
-	{foreach from=$report_list item=r}
-		<tr>
-			<td>
-				{if $r.control_type eq '2'}
-					<a href="?a=open&id={$r.id}"><img src="ui/ed.png" border="0" title="Edit" /></a>
-					{if $r.active}
-						<a href="javascript:void(REPORT_BUILDER.active_clicked({$r.id}, 0));"><img src="ui/deact.png" title="Deactivate this Report" border="0"></a>
-					{else}
-						<a href="javascript:void(REPORT_BUILDER.active_clicked({$r.id}, 1));"><img src="ui/act.png" title="Activate this Report" border="0"></a>
-						<br /><span class="small">(inactive)</span>
-					{/if}
-				{else}
-					<a href="?a=view&id={$r.id}"><img src="ui/view.png" border="0" title="View" /></a>
-				{/if}
-			</td>
-			<td>{$r.report_title|default:'-'}</td>
-			<td>{$r.report_group|default:'-'}</td>
-			<td>{$r.username|default:'-'}</td>
-			<td align="center">{$r.added}</td>
-			<td align="center">{$r.last_update}</td>
-		</tr>
-	{foreachelse}
-		<tr>
-			<td colspan="6">* No Data *</td>
-		</tr>
-	{/foreach}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover">
+				<thead class="bg-gray-100" style="height: 25px;">
+					<tr class="header">
+						<th width="40">&nbsp;&nbsp;</th>
+						<th>Report Title</th>
+						<th>Group</th>
+						<th>Owner</th>
+						<th>Added</th>
+						<th>Last Update</th>
+					</tr>
+				</thead>
+				
+				{foreach from=$report_list item=r}
+					<tbody class="fs-08">
+						<tr>
+							<td>
+								{if $r.control_type eq '2'}
+									<a href="?a=open&id={$r.id}"><img src="ui/ed.png" border="0" title="Edit" /></a>
+									{if $r.active}
+										<a href="javascript:void(REPORT_BUILDER.active_clicked({$r.id}, 0));"><img src="ui/deact.png" title="Deactivate this Report" border="0"></a>
+									{else}
+										<a href="javascript:void(REPORT_BUILDER.active_clicked({$r.id}, 1));"><img src="ui/act.png" title="Activate this Report" border="0"></a>
+										<br /><span class="small">(inactive)</span>
+									{/if}
+								{else}
+									<a href="?a=view&id={$r.id}"><img src="ui/view.png" border="0" title="View" /></a>
+								{/if}
+							</td>
+							<td>{$r.report_title|default:'-'}</td>
+							<td>{$r.report_group|default:'-'}</td>
+							<td>{$r.username|default:'-'}</td>
+							<td align="center">{$r.added}</td>
+							<td align="center">{$r.last_update}</td>
+						</tr>
+					</tbody>
+				{foreachelse}
+					<tr>
+						<td colspan="6">* No Data *</td>
+					</tr>
+				{/foreach}
+			</table>
+		</div>
+	</div>
+</div>
 </div>
 {include file="footer.tpl"}

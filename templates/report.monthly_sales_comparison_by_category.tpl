@@ -124,95 +124,123 @@ option.bg_item{
 </style>
 {/literal}
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form name=f method=post class=form>
-<input type=hidden name=report_title value="{$report_title}">
-<b>Year</b> 
-{dropdown name=year values=$years selected=$smarty.request.year key=year value=year}&nbsp;&nbsp;&nbsp;&nbsp; 
-<b>Month</b>
-{*dropdown name=month values=$months is_assoc=1 selected=$smarty.request.month*}
-<select name="month">
-	{foreach from=$months key=k item=r}
-    <option value="{$k}" {if $smarty.request.month eq $k}selected{/if}>{$r}</option>
-  {/foreach}
-  </select>
-
- &nbsp;&nbsp;&nbsp;&nbsp;
-
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> 
-	<select name="branch_id">
-	    <option value="">-- All --</option>
-	    {foreach from=$branches item=b}
-		
-			{if $config.sales_report_branches_exclude}
-			{if in_array($b.code,$config.sales_report_branches_exclude)}
-			{assign var=skip_this_branch value=1}
-			{else}
-			{assign var=skip_this_branch value=0}
-			{/if}
-			{/if}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name=f method=post class=form>
+			<input type=hidden name=report_title value="{$report_title}">
 			
-	        {if !$branch_group.have_group[$b.id] and !$skip_this_branch}
-				<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code} - {$b.description}</option>
-	        {/if}
-	        
-	    {/foreach}
-	    {if $branch_group.header}
-	        <optgroup label="Branch Group">
-				{foreach from=$branch_group.header key=bgid item=bg}
-		    	    <option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-		    	    {foreach from=$branch_group.items.$bgid item=r}
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Year</b> 
+			{dropdown name=year values=$years selected=$smarty.request.year key=year value=year}&nbsp;&nbsp;&nbsp;&nbsp; 
+			
+				</div>
+			
+				<div class="col">
+					<b class="form-label">Month</b>
+			{*dropdown name=month values=$months is_assoc=1 selected=$smarty.request.month*}
+			<select class="form-control" name="month">
+				{foreach from=$months key=k item=r}
+				<option value="{$k}" {if $smarty.request.month eq $k}selected{/if}>{$r}</option>
+			  {/foreach}
+			  </select>
+				</div>
+		
+			<div class="col">
+				{if $BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Branch</b> 
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+					
 						{if $config.sales_report_branches_exclude}
-						{if in_array($r.code,$config.sales_report_branches_exclude)}
+						{if in_array($b.code,$config.sales_report_branches_exclude)}
 						{assign var=skip_this_branch value=1}
 						{else}
 						{assign var=skip_this_branch value=0}
 						{/if}
 						{/if}
-						{if !$skip_this_branch}
-		    	        <option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+						
+						{if !$branch_group.have_group[$b.id] and !$skip_this_branch}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code} - {$b.description}</option>
 						{/if}
-		    	    {/foreach}
-		    	{/foreach}
-			</optgroup>
-		{/if}
-	</select>
-<br>
-{else}
-<br>
-{/if}
-<b>Department</b>
-<input type="checkbox" onclick="toggle_dept(this);" id=dept_all> All<br>
-<div id="department_option">
-{foreach from=$departments item=dept}
-<div style="float:left;"><input type=checkbox name=department_id[] value={$dept.id} {if $smarty.request.department_id}{if in_array($dept.id,$smarty.request.department_id)}checked{/if}{/if} onclick="toggle_dept()"> {$dept.description}</div>
-{/foreach}
+						
+					{/foreach}
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+								{foreach from=$branch_group.items.$bgid item=r}
+									{if $config.sales_report_branches_exclude}
+									{if in_array($r.code,$config.sales_report_branches_exclude)}
+									{assign var=skip_this_branch value=1}
+									{else}
+									{assign var=skip_this_branch value=0}
+									{/if}
+									{/if}
+									{if !$skip_this_branch}
+									<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+									{/if}
+								{/foreach}
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+			{else}
+			<br>
+			{/if}
+			</div>
+			</div>
+
+			<b class="form-label">Department</b>
+			<input type="checkbox" onclick="toggle_dept(this);" id=dept_all> All<br>
+			<div id="department_option">
+			{foreach from=$departments item=dept}
+			<div style="float:left;">&nbsp;<input type=checkbox name=department_id[] value={$dept.id} {if $smarty.request.department_id}{if in_array($dept.id,$smarty.request.department_id)}checked{/if}{/if} onclick="toggle_dept()">&nbsp;{$dept.description}</div>
+			{/foreach}
+			</div>
+			<br>
+			<br style="clear:both;">
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name=output_excel>{#OUTPUT_EXCEL#}</button>
+			{/if}
+			<br><div class="alert alert-primary rounded mt-2" style="max-width: 320px;">
+				Note: Report Maximum Shown 24 Months
+			</div>
+			</form>
+	</div>
 </div>
-<br style="clear:both;">
-<input type=hidden name=submit value=1>
-<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name=output_excel>{#OUTPUT_EXCEL#}</button>
-{/if}
-<br>Note: Report Maximum Shown 24 Months
-</form>
 {/if}
 {if !$data}
 {if $smarty.request.submit && !$err}<p align=center>-- No data --</p>{/if}
 {else}
-<h2>
-{$report_title}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$report_title}
 <!--Year: {$smarty.request.year} &nbsp;&nbsp;&nbsp;&nbsp;
 Month: {$months[$smarty.request.month]} &nbsp;&nbsp;&nbsp;&nbsp;
 Branch: {$branch_code} &nbsp;&nbsp;&nbsp;&nbsp;
@@ -223,78 +251,90 @@ Department:
 {if $c ne 1} , {/if}{assign var=c value=2}
 {$dept.description} {/if}{/if}
 {/foreach}-->
-</h2>
-<table class="report_table small_printing" width=100% cellpadding=0 cellspacing=0>
-<tr class=header>
-	<th rowspan=2>Month</th>
-	{foreach from=$data key=year item=r}
-	<th colspan=4>{$year}</th>
-	{/foreach}
-</tr>
-<tr class=header>
-	{foreach from=$data key=year item=r}
-		<th>Amount</th>
-		<th>Target</th>
-		<th>Var Amt</th>
-		<th>Var %</th>
-	{/foreach}
-</tr>
-{foreach from=$mth item=month}
-	<tbody id="r_{$month}">
-	<tr class=cmth>
-	<td > {if !$no_header_footer}<img src="/ui/expand.gif" onclick="load_child({$month},this, 1);" align=absmiddle>{/if} {$month|str_month}</td>
-	{foreach from=$data key=year item=r}
-		{if $ttl_month.$year.$month > 0}
-		{assign var=var_v value=$ttl_month.$year.$month-$sales_target.$year.$month}
-		{assign var=var_p value=$var_v/$sales_target.$year.$month*100}
-		{else}
-		{assign var=var_v value=0}
-		{assign var=var_p value=0}
-		{/if}
-		<td align=right>{$ttl_month.$year.$month|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$sales_target.$year.$month|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
-	{/foreach}
-	</tr>
-	
-	{foreach from=$ttl_sku_type key=sku_type item=ttl}
-	<tr class="c{$sku_type|lower}">
-	<td>{$sku_type}</td>
-	{foreach from=$data key=year item=r}
-		{if $ttl.$year.$month > 0}
-		{assign var=var_v value=$ttl.$year.$month-$sales_target_sku_type.$sku_type.$year.$month}
-		{assign var=var_p value=$var_v/$sales_target_sku_type.$sku_type.$year.$month*100}
-		{else}
-		{assign var=var_v value=0}
-		{assign var=var_p value=0}
-		{/if}
-		<td align=right>{$ttl.$year.$month|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$sales_target_sku_type.$sku_type.$year.$month|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
-	{/foreach}
-	</tr>
-	{/foreach}
-	</tbody>
-{/foreach}
-	<tr>
-		<td>Total</td>
-		{foreach from=$data key=year item=r}
-		{if $total_sales.$year > 0}
-			{assign var=var_v value=$total_sales.$year-$total_sales_target.$year}
-			{assign var=var_p value=$var_v/$total_sales_target.$year*100}
-		{else}
-			{assign var=var_v value=0}
-			{assign var=var_p value=0}
-		{/if}
-		<td align=right>{$total_sales.$year|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$total_sales_target.$year|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
-		<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
-		{/foreach}
-	</tr>
-</table>
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table small_printing table mb-0 text-md-nowrap  table-hover" width=100% cellpadding=0 cellspacing=0>
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th rowspan=2>Month</th>
+						{foreach from=$data key=year item=r}
+						<th colspan=4>{$year}</th>
+						{/foreach}
+					</tr>
+					<tr class=header>
+						{foreach from=$data key=year item=r}
+							<th>Amount</th>
+							<th>Target</th>
+							<th>Var Amt</th>
+							<th>Var %</th>
+						{/foreach}
+					</tr>
+				</thead>
+				{foreach from=$mth item=month}
+					<tbody class="fs-08" id="r_{$month}">
+					<tr class=cmth>
+					<td > {if !$no_header_footer}<img src="/ui/expand.gif" onclick="load_child({$month},this, 1);" align=absmiddle>{/if} {$month|str_month}</td>
+					{foreach from=$data key=year item=r}
+						{if $ttl_month.$year.$month > 0}
+						{assign var=var_v value=$ttl_month.$year.$month-$sales_target.$year.$month}
+						{assign var=var_p value=$var_v/$sales_target.$year.$month*100}
+						{else}
+						{assign var=var_v value=0}
+						{assign var=var_p value=0}
+						{/if}
+						<td align=right>{$ttl_month.$year.$month|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$sales_target.$year.$month|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
+					{/foreach}
+					</tr>
+					
+					{foreach from=$ttl_sku_type key=sku_type item=ttl}
+					<tr class="c{$sku_type|lower}">
+					<td>{$sku_type}</td>
+					{foreach from=$data key=year item=r}
+						{if $ttl.$year.$month > 0}
+						{assign var=var_v value=$ttl.$year.$month-$sales_target_sku_type.$sku_type.$year.$month}
+						{assign var=var_p value=$var_v/$sales_target_sku_type.$sku_type.$year.$month*100}
+						{else}
+						{assign var=var_v value=0}
+						{assign var=var_p value=0}
+						{/if}
+						<td align=right>{$ttl.$year.$month|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$sales_target_sku_type.$sku_type.$year.$month|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
+					{/foreach}
+					</tr>
+					{/foreach}
+					</tbody>
+				{/foreach}
+					<tr>
+						<td>Total</td>
+						{foreach from=$data key=year item=r}
+						{if $total_sales.$year > 0}
+							{assign var=var_v value=$total_sales.$year-$total_sales_target.$year}
+							{assign var=var_p value=$var_v/$total_sales_target.$year*100}
+						{else}
+							{assign var=var_v value=0}
+							{assign var=var_p value=0}
+						{/if}
+						<td align=right>{$total_sales.$year|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$total_sales_target.$year|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_v|number_format:2|ifzero:"-"}</td>
+						<td align=right>{$var_p|number_format:2|ifzero:"-":'%'}</td>
+						{/foreach}
+					</tr>
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 {if !$no_header_footer}
 <script>toggle_dept();</script>

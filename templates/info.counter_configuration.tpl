@@ -99,38 +99,56 @@ var COUNTER_CONFIGURATION_INFO_MODULE = {
 </script>
 {/literal}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<div>
-	<form name="f_a" onSubmit="return false;">
-		<input type="hidden" name="a" value="ajax_reload_counter_configuration_list" />
-		
-		{if $BRANCH_CODE eq "HQ"}
-			<span>
-				<b>Branch:</b>
-				<select name="branch_id" onchange="COUNTER_CONFIGURATION_INFO_MODULE.ajax_reload_counter_list(this);">
-					<option value="" selected>-- Please Select --</option>
-					{foreach from=$branch_list key=bid item=r}
-						<option value="{$bid}">{$r.code}</option>
-					{/foreach}
-				</select>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-			</span>
-		{else}
-			<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-		{/if}
-		
-		<span id="counter_list">
-			{include file="info.counter_configuration.counters.tpl"}
-		</span>
-		
-		<input id="inp_reload_cc" type="button" value="Search" onClick="COUNTER_CONFIGURATION_INFO_MODULE.reload_counter_configuration_list();" />
-		
-		<p>
-			<b>Note: Requires Counter Version 203 and above in order to view the info.</b>
-		</p>
-	</form>
-	<span id="span_loading_cc_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+<div class="card mx-3">
+	<div class="card-body">
+		<div>
+			<form name="f_a" onSubmit="return false;">
+				<input type="hidden" name="a" value="ajax_reload_counter_configuration_list" />
+				
+				<div class="row">
+					<div class="col">
+						{if $BRANCH_CODE eq "HQ"}
+					<span>
+						<b class="form-label">Branch:</b>
+						<select class="form-control" name="branch_id" onchange="COUNTER_CONFIGURATION_INFO_MODULE.ajax_reload_counter_list(this);">
+							<option value="" selected>-- Please Select --</option>
+							{foreach from=$branch_list key=bid item=r}
+								<option value="{$bid}">{$r.code}</option>
+							{/foreach}
+						</select>
+						
+					</span>
+				{else}
+					<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+				{/if}
+					</div>
+				
+				<div class="col">
+					<span id="counter_list">
+						{include file="info.counter_configuration.counters.tpl"}
+					</span>
+				</div>
+				</div>
+				
+				<input id="inp_reload_cc" class="btn btn-primary" type="button" value="Search" onClick="COUNTER_CONFIGURATION_INFO_MODULE.reload_counter_configuration_list();" />
+				
+				<p>
+					<div class="alert alert-primary rounded mt-2" style="max-width: 300px;">
+						<b>Note: Requires Counter Version 203 and above in order to view the info.</b>
+					</div>
+				</p>
+			</form>
+			<span id="span_loading_cc_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
+		</div>
+	</div>
 </div>
 
 <div id="div_cc_list">

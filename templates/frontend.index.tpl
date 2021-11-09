@@ -243,13 +243,24 @@ unset_counter_status = function(cid){
 	</div>
 	<div id="div_counter_details_content" style="overflow-x:hidden;overflow-y:auto;max-height:87%;"></div>
 </div>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Counters Setup</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Counters Setup</h1>
-
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Counter</a>(Alt+A)</div><br>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd Counter</a>(Alt+A)</div><br>
+</div>
 
 <div id="div_table" class="stdframe">
-{include file='frontend.table.tpl'}
+<div class="card mx-3">
+	<div class="card-body">
+		{include file='frontend.table.tpl'}
+	</div>
+</div>
 </div>
 
 {include file=footer.tpl}

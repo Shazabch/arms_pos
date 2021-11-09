@@ -265,158 +265,208 @@ function change_stock_take_type(clicked_sel){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method=post class=form name="f_a" onSubmit="return check_form();">
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name="f_a" onSubmit="return check_form();">
 
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b> <select name="branch_id" onchange="change_branch();">
-	<option value="">-- Please Select --</option>
-	    {foreach from=$branches item=b}
-	        {if !$branch_group.have_group[$b.id]}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	        {/if}
-	    {/foreach}
-	    {if $branch_group.header}
-	        {foreach from=$branch_group.header key=bgid item=r}
-	        <optgroup label="{$r.code}">
-				{foreach from=$branch_group.items.$bgid key=bid item=b}
-				<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/foreach}
-			</optgroup>
-			{/foreach}
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-	<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
-{/if}
-
-<input type="radio" name="stock_take_type" value="1" {if $smarty.request.stock_take_type eq 1 || !$smarty.request.show_report}checked {/if} onclick="load_location();" />
-<b>Use Real Stock Take</b>
-<span id="span_st_date">
-	{include file='report.stock_take_variance.date_sel.tpl' date_list=$date}
-</span>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input type="radio" name="stock_take_type" value="2" {if $smarty.request.stock_take_type eq 2}checked {/if} onclick="load_location();" />
-<b>Use Pre Stock Take</b>
-<span id="span_pre_st_date">
-	{include file='report.stock_take_variance.date_sel.tpl' date_list=$pre_date sel_name='pre_date'}
-</span>&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-
-<p>
-	<span>
-	<b>SKU with</b>
-	<select name="sku_with" onChange="change_sku_with();">
-		<option value="show_all_sku" {if $smarty.request.sku_with eq 'show_all_sku'}selected {/if}>Show All Item</option>
-		<option value="sb" {if $smarty.request.sku_with eq 'sb' or !$smarty.request.sku_with}selected {/if}>Stock Take or Stock Balance</option>
-		<option value="sc" {if $smarty.request.sku_with eq 'sc'}selected {/if}>Only Stock Take Item</option>
-	</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="row">
+				<div class="col-md-4">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch</b> 
+					<select class="form-control" name="branch_id" onchange="change_branch();">
+					<option value="">-- Please Select --</option>
+						{foreach from=$branches item=b}
+							{if !$branch_group.have_group[$b.id]}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+						{if $branch_group.header}
+							{foreach from=$branch_group.header key=bgid item=r}
+							<optgroup label="{$r.code}">
+								{foreach from=$branch_group.items.$bgid key=bid item=b}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+								{/foreach}
+							</optgroup>
+							{/foreach}
+						{/if}
+					</select>
+				{else}
+					<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
+				{/if}
+				</div>
+				
+				<div class="col-md-4">
+					<div class="form-label">
+						<input type="radio" name="stock_take_type" value="1" {if $smarty.request.stock_take_type eq 1 || !$smarty.request.show_report}checked {/if} onclick="load_location();" />
+				<b>&nbsp;Use Real Stock Take</b>
+					</div>
+				<span id="span_st_date">
+					{include file='report.stock_take_variance.date_sel.tpl' date_list=$date}
+				</span>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="form-label">
+						<input type="radio" name="stock_take_type" value="2" {if $smarty.request.stock_take_type eq 2}checked {/if} onclick="load_location();" />
+				<b>&nbsp;Use Pre Stock Take</b>
+				</div>
 	
-	<span id="span_location" {if $smarty.request.sku_with ne 'sc'}style="display:none;"{/if}>
-		{include file='report.stock_take_variance.location.tpl'}
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<span id="span_shelf_no" {if $smarty.request.sku_with ne 'sc'}style="display:none;"{/if}>
-		{include file='report.stock_take_variance.shelf_no.tpl'}
-	</span>
-</p>
+				<span id="span_pre_st_date">
+					{include file='report.stock_take_variance.date_sel.tpl' date_list=$pre_date sel_name='pre_date'}
+				</span>
+				</div>
+			</div>
 
-<p>
-	<span>
-		<b>Vendor</b>
-		<select name="vendor_id">
-			<option value="">-- All --</option>
-			{foreach from=$vendor key=vendor_id item=r}
-				<option value="{$vendor_id}" {if $smarty.request.vendor_id eq $vendor_id}selected {/if}>{$r.description}</option>
-			{/foreach}
-		</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<span>
-		<b>Brand</b>
-		<select name="brand_id">
-			<option value="">-- All --</option>
-			<option value="-1" {if $smarty.request.brand_id eq -1}selected {/if}>UN-BRANDED</option>
-			{foreach from=$brands_list key=brand_id item=r}
-				<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
-			{/foreach}
-		</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-
-<p>
-<span>
-<b>Department</b>
-<select name="dept_id" onChange="dept_changed();">
-	<option value="">-- All --</option>
-{foreach from=$departments item=r}
-	<option value="{$r.id}" {if $smarty.request.dept_id eq $r.id}selected {/if}>{$r.description}</option>
-{/foreach}
-</select>
-</span>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<span>
-<b>SKU Type</b>
-<select name="sku_type">
-	<option value="">-- All --</option>
-	{foreach from=$sku_type item=r}
-	    <option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
-	{/foreach}
-</select>
-</span>&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-<b>Sort by</b>
-<select name="sort_by" onChange="change_sort_by(this);">
-	<option value="">--</option>
-	<option value="si.sku_item_code" {if $smarty.request.sort_by eq 'si.sku_item_code'}selected {/if}>ARMS Code</option>
-    <option value="si.artno" {if $smarty.request.sort_by eq 'si.artno'}selected {/if}>Art No</option>
-    <option value="si.mcode" {if $smarty.request.sort_by eq 'si.mcode'}selected {/if}>MCode</option>
-    <option value="si.link_code" {if $smarty.request.sort_by eq 'si.link_code'}selected {/if}>{$config.link_code_name}</option>
-    {*<option value="linkcode" {if $smarty.request.sort_by eq 'linkcode'}selected {/if}>CM Code</option>*}
-    <option value="si.description" {if $smarty.request.sort_by eq 'si.description'}selected {/if}>Description</option>
-    <option value="dept.description" {if $smarty.request.sort_by eq 'dept.description'}selected {/if}>Department</option>
-</select>
-<span id="span_sort_order" style="display:none;">
-<select name="sort_order">
-	<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
-	<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
-</select>
-</span>
-</p>
-
-<input type=hidden name=subm value=1>
-<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-
-<span id="span_group_by_sku" style="{if !$smarty.request.dept_id}display:none;{/if}">
-	<input type="checkbox" name="group_by_sku" id="inp_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> 
-	<label for="inp_group_by_sku"><b>Group by SKU</b></label>
-</span>
-
-
-<input type="checkbox" name="skip_zero_variance" id="skip_zero_variance" {if $smarty.request.skip_zero_variance}checked {/if}> <b>Skip Zero Variance</b>
-&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-<span id="show_auto_fill_zero_item_span" {if $smarty.request.stock_take_type eq 2}style="display:none;"{/if}>&nbsp;&nbsp;
-<input type="checkbox" id="show_auto_fill_zero_item" name="show_auto_fill_zero_item" {if $smarty.request.stock_take_type eq 2}disabled{/if} value="1" {if $smarty.request.show_auto_fill_zero_item}checked {/if}> <b>Show auto fill zero item</b>
-</span>
-</form>
+			</p>
+			
+			<div class="row">
+				
+				<div class="col-md-4">
+					<span>
+						<b class="form-label">SKU with</b>
+						<select class="form-control" name="sku_with" onChange="change_sku_with();">
+							<option value="show_all_sku" {if $smarty.request.sku_with eq 'show_all_sku'}selected {/if}>Show All Item</option>
+							<option value="sb" {if $smarty.request.sku_with eq 'sb' or !$smarty.request.sku_with}selected {/if}>Stock Take or Stock Balance</option>
+							<option value="sc" {if $smarty.request.sku_with eq 'sc'}selected {/if}>Only Stock Take Item</option>
+						</select>
+						</span>
+				</div>
+				
+				
+					<span id="span_location" {if $smarty.request.sku_with ne 'sc'}style="display:none;"{/if}>
+						<div class="col-md-4">
+							{include file='report.stock_take_variance.location.tpl'}
+						</div>
+					</span>
+				
+				
+				
+					<span id="span_shelf_no" {if $smarty.request.sku_with ne 'sc'}style="display:none;"{/if}>
+						<div class="col-md-4">
+							{include file='report.stock_take_variance.shelf_no.tpl'}
+						</div>
+					</span>
+				
+			
+				<div class="col-md-4">
+					<span>
+						<b class="form-label">Vendor</b>
+						<select class="form-control" name="vendor_id">
+							<option value="">-- All --</option>
+							{foreach from=$vendor key=vendor_id item=r}
+								<option value="{$vendor_id}" {if $smarty.request.vendor_id eq $vendor_id}selected {/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+				
+				<div class="col-md-4">
+					<span>
+						<b class="form-label">Brand</b>
+						<select class="form-control" name="brand_id">
+							<option value="">-- All --</option>
+							<option value="-1" {if $smarty.request.brand_id eq -1}selected {/if}>UN-BRANDED</option>
+							{foreach from=$brands_list key=brand_id item=r}
+								<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+		
+				<div class="col-md-4">
+					<span>
+						<b class="form-label mt-2">Department</b>
+						<select class="form-control" name="dept_id" onChange="dept_changed();">
+							<option value="">-- All --</option>
+						{foreach from=$departments item=r}
+							<option value="{$r.id}" {if $smarty.request.dept_id eq $r.id}selected {/if}>{$r.description}</option>
+						{/foreach}
+						</select>
+						</span>
+				</div>
+			
+			<div class="col-md-4">
+				<span>
+					<b class="form-label mt-2">SKU Type</b>
+					<select class="form-control" name="sku_type">
+						<option value="">-- All --</option>
+						{foreach from=$sku_type item=r}
+							<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
+						{/foreach}
+					</select>
+					</span>
+			</div>
+			
+			
+			<div class="col-md-4">
+				
+			<b class="form-label mt-2">Sort by</b>
+			<select class="form-control" name="sort_by" onChange="change_sort_by(this);">
+				<option value="">--</option>
+				<option value="si.sku_item_code" {if $smarty.request.sort_by eq 'si.sku_item_code'}selected {/if}>ARMS Code</option>
+				<option value="si.artno" {if $smarty.request.sort_by eq 'si.artno'}selected {/if}>Art No</option>
+				<option value="si.mcode" {if $smarty.request.sort_by eq 'si.mcode'}selected {/if}>MCode</option>
+				<option value="si.link_code" {if $smarty.request.sort_by eq 'si.link_code'}selected {/if}>{$config.link_code_name}</option>
+				{*<option value="linkcode" {if $smarty.request.sort_by eq 'linkcode'}selected {/if}>CM Code</option>*}
+				<option value="si.description" {if $smarty.request.sort_by eq 'si.description'}selected {/if}>Description</option>
+				<option value="dept.description" {if $smarty.request.sort_by eq 'dept.description'}selected {/if}>Department</option>
+			</select>
+			<span id="span_sort_order" style="display:none;">
+			<select class="form-control mt-1" name="sort_order">
+				<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
+				<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>
+			</select>
+			</span>
+			</div>
+			
+			
+			</div>
+			<input type=hidden name=subm value=1>
+			<button class="btn btn-primary mt-2" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-2" name="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			
+			<div class="form-label form-inline">
+				<span id="span_group_by_sku" style="{if !$smarty.request.dept_id}display:none;{/if}">
+					<input type="checkbox" name="group_by_sku" id="inp_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> 
+					<label for="inp_group_by_sku"><b>Group by SKU</b></label>
+				</span>
+			</div>
+			
+			
+			<div class="form-label form-inline">
+				<input type="checkbox" name="skip_zero_variance" id="skip_zero_variance" {if $smarty.request.skip_zero_variance}checked {/if}> <b>&nbsp;Skip Zero Variance</b>
+			&nbsp;&nbsp;
+			<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+			<span id="show_auto_fill_zero_item_span" {if $smarty.request.stock_take_type eq 2}style="display:none;"{/if}>&nbsp;&nbsp;
+			<input type="checkbox" id="show_auto_fill_zero_item" name="show_auto_fill_zero_item" {if $smarty.request.stock_take_type eq 2}disabled{/if} value="1" {if $smarty.request.show_auto_fill_zero_item}checked {/if}> <b>&nbsp;Show auto fill zero item</b>
+			</span>
+			</div>
+			</form>
+	</div>
+</div>
 
 {literal}
 <script>
@@ -428,295 +478,313 @@ The following error(s) has occured:
 {if !$table}
 {if $smarty.request.subm && !$err}-- No data --{/if}
 {else}
-<h2>{$report_title}</h2>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 
-<table width="100%" class="report_table">
-    {assign var=cols value=2}
-    {if $sessioninfo.privilege.SHOW_COST}{assign var=cols value=$cols+1}{/if}
-	<tr class="header">
-	  	<th rowspan=2 width="20">&nbsp;</th>
-	  	{if $smarty.request.dept_id}
-			<th rowspan=2>ARMS Code</th>
-			<th rowspan=2>MCode</th>
-			<th rowspan=2>Art.No</th>
-			<th rowspan=2>{$config.link_code_name}</th>			
-		{/if}
-		<th rowspan=2>{if $smarty.request.dept_id}Description{else}Department{/if}</th>
-		{if $smarty.request.dept_id}<th rowspan=2>Selling Price</th>{/if}
-		<th {if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}colspan="3"{else}rowspan="2"{/if}>Stock Balance</th>
-		{if !$smarty.request.dept_id || !$sessioninfo.privilege.SHOW_COST}
-			<th rowspan=2>Stock Take Quantity</th>
-			{if $sessioninfo.privilege.SHOW_COST}
-				<th rowspan="2">Total Stock Take Cost</th>
-			{/if}
-		{else}
-			<th colspan="3">Stock Take</th>
-		{/if}
-    	<th colspan="{$cols}" align=center>Stock Take Variance</th>
-	</tr>
-	<tr class="header">
-		{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
-			<th>Qty</th>
-			<th>Cost</th>
-			<th>Total Cost</th>
-			<th>Qty</th>
-			<th>Cost</th>
-			<th>Total Cost</th>
-		{/if}
-		<th>Qty (+/-)</th>
-		<th>Total<br />Selling Price Variance </th>
-		{if $sessioninfo.privilege.SHOW_COST}
-		    <th>Total<br />Cost Variance</th>
-		{/if}
-	</tr>
-	{foreach from=$table key=k item=r name=f}
-	    <tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
-	        <td>{$smarty.foreach.f.iteration}.</td>
-	        {if $smarty.request.dept_id}
-	            <td>{$sku_items.$k.sku_item_code}</td>
-	            <td>{$sku_items.$k.mcode}</td>
-	            <td>{$sku_items.$k.artno}</td>
-	            <td>{$sku_items.$k.link_code}</td>
-	            <td>{$sku_items.$k.description}</td>
-	        {else}
-	            <td>
-	                {if !$no_header_footer}
-		                <a href="javascript:void(show_dept('{$k}'));">
-							{$departments.$k.description}
-						</a>
-					{else}
-					    {$departments.$k.description}
-					{/if}
-				</td>
-	        {/if}
-
-			<!-- Selling Price -->
-			{if $smarty.request.dept_id}
-				<td class="r">{$r.selling|number_format:2}</td>
-			{/if}
-			
-	        <td class="r">{$r.stock_balance|qty_nf}</td>
-			{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
-				<td class="r">{$r.sb_cost|number_format:$config.global_cost_decimal_points}</td>				
-				<td class="r">{$r.sb_total_cost|number_format:$config.global_cost_decimal_points}</td>				
-			{/if}
-	        <td class="r">
-				{if $r.got_sc}
-                    {$r.stock_take_qty|qty_nf}
-				{else}
-				    <span style="color:red;">N/A</span>
-				{/if}
-			</td>
-			
-			<!-- Cost -->
-			{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
-				<td class="r">
-					{if $r.got_sc}
-						{$r.cost|number_format:$config.global_cost_decimal_points}
-					{else}
-						<span style="color:red;">N/A</span>
-					{/if}						
-				</td>
-			{/if}
-			
-			<!-- Total Stock Take Cost -->
-			{if $sessioninfo.privilege.SHOW_COST}
-			    <td class="r">
-					{if $r.got_sc}
-						{$r.sc_total_cost|number_format:$config.global_cost_decimal_points}
-					{else}
-						<span style="color:red;">N/A</span>
-					{/if}
-				</td>
-			{/if}
-			
-			<!-- Variances -->
-			<td class="r">
-				{if $r.got_sc}
-					<span class="{if $r.row_variances>0}positive{elseif $r.row_variances<0}negative{/if}">
-						{if $r.row_variances>0}+{/if}{$r.row_variances|qty_nf}
-					</span>
-				{else}
-					<span style="color:red;">N/A</span>
-				{/if}
-			</td>
-			
-			<!-- Selling Price Variance -->
-			<td class="r">
-				{if $r.got_sc}
-					{$r.row_sp_variance|number_format:2}
-				{else}
-					<span style="color:red;">N/A</span>
-				{/if}
-			</td>
-			
-			{if $sessioninfo.privilege.SHOW_COST}
-				<!-- Cost Variance -->
-				<td class="r">
-					{if $r.got_sc}
-						{$r.row_cost_variance|number_format:$config.global_cost_decimal_points}
-					{else}
-						<span style="color:red;">N/A</span>
-					{/if}
-				</td>
-			{/if}
-	    </tr>
-	    
-
-		
-		{assign var=sku_id value=$sku_items.$k.sku_id}
-		{foreach from=$child_data.$sku_id key=k2 item=r2}
-			<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
-		        <td></td>
-		        {if $smarty.request.dept_id}
-		            <td align="right">{$sku_items.$k2.sku_item_code}</td>
-		            <td>{$sku_items.$k2.mcode}</td>
-		            <td>{$sku_items.$k2.artno}</td>
-		            <td>{$sku_items.$k2.link_code}</td>
-		            <td>{$sku_items.$k2.description}</td>
-		        {else}
-		            <td>
-		                - <!-- should no come here -->
-					</td>
-		        {/if}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover">
+				{assign var=cols value=2}
+				{if $sessioninfo.privilege.SHOW_COST}{assign var=cols value=$cols+1}{/if}
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th rowspan=2 width="20">&nbsp;</th>
+						{if $smarty.request.dept_id}
+						  <th rowspan=2>ARMS Code</th>
+						  <th rowspan=2>MCode</th>
+						  <th rowspan=2>Art.No</th>
+						  <th rowspan=2>{$config.link_code_name}</th>			
+					  {/if}
+					  <th rowspan=2>{if $smarty.request.dept_id}Description{else}Department{/if}</th>
+					  {if $smarty.request.dept_id}<th rowspan=2>Selling Price</th>{/if}
+					  <th {if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}colspan="3"{else}rowspan="2"{/if}>Stock Balance</th>
+					  {if !$smarty.request.dept_id || !$sessioninfo.privilege.SHOW_COST}
+						  <th rowspan=2>Stock Take Quantity</th>
+						  {if $sessioninfo.privilege.SHOW_COST}
+							  <th rowspan="2">Total Stock Take Cost</th>
+						  {/if}
+					  {else}
+						  <th colspan="3">Stock Take</th>
+					  {/if}
+					  <th colspan="{$cols}" align=center>Stock Take Variance</th>
+				  </tr>
+				  <tr class="header">
+					  {if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
+						  <th>Qty</th>
+						  <th>Cost</th>
+						  <th>Total Cost</th>
+						  <th>Qty</th>
+						  <th>Cost</th>
+						  <th>Total Cost</th>
+					  {/if}
+					  <th>Qty (+/-)</th>
+					  <th>Total<br />Selling Price Variance </th>
+					  {if $sessioninfo.privilege.SHOW_COST}
+						  <th>Total<br />Cost Variance</th>
+					  {/if}
+				  </tr>
+				</thead>
+				{foreach from=$table key=k item=r name=f}
+					<tbody class="fs-08">
+						<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
+							<td>{$smarty.foreach.f.iteration}.</td>
+							{if $smarty.request.dept_id}
+								<td>{$sku_items.$k.sku_item_code}</td>
+								<td>{$sku_items.$k.mcode}</td>
+								<td>{$sku_items.$k.artno}</td>
+								<td>{$sku_items.$k.link_code}</td>
+								<td>{$sku_items.$k.description}</td>
+							{else}
+								<td>
+									{if !$no_header_footer}
+										<a href="javascript:void(show_dept('{$k}'));">
+											{$departments.$k.description}
+										</a>
+									{else}
+										{$departments.$k.description}
+									{/if}
+								</td>
+							{/if}
 				
-				<!-- Selling Price -->
-				{if $smarty.request.dept_id}
-					<td class="r">{$r2.selling|number_format:2}</td>
-				{/if}
-				
-		        <td class="r">{$r2.stock_balance|qty_nf}</td>
-				{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
-					<td class="r">{$r2.sb_cost|number_format:$config.global_cost_decimal_points}</td>				
-					<td class="r">{$r2.sb_total_cost|number_format:$config.global_cost_decimal_points}</td>				
-				{/if}
-		        <td class="r">
-					{if $r2.got_sc}
-	                    {$r2.stock_take_qty|qty_nf}
+							<!-- Selling Price -->
+							{if $smarty.request.dept_id}
+								<td class="r">{$r.selling|number_format:2}</td>
+							{/if}
+							
+							<td class="r">{$r.stock_balance|qty_nf}</td>
+							{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
+								<td class="r">{$r.sb_cost|number_format:$config.global_cost_decimal_points}</td>				
+								<td class="r">{$r.sb_total_cost|number_format:$config.global_cost_decimal_points}</td>				
+							{/if}
+							<td class="r">
+								{if $r.got_sc}
+									{$r.stock_take_qty|qty_nf}
+								{else}
+									<span style="color:red;">N/A</span>
+								{/if}
+							</td>
+							
+							<!-- Cost -->
+							{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
+								<td class="r">
+									{if $r.got_sc}
+										{$r.cost|number_format:$config.global_cost_decimal_points}
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}						
+								</td>
+							{/if}
+							
+							<!-- Total Stock Take Cost -->
+							{if $sessioninfo.privilege.SHOW_COST}
+								<td class="r">
+									{if $r.got_sc}
+										{$r.sc_total_cost|number_format:$config.global_cost_decimal_points}
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}
+								</td>
+							{/if}
+							
+							<!-- Variances -->
+							<td class="r">
+								{if $r.got_sc}
+									<span class="{if $r.row_variances>0}positive{elseif $r.row_variances<0}negative{/if}">
+										{if $r.row_variances>0}+{/if}{$r.row_variances|qty_nf}
+									</span>
+								{else}
+									<span style="color:red;">N/A</span>
+								{/if}
+							</td>
+							
+							<!-- Selling Price Variance -->
+							<td class="r">
+								{if $r.got_sc}
+									{$r.row_sp_variance|number_format:2}
+								{else}
+									<span style="color:red;">N/A</span>
+								{/if}
+							</td>
+							
+							{if $sessioninfo.privilege.SHOW_COST}
+								<!-- Cost Variance -->
+								<td class="r">
+									{if $r.got_sc}
+										{$r.row_cost_variance|number_format:$config.global_cost_decimal_points}
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}
+								</td>
+							{/if}
+						</tr>
+					</tbody>
+					
+			
+					
+					{assign var=sku_id value=$sku_items.$k.sku_id}
+					{foreach from=$child_data.$sku_id key=k2 item=r2}
+						<tbody class="fs-08">
+							<tr onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';">
+								<td></td>
+								{if $smarty.request.dept_id}
+									<td align="right">{$sku_items.$k2.sku_item_code}</td>
+									<td>{$sku_items.$k2.mcode}</td>
+									<td>{$sku_items.$k2.artno}</td>
+									<td>{$sku_items.$k2.link_code}</td>
+									<td>{$sku_items.$k2.description}</td>
+								{else}
+									<td>
+										- <!-- should no come here -->
+									</td>
+								{/if}
+								
+								<!-- Selling Price -->
+								{if $smarty.request.dept_id}
+									<td class="r">{$r2.selling|number_format:2}</td>
+								{/if}
+								
+								<td class="r">{$r2.stock_balance|qty_nf}</td>
+								{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
+									<td class="r">{$r2.sb_cost|number_format:$config.global_cost_decimal_points}</td>				
+									<td class="r">{$r2.sb_total_cost|number_format:$config.global_cost_decimal_points}</td>				
+								{/if}
+								<td class="r">
+									{if $r2.got_sc}
+										{$r2.stock_take_qty|qty_nf}
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}
+								</td>
+								
+								<!-- Cost -->
+								{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
+									<td class="r">
+										{if $r2.got_sc}
+											{$r2.cost|number_format:$config.global_cost_decimal_points}
+										{else}
+											<span style="color:red;">N/A</span>
+										{/if}
+									</td>
+								{/if}
+								
+								<!-- Total Stock Take Cost -->
+								{if $sessioninfo.privilege.SHOW_COST}
+									<td class="r">
+										{if $r2.got_sc}
+											{$r2.sc_total_cost|number_format:$config.global_cost_decimal_points}
+										{else}
+											<span style="color:red;">N/A</span>
+										{/if}
+									</td>
+								{/if}
+								
+								<!-- Variances -->
+								<td class="r">
+									{if $r2.got_sc}
+										<span class="{if $r2.row_variances>0}positive{elseif $r2.row_variances<0}negative{/if}">
+											{if $r2.row_variances>0}+{/if}{$r2.row_variances|qty_nf}
+										</span>
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}
+								</td>
+								
+								<!-- Selling Price Variance -->
+								<td class="r">
+									{if $r2.got_sc}
+										{$r2.row_sp_variance|number_format:2}
+									{else}
+										<span style="color:red;">N/A</span>
+									{/if}
+								</td>
+								
+								{if $sessioninfo.privilege.SHOW_COST}
+									<!-- Cost Variance -->
+									<td class="r">
+										{if $r2.got_sc}
+											{$r2.row_cost_variance|number_format:$config.global_cost_decimal_points}
+										{else}
+											<span style="color:red;">N/A</span>
+										{/if}
+									</td>
+								{/if}
+							</tr>
+						</tbody>
+					{/foreach}
+				{/foreach}
+				<tr class="header">
+					{if $smarty.request.dept_id}
+						{assign var=colspan value=3}
 					{else}
-					    <span style="color:red;">N/A</span>
+						{assign var=colspan value=2}
 					{/if}
-				</td>
 				
-				<!-- Cost -->
-				{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
+					{if $smarty.request.dept_id}{assign var=colspan value=$colspan+4}{/if}
+					<th class="r" colspan="{$colspan}">Total</th>
+					<td class="r">{$total.total_sb_qty|qty_nf}</td>
+					{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
+						<td>&nbsp;</td>
+						<td class="r">{$total.total_sb_cost|number_format:$config.global_cost_decimal_points}</td>
+					{/if}
 					<td class="r">
-						{if $r2.got_sc}
-							{$r2.cost|number_format:$config.global_cost_decimal_points}
+						{if $is_available}
+							{$total.total_sc_qty|qty_nf}
 						{else}
 							<span style="color:red;">N/A</span>
 						{/if}
 					</td>
-				{/if}
-				
-				<!-- Total Stock Take Cost -->
-				{if $sessioninfo.privilege.SHOW_COST}
-				    <td class="r">
-						{if $r2.got_sc}
-							{$r2.sc_total_cost|number_format:$config.global_cost_decimal_points}
-						{else}
-							<span style="color:red;">N/A</span>
-						{/if}
-					</td>
-				{/if}
-				
-				<!-- Variances -->
-				<td class="r">
-					{if $r2.got_sc}
-						<span class="{if $r2.row_variances>0}positive{elseif $r2.row_variances<0}negative{/if}">
-							{if $r2.row_variances>0}+{/if}{$r2.row_variances|qty_nf}
-						</span>
-					{else}
-						<span style="color:red;">N/A</span>
+			
+					{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
+						<td class="r">-</td>
 					{/if}
-				</td>
-				
-				<!-- Selling Price Variance -->
-				<td class="r">
-					{if $r2.got_sc}
-						{$r2.row_sp_variance|number_format:2}
-					{else}
-						<span style="color:red;">N/A</span>
+					{if $sessioninfo.privilege.SHOW_COST}
+						<td class="r">
+							{if $is_available}
+								{$total.total_sc_cost|number_format:$config.global_cost_decimal_points}
+							{else}
+								<span style="color:red;">N/A</span>
+							{/if}
+						</td>
 					{/if}
-				</td>
-				
-				{if $sessioninfo.privilege.SHOW_COST}
-					<!-- Cost Variance -->
+					
 					<td class="r">
-					    {if $r2.got_sc}
-							{$r2.row_cost_variance|number_format:$config.global_cost_decimal_points}
+						{if $is_available}
+							<span class="{if $total.total_variance>0}positive{elseif $total.total_variance<0}negative{/if}">
+								{if $total.total_variance>0}+{/if}{$total.total_variance|qty_nf}
+							</span>
 						{else}
 							<span style="color:red;">N/A</span>
 						{/if}
 					</td>
-				{/if}
-		    </tr>
-		{/foreach}
-	{/foreach}
-	<tr class="header">
-	    {if $smarty.request.dept_id}
-			{assign var=colspan value=3}
-		{else}
-			{assign var=colspan value=2}
-		{/if}
-	
-	    {if $smarty.request.dept_id}{assign var=colspan value=$colspan+4}{/if}
-        <th class="r" colspan="{$colspan}">Total</th>
-        <td class="r">{$total.total_sb_qty|qty_nf}</td>
-		{if $smarty.request.dept_id && $sessioninfo.privilege.SHOW_COST}
-			<td>&nbsp;</td>
-			<td class="r">{$total.total_sb_cost|number_format:$config.global_cost_decimal_points}</td>
-		{/if}
-        <td class="r">
-			{if $is_available}
-				{$total.total_sc_qty|qty_nf}
-			{else}
-				<span style="color:red;">N/A</span>
-			{/if}
-		</td>
-
-		{if $smarty.request.dept_id and $sessioninfo.privilege.SHOW_COST}
-			<td class="r">-</td>
-		{/if}
-		{if $sessioninfo.privilege.SHOW_COST}
-		    <td class="r">
-				{if $is_available}
-					{$total.total_sc_cost|number_format:$config.global_cost_decimal_points}
-				{else}
-					<span style="color:red;">N/A</span>
-				{/if}
-			</td>
-		{/if}
-		
-        <td class="r">
-			{if $is_available}
-				<span class="{if $total.total_variance>0}positive{elseif $total.total_variance<0}negative{/if}">
-					{if $total.total_variance>0}+{/if}{$total.total_variance|qty_nf}
-				</span>
-			{else}
-				<span style="color:red;">N/A</span>
-			{/if}
-		</td>
-		
-		<td class="r">
-			{if $is_available}
-				{$total.total_sp_variance|number_format:2}
-			{else}
-				<span style="color:red;">N/A</span>
-			{/if}
-		</td>
-		{if $sessioninfo.privilege.SHOW_COST}
-			<td class="r">
-				{if $is_available}
-					{$total.total_cost_variance|number_format:$config.global_cost_decimal_points}
-				{else}
-					<span style="color:red;">N/A</span>
-				{/if}
-			</td>
-		{/if}
-    </tr>
-</table>
+					
+					<td class="r">
+						{if $is_available}
+							{$total.total_sp_variance|number_format:2}
+						{else}
+							<span style="color:red;">N/A</span>
+						{/if}
+					</td>
+					{if $sessioninfo.privilege.SHOW_COST}
+						<td class="r">
+							{if $is_available}
+								{$total.total_cost_variance|number_format:$config.global_cost_decimal_points}
+							{else}
+								<span style="color:red;">N/A</span>
+							{/if}
+						</td>
+					{/if}
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {include file='footer.tpl'}

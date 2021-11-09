@@ -131,47 +131,72 @@ function showMore(){
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
-
-<div class=stdframe style="background:#fff;">
-<form method="post" name="f_pos_live">
-<input type="hidden" name="a" value="load_counter">
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch: </b>
-<select name="branch_id">
-	<option value="-1">-- All --</option>
-	{foreach from=$branch_list item=r}
-	    <option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
-	    {if $smarty.request.branch eq $r.id}
-			{assign var=bcode value=$r.code}
-	    {/if}
-	{/foreach}
-</select>
-&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-{/if}
-<b>Date</b> <input size=10 type=text name=date value="{$smarty.request.date}" id="date">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input class="btn btn-primary" type="submit" name="submits" value="Load">
-
-</form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
 </div>
 
-<ul>
-	<li> Click on header to sort.</li>
-	<li> Click on a row for more options.</li>
-	<li> Total Transaction include cancelled bill.</li>
-	<li> Total Sales does not include cancelled bill.</li>
-	<li> Total Sales included discount.</li>
-	<li> Counter Status: <br />
-		* Login: Got user login.<br />
-		* Lock: User locked the counter.<br />
-		* Offline: Counter failed to ping more than 30 minutes.
-	</li>
-</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe>
+			<form method="post" name="f_pos_live">
+			<input type="hidden" name="a" value="load_counter">
+		
+			<div class="row">
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch: </b>
+					<select class="form-control" name="branch_id">
+						<option value="-1">-- All --</option>
+						{foreach from=$branch_list item=r}
+							<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
+							{if $smarty.request.branch eq $r.id}
+								{assign var=bcode value=$r.code}
+							{/if}
+						{/foreach}
+					</select>
+					
+					{else}
+					<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+					{/if}
+				</div>
+	
+				<div class="col">
+					<b class="form-label">Date</b> 
+				<div class="form-inline">
+					<input class="form-control" size=23 type=text name=date value="{$smarty.request.date}" id="date">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				
+				<div class="col">
+					<input class="btn btn-primary mt-4" type="submit" name="submits" value="Load">
+				</div>
+				
+			</div>
+			</form>
+			</div>
+	</div>
+</div>
+
+<div class="alert alert-primary mx-3 rounded">
+	<ul>
+		<li> Click on header to sort.</li>
+		<li> Click on a row for more options.</li>
+		<li> Total Transaction include cancelled bill.</li>
+		<li> Total Sales does not include cancelled bill.</li>
+		<li> Total Sales included discount.</li>
+		<li> Counter Status: <br />
+			* Login: Got user login.<br />
+			* Lock: User locked the counter.<br />
+			* Offline: Counter failed to ping more than 30 minutes.
+		</li>
+	</ul>
+</div>
 {if  $smarty.request.branch_id eq -1 and $BRANCH_CODE eq 'HQ'}
     {include file="pos_live.all_branchs.tpl"}
 {else}

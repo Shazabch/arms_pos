@@ -49,157 +49,194 @@
 {/literal}
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form method=post class=form id="f_a" name="f_a" onsubmit="return check_form()">
-	<input type="hidden" name="a" value="show_report" />
-<p>
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> <select name="branch_id">
-	<option value="">-- Please Select --</option>
-	    {foreach from=$branches item=b}
-	        {if !$branch_group.have_group[$b.id]}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	        {/if}
-	    {/foreach}
-	    {if $branch_group.header}
-	        {foreach from=$branch_group.header key=bgid item=r}
-	        <optgroup label="{$r.code}">
-				{foreach from=$branch_group.items.$bgid key=bid item=b}
-				<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form id="f_a" name="f_a" onsubmit="return check_form()">
+			<input type="hidden" name="a" value="show_report" />
+		<p>
+		<div class="row">
+			<div class="col">
+				{if $BRANCH_CODE eq 'HQ'}
+		<b class="form-label">Branch</b> 
+		<select class="form-control" name="branch_id">
+			<option value="">-- Please Select --</option>
+				{foreach from=$branches item=b}
+					{if !$branch_group.have_group[$b.id]}
+					<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+					{/if}
 				{/foreach}
-			</optgroup>
-			{/foreach}
+				{if $branch_group.header}
+					{foreach from=$branch_group.header key=bgid item=r}
+					<optgroup label="{$r.code}">
+						{foreach from=$branch_group.items.$bgid key=bid item=b}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</optgroup>
+					{/foreach}
+				{/if}
+			</select>
+		{else}
+			<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-	<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-{/if}
-
-<span>
-	<b>Date From</b>
-	<input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-	&nbsp;
-	<b>To</b>
-	<input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-	&nbsp;&nbsp;
-</span>
-</p>
-
-
-<p>
-<div id="sku_items_autocomplete">
-{include file="sku_items_autocomplete_multiple.tpl"}
+			</div>	
+			<div class="col">
+				<b class="form-label">Date From</b>
+			  <div class="form-inline">
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=23> 
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			  </div>
+			
+			</div>
+			<div class="col">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=23> 
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
+		
+			</div>
+		</div>
+		</p>
+		
+		
+		<p>
+		<div id="sku_items_autocomplete">
+		{include file="sku_items_autocomplete_multiple.tpl"}
+		</div>
+		</p>
+		
+		<p>
+		<input name="group_by_sku" type="checkbox" {if $smarty.request.group_by_sku}checked{/if} value="1" />&nbsp;
+		<b>Group By SKU</b>
+		</p>
+		
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary" name="show_report" onclick="passArrayToInput();" >{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name="a" value="output_excel" onclick="passArrayToInput();">{#OUTPUT_EXCEL#}</button>
+			{/if}
+		</form>
+	</div>
 </div>
-</p>
-
-<p>
-<input name="group_by_sku" type="checkbox" {if $smarty.request.group_by_sku}checked{/if} value="1" />&nbsp;
-<b>Group By SKU</b>
-</p>
-
-	<input type=hidden name=submit value=1>
-	<button class="btn btn-primary" name="show_report" onclick="passArrayToInput();" >{#SHOW_REPORT#}</button>
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" name="a" value="output_excel" onclick="passArrayToInput();">{#OUTPUT_EXCEL#}</button>
-	{/if}
-</form>
 {/if}
 
 
 {if !$table}
 	{if $smarty.request.submit && !$err}-- No data --{/if}
 {else}
-<h3>{$report_title}</h3>
-<table  cellspacing="0" width="100%" class="tb">
-	<thead>		
-		<tr class="thd">
-			<th rowspan="2">Sku Item Code</th>
-			<th rowspan="2">Art No<br>Date</th>
-			<th rowspan="2">MCode
-				{if !$smarty.request.group_by_sku}<br>Location{/if}
-			</th>
-			<th rowspan="2">Old Code
-				{if !$smarty.request.group_by_sku}<br>Shelf{/if}
-			</th>
-			<th rowspan="2">Description</th>
-			<th rowspan="2">
-				Stock Balance
-			</th>
-			<th rowspan="2">Stock Take Quantity</th>
-			{if !$smarty.request.group_by_sku}
-			<th rowspan="2">Selling Price</th>
-			<th rowspan="2">Stock Take Cost</th>
-			
-			{/if}
-			<th colspan="3">Variance</th>
-		</tr>
-		<tr class="thd">
-			<th>(+/-)</th>
-			<th>Price Variance </th>
-			<th>Cost Variance</th>
-		</tr>
-	</thead>	
-	
-	<tbody>
-		{foreach from=$table item=r}
-			<tr style="background-color: #E0FFFF;">
-				<td nowrap align=left>
-					{$r.sku_item_code}
-				</td>
-				<td nowrap align=left>{$r.artno}</td>
-				<td nowrap align=left>{$r.mcode}</td>
-				<td nowrap align=left>{$r.link_code}</td>
-				<td nowrap align=left>{$r.description}</td>
-				<td nowrap align=right></td>
-				<td nowrap align=right></td>
-				{if !$smarty.request.group_by_sku}
-				<td nowrap align=right></td>
-				<td nowrap align=right></td>
-				{/if}
-				<td nowrap align=right></td>
-				<td nowrap align=right></td>
-				<td nowrap align=right></td>
-				
-				
-				{foreach from=$r.stock_take item=r1}
-					<tr>
-						<td nowrap align=left></td>
-						<td nowrap align=left>{$r1.date}</td>
-						<td nowrap align=left>
-							{if !$smarty.request.group_by_sku} {$r1.location} {/if}
-						</td>
-						<td nowrap align=left>
-							{if !$smarty.request.group_by_sku} {$r1.shelf_no} {/if}
-						</td>
-						<td nowrap align=right></td>
-						<td nowrap align=right>{$r1.stock_balance}</td>
-						<td nowrap align=right>{$r1.qty}</td>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table  width="100%" class="tb table mb-0 text-md-nowrap  table-hover" >
+				<thead class="bg-gray-100">		
+					<tr class="thd">
+						<th rowspan="2">Sku Item Code</th>
+						<th rowspan="2">Art No<br>Date</th>
+						<th rowspan="2">MCode
+							{if !$smarty.request.group_by_sku}<br>Location{/if}
+						</th>
+						<th rowspan="2">Old Code
+							{if !$smarty.request.group_by_sku}<br>Shelf{/if}
+						</th>
+						<th rowspan="2">Description</th>
+						<th rowspan="2">
+							Stock Balance
+						</th>
+						<th rowspan="2">Stock Take Quantity</th>
 						{if !$smarty.request.group_by_sku}
-						<td nowrap align=right>{$r1.selling_price|number_format:2}</td>
-						<td nowrap align=right>{$r1.cost|number_format:$config.global_cost_decimal_points}</td>
+						<th rowspan="2">Selling Price</th>
+						<th rowspan="2">Stock Take Cost</th>
+						
 						{/if}
-						<td nowrap align=right>{if $r1.variance > 0}+{/if}{$r1.variance|qty_nf}</td>
-						<td nowrap align=right>{$r1.price_variance|number_format:2}</td>
-						<td nowrap align=right>
-							{$r1.total_cost|number_format:$config.global_cost_decimal_points}
-						</td>
+						<th colspan="3">Variance</th>
 					</tr>
-				{/foreach}				
-			</tr>
-		{/foreach}
-	</tbody>
-	
-</table>
+					<tr class="thd">
+						<th>(+/-)</th>
+						<th>Price Variance </th>
+						<th>Cost Variance</th>
+					</tr>
+				</thead>	
+				
+				<tbody class="fs-08">
+					{foreach from=$table item=r}
+						<tr style="background-color: #E0FFFF;">
+							<td nowrap align=left>
+								{$r.sku_item_code}
+							</td>
+							<td nowrap align=left>{$r.artno}</td>
+							<td nowrap align=left>{$r.mcode}</td>
+							<td nowrap align=left>{$r.link_code}</td>
+							<td nowrap align=left>{$r.description}</td>
+							<td nowrap align=right></td>
+							<td nowrap align=right></td>
+							{if !$smarty.request.group_by_sku}
+							<td nowrap align=right></td>
+							<td nowrap align=right></td>
+							{/if}
+							<td nowrap align=right></td>
+							<td nowrap align=right></td>
+							<td nowrap align=right></td>
+							
+							
+							{foreach from=$r.stock_take item=r1}
+								<tr>
+									<td nowrap align=left></td>
+									<td nowrap align=left>{$r1.date}</td>
+									<td nowrap align=left>
+										{if !$smarty.request.group_by_sku} {$r1.location} {/if}
+									</td>
+									<td nowrap align=left>
+										{if !$smarty.request.group_by_sku} {$r1.shelf_no} {/if}
+									</td>
+									<td nowrap align=right></td>
+									<td nowrap align=right>{$r1.stock_balance}</td>
+									<td nowrap align=right>{$r1.qty}</td>
+									{if !$smarty.request.group_by_sku}
+									<td nowrap align=right>{$r1.selling_price|number_format:2}</td>
+									<td nowrap align=right>{$r1.cost|number_format:$config.global_cost_decimal_points}</td>
+									{/if}
+									<td nowrap align=right>{if $r1.variance > 0}+{/if}{$r1.variance|qty_nf}</td>
+									<td nowrap align=right>{$r1.price_variance|number_format:2}</td>
+									<td nowrap align=right>
+										{$r1.total_cost|number_format:$config.global_cost_decimal_points}
+									</td>
+								</tr>
+							{/foreach}				
+						</tr>
+					{/foreach}
+				</tbody>
+				
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {if !$no_header_footer}

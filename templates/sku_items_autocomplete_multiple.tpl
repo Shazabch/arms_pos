@@ -219,11 +219,14 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 </div>
 <table>
 <tr>
-	<th>Search SKU</th>
+	<th class="form-label">Search SKU&nbsp;</th>
 	<td>
 		<input id="sku_item_id" name="sku_item_id" size=3 type=hidden>
 		<input id="sku_item_code" name="sku_item_code" size=13 type=hidden>
-		<input id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off" /> <input type=button value="Add" onclick='add_autocomplete()'>
+		<div class="form-inline">
+			<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select()" style="font-size:14px;width:500px;" autocomplete="off" /> 
+		&nbsp;<input class="btn btn-primary" type=button value="Add" onclick='add_autocomplete()'>
+		</div>
 		<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
 	</td>
 	<td><!--<input type=submit value="Find">--></td>
@@ -256,17 +259,17 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 <td></td></tr>
 <tr>
 	<td width="200"><!--<input type=button value="Add" onClick="add_sku_to_list()" style="width:80px;">-->
-		<div style="position:absolute;width:300px;height:100px;margin-left:100px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group">
+		<div style="position:absolute;width:300px;height:130px;margin-left:100px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group">
 		</div>
 		<input type="hidden" name="sku_group_load_count" value="0" id="sku_group_load_count">
-		<input type="button" value="Add by Group" style="width:100px;" onClick="load_SKU_Group()" />
+		<input type="button" class="btn btn-primary btn-sm" value="Add by Group" style="width:100px;"  onClick="load_SKU_Group()" />
 	</td>
 </tr>
 <tr>
-	<td><input type=button value="Remove" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:100px;"></td>
+	<td><input type=button class="btn btn-danger btn-sm" value="Remove" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:100px;"></td>
 </tr>
 <tr>
-	<td><input type=button value="Clear" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:100px;"></td>
+	<td><input type=button class="btn btn-info btn-sm" value="Clear" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:100px;"></td>
 </tr>
 {foreach from=$category item=c}
 	{if $c.sku_item_code ne ''}

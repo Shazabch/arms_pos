@@ -241,143 +241,177 @@ function toggle_all_shelf_no() {
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul style="color:red;">
+			{foreach from=$err item=e}
+				<li>{$e}</li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
 
 {if !$no_header_footer}
-<div class=stdframe style="background:#fff;">
-<form name="f_a" id="f_a" method="post" onSubmit="return check_form();">
-<input type=hidden name=report_title value="{$report_title}">
-<input type=hidden name=title value="Stock Check Report (Summary)">
-<p>
-
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id" onchange="load_date(this.value)" id="sel_bid">
-	<option value="">-- Please Select --</option>
-	{foreach from=$branch_list key=bid item=b}
-		<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-	{/foreach}
-	</select> &nbsp;&nbsp;
-{else}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-{/if}
-
-<b>Type</b>
-<select name="type" onchange="toggle_group_by_item(this);">
-<option value="summary" {if $smarty.request.type eq 'summary'}Selected{/if}>Summary</option>
-<option value="detail" {if $smarty.request.type eq 'detail'}selected{/if}>Detail</option>
-</select> &nbsp;&nbsp;
-
-<span id="span_gbi" {if !$smarty.request.type || $smarty.request.type eq 'summary'}style="display:none;"{/if}>
-	<input type="checkbox" name="group_by_item" value="1" {if $smarty.request.group_by_item}checked{/if} /> <b>Group By Item</b> &nbsp;&nbsp;&nbsp;
-</span>
-
-<span id="div_ajax">
-	<b>Date</b>
-	<select name="date" id='sel_date' onChange='date_changed();'>
-	<option value="">-- Please Select --</option>
-	{section loop=$date name=i}
-	<option value="{$date[i].date}" {if $smarty.request.date eq $date[i].date}selected{/if}>{$date[i].date}</option>
-	{/section}
-	</select>
-</span> &nbsp;&nbsp;
-
-<b>Status</b>
-<select name="active">
-	<option value="" {if !$smarty.request.active}selected{/if}>All</option>
-	<option value="1" {if $smarty.request.active eq 1}selected{/if}>Active</option>
-	<option value="2" {if $smarty.request.active eq 2}selected{/if}>Inactive</option>
-</select>
-
-</p>
-
-<p>
-<span id="span_location">
-	{include file='report.stock_take_variance.location.tpl'}
-</p>
-
-<p>
-<span id="span_shelf_no">
-	{include file='report.stock_take_variance.shelf_no.tpl'}
-</p>
-
-<p>
-	<span>
-		<b>Vendor</b>
-		<select name="vendor_id">
-			<option value="">-- All --</option>
-			{foreach from=$vendor key=vendor_id item=r}
-				<option value="{$vendor_id}" {if $smarty.request.vendor_id eq $vendor_id}selected {/if}>{$r.description}</option>
-			{/foreach}
-		</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<span>
-		<b>Brand</b>
-		<select name="brand_id">
-			<option value="">-- All --</option>
-			<option value="-1" {if $smarty.request.brand_id eq -1}selected {/if}>UN-BRANDED</option>
-			{foreach from=$brands_list key=brand_id item=r}
-				<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
-			{/foreach}
-		</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-
-<p>
-	<table>
-		<tr>
-			<td><b style="float:left;">Department</b></td>
-			<td><input name='inp_department' type='hidden' id='inp_department' value="{$smarty.request.inp_department}" /><input type='checkbox' id="checkbox_department" name='all_department' {if $smarty.request.inp_department eq '' } checked{/if} onchange="departmentselect_all()" ><b>All</b></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><div class="div_department_list" id='div_department_list' {if $smarty.request.inp_department eq ''}style="display:none;"{/if}>
-			{foreach from=$departments item=r}
-				<span id='span_check_department' style='width:100%;float:left;'><input value="{$r.id}" class='check_department_list' name="check_department_list[]" type='checkbox' {if $r.id|in_array:$smarty.request.check_department_list}checked{/if} />{$r.description}</span>
-			{/foreach}
-			</div></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type=button value="Clear" id="inp_clear_department"  onClick='clear_department_from_list();' {if $smarty.request.inp_department eq '' }style="display:none;"{/if} style="width:100px;"></td>
-		</tr>
-	</table>
-</p>
-
-<p>
-	<span>
-		<b>Group Type</b>&nbsp;&nbsp;
-		<select name="group_type">
-			<option value="bydepartment" {if $smarty.request.group_type eq 'bydepartment'}selected{/if}>By Department</option>
-			<option value="byshelf" {if $smarty.request.group_type eq 'byshelf'}selected{/if}>By Shelf </option>
-		</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-	
-</p>
-
-<div id="sku_items_autocomplete">
-{include file="sku_items_autocomplete_multiple.tpl"}
-</div>
-
-<br />
-* This report only show item with Stock Take Quantity more than zero.
-
-<p>
-	<input type=hidden name=submit value=1>
-	<button class="btn btn-primary" name=show_report onclick="passArrayToInput();" class="btn_submit">{#SHOW_REPORT#}</button>
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" name=output_excel class="btn_submit">{#OUTPUT_EXCEL#}</button>
-	{/if}
-</p>
-
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe >
+			<form name="f_a" id="f_a" method="post" onSubmit="return check_form();">
+			<input type=hidden name=report_title value="{$report_title}">
+			<input type=hidden name=title value="Stock Check Report (Summary)">
+			<p>
+			
+			<div class="row">
+				<div class="col-md-3">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch</b>
+					<select class="form-control" name="branch_id" onchange="load_date(this.value)" id="sel_bid">
+					<option value="">-- Please Select --</option>
+					{foreach from=$branch_list key=bid item=b}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+					{/foreach}
+					</select>
+				{else}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+				{/if}
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Type</b>
+				<select class="form-control" name="type" onchange="toggle_group_by_item(this);">
+				<option value="summary" {if $smarty.request.type eq 'summary'}Selected{/if}>Summary</option>
+				<option value="detail" {if $smarty.request.type eq 'detail'}selected{/if}>Detail</option>
+				</select>
+				</div>
+				
+				<span id="span_gbi" {if !$smarty.request.type || $smarty.request.type eq 'summary'}style="display:none;"{/if}>
+					<div class="col-md-3">
+						<div class="form-label mt-2">
+							<input type="checkbox" name="group_by_item" value="1" {if $smarty.request.group_by_item}checked{/if} /> <b>&nbsp;Group By Item</b>&nbsp;
+						</div>
+					</div>
+				</span>
+				
+				<div class="col-md-3">
+					<span id="div_ajax">
+						<b class="form-label">Date</b>
+						<select class="form-control" name="date" id='sel_date' onChange='date_changed();'>
+						<option value="">-- Please Select --</option>
+						{section loop=$date name=i}
+						<option value="{$date[i].date}" {if $smarty.request.date eq $date[i].date}selected{/if}>{$date[i].date}</option>
+						{/section}
+						</select>
+					</span>
+				</div>
+				
+				<div class="col-md-3">
+					<b class="form-label">Status</b>
+				<select class="form-control" name="active">
+					<option value="" {if !$smarty.request.active}selected{/if}>All</option>
+					<option value="1" {if $smarty.request.active eq 1}selected{/if}>Active</option>
+					<option value="2" {if $smarty.request.active eq 2}selected{/if}>Inactive</option>
+				</select>
+				</div>
+			</div>
+			
+			</p>
+			
+			
+		<div class="row">
+			<span id="span_location">
+				<div class="col">
+					{include file='report.stock_take_variance.location.tpl'}
+				</div>
+			</span>
+			<span id="span_shelf_no">
+				<div class="col">
+					{include file='report.stock_take_variance.shelf_no.tpl'}
+				</div>
+			</span>
+				<div class="col">
+					<span>
+						<b class="form-label">Vendor</b>
+						<select class="form-control" name="vendor_id">
+							<option value="">-- All --</option>
+							{foreach from=$vendor key=vendor_id item=r}
+								<option value="{$vendor_id}" {if $smarty.request.vendor_id eq $vendor_id}selected {/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+				
+				<div class="col">
+					<span>
+						<b class="form-label">Brand</b>
+						<select class="form-control" name="brand_id">
+							<option value="">-- All --</option>
+							<option value="-1" {if $smarty.request.brand_id eq -1}selected {/if}>UN-BRANDED</option>
+							{foreach from=$brands_list key=brand_id item=r}
+								<option value="{$brand_id}" {if $smarty.request.brand_id eq $brand_id}selected {/if}>{$r.description}</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+		</div>
+			
+			<p>
+				<table>
+					<tr>
+						<td><b style="float:left;" class="form-label">Department</b></td>
+						<td><input class="form-control" name='inp_department' type='hidden' id='inp_department' value="{$smarty.request.inp_department}" />&nbsp;<input type='checkbox' id="checkbox_department" name='all_department' {if $smarty.request.inp_department eq '' } checked{/if} onchange="departmentselect_all()" ><b>&nbsp;All</b></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><div class="div_department_list" id='div_department_list' {if $smarty.request.inp_department eq ''}style="display:none;padding:10px;"{/if}>
+						{foreach from=$departments item=r}
+							<span id='span_check_department' style='width:100%;float:left;'>
+								<input value="{$r.id}" class='check_department_list' name="check_department_list[]" type='checkbox' {if $r.id|in_array:$smarty.request.check_department_list}checked{/if} />{$r.description}</span>
+						{/foreach}
+						</div></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type=button class="btn btn-primary" value="Clear" id="inp_clear_department"  onClick='clear_department_from_list();' {if $smarty.request.inp_department eq '' }style="display:none;"{/if} style="width:100px;"></td>
+					</tr>
+				</table>
+			</p>
+			
+			<p>
+				<span>
+					<b class="form-label">Group Type</b>
+					<select class="form-control" name="group_type">
+						<option value="bydepartment" {if $smarty.request.group_type eq 'bydepartment'}selected{/if}>By Department</option>
+						<option value="byshelf" {if $smarty.request.group_type eq 'byshelf'}selected{/if}>By Shelf </option>
+					</select>
+				</span>
+				
+			</p>
+			
+			<div id="sku_items_autocomplete">
+			{include file="sku_items_autocomplete_multiple.tpl"}
+			</div>
+			
+			<br />
+			<div class="alert alert-primary rounded" style="max-width: 500px;">
+				* This report only show item with Stock Take Quantity more than zero.
+			</div>
+			
+			<p>
+				<input type=hidden name=submit value=1>
+				<button class="btn btn-primary" name=show_report onclick="passArrayToInput();" class="btn_submit">{#SHOW_REPORT#}</button>
+				{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info" name=output_excel class="btn_submit">{#OUTPUT_EXCEL#}</button>
+				{/if}
+			</p>
+			
+			</form>
+			</div>
+	</div>
 </div>
 {/if}
 <br>
@@ -391,7 +425,14 @@ reset_sku_autocomplete();
 {elseif !$table}
 
 {else}
-	<h3>{$report_title}</h3>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	
 	{if $smarty.request.type eq 'summary'}
 		{include file=report.stock_check.summary.tpl}
 	{else}
