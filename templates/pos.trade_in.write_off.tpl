@@ -133,27 +133,41 @@ var TRADE_IN_WRITEOFF_MODULE = {
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger mx-3 rounded">
+		The following error(s) has occured:
 	<ul class="err">
 		{foreach from=$err item=e}
 		<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
-<form name="f_a" method="post" onSubmit="return false;" class="stdframe">
-	<input type="hidden" name="show_data" value="1" />
-
-	<b>Date</b>
-	<input name="date" id="inp_date" size="10" maxlength="10"  value="{$smarty.request.date|date_format:"%Y-%m-%d"}" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date" />
-	&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" onSubmit="return false;" class="stdframe">
+			<input type="hidden" name="show_data" value="1" />
 		
-	<input type="button" value="Refresh" onClick="TRADE_IN_WRITEOFF_MODULE.submit_form();" />
-</form>
+			<b class="form-label">Date</b>
+			<div class="form-inline">
+				<input class="form-control" name="date" id="inp_date" size="22" maxlength="10"  value="{$smarty.request.date|date_format:"%Y-%m-%d"}" />
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date" style="cursor: pointer;" title="Select Date" />
+			</div>
+			
+				
+			<input class="btn btn-primary mt-2" type="button" value="Refresh" onClick="TRADE_IN_WRITEOFF_MODULE.submit_form();" />
+		</form>
+	</div>
+</div>
 
 <br />
 {if $smarty.request.show_data && !$err}

@@ -556,11 +556,19 @@ var SEARCH_USER_DIALOG = {
 		Please wait..<br /><br /><img src="ui/clock.gif" border="0" />
 	</p>
 </div>
-
-<h1>POS Announcement{if $form.id}(ID#{$form.id}){else}(New){/if}</h1>
-
-{if $form.id}
-<h3>Status:
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{if $form.id}
+Status:
 {if $form.status == 1}
 	Draft Announcement
 {elseif $form.status == 2}
@@ -571,14 +579,21 @@ var SEARCH_USER_DIALOG = {
 	Deleted
 {/if}
 {/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 <br>
 
 {if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$errm.top item=e}
+		<li> {$e}
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
 {if $smarty.request.msg}<div style="color:blue;">{$smarty.request.msg}</div>{/if}
@@ -591,298 +606,307 @@ var SEARCH_USER_DIALOG = {
 <input type=hidden name=readonly value="{$readonly}">
 <input type=hidden name=active value="{$form.active}">
 
-<div class="stdframe" style="background:#fff">
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-<td><b>Title</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-<td colspan=3><input name="title" value="{$form.title|escape}" size=80> </td>
-</tr>
-<tr>
-<td valign=top><b>Content</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-<td colspan=3><textarea cols="71" rows="6" name="content">{$form.content|escape}</textarea></td>
-</tr>
-<tr>
-<td><b>Date</b></td>
-<td colspan=3>
-	<input name="date_from" value="{if $form.date_from>0}{$form.date_from|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_from" />
-	{if $allow_edit}
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	{/if}
-	<b>To</b>
-
-	<input name="date_to" value="{if $form.date_to>0}{$form.date_to|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_to" />
-	{if $allow_edit}
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	{/if}
-	(yyyy-mm-dd)
-</td>
-</tr>
-<tr><td><b>Time</b></td>
-<td colspan=3>
-<input id="time_from_id" name="time_from" value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" onclick="if(this.value)this.select();" size=10>
-<b>To</b> 
-<input id="time_to_id" name="time_to" value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" onclick="if(this.value)this.select();" size=10> (hh:mm)
-&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="checkbox" id="all_day_id" name="all_day" value="all_day" onclick="change_wholeday(this)"> <label for="all_day_id"><b>All Day</b></label>
-<br>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Allowed Day(s)</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-<td>
-	<table class="small" border=0 id=tbl_days>
-	<tr>
-		<td><label for="all_days"><input type="checkbox" id="all_days" name="all_days" value="1" onclick="toggle_all_days(this);" /> All</label></td>
-	</tr>
-	{foreach from=$form.all_days item=day key=i}
-		<tr>
-			<td valign="top">
-			<label>
-				<input type=checkbox name="allowed_day[]" value="{$i}" class="all_days" {if is_array($form.allowed_day) and in_array($i,$form.allowed_day)}checked{/if} />&nbsp;{$day|upper}
-			</label>
-			</td>
-		</tr>
-	{/foreach}
-	</table>
-</td>
-</tr>
-<tr>
-	<td valign=top><b>Branches Announcement</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-{if $form.branch_id==1 && BRANCH_CODE=='HQ'}
-	{*<!-- <td>You may select multiple branches <br>
-		<table class="small" border=0 id=tbl_branch>
-		<tr>
-			<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
-		</tr>
-		{section name=i loop=$branch}
-		{assign var=bid value=$branch[i].id}
-		<tr>
-			<td valign=top>
-			<label>
-				<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
-			</label>
-			</td>
-		</tr>
-		{/section}
-		</table>
-	</td> -->*}
-
-	{* new table *}
-	{if $max_counter >= $max_counter_per_row}
-		{assign var=colspan value=$max_counter_per_row}
-	{else}
-		{assign var=colspan value=$max_counter}
-	{/if}
-	{*<!-- <td>You may select multiple branches <br>
-		<table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
-		<tr>
-			<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
-			<td nowrap><label><input type="checkbox" id="cbx_all_counters" name="cbx_all_counters" value="1" onclick="toggle_all_counters(this);" /> All</label></td>
-			<td colspan="{$max_counter}">Counter Name</td>
-		</tr>
-		{section name=i loop=$branch}
-		{assign var=bid value=$branch[i].id}
-		{math equation=ceil(x/y) x=$branch_counter.$bid|@count y=$max_counter_per_row assign=rowspan}
-		<tr>
-			<td rowspan="{$rowspan}" valign=top nowrap>
-			<label>
-				<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" data-bid="{$bid}" onclick="toggle_branch_counter_all(this);" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
-			</label>
-			</td>
-			<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$bid}" /> All</label></td>
-			{assign var=ct value=0}
-			{foreach from=$branch_counter.$bid item=c}
-				{assign var=ct value=$ct+1}
-				{if $ct > $max_counter_per_row}
-					</tr>
-					<tr>
-					{assign var=ct value=1}
-				{/if}
-				<td nowrap><label><input type="checkbox" class="counter_id branch_counter" data-bid="{$bid}" /> {$c.network_name}</label></td>
-			{/foreach}
-			{if $ct < $colspan}
-				{section name=bc start=$ct loop=$colspan}
-					<td style="background-color:#d7d7d7;">&nbsp;</td>
-				{/section}
-			{elseif $max_counter == 0}
-				<td style="background-color:#d7d7d7;">&nbsp;</td>
-			{/if}
-		</tr>
-		{/section}
-		</table>
-	</td> -->*}
-	{if $show_branch_group}
-		<td>
-			{* new table version 2 *}
-			<table border=0>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<table>
+			<tr>
+			<td><b class="form-label">Title<span class="text-danger" title="Required Field"> *</span></b> </td>
+			<td colspan=3><input class="form-control" name="title" value="{$form.title|escape}" size=80> </td>
 			</tr>
-				<td valign=top nowrap>
-					Select Branch Group to broadcast announcement to all branches of the selected group.<br>
-					Click Manage Branch if want to broadcast to specific branch or counter.<br>
-				<table class="small" border=0 id=tbl_branch>
+			<tr>
+			<td valign=top><b class="form-label">Content<span class="text-danger" title="Required Field"> *</span></b> </td>
+			<td colspan=3><textarea class="form-control" cols="71" rows="6" name="content">{$form.content|escape}</textarea></td>
+			</tr>
+			<tr>
+			<td><b class="form-label">Date</b></td>
+			<td colspan=3>
+				<div class="form-inline">
+					<input class="form-control" name="date_from" value="{if $form.date_from>0}{$form.date_from|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="22" id="inp_date_from" />
+				{if $allow_edit}
+				&nbsp;	<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" /> <span class="text-danger" title="Required Field"> *</span>
+				{/if}
+				&nbsp;<b class="form-label">To&nbsp;</b>
+			
+				<input class="form-control" name="date_to" value="{if $form.date_to>0}{$form.date_to|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="22" id="inp_date_to" />
+				{if $allow_edit}
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" /> <span class="text-danger" title="Required Field"> *</span>
+				{/if}
+				&nbsp;(yyyy-mm-dd)
+				</div>
+			</td>
+			</tr>
+			<tr><td><b class="form-label">Time</b></td>
+			<td colspan=3>
+			<div class="form-inline">
+				<input class="form-control" id="time_from_id" name="time_from" value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" onclick="if(this.value)this.select();" size=22>
+			<b class="form-label">&nbsp;To&nbsp;</b> 
+			<input class="form-control" id="time_to_id" name="time_to" value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" onclick="if(this.value)this.select();" size=22>&nbsp; (hh:mm)
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" id="all_day_id" name="all_day" value="all_day" onclick="change_wholeday(this)"> <label for="all_day_id"><b class="form-label">&nbsp;All Day</b></label>
+			
+			</div>
+			</td>
+			</tr>
+			<tr>
+			<td valign=top><b class="form-label">Allowed Day(s)</b> <span class="text-danger" title="Required Field"> *</span></td>
+			<td>
+				<table class="small" border=0 id=tbl_days>
+				<tr>
+					<td><label for="all_days"><input type="checkbox" id="all_days" name="all_days" value="1" onclick="toggle_all_days(this);" /> All</label></td>
+				</tr>
+				{foreach from=$form.all_days item=day key=i}
 					<tr>
-						<td><label><input type="checkbox" id="all_branch_group" name="all_branch_group" value="1" onclick="toggle_all_branch_group(this)" />&nbsp; All Group</label></td>
+						<td valign="top">
+						<label>
+							<input type=checkbox name="allowed_day[]" value="{$i}" class="all_days" {if is_array($form.allowed_day) and in_array($i,$form.allowed_day)}checked{/if} />&nbsp;{$day|upper}
+						</label>
+						</td>
 					</tr>
-					{foreach from=$branch_group_list item=bgl}
-						{if is_array($form.announcement_branch_group_id) and in_array($bgl.id,$form.announcement_branch_group_id)}
-							{assign var=cbxchecked value=checked}
-							{assign var=btn value=btn-success}
-							{assign var=manage_branch value='View Branch'}
-							{assign var=amode value='view'}
-						{else}
-							{assign var=cbxchecked value=''}
-							{if $readonly}
-								{assign var=btn value=btn-success}
-								{assign var=manage_branch value='View Branch'}
-								{assign var=amode value='view'}
-							{else}
-								{assign var=btn value=btn-primary}
-								{assign var=manage_branch value='Manage Branch'}
-								{assign var=amode value='edit'}
+				{/foreach}
+				</table>
+			</td>
+			</tr>
+			<tr>
+				<td valign=top><b class="form-label">Branches Announcement</b> 
+					<span class="text-danger" title="Required Field"> *</span></td>
+			{if $form.branch_id==1 && BRANCH_CODE=='HQ'}
+				{*<!-- <td>You may select multiple branches <br>
+					<table class="small" border=0 id=tbl_branch>
+					<tr>
+						<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
+					</tr>
+					{section name=i loop=$branch}
+					{assign var=bid value=$branch[i].id}
+					<tr>
+						<td valign=top>
+						<label>
+							<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
+						</label>
+						</td>
+					</tr>
+					{/section}
+					</table>
+				</td> -->*}
+			
+				{* new table *}
+				{if $max_counter >= $max_counter_per_row}
+					{assign var=colspan value=$max_counter_per_row}
+				{else}
+					{assign var=colspan value=$max_counter}
+				{/if}
+				{*<!-- <td>You may select multiple branches <br>
+					<table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
+					<tr>
+						<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
+						<td nowrap><label><input type="checkbox" id="cbx_all_counters" name="cbx_all_counters" value="1" onclick="toggle_all_counters(this);" /> All</label></td>
+						<td colspan="{$max_counter}">Counter Name</td>
+					</tr>
+					{section name=i loop=$branch}
+					{assign var=bid value=$branch[i].id}
+					{math equation=ceil(x/y) x=$branch_counter.$bid|@count y=$max_counter_per_row assign=rowspan}
+					<tr>
+						<td rowspan="{$rowspan}" valign=top nowrap>
+						<label>
+							<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" data-bid="{$bid}" onclick="toggle_branch_counter_all(this);" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
+						</label>
+						</td>
+						<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$bid}" /> All</label></td>
+						{assign var=ct value=0}
+						{foreach from=$branch_counter.$bid item=c}
+							{assign var=ct value=$ct+1}
+							{if $ct > $max_counter_per_row}
+								</tr>
+								<tr>
+								{assign var=ct value=1}
 							{/if}
+							<td nowrap><label><input type="checkbox" class="counter_id branch_counter" data-bid="{$bid}" /> {$c.network_name}</label></td>
+						{/foreach}
+						{if $ct < $colspan}
+							{section name=bc start=$ct loop=$colspan}
+								<td style="background-color:#d7d7d7;">&nbsp;</td>
+							{/section}
+						{elseif $max_counter == 0}
+							<td style="background-color:#d7d7d7;">&nbsp;</td>
 						{/if}
-						{assign var=bibg value="branch_id_by_group_`$bgl.id`"}
-						<tr>
-							<td valign=top>
-							<label>
-								<input type=checkbox id="announcement_branch_group_id_{$bgl.id}" name="announcement_branch_group_id[]" value="{$bgl.id}" data-bgid="{$bgl.id}" onclick="toggle_branch_group(this)" class="branch branch_group_cb" {$cbxchecked}/>&nbsp; {$bgl.description}
-							</label>
-							</td>
-							<td valign=top>
-							<a class="btn {$btn}" id="manage_branch_{$bgl.id}" href="javascript:void(BRANCH_ASSGN.view_branch_clicked({$bgl.id},'{$amode}'));">{$manage_branch}</a>
-							<span id="selected_branches_{$bgl.id}"></span>
+					</tr>
+					{/section}
+					</table>
+				</td> -->*}
+				{if $show_branch_group}
+					<td>
+						{* new table version 2 *}
+						<table border=0>
+						</tr>
+							<td valign=top nowrap>
+								Select Branch Group to broadcast announcement to all branches of the selected group.<br>
+								Click Manage Branch if want to broadcast to specific branch or counter.<br>
+							<table class="small" border=0 id=tbl_branch>
+								<tr>
+									<td><label><input type="checkbox" id="all_branch_group" name="all_branch_group" value="1" onclick="toggle_all_branch_group(this)" />&nbsp; All Group</label></td>
+								</tr>
+								{foreach from=$branch_group_list item=bgl}
+									{if is_array($form.announcement_branch_group_id) and in_array($bgl.id,$form.announcement_branch_group_id)}
+										{assign var=cbxchecked value=checked}
+										{assign var=btn value=btn-success}
+										{assign var=manage_branch value='View Branch'}
+										{assign var=amode value='view'}
+									{else}
+										{assign var=cbxchecked value=''}
+										{if $readonly}
+											{assign var=btn value=btn-success}
+											{assign var=manage_branch value='View Branch'}
+											{assign var=amode value='view'}
+										{else}
+											{assign var=btn value=btn-primary}
+											{assign var=manage_branch value='Manage Branch'}
+											{assign var=amode value='edit'}
+										{/if}
+									{/if}
+									{assign var=bibg value="branch_id_by_group_`$bgl.id`"}
+									<tr>
+										<td valign=top>
+										<label>
+											<input type=checkbox id="announcement_branch_group_id_{$bgl.id}" name="announcement_branch_group_id[]" value="{$bgl.id}" data-bgid="{$bgl.id}" onclick="toggle_branch_group(this)" class="branch branch_group_cb" {$cbxchecked}/>&nbsp; {$bgl.description}
+										</label>
+										</td>
+										<td valign=top>
+										<a class="btn {$btn}" id="manage_branch_{$bgl.id}" href="javascript:void(BRANCH_ASSGN.view_branch_clicked({$bgl.id},'{$amode}'));">{$manage_branch}</a>
+										<span id="selected_branches_{$bgl.id}"></span>
+										</td>
+									</tr>
+									<input type="hidden" id="{$bibg}" name="{$bibg}" data-bgid="{$bgl.id}" class="branch_id_by_group" value='{$form.$bibg}' />
+								{/foreach}
+								
+								</table>
 							</td>
 						</tr>
-						<input type="hidden" id="{$bibg}" name="{$bibg}" data-bgid="{$bgl.id}" class="branch_id_by_group" value='{$form.$bibg}' />
-					{/foreach}
-					
+						</table>
+					</td>
+				{else}
+					{*show branch directly*}
+					<td>You may select multiple branches <br>
+						<table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
+						<tr>
+							<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
+							<td nowrap><label><input type="checkbox" id="cbx_all_counters" name="cbx_all_counters" value="1" onclick="toggle_all_counters(this);" /> All</label></td>
+							<td colspan="{$max_counter}">Counter Name</td>
+						</tr>
+						{section name=i loop=$branch}
+						{assign var=bid value=$branch[i].id}
+						{math equation=ceil(x/y) x=$branch_counter.$bid|@count y=$max_counter_per_row assign=rowspan}
+						<tr>
+							<td rowspan="{$rowspan}" valign=top nowrap>
+							<label>
+								<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" data-bid="{$bid}" value="{$bid}" onclick="toggle_branch_counter_all(this);" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
+							</label>
+							</td>
+							<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" name="announcement_all_counter_flag[]" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$bid}" value="{$bid}" {if is_array($form.announcement_counter_id.$bid) and !$form.announcement_counter_id.$bid} checked {/if} /> All</label></td>
+							{assign var=ct value=0}
+							{foreach from=$branch_counter.$bid item=c}
+								{assign var=ct value=$ct+1}
+								{if $ct > $max_counter_per_row}
+									</tr>
+									<tr>
+									{assign var=ct value=1}
+								{/if}
+								<td nowrap><label><input type="checkbox" name="announcement_counter_id_{$bid}[]" class="counter_id branch_counter" data-bid="{$bid}" value="{$c.id}" onclick="toggle_counter(this);" {if is_array($form.announcement_counter_id.$bid) and (in_array($c.id,$form.announcement_counter_id.$bid) or !$form.announcement_counter_id.$bid)} checked {/if} /> {$c.network_name} </label></td>
+							{/foreach}
+							{if $ct < $colspan}
+								{section name=bc start=$ct loop=$colspan}
+									<td style="background-color:#d7d7d7;">&nbsp;</td>
+								{/section}
+							{elseif $max_counter == 0}
+								<td style="background-color:#d7d7d7;">&nbsp;</td>
+							{/if}
+						</tr>
+						{/section}
+						</table>
+					</td>
+				{/if}
+			{else}
+				<td>
+					<table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
+					{if BRANCH_CODE=='HQ'}
+						{assign var=this_branch value=$form.branch_id}
+					{else}
+						{assign var=this_branch value=$session_branch_id}
+					{/if}
+					{if $branches[$this_branch]}
+						{if $branch_counter.$this_branch|@count >= $max_counter_per_row}
+							{assign var=colspan value=$max_counter_per_row}
+						{else}
+							{assign var=colspan value=$branch_counter.$this_branch|@count}
+						{/if}
+						{math equation=ceil(x/y) x=$branch_counter.$this_branch|@count y=$max_counter_per_row assign=rowspan}
+						<tr>
+							<td rowspan="{$rowspan}" valign="top">
+							<label>
+								{*<!-- <span style="display:none;"><input type="checkbox" name="announcement_branch_id[{$session_branch_id}]" type="hidden" value="{$session_branch_id}" class="branch_cb" checked /></span> -->*}
+								<br>{$branches[$this_branch].code}
+							</label>
+							</td>
+							<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" name="announcement_all_counter_flag" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$this_branch}" {if $form.announcement_all_counter_flag} checked {/if} /> ALL COUNTERS</label></td>
+							{assign var=ct value=0}
+							{foreach from=$branch_counter.$this_branch item=c}
+								{assign var=ct value=$ct+1}
+								{if $ct > $max_counter_per_row}
+									</tr>
+									<tr>
+									{assign var=ct value=1}
+								{/if}
+								<td nowrap><label><input type="checkbox" name="announcement_counter_id[]" class="counter_id branch_counter" data-bid="{$this_branch}" value="{$c.id}" {if (is_array($form.announcement_counter_id.$this_branch) and in_array($c.id,$form.announcement_counter_id.$this_branch)) or $form.announcement_all_counter_flag} checked {/if} /> {$c.network_name}</label></td>
+							{/foreach}
+							{if $ct < $colspan}
+								{section name=bc start=$ct loop=$colspan}
+									<td style="background-color:#d7d7d7;">&nbsp;</td>
+								{/section}
+							{elseif $branch_counter.$this_branch|@count == 0}
+								<td style="background-color:#d7d7d7;">&nbsp;</td>
+							{/if}
+						</tr>
+					{/if}
+					</table>
+				</td>
+			{/if}
+			</tr>
+			
+			{* User *}
+			<tr>
+				<td valign="top"><b class="form-label">User</b></td>
+				<td>
+					{if !$readonly}
+					(Leave this empty if want to broadcast to all users) <br>
+					{/if}
+					<table width="100%" border="0" cellspacing="0" cellpadding="4">
+						<tr>
+							<td valign="top" width="10px">
+							{if !$readonly}
+								<img src="ui/ed.png" align="absmiddle" onClick="BRANCH_ASSGN.search_user_click();" style="float:left;" />
+							{/if}
+							</td>
+							<td valign="top">
+							<span id="span_user_list">
+								{if $form.announcement_user_id}
+									{foreach from=$form.announcement_user_id item=tmp_user_id}
+										{include file='front_end.announcement.open.user.tpl' user=$user_list.$tmp_user_id}
+									{/foreach}
+								{else}
+									{if $readonly}All Users{/if}
+								{/if}
+							</span>
+							<span id="span_user_loading"></span>
+							</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
+			
 			</table>
-		</td>
-	{else}
-		{*show branch directly*}
-		<td>You may select multiple branches <br>
-			<table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
-			<tr>
-				<td><label for="all_branches"><input type="checkbox" id="all_branches" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</label></td>
-				<td nowrap><label><input type="checkbox" id="cbx_all_counters" name="cbx_all_counters" value="1" onclick="toggle_all_counters(this);" /> All</label></td>
-				<td colspan="{$max_counter}">Counter Name</td>
-			</tr>
-			{section name=i loop=$branch}
-			{assign var=bid value=$branch[i].id}
-			{math equation=ceil(x/y) x=$branch_counter.$bid|@count y=$max_counter_per_row assign=rowspan}
-			<tr>
-				<td rowspan="{$rowspan}" valign=top nowrap>
-				<label>
-					<input type=checkbox name="announcement_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" data-bid="{$bid}" value="{$bid}" onclick="toggle_branch_counter_all(this);" {if is_array($form.announcement_branch_id) and in_array($branch[i].id,$form.announcement_branch_id)}checked{/if} />&nbsp;{$branch[i].code}
-				</label>
-				</td>
-				<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" name="announcement_all_counter_flag[]" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$bid}" value="{$bid}" {if is_array($form.announcement_counter_id.$bid) and !$form.announcement_counter_id.$bid} checked {/if} /> All</label></td>
-				{assign var=ct value=0}
-				{foreach from=$branch_counter.$bid item=c}
-					{assign var=ct value=$ct+1}
-					{if $ct > $max_counter_per_row}
-						</tr>
-						<tr>
-						{assign var=ct value=1}
-					{/if}
-					<td nowrap><label><input type="checkbox" name="announcement_counter_id_{$bid}[]" class="counter_id branch_counter" data-bid="{$bid}" value="{$c.id}" onclick="toggle_counter(this);" {if is_array($form.announcement_counter_id.$bid) and (in_array($c.id,$form.announcement_counter_id.$bid) or !$form.announcement_counter_id.$bid)} checked {/if} /> {$c.network_name} </label></td>
-				{/foreach}
-				{if $ct < $colspan}
-					{section name=bc start=$ct loop=$colspan}
-						<td style="background-color:#d7d7d7;">&nbsp;</td>
-					{/section}
-				{elseif $max_counter == 0}
-					<td style="background-color:#d7d7d7;">&nbsp;</td>
-				{/if}
-			</tr>
-			{/section}
-			</table>
-		</td>
-	{/if}
-{else}
-	<td>
-	    <table class="small branch_table" border="1" cellspacing="0" cellpadding="4">
-	    {if BRANCH_CODE=='HQ'}
-	    	{assign var=this_branch value=$form.branch_id}
-	    {else}
-	    	{assign var=this_branch value=$session_branch_id}
-	    {/if}
-	    {if $branches[$this_branch]}
-		    {if $branch_counter.$this_branch|@count >= $max_counter_per_row}
-				{assign var=colspan value=$max_counter_per_row}
-			{else}
-				{assign var=colspan value=$branch_counter.$this_branch|@count}
-			{/if}
-	    	{math equation=ceil(x/y) x=$branch_counter.$this_branch|@count y=$max_counter_per_row assign=rowspan}
-	    	<tr>
-				<td rowspan="{$rowspan}" valign="top">
-				<label>
-					{*<!-- <span style="display:none;"><input type="checkbox" name="announcement_branch_id[{$session_branch_id}]" type="hidden" value="{$session_branch_id}" class="branch_cb" checked /></span> -->*}
-					<br>{$branches[$this_branch].code}
-				</label>
-				</td>
-				<td rowspan="{$rowspan}" valign=top nowrap><label><input type="checkbox" name="announcement_all_counter_flag" class="all_counters" onclick="toggle_all_branch_counters(this);" data-bid="{$this_branch}" {if $form.announcement_all_counter_flag} checked {/if} /> ALL COUNTERS</label></td>
-				{assign var=ct value=0}
-				{foreach from=$branch_counter.$this_branch item=c}
-					{assign var=ct value=$ct+1}
-					{if $ct > $max_counter_per_row}
-						</tr>
-						<tr>
-						{assign var=ct value=1}
-					{/if}
-					<td nowrap><label><input type="checkbox" name="announcement_counter_id[]" class="counter_id branch_counter" data-bid="{$this_branch}" value="{$c.id}" {if (is_array($form.announcement_counter_id.$this_branch) and in_array($c.id,$form.announcement_counter_id.$this_branch)) or $form.announcement_all_counter_flag} checked {/if} /> {$c.network_name}</label></td>
-				{/foreach}
-				{if $ct < $colspan}
-					{section name=bc start=$ct loop=$colspan}
-						<td style="background-color:#d7d7d7;">&nbsp;</td>
-					{/section}
-				{elseif $branch_counter.$this_branch|@count == 0}
-					<td style="background-color:#d7d7d7;">&nbsp;</td>
-				{/if}
-			</tr>
-	    {/if}
-		</table>
-	</td>
-{/if}
-</tr>
-
-{* User *}
-<tr>
-	<td valign="top"><b>User</b></td>
-	<td>
-		{if !$readonly}
-		(Leave this empty if want to broadcast to all users) <br>
-		{/if}
-		<table width="100%" border="0" cellspacing="0" cellpadding="4">
-			<tr>
-				<td valign="top" width="10px">
-				{if !$readonly}
-					<img src="ui/ed.png" align="absmiddle" onClick="BRANCH_ASSGN.search_user_click();" style="float:left;" />
-				{/if}
-				</td>
-				<td valign="top">
-				<span id="span_user_list">
-					{if $form.announcement_user_id}
-						{foreach from=$form.announcement_user_id item=tmp_user_id}
-							{include file='front_end.announcement.open.user.tpl' user=$user_list.$tmp_user_id}
-						{/foreach}
-					{else}
-						{if $readonly}All Users{/if}
-					{/if}
-				</span>
-				<span id="span_user_loading"></span>
-				</td>
-			</tr>
-		</table>
-	</td>
-</tr>
-
-</table>
-
-</div><br>
+			
+			</div>
+	</div>
+</div>
 </form>
 
 {* Branch Dialog *}

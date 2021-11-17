@@ -204,65 +204,98 @@ function export_itemise_info(){
 
 <iframe width=1 height=1 style="visibility:hidden" name=if_itemise></iframe>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form method=post class=form name=report_form>
-<input type=hidden name=report_title value="{$report_title}">
-<p>
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> <select name="branch_id">
-	    <option value="">-- All --</option>
-	    {foreach from=$branches item=b}
-	        {if !$branch_group.have_group[$b.id]}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	        {/if}
-	    {/foreach}
-	    {if $branch_group.header}
-	        <optgroup label="Branch Group">
-				{foreach from=$branch_group.header item=r}
-				    {capture assign=bgid}bg,{$r.id}{/capture}
-					<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name=report_form>
+			<input type=hidden name=report_title value="{$report_title}">
+			<p>
+			<div class="row">
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				 <select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches item=b}
+							{if !$branch_group.have_group[$b.id]}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+						{if $branch_group.header}
+							<optgroup label="Branch Group">
+								{foreach from=$branch_group.header item=r}
+									{capture assign=bgid}bg,{$r.id}{/capture}
+									<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+								{/foreach}
+							</optgroup>
+						{/if}
+					</select>
+				{else}
+				<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}"/>
+				{/if}
+				</div>
+	
+				<div class="col">
+					<b class="form-label">Month</b> 
+				<select class="form-control" name=month>
+				{section loop=12 name=i}
+					<option value="{$smarty.section.i.iteration}" {if $smarty.request.month eq $smarty.section.i.iteration}selected{/if}>{$months[$smarty.section.i.iteration]}</option>
+				{/section}
+				</select>
+				</div>
+	
+				<div class="col">
+					<b class="form-label">Year</b> 
+				<select class="form-control" name=year>
+				{foreach from=$years item=y}
+					<option value="{$y.year}" {if $smarty.request.year eq $y.year}selected{/if}>{$y.year}</option>
 				{/foreach}
-			</optgroup>
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}"/>
-{/if}
-<b>Month</b> <select name=month>
-{section loop=12 name=i}
-	<option value="{$smarty.section.i.iteration}" {if $smarty.request.month eq $smarty.section.i.iteration}selected{/if}>{$months[$smarty.section.i.iteration]}</option>
-{/section}
-</select>&nbsp;
-<b>Year</b> <select name=year>
-{foreach from=$years item=y}
-    <option value="{$y.year}" {if $smarty.request.year eq $y.year}selected{/if}>{$y.year}</option>
-{/foreach}
-</select>
-&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-</p>
-<p>
-{include file="category_autocomplete.tpl" all=true}
-</p>
+				</select>
+				</div>
+				
+	
+				<div class="col">
+					<div class="form-label">
+						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+					</div>
+				</div>
+			</div>
 
-<input type=hidden name=submit value=1>
-<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name=output_excel>{#OUTPUT_EXCEL#}</button>
-{/if}
-<br>
-Note:	Report will Shown 1 year
-</form>
+			</p>
+			<p>
+			{include file="category_autocomplete.tpl" all=true}
+			</p>
+			
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info " name=output_excel>{#OUTPUT_EXCEL#}</button>
+			{/if}
+			<br>
+			<div class="alert alert-primary rounded mt-2" style="max-width: 300px;">
+				<b>Note:</b>	Report will Shown 1 year
+			</div>
+			</form>
+	</div>
+</div>
 {/if}
 {if !$table}
 {if $smarty.request.submit && !$err}-- No data --{/if}
@@ -276,228 +309,243 @@ Note:	Report will Shown 1 year
 <input type=hidden name=hidden_code>
 <input type=hidden name=hidden_date_msg value="{$date_msg}">
 </form>
-<h2>
-{$report_title}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$report_title}
 <br>
-<!--Branch: {$branch_name} &nbsp;&nbsp;&nbsp;&nbsp; From: {$date_msg}-->
-</h2>
-<table class=report_table width=100%>
-<tr class=header>
-	<th rowspan=2>Category</th>
-	<th rowspan=2>Last 9 Mth</th>
-	<th colspan=4>Quantity</th>
-	<th rowspan=2 class=h1>Last 9 Mth</th>
-	<th colspan=4 class=h1>Amount</th>
-	<th colspan=2>Sales Contribution</th>
-	{if $sessioninfo.privilege.SHOW_REPORT_GP}
-		<th colspan=4 class=h1>Gross Profit</th>
-	{/if}
-	<th colspan=2>AVG S.price</th>
-	<th colspan=4 class=h1>S.Price</th>
-</tr>
-<tr class=header>
-    <!-- Qty -->
-    {assign var=last9 value=0}
-	{foreach from=$label item=lbl}
-	    {assign var=last9 value=$last9+1}
-	    {if $last9 > 9}
-	        <th>{$lbl}</th>
-	    {/if}
-	{/foreach}
-	<th>Total</th>
-	<!-- End Qty -->
+<!--Branch: {$branch_name}  From: {$date_msg}-->
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-	<!-- Amount -->
-	{assign var=last9 value=0}
-	{foreach from=$label item=lbl}
-	    {assign var=last9 value=$last9+1}
-	    {if $last9 > 9}
-	        <th class=h1>{$lbl}</th>
-	    {/if}
-	{/foreach}
-	<th class=h1>Total</th>
-	<!-- End Amount -->
-	<th>C.Month</th>
-	<th>Accum</th>
-	{if $sessioninfo.privilege.SHOW_REPORT_GP}
-		<th class=h1>CM.Amt</th>
-		<th class=h1>CM %</th>
-		<th class=h1>Accum.Amt</th>
-		<th class=h1>Accum %</th>
-	{/if}
-	<th>CM</th>
-	<th>Accum</th>
-	<th class=h1>CM High</th>
-	<th class=h1>CM Low</th>
-	<th class=h1>AM High</th>
-	<th class=h1>AM Low</th>
-</tr>
-{foreach from=$table key=code item=c}
-{cycle values="c2,c1" assign=row_class}
-<tbody id="r_{$code}">
-<tr>
-	<td class="{$row_class}" nowrap>
-	    {if $code eq 0}
-	        {$category.$code.name}
-	    {else}
-	        {if !$no_header_footer}<img src='/ui/icons/table.png' onclick="load_sku({$code},this);" align=absmiddle>{/if}
-	        {$category.$code.name}
-        	{if !$no_header_footer}
-				{if $category.$code.got_parent}
-					<img src="/ui/expand.gif" onclick="load_child({$code},this,1);" align=absmiddle>
-			    {/if}
-			{/if}
-        {/if}
-	</td>
-
-	<!-- Qty -->
-    {assign var=last9 value=''}
-    {assign var=temp value=''}
-	{foreach from=$label key=lbl item=day}
-	    {assign var=last9 value=$last9+1}
-	    {assign var=temp value=$category.$code.qty.$lbl+$temp}
-	    {if $last9 eq 9}
-	        <td class="{$row_class} r">{$temp|qty_nf|ifzero:'-'}</td>
-	    {elseif $last9 > 9}
-	        <td class="{$row_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
-	    {/if}
-	{/foreach}
-	<td class="{$row_class} r">{$category.$code.qty.total|qty_nf|ifzero:'-'}</td>
-	<!-- End Qty -->
-	
-	<!-- Amount -->
-	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-    {assign var=last9 value=''}
-    {assign var=temp value=''}
-	{foreach from=$label key=lbl item=day}
-	    {assign var=last9 value=$last9+1}
-	    {assign var=temp value=$category.$code.amount.$lbl+$temp}
-	    {if $last9 eq 9}
-	        <td class="{$amt_class} r">{$temp|number_format:2|ifzero:'-'}</td>
-	    {elseif $last9 > 9}
-	        <td class="{$amt_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
-	    {/if}
-	{/foreach}
-	{assign var=last_lbl value=$lbl}
-	<td class="{$amt_class} r">{$category.$code.amount.total|number_format:2|ifzero:'-'}</td>
-	<!-- End Amount -->
-	<!-- C. Month -->
-	{if $category.total.amount.$last_lbl ne 0}
-		{assign var=temp value=$category.$code.amount.$last_lbl/$category.total.amount.$last_lbl}
-	{else}
-	    {assign var=temp value=0}
-	{/if}
-	<td class="{$row_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-    <!-- End of C. Month -->
-    <!-- Accum -->
-	{assign var=temp value=$category.$code.amount.total/$category.total.amount.total}
-	<td class="{$row_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-	<!-- End of Accum -->
-
-    {if $sessioninfo.privilege.SHOW_REPORT_GP}
-		<!-- Gross Profit -->
-		{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-		<td class="{$amt_class} r">{$category.$code.cost.cm.$last_lbl|number_format:2|ifzero:'-'}</td>
-		{if $category.total.amount.$last_lbl ne 0}
-		{assign var=temp value=$category.$code.cost.cm.$last_lbl/$category.total.amount.$last_lbl}
-		{else}
-		{assign var=temp value=0}
-		{/if}
-		<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-		<td class="{$amt_class} r">{$category.$code.cost.accum|number_format:2|ifzero:'-'}</td>
-		{if $category.$code.amount.total ne 0}
-		{assign var=temp value=$category.$code.cost.accum/$category.$code.amount.total}
-		{else}
-		{assign var=temp value=0}
-		{/if}
-		<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-		<!-- End of Gross Profit -->
-	{/if}
-	<!-- Avg S.Price-->
-	<td class="{$row_class} r">{$category.$code.avg.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$row_class} r">{$category.$code.avg.total|number_format:2|ifzero:'-'}</td>
-	<!-- End of Avg S.Price-->
-	<!-- S.Price-->
-	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-	<td class="{$amt_class} r">{$category.$code.highest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.$code.lowest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.$code.highest_sales.total|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.$code.lowest_sales.total|number_format:2|ifzero:'-'}</td>
-	<!-- End of S.Price-->
-</tr>
-</tbody>
-{/foreach}
-{cycle values="c2,c1" assign=row_class}
-<tbody id="r_total">
-<tr>
-	<td class="{$row_class} r">Total</td>
-
-	<!-- Qty -->
-    {assign var=last9 value=''}
-    {assign var=temp value=''}
-	{foreach from=$label key=lbl item=day}
-	    {assign var=last9 value=$last9+1}
-	    {assign var=temp value=$category.total.qty.$lbl+$temp}
-	    {if $last9 eq 9}
-	        <td class="{$row_class} r">{$temp|qty_nf|ifzero:'-'}</td>
-	    {elseif $last9 > 9}
-	        <td class="{$row_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
-	    {/if}
-	{/foreach}
-	<td class="{$row_class} r">{$category.total.qty.total|qty_nf|ifzero:'-'}</td>
-	<!-- End Qty -->
-
-	<!-- Amount -->
-	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-    {assign var=last9 value=''}
-    {assign var=temp value=''}
-	{foreach from=$label key=lbl item=day}
-	    {assign var=last9 value=$last9+1}
-	    {assign var=temp value=$category.total.amount.$lbl+$temp}
-	    {if $last9 eq 9}
-	        <td class="{$amt_class} r">{$temp|number_format:2|ifzero:'-'}</td>
-	    {elseif $last9 > 9}
-	        <td class="{$amt_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
-	    {/if}
-	{/foreach}
-	<td class="{$amt_class} r">{$category.total.amount.total|number_format:2|ifzero:'-'}</td>
-	<!-- End Amount -->
-	<!-- sales contribution -->
-	<td class="{$row_class} r">{*{if $category.total.amount.$last_lbl ne 0}100.00%{else}-{/if}*}-</td>
-	<td class="{$row_class} r">{*100.00%*}-</td>
-	<!-- end of sales contribution -->
-	{if $sessioninfo.privilege.SHOW_REPORT_GP}
-		<!-- Gross Profit -->
-		{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-		<td class="{$amt_class} r">{$category.total.cost.cm.$last_lbl|number_format:2|ifzero:'-'}</td>
-		<td class="{$amt_class} r">
-			{if $category.total.amount.$last_lbl ne 0}
-                {$category.total.cost.cm.$last_lbl/$category.total.amount.$last_lbl*100|number_format:2}%
-			{else}-{/if}
-		</td>
-		<td class="{$amt_class} r">{$category.total.cost.accum|number_format:2|ifzero:'-'}</td>
-		{if $category.total.amount.total ne 0}
-		{assign var=temp value=$category.total.cost.accum/$category.total.amount.total}
-		{else}
-		{assign var=temp value=0}
-		{/if}
-		<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-		<!-- End of Gross Profit -->
-	{/if}
-	<!-- Avg S.Price-->
-	<td class="{$row_class} r">{$category.total.avg.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$row_class} r">{$category.total.avg.total|number_format:2|ifzero:'-'}</td>
-	<!-- End of Avg S.Price-->
-	<!-- S.Price-->
-	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-	<td class="{$amt_class} r">{$category.total.highest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.total.lowest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.total.highest_sales.total|number_format:2|ifzero:'-'}</td>
-	<td class="{$amt_class} r">{$category.total.lowest_sales.total|number_format:2|ifzero:'-'}</td>
-	<!-- End of S.Price-->
-</tr>
-</tbody>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class=report_table width=100%>
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th rowspan=2>Category</th>
+						<th rowspan=2>Last 9 Mth</th>
+						<th colspan=4>Quantity</th>
+						<th rowspan=2 class=h1>Last 9 Mth</th>
+						<th colspan=4 class=h1>Amount</th>
+						<th colspan=2>Sales Contribution</th>
+						{if $sessioninfo.privilege.SHOW_REPORT_GP}
+							<th colspan=4 class=h1>Gross Profit</th>
+						{/if}
+						<th colspan=2>AVG S.price</th>
+						<th colspan=4 class=h1>S.Price</th>
+					</tr>
+					<tr class=header>
+						<!-- Qty -->
+						{assign var=last9 value=0}
+						{foreach from=$label item=lbl}
+							{assign var=last9 value=$last9+1}
+							{if $last9 > 9}
+								<th>{$lbl}</th>
+							{/if}
+						{/foreach}
+						<th>Total</th>
+						<!-- End Qty -->
+					
+						<!-- Amount -->
+						{assign var=last9 value=0}
+						{foreach from=$label item=lbl}
+							{assign var=last9 value=$last9+1}
+							{if $last9 > 9}
+								<th class=h1>{$lbl}</th>
+							{/if}
+						{/foreach}
+						<th class=h1>Total</th>
+						<!-- End Amount -->
+						<th>C.Month</th>
+						<th>Accum</th>
+						{if $sessioninfo.privilege.SHOW_REPORT_GP}
+							<th class=h1>CM.Amt</th>
+							<th class=h1>CM %</th>
+							<th class=h1>Accum.Amt</th>
+							<th class=h1>Accum %</th>
+						{/if}
+						<th>CM</th>
+						<th>Accum</th>
+						<th class=h1>CM High</th>
+						<th class=h1>CM Low</th>
+						<th class=h1>AM High</th>
+						<th class=h1>AM Low</th>
+					</tr>
+				</thead>
+				{foreach from=$table key=code item=c}
+				{cycle values="c2,c1" assign=row_class}
+				<tbody class="fs-08" id="r_{$code}">
+				<tr>
+					<td class="{$row_class}" nowrap>
+						{if $code eq 0}
+							{$category.$code.name}
+						{else}
+							{if !$no_header_footer}<img src='/ui/icons/table.png' onclick="load_sku({$code},this);" align=absmiddle>{/if}
+							{$category.$code.name}
+							{if !$no_header_footer}
+								{if $category.$code.got_parent}
+									<img src="/ui/expand.gif" onclick="load_child({$code},this,1);" align=absmiddle>
+								{/if}
+							{/if}
+						{/if}
+					</td>
+				
+					<!-- Qty -->
+					{assign var=last9 value=''}
+					{assign var=temp value=''}
+					{foreach from=$label key=lbl item=day}
+						{assign var=last9 value=$last9+1}
+						{assign var=temp value=$category.$code.qty.$lbl+$temp}
+						{if $last9 eq 9}
+							<td class="{$row_class} r">{$temp|qty_nf|ifzero:'-'}</td>
+						{elseif $last9 > 9}
+							<td class="{$row_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					<td class="{$row_class} r">{$category.$code.qty.total|qty_nf|ifzero:'-'}</td>
+					<!-- End Qty -->
+					
+					<!-- Amount -->
+					{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+					{assign var=last9 value=''}
+					{assign var=temp value=''}
+					{foreach from=$label key=lbl item=day}
+						{assign var=last9 value=$last9+1}
+						{assign var=temp value=$category.$code.amount.$lbl+$temp}
+						{if $last9 eq 9}
+							<td class="{$amt_class} r">{$temp|number_format:2|ifzero:'-'}</td>
+						{elseif $last9 > 9}
+							<td class="{$amt_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					{assign var=last_lbl value=$lbl}
+					<td class="{$amt_class} r">{$category.$code.amount.total|number_format:2|ifzero:'-'}</td>
+					<!-- End Amount -->
+					<!-- C. Month -->
+					{if $category.total.amount.$last_lbl ne 0}
+						{assign var=temp value=$category.$code.amount.$last_lbl/$category.total.amount.$last_lbl}
+					{else}
+						{assign var=temp value=0}
+					{/if}
+					<td class="{$row_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+					<!-- End of C. Month -->
+					<!-- Accum -->
+					{assign var=temp value=$category.$code.amount.total/$category.total.amount.total}
+					<td class="{$row_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+					<!-- End of Accum -->
+				
+					{if $sessioninfo.privilege.SHOW_REPORT_GP}
+						<!-- Gross Profit -->
+						{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+						<td class="{$amt_class} r">{$category.$code.cost.cm.$last_lbl|number_format:2|ifzero:'-'}</td>
+						{if $category.total.amount.$last_lbl ne 0}
+						{assign var=temp value=$category.$code.cost.cm.$last_lbl/$category.total.amount.$last_lbl}
+						{else}
+						{assign var=temp value=0}
+						{/if}
+						<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						<td class="{$amt_class} r">{$category.$code.cost.accum|number_format:2|ifzero:'-'}</td>
+						{if $category.$code.amount.total ne 0}
+						{assign var=temp value=$category.$code.cost.accum/$category.$code.amount.total}
+						{else}
+						{assign var=temp value=0}
+						{/if}
+						<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						<!-- End of Gross Profit -->
+					{/if}
+					<!-- Avg S.Price-->
+					<td class="{$row_class} r">{$category.$code.avg.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$row_class} r">{$category.$code.avg.total|number_format:2|ifzero:'-'}</td>
+					<!-- End of Avg S.Price-->
+					<!-- S.Price-->
+					{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+					<td class="{$amt_class} r">{$category.$code.highest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.$code.lowest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.$code.highest_sales.total|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.$code.lowest_sales.total|number_format:2|ifzero:'-'}</td>
+					<!-- End of S.Price-->
+				</tr>
+				</tbody>
+				{/foreach}
+				{cycle values="c2,c1" assign=row_class}
+				<tbody id="r_total">
+				<tr>
+					<td class="{$row_class} r">Total</td>
+				
+					<!-- Qty -->
+					{assign var=last9 value=''}
+					{assign var=temp value=''}
+					{foreach from=$label key=lbl item=day}
+						{assign var=last9 value=$last9+1}
+						{assign var=temp value=$category.total.qty.$lbl+$temp}
+						{if $last9 eq 9}
+							<td class="{$row_class} r">{$temp|qty_nf|ifzero:'-'}</td>
+						{elseif $last9 > 9}
+							<td class="{$row_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					<td class="{$row_class} r">{$category.total.qty.total|qty_nf|ifzero:'-'}</td>
+					<!-- End Qty -->
+				
+					<!-- Amount -->
+					{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+					{assign var=last9 value=''}
+					{assign var=temp value=''}
+					{foreach from=$label key=lbl item=day}
+						{assign var=last9 value=$last9+1}
+						{assign var=temp value=$category.total.amount.$lbl+$temp}
+						{if $last9 eq 9}
+							<td class="{$amt_class} r">{$temp|number_format:2|ifzero:'-'}</td>
+						{elseif $last9 > 9}
+							<td class="{$amt_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					<td class="{$amt_class} r">{$category.total.amount.total|number_format:2|ifzero:'-'}</td>
+					<!-- End Amount -->
+					<!-- sales contribution -->
+					<td class="{$row_class} r">{*{if $category.total.amount.$last_lbl ne 0}100.00%{else}-{/if}*}-</td>
+					<td class="{$row_class} r">{*100.00%*}-</td>
+					<!-- end of sales contribution -->
+					{if $sessioninfo.privilege.SHOW_REPORT_GP}
+						<!-- Gross Profit -->
+						{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+						<td class="{$amt_class} r">{$category.total.cost.cm.$last_lbl|number_format:2|ifzero:'-'}</td>
+						<td class="{$amt_class} r">
+							{if $category.total.amount.$last_lbl ne 0}
+								{$category.total.cost.cm.$last_lbl/$category.total.amount.$last_lbl*100|number_format:2}%
+							{else}-{/if}
+						</td>
+						<td class="{$amt_class} r">{$category.total.cost.accum|number_format:2|ifzero:'-'}</td>
+						{if $category.total.amount.total ne 0}
+						{assign var=temp value=$category.total.cost.accum/$category.total.amount.total}
+						{else}
+						{assign var=temp value=0}
+						{/if}
+						<td class="{$amt_class} r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						<!-- End of Gross Profit -->
+					{/if}
+					<!-- Avg S.Price-->
+					<td class="{$row_class} r">{$category.total.avg.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$row_class} r">{$category.total.avg.total|number_format:2|ifzero:'-'}</td>
+					<!-- End of Avg S.Price-->
+					<!-- S.Price-->
+					{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+					<td class="{$amt_class} r">{$category.total.highest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.total.lowest_sales.$last_lbl|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.total.highest_sales.total|number_format:2|ifzero:'-'}</td>
+					<td class="{$amt_class} r">{$category.total.lowest_sales.total|number_format:2|ifzero:'-'}</td>
+					<!-- End of S.Price-->
+				</tr>
+				</tbody>
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 {include file=footer.tpl}
 

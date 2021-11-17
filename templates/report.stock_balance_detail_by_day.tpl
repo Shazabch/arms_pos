@@ -131,192 +131,237 @@ var REPORTS = {
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class="errmsg">
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a" onSubmit="return false;">
-	<input type="hidden" name="load_report" value="1" />
-	<input type="hidden" name="output_excel" />
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-			<option value="">-- All --</option>
-		    {foreach from=$branches key=bid item=b}
-				{if !$branch_group.have_group.$bid}
-					<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-				{/if}
-		    {/foreach}
-			
-		    {if $branch_group.header}
-				{foreach from=$branch_group.header key=bgid item=bg}
-					<optgroup label="{$bg.code} - {$bg.description}">
-						{foreach from=$branch_group.items.$bgid key=bid item=b}
-							<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a" onSubmit="return false;">
+			<input type="hidden" name="load_report" value="1" />
+			<input type="hidden" name="output_excel" />
+		<p>
+			<div class="row">
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch</b>
+					<select class="form-control" name="branch_id">
+						<option value="">-- All --</option>
+						{foreach from=$branches key=bid item=b}
+							{if !$branch_group.have_group.$bid}
+								<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+							{/if}
 						{/foreach}
-					</optgroup>
+						
+						{if $branch_group.header}
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<optgroup label="{$bg.code} - {$bg.description}">
+									{foreach from=$branch_group.items.$bgid key=bid item=b}
+										<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						{/if}
+					</select>
+				{/if}
+				</div>
+				
+				<div class="col">
+					<b class="form-label">Date From</b> 
+				<div class="form-inline">
+					<input class="form-control" size="23" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" />
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />
+				</div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" size="23" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" />
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date To" />
+				</div>
+			
+				</div>
+			</div>
+			
+			<!--
+			<b>SKU Group</b>&nbsp;
+			<select name="sku_group_id">
+			   <option value="">Please Select</option>
+				{foreach from=$sku_group item=sg}
+					<option value="{$sg.sku_group_id}" {if $smarty.request.sku_group_id eq $sg.sku_group_id}selected{/if}>{$sg.code} - {$sg.description}</option>
 				{/foreach}
-			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	
-	<b>Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" />
-	<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date To" />&nbsp;&nbsp;&nbsp;&nbsp;
-
-	
-	<!--&nbsp;&nbsp;&nbsp;&nbsp;
-	<b>SKU Group</b>&nbsp;
-	<select name="sku_group_id">
-	   <option value="">Please Select</option>
-		{foreach from=$sku_group item=sg}
-			<option value="{$sg.sku_group_id}" {if $smarty.request.sku_group_id eq $sg.sku_group_id}selected{/if}>{$sg.code} - {$sg.description}</option>
-		{/foreach}
-	</select>-->
-</p>
-<p>
-{include file="category_autocomplete.tpl" all=true}
-</p>
-<p>
-{include file='sku_items_autocomplete_multiple_add2.tpl'}
-</p>
-
-<input type="checkbox" name="include_0_sku" value="1" {if $smarty.request.include_0_sku}checked{/if} id="include_0_sku"><label for="include_0_sku"><b>Include 0 Qty SKU</b></label>
-
-<!--p>
-<b>
-Note:<br />
-- Stock Opening/Closing having <font color="red" size="4">*</font> means it is not up to date.
-</b>
-</p-->
-	<br />
-	Item mark with <span class="span_stock_not_update">*</span> indicate the stock balance is not up to date.
-<p>
-
-<button class="btn btn-primary" onClick="REPORTS.submit_form();">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" onClick="REPORTS.submit_form('excel');">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+			</select>-->
+		</p>
+		<p>
+		{include file="category_autocomplete.tpl" all=true}
+		</p>
+		<p>
+		{include file='sku_items_autocomplete_multiple_add2.tpl'}
+		</p>
+		
+		<div class="form-label form-inline">
+			<input type="checkbox" name="include_0_sku" value="1" {if $smarty.request.include_0_sku}checked{/if} id="include_0_sku"><label for="include_0_sku"><b>&nbsp;Include 0 Qty SKU</b></label>
+		</div>
+		
+		<!--p>
+		<b>
+		Note:<br />
+		- Stock Opening/Closing having <font color="red" size="4">*</font> means it is not up to date.
+		</b>
+		</p-->
+			<br />
+			<div class="alert alert-primary rounded mx-3">
+				Item mark with <span class="span_stock_not_update">*</span> indicate the stock balance is not up to date.
+			</div>
+		<p>
+		
+		<button class="btn btn-primary" onClick="REPORTS.submit_form();">{#SHOW_REPORT#}</button>
+		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" onClick="REPORTS.submit_form('excel');">{#OUTPUT_EXCEL#}</button>
+		{/if}
+		</p>
+		</form>
+	</div>
+</div>
 {/if}
 
 {if !$table}
 {if $smarty.request.load_report && !$err}<p align="center">-- No data --</p>{/if}
 {else}
-	<h2>{$report_title}</h2>
-	<table class="rpt_table" width="100%" cellspacing="0" cellpadding="0" id="report_tbl">
-		<tr class="header">
-			<th rowspan="2">SKU Item Code</th>
-			<th rowspan="2">MCode</th>
-			<th rowspan="2">Artno</th>
-			<th width="40%" rowspan="2">Description</th>
-			<th {if !$got_opening_sc}rowspan="2"{else}colspan="2"{/if}>Opening Balance</th>
-			{if $got_sc_adj}
-				<th {if $smarty.request.branch_id neq ''}colspan="3"{else}colspan="1"{/if}>Stock Take</th>
-			{/if}
-			<th rowspan="2">GRN</th>
-			<th rowspan="2">GRA</th>
-			<th rowspan="2">POS</th>
-			<th rowspan="2">DO</th>
-			<th colspan="2">ADJ</th>
-			<th rowspan="2">Closing Balance</th>
-		</tr>
-		<tr class="header">
-			{if $got_opening_sc}
-				<th>Stock Take Adjust</th>
-				<th>Qty</th>
-			{/if}
-			{if $got_sc_adj}
-				<th>Adj Qty</th>
-				{if $smarty.request.branch_id neq ''}
-				<th>Date</th>
-				<th>Qty</th>
-				{/if}
-			{/if}
-			<th>In</th>
-			<th>Out</th>
-		</tr>
-		<tbody class="r">
-			{foreach from=$table item=item key=sid}
-				<tr>
-					<td align="center" nowrap>{$item.sku_item_code}
-						{if $item.changed}
-							<span class="span_stock_not_update">*</span>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="rpt_table table mb-0 text-md-nowrap  table-hover" width="100%" id="report_tbl">
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th rowspan="2">SKU Item Code</th>
+							<th rowspan="2">MCode</th>
+							<th rowspan="2">Artno</th>
+							<th width="40%" rowspan="2">Description</th>
+							<th {if !$got_opening_sc}rowspan="2"{else}colspan="2"{/if}>Opening Balance</th>
+							{if $got_sc_adj}
+								<th {if $smarty.request.branch_id neq ''}colspan="3"{else}colspan="1"{/if}>Stock Take</th>
+							{/if}
+							<th rowspan="2">GRN</th>
+							<th rowspan="2">GRA</th>
+							<th rowspan="2">POS</th>
+							<th rowspan="2">DO</th>
+							<th colspan="2">ADJ</th>
+							<th rowspan="2">Closing Balance</th>
+						</tr>
+						<tr class="header">
+							{if $got_opening_sc}
+								<th>Stock Take Adjust</th>
+								<th>Qty</th>
+							{/if}
+							{if $got_sc_adj}
+								<th>Adj Qty</th>
+								{if $smarty.request.branch_id neq ''}
+								<th>Date</th>
+								<th>Qty</th>
+								{/if}
+							{/if}
+							<th>In</th>
+							<th>Out</th>
+						</tr>
+					</thead>
+					<tbody class="r fs-08">
+						{foreach from=$table item=item key=sid}
+							<tr>
+								<td align="center" nowrap>{$item.sku_item_code}
+									{if $item.changed}
+										<span class="span_stock_not_update">*</span>
+									{/if}
+								</td>
+								<td align="left">{$item.mcode|default:"&nbsp;"}</td>
+								<td align="left">{$item.artno|replace:' ':'&nbsp;'|default:"&nbsp;"}</td>
+								<td align="left">{$item.description}</td>
+								{if $got_opening_sc}
+									<td>{$item.sc_adj_qty}</td>
+									{assign var=ttl_sc_adj_qty value=$ttl_sc_adj_qty+$item.sc_adj_qty}
+								{/if}
+								
+								<td>{$item.ob_qty|default:0|qty_nf}</td>
+								
+								{if $got_sc_adj}
+									<td class="{if $item.sc_adj_qty2 gt 0}positive_value{elseif $item.sc_adj_qty2 lt 0}negative_value{/if}">
+										{if $item.sc_adj_qty2 gt 0}+{elseif $item.sc_adj_qty2 lt 0}-{/if}{$item.sc_adj_qty2|qty_nf}
+									</td>
+									{if $smarty.request.branch_id neq ''}
+									<td>{$item.sc_date}</td>
+									<td>{$item.sc_qty|qty_nf}</td>
+									{/if}
+								{/if}
+								
+								<td>{$item.grn_qty|default:0|qty_nf}</td>
+								<td>{$item.gra_qty|default:0|qty_nf}</td>
+								<td>{$item.pos_qty|default:0|qty_nf}</td>
+								<td>{$item.do_qty|default:0|qty_nf}</td>
+								<td>{$item.adj_in_qty|default:0|qty_nf}</td>
+								<td>{$item.adj_out_qty|default:0|qty_nf}</td>
+								<td>{$item.cb_qty|default:0|qty_nf}</td>
+							</tr>
+							{assign var=ttl_ob_qty value=$ttl_ob_qty+$item.ob_qty}
+							{assign var=ttl_grn_qty value=$ttl_grn_qty+$item.grn_qty}
+							{assign var=ttl_gra_qty value=$ttl_gra_qty+$item.gra_qty}
+							{assign var=ttl_pos_qty value=$ttl_pos_qty+$item.pos_qty}
+							{assign var=ttl_do_qty value=$ttl_do_qty+$item.do_qty}
+							{assign var=ttl_adj_in_qty value=$ttl_adj_in_qty+$item.adj_in_qty}
+							{assign var=ttl_adj_out_qty value=$ttl_adj_out_qty+$item.adj_out_qty}
+							{assign var=ttl_cb_qty value=$ttl_cb_qty+$item.cb_qty}
+							{assign var=ttl_adj_qty value=$ttl_adj_qty+$item.sc_adj_qty2}
+						{/foreach}
+					</tbody>
+					<tr class="header" align="right">
+						<th colspan="4">Total</th>
+						{if $got_opening_sc}
+							<th>{$ttl_sc_adj_qty|qty_nf}</th>
 						{/if}
-					</td>
-					<td align="left">{$item.mcode|default:"&nbsp;"}</td>
-					<td align="left">{$item.artno|replace:' ':'&nbsp;'|default:"&nbsp;"}</td>
-					<td align="left">{$item.description}</td>
-					{if $got_opening_sc}
-						<td>{$item.sc_adj_qty}</td>
-						{assign var=ttl_sc_adj_qty value=$ttl_sc_adj_qty+$item.sc_adj_qty}
-					{/if}
-					
-					<td>{$item.ob_qty|default:0|qty_nf}</td>
-					
-					{if $got_sc_adj}
-						<td class="{if $item.sc_adj_qty2 gt 0}positive_value{elseif $item.sc_adj_qty2 lt 0}negative_value{/if}">
-							{if $item.sc_adj_qty2 gt 0}+{elseif $item.sc_adj_qty2 lt 0}-{/if}{$item.sc_adj_qty2|qty_nf}
-						</td>
-						{if $smarty.request.branch_id neq ''}
-						<td>{$item.sc_date}</td>
-						<td>{$item.sc_qty|qty_nf}</td>
+						<th>{$ttl_ob_qty|default:0|qty_nf}</th>
+						{if $got_sc_adj}
+							<th>{$ttl_adj_qty|default:0|qty_nf}</th>
+							{if $smarty.request.branch_id neq ''}
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							{/if}
 						{/if}
-					{/if}
-					
-					<td>{$item.grn_qty|default:0|qty_nf}</td>
-					<td>{$item.gra_qty|default:0|qty_nf}</td>
-					<td>{$item.pos_qty|default:0|qty_nf}</td>
-					<td>{$item.do_qty|default:0|qty_nf}</td>
-					<td>{$item.adj_in_qty|default:0|qty_nf}</td>
-					<td>{$item.adj_out_qty|default:0|qty_nf}</td>
-					<td>{$item.cb_qty|default:0|qty_nf}</td>
-				</tr>
-				{assign var=ttl_ob_qty value=$ttl_ob_qty+$item.ob_qty}
-				{assign var=ttl_grn_qty value=$ttl_grn_qty+$item.grn_qty}
-				{assign var=ttl_gra_qty value=$ttl_gra_qty+$item.gra_qty}
-				{assign var=ttl_pos_qty value=$ttl_pos_qty+$item.pos_qty}
-				{assign var=ttl_do_qty value=$ttl_do_qty+$item.do_qty}
-				{assign var=ttl_adj_in_qty value=$ttl_adj_in_qty+$item.adj_in_qty}
-				{assign var=ttl_adj_out_qty value=$ttl_adj_out_qty+$item.adj_out_qty}
-				{assign var=ttl_cb_qty value=$ttl_cb_qty+$item.cb_qty}
-				{assign var=ttl_adj_qty value=$ttl_adj_qty+$item.sc_adj_qty2}
-			{/foreach}
-		</tbody>
-		<tr class="header" align="right">
-			<th colspan="4">Total</th>
-			{if $got_opening_sc}
-				<th>{$ttl_sc_adj_qty|qty_nf}</th>
-			{/if}
-			<th>{$ttl_ob_qty|default:0|qty_nf}</th>
-			{if $got_sc_adj}
-				<th>{$ttl_adj_qty|default:0|qty_nf}</th>
-				{if $smarty.request.branch_id neq ''}
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				{/if}
-			{/if}
-			<th>{$ttl_grn_qty|default:0|qty_nf}</th>
-			<th>{$ttl_gra_qty|default:0|qty_nf}</th>
-			<th>{$ttl_pos_qty|default:0|qty_nf}</th>
-			<th>{$ttl_do_qty|default:0|qty_nf}</th>
-			<th>{$ttl_adj_in_qty|default:0|qty_nf}</th>
-			<th>{$ttl_adj_out_qty|default:0|qty_nf}</th>
-			<th>{$ttl_cb_qty|default:0|qty_nf}</th>
-		</tr>
-	</table>
+						<th>{$ttl_grn_qty|default:0|qty_nf}</th>
+						<th>{$ttl_gra_qty|default:0|qty_nf}</th>
+						<th>{$ttl_pos_qty|default:0|qty_nf}</th>
+						<th>{$ttl_do_qty|default:0|qty_nf}</th>
+						<th>{$ttl_adj_in_qty|default:0|qty_nf}</th>
+						<th>{$ttl_adj_out_qty|default:0|qty_nf}</th>
+						<th>{$ttl_cb_qty|default:0|qty_nf}</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

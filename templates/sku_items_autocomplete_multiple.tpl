@@ -246,7 +246,7 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 <table>
 <tr>
 <td rowspan=5 style="padding-left:75px">
-<select multiple name="sku_code_list" id="sku_code_list" style="width:300px;height:100px;">
+<select class="form-control" multiple name="sku_code_list" id="sku_code_list" style="width:300px;height:127px;">
 {if $category}
 	{foreach from=$category item=c}
 	    {if $c.sku_item_code ne ''}
@@ -255,6 +255,7 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 	    {/if}
 	{/foreach}
 {/if}
+</select>
 </td>
 <td></td></tr>
 <tr>
@@ -262,14 +263,14 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 		<div style="position:absolute;width:300px;height:130px;margin-left:100px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group">
 		</div>
 		<input type="hidden" name="sku_group_load_count" value="0" id="sku_group_load_count">
-		<input type="button" class="btn btn-primary btn-sm" value="Add by Group" style="width:100px;"  onClick="load_SKU_Group()" />
+		<input type="button" class="btn btn-primary mt-3 ml-2" value="Add by Group" style="width:120px;"  onClick="load_SKU_Group()" />
 	</td>
 </tr>
 <tr>
-	<td><input type=button class="btn btn-danger btn-sm" value="Remove" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:100px;"></td>
+	<td><input type=button class="btn btn-danger ml-2 " value="Remove" id="remove_sku" onClick="remove_sku_from_list()" disabled style="width:120px;"></td>
 </tr>
 <tr>
-	<td><input type=button class="btn btn-info btn-sm" value="Clear" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:100px;"></td>
+	<td><input type=button class="btn btn-info ml-2" value="Clear" id="clear_sku" onClick="clear_sku_from_list()" disabled style="width:120px;"></td>
 </tr>
 {foreach from=$category item=c}
 	{if $c.sku_item_code ne ''}

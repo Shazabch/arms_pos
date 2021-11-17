@@ -130,127 +130,181 @@ option.bg_item{
 </style>
 {/literal}
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a">
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a">
 
-<input type="hidden" name="show_report" value="1" />
-<input type="hidden" name="export_excel" />
-<input type="hidden" name="page" value="0" />
-	
-<b>Date</b>&nbsp;
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Sales Quantity <= </b><input type="text" name="quantity" value="{$smarty.request.quantity}" size="10">
-&nbsp;&nbsp;&nbsp;&nbsp;
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> <select name="branch_id" onchange="check_use_grn();">
-        <option value="">-- All --</option>
-	    {foreach from=$branches item=b}
-	        {if !$branch_group.have_group[$b.id]}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	        {/if}
-	    {/foreach}
-		{if $branch_group.header}
-		    <optgroup label='Branch Group'>
-			{foreach from=$branch_group.header key=bgid item=bg}
-				<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-				{foreach from=$branch_group.items.$bgid item=r}
-					<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
-				{/foreach}
-		    {/foreach}
-			</optgroup>
-		{/if}
-		{if $config.consignment_modules && $config.masterfile_branch_region}
-		    <optgroup label='Region'>
-			{foreach from=$config.masterfile_branch_region key=type item=f}
-				{if ($sessioninfo.regions && $sessioninfo.regions.$type) || !$sessioninfo.regions}
-					{assign var=curr_type value="REGION_`$type`"}
-					<option value="REGION_{$type}" {if $smarty.request.branch_id eq $curr_type}selected {/if}>{$type|upper}</option>
+			<input type="hidden" name="show_report" value="1" />
+			<input type="hidden" name="export_excel" />
+			<input type="hidden" name="page" value="0" />
+				
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Date From</b> 
+				<div class="form-inline">
+					<input class="form-control" size=17 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" size=17 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">Sales Quantity <= </b>
+				<input class="form-control" type="text" name="quantity" value="{$smarty.request.quantity}" size="10">
+				</div>
+				
+				{if $BRANCH_CODE eq 'HQ'}
+				<div class="col">
+					<b class="form-label">Branch</b> 
+				<select class="form-control" name="branch_id" onchange="check_use_grn();">
+						<option value="">-- All --</option>
+						{foreach from=$branches item=b}
+							{if !$branch_group.have_group[$b.id]}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+							{/if}
+						{/foreach}
+						{if $branch_group.header}
+							<optgroup label='Branch Group'>
+							{foreach from=$branch_group.header key=bgid item=bg}
+								<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+								{foreach from=$branch_group.items.$bgid item=r}
+									<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+								{/foreach}
+							{/foreach}
+							</optgroup>
+						{/if}
+						{if $config.consignment_modules && $config.masterfile_branch_region}
+							<optgroup label='Region'>
+							{foreach from=$config.masterfile_branch_region key=type item=f}
+								{if ($sessioninfo.regions && $sessioninfo.regions.$type) || !$sessioninfo.regions}
+									{assign var=curr_type value="REGION_`$type`"}
+									<option value="REGION_{$type}" {if $smarty.request.branch_id eq $curr_type}selected {/if}>{$type|upper}</option>
+								{/if}
+							{/foreach}
+							</optgroup>
+						{/if}
+					</select>
+				</div>
 				{/if}
-		    {/foreach}
-			</optgroup>
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-
-<p>
-{include file="category_autocomplete.tpl" all=true}
-</p>
-
-<p>
-<b>Vendor</b>
-	<select name="vendor_id" onchange="check_use_grn();">
-		<option value="">-- All --</option>
-		{foreach from=$vendor key=vid item=v}
-			<option value="{$vid}" {if $vid eq $smarty.request.vendor_id}selected {/if}>{$v.description}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;&nbsp;
-	
-	<input type="checkbox" id="use_grn" name="use_grn" value="1" {if $smarty.request.use_grn}checked{/if}> <b>Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]
-</p>
-
-<input class="btn btn-primary" type="button" value='Show Report' onClick="SLOW_MOVING_ITEMS.submit_report();" />
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" onClick="SLOW_MOVING_ITEMS.submit_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
-{/if}
-<input type="checkbox" name="group_sku" {if $smarty.request.group_sku}checked {/if} value="1" /> <b>Group by SKU</b>
-&nbsp;&nbsp;
-<input type="checkbox" name="zero_sales_with_stock" {if $smarty.request.zero_sales_with_stock}checked {/if} value="1" /> <b>Zero Sales with Stocks</b>
-&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-</form>
+			</div>
+			
+			<p>
+			{include file="category_autocomplete.tpl" all=true}
+			</p>
+			
+			<p>
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Vendor</b>
+					<select class="form-control" name="vendor_id" onchange="check_use_grn();">
+						<option value="">-- All --</option>
+						{foreach from=$vendor key=vid item=v}
+							<option value="{$vid}" {if $vid eq $smarty.request.vendor_id}selected {/if}>{$v.description}</option>
+						{/foreach}
+					</select>
+				</div>
+					
+					<div class="col">
+						<div class="form-label form-inline mt-4">
+							<input type="checkbox" id="use_grn" name="use_grn" value="1" {if $smarty.request.use_grn}checked{/if}> <b>&nbsp;Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]
+						</div>
+					</div>
+			</div>
+			</p>
+			
+			<input class="btn btn-primary mt-2" type="button" value='Show Report' onClick="SLOW_MOVING_ITEMS.submit_report();" />
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" onClick="SLOW_MOVING_ITEMS.submit_report('excel');"><img src="/ui/icons/page_excel.png" align="absmiddle"> Export</button>
+			{/if}
+			<div class="form-label form-inline mt-2">
+				<input type="checkbox" name="group_sku" {if $smarty.request.group_sku}checked {/if} value="1" /> <b>&nbsp;Group by SKU</b>
+			&nbsp;&nbsp;
+			<input type="checkbox" name="zero_sales_with_stock" {if $smarty.request.zero_sales_with_stock}checked {/if} value="1" /> <b>&nbsp;Zero Sales with Stocks</b>
+			&nbsp;&nbsp;
+			<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+			</div>
+			</form>
+	</div>
+</div>
 {/if}
 {if !$table}
 	{if $smarty.request.show_report && !$err}<p align=center>-- No data --</p>{/if}
 {else}
-
-	<h2>{$report_title}</h2>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 	{foreach from=$table key=cat_id item=s}
 		<h2>{$category.$cat_id.cname}</h2>
-		<table class="report_table small_printing" width="100%">
-		<tr class="header">
-			<th width="10%">ARMS Code</th>
-			<th width="10%">MCode</th>
-			<th width="5%">Art No.</th>
-			<th>Description</th>
-			<th width="10%">Sales Quantity</th>
-			<th width="2%">% {if !$no_header_footer}[<a href="javascript:void(show_percentage_info());">?</a>]{/if}</th>
-			<th width="10%">Stock Balance</th>
-		</tr>
-		{foreach from=$s key=sku_key item=r}
-			{cycle values="c2,c1" assign=row_class name=row1}
-			<tr class="{$row_class}">
-				<td>{$sku.$sku_key.sku_item_code}</td>
-				<td class="c">{$sku.$sku_key.mcode|default:'-'}</td>
-				<td align="center">{$sku.$sku_key.artno|default:'-'}</td>
-				<td>{$sku.$sku_key.description}</td>
-				<td class="r">{$r.qty|qty_nf|ifzero:'-'}</td>
-				<td class="r">{if $total.$cat_id.qty > 0}{$r.qty/$total.$cat_id.qty*100|percentage_nf|ifzero:'-'}{else}-{/if}</td>
-				<td class="r">{$r.stock_bal|qty_nf|ifzero:'-'}</td>
-			</tr>
-		{/foreach}
-		<tr class="header">
-			<th colspan="4" class="r">Total</th>
-			<th class="r">{$total.$cat_id.qty|qty_nf|ifzero:'-'}</th>
-			<th class="r">{if $total.$cat_id.qty > 0}{$total.$cat_id.qty/$total.$cat_id.qty*100|percentage_nf|ifzero:'-'}{else}-{/if}</th>
-			<th class="r">{$total.$cat_id.stock_bal|qty_nf|ifzero:'-'}</th>
-		</tr>
-		</table>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="report_table small_printing table mb-0 text-md-nowrap  table-hover" width="100%">
+						<thead class="bg-gray-100">
+							<tr class="header">
+								<th width="10%">ARMS Code</th>
+								<th width="10%">MCode</th>
+								<th width="5%">Art No.</th>
+								<th>Description</th>
+								<th width="10%">Sales Quantity</th>
+								<th width="2%">% {if !$no_header_footer}[<a href="javascript:void(show_percentage_info());">?</a>]{/if}</th>
+								<th width="10%">Stock Balance</th>
+							</tr>
+						</thead>
+						{foreach from=$s key=sku_key item=r}
+							{cycle values="c2,c1" assign=row_class name=row1}
+							<tbody class="fs-08">
+								<tr class="{$row_class}">
+									<td>{$sku.$sku_key.sku_item_code}</td>
+									<td class="c">{$sku.$sku_key.mcode|default:'-'}</td>
+									<td align="center">{$sku.$sku_key.artno|default:'-'}</td>
+									<td>{$sku.$sku_key.description}</td>
+									<td class="r">{$r.qty|qty_nf|ifzero:'-'}</td>
+									<td class="r">{if $total.$cat_id.qty > 0}{$r.qty/$total.$cat_id.qty*100|percentage_nf|ifzero:'-'}{else}-{/if}</td>
+									<td class="r">{$r.stock_bal|qty_nf|ifzero:'-'}</td>
+								</tr>
+							</tbody>
+						{/foreach}
+						<tr class="header">
+							<th colspan="4" class="r">Total</th>
+							<th class="r">{$total.$cat_id.qty|qty_nf|ifzero:'-'}</th>
+							<th class="r">{if $total.$cat_id.qty > 0}{$total.$cat_id.qty/$total.$cat_id.qty*100|percentage_nf|ifzero:'-'}{else}-{/if}</th>
+							<th class="r">{$total.$cat_id.stock_bal|qty_nf|ifzero:'-'}</th>
+						</tr>
+						</table>
+				</div>
+			</div>
+		</div>
 	{/foreach}
 {/if}
 {if !$no_header_footer}

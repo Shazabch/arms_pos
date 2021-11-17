@@ -196,39 +196,85 @@ var PRINT_FULL_TAX = {
 </div>
 
 
-<h1>{$PAGE_TITLE}</h1>
-
-<form id="data-form" method=post class=form name="f_a" onsubmit="return false;">
-  <b>Search receipt by Ref. No.</b> <input type="text" id="ref_no" name="ref_no" value=""/> <button type="button" onclick="load_receipt('search')">Search</button> <span id="loading"></span>
-  <input type="hidden" id="card_no" name="card_no" value="">
-  <br/><br/>
-
-  {if $branches}
-    <b>Branched</b>
-    <select id="branch_id" name="branch_id" onchange="load_counter()">
-      <option value="">-- Please Select --</option>
-      {foreach name="branch" from=$branches item=b}
-        <option value="{$b.id}">{$b.code}</option>
-      {/foreach}
-    </select> <img src="ui/rq.gif" align="absbottom" title="Required Field"> <span id="loading2"></span>
-    <button type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button>
-    <br/>
-  {else}
-    <input type="hidden" id="branch_id" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" data-default_branch_id="{$sessioninfo.branch_id}"  onchange="load_counter()"/>
-    <button type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button><br />
-  {/if}
-  <b>Date</b> <input size=10 type=text name=date value="{$form.date}" id="date"/>
-  <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-  <br/>
-  <div id="data_type_row">
-    <b>Counter</b>
-    <select id="counter" name="counter_id" data-selected="">
-      <option value="">-- Please Select --</option>
-    </select> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+<div class="breadcrumb-header justify-content-between">
+  <div class="my-auto">
+      <div class="d-flex">
+          <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+      </div>
   </div>
-  <b>Receipt No.</b> <input type="text" name="receipt_no" id="receipt_no" value=""/> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-  <button type="button" id="btn-submit" onclick="PRINT_FULL_TAX.show_remark();">Show</button>
-</form>
+</div>
+
+<div class="card mx-3">
+  <div class="card-body">
+    <form id="data-form" method=post class=form name="f_a" onsubmit="return false;">
+      
+    <div class="row">
+      <div class="col-md-6 mt-2">
+        <div class="form-inline">
+          <b class="form-label">Search receipt by Ref. No.&nbsp;</b> 
+          <input class="form-control" type="text" id="ref_no" name="ref_no" value=""/> 
+         &nbsp;&nbsp; <button class="btn btn-primary" type="button" onclick="load_receipt('search')">Search</button>
+        </div>
+          <span id="loading"></span>
+          <input type="hidden" id="card_no" name="card_no" value="">
+      </div>
+   
+      
+       <div class="col-md-6 mt-2">
+        {if $branches}
+        <div class="form-inline">
+          <b class="form-label">Branched</b>
+        &nbsp;<select class="form-control" id="branch_id" name="branch_id" onchange="load_counter()">
+          <option value="">-- Please Select --</option>
+          {foreach name="branch" from=$branches item=b}
+            <option value="{$b.id}">{$b.code}</option>
+          {/foreach}
+        </select> 
+       <span class="text-danger"  title="Required Field"> *</span> <span id="loading2"></span>
+       &nbsp; <button class="btn btn-primary" type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button>
+        
+        </div>
+      {else}
+        <input type="hidden" id="branch_id" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" data-default_branch_id="{$sessioninfo.branch_id}"  onchange="load_counter()"/>
+        <button type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button><br />
+      {/if}
+       </div>
+  
+  
+       <div class="col-md-6 mt-2">
+        <div class="form-inline">
+          <b class="form-label">Date</b> 
+          &nbsp;<input class="form-control" size=22 type=text name=date value="{$form.date}" id="date"/>
+          &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
+          <span class="text-danger" title="Required Field"> *</span>
+         </div>
+       </div>
+        
+       
+          <div class="col-md-6 mt-2">
+            <div id="data_type_row">
+              <div class="form-inline">
+              <b class="form-label">Counter</b>
+              &nbsp;<select class="form-control" id="counter" name="counter_id" data-selected="">
+                <option value="">-- Please Select --</option>
+              </select> <span class="text-danger" title="Required Field"> *</span>
+            </div>
+            </div>
+          </div>
+    
+  
+        <div class="col-md-6 mt-2">
+          <div class="form-inline">
+            <b class="form-label">Receipt No.</b> 
+           &nbsp; <input class="form-control" type="text" name="receipt_no" id="receipt_no" value=""/> 
+          &nbsp; <span class="text-danger" title="Required Field"> *</span>
+          &nbsp;<button class="btn btn-primary" type="button" id="btn-submit" onclick="PRINT_FULL_TAX.show_remark();">Show</button>
+          </div>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
 {include file=footer.tpl}
 {literal}
 <script type="text/javascript">

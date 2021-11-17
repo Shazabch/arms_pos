@@ -199,91 +199,144 @@ function chk_vd_filter(){
 </script>
 {/literal}
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form method=post class=form name="f_a">
-<input type=hidden name=report_title value="{$report_title}">
-<b>Date</b>&nbsp;
-<input type=text name=date id=date value="{$smarty.request.date|ifzero:$smarty.now|date_format:'%Y-%m-%d'}" size=12>
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> 
-<select name="branch_id" id="branch_id">
-    <option value="">-- All --</option>
-    {foreach from=$branches item=b}
-        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-    {/foreach}
-    {if $branch_group.header}
-        <optgroup label="Branch Group">
-			{foreach from=$branch_group.header item=r}
-			    {capture assign=bgid}bg,{$r.id}{/capture}
-				<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
-			{/foreach}
-		</optgroup>
-	{/if}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-{/if}
-
-<input type=radio name=filter_date value="mtd" {if $smarty.request.filter_date ne 'ytd'}checked{/if}><b>MTD</b>
-<input type=radio name=filter_date value="ytd" {if $smarty.request.filter_date eq 'ytd'}checked{/if}><b>YTD</b>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<b>SKU Type</b>
-<select name="sku_type">
-	<option value="">-- All --</option>
-	{foreach from=$sku_type item=t}
-	<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
-	{/foreach}
-</select>
-
-<p>
-<b>Department/Category</b>
-<input type=radio name="filter_type" value="all" {if $smarty.request.filter_type eq 'all' or $smarty.request.filter_type eq ''}checked{/if} onClick="change_filter_status()">All &nbsp;&nbsp;&nbsp;&nbsp;
-<input type=radio name="filter_type" value="category" {if $smarty.request.filter_type eq 'category'}checked{/if} onClick="change_filter_status()">by Selection &nbsp;&nbsp;&nbsp;&nbsp;
-<div id="by_category" style="display:none;">
-{include file="category_autocomplete.tpl"}
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name="f_a">
+			<input type=hidden name=report_title value="{$report_title}">
+			
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Date</b>
+				<div class="form-inline">
+					<input class="form-control" type=text name=date id=date value="{$smarty.request.date|ifzero:$smarty.now|date_format:'%Y-%m-%d'}" size=23>
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				<div class="col">
+					{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b> 
+				<select class="form-control" name="branch_id" id="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+						<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+					{/foreach}
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header item=r}
+								{capture assign=bgid}bg,{$r.id}{/capture}
+								<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+				{else}
+				{/if}
+				</div>
+				
+				<div class="col">
+					<div class="form-label mt-4">
+						<input type=radio name=filter_date value="mtd" {if $smarty.request.filter_date ne 'ytd'}checked{/if}><b>&nbsp;MTD</b>
+					&nbsp;<input type=radio name=filter_date value="ytd" {if $smarty.request.filter_date eq 'ytd'}checked{/if}><b>&nbsp;YTD</b>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col">
+					<b class="form-label mt-2">SKU Type</b>
+			<select class="form-control" name="sku_type">
+				<option value="">-- All --</option>
+				{foreach from=$sku_type item=t}
+				<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
+				{/foreach}
+			</select>
+				</div>
+			
+			<div class="col">
+				<p>
+					<div class="form-label mt-4">
+						<b >Department/Category</b>
+					&nbsp;<input type=radio name="filter_type" value="all" {if $smarty.request.filter_type eq 'all' or $smarty.request.filter_type eq ''}checked{/if} onClick="change_filter_status()">All 
+					<input type=radio name="filter_type" value="category" {if $smarty.request.filter_type eq 'category'}checked{/if} onClick="change_filter_status()">by Selection 
+					</div>
+					<div id="by_category" style="display:none;">
+					{include file="category_autocomplete.tpl"}
+					</div>
+					</p>
+			</div>
+			</div>
+			
+			<div class="row">
+				<div class="col">
+					<b class="form-label mt-2">Vendor</b>
+				<div class="form-inline">
+					<select class="form-control"  name="vendor_id" id="vendor_id" onChange="chk_vd_filter();" style="width: 200px;">
+						<option value='all' {if $smarty.request.vendor_id eq 'all'}selected{/if}>-- All --</option>
+						{foreach from=$vendor item=r}
+						<option value={$r.id} {if $smarty.request.vendor_id eq $r.id}selected{/if}>{$r.description} </option>
+						{/foreach}
+					</select>
+					&nbsp;<input type=checkbox {if $smarty.request.GRN eq true}checked {/if} name="GRN" id="GRN" {if $smarty.request.vendor_id eq 'all' || !$smarty.request.vendor_id}disabled {/if} >
+						
+				</div>
+				</div>
+	
+				<div class="col">
+					<div class="form-inline form-label mt-2">
+						<b class="">Use GRN</b>
+				[<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>] 
+					</div>
+				
+				<div class="form-inline">
+					<select class="form-control" name=order_type>
+						<option value=top {if $smarty.request.order_type eq 'top'}selected{/if}>Top</option>
+						<option value=bottom {if $smarty.request.order_type eq 'bottom'}selected{/if}>Bottom</option>
+						</select>
+						&nbsp;<input class="form-control" size=5 type=text name=filter_number value="{$filter_number|default:10}">
+						&nbsp;(Max 1000)
+				</div>
+				</div>
+				
+				<div class="col">
+					<div class="form-label form-inline mt-4">
+						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary mt-2" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-2" name=output_excel>{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+			</form>
+	</div>
 </div>
-</p>
-
-<b>Vendor</b>
-<select name="vendor_id" id="vendor_id" onChange="chk_vd_filter();">
-<option value='all' {if $smarty.request.vendor_id eq 'all'}selected{/if}>-- All --</option>
-{foreach from=$vendor item=r}
-<option value={$r.id} {if $smarty.request.vendor_id eq $r.id}selected{/if}>{$r.description} </option>
-{/foreach}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input type=checkbox {if $smarty.request.GRN eq true}checked {/if} name="GRN" id="GRN" {if $smarty.request.vendor_id eq 'all' || !$smarty.request.vendor_id}disabled {/if} > <b>Use GRN</b>
-[<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>] 
-&nbsp;&nbsp;&nbsp;&nbsp;
-<select name=order_type>
-<option value=top {if $smarty.request.order_type eq 'top'}selected{/if}>Top</option>
-<option value=bottom {if $smarty.request.order_type eq 'bottom'}selected{/if}>Bottom</option>
-</select>
-<input size=5 type=text name=filter_number value="{$filter_number|default:10}">
-(Max 1000)
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input type=hidden name=submit value=1>
-<button name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button name=output_excel>{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
 <script>
 //get_brand(document.report_form.department_id.value,'{$smarty.request.brand_id}');
 change_filter_status();
@@ -295,127 +348,143 @@ change_filter_status();
 {else}
 
 {assign var=show_type value='amount'}
-
-<h2>
-{$report_title}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$report_title}
 <br>
-<!--Start Date: {$start_date}&nbsp;&nbsp;&nbsp;&nbsp;
-End Date: {$end_date} &nbsp;&nbsp;&nbsp;&nbsp;
-Vendor: {$vendor_name}&nbsp;&nbsp;&nbsp;&nbsp;
+<!--Start Date: {$start_date}
+End Date: {$end_date} 
+Vendor: {$vendor_name}
 {if $smarty.request.branch_group}
-Branch Group: {$branch_group.header[$smarty.request.branch_group].code}&nbsp;&nbsp;&nbsp;&nbsp;
+Branch Group: {$branch_group.header[$smarty.request.branch_group].code}
 {/if}-->
-</h2>
-<table class=report_table width=100%>
-<tr class=header>
-    <th></th>
-	<th>Vendor ID</th>
-	<th colspan="2">Description</th>
-	{foreach from=$label item=branch_name}
-	    <th>{$branch_name}</th>
-	    <th>%</th>
-	{/foreach}
-	<th>Total</th>
-	<th>%</th>
-</tr>
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-{section loop=$table name=i max=$filter_number}
-{assign var=temp value=''}
-{cycle values="c2,c1" assign=row_class}
-<tr>
-    <td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">	
-		{if !$no_header_footer}
-			<img src="/ui/expand.gif" onclick="javascript:void(show_detail('{$table[i].vendor_id|default:0}', this));" align=absmiddle> 
-		{/if}
-		{$smarty.section.i.iteration}
-	</td>
-    <td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">{$table[i].vendor_id}</td>
-    <td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">{$table[i].description}</td>
-	<td class="r"><b>Qty</b></td>
-    {foreach from=$label key=code item=r}
-	    <td class="c3 r">{$table[i].qty.$code|qty_nf|ifzero:'-'}</td>
-	    {if $table2.qty.$code >0}
-	        {assign var=temp value=$table[i].qty.$code/$table2.qty.$code}
-	    {/if}
-	    
-	    <td class="c5 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-	    {assign var=temp value=''}
-	{/foreach}
-	<td class="c3 r">{$table[i].qty.total|qty_nf|ifzero:'-'}</td>
-	{if $table2.qty.total >0}
-		{assign var=temp value=$table[i].qty.total/$table2.qty.total}
-	{/if}
-	<td class="c5 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-	{assign var=temp value=''}
-</tr>
-<tr {if !$sessioninfo.privilege.SHOW_COST}id="tr_vendor_{$table[i].vendor_id}"{/if}>
-	<td class="r"><b>S.P</b></td>
-    {foreach from=$label key=code item=r}
-	    <td class="c4 r">{$table[i].$show_type.$code|number_format:2|ifzero:'-'}</td>
-	    {if $table2.$show_type.$code >0}
-	        {assign var=temp value=$table[i].$show_type.$code/$table2.$show_type.$code}
-	    {/if}
-	    <td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-	    {assign var=temp value=''}
-	{/foreach}
-	<td class="c4 r">{$table[i].$show_type.total|number_format:2|ifzero:'-'}</td>
-	{if $table2.$show_type.total >0}
-	    {assign var=temp value=$table[i].$show_type.total/$table2.$show_type.total}
-	{/if}
-	<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
- 	{assign var=temp value=''}
-</tr>
-{if $sessioninfo.privilege.SHOW_COST}
-	<tr id="tr_vendor_{$table[i].vendor_id}">
-		<td class="r"><b>C.P</b></td>
-		{foreach from=$label key=code item=r}
-			<td class="c4 r">{$table[i].cost.$code|number_format:2|ifzero:'-'}</td>
-			{if $table2.cost.$code >0}
-				{assign var=temp value=$table[i].cost.$code/$table2.cost.$code}
-			{/if}
-			<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-			{assign var=temp value=''}
-		{/foreach}
-		<td class="c4 r">{$table[i].cost.total|number_format:2|ifzero:'-'}</td>
-		{if $table2.cost.total >0}
-			{assign var=temp value=$table[i].cost.total/$table2.cost.total}
-		{/if}
-		<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
-		{assign var=temp value=''}
-	</tr>
-{/if}
-{/section}
-<tr>
-	<th colspan=3 rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="c1 r">Total</th>
-	<td class="c1 r"><b>Qty</b></td>
-	{foreach from=$label key=code item=r}
-        <td class="c3 r">{$table2.qty.$code|qty_nf|ifzero:'-'}</td>
-        <td class="c5 r">{if $table2.qty.$code ne ''}100.00%{else}-{/if}</td>
-    {/foreach}
-    <td class="c3 r">{$table2.qty.total|qty_nf|ifzero:'-'}</td>
-    <td class="c5 r">{if $table2.qty.total ne ''}100.00%{else}-{/if}</td>
-</tr>
-<tr>
-	<td class="c1 r"><b>S.P</b></td>
-    {foreach from=$label key=code item=r}
-        <td class="c4 r">{$table2.$show_type.$code|number_format:2|ifzero:'-'}</td>
-        <td class="c6 r">{if $table2.$show_type.$code ne ''}100.00%{else}-{/if}</td>
-    {/foreach}
-    <td class="c4 r">{$table2.$show_type.total|number_format:2|ifzero:'-'}</td>
-    <td class="c6 r">{if $table2.$show_type.total ne ''}100.00%{else}-{/if}</td>
-</tr>
-{if $sessioninfo.privilege.SHOW_COST}
-	<tr>
-		<td class="c1 r"><b>C.P</b></td>
-		{foreach from=$label key=code item=r}
-			<td class="c4 r">{$table2.cost.$code|number_format:2|ifzero:'-'}</td>
-			<td class="c6 r">{if $table2.cost.$code ne ''}100.00%{else}-{/if}</td>
-		{/foreach}
-		<td class="c4 r">{$table2.cost.total|number_format:2|ifzero:'-'}</td>
-		<td class="c6 r">{if $table2.cost.total ne ''}100.00%{else}-{/if}</td>
-	</tr>
-{/if}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class=report_table width=100%>
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th></th>
+						<th>Vendor ID</th>
+						<th colspan="2">Description</th>
+						{foreach from=$label item=branch_name}
+							<th>{$branch_name}</th>
+							<th>%</th>
+						{/foreach}
+						<th>Total</th>
+						<th>%</th>
+					</tr>
+				</thead>
+				
+				{section loop=$table name=i max=$filter_number}
+				{assign var=temp value=''}
+				{cycle values="c2,c1" assign=row_class}
+				<tbody class="fs-08">
+					<tr>
+						<td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">	
+							{if !$no_header_footer}
+								<img src="/ui/expand.gif" onclick="javascript:void(show_detail('{$table[i].vendor_id|default:0}', this));" align=absmiddle> 
+							{/if}
+							{$smarty.section.i.iteration}
+						</td>
+						<td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">{$table[i].vendor_id}</td>
+						<td rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="{$row_class}">{$table[i].description}</td>
+						<td class="r"><b>Qty</b></td>
+						{foreach from=$label key=code item=r}
+							<td class="c3 r">{$table[i].qty.$code|qty_nf|ifzero:'-'}</td>
+							{if $table2.qty.$code >0}
+								{assign var=temp value=$table[i].qty.$code/$table2.qty.$code}
+							{/if}
+							
+							<td class="c5 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+							{assign var=temp value=''}
+						{/foreach}
+						<td class="c3 r">{$table[i].qty.total|qty_nf|ifzero:'-'}</td>
+						{if $table2.qty.total >0}
+							{assign var=temp value=$table[i].qty.total/$table2.qty.total}
+						{/if}
+						<td class="c5 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						{assign var=temp value=''}
+					</tr>
+					<tr {if !$sessioninfo.privilege.SHOW_COST}id="tr_vendor_{$table[i].vendor_id}"{/if}>
+						<td class="r"><b>S.P</b></td>
+						{foreach from=$label key=code item=r}
+							<td class="c4 r">{$table[i].$show_type.$code|number_format:2|ifzero:'-'}</td>
+							{if $table2.$show_type.$code >0}
+								{assign var=temp value=$table[i].$show_type.$code/$table2.$show_type.$code}
+							{/if}
+							<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+							{assign var=temp value=''}
+						{/foreach}
+						<td class="c4 r">{$table[i].$show_type.total|number_format:2|ifzero:'-'}</td>
+						{if $table2.$show_type.total >0}
+							{assign var=temp value=$table[i].$show_type.total/$table2.$show_type.total}
+						{/if}
+						<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						 {assign var=temp value=''}
+					</tr>
+				</tbody>
+				{if $sessioninfo.privilege.SHOW_COST}
+					<tr id="tr_vendor_{$table[i].vendor_id}">
+						<td class="r"><b>C.P</b></td>
+						{foreach from=$label key=code item=r}
+							<td class="c4 r">{$table[i].cost.$code|number_format:2|ifzero:'-'}</td>
+							{if $table2.cost.$code >0}
+								{assign var=temp value=$table[i].cost.$code/$table2.cost.$code}
+							{/if}
+							<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+							{assign var=temp value=''}
+						{/foreach}
+						<td class="c4 r">{$table[i].cost.total|number_format:2|ifzero:'-'}</td>
+						{if $table2.cost.total >0}
+							{assign var=temp value=$table[i].cost.total/$table2.cost.total}
+						{/if}
+						<td class="c6 r">{$temp*100|number_format:2|ifzero:'-':'%'}</td>
+						{assign var=temp value=''}
+					</tr>
+				{/if}
+				{/section}
+				<tr>
+					<th colspan=3 rowspan="{if $sessioninfo.privilege.SHOW_COST}3{else}2{/if}" class="c1 r">Total</th>
+					<td class="c1 r"><b>Qty</b></td>
+					{foreach from=$label key=code item=r}
+						<td class="c3 r">{$table2.qty.$code|qty_nf|ifzero:'-'}</td>
+						<td class="c5 r">{if $table2.qty.$code ne ''}100.00%{else}-{/if}</td>
+					{/foreach}
+					<td class="c3 r">{$table2.qty.total|qty_nf|ifzero:'-'}</td>
+					<td class="c5 r">{if $table2.qty.total ne ''}100.00%{else}-{/if}</td>
+				</tr>
+				<tr>
+					<td class="c1 r"><b>S.P</b></td>
+					{foreach from=$label key=code item=r}
+						<td class="c4 r">{$table2.$show_type.$code|number_format:2|ifzero:'-'}</td>
+						<td class="c6 r">{if $table2.$show_type.$code ne ''}100.00%{else}-{/if}</td>
+					{/foreach}
+					<td class="c4 r">{$table2.$show_type.total|number_format:2|ifzero:'-'}</td>
+					<td class="c6 r">{if $table2.$show_type.total ne ''}100.00%{else}-{/if}</td>
+				</tr>
+				{if $sessioninfo.privilege.SHOW_COST}
+					<tr>
+						<td class="c1 r"><b>C.P</b></td>
+						{foreach from=$label key=code item=r}
+							<td class="c4 r">{$table2.cost.$code|number_format:2|ifzero:'-'}</td>
+							<td class="c6 r">{if $table2.cost.$code ne ''}100.00%{else}-{/if}</td>
+						{/foreach}
+						<td class="c4 r">{$table2.cost.total|number_format:2|ifzero:'-'}</td>
+						<td class="c6 r">{if $table2.cost.total ne ''}100.00%{else}-{/if}</td>
+					</tr>
+				{/if}
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 {if !$no_header_footer}
 	{literal}

@@ -240,69 +240,98 @@ function export_itemise_info(){
 
 <iframe width=1 height=1 style="visibility:hidden" name=if_itemise></iframe>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
+
 {/if}
 {if !$no_header_footer}
-<form method=post class=form name=report_form>
-<input type=hidden name=report_title value="{$report_title}">
-<p>
-&nbsp;<b>Start from</b>&nbsp;
-<input type=text name=date id=date value="{$smarty.request.date|ifzero:$smarty.now|date_format:'%Y-%m-%d'}" size=12>
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>SKU Type</b>
-<select name="sku_type">
-<option value="all">-- All --</option>
-{foreach from=$sku_type item=r}
-	<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code} selected {/if}>{$r.description}</option>
-{/foreach}
-</select>
-</p>
-<p>
-<div id="span_cat">
-{include file="category_multiple.tpl"}
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name=report_form>
+			<input type=hidden name=report_title value="{$report_title}">
+			<p>
+
+			<div class="row">
+				<div class="col">
+					<b class="form-label">Start from</b>
+			<div class="form-inline">
+				<input class="form-control" type=text name=date id=date value="{$smarty.request.date|ifzero:$smarty.now|date_format:'%Y-%m-%d'}" size=12>
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+				</div>
+			
+			<div class="col">
+				<b class="form-label">SKU Type</b>
+			<select class="form-control" name="sku_type">
+			<option value="all">-- All --</option>
+			{foreach from=$sku_type item=r}
+				<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code} selected {/if}>{$r.description}</option>
+			{/foreach}
+			</select>
+			</div>
+			</div>
+			
+		</p>
+			<p>
+			<div id="span_cat">
+			{include file="category_multiple.tpl"}
+			</div>
+			</p>
+			<div class="form-label">
+				{if $BRANCH_CODE eq 'HQ'}
+			<b>Branch</b>
+				<input type=checkbox onChange="checkBranch(this)" name="all_branch" {if $smarty.request.all_branch} checked {/if}> <b>All</b>
+				{*foreach from=$branches item=r}
+				<input type=checkbox name=branch_id[] value="{$r.id}" {if $smarty.request.branch_id}{if in_array($r.id,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$r.code}
+				{/foreach*}
+				{foreach from=$branches item=b}
+					{if !$branch_group.have_group[$b.id]}
+					<input type=checkbox name=branch_id[] value="{$b.id}" {if $smarty.request.branch_id}{if in_array($b.id,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$b.code}
+					{/if}
+				{/foreach}
+				{if $branch_group.header}
+					{foreach from=$branch_group.header item=r}
+						{capture assign=bgid}{$r.id*-1}{/capture}
+						<input type=checkbox name=branch_id[] value="{$bgid}" {if $smarty.request.branch_id}{if in_array($bgid,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$r.code}
+					{/foreach}
+				{/if}
+			{/if}
+			</div>
+			
+			
+			<div class="form-label">
+				<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+			</div>
+			
+			
+			
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name=output_excel>{#OUTPUT_EXCEL#}</button>
+			{/if}
+			<br>
+			<div class="alert alert-primary rounded mt-2" style="max-width: 300px;">
+				<b>Note:</b> Report will Shown 3 months
+			</div>
+			</form>
+	</div>
 </div>
-</p>
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b>
-	<input type=checkbox onChange="checkBranch(this)" name="all_branch" {if $smarty.request.all_branch} checked {/if}> <b>All</b>
-	{*foreach from=$branches item=r}
-	<input type=checkbox name=branch_id[] value="{$r.id}" {if $smarty.request.branch_id}{if in_array($r.id,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$r.code}
-	{/foreach*}
-	{foreach from=$branches item=b}
-        {if !$branch_group.have_group[$b.id]}
-        <input type=checkbox name=branch_id[] value="{$b.id}" {if $smarty.request.branch_id}{if in_array($b.id,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$b.code}
-        {/if}
-    {/foreach}
-    {if $branch_group.header}
-		{foreach from=$branch_group.header item=r}
-		    {capture assign=bgid}{$r.id*-1}{/capture}
-			<input type=checkbox name=branch_id[] value="{$bgid}" {if $smarty.request.branch_id}{if in_array($bgid,$smarty.request.branch_id)} checked {/if}{/if} onChange="change_input_all('all_branch',this)"> {$r.code}
-		{/foreach}
-	{/if}
-{/if}
-
-&nbsp;&nbsp;&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input type=hidden name=submit value=1>
-<button name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button name=output_excel>{#OUTPUT_EXCEL#}</button>
-{/if}
-<br>
-Note: Report will Shown 3 months
-</form>
 {/if}
 {if !$table}
 {if $smarty.request.submit && !$err}-- No data --{/if}
@@ -315,83 +344,91 @@ Note: Report will Shown 3 months
 <input type=hidden name=hidden_code>
 </form>
 <h2>{$report_title}<!--<br>From: {$start_date} to {$end_date}--></h2>
-<table class=report_table width=100%>
-<tr class=header>
-	<th rowspan=2>Category</th>
-	{foreach from=$label item=lbl}
-	    <th colspan=2>{$lbl}</th>
-	{/foreach}
-	<th colspan=2>Total</th>
-</tr>
-<tr class=header>
-    {foreach from=$label item=lbl}
-        <th>Qty</th>
-        <th>Sales</th>
-	{/foreach}
-	<th>Qty</th>
-    <th>Sales</th>
-</tr>
-
-{foreach from=$table key=code item=c}
-{cycle values="c2,c1" assign=row_class}
-<tbody id="r_{$code}">
-<tr>
-	<td class="{$row_class}" nowrap>
-	    {if $code eq 0}
-	        {$category.$code.name}
-	    {else}
-	        {if !$no_header_footer}
-	        <img src='/ui/icons/table.png' onclick="load_sku({$code},this);" align=absmiddle>
-	        {/if}
-	        {$category.$code.name}
-	        {if !$no_header_footer}
-        	<img src="/ui/expand.gif" onclick="load_child({$code},this,1);" align=absmiddle>
-        	{/if}
-        {/if}
-	</td>
-	{assign var=needchange value=1}
-    {foreach from=$label key=lbl item=b}
-        {if $needchange eq 1}
-        	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-            {assign var=needchange value=0}
-            <td class="{$amt_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
-        	<td class="{$amt_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
-        {else}
-            {assign var=needchange value=1}
-            <td class="{$row_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
-        	<td class="{$row_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
-        {/if}
-    {/foreach}
-    {if $row_class eq c1}{assign var=total_class value=r3}{else}{assign var=total_class value=r4}{/if}
-    <td class="{$total_class} r">{$category.$code.qty.total|qty_nf|ifzero:'-'}</td>
-    <td class="{$total_class} r">{$category.$code.amount.total|number_format:2|ifzero:'-'}</td>
-
-</tr>
-</tbody>
-{/foreach}
-{cycle values="c2,c1" assign=row_class}
-<tbody id="r_total">
-<tr>
-	<td class="{$row_class} r">Total</td>
-    {assign var=needchange value=1}
-    {foreach from=$label key=lbl item=b}
-        {if $needchange eq 1}
-        	{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
-            {assign var=needchange value=0}
-            <td class="{$amt_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
-        	<td class="{$amt_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
-        {else}
-            {assign var=needchange value=1}
-            <td class="{$row_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
-        	<td class="{$row_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
-        {/if}
-    {/foreach}
-    {if $row_class eq c1}{assign var=total_class value=r3}{else}{assign var=total_class value=r4}{/if}
-    <td class="{$total_class} r">{$category.total.qty.total|qty_nf|ifzero:'-'}</td>
-    <td class="{$total_class} r">{$category.total.amount.total|number_format:2|ifzero:'-'}</td>
-</tr>
-</tbody>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class=report_table width=100%>
+				<thead class="bg-gray-100">
+					<tr class=header>
+						<th rowspan=2>Category</th>
+						{foreach from=$label item=lbl}
+							<th colspan=2>{$lbl}</th>
+						{/foreach}
+						<th colspan=2>Total</th>
+					</tr>
+					<tr class=header>
+						{foreach from=$label item=lbl}
+							<th>Qty</th>
+							<th>Sales</th>
+						{/foreach}
+						<th>Qty</th>
+						<th>Sales</th>
+					</tr>
+				</thead>
+				
+				{foreach from=$table key=code item=c}
+				{cycle values="c2,c1" assign=row_class}
+				<tbody class="fs-08" id="r_{$code}">
+				<tr>
+					<td class="{$row_class}" nowrap>
+						{if $code eq 0}
+							{$category.$code.name}
+						{else}
+							{if !$no_header_footer}
+							<img src='/ui/icons/table.png' onclick="load_sku({$code},this);" align=absmiddle>
+							{/if}
+							{$category.$code.name}
+							{if !$no_header_footer}
+							<img src="/ui/expand.gif" onclick="load_child({$code},this,1);" align=absmiddle>
+							{/if}
+						{/if}
+					</td>
+					{assign var=needchange value=1}
+					{foreach from=$label key=lbl item=b}
+						{if $needchange eq 1}
+							{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+							{assign var=needchange value=0}
+							<td class="{$amt_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
+							<td class="{$amt_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{else}
+							{assign var=needchange value=1}
+							<td class="{$row_class} r">{$category.$code.qty.$lbl|qty_nf|ifzero:'-'}</td>
+							<td class="{$row_class} r">{$category.$code.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					{if $row_class eq c1}{assign var=total_class value=r3}{else}{assign var=total_class value=r4}{/if}
+					<td class="{$total_class} r">{$category.$code.qty.total|qty_nf|ifzero:'-'}</td>
+					<td class="{$total_class} r">{$category.$code.amount.total|number_format:2|ifzero:'-'}</td>
+				
+				</tr>
+				</tbody>
+				{/foreach}
+				{cycle values="c2,c1" assign=row_class}
+				<tbody id="r_total">
+				<tr>
+					<td class="{$row_class} r">Total</td>
+					{assign var=needchange value=1}
+					{foreach from=$label key=lbl item=b}
+						{if $needchange eq 1}
+							{if $row_class eq c1}{assign var=amt_class value=r1}{else}{assign var=amt_class value=r2}{/if}
+							{assign var=needchange value=0}
+							<td class="{$amt_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
+							<td class="{$amt_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{else}
+							{assign var=needchange value=1}
+							<td class="{$row_class} r">{$category.total.qty.$lbl|qty_nf|ifzero:'-'}</td>
+							<td class="{$row_class} r">{$category.total.amount.$lbl|number_format:2|ifzero:'-'}</td>
+						{/if}
+					{/foreach}
+					{if $row_class eq c1}{assign var=total_class value=r3}{else}{assign var=total_class value=r4}{/if}
+					<td class="{$total_class} r">{$category.total.qty.total|qty_nf|ifzero:'-'}</td>
+					<td class="{$total_class} r">{$category.total.amount.total|number_format:2|ifzero:'-'}</td>
+				</tr>
+				</tbody>
+				</table>
+		</div>
+	</div>
+</div>
 {/if}
 {if !$no_header_footer}
 {literal}

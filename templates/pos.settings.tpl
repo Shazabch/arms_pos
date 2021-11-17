@@ -762,14 +762,14 @@ function tab_sel(n){
 	{
 		if (i==n)
 		{
-		    $('lst'+i).className='active';
+		    $('lst'+i).addClassName('selected');
 		    if($('tb'+i)!=undefined){
 		    	$('tb'+i).style.display='';
 		    }
 		}
 		else
 		{
-		    $('lst'+i).className='';
+		    $('lst'+i).removeClassName('selected');
 		    if($('tb'+i)!=undefined){
 			    $('tb'+i).style.display='none';
 			}
@@ -1222,16 +1222,26 @@ function show_notification_message(type){
 {assign var=msg value=$smarty.request.msg}
 <p align=center><font color=red>{$msg}</font></p>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 {if $BRANCH_CODE eq 'HQ'}
-<form name=f method="post">
-<b>Branch</b>
-<select name=branch_id onchange="f.submit();">
-{foreach from=$branch item=b}
-<option value="{$b.id}" {if $form.branch_id == $b.id}selected{/if}>{$b.code}</option>
-{/foreach}
-</select>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name=f method="post">
+			<b class="form-lable">Branch</b>
+			<select class="form-control" name=branch_id onchange="f.submit();">
+			{foreach from=$branch item=b}
+			<option value="{$b.id}" {if $form.branch_id == $b.id}selected{/if}>{$b.code}</option>
+			{/foreach}
+			</select>
+			</form>
+	</div>
+</div>
 {/if}
 <form name=f_a method=post onsubmit="return check_setting(this);">
 <input name=branch_id value="{$smarty.request.branch_id}" type=hidden>
@@ -1265,1108 +1275,1162 @@ function show_notification_message(type){
 	<input name="form[membership_valid_cardno]" value="{$config.membership_valid_cardno}" type=hidden>
 {/if}
 <br>
-<div class=tab style="height:21px;white-space:nowrap;">
-<a href="javascript:tab_sel(0)" id=lst0>Scan and Print</a>
-<a href="javascript:tab_sel(1)" id=lst1>Membership</a>
-<a href="javascript:tab_sel(2)" id=lst2>Time Control</a>
-<a href="javascript:tab_sel(3)" id=lst3>Display</a>
-<a href="javascript:tab_sel(4)" id=lst4>Security</a>
-<a href="javascript:tab_sel(5)" id=lst5>Receipt Header and Footer</a>
-<a href="javascript:tab_sel(6)" {if !$config.foreign_currency} style="display: none;" {/if} id="lst6">Currency</a>
-<a href="javascript:tab_sel(7)" id=lst7 {if !$config.pos_settings_pos_backend_tab} style="display:none;" {/if}>POS Backend</a>
-<a href="javascript:tab_sel(8)" id=lst8>Audio</a>
+<div class="tab row mb-3 mx-3" style="white-space:nowrap;">
+<a href="javascript:tab_sel(0)" class="btn btn-outline-primary btn-rounded" id=lst0>Scan and Print</a>
+&nbsp;<a href="javascript:tab_sel(1)" class="btn btn-outline-primary btn-rounded" id=lst1>Membership</a>
+&nbsp;<a href="javascript:tab_sel(2)" class="btn btn-outline-primary btn-rounded" id=lst2>Time Control</a>
+&nbsp;<a href="javascript:tab_sel(3)" class="btn btn-outline-primary btn-rounded" id=lst3>Display</a>
+&nbsp;<a href="javascript:tab_sel(4)" class="btn btn-outline-primary btn-rounded" id=lst4>Security</a>
+&nbsp;<a href="javascript:tab_sel(5)" class="btn btn-outline-primary btn-rounded" id=lst5>Receipt Header and Footer</a>
+&nbsp;<a href="javascript:tab_sel(6)" class="btn btn-outline-primary btn-rounded" {if !$config.foreign_currency} style="display: none;" {/if} id="lst6">Currency</a>
+&nbsp;<a href="javascript:tab_sel(7)" class="btn btn-outline-primary btn-rounded" id=lst7 {if !$config.pos_settings_pos_backend_tab} style="display:none;" {/if}>POS Backend</a>
+&nbsp;<a href="javascript:tab_sel(8)" class="btn btn-outline-primary btn-rounded" id=lst8>Audio</a>
 </div>
-<div style="border:1px solid #000;padding:10px;">
-	<div id=tb0>
-		<h3>Scan Settings</h3>
-		<table border=0>
-		<tr>
-			<td bgcolor="#ffcc99" colspan="2"><b>Weighing Scale 13 Digits</b></td>
-		</tr>
-		<tr>
-			<td><b>Barcode Unit Code Prefix</b><br /><span style="color:grey;">Barcode Unit Code Prefix is empty, counter will auto set value with 21</span></td>
-			<td>
-			<input name=form[barcode_unit_code_prefix] value="{$form.barcode_unit_code_prefix}" onchange="check_barcode_prefix(this);">
-			&nbsp;<b>Weight Fraction</b>&nbsp;<select name=form[unit_code_weight_fraction] value="{$form.unit_code_weight_fraction}">
-			<option value="100" {if !$form.unit_code_weight_fraction || $form.unit_code_weight_fraction eq "100"}selected{/if}>100g</option>
-			<option value="1000" {if $form.unit_code_weight_fraction eq "1000"}selected{/if}>Kilogram(KG)</option>
-				
-		    </select> 
-			&nbsp;<input type="checkbox" name="form[print_actual_quantiy][unit_code]" {if $form.print_actual_quantiy.unit_code}checked{/if}> Print actual quantity</td>
-		</tr>
-		<!--tr>
-			<td><b>Enable Category & Promotion Discount <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(196);" /></b><br /><span style="color:grey;">Enable to run discounted price from category or promotion for Unit Code</span></td>
-			<td>
-			<input type="checkbox" name="form[enable_weigh_item_discount][unit_code]" {if $form.enable_weigh_item_discount.unit_code}checked{/if}></td>
-		</tr-->
-		<tr>
-			<td><b>Unit Code PLU/MCode Length</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /> [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000218554-barcode-unit-price-code-format" target="_blank"><span style="color:#ff000;">?</span></a>]</td>
-			<td>
-				<select name=form[barcode_unit_code_mcode_length] value="{$form.barcode_unit_code_mcode_length}">
-					<option value="4" {if $form.barcode_unit_code_mcode_length eq "4"}selected{/if}>4 (FF CCCC WWWWWW D)</option>
-					<option value="5" {if !$form.barcode_unit_code_mcode_length || $form.barcode_unit_code_mcode_length eq "5"}selected{/if}>5 (FF CCCCC WWWWW D)</option>
-					<option value="6" {if $form.barcode_unit_code_mcode_length eq "6"}selected{/if}>6 (FF CCCCCC WWWW D)</option>
-				</select>				
-			</td>
-		</tr>
-		<tr>
-			<td><b>Barcode Price Code Prefix</b><br /><span style="color:grey;">Barcode Price Code Prefix is empty, counter will auto set value with 29</span></td>
-			<td>
-			<input name=form[barcode_price_code_prefix] value="{$form.barcode_price_code_prefix}" onchange="check_barcode_prefix(this);">
-			&nbsp;<input type="checkbox" name="form[print_actual_quantiy][price_code]" {if $form.print_actual_quantiy.price_code}checked{/if}> Print actual quantity</td>
-		</tr>
-		<tr>
-			<td><b>Price Code PLU/MCode Length</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /> [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000218554-barcode-unit-price-code-format" target="_blank"><span style="color:#ff000;">?</span></a>]</td>
-			<td>
-				<select name=form[barcode_price_code_mcode_length] value="{$form.barcode_price_code_mcode_length}">
-					<option value="4" {if $form.barcode_price_code_mcode_length eq 4}selected{/if}>4 (FF CCCC PPPPPP D)</option>
-					<option value="5" {if !$form.barcode_price_code_mcode_length || $form.barcode_price_code_mcode_length eq 5}selected{/if}>5 (FF CCCCC PPPPP D)</option>
-					<option value="6" {if $form.barcode_price_code_mcode_length eq 6}selected{/if}>6 (FF CCCCCC PPPP D)</option>
-				</select>
-			</td>
-    </tr>
-		<tr><td colspan="3"><hr></td></tr>
-		<tr>
-			<td bgcolor="#ffcc99" colspan="2"><b>Weighing Scale 18 Digits</b></td>
-		</tr>
-		<tr>
-			<td><b>Barcode Unit Price & Unit Code Prefix</b><br /><span style="color:grey;">Barcode Unit Price & Unit Code Prefix is empty, counter will auto set value with 23</span></td>
-			<td>
-			<input name=form[barcode_price_n_unit_code_prefix] value="{$form.barcode_price_n_unit_code_prefix}" onchange="check_barcode_prefix(this);">
-			&nbsp;<input type="checkbox" name="form[print_actual_quantiy][unit_code_unit_price]" {if $form.print_actual_quantiy.unit_code_unit_price}checked{/if}> Print actual quantity</td>
-		</tr>
-		<tr>
-			<td><b>Barcode Price & Unit Code Prefix</b><br /><span style="color:grey;">Barcode Unit Price & Unit Code Prefix is empty, counter will auto set value with 22</span></td>
-			<td>
-			<input name=form[barcode_total_price_n_unit_code_prefix] value="{$form.barcode_total_price_n_unit_code_prefix}" onchange="check_barcode_prefix(this);">			
-			&nbsp;<input type="checkbox" name="form[print_actual_quantiy][unit_code_price_code]" {if $form.print_actual_quantiy.unit_code_price_code}checked{/if}> Print actual quantity</td>
-		</tr>
-		<tr>
-			<td><b>Weight Fraction</b></td>
-			<td>
-				<select name=form[weight_fraction] value="{$form.weight_fraction}">
-					<option value="1000">Kilogram(KG)</option>
-					<option value="100" {if $form.weight_fraction eq "100"}selected{/if}>Gram</option>
-				</select> 
-			</td>
-		</tr>
-		<tr><td colspan="3" style="color:grey;">If item's scale type is set "weighted", the "Barcode Unit Price & Unit Code" and "Barcode Price & Unit Code" quantity will calculate with "Weight Fraction".</td></tr>
-		<tr><td colspan="3"><hr></td></tr>
-		<tr>
-			<td><b>Mutliple Quantity with Weight Scale Barcode</b></td>
-			<td>
-				<select name=form[multiple_quantity] value="{$form.multiple_quantity}">
-					<option value="0" {if $form.multiple_quantity eq "0" || !$form.multiple_quantity}selected{/if}>Not Allow</option>
-					<option value="1" {if $form.multiple_quantity eq "1"}selected{/if}>Allow for PCS quantity</option>
-					<option value="2" {if $form.multiple_quantity eq "2"}selected{/if}>Allow for weighted quantity</option>
-					<option value="3" {if $form.multiple_quantity eq "3"}selected{/if}>Allow both</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Barcode consignment item prefix</b><br/>This kind of barcode item's quantity always will become 1</td>
-			<td><input name=form[barcode_consignment_item_prefix] value="{$form.barcode_consignment_item_prefix}"></td>			
-		</tr>
-		<tr>
-			<td><b>Consignment item mcode length</b></td>
-			<td><input name=form[consignment_item_mcode_length] value="{$form.consignment_item_mcode_length}"></td>		
-		</tr>
-		<tr>
-		    <td><b>Use ARMS Coupon</b></td>
-		    <td>
-		    <select id="use_arms_coupon_id" name=form[use_arms_coupon] onchange="toggle_arms_code('coupon');">
-				<option value=1 {if $form.use_arms_coupon}selected{/if}>Yes</option>
-				<option value=0 {if !$form.use_arms_coupon}selected{/if}>No</option>
-		    </select>
-			</td>
-		</tr>
-		<tr id='arms_coupon_id'>
-		    <td bgcolor='#ffcc99'><b>Barcode Coupon Prefix</b></td>
-			<td>
-			<input id='barcode_coupon_prefix_id' onchange="change_to_uppercase(this)" name=form[barcode_coupon_prefix] value="{$form.barcode_coupon_prefix|default:'CP'}">
-			</td>
-		</tr>		
-		<tr id="limit_arms_coupon">
-		    <td bgcolor='#ffcc99'><b>Limit use coupon per receipt</b><br/></td>
-			<td>
-			<input id='limit_use_copon_per_receipt' name=form[limit_use_copon_per_receipt] value="{$form.limit_use_copon_per_receipt|default:0}">
-			</td>
-		</tr>
-		<tr>
-		    <td><b>Use ARMS Voucher</b></td>
-		    <td>
-		    <select id="use_arms_voucher_id" name=form[use_arms_voucher] onchange="toggle_arms_code('voucher');" >
-				<option value=1 {if $form.use_arms_voucher}selected{/if}>Yes</option>
-				<option value=0 {if !$form.use_arms_voucher}selected{/if}>No</option>
-		    </select>
-			</td>
-		</tr>
-		<tr id='arms_voucher_id'>
-		    <td bgcolor='#ffcc99'><b>Barcode Voucher Prefix</b></td>
-			<td>
-			<input id='barcode_voucher_prefix_id' onchange="change_to_uppercase(this)" name=form[barcode_voucher_prefix] value="{$form.barcode_voucher_prefix|default:'VC'}">
-			</td>
-		</tr>
-		<tr>
-		    <td><b>Batch No Days Notify</b></td>
-			<td>
-			<input name=form[batch_no_days_notify] value="{$form.batch_no_days_notify|default:0}">
-			</td>
-		</tr>		
-		<tr>
-		<td><b>Prompt multiple UOM</b></td>
-		<td>
-		<select name=form[multiple_uom]>
-		<option value=1 {if $form.multiple_uom}selected{/if}>Yes</option>
-		<option value=0 {if !$form.multiple_uom}selected{/if}>No</option>
-		</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Always Prompt multiple UOM when scanning Parent Item only</b><br>This only works when Prompt multiple UOM setting is turned on</td>
-		<td>
-		<select name=form[multiuom_scan_parent_only]>
-		<option value=1 {if $form.multiuom_scan_parent_only}selected{/if}>Yes</option>
-		<option value=0 {if !$form.multiuom_scan_parent_only}selected{/if}>No</option>
-		</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Check Decimal Quantity</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_check_decimal_notification();" /></td>
-		<td>
-		<select name="form[check_decimal_qty]" onchange="check_decimal_qty_status();">
-		<option value="1" {if $form.check_decimal_qty}selected{/if}>Yes</option>
-		<option value="0" {if !$form.check_decimal_qty}selected{/if}>No</option>
-		
-		</select>
-		</td>
-		</tr>
-		<!--tr>
-		<td><b>Fixed Selling Price</b></td>
-		<td>
-		{foreach from=$config.sku_multiple_selling_price key=k item=f}
-		<b>{$f}</b>
-		<select name="form[fixed_price][{$f}]">
-		<option value=1>Yes</option>
-		
-  		<option value=0 {if !$form.fixed_price.$f}selected{/if}>No</option>
-		</select>
-
-        {/foreach}
-        </td>
-		</tr-->
-		<tr>
-		<td><b>Show future promotion in price check</b></td>
-		<td>
-			<select name="form[future_promotion]">
-			<option value=1 {if $form.future_promotion}selected{/if}>Yes</option>
-			<option value=0 {if !$form.future_promotion}selected{/if}>No</option>			
-			</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Allow Invalid SKU Sold</b></td>
-		<td>
-			<select name="form[allow_invalid_sku]">
-			<option value="1" {if $form.allow_invalid_sku}selected{/if}>Yes</option>
-			<option value="0" {if !$form.allow_invalid_sku}selected{/if}>No</option>
-			</select>
-		</td>
-		</tr>
-		<tr {if !$config.masterfile_enable_sa}style="display:none;"{/if}>
-		<td><b>Allow scan sales agent code</b></td>
-		<td>
-			<select name="form[allow_scan_sales_agent]" onclick="sales_agent(this)">
-			<option value="0" {if !$form.allow_scan_sales_agent or !$config.masterfile_enable_sa}selected{/if}>No sales agent</option>
-			<option value="1" {if $form.allow_scan_sales_agent eq 1 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by receipt</option>
-			<option value="2" {if $form.allow_scan_sales_agent eq 2 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by item</option>
-			<option value="3" {if $form.allow_scan_sales_agent eq 3 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by item or receipt</option>
-			</select>
-		</td>
-		</tr>
-		<tr id="type_of_scan_sales_agent" {if $form.allow_scan_sales_agent neq 2 && $form.allow_scan_sales_agent neq 3 or !$config.masterfile_enable_sa}style="display:none;"{/if}>
-		<td><b>Type of scan sales agent code<br/>(only for item)</b></td>
-		<td>
-			<select name="form[type_of_scan_sales_agent]">
-			<option value="1" {if $form.type_of_scan_sales_agent eq 1}selected{/if}>Scan sales agent code then scan item barcode</option>
-			<option value="0" {if !$form.type_of_scan_sales_agent}selected{/if}>Scan item barcode then scan sales agent code</option>			
-			</select>
-		</td>
-		</tr>
-		<tr>
-			<td><b>Control cashier to search item in counter</b></td>
-			<td>
-				<select name="form[control_cashier_serach_item]">
-					<option value="1" {if $form.control_cashier_serach_item}selected{/if}>Yes</option>
-					<option value="0" {if !$form.control_cashier_serach_item}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Prompt multiple BOM</b></td>
-			<td>
-				<select name=form[multiple_bom]>
-				<option value=1 {if $form.multiple_bom}selected{/if}>Yes</option>
-				<option value=0 {if !$form.multiple_bom}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Hide receipt amount in hold bill slot</b></td>
-			<td>
-				<select name=form[hide_amount_hold_bill_slot]>
-				<option value=1 {if $form.hide_amount_hold_bill_slot}selected{/if}>Yes</option>
-				<option value=0 {if !$form.hide_amount_hold_bill_slot}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Hide "OK" button in invalid item message box</b></td>
-			<td>
-				<select name=form[hide_button_in_invalid_item]>
-				<option value=1 {if $form.hide_button_in_invalid_item}selected{/if}>Yes</option>
-				<option value=0 {if !$form.hide_button_in_invalid_item}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>		
-		<tr>
-			<td><b>Unhold bill reset start time</b></td>
-			<td>
-				<select name=form[unhold_bill_reset_stime]>
-				<option value=1 {if $form.unhold_bill_reset_stime}selected{/if}>Yes</option>
-				<option value=0 {if !$form.unhold_bill_reset_stime}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Allow Sales Order</b></td>
-			<td>
-				<select name=form[allow_sales_order]>
-				<option value=1 {if $form.allow_sales_order}selected{/if}>Yes</option>
-				<option value=0 {if !$form.allow_sales_order}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>		
-		<tr>
-			<td><b>Item's quantity decimal</b></td>
-			<td>
-				<select name=form[quantity_decimal]>
-				<option value=2 {if $form.quantity_decimal eq 2}selected{/if}>2</option>				
-				<option value=3 {if !$form.quantity_decimal or $form.quantity_decimal eq "3"}selected{/if}>3</option>
-				<option value=4 {if $form.quantity_decimal eq 4}selected{/if}>4</option>
-				</select>
-			</td>
-		</tr>		
-		<tr>
-			<td><b>Enter price without decimal</b></td>
-			<td>
-				<select name=form[price_decimal]>
-				<option value=0 {if !$form.price_decimal}selected{/if}>No</option>				
-				<option value=1 {if $form.price_decimal eq 1}selected{/if}>Yes</option>
-				</select>
-				Eg: Enter "350" = {$config.arms_currency.symbol} 3.50
-			</td>			
-		</tr>		
-		<tr>
-			<td><b>Allow use ART No as Barcode</b></td>
-			<td>
-				<select name=form[artno_as_barcode]>
-				<option value=0 {if !$form.artno_as_barcode}selected{/if}>No</option>				
-				<option value=1 {if $form.artno_as_barcode eq 1}selected{/if}>Yes</option>
-				</select>				
-			</td>			
-		</tr>
-		<tr>
-			<td><b>Use running no as receipt_no</b></td>
-			<td>
-				<select name=form[use_running_no_as_receipt_no]>
-				<option value=0 {if !$form.use_running_no_as_receipt_no}selected{/if}>No</option>				
-				<option value=1 {if $form.use_running_no_as_receipt_no eq 1}selected{/if}>Yes</option>
-				</select>				
-			</td>
-		</tr>
-        <tr>
-			<td><b>Service Charges</b></td>
-			<td>
-				<input type="text" name="form[service_charges]" value="{$form.service_charges}"/>%
-			</td>
-		</tr>
-        <tr>
-			<td><b>Calculate Service Charges before receipt discount</b></td>
-			<td>
-				<input type="checkbox" name="form[service_charges_before_rdisc]" value="1" {if $form.service_charges_before_rdisc}checked{/if}/>
-			</td>			
-		</tr>
-		<tr>
-		  <td valign="top"><b>Preset Receipt Remark</b></td>
-		  <td>
-			<fieldset>
-				<table width="100%" id="prr_tbl">
-					<tr class="header">
-						<td width="3%">&nbsp;</td>
-						<td width="80%"><b>Title</b></td>
-					</tr>
-					<tbody id="receipt_remarks">
-					{foreach from=$form.table_resit_remark key=rid item=title}
-						<tr>
-							<td><img src="/ui/closewin.png" align="absmiddle" onclick="prr_remove_row(this);"class="clickable" title="Delete this row"/></td>
-							<td><input type="text" name="form[table_resit_remark][]" value="{$title}" class="prr_code"></td>
-						</tr>
-					{/foreach}
-					</tbody>
-				</table>
-				<input type="button" value="Add Row" onclick="prr_add_row(this);"/>
-			</fieldset>
-		  </td>
-		</tr>
-			
-        <tr>
-          <td valign="top"><b>Goods Return Reason Settings</b></td>
-          <td>
-            <fieldset>
-                <table width="100%" id="grrs_tbl">
-                    <tr class="header">
-                        <td width="3%">&nbsp;</td>
-                        <td width="27%"><b>Code</b></td>
-                        <td width="70%"><b>Description</b></td>
-                    </tr>
-                    <tbody id="reason_settings">
-                    {foreach from=$form.grr_settings.code key=rid item=grrs_code}
-                        <tr>
-                            <td><img src="/ui/closewin.png" align="absmiddle" onClick="grrs_remove_row(this);" class="clickable" title="Delete this row" /></td>
-                            <td><input type="text" name="form[grr_settings][code][]" value="{$grrs_code}" class="grrs_code"></td>
-                            <td><input type="text" name="form[grr_settings][description][]" value="{$form.grr_settings.description.$rid}" size="60"></td>
-                        </tr>
-                    {/foreach}
-                    </tbody>
-                </table>
-                <input type="button" value="Add Row" onclick="grrs_add_row(this);" />
-            </fieldset>
-          </td>
-        </tr>
-		<tr>
-		  <td valign="top"><b>Hide POS Date Popup during POS Program Startup</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(197);" /></td>
-		  <td>
-				<input type="checkbox" name="form[hide_startup_pos_date_popup]" value="1" {if $form.hide_startup_pos_date_popup}checked{/if}/>
-		  </td>
-		</tr>
-		<tr>
-			<td><b>Show RSP and RSP Discount</b></td>
-			<td>
-				<select name="form[pos_show_rsp]">
-				<option value="1" {if $form.pos_show_rsp}selected{/if}>Yes</option>
-				<option value="0" {if !$form.pos_show_rsp}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>
-		<tr>
-			<td><b>Show other types of code at pop ups</b></td>
-			<td>
-				<table border="0">
-					<tr>
-						<td>
-							<label>
-								<input type="checkbox" name="form[pos_show_other_code][mcode]" value="mcode" {if $form.pos_show_other_code.mcode}checked{/if}/> MCode
-							</label>
-						</td>
-						<td>
-							<label>
-								<input type="checkbox" name="form[pos_show_other_code][artno]" value="artno" {if $form.pos_show_other_code.artno}checked{/if}/> Art No.
-							</label>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="checkbox" name="form[pos_show_other_code][link_code]" value="link_code" {if $form.pos_show_other_code.link_code}checked{/if}/> Old Code / Link Code
-							</label>
-						</td>
-						<td>
-							<label>
-								<input type="checkbox" name="form[pos_show_other_code][barcode]" value="barcode" {if $form.pos_show_other_code.barcode}checked{/if}/> Scan Code
-							</label>
-						</td>
-					</tr>
-				</table>
-			</td>			
-		</tr>
-
-		<tr>
-		  <td valign="top"><b>Auto run Sync in Background</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(210);" /></td>
-		  <td>
-				<input type="checkbox" name="form[auto_run_sync_bat]" value="1" {if $form.auto_run_sync_bat}checked{/if}/>
-		  </td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-				<h3>Payment Settings</h3>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<b>Set payment type in counter</b>
-				{if $config.counter_collection_extra_payment_type}
-				<br/><br/>
-				<table>
-					<tr>
-						<td><div style="height: 20px; width: 20px; display: block; background-color: #ffa042;"></div></td>
-						<td valign="bottom"><b>Custom Payment</b>
-							<br />
-							<span class="small">(POS Counter will only able to show maximum of 6 custom payment.)</span>
-						</td>
-					</tr>
-				</table>
-				{/if}
-			</td>
-			{assign var=pt value=$form.payment_type}
-			{assign var=n value=1}
-			<td>
-				<table>
-					<tr>
-						<td nowrap><b>Credit Card</b></td>						
-						<td nowrap><input type="radio" name="form[payment_type][credit_card]" value="1" {if !isset($pt.credit_card) or $pt.credit_card}checked{/if}> Yes
-						<input type="radio" name="form[payment_type][credit_card]" value="0" {if isset($pt.credit_card) and !$pt.credit_card}checked{/if}> No 
-						</td>
-						<td nowrap style="padding-left:20px;"><b>Voucher</b></td>
-						<td nowrap><input type="radio" name="form[payment_type][voucher]" value="1" {if !isset($pt.voucher) or $pt.voucher}checked{/if}> Yes
-						<input type="radio" name="form[payment_type][voucher]" value="0" {if isset($pt.voucher) and !$pt.voucher}checked{/if}> No 
-						</td>
-					</tr>
-					<tr>
-						<td nowrap><b>Coupon</b></td>
-						<td nowrap><input type="radio" name="form[payment_type][coupon]" value="1" {if !isset($pt.coupon) or $pt.coupon}checked{/if}> Yes
-						<input type="radio" name="form[payment_type][coupon]" value="0" {if isset($pt.coupon) and !$pt.coupon}checked{/if}> No 
-						</td>					
-						<td nowrap style="padding-left:20px;"><b>Cheque</b></td>
-						<td nowrap><input type="radio" name="form[payment_type][check]" value="1" {if !isset($pt.check) or $pt.check}checked{/if}> Yes
-						<input type="radio" name="form[payment_type][check]" value="0" {if isset($pt.check) and !$pt.check}checked{/if}> No 
-						</td>
-					</tr>					
-					<tr>
-						<td nowrap><b>Debit</b></td>
-						<td nowrap><input type="radio" name="form[payment_type][debit]" value="1" {if isset($pt.debit) and $pt.debit}checked{/if}> Yes
-						<input type="radio" name="form[payment_type][debit]" value="0" {if !isset($pt.debit) or !$pt.debit}checked{/if}> No 					
-						</td>
+<div style="">
+	
+			<div id=tb0>
+				<div class="card mx-3">
+					<div class="card-body">
+				<h3 class="form-label">Scan Settings</h3>
+				<table border=0>
+				<tr>
+					<td class="bg-gray-100 " style="height: 25px;" colspan="2"><b class="form-label">Weighing Scale 13 Digits</b></td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label mt-2"><b >Barcode Unit Code Prefix</b><span style="color:grey;">Barcode Unit Code Prefix is empty, counter will auto set value with 21</span></td>
+					<td>
+					<div class="form-inline mt-2">
+						<input class="form-control" name=form[barcode_unit_code_prefix] value="{$form.barcode_unit_code_prefix}" onchange="check_barcode_prefix(this);">
+					&nbsp;<b class="form-label">Weight Fraction</b>&nbsp;
+					<select class="form-control" name=form[unit_code_weight_fraction] value="{$form.unit_code_weight_fraction}">
+					<option value="100" {if !$form.unit_code_weight_fraction || $form.unit_code_weight_fraction eq "100"}selected{/if}>100g</option>
+					<option value="1000" {if $form.unit_code_weight_fraction eq "1000"}selected{/if}>Kilogram(KG)</option>
 						
-						{if $config.counter_collection_extra_payment_type}
-							{foreach from=$config.counter_collection_extra_payment_type item=ptype}
-								{assign var=ptype_lower value=$ptype|lower}
-								{assign var=n value=$n+1}
-								<td nowrap bgcolor="#ffa042" {if ($n%2)==0}style="padding-left:20px;"{/if}><b>{$ptype}</b></td>
-								<td nowrap ><input type="radio" name="form[payment_type][{$ptype_lower}]" value="1" {if $pt.$ptype_lower}checked{/if}> Yes
-								<input type="radio" name="form[payment_type][{$ptype_lower}]" value="0" {if !$pt.$ptype_lower}checked{/if}> No 								
-								</td>		
-								{if ($n%2)==0}
-								</tr>
-								<tr>
-								{/if}
-							{/foreach}
-						{else}
-					</tr>
-						{/if}
-				</table>
-			</td>
-		</tr>
-		{if $config.counter_collection_extra_payment_type}
-		<tr>
-			<td><b>Last Settlement</b><br/>The payment amount cannot be changed when paid as last settlement</td>
-			<td>
-			<table>
-			<tr>
-			{foreach from=$config.counter_collection_extra_payment_type item=ptype}		
-			{assign var=pt value=$form.last_settlement}
-				<td nowrap><input type="checkbox" name="form[last_settlement][{$ptype}]" value="1" {if $pt.$ptype}checked{/if}>{$ptype}</td>
-			{/foreach}
+					</select> 
+					&nbsp;<input type="checkbox" name="form[print_actual_quantiy][unit_code]" {if $form.print_actual_quantiy.unit_code}checked{/if}> Print actual quantity
+					</div></td>
+				</tr>
+				<!--tr>
+					<td><b>Enable Category & Promotion Discount <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(196);" /></b><br /><span style="color:grey;">Enable to run discounted price from category or promotion for Unit Code</span></td>
+					<td>
+					<input type="checkbox" name="form[enable_weigh_item_discount][unit_code]" {if $form.enable_weigh_item_discount.unit_code}checked{/if}></td>
+				</tr-->
+				<tr class="mt-2">
+					<td class="form-label"><b >Unit Code PLU/MCode Length</b> 
+						<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /> [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000218554-barcode-unit-price-code-format" target="_blank">
+						<span style="color:#ff000;">?</span></a>]</td>
+					<td>
+						<select class="form-control" name=form[barcode_unit_code_mcode_length] value="{$form.barcode_unit_code_mcode_length}">
+							<option value="4" {if $form.barcode_unit_code_mcode_length eq "4"}selected{/if}>4 (FF CCCC WWWWWW D)</option>
+							<option value="5" {if !$form.barcode_unit_code_mcode_length || $form.barcode_unit_code_mcode_length eq "5"}selected{/if}>5 (FF CCCCC WWWWW D)</option>
+							<option value="6" {if $form.barcode_unit_code_mcode_length eq "6"}selected{/if}>6 (FF CCCCCC WWWW D)</option>
+						</select>				
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Barcode Price Code Prefix</b><br /><span style="color:grey;">Barcode Price Code Prefix is empty, counter will auto set value with 29</span></td>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" name=form[barcode_price_code_prefix] value="{$form.barcode_price_code_prefix}" onchange="check_barcode_prefix(this);">
+					<div class="form-label">
+						&nbsp;<input type="checkbox" name="form[print_actual_quantiy][price_code]" {if $form.print_actual_quantiy.price_code}checked{/if}>&nbsp; Print actual quantity
+					</div>
+					</td>
+					</div>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Price Code PLU/MCode Length</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /> [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000218554-barcode-unit-price-code-format" target="_blank"><span style="color:#ff000;">?</span></a>]</td>
+					<td>
+						<select class="form-control" name=form[barcode_price_code_mcode_length] value="{$form.barcode_price_code_mcode_length}">
+							<option value="4" {if $form.barcode_price_code_mcode_length eq 4}selected{/if}>4 (FF CCCC PPPPPP D)</option>
+							<option value="5" {if !$form.barcode_price_code_mcode_length || $form.barcode_price_code_mcode_length eq 5}selected{/if}>5 (FF CCCCC PPPPP D)</option>
+							<option value="6" {if $form.barcode_price_code_mcode_length eq 6}selected{/if}>6 (FF CCCCCC PPPP D)</option>
+						</select>
+					</td>
 			</tr>
-			</table>
-			</td>
-		</tr>
-		{/if}
-		<tr>
-			<td><b>Allow receive deposit from other branch</b></td>
-			<td>
-				<select name="form[allow_cross_branch]">
-				<option value="1" {if $form.allow_cross_branch}selected{/if}>Yes</option>
-				<option value="0" {if !$form.allow_cross_branch}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>
-		
-		<!--<tr>
-			<td><b>Allow do return policy from other branch receipt</b></td>
-			<td>
-				<select name="form[allow_cross_branch_return_policy]">
-				<option value="1" {if $form.allow_cross_branch_return_policy}selected{/if}>Yes</option>
-				<option value="0" {if !$form.allow_cross_branch_return_policy}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>-->
-		
-		<tr>
-			<td><b>Allow cash refund</b></td>
-			<td>
-				<select name="form[return_amount]">
-					<option value="2" {if !isset($form.return_amount) or $form.return_amount eq 2}selected{/if}>Cash refund with privilege</option>
-					<option value="1" {if $form.return_amount eq 1}selected{/if}>Cash refund without privilege</option>
-					<option value="0" {if isset($form.return_amount) and !$form.return_amount}selected{/if}>No</option>
-				</select>
-			</td>
-			
-		</tr>
-		<tr>
-			<td><b>Hide Payment Information Screen button</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(191,310);" /></td>
+				<tr><td colspan="3"><hr></td></tr>
+				<tr>
+					<td class="bg-gray-100" style="height: 25px;" colspan="2"><b class="form-label">Weighing Scale 18 Digits</b></td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Barcode Unit Price & Unit Code Prefix</b><br /><span style="color:grey;">Barcode Unit Price & Unit Code Prefix is empty, counter will auto set value with 23</span></td>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" name=form[barcode_price_n_unit_code_prefix] value="{$form.barcode_price_n_unit_code_prefix}" onchange="check_barcode_prefix(this);">
+					&nbsp;<div class="form-label">
+						<input type="checkbox" name="form[print_actual_quantiy][unit_code_unit_price]" {if $form.print_actual_quantiy.unit_code_unit_price}checked{/if}>&nbsp; Print actual quantity
+					</div>
+					</div></td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Barcode Price & Unit Code Prefix</b><br /><span style="color:grey;">Barcode Unit Price & Unit Code Prefix is empty, counter will auto set value with 22</span></td>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" name=form[barcode_total_price_n_unit_code_prefix] value="{$form.barcode_total_price_n_unit_code_prefix}" onchange="check_barcode_prefix(this);">			
+					&nbsp;<input type="checkbox" name="form[print_actual_quantiy][unit_code_price_code]" {if $form.print_actual_quantiy.unit_code_price_code}checked{/if}>&nbsp; Print actual quantity</td>
+					</div>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Weight Fraction</b></td>
+					<td>
+						<select class="form-control" name=form[weight_fraction] value="{$form.weight_fraction}">
+							<option value="1000">Kilogram(KG)</option>
+							<option value="100" {if $form.weight_fraction eq "100"}selected{/if}>Gram</option>
+						</select> 
+					</td>
+				</tr>
+				<tr><td colspan="3" style="color:grey;">If item's scale type is set "weighted", the "Barcode Unit Price & Unit Code" and "Barcode Price & Unit Code" quantity will calculate with "Weight Fraction".</td></tr>
+				<tr><td colspan="3"><hr></td></tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Mutliple Quantity with Weight Scale Barcode</b></td>
+					<td>
+						<select class="form-control" name=form[multiple_quantity] value="{$form.multiple_quantity}">
+							<option value="0" {if $form.multiple_quantity eq "0" || !$form.multiple_quantity}selected{/if}>Not Allow</option>
+							<option value="1" {if $form.multiple_quantity eq "1"}selected{/if}>Allow for PCS quantity</option>
+							<option value="2" {if $form.multiple_quantity eq "2"}selected{/if}>Allow for weighted quantity</option>
+							<option value="3" {if $form.multiple_quantity eq "3"}selected{/if}>Allow both</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Barcode consignment item prefix</b><br/>This kind of barcode item's quantity always will become 1</td>
+					<td><input class="form-control" name=form[barcode_consignment_item_prefix] value="{$form.barcode_consignment_item_prefix}"></td>			
+				</tr>
+				<tr>
+					<td class="form-label"><b>Consignment item mcode length</b></td>
+					<td><input class="form-control" name=form[consignment_item_mcode_length] value="{$form.consignment_item_mcode_length}"></td>		
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Use ARMS Coupon</b></td>
+					<td>
+					<select class="form-control" id="use_arms_coupon_id" name=form[use_arms_coupon] onchange="toggle_arms_code('coupon');">
+						<option value=1 {if $form.use_arms_coupon}selected{/if}>Yes</option>
+						<option value=0 {if !$form.use_arms_coupon}selected{/if}>No</option>
+					</select>
+					</td>
+				</tr>
+				<tr id='arms_coupon_id'>
+					<td class="bg-gray-100 " style="height: 25px;"><b class="form-label">Barcode Coupon Prefix</b></td>
+					<td>
+					<input class="form-control" id='barcode_coupon_prefix_id' onchange="change_to_uppercase(this)" name=form[barcode_coupon_prefix] value="{$form.barcode_coupon_prefix|default:'CP'}">
+					</td>
+				</tr>		
+				<tr id="limit_arms_coupon">
+					<td class="bg-gray-100" style="height: 25px;"><b class="form-label">Limit use coupon per receipt</b><br/></td>
+					<td>
+					<input class="form-control" id='limit_use_copon_per_receipt' name=form[limit_use_copon_per_receipt] value="{$form.limit_use_copon_per_receipt|default:0}">
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Use ARMS Voucher</b></td>
+					<td>
+					<select class="form-control" id="use_arms_voucher_id" name=form[use_arms_voucher] onchange="toggle_arms_code('voucher');" >
+						<option value=1 {if $form.use_arms_voucher}selected{/if}>Yes</option>
+						<option value=0 {if !$form.use_arms_voucher}selected{/if}>No</option>
+					</select>
+					</td>
+				</tr>
+				<tr id='arms_voucher_id'>
+					<td class="bg-gray-100" style="height: 25px;"><b>Barcode Voucher Prefix</b></td>
+					<td>
+					<input class="form-control" id='barcode_voucher_prefix_id' onchange="change_to_uppercase(this)" name=form[barcode_voucher_prefix] value="{$form.barcode_voucher_prefix|default:'VC'}">
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Batch No Days Notify</b></td>
+					<td>
+					<input class="form-control" name=form[batch_no_days_notify] value="{$form.batch_no_days_notify|default:0}">
+					</td>
+				</tr>		
+				<tr>
+				<td class="form-label"><b>Prompt multiple UOM</b></td>
 				<td>
-				<select name="form[hide_payment_information_screen_button]">
-				<option value="1" {if $form.hide_payment_information_screen_button}selected{/if}>Yes</option>
-				<option value="0" {if !$form.hide_payment_information_screen_button}selected{/if}>No</option>
+				<select class="form-control" name=form[multiple_uom]>
+				<option value=1 {if $form.multiple_uom}selected{/if}>Yes</option>
+				<option value=0 {if !$form.multiple_uom}selected{/if}>No</option>
 				</select>
-			</td>
-		</tr>
-		
-		{if $ewallet_list}
-			<tr>
-				<td><b>Allow eWallet</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(196);" /></td>
-				<td>
-					<table>
-						{assign var=n value=0}
-						{foreach from=$ewallet_list key=ewallet_type item=r}
-							{if !$r.hide}
-								{assign var=n value=$n+1}
-								<td nowrap {if ($n%2)==0}style="padding-left:20px;"{/if}>
-									<b>{$r.desc}</b>
-									{if $r.is_debug}
-										<span style="color:red;">(Testing Mode On)</span>
-									{/if}
-									{if !$r.enabled}
-										<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_ewallet_help();" />
-									{/if}
-								</td>
-								<td nowrap>
-									<input type="radio" name="form[ewallet_type][{$ewallet_type}]" value="1" {if $form.ewallet_type.$ewallet_type}checked{/if} {if !$r.enabled}disabled {/if} /> Yes
-									<input type="radio" name="form[ewallet_type][{$ewallet_type}]" value="0" {if !$form.ewallet_type.$ewallet_type}checked{/if} {if !$r.enabled}disabled {/if} /> No 
-								</td>
-								{if ($n%2)==0}
-									</tr>
-									<tr>
-								{/if}
-							{/if}
-						{/foreach}
-					</table>
 				</td>
-			</tr>
-		{/if}
-		</table>
-
-		<h3>Print Settings</h3>
-		<table border=0>
-		<tr>
-		<td><b>Receipt Header Format</b></td>
-		<td>
-			<select name=form[print_header_format]>
-			<option value=0 {if !$form.print_header_format}selected{/if}>4 Lines</option>
-			<option value=1 {if $form.print_header_format eq 1}selected{/if}>2 Lines</option>
-			</select>
-			<br />
-			<span class="small">This effect how the Invoice No, Counter, Cashier, and Invoice Date/Time to be displayed at the receipt header.</span>
-		</td>
-		</tr>	
-		<tr>
-		<td><b>Item Row Format&nbsp;[<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000208931-receipt-format" target="_blank"><span style="color:#ff000;">?</span></a>]</b></td>
-		<td>
-			<select name=form[print_qty_one]>
-			<option value=0 {if !$form.print_qty_one}selected{/if}>Standard</option>
-			<option value=1 {if $form.print_qty_one eq 1}selected{/if}>Standard (Always Print 2 Line)</option>
-			<option value=2 {if $form.print_qty_one eq 2}selected{/if}>Barcode & Item Description Separate Row</option>
-			<option value=7 {if $form.print_qty_one eq 7}selected{/if}>Barcode & Item Description Separate Row (Type 2)</option>
-			{*<option value=3 {if $form.print_qty_one eq 3}selected{/if}>Print receipt without barcode</option>*}
-			<option value=4 {if $form.print_qty_one eq 4}selected{/if}>Letter/A4 Format</option>
-			<option value=5 {if $form.print_qty_one eq 5}selected{/if}>Print full item description and exclude barcode</option>
-			<option value=6 {if $form.print_qty_one eq 6}selected{/if}>Barcode & Item Description in same row</option>
-			</select>
-			<br />
-			<span class="small">Depends on your POS Counter Version, some format may not be supported. <br />In case the selected format is not supported by your POS Counter, the Standard or Standard 2 Line will be used.</span>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Print username who allow goods return</b></td>
-		<td>
-		<select name="form[print_return_by]">		
-		<option value=0 {if !$form.print_return_by}selected{/if}>No</option>
-		<option value=1 {if $form.print_return_by}selected{/if}>Yes</option>
-		</select>
-		</td>
-		</tr>		
-		<tr>
-		<td><b>Print username who allow trade in</b></td>
-		<td>
-		<select name="form[print_trade_in_by]">
-		<option value=0 {if !$form.print_trade_in_by}selected{/if}>No</option>
-		<option value=1 {if $form.print_trade_in_by}selected{/if}>Yes</option>
-		</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Print counter version in receipt footer</b></td>
-		<td>
-		<select name="form[print_counter_version]">
-		<option value=0 {if !$form.print_counter_version}selected{/if}>No</option>
-		<option value=1 {if $form.print_counter_version}selected{/if}>Yes</option>
-		</select>
-		</td>
-		</tr>
-		<!--<tr>
-		<td><b>Print advance in close counter</b></td>
-		<td>
-		<select name=form[print_advance]>
-		<option value=1>Yes</option>
-		<option value=0 {if !$form.print_advance}selected{/if}>No</option>
-		</select>
-		</td>
-		</tr>-->
-		<tr>
-			<td><b>Print Cash Denomination, Cash Advance, <br/>Cash Currency Advance or Cash In Format</b></td>
-			<td>
-				<select name="form[print_cash_report_format]">
-				<option value=0 {if !$form.print_cash_report_format}selected{/if}>Print 1 copy without signature</option>
-				<option value=1 {if $form.print_cash_report_format eq 1}selected{/if}>Print 1 copy with signature</option>
-				<option value=2 {if $form.print_cash_report_format eq 2}selected{/if}>Print 2 copy with signature</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-		<td><b>Print variance in close counter</b></td>
-		<td>
-		<select name=form[print_variance]>
-		<option value=0 {if !$form.print_variance}selected{/if}>No</option>
-		<option value=1 {if $form.print_variance}selected{/if}>Yes</option>
-		</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Printing / Item Grouping</b></td>
-		<td>
-		<select name=form[items_sum_qty] onchange="change_print_hold_bill(this)">
-		<option value=0 {if !$form.items_sum_qty}selected{/if}>Print on each scanning</option>
-		<option value=1 {if $form.items_sum_qty}selected{/if}>Print at end of transaction</option>
-		</select>
-		</td>
-		</tr>
-		<tr id="print_hb" {if !$form.items_sum_qty}style="display:none"{/if}>
-			<td><b>Print receipt items when hold bill</b></td>
-			<td>
-				<select name=form[print_hold_bill]>
-					<option value=1 {if $form.print_hold_bill}selected{/if}>No</option>
-					<option value=0 {if !$form.print_hold_bill}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Group Voucher Amount in Receipt</b></td>
-			<td>
-				<select name=form[group_voucher_amount]>
-					<option value=0 {if !$form.group_voucher_amount}selected{/if}>No</option>
-					<option value=1 {if $form.group_voucher_amount}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		{*<tr>
-			<td><b>Print BOM Item Detail<br/> only for item which bom type is normal</b></td>
-			<td>
-				<select name=form[print_bom_item_detail]>
-					<option value=0 {if !$form.print_bom_item_detail}selected{/if}>No</option>
-					<option value=1 {if $form.print_bom_item_detail}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>*}
-		<tr>
-			<td><b>Print Category/Item Sales together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_cat_item_sales_cd]>
-					<option value=0 {if !$form.print_cat_item_sales_cd}selected{/if}>No</option>
-					<option value=1 {if $form.print_cat_item_sales_cd eq 1}selected{/if}>Print Item Sales together with cash denomination</option>
-					<option value=2 {if $form.print_cat_item_sales_cd eq 2}selected{/if}>Print Category Sales together with cash denomination</option>
-					<option value=3 {if $form.print_cat_item_sales_cd eq 3}selected{/if}>Print Item and Category Sales together with cash denomination</option>
-				</select>
-			</td>
-		</tr>
-        {if $config.enable_gst}
-        <tr>
-			<td><b>Print GST summary together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_gst_summary_cd]>
-					<option value=0 {if !$form.print_gst_summary_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_gst_summary_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-        {/if}
-		<tr>
-			<td><b>Print Deleted Items together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_deleted_items_cd]>
-					<option value=0 {if !$form.print_deleted_items_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_deleted_items_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Print Cash Advance together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_cash_advance_cd]>
-					<option value=0 {if !$form.print_cash_advance_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_cash_advance_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Print Other Payments &amp; Credit Cards Variance<br/> together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_other_payment_cd]>
-					<option value=0 {if !$form.print_other_payment_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_other_payment_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Print Cancelled Receipts together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_cancel_receipt_cd]>
-					<option value=0 {if !$form.print_cancel_receipt_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_cancel_receipt_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Print Receipts Discount together with Cash Denomination</b></td>
-			<td>
-				<select name=form[print_receipt_discount_cd]>
-					<option value=0 {if !$form.print_receipt_discount_cd}selected{/if}>No</option>
-                    <option value=1 {if $form.print_receipt_discount_cd eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr {if !$config.masterfile_enable_sa}style="display:none;"{/if}>
-			<td><b>Skip Print Sales Agent together with Cash Denomination</b>&nbsp;<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(192,311);" /></td>
-			<td>
-				<select name=form[skip_print_sa_report]>
-					<option value=0 {if !$form.skip_print_sa_report}selected{/if}>No</option>
-                    <option value=1 {if $form.skip_print_sa_report}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Denomination Summary Format [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000214825-denomination-summary-report" target="_blank"><span style="color:#ff000;">?</span></a>]</b>&nbsp;<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(192,311);" /></td>
-			<td>
-				<select name=form[denomination_summary_format]>
-					<option value=0 {if !$form.denomination_summary_format}selected{/if}>Detail</option>
-                    <option value=1 {if $form.denomination_summary_format}selected{/if}>Simplified</option>
-				</select>
-			</td>
-		</tr>
-		{if $form.branch_is_under_gst}
-			<tr>
-				<td><b>Prompt To Suggest Print Full Tax Invoice</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /></td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Always Prompt multiple UOM when scanning Parent Item only</b><br>This only works when Prompt multiple UOM setting is turned on</td>
 				<td>
-					<select name=form[promt_to_ask_print_full_tax_inv] onchange="change_min_amt(this)">
-						<option value = 0 {if !$form.promt_to_ask_print_full_tax_inv}selected{/if}>No</option>
-						<option value = 1 {if $form.promt_to_ask_print_full_tax_inv}selected{/if}>Yes</option>
+				<select class="form-control" name=form[multiuom_scan_parent_only]>
+				<option value=1 {if $form.multiuom_scan_parent_only}selected{/if}>Yes</option>
+				<option value=0 {if !$form.multiuom_scan_parent_only}selected{/if}>No</option>
+				</select>
+				</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Check Decimal Quantity</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_check_decimal_notification();" /></td>
+				<td>
+				<select class="form-control" name="form[check_decimal_qty]" onchange="check_decimal_qty_status();">
+				<option value="1" {if $form.check_decimal_qty}selected{/if}>Yes</option>
+				<option value="0" {if !$form.check_decimal_qty}selected{/if}>No</option>
+				
+				</select>
+				</td>
+				</tr>
+				<!--tr>
+				<td><b>Fixed Selling Price</b></td>
+				<td>
+				{foreach from=$config.sku_multiple_selling_price key=k item=f}
+				<b>{$f}</b>
+				<select name="form[fixed_price][{$f}]">
+				<option value=1>Yes</option>
+				
+				  <option value=0 {if !$form.fixed_price.$f}selected{/if}>No</option>
+				</select>
+		
+				{/foreach}
+				</td>
+				</tr-->
+				<tr class="mt-2">
+				<td class="form-label"><b>Show future promotion in price check</b></td>
+				<td>
+					<select class="form-control" name="form[future_promotion]">
+					<option value=1 {if $form.future_promotion}selected{/if}>Yes</option>
+					<option value=0 {if !$form.future_promotion}selected{/if}>No</option>			
 					</select>
 				</td>
-			</tr>
-			<tr id="min_amt" {if !$form.promt_to_ask_print_full_tax_inv}style="display:none"{/if}>
-				<td><b>Minimum Amount Prompt To Suggest Print Full Tax Invoice </b></td>
-				<td>
-					<input name=form[min_amt_prompt_to_print_full_tax_inv] value="{$form.min_amt_prompt_to_print_full_tax_inv|default:500}">
-				</td>
-			</tr>
-		{/if}
-
-		<tr>
-			<td><b>Print RSP and RSP Discount</b></td>
-			<td>
-				<select name="form[print_rsp]">
-				<option value="1" {if $form.print_rsp}selected{/if}>Yes</option>
-				<option value="0" {if !$form.print_rsp}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>
-
-		<tr>
-			<td><b>Skip Print Receipt Printed Date and Time</b></td>
-			<td>
-				<select name="form[skip_receipt_printed_datetime]">
-				<option value="1" {if $form.skip_receipt_printed_datetime}selected{/if}>Yes</option>
-				<option value="0" {if !$form.skip_receipt_printed_datetime}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>
-
-		<tr>
-			<td><b>Print Receipt No as Receipt's Invoice No</b></td>
-			<td>
-				<select name="form[print_receipt_no_as_invoice_no]">
-				<option value="1" {if $form.print_receipt_no_as_invoice_no}selected{/if}>Yes</option>
-				<option value="0" {if !$form.print_receipt_no_as_invoice_no}selected{/if}>No</option>
-				</select>
-			</td>			
-		</tr>
-
-		<tr>
-			<td><b>Print Invoice No with Prefix</b></td>
-			<td><input name=form[receipt_no_prefix] value="{$form.receipt_no_prefix}"></td>		
-		</tr>
-		</table>
-		
-		<h3>Self Checkout Settings <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(199);" /></td></h3>
-		<table border=0>
-			<tr>
-				<td>
-					<b>No Activity Timeout Period</b>
-				</td>
-				<td>
-					<input type="text" name="form[sco_timeout_period]" value="{$form.sco_timeout_period}" class="r" maxlength="3" size="3" onchange="mi(this);" /> <b>Second(s)</b>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b>Weight Tolerance</b>
-				</td>
-				<td>
-					<input type="text" name="form[sco_weight_scale_var_perc]" value="{$form.sco_weight_scale_var_perc}" class="r" maxlength="6" size="6" onchange="mf(this);" /> <b>%</b>
-				</td>
-			</tr>
-			<tr>
-				<td rowspan="3">
-					<b>Alarm Settings</b>
-				</td>
-				<td>
-					<input type="text" name="form[sco_alarm_times]" value="{$form.sco_alarm_times}" class="r" maxlength="3" size="6" onchange="mi(this);" /> <b>Time(s) for Alarm Alerting</b>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" name="form[sco_alarm_duration]" value="{$form.sco_alarm_duration}" class="r" maxlength="5" size="6" onchange="mf(this);" /> <b>Second(s) for Alarm Alerting Duration</b>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" name="form[sco_alarm_interval]" value="{$form.sco_alarm_interval}" class="r" maxlength="5" size="6" onchange="mf(this);" /> <b>Second(s) to trigger next Alarm Alerting</b>
-				</td>
-			</tr>
-
-			<tr>
-				<td colspan="2">
-					<h3>Force Privilege Override Popup <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(210);" /></h3>
-				</td>
-			</tr>
-			{foreach from=$force_override_privilege key=inp_name item=inp_label}
-				<tr>
-				  	<td valign="top"><b>{$inp_label}</b></td>
-				  	<td>
-						<input type="checkbox" name="form[{$inp_name}]" value="1" {if $form.$inp_name}checked{/if}/>
-				  	</td>
 				</tr>
-			{/foreach}
-		</table>
-	</div>
-	<div id=tb1>
-		<h3>Membership Settings</h3>
-		<table border=0>
+				<tr class="mt-2">
+				<td class="form-label"><b>Allow Invalid SKU Sold</b></td>
+				<td>
+					<select class="form-control" name="form[allow_invalid_sku]">
+					<option value="1" {if $form.allow_invalid_sku}selected{/if}>Yes</option>
+					<option value="0" {if !$form.allow_invalid_sku}selected{/if}>No</option>
+					</select>
+				</td>
+				</tr>
+				<tr class="mt-2" {if !$config.masterfile_enable_sa}style="display:none;"{/if}>
+				<td class="form-label"><b>Allow scan sales agent code</b></td>
+				<td>
+					<select class="form-control" name="form[allow_scan_sales_agent]" onclick="sales_agent(this)">
+					<option value="0" {if !$form.allow_scan_sales_agent or !$config.masterfile_enable_sa}selected{/if}>No sales agent</option>
+					<option value="1" {if $form.allow_scan_sales_agent eq 1 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by receipt</option>
+					<option value="2" {if $form.allow_scan_sales_agent eq 2 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by item</option>
+					<option value="3" {if $form.allow_scan_sales_agent eq 3 && $config.masterfile_enable_sa}selected{/if}>Scan sales agent by item or receipt</option>
+					</select>
+				</td>
+				</tr>
+				<tr class="mt-2" id="type_of_scan_sales_agent" {if $form.allow_scan_sales_agent neq 2 && $form.allow_scan_sales_agent neq 3 or !$config.masterfile_enable_sa}style="display:none;"{/if}>
+				<td class="form-label"><b>Type of scan sales agent code<br/>(only for item)</b></td>
+				<td>
+					<select class="form-control" name="form[type_of_scan_sales_agent]">
+					<option value="1" {if $form.type_of_scan_sales_agent eq 1}selected{/if}>Scan sales agent code then scan item barcode</option>
+					<option value="0" {if !$form.type_of_scan_sales_agent}selected{/if}>Scan item barcode then scan sales agent code</option>			
+					</select>
+				</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Control cashier to search item in counter</b></td>
+					<td>
+						<select class="form-control" name="form[control_cashier_serach_item]">
+							<option value="1" {if $form.control_cashier_serach_item}selected{/if}>Yes</option>
+							<option value="0" {if !$form.control_cashier_serach_item}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Prompt multiple BOM</b></td>
+					<td>
+						<select class="form-control" name=form[multiple_bom]>
+						<option value=1 {if $form.multiple_bom}selected{/if}>Yes</option>
+						<option value=0 {if !$form.multiple_bom}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Hide receipt amount in hold bill slot</b></td>
+					<td>
+						<select class="form-control" name=form[hide_amount_hold_bill_slot]>
+						<option value=1 {if $form.hide_amount_hold_bill_slot}selected{/if}>Yes</option>
+						<option value=0 {if !$form.hide_amount_hold_bill_slot}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Hide "OK" button in invalid item message box</b></td>
+					<td>
+						<select class="form-control" name=form[hide_button_in_invalid_item]>
+						<option value=1 {if $form.hide_button_in_invalid_item}selected{/if}>Yes</option>
+						<option value=0 {if !$form.hide_button_in_invalid_item}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>		
+				<tr class="mt-2">
+					<td class="form-label"><b>Unhold bill reset start time</b></td>
+					<td>
+						<select class="form-control" name=form[unhold_bill_reset_stime]>
+						<option value=1 {if $form.unhold_bill_reset_stime}selected{/if}>Yes</option>
+						<option value=0 {if !$form.unhold_bill_reset_stime}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow Sales Order</b></td>
+					<td>
+						<select class="form-control" name=form[allow_sales_order]>
+						<option value=1 {if $form.allow_sales_order}selected{/if}>Yes</option>
+						<option value=0 {if !$form.allow_sales_order}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>		
+				<tr class="mt-2">
+					<td class="form-label"><b>Item's quantity decimal</b></td>
+					<td>
+						<select class="form-control" name=form[quantity_decimal]>
+						<option value=2 {if $form.quantity_decimal eq 2}selected{/if}>2</option>				
+						<option value=3 {if !$form.quantity_decimal or $form.quantity_decimal eq "3"}selected{/if}>3</option>
+						<option value=4 {if $form.quantity_decimal eq 4}selected{/if}>4</option>
+						</select>
+					</td>
+				</tr>		
+				<tr class="mt-2">
+					<td class="form-label"><b>Enter price without decimal</b></td>
+					<td>
+						<select class="form-control" name=form[price_decimal]>
+						<option value=0 {if !$form.price_decimal}selected{/if}>No</option>				
+						<option value=1 {if $form.price_decimal eq 1}selected{/if}>Yes</option>
+						</select>
+						<small class="text-dark"><span class="text-danger">Eg:</span> Enter "350" = {$config.arms_currency.symbol} 3.50</small>
+					</td>			
+				</tr>		
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow use ART No as Barcode</b></td>
+					<td>
+						<select class="form-control" name=form[artno_as_barcode]>
+						<option value=0 {if !$form.artno_as_barcode}selected{/if}>No</option>				
+						<option value=1 {if $form.artno_as_barcode eq 1}selected{/if}>Yes</option>
+						</select>				
+					</td>			
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Use running no as receipt_no</b></td>
+					<td>
+						<select class="form-control" name=form[use_running_no_as_receipt_no]>
+						<option value=0 {if !$form.use_running_no_as_receipt_no}selected{/if}>No</option>				
+						<option value=1 {if $form.use_running_no_as_receipt_no eq 1}selected{/if}>Yes</option>
+						</select>				
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Service Charges</b></td>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" type="text" name="form[service_charges]" value="{$form.service_charges}"/>%
+						</div>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Calculate Service Charges before receipt discount</b></td>
+					<td>
+						<input  type="checkbox" name="form[service_charges_before_rdisc]" value="1" {if $form.service_charges_before_rdisc}checked{/if}/>
+					</td>			
+				</tr>
+				<tr class="mt-2">
+				  <td valign="top" class="form-label"><b>Preset Receipt Remark</b></td>
+				  <td>
+					<fieldset>
+						<table width="100%" id="prr_tbl">
+							<tr class="header">
+								<td width="3%">&nbsp;</td>
+								<td width="80%"><b class="text-dark">Title</b></td>
+							</tr>
+							<tbody id="receipt_remarks">
+							{foreach from=$form.table_resit_remark key=rid item=title}
+								<tr>
+									<td><img src="/ui/closewin.png" align="absmiddle" onclick="prr_remove_row(this);"class="clickable" title="Delete this row"/></td>
+									<td><input  type="text" name="form[table_resit_remark][]" value="{$title}" class="prr_code form-control"></td>
+								</tr>
+							{/foreach}
+							</tbody>
+						</table>
+						<input class="btn btn-primary btn-sm ml-2" type="button" value="Add Row" onclick="prr_add_row(this);"/>
+					</fieldset>
+				  </td>
+				</tr>
+					
+				<tr>
+				  <td valign="top" class="form-label"><b>Goods Return Reason Settings</b></td>
+				  <td>
+					<fieldset>
+						<table width="100%" id="grrs_tbl">
+							<tr class="header">
+								<td width="3%">&nbsp;</td>
+								<td class="text-dark" width="27%"><b>Code</b></td>
+								<td class="text-dark" width="70%"><b>Description</b></td>
+							</tr>
+							<tbody id="reason_settings">
+							{foreach from=$form.grr_settings.code key=rid item=grrs_code}
+								<tr>
+									<td><img src="/ui/closewin.png" align="absmiddle" onClick="grrs_remove_row(this);" class="clickable" title="Delete this row" /></td>
+									<td><input  type="text" name="form[grr_settings][code][]" value="{$grrs_code}" class="grrs_code form-control"></td>
+									<td><input class="form-control" type="text" name="form[grr_settings][description][]" value="{$form.grr_settings.description.$rid}" size="40"></td>
+								</tr>
+							{/foreach}
+							</tbody>
+						</table>
+						<input class="btn btn-warning btn-sm ml-2" type="button" value="Add Row" onclick="grrs_add_row(this);" />
+					</fieldset>
+				  </td>
+				</tr>
+				<tr class="mt-2">
+				  <td valign="top" class="form-label"><b>Hide POS Date Popup during POS Program Startup</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(197);" /></td>
+				  <td>
+						<input type="checkbox" name="form[hide_startup_pos_date_popup]" value="1" {if $form.hide_startup_pos_date_popup}checked{/if}/>
+				  </td>
+				</tr>
+				<tr>
+					<td class="form-label"><b>Show RSP and RSP Discount</b></td>
+					<td>
+						<select class="form-control" name="form[pos_show_rsp]">
+						<option value="1" {if $form.pos_show_rsp}selected{/if}>Yes</option>
+						<option value="0" {if !$form.pos_show_rsp}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>
+				<tr>
+					<td class="form-label"><b>Show other types of code at pop ups</b></td>
+					<td>
+						<table border="0">
+							<tr>
+								<td>
+									<label>
+										<input type="checkbox" name="form[pos_show_other_code][mcode]" value="mcode" {if $form.pos_show_other_code.mcode}checked{/if}/> MCode
+									</label>
+								</td>
+								<td>
+									<label>
+										<input type="checkbox" name="form[pos_show_other_code][artno]" value="artno" {if $form.pos_show_other_code.artno}checked{/if}/> Art No.
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>
+										<input type="checkbox" name="form[pos_show_other_code][link_code]" value="link_code" {if $form.pos_show_other_code.link_code}checked{/if}/> Old Code / Link Code
+									</label>
+								</td>
+								<td>
+									<label>
+										<input type="checkbox" name="form[pos_show_other_code][barcode]" value="barcode" {if $form.pos_show_other_code.barcode}checked{/if}/> Scan Code
+									</label>
+								</td>
+							</tr>
+						</table>
+					</td>			
+				</tr>
 		
-		<tr>
-			<td><b>Do not prompt for member / race during payment</b></td>
-			<td>
-				<select name=form[blok_prompt_for_member_race_payment]>
-					<option value=0 {if !$form.blok_prompt_for_member_race_payment}selected{/if}>No</option>
-					<option value=1 {if $form.blok_prompt_for_member_race_payment}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>		
+				<tr>
+				  <td class="form-label" valign="top"><b>Auto run Sync in Background</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(210);" /></td>
+				  <td>
+						<input type="checkbox" name="form[auto_run_sync_bat]" value="1" {if $form.auto_run_sync_bat}checked{/if}/>
+				  </td>
+				</tr>
 		
-		<tr>
-		<td><b>Race</b></td>
-		<td>
-		<input name=form[race] value="{$form.race}">
-		</td>
-		</tr>
+				<tr>
+					<td colspan="2">
+						<h3 class="text-primary mt-2 mb-2">Payment Settings</h3>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<b class="form-label">Set payment type in counter</b>
+						{if $config.counter_collection_extra_payment_type}
+						<table>
+							<tr>
+								<td><div style="height: 20px; width: 20px; display: block; background-color: #ffa042;"></div></td>
+								<td valign="bottom"><b>Custom Payment</b>
+									<br />
+									<span class="small">(POS Counter will only able to show maximum of 6 custom payment.)</span>
+								</td>
+							</tr>
+						</table>
+						{/if}
+					</td>
+					{assign var=pt value=$form.payment_type}
+					{assign var=n value=1}
+					<td>
+						<table>
+							<div >
+								<tr class="form-label">
+									<td nowrap><b class="">Credit Card</b></td>						
+									<td nowrap><input type="radio" name="form[payment_type][credit_card]" value="1" {if !isset($pt.credit_card) or $pt.credit_card}checked{/if}> Yes
+									<input type="radio" name="form[payment_type][credit_card]" value="0" {if isset($pt.credit_card) and !$pt.credit_card}checked{/if}> No 
+									</td>
+									<td nowrap style="padding-left:20px;"><b>Voucher</b></td>
+									<td nowrap><input type="radio" name="form[payment_type][voucher]" value="1" {if !isset($pt.voucher) or $pt.voucher}checked{/if}> Yes
+									<input type="radio" name="form[payment_type][voucher]" value="0" {if isset($pt.voucher) and !$pt.voucher}checked{/if}> No 
+									</td>
+								</tr>
+								<tr class="form-label">
+									<td nowrap><b>Coupon</b></td>
+									<td nowrap><input type="radio" name="form[payment_type][coupon]" value="1" {if !isset($pt.coupon) or $pt.coupon}checked{/if}> Yes
+									<input type="radio" name="form[payment_type][coupon]" value="0" {if isset($pt.coupon) and !$pt.coupon}checked{/if}> No 
+									</td>					
+									<td nowrap style="padding-left:20px;"><b>Cheque</b></td>
+									<td nowrap><input type="radio" name="form[payment_type][check]" value="1" {if !isset($pt.check) or $pt.check}checked{/if}> Yes
+									<input type="radio" name="form[payment_type][check]" value="0" {if isset($pt.check) and !$pt.check}checked{/if}> No 
+									</td>
+								</tr>					
+								<tr class="form-label">
+									<td nowrap><b>Debit</b></td>
+									<td nowrap><input type="radio" name="form[payment_type][debit]" value="1" {if isset($pt.debit) and $pt.debit}checked{/if}> Yes
+									<input type="radio" name="form[payment_type][debit]" value="0" {if !isset($pt.debit) or !$pt.debit}checked{/if}> No 					
+									</td>
+									
+									{if $config.counter_collection_extra_payment_type}
+										{foreach from=$config.counter_collection_extra_payment_type item=ptype}
+											{assign var=ptype_lower value=$ptype|lower}
+											{assign var=n value=$n+1}
+											<td nowrap bgcolor="#ffa042" {if ($n%2)==0}style="padding-left:20px;"{/if}><b>{$ptype}</b></td>
+											<td nowrap ><input type="radio" name="form[payment_type][{$ptype_lower}]" value="1" {if $pt.$ptype_lower}checked{/if}> Yes
+											<input type="radio" name="form[payment_type][{$ptype_lower}]" value="0" {if !$pt.$ptype_lower}checked{/if}> No 								
+											</td>		
+											{if ($n%2)==0}
+											</tr>
+							</div>
+										<tr>
+										{/if}
+									{/foreach}
+								{else}
+							</tr>
+								{/if}
+						</table>
+					</td>
+				</tr>
+				{if $config.counter_collection_extra_payment_type}
+				<tr class="mt-2">
+					<td class="form-label"><b>Last Settlement</b><br/>The payment amount cannot be changed when paid as last settlement</td>
+					<td>
+					<table>
+					<tr>
+					{foreach from=$config.counter_collection_extra_payment_type item=ptype}		
+					{assign var=pt value=$form.last_settlement}
+						<td nowrap><input type="checkbox" name="form[last_settlement][{$ptype}]" value="1" {if $pt.$ptype}checked{/if}>{$ptype}</td>
+					{/foreach}
+					</tr>
+					</table>
+					</td>
+				</tr>
+				{/if}
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow receive deposit from other branch</b></td>
+					<td>
+						<select class="form-control" name="form[allow_cross_branch]">
+						<option value="1" {if $form.allow_cross_branch}selected{/if}>Yes</option>
+						<option value="0" {if !$form.allow_cross_branch}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>
+				
+				<!--<tr>
+					<td><b>Allow do return policy from other branch receipt</b></td>
+					<td>
+						<select name="form[allow_cross_branch_return_policy]">
+						<option value="1" {if $form.allow_cross_branch_return_policy}selected{/if}>Yes</option>
+						<option value="0" {if !$form.allow_cross_branch_return_policy}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>-->
+				
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow cash refund</b></td>
+					<td>
+						<select class="form-control" name="form[return_amount]">
+							<option value="2" {if !isset($form.return_amount) or $form.return_amount eq 2}selected{/if}>Cash refund with privilege</option>
+							<option value="1" {if $form.return_amount eq 1}selected{/if}>Cash refund without privilege</option>
+							<option value="0" {if isset($form.return_amount) and !$form.return_amount}selected{/if}>No</option>
+						</select>
+					</td>
+					
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Hide Payment Information Screen button</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(191,310);" /></td>
+						<td>
+						<select class="form-control" name="form[hide_payment_information_screen_button]">
+						<option value="1" {if $form.hide_payment_information_screen_button}selected{/if}>Yes</option>
+						<option value="0" {if !$form.hide_payment_information_screen_button}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				
+				{if $ewallet_list}
+					<tr class="mt-2">
+						<td class="form-label"><b>Allow eWallet</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(196);" /></td>
+						<td>
+							<table>
+								{assign var=n value=0}
+								{foreach from=$ewallet_list key=ewallet_type item=r}
+									{if !$r.hide}
+										{assign var=n value=$n+1}
+										<td nowrap {if ($n%2)==0}style="padding-left:20px;"{/if}>
+											<b>{$r.desc}</b>
+											{if $r.is_debug}
+												<span style="color:red;">(Testing Mode On)</span>
+											{/if}
+											{if !$r.enabled}
+												<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_ewallet_help();" />
+											{/if}
+										</td>
+										<td nowrap>
+											<input type="radio" name="form[ewallet_type][{$ewallet_type}]" value="1" {if $form.ewallet_type.$ewallet_type}checked{/if} {if !$r.enabled}disabled {/if} /> Yes
+											<input type="radio" name="form[ewallet_type][{$ewallet_type}]" value="0" {if !$form.ewallet_type.$ewallet_type}checked{/if} {if !$r.enabled}disabled {/if} /> No 
+										</td>
+										{if ($n%2)==0}
+											</tr>
+											<tr>
+										{/if}
+									{/if}
+								{/foreach}
+							</table>
+						</td>
+					</tr>
+				{/if}
+				</table>
+		
+				<h3 class="text-primary mt-2 mb-2">Print Settings</h3>
+				<table border=0>
+				<tr class="mt-2">
+				<td class="form-label"><b>Receipt Header Format</b></td>
+				<td>
+					<select class="form-control" name=form[print_header_format]>
+					<option value=0 {if !$form.print_header_format}selected{/if}>4 Lines</option>
+					<option value=1 {if $form.print_header_format eq 1}selected{/if}>2 Lines</option>
+					</select>
+					<br />
+					<span class="small">This effect how the Invoice No, Counter, Cashier, and Invoice Date/Time to be displayed at the receipt header.</span>
+				</td>
+				</tr>	
+				<tr class="mt-2">
+				<td class="form-label"><b>Item Row Format&nbsp;[<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000208931-receipt-format" target="_blank"><span style="color:#ff000;">?</span></a>]</b></td>
+				<td>
+					<select class="form-control" name=form[print_qty_one]>
+					<option value=0 {if !$form.print_qty_one}selected{/if}>Standard</option>
+					<option value=1 {if $form.print_qty_one eq 1}selected{/if}>Standard (Always Print 2 Line)</option>
+					<option value=2 {if $form.print_qty_one eq 2}selected{/if}>Barcode & Item Description Separate Row</option>
+					<option value=7 {if $form.print_qty_one eq 7}selected{/if}>Barcode & Item Description Separate Row (Type 2)</option>
+					{*<option value=3 {if $form.print_qty_one eq 3}selected{/if}>Print receipt without barcode</option>*}
+					<option value=4 {if $form.print_qty_one eq 4}selected{/if}>Letter/A4 Format</option>
+					<option value=5 {if $form.print_qty_one eq 5}selected{/if}>Print full item description and exclude barcode</option>
+					<option value=6 {if $form.print_qty_one eq 6}selected{/if}>Barcode & Item Description in same row</option>
+					</select>
+					<br />
+					<span class="small">Depends on your POS Counter Version, some format may not be supported. <br />In case the selected format is not supported by your POS Counter, the Standard or Standard 2 Line will be used.</span>
+				</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Print username who allow goods return</b></td>
+				<td>
+				<select class="form-control" name="form[print_return_by]">		
+				<option value=0 {if !$form.print_return_by}selected{/if}>No</option>
+				<option value=1 {if $form.print_return_by}selected{/if}>Yes</option>
+				</select>
+				</td>
+				</tr>		
+				<tr class="mt-2">
+				<td class="form-label"><b>Print username who allow trade in</b></td>
+				<td>
+				<select class="form-control" name="form[print_trade_in_by]">
+				<option value=0 {if !$form.print_trade_in_by}selected{/if}>No</option>
+				<option value=1 {if $form.print_trade_in_by}selected{/if}>Yes</option>
+				</select>
+				</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Print counter version in receipt footer</b></td>
+				<td>
+				<select class="form-control" name="form[print_counter_version]">
+				<option value=0 {if !$form.print_counter_version}selected{/if}>No</option>
+				<option value=1 {if $form.print_counter_version}selected{/if}>Yes</option>
+				</select>
+				</td>
+				</tr>
+				<!--<tr>
+				<td><b>Print advance in close counter</b></td>
+				<td>
+				<select name=form[print_advance]>
+				<option value=1>Yes</option>
+				<option value=0 {if !$form.print_advance}selected{/if}>No</option>
+				</select>
+				</td>
+				</tr>-->
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Cash Denomination, Cash Advance, <br/>Cash Currency Advance or Cash In Format</b></td>
+					<td>
+						<select class="form-control" name="form[print_cash_report_format]">
+						<option value=0 {if !$form.print_cash_report_format}selected{/if}>Print 1 copy without signature</option>
+						<option value=1 {if $form.print_cash_report_format eq 1}selected{/if}>Print 1 copy with signature</option>
+						<option value=2 {if $form.print_cash_report_format eq 2}selected{/if}>Print 2 copy with signature</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Print variance in close counter</b></td>
+				<td>
+				<select class="form-control" name=form[print_variance]>
+				<option value=0 {if !$form.print_variance}selected{/if}>No</option>
+				<option value=1 {if $form.print_variance}selected{/if}>Yes</option>
+				</select>
+				</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Printing / Item Grouping</b></td>
+				<td>
+				<select class="form-control" name=form[items_sum_qty] onchange="change_print_hold_bill(this)">
+				<option value=0 {if !$form.items_sum_qty}selected{/if}>Print on each scanning</option>
+				<option value=1 {if $form.items_sum_qty}selected{/if}>Print at end of transaction</option>
+				</select>
+				</td>
+				</tr>
+				<tr class="mt-2" id="print_hb" {if !$form.items_sum_qty}style="display:none"{/if}>
+					<td class="form-label"><b>Print receipt items when hold bill</b></td>
+					<td>
+						<select class="form-control" name=form[print_hold_bill]>
+							<option value=1 {if $form.print_hold_bill}selected{/if}>No</option>
+							<option value=0 {if !$form.print_hold_bill}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Group Voucher Amount in Receipt</b></td>
+					<td>
+						<select class="form-control" name=form[group_voucher_amount]>
+							<option value=0 {if !$form.group_voucher_amount}selected{/if}>No</option>
+							<option value=1 {if $form.group_voucher_amount}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				{*<tr class="mt-2">
+					<td class="form-label"><b>Print BOM Item Detail<br/> only for item which bom type is normal</b></td>
+					<td>
+						<select class="form-control" name=form[print_bom_item_detail]>
+							<option value=0 {if !$form.print_bom_item_detail}selected{/if}>No</option>
+							<option value=1 {if $form.print_bom_item_detail}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>*}
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Category/Item Sales together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_cat_item_sales_cd]>
+							<option value=0 {if !$form.print_cat_item_sales_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_cat_item_sales_cd eq 1}selected{/if}>Print Item Sales together with cash denomination</option>
+							<option value=2 {if $form.print_cat_item_sales_cd eq 2}selected{/if}>Print Category Sales together with cash denomination</option>
+							<option value=3 {if $form.print_cat_item_sales_cd eq 3}selected{/if}>Print Item and Category Sales together with cash denomination</option>
+						</select>
+					</td>
+				</tr>
+				{if $config.enable_gst}
+				<tr class="mt-2">
+					<td class="form-label"><b>Print GST summary together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_gst_summary_cd]>
+							<option value=0 {if !$form.print_gst_summary_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_gst_summary_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				{/if}
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Deleted Items together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_deleted_items_cd]>
+							<option value=0 {if !$form.print_deleted_items_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_deleted_items_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Cash Advance together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_cash_advance_cd]>
+							<option value=0 {if !$form.print_cash_advance_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_cash_advance_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Other Payments &amp; Credit Cards Variance<br/> together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_other_payment_cd]>
+							<option value=0 {if !$form.print_other_payment_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_other_payment_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Cancelled Receipts together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_cancel_receipt_cd]>
+							<option value=0 {if !$form.print_cancel_receipt_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_cancel_receipt_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Receipts Discount together with Cash Denomination</b></td>
+					<td>
+						<select class="form-control" name=form[print_receipt_discount_cd]>
+							<option value=0 {if !$form.print_receipt_discount_cd}selected{/if}>No</option>
+							<option value=1 {if $form.print_receipt_discount_cd eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2" {if !$config.masterfile_enable_sa}style="display:none;"{/if}>
+					<td class="form-label"><b>Skip Print Sales Agent together with Cash Denomination</b>&nbsp;<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(192,311);" /></td>
+					<td>
+						<select class="form-control" name=form[skip_print_sa_report]>
+							<option value=0 {if !$form.skip_print_sa_report}selected{/if}>No</option>
+							<option value=1 {if $form.skip_print_sa_report}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Denomination Summary Format [<a href="https://armshelp.freshdesk.com/support/solutions/articles/22000214825-denomination-summary-report" target="_blank"><span style="color:#ff000;">?</span></a>]</b>&nbsp;<img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(192,311);" /></td>
+					<td>
+						<select class="form-control" name=form[denomination_summary_format]>
+							<option value=0 {if !$form.denomination_summary_format}selected{/if}>Detail</option>
+							<option value=1 {if $form.denomination_summary_format}selected{/if}>Simplified</option>
+						</select>
+					</td>
+				</tr>
+				{if $form.branch_is_under_gst}
+					<tr class="mt-2">
+						<td class="form-label"><b>Prompt To Suggest Print Full Tax Invoice</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(194,314);" /></td>
+						<td>
+							<select class="form-control" name=form[promt_to_ask_print_full_tax_inv] onchange="change_min_amt(this)">
+								<option value = 0 {if !$form.promt_to_ask_print_full_tax_inv}selected{/if}>No</option>
+								<option value = 1 {if $form.promt_to_ask_print_full_tax_inv}selected{/if}>Yes</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="mt-2" id="min_amt" {if !$form.promt_to_ask_print_full_tax_inv}style="display:none"{/if}>
+						<td class="form-label"><b>Minimum Amount Prompt To Suggest Print Full Tax Invoice </b></td>
+						<td>
+							<input class="form-control" name=form[min_amt_prompt_to_print_full_tax_inv] value="{$form.min_amt_prompt_to_print_full_tax_inv|default:500}">
+						</td>
+					</tr>
+				{/if}
+		
+				<tr class="mt-2">
+					<td class="form-label"><b>Print RSP and RSP Discount</b></td>
+					<td>
+						<select class="form-control" name="form[print_rsp]">
+						<option value="1" {if $form.print_rsp}selected{/if}>Yes</option>
+						<option value="0" {if !$form.print_rsp}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>
+		
+				<tr class="mt-2">
+					<td class="form-label"><b>Skip Print Receipt Printed Date and Time</b></td>
+					<td>
+						<select class="form-control" name="form[skip_receipt_printed_datetime]">
+						<option value="1" {if $form.skip_receipt_printed_datetime}selected{/if}>Yes</option>
+						<option value="0" {if !$form.skip_receipt_printed_datetime}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>
+		
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Receipt No as Receipt's Invoice No</b></td>
+					<td>
+						<select class="form-control" name="form[print_receipt_no_as_invoice_no]">
+						<option value="1" {if $form.print_receipt_no_as_invoice_no}selected{/if}>Yes</option>
+						<option value="0" {if !$form.print_receipt_no_as_invoice_no}selected{/if}>No</option>
+						</select>
+					</td>			
+				</tr>
+		
+				<tr class="mt-2">
+					<td class="form-label"><b>Print Invoice No with Prefix</b></td>
+					<td><input class="form-control" name=form[receipt_no_prefix] value="{$form.receipt_no_prefix}"></td>		
+				</tr>
+				</table>
+				
+				<h3 class="text-primary mt-2 mb-2">Self Checkout Settings <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(199);" /></td></h3>
+				<table border=0>
+					<tr>
+						<td>
+							<b class="form-label">No Activity Timeout Period</b>
+						</td>
+						<td>
+							<div class="form-inline">
+								<input type="text" name="form[sco_timeout_period]" value="{$form.sco_timeout_period}" class="r form-control" maxlength="13" size="13" onchange="mi(this);" /> <b class="form-label">&nbsp;Second(s)</b>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<b class="form-label">Weight Tolerance</b>
+						</td>
+						<td>
+							<div class="form-inline"><input type="text" name="form[sco_weight_scale_var_perc]" value="{$form.sco_weight_scale_var_perc}" class="r form-control" maxlength="13" size="13" onchange="mf(this);" /> <b class="form-label">&nbsp;%</b></div>
+						</td>
+					</tr>
+					<tr>
+						<td rowspan="3">
+							<b class="form-label">Alarm Settings</b>
+						</td>
+						<td>
+							<div class="form-inline">
+								<input  type="text" name="form[sco_alarm_times]" value="{$form.sco_alarm_times}" class="r form-control" maxlength="13" size="13" onchange="mi(this);" /> <b class="form-label">&nbsp;Time(s) for Alarm Alerting</b>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="form-inline">
+								<input type="text" name="form[sco_alarm_duration]" value="{$form.sco_alarm_duration}" class="r form-control" maxlength="13" size="13" onchange="mf(this);" /> <b class="form-label">&nbsp;Second(s) for Alarm Alerting Duration</b>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="form-inline">
+								<input type="text" name="form[sco_alarm_interval]" value="{$form.sco_alarm_interval}" class="r form-control" maxlength="13" size="13" onchange="mf(this);" /> <b>Second(s) to trigger next Alarm Alerting</b>
+							</div>
+						</td>
+					</tr>
+		
+					<tr>
+						<td colspan="2">
+							<h3 class="text-primary mt-2 mb-2">Force Privilege Override Popup <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(210);" /></h3>
+						</td>
+					</tr>
+					{foreach from=$force_override_privilege key=inp_name item=inp_label}
+						<tr class="form-label">
+							  <td valign="top"><b >{$inp_label}</b></td>
+							  <td>
+								&nbsp;<input type="checkbox" name="form[{$inp_name}]" value="1" {if $form.$inp_name}checked{/if}/>
+							  </td>
+						</tr>
+					{/foreach}
+				</table>
+			</div>
+		</div>
+			</div>
+	
+	
+			<div id=tb1>
+				<div class="card mx-3">
+					<div class="card-body">
+				<h3 class="text-primary mt-2 mb-2 ">Membership Settings</h3>
+				<table border=0>
+				
+				<tr class="mt-2">
+					<td class="form-label"><b>Do not prompt for member / race during payment</b></td>
+					<td >
+						<select class="form-control" name=form[blok_prompt_for_member_race_payment]>
+							<option value=0 {if !$form.blok_prompt_for_member_race_payment}selected{/if}>No</option>
+							<option value=1 {if $form.blok_prompt_for_member_race_payment}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>		
+				
+				<tr class="mt-2">
+				<td><b class="form-label">Race</b></td>
+				<td>
+				<input class="form-control" name=form[race] value="{$form.race}">
+				</td>
+				</tr>
+		
+				<tr class="mt-2">
+				<td class="form-label"><b>Reward Point</b></td>
+				<td>
+				<div class="form-inline">
+					{$config.arms_currency.symbol}&nbsp; <input class="form-control" size=3 name=form[unit_point] value="{$form.unit_point}"> = 1 point
+				</div>
+				</td>
+				</tr>
+				{*<tr class="mt-2">
+					<td class="form-label"><b>Deduct member point</b><br/>when has receipt discount in transaction.</td>
+					<td>
+						<select class="form-control"  name="form[deduct_mem_point]">
+							<option value="0" {if !$form.deduct_mem_point}selected{/if}>No Deduct</option>
+							<option value="1" {if $form.deduct_mem_point eq 1}selected{/if}>Deduct by global point</option>
+							<option value="2" {if $form.deduct_mem_point eq 2}selected{/if}>Deduct by ratio</option>
+						</select>
+					</td>
+				</tr>*}
+				{*<tr class="mt-2">
+					<td class="form-label"><b>Cash Redemption Have Point</b></td>
+					<td>
+					<select class="form-control" name=form[cash_redemption_have_point]>
+					<option value=1 {if $form.cash_redemption_have_point}selected{/if}>Yes</option>
+					<option value=0 {if !$form.cash_redemption_have_point}selected{/if}>No</option>
+					</select>
+					</td>
+				</tr>
+		
+				<tr class="mt-2">
+					<td class="form-label"><b>Disable Multiple Promotion</b></td>
+					<td>
+					<select class="form-control" name=form[disable_multiple_promotion]>
+					<option value=1 {if $form.disable_multiple_promotion}selected{/if}>Yes</option>
+					<option value=0 {if !$form.disable_multiple_promotion}selected{/if}>No</option>
+					</select>
+					</td>
+				</tr>*}
+		
+				<tr class="mt-2">
+				<td class="form-label"><b>Show Last Points in Receipt</b></td>
+				<td>
+				<select class="form-control" name=form[show_last_points_in_receipt]>
+				<option value=1 {if $form.show_last_points_in_receipt}selected {/if} >Yes</option>
+				<option value=0 {if !$form.show_last_points_in_receipt}selected {/if} >No</option>
+				</select>
+				</td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label"><b>Show Member expired date in receipt</b></td>
+				<td>
+				<select class="form-control" name=form[show_member_expired_date_in_receipt]>
+				<option value=1 {if $form.show_member_expired_date_in_receipt}selected {/if} >Yes</option>
+				<option value=0 {if !$form.show_member_expired_date_in_receipt}selected {/if} >No</option>
+				</select>		
+				</td>
+				</tr>
+				{if $config.membership_use_card_prefix}
+					<tr class="mt-2">
+						<td class="form-label"><b>Membership Card Prefix</b></td>
+						<td><input class="form-control" type="text" name="form[membership_card_prefix]" value="{$form.membership_card_prefix}" maxlength="16" /></td>
+					</tr>
+				{/if}
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow invalid member no as new member no</b></td>
+					<td>
+						<select class="form-control" name="form[membership_allow_invalid_card_no]">
+							<option value=1 {if $form.membership_allow_invalid_card_no}selected{/if}>Yes</option>
+							<option value=0 {if !$form.membership_allow_invalid_card_no}selected{/if}>No</option>
+						</select>
+					</td>
+				</tr>
+				{*<tr class="mt-2">
+				<td class="form-label"><b>Redeem Point with Amount</b></td>
+				<td>
+				<input class="form-control" size=3 name=form[redeem_point] value="{$form.redeem_point}"> point = {$config.arms_currency.symbol} 1
+				</td>
+				</tr>*}
+				{if $config.membership_control_counter_adjust_point}
+				<tr class="mt-2">
+				<td class="form-label"><b>Allow Adjust Point</b></td>
+				<td><select class="form-control" name=form[allow_adjust_member_point]>
+					<option value="1" {if $form.allow_adjust_member_point}Selected{/if}>Yes</option>
+					<option value="0" {if !$form.allow_adjust_member_point}Selected{/if}>No</option>
+				</select></td>
+				</tr>
+				<tr class="mt-2">
+				<td class="form-label" valign="top"><b>Set Adjust Member Point Reason List</b><br /> Press enter to next line for each new reason.<br />"Delivery" & "Birthday" is default value in reason list.</td>
+				<td><textarea class="form-control" name=form[set_adjust_member_point_reason] cols="50" rows="5">{$form.set_adjust_member_point_reason}</textarea></td>
+				</tr>
+				{/if}
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow scan member with nric or name</b></td>
+					<td>
+						<select class="form-control" name="form[scan_mem_nric_name]">
+							<option value=0 {if !$form.scan_mem_nric_name}selected{/if}>No</option>
+							<option value=1 {if $form.scan_mem_nric_name}selected{/if}>Yes</option>					
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Allow view member purchase history</b></td>
+					<td>
+						<select class="form-control" name="form[view_member_purchase_history]">
+							<option value=0 {if !$form.view_member_purchase_history}selected{/if}>No</option>
+							<option value=1 {if $form.view_member_purchase_history}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Skip print "Missed Point" on receipt</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(191,310);" /></td>
+					<td>
+						<select class="form-control" name="form[print_receipt_hide_missed_point]">
+							<option value=0 {if !$form.print_receipt_hide_missed_point}selected{/if}>No</option>
+							<option value=1 {if $form.print_receipt_hide_missed_point eq 1}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="mt-2">
+					<td class="form-label"><b>Do not print membership information on receipt</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(201);" /></td>
+					<td>
+						<select class="form-control" name="form[print_receipt_hide_membership_info]">
+							<option value=0 {if !$form.print_receipt_hide_membership_info}selected{/if}>No</option>
+							<option value=1 {if $form.print_receipt_hide_membership_info}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				{if $config.membership_pmr}
+				<tr class="mt-2">
+					<td class="form-label"><b>Show Member Type and {$config.membership_pmr_name} information<br>after scanning member</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(209);" /></td>
+					<td>
+						<select class="form-control" name="form[show_membership_pmr]">
+							<option value=0 {if !$form.show_membership_pmr}selected{/if}>No</option>
+							<option value=1 {if $form.show_membership_pmr}selected{/if}>Yes</option>
+						</select>
+					</td>
+				</tr>
+				{/if}
+				</table>
+			</div>
+		</div>
+			</div>
 
-		<tr>
-		<td><b>Reward Point</b></td>
-		<td>
-		{$config.arms_currency.symbol} <input size=3 name=form[unit_point] value="{$form.unit_point}"> = 1 point
-		</td>
-		</tr>
-		{*<tr>
-			<td><b>Deduct member point</b><br/>when has receipt discount in transaction.</td>
-			<td>
-				<select name="form[deduct_mem_point]">
-					<option value="0" {if !$form.deduct_mem_point}selected{/if}>No Deduct</option>
-					<option value="1" {if $form.deduct_mem_point eq 1}selected{/if}>Deduct by global point</option>
-					<option value="2" {if $form.deduct_mem_point eq 2}selected{/if}>Deduct by ratio</option>
-				</select>
-			</td>
-		</tr>*}
-		{*<tr>
-			<td><b>Cash Redemption Have Point</b></td>
-			<td>
-			<select name=form[cash_redemption_have_point]>
-			<option value=1 {if $form.cash_redemption_have_point}selected{/if}>Yes</option>
-			<option value=0 {if !$form.cash_redemption_have_point}selected{/if}>No</option>
-			</select>
-			</td>
-		</tr>
-
-		<tr>
-			<td><b>Disable Multiple Promotion</b></td>
-			<td>
-			<select name=form[disable_multiple_promotion]>
-			<option value=1 {if $form.disable_multiple_promotion}selected{/if}>Yes</option>
-			<option value=0 {if !$form.disable_multiple_promotion}selected{/if}>No</option>
-			</select>
-			</td>
-		</tr>*}
-
-		<tr>
-		<td><b>Show Last Points in Receipt</b></td>
-		<td>
-		<select name=form[show_last_points_in_receipt]>
-		<option value=1 {if $form.show_last_points_in_receipt}selected {/if} >Yes</option>
-		<option value=0 {if !$form.show_last_points_in_receipt}selected {/if} >No</option>
-		</select>
-		</td>
-		</tr>
-		<tr>
-		<td><b>Show Member expired date in receipt</b></td>
-		<td>
-		<select name=form[show_member_expired_date_in_receipt]>
-		<option value=1 {if $form.show_member_expired_date_in_receipt}selected {/if} >Yes</option>
-		<option value=0 {if !$form.show_member_expired_date_in_receipt}selected {/if} >No</option>
-		</select>		
-		</td>
-		</tr>
-		{if $config.membership_use_card_prefix}
-		    <tr>
-		        <td><b>Membership Card Prefix</b></td>
-		        <td><input type="text" name="form[membership_card_prefix]" value="{$form.membership_card_prefix}" maxlength="16" /></td>
-		    </tr>
-		{/if}
-		<tr>
-			<td><b>Allow invalid member no as new member no</b></td>
-			<td>
-				<select name="form[membership_allow_invalid_card_no]">
-					<option value=1 {if $form.membership_allow_invalid_card_no}selected{/if}>Yes</option>
-					<option value=0 {if !$form.membership_allow_invalid_card_no}selected{/if}>No</option>
-				</select>
-			</td>
-		</tr>
-		{*<tr>
-		<td><b>Redeem Point with Amount</b></td>
-		<td>
-		<input size=3 name=form[redeem_point] value="{$form.redeem_point}"> point = {$config.arms_currency.symbol} 1
-		</td>
-		</tr>*}
-		{if $config.membership_control_counter_adjust_point}
-		<tr>
-		<td><b>Allow Adjust Point</b></td>
-		<td><select name=form[allow_adjust_member_point]>
-			<option value="1" {if $form.allow_adjust_member_point}Selected{/if}>Yes</option>
-			<option value="0" {if !$form.allow_adjust_member_point}Selected{/if}>No</option>
-		</select></td>
-		</tr>
-		<tr>
-		<td valign="top"><b>Set Adjust Member Point Reason List</b><br /> Press enter to next line for each new reason.<br />"Delivery" & "Birthday" is default value in reason list.</td>
-		<td><textarea name=form[set_adjust_member_point_reason] cols="50" rows="5">{$form.set_adjust_member_point_reason}</textarea></td>
-		</tr>
-		{/if}
-		<tr>
-			<td><b>Allow scan member with nric or name</b></td>
-			<td>
-				<select name="form[scan_mem_nric_name]">
-					<option value=0 {if !$form.scan_mem_nric_name}selected{/if}>No</option>
-					<option value=1 {if $form.scan_mem_nric_name}selected{/if}>Yes</option>					
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Allow view member purchase history</b></td>
-			<td>
-				<select name="form[view_member_purchase_history]">
-					<option value=0 {if !$form.view_member_purchase_history}selected{/if}>No</option>
-					<option value=1 {if $form.view_member_purchase_history}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Skip print "Missed Point" on receipt</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(191,310);" /></td>
-			<td>
-				<select name="form[print_receipt_hide_missed_point]">
-					<option value=0 {if !$form.print_receipt_hide_missed_point}selected{/if}>No</option>
-                    <option value=1 {if $form.print_receipt_hide_missed_point eq 1}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><b>Do not print membership information on receipt</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(201);" /></td>
-			<td>
-				<select name="form[print_receipt_hide_membership_info]">
-					<option value=0 {if !$form.print_receipt_hide_membership_info}selected{/if}>No</option>
-					<option value=1 {if $form.print_receipt_hide_membership_info}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		{if $config.membership_pmr}
-		<tr>
-			<td><b>Show Member Type and {$config.membership_pmr_name} information<br>after scanning member</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(209);" /></td>
-			<td>
-				<select name="form[show_membership_pmr]">
-					<option value=0 {if !$form.show_membership_pmr}selected{/if}>No</option>
-					<option value=1 {if $form.show_membership_pmr}selected{/if}>Yes</option>
-				</select>
-			</td>
-		</tr>
-		{/if}
-		</table>
-	</div>
 	<div id=tb2>
-		<h3>Time Control</h3>
+		<div class="card mx-3">
+			<div class="card-body">
+			
+		<h3 class="text-primary mt-2 mb-2">Time Control</h3>
 		<table border=0>
 		<tr>
-		<td><b>Sales Date Adjustment</b></td>
+		<td><b class="form-label">Sales Date Adjustment</b></td>
 		<td>
-		<b>Date from</b> <input id="inp_date_from" onChange="checkdatetime(this,'date');" name="form[sales_date_adjustment][date_from]" value="{$form.sales_date_adjustment.date_from|date_format:"%Y-%m-%d"}" size="10">
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
-		<b>to</b> <input id="inp_date_to" onchange="checkdatetime(this,'date');" name="form[sales_date_adjustment][date_to]" value="{$form.sales_date_adjustment.date_to|date_format:"%Y-%m-%d"}" size=10>
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
-		(yyyy-mm-dd)
+		<div class="form-inline">
+			<b class="form-label">Date from</b> 
+		<input class="form-control" id="inp_date_from" onChange="checkdatetime(this,'date');" name="form[sales_date_adjustment][date_from]" value="{$form.sales_date_adjustment.date_from|date_format:"%Y-%m-%d"}" size="10">
+		&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
+		
+		<b class="form-label">&nbsp;to&nbsp;</b> <input id="inp_date_to" onchange="checkdatetime(this,'date');" name="form[sales_date_adjustment][date_to]" value="{$form.sales_date_adjustment.date_to|date_format:"%Y-%m-%d"}" size=10>
+		&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
+		<b class="form-label">(yyyy-mm-dd)</b>
+		</div>
 		</tr>
 		</tr>
 		<td></td>
 		<td>
-		<b>Time from</b> <input onchange="checkdatetime(this,'time');" name=form[sales_date_adjustment][time_from] value="{$form.sales_date_adjustment.time_from}" size=10>
-		<b>to</b> <input onchange="checkdatetime(this,'time');" name=form[sales_date_adjustment][time_to] value="{$form.sales_date_adjustment.time_to}" size=10> (hh:mm)
+		<div class="form-inline">
+			<b class="form-label">Time from</b> 
+		<input class="form-control" onchange="checkdatetime(this,'time');" name=form[sales_date_adjustment][time_from] value="{$form.sales_date_adjustment.time_from}" size=10>
+		<b class="form-label">&nbsp;to&nbsp;</b> 
+		<input class="form-control" onchange="checkdatetime(this,'time');" name=form[sales_date_adjustment][time_to] value="{$form.sales_date_adjustment.time_to}" size=10> (hh:mm)
+		</div>
 		</td>
 		</tr>
-		<tr>
-		<td><b>Cut-off time</b></td>
+		<tr class="mt-2">
+		<td class="form-label"><b>Cut-off time</b></td>
 		<td>
-		<select name=form[hour_start]>
-		{section name=i loop=24}
-		<option value="{$smarty.section.i.iteration-1}" {if $form.hour_start == ($smarty.section.i.iteration-1)}selected{/if}>{$smarty.section.i.iteration-1}</option>
-		{/section}
-		</select>
-		<b>:</b>
-		<select name=form[minute_start]>
-		{section name=i loop=60}
-		<option value="{$smarty.section.i.iteration-1}" {if $form.minute_start == ($smarty.section.i.iteration-1)}selected{/if}>{$smarty.section.i.iteration-1|string_format:"%02d"}</option>
-		{/section}
-		</select>
+		<div class="form-inline">
+			<select class="form-control" name=form[hour_start]>
+				{section name=i loop=24}
+				<option value="{$smarty.section.i.iteration-1}" {if $form.hour_start == ($smarty.section.i.iteration-1)}selected{/if}>{$smarty.section.i.iteration-1}</option>
+				{/section}
+				</select>
+				<b>&nbsp;:&nbsp;</b>
+				<select  class="form-control" name=form[minute_start]>
+				{section name=i loop=60}
+				<option value="{$smarty.section.i.iteration-1}" {if $form.minute_start == ($smarty.section.i.iteration-1)}selected{/if}>{$smarty.section.i.iteration-1|string_format:"%02d"}</option>
+				{/section}
+				</select>
+		</div>
 		</td>
 		</tr>
-		<tr>
-			<td><b>Start Counter Date will fall in which date</b></td>
+		<tr class="mt-2">
+			<td class="form-label"><b>Start Counter Date will fall in which date</b></td>
 			<td>
-				<select name=form[sales_record_cut_off] value="{$form.sales_record_cut_off}">
+				<select class="form-control" name=form[sales_record_cut_off] value="{$form.sales_record_cut_off}">
 					<option value="0" {if !$form.sales_record_cut_off}selected{/if}>Use Previous Date</option>
 					<option value="1" {if $form.sales_record_cut_off eq 1}selected{/if}>Use Current Date</option>
 					<option value="2" {if $form.sales_record_cut_off eq 2}selected{/if}>Use User Select Date</option>
@@ -2374,6 +2438,8 @@ function show_notification_message(type){
 			</td>
 		</tr>
 		</table>
+	</div>
+	</div>
 	</div>
 	<div id=tb3>
 		<h3>Display Settings</h3>
@@ -2702,40 +2768,44 @@ function show_notification_message(type){
 	</div>
 
 	<div id=tb4>
-		<h3>Security Settings</h3>
+		<div class="card mx-3">
+			<div class="card-body">
+
+			
+		<h3 class="text-primary mt-2 mb-2">Security Settings</h3>
 		<table border=0>
-		<tr>
-		<td><b>Current user can do cash advance</b></td>
+		<tr class="mt-2">
+		<td class="form-label"><b>Current user can do cash advance</b></td>
 		<td>
-		<select name=form[pos_cashier_limited]>
+		<select class="form-control" name=form[pos_cashier_limited]>
 		<option value=0 {if !$form.pos_cashier_limited}selected{/if}>Yes</option>
 		<option value=1 {if $form.pos_cashier_limited}selected{/if}>No</option>
 		</select>
 		</td>
 		</tr>
-		<tr>
-			<td><b>Open drawer on new cashier shift</b></td>
+		<tr class="mt-2">
+			<td class="form-label"><b>Open drawer on new cashier shift</b></td>
 			<td>
-				<select name=form[open_drawer_new_shift]>
+				<select class="form-control" name=form[open_drawer_new_shift]>
 					<option value=0 {if !$form.open_drawer_new_shift}selected{/if}>No</option>
 					<option value=1 {if $form.open_drawer_new_shift}selected{/if}>Yes</option>
 				</select>
 			</td>
 		</tr>
-		<tr>
-			<td><b>Cash Advance Default Reason</b></td>
+		<tr class="mt-2">
+			<td><b class="form-label">Cash Advance Default Reason</b></td>
 			<td>
-				<select name=form[ca_default_reason]>
+				<select class="form-control" name=form[ca_default_reason]>
 					{foreach from=$config.pos_cash_advance_reason_list item=reason_value}
 					<option value="{$reason_value}" {if $form.ca_default_reason eq $reason_value}selected{/if}>{$reason_value}</option>
 					{/foreach}
 				</select>
 			</td>
 		</tr>
-		{*<tr>
-			<td><b>Allow to create/checkout/view office document in counter</b></td>
+		{*<tr class="mt-2">
+			<td class="form-label"><b>Allow to create/checkout/view office document in counter</b></td>
 			<td>
-				<select name=form[create_view_backend]> 
+				<select class="form-control" name=form[create_view_backend]> 
 					<option value=0 {if !$form.create_view_backend}selected{/if}>No</option>
 					<option value=1 {if $form.create_view_backend}selected{/if}>Yes</option>
 				</select>
@@ -2743,8 +2813,14 @@ function show_notification_message(type){
 		</tr>*}
 		</table>
 	</div>
+</div>
+	</div>
 	<div id=tb7 {if !$config.pos_settings_pos_backend_tab} style="display:none;" {/if}>
-		<h3>POS Backend</h3>
+		<div class="card mx-3">
+			<div class="card-body">
+
+			
+		<h3 class="text-primary mt-2 mb-2">POS Backend</h3>
 		<table border=0>
 			{*<tr>
 				<td><b>POS Backend Mode</b> <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_notification_message('pos_backend_mode');" /></td></td>
@@ -2871,7 +2947,8 @@ function show_notification_message(type){
 			</div>
 		{/if}
 	</div>
-	
+</div>
+</div>
 	<div id="tb6" {if !$config.foreign_currency} display:none; {/if}>
 		{*<h3>Currency</h3>
 		
@@ -2934,29 +3011,33 @@ function show_notification_message(type){
 	</div>
 
 	<div id=tb5>
+		<div class="card mx-3">
+			<div class="card-body">
+
+
 	<table border=0>
-		<tr>
+		<tr class="mt-2">
 			<td valign="top">
-				<b>Receipt Header</b> 
-				<br>(lines will be auto-centered during print-out)
+				<b class="form-label">Receipt Header</b> 
+				(lines will be auto-centered during print-out)
 			</td>
 			<td>
-				<textarea name="form[receipt_header]" rows=5 cols=40 wrap="HARD">{$form.receipt_header}</textarea>
+				<textarea class="form-control" name="form[receipt_header]" rows=5 cols=40 wrap="HARD">{$form.receipt_header}</textarea>
 			</td>
 		</tr>
-		<tr>
+		<tr class="mt-2">
 			<td valign="top">
-				<b>Receipt Footer</b> 
-				<br>(lines will be auto-centered during print-out)
+				<b class="form-label">Receipt Footer</b> 
+				(lines will be auto-centered during print-out)
 			</td>
 			<td>
-				<textarea name="form[receipt_footer]" rows=5 cols=40 wrap="HARD">{$form.receipt_footer}</textarea>
+				<textarea class="form-control" name="form[receipt_footer]" rows=5 cols=40 wrap="HARD">{$form.receipt_footer}</textarea>
 			</td>
 		</tr>
-		<tr>
-			<td><b>Customize receipt footer</b><br />receipt footer will show with date range.</td>
+		<tr class="mt-2">
+			<td><b class="form-label">Customize receipt footer</b>receipt footer will show with date range.</td>
 			<td valign="top">		
-				<select name="form[preset_receipt_footer][option]" onchange="show_preset_receipt_footer(this)">
+				<select class="form-control" name="form[preset_receipt_footer][option]" onchange="show_preset_receipt_footer(this)">
 				<option value=1 {if $form.preset_receipt_footer.option}selected{/if}>Yes</option>
 				<option value=0 {if !$form.preset_receipt_footer.option}selected{/if}>No</option>
 				</select>
@@ -3076,45 +3157,50 @@ function show_notification_message(type){
 	</table>
 	{/if}
 	</div>
-
-	<div id=tb8>
-		<h3>POS Counter Audio <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(209);" /></h3>
-		<table border=0>
-			<tr>
-				<th>Audio Display Point</th>
-				<th>Use Audio <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_notification_message('use_audio');" /></th>
-				<th>Audio File</th>
-			</tr>
-			{if $audio_list}
-				{foreach from=$audio_list key=input_name item=input_label}
-				{assign var=inp value="use_audio_`$input_name`"}
-				<tr>
-					<td>{$input_label}</td>
-					<td><input type="checkbox" name="form[{$inp}]" {if $form.$inp} checked {/if} value="1"></td>
-					<td>
-						<form name=f_{$input_name} method=post enctype=multipart/form-data target=if>
-							<input name=a value=upload_audio type=hidden>
-							<input name=audio_file value="{$input_name}" type=hidden>
-							<input name=branch_id value="{$form.branch_id}" type=hidden>
-							<div id="div_audio_{$input_name}">
-								{if $form.$input_name}
-									<audio controls>
-										<source src="{$form.$input_name}">
-									</audio><br>
-									{$form.$input_name}
-									<div style="float:right;width:20px"><img src="/ui/icons/delete.png" onclick="del_audio('{$input_name}');" align=absmiddle></div>
-								{else}
-									<input type="file" accept=".mp3,.wav" name="{$input_name}" onchange="upload_audio('{$input_name}');">
-								{/if}
-							</div>
-						</form>
-					</td>
-				</tr>
-				{/foreach}
-			{else}
-				<tr><td colspan="3"><i>No Audio list available.</i></td></tr>
-			{/if}
-		</table>
+</div>
+</div>
+			<div id=tb8>
+				<div class="card mx-3">
+					<div class="card-body">
+				<h3 class="text-primary mt-2 mb-2">POS Counter Audio <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_available_version(209);" /></h3>
+				<table border=0>
+					<tr>
+						<th class="text-dark">Audio Display Point</th>
+						<th class="text-dark">Use Audio <img src="/ui/icons/information.png" align="absmiddle" class="clickable" onClick="show_notification_message('use_audio');" /></th>
+						<th class="text-dark">&nbsp;Audio File</th>
+					</tr>
+					{if $audio_list}
+						{foreach from=$audio_list key=input_name item=input_label}
+						{assign var=inp value="use_audio_`$input_name`"}
+						<tr>
+							<td>{$input_label}</td>
+							<td><input type="checkbox" name="form[{$inp}]" {if $form.$inp} checked {/if} value="1"></td>
+							<td>
+								<form name=f_{$input_name} method=post enctype=multipart/form-data target=if>
+									<input name=a value=upload_audio type=hidden>
+									<input name=audio_file value="{$input_name}" type=hidden>
+									<input name=branch_id value="{$form.branch_id}" type=hidden>
+									<div id="div_audio_{$input_name}">
+										{if $form.$input_name}
+											<audio controls>
+												<source src="{$form.$input_name}">
+											</audio><br>
+											{$form.$input_name}
+											<div style="float:right;width:20px"><img src="/ui/icons/delete.png" onclick="del_audio('{$input_name}');" align=absmiddle></div>
+										{else}
+											<input type="file" accept=".mp3,.wav" name="{$input_name}" onchange="upload_audio('{$input_name}');">
+										{/if}
+									</div>
+								</form>
+							</td>
+						</tr>
+						{/foreach}
+					{else}
+						<tr><td colspan="3"><i>No Audio list available.</i></td></tr>
+					{/if}
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 <p align=center><input class="btn btn-success" type=button value="Save" color:#fff;" onclick="do_save();"></p>

@@ -7,7 +7,13 @@
 {assign var=msg value=$smarty.request.msg}
 <p align=center><font color=red>{$msg}</font></p>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <div id=show_last>
 {if $smarty.request.type eq 'save'}
@@ -21,10 +27,14 @@
 {/if}
 </div>
 
-<ul>
-	<li> <img src="ui/new.png" align="absmiddle"> <a href="front_end.announcement.php?a=open&id=0">Create New POS Announcement</a></li>
-</ul>
-<br>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			<li> <img src="ui/new.png" align="absmiddle"> <a href="front_end.announcement.php?a=open&id=0">Create New POS Announcement</a></li>
+		</ul>
+	</div>
+</div>
+
 
 <script>
 var phpself = '{$smarty.server.PHP_SELF}';
@@ -38,9 +48,9 @@ function list_sel(n,s)
 		if ($('lst'+i)!=undefined)
 		{
 			if (i==n)
-				$('lst'+i).className='active';
+				$('lst'+i).addClassName('selected');
 			else
-				$('lst'+i).className='';
+				$('lst'+i).removeClassName('selected');
 		}
 	}
 	
@@ -68,8 +78,8 @@ function list_sel(n,s)
 }
 
 function search_tab_clicked(obj) {
-	$(obj).siblings().each(function(el){el.className = '';});
-	obj.className = 'active';
+	$(obj).siblings().each(function(el){el.removeClassName('selected');});
+	obj.addClassName('selected');
 	$('announcement_list').update();
 	$('search_area').show();
 }
@@ -82,41 +92,46 @@ function display_day_count(v) {
 {/literal}
 
 <form name=f onsubmit="list_sel(0);return false;">
-<div class=tab style="height:20px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Draft</a>
-<a href="javascript:list_sel(2)" id=lst2>Cancelled/Deleted</a>
-<a href="javascript:list_sel(3)" id=lst3>Confirmed</a>
-<a name="find" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find</a>
+<div class="tab row mx-3 mb-2" style="white-space:nowrap;">
+<a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Draft</a>
+&nbsp;<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Cancelled/Deleted</a>
+&nbsp;<a href="javascript:list_sel(3)" id=lst3 class="btn btn-outline-primary btn-rounded">Confirmed</a>
+&nbsp;<a name="find" class="btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find</a>
 </div>
 
-<div style="border:1px solid #000;">
+<div >
 
 <div id="search_area" style="display:none;">
-	<table border="0">
-		<tr>
-			<th align="left">Find Announcement / Doc No</th>
-			<td><input name="search" id="search" value="{$smarty.request.search}" size="15" /></td>
-		</tr>
-		<tr>
-			<th align="left">Status</th>
-			<td>
-				<select name="search_filter" onchange="display_day_count(this.value);">
-					<option value="">&nbsp;</option>
-					<option value="starting_in">Starting in .. </option>
-					<option value="ending_in">Ending in .. </option>
-					<option value="currently_active">Currently active </option>
-				</select>
-				<span id="day_count" style="display:none;">&nbsp;&nbsp;<input type="text" name="day_count" size="2" onchange="mi(this);" /> day(s)</span>
-				&nbsp;&nbsp;<input type="submit" value="Go">
-			</td>
-		</tr>
-	</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<table border="0">
+				<tr>
+					<th align="left" class="form-label mt-2">Find Announcement / Doc No</th>
+					<td><input class="form-control" name="search" id="search" value="{$smarty.request.search}" size="15" /></td>
+				</tr>
+				<tr>
+					<th align="left" class="form-label mt-2">Status</th>
+					<td>
+						<div class="form-inline">
+							<select class="form-control" name="search_filter" onchange="display_day_count(this.value);">
+								<option value="">&nbsp;</option>
+								<option value="starting_in">Starting in .. </option>
+								<option value="ending_in">Ending in .. </option>
+								<option value="currently_active">Currently active </option>
+							</select>
+							<span id="day_count" style="display:none;">&nbsp;&nbsp;<input type="text" class="form-control" name="day_count" size="2" onchange="mi(this);" /> day(s)</span>
+							&nbsp;&nbsp;<input class="btn btn-primary " type="submit" value="Go">
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
-
+</div>
 <div id="announcement_list"></div>
 
-</div>
+
 </form>
 
 {include file=footer.tpl}

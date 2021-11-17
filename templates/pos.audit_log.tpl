@@ -87,53 +87,68 @@ var POS_AUDIT_LOG = {
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
-<form name="f_a" class="stdframe" method="post">
-    <input type="hidden" name="a" value="load_data">
-	<input type="hidden" name="type" value="">
-	<input type="hidden" name="form_submit" value="1">
-	<input type="hidden" name="branch_id" value="">
-	<input type="hidden" name="counter_id" value="">
-	<input type="hidden" name="date" value="">
-    <table>
-        <tr>
-            <th>Counter</th>
-            <td>
-                <select name="counters">
-					{if $BRANCH_CODE == 'HQ'}
-						<option value="">-- All --</option>
-					{/if}
-                    {foreach from=$counters item=r}
-                        {capture assign=counter_all}{$r.branch_id}|all{/capture}
-                        {capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
-                        {if $last_bid ne $r.branch_id}
-                            <option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
-                            {assign var=last_bid value=$r.branch_id}
-                        {/if}
-                        <option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r.network_name}</option>
-                    {/foreach}
-                </select>&nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <th>From</th>
-            <td>
-                <input size=10 type=text name=date_from value="{$form.date_from}" id="date_from" readonly>
-                <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">&nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <th>To</th>
-            <td>
-                <input size=10 type=text name=date_to value="{$form.date_to}" id="date_to" readonly>
-                <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
-            </td>
-        </tr>
-    </table>
-    <br>
-    <input type="button" onclick="POS_AUDIT_LOG.show_report();" value="Show Report"/>&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" onclick="POS_AUDIT_LOG.download_report();" value="Download All"/>
-    <br><br>
-    <ul>
-        <li>Report maximum show 30 days of transaction only.</li>
-    </ul>
-</form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="stdframe" method="post">
+			<input type="hidden" name="a" value="load_data">
+			<input type="hidden" name="type" value="">
+			<input type="hidden" name="form_submit" value="1">
+			<input type="hidden" name="branch_id" value="">
+			<input type="hidden" name="counter_id" value="">
+			<input type="hidden" name="date" value="">
+			<table>
+				<tr>
+					<th class="form-label mt-2">Counter&nbsp;</th>
+					<td>
+						<select class="form-control" name="counters">
+							{if $BRANCH_CODE == 'HQ'}
+								<option value="">-- All --</option>
+							{/if}
+							{foreach from=$counters item=r}
+								{capture assign=counter_all}{$r.branch_id}|all{/capture}
+								{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
+								{if $last_bid ne $r.branch_id}
+									<option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
+									{assign var=last_bid value=$r.branch_id}
+								{/if}
+								<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r.network_name}</option>
+							{/foreach}
+						</select>
+					</td>
+					<th class="form-label mt-2">&nbsp;From&nbsp;</th>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" size=23 type=text name=date_from value="{$form.date_from}" id="date_from" readonly>
+						&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">&nbsp;&nbsp;&nbsp;&nbsp;
+					</div>
+					</td>
+					<th class="form-label mt-2">&nbsp;To&nbsp;</th>
+					<td>
+					<div class="form-inline">
+						<input class="form-control" size=23 type=text name=date_to value="{$form.date_to}" id="date_to" readonly>
+						&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
+					</div>
+					</td>
+				</tr>
+			</table>
+			<input type="button" class="btn btn-primary mt-2" onclick="POS_AUDIT_LOG.show_report();" value="Show Report"/>
+			<input type="button" class="btn btn-info mt-2" onclick="POS_AUDIT_LOG.download_report();" value="Download All"/>
+		
+			<div class="alert alert-primary rounded mt-2" style="max-width: 400px;">
+				<ul>
+					<li>Report maximum show 30 days of transaction only.</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+</div>
 <br>
 {if $item_list}
 	{foreach from=$item_list item=i name=p}

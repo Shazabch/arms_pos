@@ -29,7 +29,13 @@ var date_to = '{$smarty.request.date_to}';
 
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <!-- Item Details -->
 <div id="div_details" style="display:none;width:800px;height:400px;">
@@ -38,41 +44,64 @@ var date_to = '{$smarty.request.date_to}';
 </div>
 </div>
 
-<form method="post" name="myForm" class="form">
-<input type="hidden" name="a" value="load_table" />
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Cashier</b> <select name="cashier_id">
-	<option value="all">-- All --</option>
-	{foreach from=$cashier key=cid item=r}
-	    <option value="{$cid}" {if $smarty.request.cashier_id eq $cid}selected {/if}>{$r.u}</option>
-	{/foreach}
-</select>
-{if $BRANCH_CODE eq 'HQ'}
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Branch</b> <select name="branch_id">
-	<option value="all">-- All --</option>
-	{foreach from=$branches key=bid item=r}
-	    <option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$r}</option>
-	{/foreach}
-</select>
-{/if}
-
-<p>
-
-</p>
-<input type="submit" name="submits" value="{#SHOW_REPORT#}" />
-<br />
-<p>
-Note: <br />
-- Report maximum shown in 1 month.<br />
-- Please ensure the sales date selected above have been fully finalised.
-</p>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" name="myForm" class="form">
+			<input type="hidden" name="a" value="load_table" />
+			
+			<div class="row">
+				<div class="col">
+					<b class="form-label">From</b> 
+				<div class="form-inline">
+					<input class="form-control" size=15 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+				</div>
+				
+				<div class="col">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" size=15 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				</div>
+				
+				</div>
+				<div class="col">
+					<b class="form-label">Cashier</b> 
+				<select class="form-control" name="cashier_id">
+					<option value="all">-- All --</option>
+					{foreach from=$cashier key=cid item=r}
+						<option value="{$cid}" {if $smarty.request.cashier_id eq $cid}selected {/if}>{$r.u}</option>
+					{/foreach}
+				</select>
+				</div>
+				{if $BRANCH_CODE eq 'HQ'}
+				<div class="col">
+					
+				<b class="form-label">Branch</b> 
+				<select class="form-control" name="branch_id">
+					<option value="all">-- All --</option>
+					{foreach from=$branches key=bid item=r}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$r}</option>
+					{/foreach}
+				</select>
+				</div>
+				{/if}	
+			</div>
+			
+			
+			<input class="btn btn-primary mt-2" type="submit" name="submits" value="{#SHOW_REPORT#}" />
+			<br />
+			<p>
+			<div class="alert alert-primary rounded mt-2" style="max-width: 500px;">
+				<b>Note:</b> <br />
+			- Report maximum shown in 1 month.<br />
+			- Please ensure the sales date selected above have been fully finalised.
+			</div>
+			</p>
+			</form>
+	</div>
+</div>
 
 
 {if isset($smarty.request.submits)}
@@ -80,41 +109,59 @@ Note: <br />
 No data
 {else}
 {foreach from=$table key=bid item=p}
-<h3>{$branches.$bid}: {count var=$p} record(s)</h3>
-<table width="100%" class="sortable report_table small_printing" id="table_{$bid}">
-<tr class="header">
-    <th >No.</th>
-	<th >Cashier Name</th>
-	<th >Counter</th>
-	<th >Date</th>
-	<th >Time</th>
-	<th>ARMS Code</th>
-	<th>Description</th>
-	<th>Selling Price</th>
-	<th >Cost</th>
-	<th >Different</th>
-</tr>
-	{foreach from=$p item=r name=f}
-	    <tr>
-	        <td>{$smarty.foreach.f.iteration}</td>
-	        <td>{$r.u|default:'-'}</td>
-	        <td>{$r.counter_id}</td>
-	        <td>{$r.timestamp|date_format:'%Y-%m-%d'}</td>
-	        <td>{$r.timestamp|date_format:'%I:%M:%S %p'}</td>
-	        <td>{$r.sku_item_code}</td>
-	        <td>{$r.description}</td>
-	        <td class="r">{$r.sell|number_format:2}</td>
-	        <td class="r">{$r.grn_cost|number_format:2}</td>
-	        <td class="r">{$r.different|number_format:2}</td>
-	    </tr>
-	{/foreach}
-<tr class="header sortbottom">
-	<td colspan="7" class="r"><b>Total</b></td>
-	<td class="r">{$total.$bid.sell|number_format:2}</td>
-	<td class="r">{$total.$bid.grn_cost|number_format:2}</td>
-	<td class="r">{$total.$bid.different|number_format:2}</td>
-</tr>
-</table>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$branches.$bid}: {count var=$p} record(s)</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="sortable report_table small_printing table mb-0 text-md-nowrap  table-hover" id="table_{$bid}">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th >No.</th>
+						<th >Cashier Name</th>
+						<th >Counter</th>
+						<th >Date</th>
+						<th >Time</th>
+						<th>ARMS Code</th>
+						<th>Description</th>
+						<th>Selling Price</th>
+						<th >Cost</th>
+						<th >Different</th>
+					</tr>
+				</thead>
+				{foreach from=$p item=r name=f}
+				   <tbody class="fs-08">
+					<tr>
+						<td>{$smarty.foreach.f.iteration}</td>
+						<td>{$r.u|default:'-'}</td>
+						<td>{$r.counter_id}</td>
+						<td>{$r.timestamp|date_format:'%Y-%m-%d'}</td>
+						<td>{$r.timestamp|date_format:'%I:%M:%S %p'}</td>
+						<td>{$r.sku_item_code}</td>
+						<td>{$r.description}</td>
+						<td class="r">{$r.sell|number_format:2}</td>
+						<td class="r">{$r.grn_cost|number_format:2}</td>
+						<td class="r">{$r.different|number_format:2}</td>
+					</tr>
+				   </tbody>
+				{/foreach}
+			<div class="tbody fs-08">
+				<tr class="header sortbottom">
+					<td colspan="7" class="r"><b>Total</b></td>
+					<td class="r">{$total.$bid.sell|number_format:2}</td>
+					<td class="r">{$total.$bid.grn_cost|number_format:2}</td>
+					<td class="r">{$total.$bid.different|number_format:2}</td>
+				</tr>
+			</div>
+			</table>
+		</div>
+	</div>
+</div>
 {/foreach}
 {/if}
 {/if}

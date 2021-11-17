@@ -307,24 +307,36 @@ function do_submit(mode){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul style="color:red;">
+			{foreach from=$err item=e}
+				<li>{$e}</li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
-{if !$no_header_footer}
+<div class="card mx-3">
+	<div class="card-body">
+		{if !$no_header_footer}
 
-<div class="noprint stdframe" style="background:#fff;">
+<div class="noprint stdframe" >
 <form name="f_d">
 	<input type="hidden" name="a" value="show_report" />
 	<input type="hidden" name="type" value="{$form.type}">
-	{if $BRANCH_CODE eq 'HQ'}
-	    <b>Branch</b>
-		<select name="branch_id" onChange="check_use_grn();">
+	<div class="row">
+		{if $BRANCH_CODE eq 'HQ'}
+	    <div class="col-md-3">
+			<b class="form-label">Branch</b>
+		<select class="form-control" name="branch_id" onChange="check_use_grn();">
 	    	{*<option value="">-- All --</option>*}
 	    	{foreach from=$branches key=bid item=b}
 	    	    {if !$branches_group.have_group.$bid}
@@ -352,52 +364,69 @@ function do_submit(mode){
 				</optgroup>
 			{/if}
 		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+		
 	{/if}
-	<b>Vendor</b>
-	<select name="vendor_id" onChange="check_show_by();">
+	<div class="col-md-3">
+		<b class="form-label">Vendor</b>
+	<select class="form-control" name="vendor_id" onChange="check_show_by();">
 	    <option value="">-- All --</option>
 	    {foreach from=$vendors item=r}
 	        <option value="{$r.id}" {if $smarty.request.vendor_id eq $r.id}selected {/if}>{$r.description}</option>
 	    {/foreach}
-	</select>&nbsp;&nbsp;
+	</select>
+	</div>
 	
-	<b>SKU Type</b>
-	<select name="sku_type">
+	<div class="col-md-3">
+		<b class="form-label">SKU Type</b>
+	<select class="form-control" name="sku_type">
 		<option value="">-- All --</option>
 		{foreach from=$sku_type item=t}
 		    <option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
 		{/foreach}
-	</select>&nbsp;&nbsp;
+	</select>
+	</div>
 	
-	<b>Sort by</b>
-	<select name="sort_by" onChange="change_sort_by();">
+	<div class="col-md-3">
+		<b class="form-label">Sort by</b>
+	<select class="form-control" name="sort_by" onChange="change_sort_by();">
 	    <option id="opt_reset_sort_by" value="">--</option>
 	    {foreach from=$sort_arr key=k item=s}
 	        <option id="opt_sort_by_{$k}" class="class_sort_by" value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$s}</option>
 	    {/foreach}
 	</select>
-	<span id="span_order_by" {if !$smarty.request.sort_by}style="display:none;"{/if}>
-	    <select name="order_by">
-	        <option value="asc" {if $smarty.request.order_by eq 'asc'}selected {/if}>Ascending</option>
-	        <option value="desc" {if $smarty.request.order_by eq 'desc'}selected {/if}>Descending</option>
-	    </select>
-	</span>
-	<p>
-		<b>Blocked Item in PO:</b>
-		<select name="blocked_po">
+	</div>
+
+	
+		<span id="span_order_by" {if !$smarty.request.sort_by}style="display:none;"{/if}>
+			<div class="col-md-3">
+			<select class="form-control" name="order_by">
+				<option value="asc" {if $smarty.request.order_by eq 'asc'}selected {/if}>Ascending</option>
+				<option value="desc" {if $smarty.request.order_by eq 'desc'}selected {/if}>Descending</option>
+			</select>
+		</div>
+		</span>
+	
+
+		<div class="col-md-3">
+			<b class="form-label">Blocked Item in PO:</b>
+		<select class="form-control" name="blocked_po">
 			<option value="">-- No Filter --</option>
 			<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
 			<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
-		</select> &nbsp;&nbsp;
+		</select> 
+		</div>
 		
-		<b>Status</b>
-		<select name="status">
+		<div class="col-md-3">
+			<b class="form-label">Status</b>
+		<select class="form-control" name="status">
 			<option value="all" {if $smarty.request.status eq 'all'}selected {/if}>All</option>
 			<option value="1" {if !isset($smarty.request.a) or $smarty.request.status eq '1'}selected {/if}>Active</option>
 			<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
 		</select>
-	</p>
+		</div>
+	</div>
+	
 	<p>
 		{*<b>Category</b>
 		<input type=checkbox id=all_category name=all_category {if $smarty.request.all_category}checked{/if} onchange="toggle_all_category(this);"> <label for=all_category><b>All</b></label>
@@ -419,7 +448,7 @@ function do_submit(mode){
 				<option value="{$r.id}" {if $smarty.request.input_tax eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
 			{/foreach}
 		</select>
-		&nbsp;&nbsp;
+		
 		<b>Output Tax</b>
 		<select name="output_tax">
 			<option value="">-- All --</option>
@@ -430,27 +459,47 @@ function do_submit(mode){
 	</p>
 	{/if}
 	<p>
-		<b>Date From</b>
-		<input type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-		&nbsp;
-		<b>To</b>
-		<input type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-		&nbsp;&nbsp;
+		<div class="row">
+			<div class="col-md-3">
+				<b class="form-label">Date From</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12> 
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
+			
+	
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+		<div class="form-inline">
+			<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12> 
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+		</div>
+			</div>
+			
+			
+			<div class="col-md-3">
+				<b class="form-label">Show by</b>
+			<select class="form-control" name="show_by" onchange="change_sort_by_select();">
+				<option id="show_by_cat" value="cat" {if $smarty.request.show_by eq 'cat'}selected {/if}>Category</option>
+				<option id="show_by_vendor" value="vendor" {if $smarty.request.show_by eq 'vendor'}selected {/if}>Vendor</option>
+				<option id="show_by_branch" style="display:none" value="branch" {if $smarty.request.show_by eq 'branch'}selected {/if}>Branch</option>
+			</select>
+			</div>
 		
-		<b>Show by</b>
-		<select name="show_by" onchange="change_sort_by_select();">
-		    <option id="show_by_cat" value="cat" {if $smarty.request.show_by eq 'cat'}selected {/if}>Category</option>
-		    <option id="show_by_vendor" value="vendor" {if $smarty.request.show_by eq 'vendor'}selected {/if}>Vendor</option>
-		    <option id="show_by_branch" style="display:none" value="branch" {if $smarty.request.show_by eq 'branch'}selected {/if}>Branch</option>
-		</select>
-		&nbsp;&nbsp;
+		
 
-		<input type="checkbox" id="use_grn" name="use_grn" {if $smarty.request.use_grn}checked{/if}> <b>Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}\n- BOM SKU will not show when Show by Vendor option is selected due to no masterfile vendor or receive vendor.')">?</a>]
-&nbsp;&nbsp;
-		{if $config.sku_listing_show_hq_cost and $sessioninfo.privilege.SHOW_COST and $BRANCH_CODE eq 'HQ'}
-			<b>HQ Cost</b>
-			<input type="checkbox" id="hq_cost" name="hq_cost" {if $smarty.request.hq_cost eq 'on'}checked {/if}>
-		{/if}
+		<div class="col-md-3">
+			<div class="form-label form-inline mt-4">
+				<input type="checkbox" id="use_grn" name="use_grn" {if $smarty.request.use_grn}checked{/if}> <b>Use GRN&nbsp;</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}\n- BOM SKU will not show when Show by Vendor option is selected due to no masterfile vendor or receive vendor.')">?</a>]
+	
+			{if $config.sku_listing_show_hq_cost and $sessioninfo.privilege.SHOW_COST and $BRANCH_CODE eq 'HQ'}
+				<b>&nbsp;HQ Cost&nbsp;</b>
+				<input type="checkbox" id="hq_cost" name="hq_cost" {if $smarty.request.hq_cost eq 'on'}checked {/if}>
+			{/if}
+			</div>
+		</div>
+	</div>
 	</p>
 	
 		
@@ -461,12 +510,12 @@ function do_submit(mode){
 		{/if}
 		<!--<input type=hidden name=submit value=1>-->
 		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-			<button class="btn btn-primary" name="a" value="output_excel" onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
+			<button class="btn btn-info" name="a" value="output_excel" onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
 			{if $sessioninfo.privilege.SHOW_COST}
-				<button class="btn btn-primary" name="a" value="output_excel" onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
+				<button class="btn btn-info" name="a" value="output_excel" onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
 			{/if}
 		{/if}
-		<input type="button" onclick="do_print()" value="Print">
+		<input type="button" class="btn btn-primary" onclick="do_print()" value="Print">
 	</p>
 </form>
 <script>
@@ -479,20 +528,24 @@ change_sort_by_select();
 
 {/if}
 
-	<ul>
-		<li> <span class="got_sc">*</span> = Got Stock Check</li>
-		<li> <span class="not_up_to_date">*</span> = Not Up-to-date</li>
-		<li> <sup>1</sup> The value is from closing date.</li>
-		<li> <sup>2</sup> The value is from start date.</li>
-		<li> Opening / Closing Balance's Value = Cost * Qty.</li>
-		<li> Opening / Closing Balance's Sales Value = Selling Price * Qty.</li>
-		<li> Day Turnover Method:
-			<ul>
-				<li> Ratio = total sales / ((opening stock + closing stock) / 2)</li>
-				<li> Days = 365 / ratio</li>
-			</ul>
-		</li>
-	</ul>
+	<div class="alert alert-primary rounded mt-2" style="max-width: 500px;">
+		<ul>
+			<li> <span class="got_sc">*</span> = Got Stock Check</li>
+			<li> <span class="not_up_to_date">*</span> = Not Up-to-date</li>
+			<li> <sup>1</sup> The value is from closing date.</li>
+			<li> <sup>2</sup> The value is from start date.</li>
+			<li> Opening / Closing Balance's Value = Cost * Qty.</li>
+			<li> Opening / Closing Balance's Sales Value = Selling Price * Qty.</li>
+			<li> Day Turnover Method:
+				<ul>
+					<li> Ratio = total sales / ((opening stock + closing stock) / 2)</li>
+					<li> Days = 365 / ratio</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	</div>
+</div>
 
 {if !$table}
 	{if $smarty.request.subm}<p>No Data</p>{/if}
@@ -513,135 +566,139 @@ change_sort_by_select();
 	{assign var=add_colspan2 value=1}
 	
 
-	<table width="100%" class="report_table" id="tbl_report">
-		<thead>		
-		    <tr class="header">
-				<th rowspan="2">{if $smarty.request.show_by eq 'vendor'}Vendor{elseif $smarty.request.show_by eq 'branch'}Branch{else}Category{/if}</th>
-				<th colspan="{$colspan+$add_colspan+$add_colspan2}">Opening Balance</th>
-				<th rowspan="2">GRN</th>
-				<th rowspan="2">GRA</th>
-				<th rowspan="2">POS</th>
-				<th rowspan="2">DO</th>
-				{if $got_range_sc}
-					<th rowspan="2">Stock Take<br />Adjust</th>
-				{/if}
-				<th colspan="2">ADJ {if $form.type eq 'qty'}Qty{else}Value{/if}</th>
-			    {if $config.consignment_modules}
-			        <th rowspan="2">CN</th>
-			        <th rowspan="2">DN</th>
-			    {/if}
-				<th colspan="{$colspan+$add_colspan2}">Closing Balance {if !$config.stock_balance_use_accumulate_last_cost}by last cost{/if}</th>
-				<th colspan="2">Day Turnover</th>
-		    </tr>
-		    <tr class="header">
-				{if $got_opening_sc}
-					<th>Stock Take Adjust</th>
-				{/if}
-		        <th>Qty</th>
-		    	{if $sessioninfo.privilege.SHOW_COST}
-					<th>Value<sup>2</sup></th>
-	            {/if}
-				<th>Sales Value<sup>2</sup></th>
-		        <th>In</th>
-		        <th>Out</th>
-		        <th>Qty</th>
-				{if $sessioninfo.privilege.SHOW_COST}
-					<th>Value{if !$config.stock_balance_use_accumulate_last_cost}<sup>1</sup>{/if}</th>
-				{/if}
-				<th>Sales Value<sup>1</sup></th>
-				<th>Ratio</th>
-				<th>Days</th>
-		    </tr>
-	    </thead>
-	    {include file='report.stock_balance_summary.row.tpl'}
-	    <tr class="header">
-	        <th class="r">Total</th>
-			{if $got_opening_sc}
-				<th class="r {if $total.sc_adj_from < 0}red{/if}">{$total.sc_adj_from|qty_nf}</th>
-			{/if}
-	        <th class="r {if $total.sb_from < 0}red{/if}">{$total.sb_from|qty_nf}</th>
-			{if $sessioninfo.privilege.SHOW_COST}
-				<th class="r {if $total.sb_from_val < 0}red{/if}">{$total.sb_from_val|number_format:$config.global_cost_decimal_points|ifzero:'-'}</th>
-			{/if} 
-			<th class="r {if $total.sales_value_from < 0}red{/if}">{$total.sales_value_from|number_format:2}</th>
-			<th class="r">
-				{if $form.type eq 'qty'}
-					<font {if $total.grn < 0} color="red" {/if}>{$total.grn|qty_nf}</font> {if $smarty.request.use_grn}{if $smarty.request.vendor_id}<font {if $total.grn_vendor_qty < 0} color="red" {/if}>({$total.grn_vendor_qty|qty_nf})</font>{/if}{/if}
-					
-				{else}
-					<font {if $total.grn_cost < 0} color="red" {/if}>{$total.grn_cost|number_format:$config.global_cost_decimal_points|ifzero}</font> {if $smarty.request.use_grn}{if $smarty.request.vendor_id}<font {if $total.grn_vendor_cost < 0} color="red" {/if}>({$total.grn_vendor_cost|number_format:$config.global_cost_decimal_points})</font>{/if}{/if}
-					
-				{/if}
-			</th>
-			<th class="r {if ($form.type eq 'qty' && $total.gra < 0) || ($form.type neq 'qty' && $total.gra_cost < 0) }red{/if}">
-				{if $form.type eq 'qty'}
-					{$total.gra|qty_nf}
-				{else}
-					{$total.gra_cost|number_format:$config.global_cost_decimal_points|ifzero}
-				{/if}
-			</th>
-			<th class="r {if ($form.type eq 'qty' && $total.pos < 0) || ($form.type neq 'qty' && $total.pos_cost < 0) }red{/if}">
-				{if $form.type eq 'qty'}
-					{$total.pos|qty_nf}
-				{else}
-					{$total.pos_cost|number_format:$config.global_cost_decimal_points|ifzero}
-				{/if}
-			</th>
-			<th class="r {if ($form.type eq 'qty' && $total.do < 0) || ($form.type neq 'qty' && $total.do_cost < 0) }red{/if}">
-				{if $form.type eq 'qty'}
-					{$total.do|qty_nf}
-				{else}
-					{$total.do_cost|number_format:$config.global_cost_decimal_points|ifzero}
-				{/if}
-			</th>
-			{if $got_range_sc}
-				<th class="r {if ($form.type eq 'qty' && $total.sc_adj < 0) || ($form.type neq 'qty' && $total.sc_adj_cost < 0) }red{/if}">
-					{if $form.type eq 'qty'}	
-						{$total.sc_adj|qty_nf}
-					{else}
-						{$total.sc_adj_cost|number_format:$config.global_cost_decimal_points|ifzero}
+	<div class="card mx-3">
+		<div class="card-body">
+			<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover" id="tbl_report">
+				<thead class="bg-gray-100">		
+					<tr class="header">
+						<th rowspan="2">{if $smarty.request.show_by eq 'vendor'}Vendor{elseif $smarty.request.show_by eq 'branch'}Branch{else}Category{/if}</th>
+						<th colspan="{$colspan+$add_colspan+$add_colspan2}">Opening Balance</th>
+						<th rowspan="2">GRN</th>
+						<th rowspan="2">GRA</th>
+						<th rowspan="2">POS</th>
+						<th rowspan="2">DO</th>
+						{if $got_range_sc}
+							<th rowspan="2">Stock Take<br />Adjust</th>
+						{/if}
+						<th colspan="2">ADJ {if $form.type eq 'qty'}Qty{else}Value{/if}</th>
+						{if $config.consignment_modules}
+							<th rowspan="2">CN</th>
+							<th rowspan="2">DN</th>
+						{/if}
+						<th colspan="{$colspan+$add_colspan2}">Closing Balance {if !$config.stock_balance_use_accumulate_last_cost}by last cost{/if}</th>
+						<th colspan="2">Day Turnover</th>
+					</tr>
+					<tr class="header">
+						{if $got_opening_sc}
+							<th>Stock Take Adjust</th>
+						{/if}
+						<th>Qty</th>
+						{if $sessioninfo.privilege.SHOW_COST}
+							<th>Value<sup>2</sup></th>
+						{/if}
+						<th>Sales Value<sup>2</sup></th>
+						<th>In</th>
+						<th>Out</th>
+						<th>Qty</th>
+						{if $sessioninfo.privilege.SHOW_COST}
+							<th>Value{if !$config.stock_balance_use_accumulate_last_cost}<sup>1</sup>{/if}</th>
+						{/if}
+						<th>Sales Value<sup>1</sup></th>
+						<th>Ratio</th>
+						<th>Days</th>
+					</tr>
+				</thead>
+				{include file='report.stock_balance_summary.row.tpl'}
+				<tr class="header">
+					<th class="r">Total</th>
+					{if $got_opening_sc}
+						<th class="r {if $total.sc_adj_from < 0}red{/if}">{$total.sc_adj_from|qty_nf}</th>
 					{/if}
-				</th>
-			{/if}
-	        <th class="r {if ($form.type eq 'qty' && $total.adj_in < 0) || ($form.type neq 'qty' && $total.adj_in_cost < 0) }red{/if}">
-				{if $form.type eq 'qty'}		
-					{$total.adj_in|qty_nf}
-				{else}
-					{$total.adj_in_cost|number_format:$config.global_cost_decimal_points|ifzero}
-				{/if}
-			</th>
-	        <th class="r {if ($form.type eq 'qty' && $total.adj_out < 0) || ($form.type neq 'qty' && $total.adj_out_cost < 0) }red{/if}">
-				{if $form.type eq 'qty'}		
-					{$total.adj_out|qty_nf}
-				{else}
-					{$total.adj_out_cost|number_format:$config.global_cost_decimal_points|ifzero}
-				{/if}
-			</th>
-		    {if $config.consignment_modules}
-				<th class="r {if ($form.type eq 'qty' && $total.cn_qty < 0) || ($form.type neq 'qty' && $total.cn_val < 0) }red{/if}">
-					{if $form.type eq 'qty'}	
-						{$total.cn_qty|qty_nf}
-					{else}
-						{$total.cn_val|number_format:$config.global_cost_decimal_points|ifzero}
+					<th class="r {if $total.sb_from < 0}red{/if}">{$total.sb_from|qty_nf}</th>
+					{if $sessioninfo.privilege.SHOW_COST}
+						<th class="r {if $total.sb_from_val < 0}red{/if}">{$total.sb_from_val|number_format:$config.global_cost_decimal_points|ifzero:'-'}</th>
+					{/if} 
+					<th class="r {if $total.sales_value_from < 0}red{/if}">{$total.sales_value_from|number_format:2}</th>
+					<th class="r">
+						{if $form.type eq 'qty'}
+							<font {if $total.grn < 0} color="red" {/if}>{$total.grn|qty_nf}</font> {if $smarty.request.use_grn}{if $smarty.request.vendor_id}<font {if $total.grn_vendor_qty < 0} color="red" {/if}>({$total.grn_vendor_qty|qty_nf})</font>{/if}{/if}
+							
+						{else}
+							<font {if $total.grn_cost < 0} color="red" {/if}>{$total.grn_cost|number_format:$config.global_cost_decimal_points|ifzero}</font> {if $smarty.request.use_grn}{if $smarty.request.vendor_id}<font {if $total.grn_vendor_cost < 0} color="red" {/if}>({$total.grn_vendor_cost|number_format:$config.global_cost_decimal_points})</font>{/if}{/if}
+							
+						{/if}
+					</th>
+					<th class="r {if ($form.type eq 'qty' && $total.gra < 0) || ($form.type neq 'qty' && $total.gra_cost < 0) }red{/if}">
+						{if $form.type eq 'qty'}
+							{$total.gra|qty_nf}
+						{else}
+							{$total.gra_cost|number_format:$config.global_cost_decimal_points|ifzero}
+						{/if}
+					</th>
+					<th class="r {if ($form.type eq 'qty' && $total.pos < 0) || ($form.type neq 'qty' && $total.pos_cost < 0) }red{/if}">
+						{if $form.type eq 'qty'}
+							{$total.pos|qty_nf}
+						{else}
+							{$total.pos_cost|number_format:$config.global_cost_decimal_points|ifzero}
+						{/if}
+					</th>
+					<th class="r {if ($form.type eq 'qty' && $total.do < 0) || ($form.type neq 'qty' && $total.do_cost < 0) }red{/if}">
+						{if $form.type eq 'qty'}
+							{$total.do|qty_nf}
+						{else}
+							{$total.do_cost|number_format:$config.global_cost_decimal_points|ifzero}
+						{/if}
+					</th>
+					{if $got_range_sc}
+						<th class="r {if ($form.type eq 'qty' && $total.sc_adj < 0) || ($form.type neq 'qty' && $total.sc_adj_cost < 0) }red{/if}">
+							{if $form.type eq 'qty'}	
+								{$total.sc_adj|qty_nf}
+							{else}
+								{$total.sc_adj_cost|number_format:$config.global_cost_decimal_points|ifzero}
+							{/if}
+						</th>
 					{/if}
-				</th>
-				<th class="r {if ($form.type eq 'qty' && $total.dn_qty < 0) || ($form.type neq 'qty' && $total.dn_val < 0) }red{/if}">
-					{if $form.type eq 'qty'}
-						{$total.dn_qty|qty_nf}
-					{else}
-						{$total.dn_val|number_format:$config.global_cost_decimal_points|ifzero}
+					<th class="r {if ($form.type eq 'qty' && $total.adj_in < 0) || ($form.type neq 'qty' && $total.adj_in_cost < 0) }red{/if}">
+						{if $form.type eq 'qty'}		
+							{$total.adj_in|qty_nf}
+						{else}
+							{$total.adj_in_cost|number_format:$config.global_cost_decimal_points|ifzero}
+						{/if}
+					</th>
+					<th class="r {if ($form.type eq 'qty' && $total.adj_out < 0) || ($form.type neq 'qty' && $total.adj_out_cost < 0) }red{/if}">
+						{if $form.type eq 'qty'}		
+							{$total.adj_out|qty_nf}
+						{else}
+							{$total.adj_out_cost|number_format:$config.global_cost_decimal_points|ifzero}
+						{/if}
+					</th>
+					{if $config.consignment_modules}
+						<th class="r {if ($form.type eq 'qty' && $total.cn_qty < 0) || ($form.type neq 'qty' && $total.cn_val < 0) }red{/if}">
+							{if $form.type eq 'qty'}	
+								{$total.cn_qty|qty_nf}
+							{else}
+								{$total.cn_val|number_format:$config.global_cost_decimal_points|ifzero}
+							{/if}
+						</th>
+						<th class="r {if ($form.type eq 'qty' && $total.dn_qty < 0) || ($form.type neq 'qty' && $total.dn_val < 0) }red{/if}">
+							{if $form.type eq 'qty'}
+								{$total.dn_qty|qty_nf}
+							{else}
+								{$total.dn_val|number_format:$config.global_cost_decimal_points|ifzero}
+							{/if}
+						</th>
 					{/if}
-				</th>
-	        {/if}
-	        <th class="r {if $total.sb_to < 0}red{/if}">{$total.sb_to|qty_nf}</th>
-   			{if $sessioninfo.privilege.SHOW_COST}
-	        	<th class="r {if $total.sb_to_val < 0}red{/if}">{$total.sb_to_val|number_format:$config.global_cost_decimal_points|ifzero:'-'}</th>
-	        {/if}
-			<th class="r {if $total.sales_value_to < 0}red{/if}">{$total.sales_value_to|number_format:2}</th>			
-			<th class="r {if $total.turnover_ratio < 0}red{/if}">{$total.turnover_ratio|number_format:2}</th>
-			<th class="r {if $total.turnover_days < 0}red{/if}">{$total.turnover_days|number_format:2}</th>
-	    </tr>
-	</table>
+					<th class="r {if $total.sb_to < 0}red{/if}">{$total.sb_to|qty_nf}</th>
+					   {if $sessioninfo.privilege.SHOW_COST}
+						<th class="r {if $total.sb_to_val < 0}red{/if}">{$total.sb_to_val|number_format:$config.global_cost_decimal_points|ifzero:'-'}</th>
+					{/if}
+					<th class="r {if $total.sales_value_to < 0}red{/if}">{$total.sales_value_to|number_format:2}</th>			
+					<th class="r {if $total.turnover_ratio < 0}red{/if}">{$total.turnover_ratio|number_format:2}</th>
+					<th class="r {if $total.turnover_days < 0}red{/if}">{$total.turnover_days|number_format:2}</th>
+				</tr>
+			</table>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

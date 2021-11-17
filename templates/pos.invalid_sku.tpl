@@ -648,7 +648,13 @@ a{
 </style>
 {/literal}
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if !$no_header_footer}
 
@@ -661,12 +667,14 @@ a{
 <!-- End of Item Details-->
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li><font color='red'><b>{$e}</b></font></li>
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if $smarty.request.success}
@@ -675,15 +683,23 @@ The following error(s) has occured:
 </ul>
 {/if}
 
-<form name="f_a" method="GET" class="form">
-<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-
-<b>Select Date</b> <input id="date_select" name="date_select" value="{$smarty.request.date_select}" size=10 readonly > <img align=absbottom src="ui/calendar.gif" id="t_date_select" style="cursor: pointer;" title="Select Date" />
-&nbsp;&nbsp;&nbsp;&nbsp;
-<button class="btn btn-primary" name="a" value="refresh_data">Refresh</button>
-<span id='loading_id'></span>
-{/if}
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="GET" class="form">
+			<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+			
+			<b class="form-label">Select Date</b> 
+			<div class="form-inline">
+				<input class="form-control" id="date_select" name="date_select" value="{$smarty.request.date_select}" size=30 readonly > 
+			&nbsp;<img align=absbottom src="ui/calendar.gif" id="t_date_select" style="cursor: pointer;" title="Select Date" />
+			</div>
+			
+			<button class="btn btn-primary mt-2" name="a" value="refresh_data">Refresh</button>
+			<span id='loading_id'></span>
+			{/if}
+			</form>
+	</div>
+</div>
 <form name="f_b" method=post>
 	<div id="search_sku_id" style="position:absolute;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
 		<div id="div_search_sku_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;"><b>Replace SKU</b></span>
@@ -768,7 +784,9 @@ The following error(s) has occured:
 
 *}
 
-	<img width='16' src="ui/approved.png" title="Verified" align="absmiddle" /> = Verified SKU &nbsp;&nbsp;
+	<div class="card mx-3">
+		<div class="card-body">
+			<img width='16' src="ui/approved.png" title="Verified" align="absmiddle" /> = Verified SKU &nbsp;&nbsp;
 	<img width='16' src="ui/approved_grey.png" title="Partially Verified" align="absmiddle" /> = Partially Verified SKU &nbsp;&nbsp;
 	<img width='16' src="ui/icons/cog.png" title="Verified" align="absmiddle" /> = Auto-match SKU &nbsp;&nbsp;
 	<img width='16' src="ui/cancel.png" title="Unmatched" align="absmiddle" /> = Invalid SKU &nbsp;&nbsp;
@@ -776,6 +794,8 @@ The following error(s) has occured:
 	{if !$view_only}
 		* Click on Barcode to edit SKU Item
 	{/if}
+		</div>
+	</div>
 	<br /><br />
 {include file="pos.invalid_sku.table.tpl"}
 

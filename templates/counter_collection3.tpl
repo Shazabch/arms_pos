@@ -532,30 +532,50 @@ table.report_table td{
 <p align=center><font color=red>{$msg}</font></p>
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger mx-3 rounded">
+		The following error(s) has occured:
 	<ul class="err">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <iframe name=ifprint style="visibility:hidden" width=1 height=1></iframe>
 
-<form class="form" name="f_a" method="get">
-	<input name="a" value="view_by_date" type="hidden">
-	<input name="print" value="0" type="hidden">
-	<b>Select Date</b> <input id="date_select" name="date_select" value="{$smarty.request.date_select}" size=10> <img align="absbottom" src="ui/calendar.gif" id="t_date_select" style="cursor: pointer;" title="Select Date"/>
-	<input name="fsearch_submit" type="button" value="Refresh" onclick="do_search();" />
-	<input type="button" value="Print" onclick="show_print_popup();">
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form class="form" name="f_a" method="get">
+			<input name="a" value="view_by_date" type="hidden">
+			<input name="print" value="0" type="hidden">
+			<div class="form-inline">
+				<b class="form-label">Select Date&nbsp;</b> 
+			<input class="form-control" id="date_select" name="date_select" value="{$smarty.request.date_select}" size=30> 
+			&nbsp;<img align="absbottom" src="ui/calendar.gif" id="t_date_select" style="cursor: pointer;" title="Select Date"/>
+			&nbsp;&nbsp;<input class="btn btn-primary" name="fsearch_submit" type="button" value="Refresh" onclick="do_search();" />
+			&nbsp;&nbsp;<input class="btn btn-info" type="button" value="Print" onclick="show_print_popup();">
+			</div>
+		</form>
+	</div>
+</div>
 
 {if $config.counter_collection_enable_co2_module and $sessioninfo.privilege.POS_REPORT}
 	<ul>
 		<li>
-			<a href="pos_report.counter_collection_co2.php?load_report=1&date={$smarty.request.date_select}" target="_blank">Access to CO2 ({$smarty.request.date_select})</a>	
+			<div class="card mx-3">
+				<div class="card-body">
+					<a href="pos_report.counter_collection_co2.php?load_report=1&date={$smarty.request.date_select}" target="_blank">Access to CO2 ({$smarty.request.date_select})</a>	
+				</div>
+			</div>
 		</li>
 	</ul>
 {/if}
@@ -581,65 +601,83 @@ table.report_table td{
 	<body onload="window.print()">
 	<div class="printarea">
 {/if}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Counter Collection of {$smarty.request.date_select} ({$BRANCH_CODE}) {if $is_finalized}(Finalised){/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<h1>Counter Collection of {$smarty.request.date_select} ({$BRANCH_CODE}) {if $is_finalized}(Finalised){/if}</h1>
 
 {if $got_top_up}
-	* Please take note 'Cash Top Up' has been renamed to 'Cash In'.<br /><br />
+	<div class="alert alert-primary mx-3 mt-2">
+		* Please take note 'Cash Top Up' has been renamed to 'Cash In'.
+	</div>
 {/if}
 
 <!-- Grand Total -->
-<table class="tb nobreak report_table" cellpadding="4" cellspacing="0" border="0">
-	<tr class="header">
-		<th colspan="2">&nbsp;</th>
-		<th>Nett Sales</th>
-		{if $got_top_up}
-			<th>Total Cash In</th>
-		{/if}
-		<th>Total Advance</th>
-		<th>Total Collection</th>
-		<th>Total Variance</th>
-		<th>Total Over</th>
-		
-		{if $got_service_charge}
-			<th>Service Charge</th>
-		{/if}
-		{if $got_gst}
-			<th>Tax</th>
-		{/if}
-		<th>Nett Sales<sup>2</sup><br />Excluded Charges, Taxes & Rounding</th>
-	</tr>
-	<tr style="font-size:2em;">
-		<td colspan="2">Grand Total ({$config.arms_currency.symbol})</td>
-		<td class="r sales {if $total.total.nett_sales.amt>=0}positive{else}negative{/if}">{$total.total.nett_sales.amt|number_format:2}</td>
-		{if $got_top_up}
-			<td class="r sales {if $total.total.top_up.amt>=0}positive{else}negative{/if}">{$total.total.top_up.amt|number_format:2}</td>
-		{/if}
-		<td class="r advance {if $total.total.cash_advance.amt>=0}positive{else}negative{/if}">{$total.total.cash_advance.amt|number_format:2}</td>
-		
-		<td class="r collection {if $total.total.cash_domination.amt>=0}positive{else}negative{/if}{if $got_foreign_currency} small{/if}" nowrap>
-			{if $got_foreign_currency}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}{$total.total.cash_domination.amt|number_format:2}
-			{if $got_foreign_currency}
-				<br />
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate name=fc}
-					{assign var=payment_type value=$currency_type}
-					<span style="float:left;">{$payment_type}</span>&nbsp;{$total.total.cash_domination.$payment_type.foreign_amt|number_format:2}
-					{if !$smarty.foreach.fc.last}<br />{/if}
-				{/foreach}
-			{/if}
-		</td>
-
-		<td class="r variance {if $total.total.variance.amt>=0}positive{else}negative{/if}">{$total.total.variance.amt|number_format:2}</td>
-		<td class="r col_over {if $total.payment_type.Over.amt>=0}positive{else}negative{/if}">{$total.payment_type.Over.amt|number_format:2}</td>
-		{if $got_service_charge}
-			<td class="r col_service_charge {if $total.total.service_charges.amt>=0}positive{else}negative{/if}">{$total.total.service_charges.amt|number_format:2}</td>
-		{/if}
-		{if $got_gst}
-			<td class="r col_gst_amt {if $total.total.total_gst_amt.amt>=0}positive{else}negative{/if}">{$total.total.total_gst_amt.amt|number_format:2}</td>
-		{/if}
-		<td class="r col_nett_sales2 {if $total.total.nett_sales2.amt>=0}positive{else}negative{/if}">{$total.total.nett_sales2.amt|number_format:2}</td>
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="tb nobreak report_table table mb-0 text-md-nowrap  table-hover" cellpadding="4" cellspacing="0" border="0">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th colspan="2">&nbsp;</th>
+						<th>Nett Sales</th>
+						{if $got_top_up}
+							<th>Total Cash In</th>
+						{/if}
+						<th>Total Advance</th>
+						<th>Total Collection</th>
+						<th>Total Variance</th>
+						<th>Total Over</th>
+						
+						{if $got_service_charge}
+							<th>Service Charge</th>
+						{/if}
+						{if $got_gst}
+							<th>Tax</th>
+						{/if}
+						<th>Nett Sales<sup>2</sup><br />Excluded Charges, Taxes & Rounding</th>
+					</tr>
+				</thead>
+				<tr style="font-size:1em;">
+					<td colspan="2">Grand Total ({$config.arms_currency.symbol})</td>
+					<td class="r sales {if $total.total.nett_sales.amt>=0}positive{else}negative{/if}">{$total.total.nett_sales.amt|number_format:2}</td>
+					{if $got_top_up}
+						<td class="r sales {if $total.total.top_up.amt>=0}positive{else}negative{/if}">{$total.total.top_up.amt|number_format:2}</td>
+					{/if}
+					<td class="r advance {if $total.total.cash_advance.amt>=0}positive{else}negative{/if}">{$total.total.cash_advance.amt|number_format:2}</td>
+					
+					<td class="r collection {if $total.total.cash_domination.amt>=0}positive{else}negative{/if}{if $got_foreign_currency} small{/if}" nowrap>
+						{if $got_foreign_currency}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}{$total.total.cash_domination.amt|number_format:2}
+						{if $got_foreign_currency}
+							<br />
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate name=fc}
+								{assign var=payment_type value=$currency_type}
+								<span style="float:left;">{$payment_type}</span>&nbsp;{$total.total.cash_domination.$payment_type.foreign_amt|number_format:2}
+								{if !$smarty.foreach.fc.last}<br />{/if}
+							{/foreach}
+						{/if}
+					</td>
+			
+					<td class="r variance {if $total.total.variance.amt>=0}positive{else}negative{/if}">{$total.total.variance.amt|number_format:2}</td>
+					<td class="r col_over {if $total.payment_type.Over.amt>=0}positive{else}negative{/if}">{$total.payment_type.Over.amt|number_format:2}</td>
+					{if $got_service_charge}
+						<td class="r col_service_charge {if $total.total.service_charges.amt>=0}positive{else}negative{/if}">{$total.total.service_charges.amt|number_format:2}</td>
+					{/if}
+					{if $got_gst}
+						<td class="r col_gst_amt {if $total.total.total_gst_amt.amt>=0}positive{else}negative{/if}">{$total.total.total_gst_amt.amt|number_format:2}</td>
+					{/if}
+					<td class="r col_nett_sales2 {if $total.total.nett_sales2.amt>=0}positive{else}negative{/if}">{$total.total.nett_sales2.amt|number_format:2}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 <!--
 {if $currency_data.total.nett_sales.rm_amt || $currency_data.total.adj.rm_amt || $currency_data.total.cash_advance.rm_amt || $currency_data.total.cash_domination.rm_amt}
 <h1>Currency Summary</h1>
@@ -1215,625 +1253,682 @@ table.report_table td{
 {/if}
 
 {if $show_summary}
-<h1>Counter Summary</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Counter Summary</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {foreach from=$total.total_by_counter key=counter_id item=r}
 	<h1>Counter: {$counters.$counter_id.network_name}</h1>
 	
-	<table class="report_table nobreak" width="100%" cellpadding="4" cellspacing="0" border="1">
-		<tr class="tr_summary">
-            <th>&nbsp;</th>
-            <!-- Normal Payment Method -->
-            {foreach from=$normal_payment_type item=payment_type}
-                <th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
-            {/foreach}
-            
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<th>Nett Sales ({$config.arms_currency.symbol})</th>
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					<th>{$currency_type}</th>
-				{/foreach}
-				<!--th>{$config.arms_currency.symbol}</th-->
-			{/if}
-            <th>Nett Sales</th>
-            <th>Receipt<br />Discount</th>
-            
-            <!-- Mix & Match Discount -->
-            {if $got_mm_discount}
-            	<th>Mix & Match <br>Discount</th>
-            {/if}
-			
-			{* Service Charge *}
-			{if $got_service_charge}
-				<th>Service Charge</th>
-			{/if}
-			
-			{* GST *}
-			{if $got_gst}
-				<th>Tax</th>
-			{/if}
-			
-            <th>Rounding</th>
-			{if $got_foreign_currency}
-				<th>Currency Adjust</th>
-			{/if}
-            <th>Over</th>
-            <th>Gross Sales</th>
-			<th>Nett Sales<sup>2</sup></th>
-        </tr>
-        
-        <!-- Cashier Sales -->
-        <tr>
-            <td><b>Cashier Sales</b></td>
-            <!-- Normal Payment Method -->
-            {foreach from=$normal_payment_type item=payment_type}
-                <td class="r {if $r.cashier_sales.$payment_type.amt<0}negative{/if}">
-					{$r.cashier_sales.$payment_type.amt|number_format:2}
-				</td>
-            {/foreach}
-            
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<td class="r sales {if $r.cashier_sales.nett_sales.npt_amt<0}negative{/if}">{$r.cashier_sales.nett_sales.npt_amt|number_format:2}</td>
-				{*assign var=rm_amt value=0*}
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					{assign var=payment_type value=$currency_type}
-					<td class="r {if $r.cashier_sales.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">					
-						{$r.cashier_sales.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-						<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cashier_sales.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
-						{*assign var=rm_amt value=$rm_amt+$r.cashier_sales.foreign_currency.$payment_type.rm_amt*}
-					</td>
-				{/foreach}
-				<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-            {/if}
-			
-            <!-- Nett Sales -->
-            <td class="r sales {if $r.cashier_sales.nett_sales.amt<0}negative{/if}">{$r.cashier_sales.nett_sales.amt|number_format:2}</td>
-            <td class="r {if $r.cashier_sales.Discount.amt<0}negative{/if}">					
-				{$r.cashier_sales.Discount.amt|number_format:2}
-			</td>
-            <!-- Mix & Match Discount -->
-            {if $got_mm_discount}
-            	<td class="r {if $r.cashier_sales.$mm_discount_col_value.amt<0}negative{/if}">
-					{$r.cashier_sales.$mm_discount_col_value.amt|number_format:2}
-				</td>
-            {/if}
-			
-			{* Service Charge *}
-			{if $got_service_charge}
-				<td class="r {if $r.cashier_sales.service_charges.amt<0}negative{/if}">
-					{$r.cashier_sales.service_charges.amt|number_format:2}
-				</td>
-			{/if}
-			
-			{* GST *}
-			{if $got_gst}
-				<td class="r {if $r.cashier_sales.total_gst_amt.amt<0}negative{/if}">
-					{$r.cashier_sales.total_gst_amt.amt|number_format:2}
-				</td>
-			{/if}
-            
-            <td class="r {if $r.cashier_sales.Rounding.amt<0}negative{/if}">{$r.cashier_sales.Rounding.amt|number_format:2}</td>
-			{if $got_foreign_currency}
-				<td class="r {if $r.cashier_sales.Currency_adjust.amt<0}negative{/if}">{$r.cashier_sales.Currency_adjust.amt|number_format:2}</td>
-			{/if}
-            <td class="r col_over {if $r.cashier_sales.Over.amt<0}negative{/if}">
-				{$r.cashier_sales.Over.amt|number_format:2}
-			</td>
-            <td class="r gross_sales {if $r.cashier_sales.gross_sales.amt<0}negative{/if}">{$r.cashier_sales.gross_sales.amt|number_format:2}</td>
-			
-			<td class="r col_nett_sales2 {if $r.cashier_sales.nett_sales2.amt<0}negative{/if}">{$r.cashier_sales.nett_sales2.amt|number_format:2}</td>
-        </tr>
-        
-        <!-- Top Up -->
-		{if isset($r.top_up)}
-			<tr>
-				<td><b>Cash In</b></td>
-				
-				{foreach from=$normal_payment_type item=payment_type name=pt}
-					{if $payment_type eq "Cash"}
-						<td class="r {if $r.top_up.Cash.amt<0}negative{/if}">{$r.top_up.Cash.amt|number_format:2}</td>
-					{else}
-						<td class="r">-</td>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table nobreak table mb-0 text-md-nowrap  table-hover" width="100%" >
+					<thead class="bg-gray-100">
+						<tr class="tr_summary">
+							<th>&nbsp;</th>
+							<!-- Normal Payment Method -->
+							{foreach from=$normal_payment_type item=payment_type}
+								<th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
+							{/foreach}
+							
+							<!-- Foreign Currency -->
+							{if $got_foreign_currency}
+								<th>Nett Sales ({$config.arms_currency.symbol})</th>
+								{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+									<th>{$currency_type}</th>
+								{/foreach}
+								<!--th>{$config.arms_currency.symbol}</th-->
+							{/if}
+							<th>Nett Sales</th>
+							<th>Receipt<br />Discount</th>
+							
+							<!-- Mix & Match Discount -->
+							{if $got_mm_discount}
+								<th>Mix & Match <br>Discount</th>
+							{/if}
+							
+							{* Service Charge *}
+							{if $got_service_charge}
+								<th>Service Charge</th>
+							{/if}
+							
+							{* GST *}
+							{if $got_gst}
+								<th>Tax</th>
+							{/if}
+							
+							<th>Rounding</th>
+							{if $got_foreign_currency}
+								<th>Currency Adjust</th>
+							{/if}
+							<th>Over</th>
+							<th>Gross Sales</th>
+							<th>Nett Sales<sup>2</sup></th>
+						</tr>
+					</thead>
+					
+					<!-- Cashier Sales -->
+					<tbody class="fs-08">
+						<tr>
+							<td><b>Cashier Sales</b></td>
+							<!-- Normal Payment Method -->
+							{foreach from=$normal_payment_type item=payment_type}
+								<td class="r {if $r.cashier_sales.$payment_type.amt<0}negative{/if}">
+									{$r.cashier_sales.$payment_type.amt|number_format:2}
+								</td>
+							{/foreach}
+							
+							<!-- Foreign Currency -->
+							{if $got_foreign_currency}
+								<td class="r sales {if $r.cashier_sales.nett_sales.npt_amt<0}negative{/if}">{$r.cashier_sales.nett_sales.npt_amt|number_format:2}</td>
+								{*assign var=rm_amt value=0*}
+								{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+									{assign var=payment_type value=$currency_type}
+									<td class="r {if $r.cashier_sales.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">					
+										{$r.cashier_sales.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+										<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cashier_sales.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
+										{*assign var=rm_amt value=$rm_amt+$r.cashier_sales.foreign_currency.$payment_type.rm_amt*}
+									</td>
+								{/foreach}
+								<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+							{/if}
+							
+							<!-- Nett Sales -->
+							<td class="r sales {if $r.cashier_sales.nett_sales.amt<0}negative{/if}">{$r.cashier_sales.nett_sales.amt|number_format:2}</td>
+							<td class="r {if $r.cashier_sales.Discount.amt<0}negative{/if}">					
+								{$r.cashier_sales.Discount.amt|number_format:2}
+							</td>
+							<!-- Mix & Match Discount -->
+							{if $got_mm_discount}
+								<td class="r {if $r.cashier_sales.$mm_discount_col_value.amt<0}negative{/if}">
+									{$r.cashier_sales.$mm_discount_col_value.amt|number_format:2}
+								</td>
+							{/if}
+							
+							{* Service Charge *}
+							{if $got_service_charge}
+								<td class="r {if $r.cashier_sales.service_charges.amt<0}negative{/if}">
+									{$r.cashier_sales.service_charges.amt|number_format:2}
+								</td>
+							{/if}
+							
+							{* GST *}
+							{if $got_gst}
+								<td class="r {if $r.cashier_sales.total_gst_amt.amt<0}negative{/if}">
+									{$r.cashier_sales.total_gst_amt.amt|number_format:2}
+								</td>
+							{/if}
+							
+							<td class="r {if $r.cashier_sales.Rounding.amt<0}negative{/if}">{$r.cashier_sales.Rounding.amt|number_format:2}</td>
+							{if $got_foreign_currency}
+								<td class="r {if $r.cashier_sales.Currency_adjust.amt<0}negative{/if}">{$r.cashier_sales.Currency_adjust.amt|number_format:2}</td>
+							{/if}
+							<td class="r col_over {if $r.cashier_sales.Over.amt<0}negative{/if}">
+								{$r.cashier_sales.Over.amt|number_format:2}
+							</td>
+							<td class="r gross_sales {if $r.cashier_sales.gross_sales.amt<0}negative{/if}">{$r.cashier_sales.gross_sales.amt|number_format:2}</td>
+							
+							<td class="r col_nett_sales2 {if $r.cashier_sales.nett_sales2.amt<0}negative{/if}">{$r.cashier_sales.nett_sales2.amt|number_format:2}</td>
+						</tr>
+					</tbody>
+					
+					<!-- Top Up -->
+					<tbody class="fs-08">
+						{if isset($r.top_up)}
+						<tr>
+							<td><b>Cash In</b></td>
+							
+							{foreach from=$normal_payment_type item=payment_type name=pt}
+								{if $payment_type eq "Cash"}
+									<td class="r {if $r.top_up.Cash.amt<0}negative{/if}">{$r.top_up.Cash.amt|number_format:2}</td>
+								{else}
+									<td class="r">-</td>
+								{/if}
+							{/foreach}
+							
+							<!-- Foreign Currency -->
+							{if $got_foreign_currency}
+								<td class="r {if $r.top_up.nett_sales.npt_amt<0}negative{/if}">{$r.top_up.nett_sales.npt_amt|number_format:2}</td>
+								{*assign var=rm_amt value=0*}
+								{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+									{assign var=payment_type value=$currency_type}
+									<td class="r {if $r.top_up.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
+										{$r.top_up.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+										<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.top_up.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
+										{*assign var=rm_amt value=$rm_amt+$r.top_up.foreign_currency.$payment_type.rm_amt*}
+									</td>
+								{/foreach}
+								<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+							{/if}
+							
+							<!-- Nett Sales -->
+							{if $got_foreign_currency}
+								<td class="r">-</td>
+							{else}
+								<td class="r {if $r.top_up.nett_sales.amt<0}negative{/if}">{$r.top_up.nett_sales.amt|number_format:2}</td>
+							{/if}
+							
+							{assign var=cols value=5}
+							{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+							{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+							{if $got_gst}{assign var=cols value=$cols+1}{/if}
+							{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+							<td colspan="{$cols}">&nbsp;</td>
+						</tr>
 					{/if}
-				{/foreach}
-                
-                <!-- Foreign Currency -->
-				{if $got_foreign_currency}
-					<td class="r {if $r.top_up.nett_sales.npt_amt<0}negative{/if}">{$r.top_up.nett_sales.npt_amt|number_format:2}</td>
-					{*assign var=rm_amt value=0*}
-					{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-						{assign var=payment_type value=$currency_type}
-						<td class="r {if $r.top_up.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
-							{$r.top_up.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-							<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.top_up.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
-							{*assign var=rm_amt value=$rm_amt+$r.top_up.foreign_currency.$payment_type.rm_amt*}
+					
+					<!-- Cash Advance -->
+					<tr>
+						<td><b>Cash Advance</b></td>
+						   {foreach from=$normal_payment_type item=payment_type name=pt}
+							{if $payment_type eq "Cash"}
+								<td class="r {if $r.cash_advance.Cash.amt<0}negative{/if}">{$r.cash_advance.Cash.amt|number_format:2}</td>
+							{else}
+								<td class="r">-</td>
+							{/if}
+						{/foreach}
+						
+						<!-- Foreign Currency -->
+						{if $got_foreign_currency}
+							<td class="r advance {if $r.cash_advance.nett_sales.npt_amt<0}negative{/if}">{$r.cash_advance.nett_sales.npt_amt|number_format:2}</td>
+							{*assign var=rm_amt value=0*}
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+								{assign var=payment_type value=$currency_type}
+								<td class="r {if $r.cash_advance.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
+									{$r.cash_advance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+									<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cash_advance.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
+									{*assign var=rm_amt value=$rm_amt+$r.cash_advance.foreign_currency.$payment_type.rm_amt*}
+								</td>
+							{/foreach}
+							<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+						{/if}
+			
+						<!-- Nett Sales -->
+						{if $got_foreign_currency}
+							<td class="r advance">-</td>
+						{else}
+							<td class="r advance {if $r.cash_advance.nett_sales.amt<0}negative{/if}">{$r.cash_advance.nett_sales.amt|number_format:2}</td>
+						{/if}
+						{assign var=show_xtra_table value=0}
+						{assign var=got_deposit value=0}
+						{assign var=got_trade_in value=0}
+						{assign var=got_cash_change value=0}
+						
+						{if $r.deposit.rcv || $r.deposit.used || $r.deposit.cancel_rcv || $r.deposit.cancel_used || isset($r.trade_in) || $r.cash_change}
+							{assign var=show_xtra_table value=1}
+							{assign var=cols value=0}
+							{if $r.deposit.rcv || $r.deposit.used || $r.deposit.cancel_rcv || $r.deposit.cancel_used}
+								{assign var=got_deposit value=1}
+							{/if}
+							{if isset($r.trade_in)}
+								{assign var=got_trade_in value=1}
+							{/if}
+							{if $r.cash_change}
+								{assign var=got_cash_change value=1}
+							{/if}
+						{else}
+							{assign var=cols value=5}
+						{/if}
+						{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+						{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+						{if $got_gst}{assign var=cols value=$cols+1}{/if}
+						{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+							
+						<td colspan="{$cols}">&nbsp;</td>
+						{if $show_xtra_table}
+							<th rowspan="2" colspan="4" style="padding:0;">
+								<table width="100%" cellspacing="0" class="tb nobreak">
+									<tr class="header">
+										{if $got_deposit}
+											<th colspan="3">Today Deposit</th>
+											<th rowspan="2">Cancel<br />Previous<br />Deposit</th>
+										{/if}
+										{if $got_trade_in}
+											<th colspan="2">Trade In</th>
+										{/if}
+										{if $got_cash_change}
+											<th rowspan="2">Special<br />Cash Refund / Change
+												[<a href="javascript:void(special_cash_change_notice());">?</a>]
+											</th>
+										{/if}
+									</tr>
+									<tr class="header">
+										{if $got_deposit}
+											<th>Received</th>
+											<th>Used</th>
+											<th>Refund</th>
+										{/if}
+										{if $got_trade_in}
+											<th>Received</th>
+											<th style="border-right:0;">Write-Off</th>
+										{/if}
+									</tr>
+									<tr class="noborderrow">
+										{if $got_deposit}
+											<td class="r">
+												{$r.deposit.rcv|number_format:2}
+											</td>
+											<td class="r">
+												{$r.deposit.used|number_format:2}
+											</td>
+											<td class="r {if $r.deposit.refund>0}negative{/if}">
+												{$r.deposit.refund*-1|number_format:2}
+											</td>
+											<td class="r {if $r.deposit.cancel_rcv<0}negative{/if}">
+												{$r.deposit.cancel_rcv|number_format:2}
+											</td>
+										{/if}
+										{if $got_trade_in}
+											<td class="r {if $r.trade_in.amt<0}negative{/if}">
+												{$r.trade_in.amt|number_format:2}
+											</td>
+											<td class="r {if $r.trade_in.writeoff_amt<0}negative{/if}" style="border-right:0;">
+												{$r.trade_in.writeoff_amt|number_format:2}
+											</td>
+										{/if}
+										{if $got_cash_change}
+											<td class="r {if $r.cash_change.amt*-1<0}negative{/if}">
+												{$r.cash_change.amt*-1|number_format:2}
+											</td>
+										{/if}
+									</tr>
+								</table>
+							</th>
+						{/if}
+					</tr>
+					
+					<!-- Adjustment -->
+					<tr>
+						<td><b>Adjustment</b></td>
+						<!-- Normal Payment Method -->
+						{foreach from=$normal_payment_type item=payment_type}
+							<td class="r {if $r.adj.$payment_type.amt<0}negative{/if}">{$r.adj.$payment_type.amt|number_format:2}</td>
+						{/foreach}
+			
+						<!-- Foreign Currency -->
+						{if $got_foreign_currency}
+							<td class="r sales {if $r.adj.nett_sales.npt_amt<0}negative{/if}">{$r.adj.nett_sales.npt_amt|number_format:2}</td>
+							{*assign var=rm_amt value=0*}
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+								{assign var=payment_type value=$currency_type}
+								<td class="r {if $r.adj.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
+									{$r.adj.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+									<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.adj.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
+									{*assign var=rm_amt value=$rm_amt+$r.adj.foreign_currency.$payment_type.rm_amt*}
+								</td>
+							{/foreach}
+							<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+						{/if}
+						
+						<!-- Nett Sales -->
+						{if $got_foreign_currency}
+							<td class="r sales">-</td>
+							<td class="r">-</td>
+						{else}
+							<td class="r sales {if $r.adj.nett_sales.amt<0}negative{/if}">{$r.adj.nett_sales.amt|number_format:2}</td>
+							<td class="r {if $r.adj.Discount.amt<0}negative{/if}">{$r.adj.Discount.amt|number_format:2}</td>
+						{/if}
+			
+						{if $show_xtra_table}
+							{assign var=cols value=2}
+						{else}
+							{assign var=cols value=4}
+						{/if}
+						{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+						{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+						{if $got_gst}{assign var=cols value=$cols+1}{/if}
+						{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+						{if $show_xtra_table}
+						{else}
+							<td colspan="{$cols}">&nbsp;</td>
+						{/if}
+					</tr>
+					
+					<!-- Counter Collection -->
+					<tr>
+						<td><b>Counter Collection</b></td>
+						
+						<!-- Normal Payment Method -->
+						{foreach from=$normal_payment_type item=payment_type}
+							<td class="r {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
+								{$r.cash_domination.$payment_type.amt|number_format:2}
+								{if $r.cash_domination.$payment_type.amt<>$r.cash_domination.$payment_type.o_amt}
+									<br />
+									<span class="old_amt small">{$r.cash_domination.$payment_type.o_amt|number_format:2}</span>
+								{/if}
+								<br />
+								{if $payment_type eq 'Cash'}
+									<span class="small" style="color:grey;">
+									C:{$r.cash_domination.Float.amt+$r.cash_domination.Cash.amt|number_format:2}
+									/ F:{$r.cash_domination.Float.amt|number_format:2}
+									</span>
+								{/if}
+							</td>
+						{/foreach}
+			
+						<!-- Foreign Currency -->
+						{if $got_foreign_currency}
+							<td class="r collection {if $r.cash_domination.nett_sales.npt_amt<0}negative{/if}">{$r.cash_domination.nett_sales.npt_amt|number_format:2}</td>
+							{*assign var=rm_amt value=0*}
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+								{assign var=payment_type value=$currency_type}
+								<td class="r {if $r.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
+									{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+									{*<span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cash_domination.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
+									{assign var=rm_amt value=$rm_amt+$r.cash_domination.foreign_currency.$payment_type.rm_amt}
+			
+									<!-- Currency Float -->
+									<br />*}
+									<span class="small" style="color:grey;">
+									C:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
+									/ F:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
+									</span>
+								</td>
+							{/foreach}
+							<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+						{/if}
+						
+						<!-- Nett Sales -->
+						<td class="r collection {if $r.cash_domination.nett_sales.amt<0}negative{/if}{if $got_foreign_currency} small{/if}" nowrap>
+							{if $got_foreign_currency}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}{$r.cash_domination.nett_sales.amt|number_format:2}
+							{if $got_foreign_currency}
+								<br />
+								{foreach from=$foreign_currency_list key=currency_type item=currency_rate name=fc}
+									{assign var=payment_type value=$currency_type}
+									<span style="float:left;">{$payment_type}</span>&nbsp;{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
+									{if !$smarty.foreach.fc.last}<br />{/if}
+								{/foreach}
+							{/if}
 						</td>
-					{/foreach}
-					<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-                {/if}
-				
-                <!-- Nett Sales -->
-				{if $got_foreign_currency}
-					<td class="r">-</td>
-				{else}
-					<td class="r {if $r.top_up.nett_sales.amt<0}negative{/if}">{$r.top_up.nett_sales.amt|number_format:2}</td>
-				{/if}
-            	
-            	{assign var=cols value=5}
-            	{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-				{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-				{if $got_gst}{assign var=cols value=$cols+1}{/if}
-				{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-            	<td colspan="{$cols}">&nbsp;</td>
-			</tr>
-		{/if}
-		
-		<!-- Cash Advance -->
-        <tr>
-            <td><b>Cash Advance</b></td>
-           	{foreach from=$normal_payment_type item=payment_type name=pt}
-				{if $payment_type eq "Cash"}
-					<td class="r {if $r.cash_advance.Cash.amt<0}negative{/if}">{$r.cash_advance.Cash.amt|number_format:2}</td>
-				{else}
-					<td class="r">-</td>
-				{/if}
-			{/foreach}
-            
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<td class="r advance {if $r.cash_advance.nett_sales.npt_amt<0}negative{/if}">{$r.cash_advance.nett_sales.npt_amt|number_format:2}</td>
-				{*assign var=rm_amt value=0*}
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					{assign var=payment_type value=$currency_type}
-					<td class="r {if $r.cash_advance.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
-						{$r.cash_advance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-						<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cash_advance.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
-						{*assign var=rm_amt value=$rm_amt+$r.cash_advance.foreign_currency.$payment_type.rm_amt*}
-					</td>
-				{/foreach}
-				<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-			{/if}
-
-            <!-- Nett Sales -->
-			{if $got_foreign_currency}
-				<td class="r advance">-</td>
-			{else}
-				<td class="r advance {if $r.cash_advance.nett_sales.amt<0}negative{/if}">{$r.cash_advance.nett_sales.amt|number_format:2}</td>
-			{/if}
-            {assign var=show_xtra_table value=0}
-			{assign var=got_deposit value=0}
-            {assign var=got_trade_in value=0}
-			{assign var=got_cash_change value=0}
+						
+						{assign var=cols value=5}
+						{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+						{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+						{if $got_gst}{assign var=cols value=$cols+1}{/if}
+						{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+						<td colspan="{$cols}">&nbsp;</td>
+					</tr>
+					
+					<!-- Variance -->
+					<tr class="tr_variance">
+						<td><b>Variance</b></td>
+						<!-- Normal Payment Method -->
+						{foreach from=$normal_payment_type item=payment_type}
+							<td class="r {if $r.variance.$payment_type.amt<0}negative{/if}">{$r.variance.$payment_type.amt|number_format:2}</td>
+						{/foreach}
 			
-            {if $r.deposit.rcv || $r.deposit.used || $r.deposit.cancel_rcv || $r.deposit.cancel_used || isset($r.trade_in) || $r.cash_change}
-            	{assign var=show_xtra_table value=1}
-				{assign var=cols value=0}
-				{if $r.deposit.rcv || $r.deposit.used || $r.deposit.cancel_rcv || $r.deposit.cancel_used}
-					{assign var=got_deposit value=1}
-				{/if}
-				{if isset($r.trade_in)}
-					{assign var=got_trade_in value=1}
-				{/if}
-				{if $r.cash_change}
-					{assign var=got_cash_change value=1}
-				{/if}
-			{else}
-				{assign var=cols value=5}
-			{/if}
-            {if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-			{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-			{if $got_gst}{assign var=cols value=$cols+1}{/if}
-			{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-				
-			<td colspan="{$cols}">&nbsp;</td>
-			{if $show_xtra_table}
-				<th rowspan="2" colspan="4" style="padding:0;">
-					<table width="100%" cellspacing="0" class="tb nobreak">
-						<tr class="header">
-							{if $got_deposit}
-								<th colspan="3">Today Deposit</th>
-								<th rowspan="2">Cancel<br />Previous<br />Deposit</th>
-							{/if}
-							{if $got_trade_in}
-								<th colspan="2">Trade In</th>
-							{/if}
-							{if $got_cash_change}
-								<th rowspan="2">Special<br />Cash Refund / Change
-									[<a href="javascript:void(special_cash_change_notice());">?</a>]
-								</th>
-							{/if}
-						</tr>
-						<tr class="header">
-							{if $got_deposit}
-								<th>Received</th>
-								<th>Used</th>
-								<th>Refund</th>
-							{/if}
-							{if $got_trade_in}
-								<th>Received</th>
-								<th style="border-right:0;">Write-Off</th>
-							{/if}
-						</tr>
-						<tr class="noborderrow">
-							{if $got_deposit}
-								<td class="r">
-									{$r.deposit.rcv|number_format:2}
+						<!-- Foreign Currency -->
+						{if $got_foreign_currency}
+							<td class="r variance {if $r.variance.nett_sales.npt_amt<0}negative{/if}">{$r.variance.nett_sales.npt_amt|number_format:2}</td>
+							{*assign var=rm_amt value=0*}
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+								{assign var=payment_type value=$currency_type}
+								<td class="r {if $r.variance.foreign_currency.$payment_type.foreign_amt<0}negative{/if}">
+									{$r.variance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+									<span class="small_rm_amt">{$config.arms_currency.symbol} {$r.variance.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
+									{assign var=rm_amt value=$rm_amt+$r.variance.foreign_currency.$payment_type.rm_amt}
 								</td>
-								<td class="r">
-									{$r.deposit.used|number_format:2}
-								</td>
-								<td class="r {if $r.deposit.refund>0}negative{/if}">
-									{$r.deposit.refund*-1|number_format:2}
-								</td>
-								<td class="r {if $r.deposit.cancel_rcv<0}negative{/if}">
-									{$r.deposit.cancel_rcv|number_format:2}
-								</td>
-							{/if}
-							{if $got_trade_in}
-								<td class="r {if $r.trade_in.amt<0}negative{/if}">
-									{$r.trade_in.amt|number_format:2}
-								</td>
-								<td class="r {if $r.trade_in.writeoff_amt<0}negative{/if}" style="border-right:0;">
-									{$r.trade_in.writeoff_amt|number_format:2}
-								</td>
-							{/if}
-							{if $got_cash_change}
-								<td class="r {if $r.cash_change.amt*-1<0}negative{/if}">
-									{$r.cash_change.amt*-1|number_format:2}
-								</td>
-							{/if}
-						</tr>
-					</table>
-				</th>
-			{/if}
-        </tr>
-        
-        <!-- Adjustment -->
-        <tr>
-            <td><b>Adjustment</b></td>
-            <!-- Normal Payment Method -->
-            {foreach from=$normal_payment_type item=payment_type}
-                <td class="r {if $r.adj.$payment_type.amt<0}negative{/if}">{$r.adj.$payment_type.amt|number_format:2}</td>
-            {/foreach}
-
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<td class="r sales {if $r.adj.nett_sales.npt_amt<0}negative{/if}">{$r.adj.nett_sales.npt_amt|number_format:2}</td>
-				{*assign var=rm_amt value=0*}
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					{assign var=payment_type value=$currency_type}
-					<td class="r {if $r.adj.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
-						{$r.adj.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-						<!--span class="small_rm_amt">{$config.arms_currency.symbol} {$r.adj.foreign_currency.$payment_type.rm_amt|number_format:2}</span-->
-						{*assign var=rm_amt value=$rm_amt+$r.adj.foreign_currency.$payment_type.rm_amt*}
-					</td>
-				{/foreach}
-				<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-			{/if}
-			
-			<!-- Nett Sales -->
-			{if $got_foreign_currency}
-				<td class="r sales">-</td>
-				<td class="r">-</td>
-			{else}
-				<td class="r sales {if $r.adj.nett_sales.amt<0}negative{/if}">{$r.adj.nett_sales.amt|number_format:2}</td>
-				<td class="r {if $r.adj.Discount.amt<0}negative{/if}">{$r.adj.Discount.amt|number_format:2}</td>
-			{/if}
-
-			{if $show_xtra_table}
-				{assign var=cols value=2}
-			{else}
-				{assign var=cols value=4}
-			{/if}
-            {if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-			{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-			{if $got_gst}{assign var=cols value=$cols+1}{/if}
-			{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-			{if $show_xtra_table}
-			{else}
-				<td colspan="{$cols}">&nbsp;</td>
-			{/if}
-        </tr>
-        
-        <!-- Counter Collection -->
-        <tr>
-            <td><b>Counter Collection</b></td>
-			
-            <!-- Normal Payment Method -->
-            {foreach from=$normal_payment_type item=payment_type}
-                <td class="r {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
-					{$r.cash_domination.$payment_type.amt|number_format:2}
-					{if $r.cash_domination.$payment_type.amt<>$r.cash_domination.$payment_type.o_amt}
-					    <br />
-					    <span class="old_amt small">{$r.cash_domination.$payment_type.o_amt|number_format:2}</span>
-					{/if}
-					<br />
-					{if $payment_type eq 'Cash'}
-					    <span class="small" style="color:grey;">
-                        C:{$r.cash_domination.Float.amt+$r.cash_domination.Cash.amt|number_format:2}
-						/ F:{$r.cash_domination.Float.amt|number_format:2}
-					    </span>
-				    {/if}
-				</td>
-            {/foreach}
-
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<td class="r collection {if $r.cash_domination.nett_sales.npt_amt<0}negative{/if}">{$r.cash_domination.nett_sales.npt_amt|number_format:2}</td>
-				{*assign var=rm_amt value=0*}
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					{assign var=payment_type value=$currency_type}
-					<td class="r {if $r.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
-						{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-						{*<span class="small_rm_amt">{$config.arms_currency.symbol} {$r.cash_domination.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
-						{assign var=rm_amt value=$rm_amt+$r.cash_domination.foreign_currency.$payment_type.rm_amt}
-
-						<!-- Currency Float -->
-						<br />*}
-						<span class="small" style="color:grey;">
-						C:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
-						/ F:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
-						</span>
-					</td>
-				{/foreach}
-				<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-			{/if}
-			
-			<!-- Nett Sales -->
-			<td class="r collection {if $r.cash_domination.nett_sales.amt<0}negative{/if}{if $got_foreign_currency} small{/if}" nowrap>
-				{if $got_foreign_currency}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}{$r.cash_domination.nett_sales.amt|number_format:2}
-				{if $got_foreign_currency}
-					<br />
-					{foreach from=$foreign_currency_list key=currency_type item=currency_rate name=fc}
-						{assign var=payment_type value=$currency_type}
-						<span style="float:left;">{$payment_type}</span>&nbsp;{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
-						{if !$smarty.foreach.fc.last}<br />{/if}
-					{/foreach}
-				{/if}
-			</td>
-            
-            {assign var=cols value=5}
-            {if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-			{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-			{if $got_gst}{assign var=cols value=$cols+1}{/if}
-			{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-            <td colspan="{$cols}">&nbsp;</td>
-        </tr>
-        
-        <!-- Variance -->
-        <tr class="tr_variance">
-            <td><b>Variance</b></td>
-            <!-- Normal Payment Method -->
-            {foreach from=$normal_payment_type item=payment_type}
-                <td class="r {if $r.variance.$payment_type.amt<0}negative{/if}">{$r.variance.$payment_type.amt|number_format:2}</td>
-            {/foreach}
-
-            <!-- Foreign Currency -->
-			{if $got_foreign_currency}
-				<td class="r variance {if $r.variance.nett_sales.npt_amt<0}negative{/if}">{$r.variance.nett_sales.npt_amt|number_format:2}</td>
-				{*assign var=rm_amt value=0*}
-				{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-					{assign var=payment_type value=$currency_type}
-					<td class="r {if $r.variance.foreign_currency.$payment_type.foreign_amt<0}negative{/if}">
-						{$r.variance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-						<span class="small_rm_amt">{$config.arms_currency.symbol} {$r.variance.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
-						{assign var=rm_amt value=$rm_amt+$r.variance.foreign_currency.$payment_type.rm_amt}
-					</td>
-				{/foreach}
-				<!--td class="r">{$rm_amt|number_format:2}</td-->
-			{/if}
-			
-			<!-- Nett Sales -->
-            <td class="r variance {if $r.variance.nett_sales.amt<0}negative{/if}">{$r.variance.nett_sales.amt|number_format:2}</td>
-            
-            {assign var=cols value=5}
-            {if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-			{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-			{if $got_gst}{assign var=cols value=$cols+1}{/if}
-			{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-            <td colspan="{$cols}">&nbsp;</td>
-        </tr>
-	</table>
+							{/foreach}
+							<!--td class="r">{$rm_amt|number_format:2}</td-->
+						{/if}
+						
+						<!-- Nett Sales -->
+						<td class="r variance {if $r.variance.nett_sales.amt<0}negative{/if}">{$r.variance.nett_sales.amt|number_format:2}</td>
+						
+						{assign var=cols value=5}
+						{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+						{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+						{if $got_gst}{assign var=cols value=$cols+1}{/if}
+						{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+						<td colspan="{$cols}">&nbsp;</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 {/foreach}
 
 {if isset($total.total.deposit) or isset($total.total.trade_in)}
-	<br />
-	<h1>Other Info</h1>
-	<table class="report_table nobreak" cellpadding="4" cellspacing="0" border="1">
-		<tr class="header">
-			<th colspan="3">Today Deposit</th>
-			<th rowspan="2">Cancel<br />Previous<br />Deposit</th>
-			<th colspan="2">Trade In</th>
-		</tr>
-		<tr class="header">
-			<th>Received</th>
-			<th>Used</th>
-			<th>Refund</th>
-			{*<th>Received</th>
-			<th>Used</th>*}
-			<th>Received</th>
-			<th>Write-Off</th>
-		</tr>
-		<tr>
-			<td class="r">{$total.total.deposit.rcv|number_format:2}</td>
-			<td class="r">{$total.total.deposit.used|number_format:2}</td>
-			<td class="r {if $total.total.deposit.refund>0}negative{/if}">{$total.total.deposit.refund*-1|number_format:2}</td>
-			<td class="r {if $total.total.deposit.cancel_rcv<0}negative{/if}">{$total.total.deposit.cancel_rcv|number_format:2}</td>
-			{*<td class="r">{$total.total.deposit.cancel_used|number_format:2}</td>*}
-			<td class="r {if $total.total.trade_in.amt<0}negative{/if}">{$total.total.trade_in.amt|number_format:2}</td>
-			<td class="r {if $total.total.trade_in.writeoff_amt<0}negative{/if}">{$total.total.trade_in.writeoff_amt|number_format:2}</td>
-		</tr>
-	</table>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Other Info</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table nobreak" cellpadding="4" cellspacing="0" >
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th colspan="3">Today Deposit</th>
+							<th rowspan="2">Cancel<br />Previous<br />Deposit</th>
+							<th colspan="2">Trade In</th>
+						</tr>
+						<tr class="header">
+							<th>Received</th>
+							<th>Used</th>
+							<th>Refund</th>
+							{*<th>Received</th>
+							<th>Used</th>*}
+							<th>Received</th>
+							<th>Write-Off</th>
+						</tr>
+					</thead>
+					<tbody class="fs-08">
+						<tr>
+							<td class="r">{$total.total.deposit.rcv|number_format:2}</td>
+							<td class="r">{$total.total.deposit.used|number_format:2}</td>
+							<td class="r {if $total.total.deposit.refund>0}negative{/if}">{$total.total.deposit.refund*-1|number_format:2}</td>
+							<td class="r {if $total.total.deposit.cancel_rcv<0}negative{/if}">{$total.total.deposit.cancel_rcv|number_format:2}</td>
+							{*<td class="r">{$total.total.deposit.cancel_used|number_format:2}</td>*}
+							<td class="r {if $total.total.trade_in.amt<0}negative{/if}">{$total.total.trade_in.amt|number_format:2}</td>
+							<td class="r {if $total.total.trade_in.writeoff_amt<0}negative{/if}">{$total.total.trade_in.writeoff_amt|number_format:2}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if $config.counter_collection_show_membership_receipt and $mem_data}
-	<br />
-	<h1>Membership Counter Info</h1>
-	<table class="report_table">
-		<tr class="header">
-			<th>Counter</th>
-			<th>Cash</th>
-			<th>Collection</th>
-			<th>Variance</th>
-		</tr>
-		
-		{foreach from=$mem_data.by_counter key=counter_id item=mem_data_r}
-			<tr>
-				<td>{$counters.$counter_id.network_name}</td>
-				<td class="r {if $mem_data_r.cash.amt<0}negative{/if}">{$mem_data_r.cash.amt|number_format:2}</td>
-				<td class="r {if $mem_data_r.dom.cash.amt<0}negative{/if}">{$mem_data_r.dom.cash.amt|number_format:2}</td>
-				<td class="r {if $mem_data_r.variance.cash.amt<0}negative{/if}">{$mem_data_r.variance.cash.amt|number_format:2}</td>
-			</tr>
-		{/foreach}
-		
-		<tr class="header">
-			<td class="r"><b>Total</b></td>
-			<td class="r {if $mem_data.all_counter.cash.amt<0}negative{/if}">{$mem_data.all_counter.cash.amt|number_format:2}</td>
-			<td class="r {if $mem_data.all_counter.dom.cash.amt<0}negative{/if}">{$mem_data.all_counter.dom.cash.amt|number_format:2}</td>
-			<td class="r {if $mem_data.all_counter.variance.cash.amt<0}negative{/if}">{$mem_data.all_counter.variance.cash.amt|number_format:2}</td>
-		</tr>
-		
-		<tr>
-			<td>+ Cash From POS</td>
-			<td class="r {if $total.payment_type.Cash.amt<0}negative{/if}">{$total.payment_type.Cash.amt|number_format:2}</td>
-			<td class="r {if $total.cash_domination.Cash.amt<0}negative{/if}">{$total.cash_domination.Cash.amt|number_format:2}</td>
-			<td class="r">-</td>
-		</tr>
-		<tr>
-			<td>- Cash Advance</td>
-			<td class="r">-</td>
-			<td class="r {if $total.total.cash_advance.amt<0}negative{/if}">{$total.total.cash_advance.amt|number_format:2}</td>
-			<td class="r">-</td>
-		</tr>
-		
-		<tr class="header">
-			<td class="r"><b>Total Added to POS</b></td>
-			<td class="r {if $mem_data.all_counter.added_pos.cash.amt<0}negative{/if}">{$mem_data.all_counter.added_pos.cash.amt|number_format:2}</td>
-			<td class="r {if $mem_data.all_counter.added_pos.dom.cash.am<0}negative{/if}">{$mem_data.all_counter.added_pos.dom.cash.amt|number_format:2}</td>
-			<td class="r {if $mem_data.all_counter.added_pos.variance.cash.amt<0}negative{/if}">{$mem_data.all_counter.added_pos.variance.cash.amt|number_format:2}</td>
-		</tr>
-	</table>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Membership Counter Info</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table">
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>Counter</th>
+							<th>Cash</th>
+							<th>Collection</th>
+							<th>Variance</th>
+						</tr>
+					</thead>
+					
+					{foreach from=$mem_data.by_counter key=counter_id item=mem_data_r}
+						<tbody class="fs-08">
+							<tr>
+								<td>{$counters.$counter_id.network_name}</td>
+								<td class="r {if $mem_data_r.cash.amt<0}negative{/if}">{$mem_data_r.cash.amt|number_format:2}</td>
+								<td class="r {if $mem_data_r.dom.cash.amt<0}negative{/if}">{$mem_data_r.dom.cash.amt|number_format:2}</td>
+								<td class="r {if $mem_data_r.variance.cash.amt<0}negative{/if}">{$mem_data_r.variance.cash.amt|number_format:2}</td>
+							</tr>
+						</tbody>
+					{/foreach}
+					
+					<tr class="header">
+						<td class="r"><b>Total</b></td>
+						<td class="r {if $mem_data.all_counter.cash.amt<0}negative{/if}">{$mem_data.all_counter.cash.amt|number_format:2}</td>
+						<td class="r {if $mem_data.all_counter.dom.cash.amt<0}negative{/if}">{$mem_data.all_counter.dom.cash.amt|number_format:2}</td>
+						<td class="r {if $mem_data.all_counter.variance.cash.amt<0}negative{/if}">{$mem_data.all_counter.variance.cash.amt|number_format:2}</td>
+					</tr>
+					
+					<tr>
+						<td>+ Cash From POS</td>
+						<td class="r {if $total.payment_type.Cash.amt<0}negative{/if}">{$total.payment_type.Cash.amt|number_format:2}</td>
+						<td class="r {if $total.cash_domination.Cash.amt<0}negative{/if}">{$total.cash_domination.Cash.amt|number_format:2}</td>
+						<td class="r">-</td>
+					</tr>
+					<tr>
+						<td>- Cash Advance</td>
+						<td class="r">-</td>
+						<td class="r {if $total.total.cash_advance.amt<0}negative{/if}">{$total.total.cash_advance.amt|number_format:2}</td>
+						<td class="r">-</td>
+					</tr>
+					
+					<tr class="header">
+						<td class="r"><b>Total Added to POS</b></td>
+						<td class="r {if $mem_data.all_counter.added_pos.cash.amt<0}negative{/if}">{$mem_data.all_counter.added_pos.cash.amt|number_format:2}</td>
+						<td class="r {if $mem_data.all_counter.added_pos.dom.cash.am<0}negative{/if}">{$mem_data.all_counter.added_pos.dom.cash.amt|number_format:2}</td>
+						<td class="r {if $mem_data.all_counter.added_pos.variance.cash.amt<0}negative{/if}">{$mem_data.all_counter.added_pos.variance.cash.amt|number_format:2}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 {/if}
 
 <br />
-<table class="report_table nobreak" width=100% cellpadding=4 cellspacing=0 border="1">
-    <tr class="header" >
-        <th>&nbsp;</th>
-         <!-- Normal Payment Method -->
-        {foreach from=$normal_payment_type item=payment_type}
-            <th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
-        {/foreach}
-        
-        <!-- Foreign Currency -->
-		{if $got_foreign_currency}
-			{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-				<th>{$currency_type}</th>
-			{/foreach}
-			<!--th>{$config.arms_currency.symbol}</th-->
-		{/if}
-		
-        <th>Nett Sales</th>
-        <th>Receipt<br />Discount</th>
-        {if $got_mm_discount}
-        	<th>Mix & Match <br>Discount</th>
-        {/if}
-		{if $got_service_charge}
-			<th>Service Charge</th>
-		{/if}
-		{if $got_gst}
-			<th>Tax</th>
-		{/if}
-        <th>Rounding</th>
-		{if $got_foreign_currency}
-			<th>Currency Adjust</th>
-		{/if}
-        <th>Over</th>
-        <th>Gross Sales</th>
-		<th>Nett Sales<sup>2<sup></th>
-    </tr>
-    
-    <!-- Total Payment -->
-    <tr style="font-size:2em;">
-        <td><b>Total Payment</b></td>
-        <!-- Normal Payment Method -->
-        {foreach from=$normal_payment_type item=payment_type}
-            <td class="r {if $total.payment_type.$payment_type.amt<0}negative{/if}">{$total.payment_type.$payment_type.amt|number_format:2}</td>
-        {/foreach}
-
-        <!-- Foreign Currency -->
-		{if $got_foreign_currency}
-			{*assign var=rm_amt value=0*}
-			{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-				{assign var=payment_type value=$currency_type}
-				<td class="r {if $total.payment_type.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
-					{$total.payment_type.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-					<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.payment_type.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
-					{*assign var=rm_amt value=$rm_amt+$total.payment_type.foreign_currency.$payment_type.rm_amt*}
-				</td>
-			{/foreach}
-			<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
-		{/if}
-		
-		<!-- Nett Sales -->
-        <td class="r sales {if $total.payment_type.nett_sales.amt>=0}positive{else}negative{/if}">{$total.payment_type.nett_sales.amt|number_format:2}</td>
-        <td class="r {if $total.payment_type.Discount.amt<0}negative{/if}">{$total.payment_type.Discount.amt|number_format:2}</td>
-        
-        {if $got_mm_discount}
-        	<td class="r {if $total.payment_type.$mm_discount_col_value.amt<0}negative{/if}">{$total.payment_type.$mm_discount_col_value.amt|number_format:2}</td>
-        {/if}
-		
-		{if $got_service_charge}
-			<td class="r {if $total.payment_type.service_charges.amt<0}negative{/if}">{$total.payment_type.service_charges.amt|number_format:2}</td>
-		{/if}
-		
-		{if $got_gst}
-			<td class="r {if $total.payment_type.total_gst_amt.amt<0}negative{/if}">{$total.payment_type.total_gst_amt.amt|number_format:2}</td>
-		{/if}
-        
-        <td class="r {if $total.payment_type.Rounding.amt<0}negative{/if}">{$total.payment_type.Rounding.amt|number_format:2}</td>
-		{if $got_foreign_currency}
-			<td class="r {if $total.payment_type.Currency_adjust.amt<0}negative{/if}">{$total.payment_type.Currency_adjust.amt|number_format:2}</td>
-		{/if}
-        <td class="r col_over {if $total.payment_type.Over.amt<0}negative{/if}">{$total.payment_type.Over.amt|number_format:2}</td>
-        <td class="r gross_sales {if $total.payment_type.gross_sales.amt<0}negative{/if}">{$total.payment_type.gross_sales.amt|number_format:2}</td>
-		<td class="r col_nett_sales2 {if $total.total.nett_sales2.amt<0}negative{/if}">{$total.total.nett_sales2.amt|number_format:2}</td>
-    </tr>
-    
-    <!-- Total Variance -->
-    <tr style="font-size:2em;" class="tr_variance">
-        <td><b>Total Variance</b></td>
-        <!-- Normal Payment Method -->
-        {foreach from=$normal_payment_type item=payment_type}
-            <td class="r {if $total.variance.$payment_type.amt<0}negative{/if}">{$total.variance.$payment_type.amt|number_format:2}</td>
-        {/foreach}
-
-        <!-- Foreign Currency -->
-		{if $got_foreign_currency}
-			{*assign var=rm_amt value=0*}
-			{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
-				{assign var=payment_type value=$currency_type}
-				<td class="r {if $total.variance.foreign_currency.$payment_type.foreign_amt<0}negative{/if}">
-					{$total.variance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
-					<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.variance.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
-					{*assign var=rm_amt value=$rm_amt+$total.variance.foreign_currency.$payment_type.rm_amt*}
-				</td>
-			{/foreach}
-			<!--td class="r">{$rm_amt|number_format:2}</td-->
-		{/if}
-		
-		<td class="r variance {if $total.total.variance.amt>=0}positive{else}negative{/if}">{$total.total.variance.amt|number_format:2}</td>
-		
-		{assign var=cols value=5}
-        {if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
-		{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
-		{if $got_gst}{assign var=cols value=$cols+1}{/if}
-		{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
-		<td colspan="{$cols}">&nbsp;</td>
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table nobreak table mb-0 text-md-nowrap  table-hover" width=100% cellpadding=4 cellspacing=0 >
+				<thead class="bg-gray-100">
+					<tr class="header" >
+						<th>&nbsp;</th>
+						 <!-- Normal Payment Method -->
+						{foreach from=$normal_payment_type item=payment_type}
+							<th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
+						{/foreach}
+						
+						<!-- Foreign Currency -->
+						{if $got_foreign_currency}
+							{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+								<th>{$currency_type}</th>
+							{/foreach}
+							<!--th>{$config.arms_currency.symbol}</th-->
+						{/if}
+						
+						<th>Nett Sales</th>
+						<th>Receipt<br />Discount</th>
+						{if $got_mm_discount}
+							<th>Mix & Match <br>Discount</th>
+						{/if}
+						{if $got_service_charge}
+							<th>Service Charge</th>
+						{/if}
+						{if $got_gst}
+							<th>Tax</th>
+						{/if}
+						<th>Rounding</th>
+						{if $got_foreign_currency}
+							<th>Currency Adjust</th>
+						{/if}
+						<th>Over</th>
+						<th>Gross Sales</th>
+						<th>Nett Sales<sup>2<sup></th>
+					</tr>
+				</thead>
+				
+				<!-- Total Payment -->
+				<tr style="font-size:1em;">
+					<td><b>Total Payment</b></td>
+					<!-- Normal Payment Method -->
+					{foreach from=$normal_payment_type item=payment_type}
+						<td class="r {if $total.payment_type.$payment_type.amt<0}negative{/if}">{$total.payment_type.$payment_type.amt|number_format:2}</td>
+					{/foreach}
+			
+					<!-- Foreign Currency -->
+					{if $got_foreign_currency}
+						{*assign var=rm_amt value=0*}
+						{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+							{assign var=payment_type value=$currency_type}
+							<td class="r {if $total.payment_type.foreign_currency.$payment_type.foreign_amt<0}negative{/if} col_foreign_curr">
+								{$total.payment_type.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+								<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.payment_type.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
+								{*assign var=rm_amt value=$rm_amt+$total.payment_type.foreign_currency.$payment_type.rm_amt*}
+							</td>
+						{/foreach}
+						<!--td class="r col_rm">{$rm_amt|number_format:2}</td-->
+					{/if}
+					
+					<!-- Nett Sales -->
+					<td class="r sales {if $total.payment_type.nett_sales.amt>=0}positive{else}negative{/if}">{$total.payment_type.nett_sales.amt|number_format:2}</td>
+					<td class="r {if $total.payment_type.Discount.amt<0}negative{/if}">{$total.payment_type.Discount.amt|number_format:2}</td>
+					
+					{if $got_mm_discount}
+						<td class="r {if $total.payment_type.$mm_discount_col_value.amt<0}negative{/if}">{$total.payment_type.$mm_discount_col_value.amt|number_format:2}</td>
+					{/if}
+					
+					{if $got_service_charge}
+						<td class="r {if $total.payment_type.service_charges.amt<0}negative{/if}">{$total.payment_type.service_charges.amt|number_format:2}</td>
+					{/if}
+					
+					{if $got_gst}
+						<td class="r {if $total.payment_type.total_gst_amt.amt<0}negative{/if}">{$total.payment_type.total_gst_amt.amt|number_format:2}</td>
+					{/if}
+					
+					<td class="r {if $total.payment_type.Rounding.amt<0}negative{/if}">{$total.payment_type.Rounding.amt|number_format:2}</td>
+					{if $got_foreign_currency}
+						<td class="r {if $total.payment_type.Currency_adjust.amt<0}negative{/if}">{$total.payment_type.Currency_adjust.amt|number_format:2}</td>
+					{/if}
+					<td class="r col_over {if $total.payment_type.Over.amt<0}negative{/if}">{$total.payment_type.Over.amt|number_format:2}</td>
+					<td class="r gross_sales {if $total.payment_type.gross_sales.amt<0}negative{/if}">{$total.payment_type.gross_sales.amt|number_format:2}</td>
+					<td class="r col_nett_sales2 {if $total.total.nett_sales2.amt<0}negative{/if}">{$total.total.nett_sales2.amt|number_format:2}</td>
+				</tr>
+				
+				<!-- Total Variance -->
+				<tr style="font-size:1em;" class="tr_variance">
+					<td><b>Total Variance</b></td>
+					<!-- Normal Payment Method -->
+					{foreach from=$normal_payment_type item=payment_type}
+						<td class="r {if $total.variance.$payment_type.amt<0}negative{/if}">{$total.variance.$payment_type.amt|number_format:2}</td>
+					{/foreach}
+			
+					<!-- Foreign Currency -->
+					{if $got_foreign_currency}
+						{*assign var=rm_amt value=0*}
+						{foreach from=$foreign_currency_list key=currency_type item=currency_rate}
+							{assign var=payment_type value=$currency_type}
+							<td class="r {if $total.variance.foreign_currency.$payment_type.foreign_amt<0}negative{/if}">
+								{$total.variance.foreign_currency.$payment_type.foreign_amt|number_format:2}<br />
+								<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.variance.foreign_currency.$payment_type.rm_amt|number_format:2}</span>
+								{*assign var=rm_amt value=$rm_amt+$total.variance.foreign_currency.$payment_type.rm_amt*}
+							</td>
+						{/foreach}
+						<!--td class="r">{$rm_amt|number_format:2}</td-->
+					{/if}
+					
+					<td class="r variance {if $total.total.variance.amt>=0}positive{else}negative{/if}">{$total.total.variance.amt|number_format:2}</td>
+					
+					{assign var=cols value=5}
+					{if $got_mm_discount}{assign var=cols value=$cols+1}{/if}
+					{if $got_service_charge}{assign var=cols value=$cols+1}{/if}
+					{if $got_gst}{assign var=cols value=$cols+1}{/if}
+					{if $got_foreign_currency}{assign var=cols value=$cols+1}{/if}
+					<td colspan="{$cols}">&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 
 {if !$smarty.request.print}
 {assign var=can_show_finalize value=1}
@@ -1845,23 +1940,33 @@ table.report_table td{
 		</div>	
 		<br />
 		<div style="width:700px;margin:auto;text-align:center;">
-			<table class="report_table" style="margin:auto;">
-				<tr class="header">
-					<th>Member No</th>
-					<th>Receipt</th>
-				</tr>
-				{foreach from=$invalid_mem_data key=cardno item=r}
-					<tr>
-						<td>{$cardno}</td>
-						<td>
-							{foreach from=$r.receipt_list name=fr item=receipt}
-								{if !$smarty.foreach.fr.first}, {/if}
-								<a href="javascript:void(0)" onclick="trans_detail('{$receipt.counter_id}','{$receipt.cashier_id}','{$receipt.date}','{$receipt.id}','{$receipt.branch_id}')">{receipt_no_prefix_format branch_id=$receipt.branch_id counter_id=$receipt.counter_id receipt_no=$receipt.receipt_no}</a>
+			<div class="card mx-3">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="report_table" style="margin:auto;">
+							<thead class="bg-gray-100">
+								<tr class="header">
+									<th>Member No</th>
+									<th>Receipt</th>
+								</tr>
+							</thead>
+							{foreach from=$invalid_mem_data key=cardno item=r}
+								<tbody class="fs-08">
+									<tr>
+										<td>{$cardno}</td>
+										<td>
+											{foreach from=$r.receipt_list name=fr item=receipt}
+												{if !$smarty.foreach.fr.first}, {/if}
+												<a href="javascript:void(0)" onclick="trans_detail('{$receipt.counter_id}','{$receipt.cashier_id}','{$receipt.date}','{$receipt.id}','{$receipt.branch_id}')">{receipt_no_prefix_format branch_id=$receipt.branch_id counter_id=$receipt.counter_id receipt_no=$receipt.receipt_no}</a>
+											{/foreach}
+										</td>
+									</tr>
+								</tbody>
 							{/foreach}
-						</td>
-					</tr>
-				{/foreach}
-			</table>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 	</p>
@@ -1890,28 +1995,38 @@ table.report_table td{
 	{if !$is_finalized}{assign var=can_show_finalize value=0}{/if}
 	
 	<p align="center">
-	<table class="report_table">
-		<tr class="header">
-			<th>No. of Transaction</th>
-			<th>Barcode</th>
-			<th>Description</th>
-			<th>Price ({$config.arms_currency.symbol}) per unit</th>
-			<th>Type</th>
-			<th>Approve by</th>
-		</tr>
-		{foreach from=$invalid_items key=barcode item=data}
-			{foreach from=$data key=selling_price item=other}
-			<tr>
-				<td>{$other.transactions_total}</td>
-				<td>{$barcode}</td>
-				<td>{$other.info.sku_description}</td>
-				<td class="r">{$selling_price|default:"0"|number_format:2|ifzero:"-"}</td>
-				<td>{$other.info.type}</td>
-				<td>{$other.info.open_code_user}</td>
-			</tr>
-			{/foreach}
-		{/foreach}
-	</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table">
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>No. of Transaction</th>
+							<th>Barcode</th>
+							<th>Description</th>
+							<th>Price ({$config.arms_currency.symbol}) per unit</th>
+							<th>Type</th>
+							<th>Approve by</th>
+						</tr>
+					</thead>
+					{foreach from=$invalid_items key=barcode item=data}
+						{foreach from=$data key=selling_price item=other}
+						<tbody class="fs-08">
+							<tr>
+								<td>{$other.transactions_total}</td>
+								<td>{$barcode}</td>
+								<td>{$other.info.sku_description}</td>
+								<td class="r">{$selling_price|default:"0"|number_format:2|ifzero:"-"}</td>
+								<td>{$other.info.type}</td>
+								<td>{$other.info.open_code_user}</td>
+							</tr>
+						</tbody>
+						{/foreach}
+					{/foreach}
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if count($sync_status) > 0}
@@ -1921,20 +2036,30 @@ table.report_table td{
 	<div class="big_font" id="div_data_sync_error" style="width:700px;margin:auto;text-align:center;">
 		Found missing/unsynced sales data as below:
 		<p align="center">
-		<table class="report_table">
-			<tr class="header">
-				<th>Counter Name</th>
-				<th>Unsynced Sales</th>
-				<th>Sales Missing</th>
-			</tr>
-			{foreach from=$sync_status key=cid item=r}
-				<tr>
-					<td>{$r.counter_name}</td>
-					<td>{$r.ttl_unsync_record}</td>
-					<td>{$r.ttl_ms_record}</td>
-				</tr>
-			{/foreach}
-		</table>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="report_table">
+						<thead class="bg-gray-100">
+							<tr class="header">
+								<th>Counter Name</th>
+								<th>Unsynced Sales</th>
+								<th>Sales Missing</th>
+							</tr>
+						</thead>
+						{foreach from=$sync_status key=cid item=r}
+							<tbody class="fs-08">
+								<tr>
+									<td>{$r.counter_name}</td>
+									<td>{$r.ttl_unsync_record}</td>
+									<td>{$r.ttl_ms_record}</td>
+								</tr>
+							</tbody>
+						{/foreach}
+					</table>
+				</div>
+			</div>
+		</div>
 		</p>
 	</div>
 	</p>

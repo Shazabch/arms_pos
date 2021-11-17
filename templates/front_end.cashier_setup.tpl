@@ -96,20 +96,32 @@ function search_input_keypress(event){
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<ul>
-	<li><a href="?a=open"><img src="/ui/icons/user_add.png" border="0" align="absmiddle" /> Add New Cashier</a></li>
-</ul>
+
+	<div class="card mx-3">
+		<div class="card-body">
+			<a href="?a=open"><img src="/ui/icons/user_add.png" border="0" align="absmiddle" /> Add New Cashier</a>
+		</div>
+	</div>
+
 
 <div>
-	<div id="div_tab" class="tab" style="height:25px;white-space:nowrap;">
-		&nbsp;&nbsp;&nbsp;
-		<a href="javascript:void(list_sel(1))" id="lst1" class="active a_tab">Cashier list</a>
-		<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab">Draft</a>
-		<a href="javascript:void(list_sel(3))" id="lst3" class="a_tab">Waiting for Approval</a>
+	<div id="div_tab" class="tab row mx-3 mb-3" style="white-space:nowrap;">
+		
+		<a href="javascript:void(list_sel(1))"  id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Cashier list</a>
+		&nbsp;<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded">Draft</a>
+		&nbsp;<a href="javascript:void(list_sel(3))" id="lst3" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
 	
-		<a class="a_tab" id="lst-1">Find <input id="inp_user_search" onKeyPress="search_input_keypress(event);" /> <input type="button" value="Go" onClick="list_sel(-1);" /></a>
+		<div class="form-inline">
+			<a class="a_tab" id="lst-1"><b>&nbsp;Find</b> <input class="form-control" id="inp_user_search" onKeyPress="search_input_keypress(event);" /> <input class="btn btn-primary" type="button" value="Go" onClick="list_sel(-1);" /></a>
+		</div>
 		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 	</div>
 	<div id="div_container" style="border:1px solid #000" class="stdframe">

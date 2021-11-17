@@ -227,151 +227,194 @@ function do_submit(mode){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li>{$e}</li>
-	    {/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul style="color:red;">
+			{foreach from=$err item=e}
+				<li>{$e}</li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
-{if !$no_header_footer}
+<div class="card mx-3">
+	<div class="card-body">
+		{if !$no_header_footer}
 
-<div class="noprint stdframe" style="background:#fff;">
+<div class="noprint stdframe" >
 <form name="f_d">
 	<input type="hidden" name="a" value="show_report" />
 	<input type="hidden" name="type" value="{$form.type}">
-	{if $BRANCH_CODE eq 'HQ'}
-	    <b>Branch</b>
-		<select name="branch_id" onChange="check_use_grn();">
-	    	<option value="">-- All --</option>
-	    	{foreach from=$branches key=bid item=b}
-	    	    {if !$branch_group_list.have_group.$bid}
-	    	    	<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
-				{/if}
-	    	{/foreach}
-	    	{if $branch_group_list.group}
-				<optgroup label="Branches Group">
-					{foreach from=$branch_group_list.group key=bgid item=bg}
-						<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
-						{foreach from=$bg.itemList item=r}
-							<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;{$r.code} - {$r.description}</option>
+
+	<div class="row">
+		<div class="col-md-4">
+			{if $BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Branch</b>
+			<select class="form-control" name="branch_id" onChange="check_use_grn();">
+				<option value="">-- All --</option>
+				{foreach from=$branches key=bid item=b}
+					{if !$branch_group_list.have_group.$bid}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code} - {$b.description}</option>
+					{/if}
+				{/foreach}
+				{if $branch_group_list.group}
+					<optgroup label="Branches Group">
+						{foreach from=$branch_group_list.group key=bgid item=bg}
+							<option class="bg" value="{$bgid*-1}"{if $smarty.request.branch_id eq ($bgid*-1)}selected {/if}>{$bg.code}</option>
+							{foreach from=$bg.itemList item=r}
+								<option class="bg_item" value="{$r.branch_id}" {if $smarty.request.branch_id eq $r.branch_id}selected {/if}>{$r.code} - {$r.description}</option>
+							{/foreach}
 						{/foreach}
-					{/foreach}
-				</optgroup>
-	    	{/if}
-			{* if $config.consignment_modules && $config.masterfile_branch_region}
-				<optgroup label='Region'>
-					{foreach from=$config.masterfile_branch_region key=type item=f}
-						{if ($sessioninfo.regions && $sessioninfo.regions.$type) || !$sessioninfo.regions}
-							{assign var=curr_type value="REGION_`$type`"}
-							<option value="REGION_{$type}" {if $smarty.request.branch_id eq $curr_type}selected {/if}>{$type|upper}</option>
-						{/if}
-					{/foreach}
-				</optgroup>
-			{/if *}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<b>Vendor</b>
-	<select name="vendor_id" onChange="check_show_by();">
-	    <option value="">-- All --</option>
-	    {foreach from=$vendors item=r}
-	        <option value="{$r.id}" {if $smarty.request.vendor_id eq $r.id}selected {/if}>{$r.description}</option>
-	    {/foreach}
-	</select>&nbsp;&nbsp;
-	
-	<b>SKU Type</b>
-	<select name="sku_type">
-		<option value="">-- All --</option>
-		{foreach from=$sku_type item=t}
-		    <option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;
-	
-	<b>Sort by</b>
-	<select name="sort_by" onChange="change_sort_by();">
-	    <option id="opt_reset_sort_by" value="">--</option>
-	    {foreach from=$sort_arr key=k item=s}
-	        <option id="opt_sort_by_{$k}" class="class_sort_by" value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$s}</option>
-	    {/foreach}
-	</select>
-	<span id="span_order_by" {if !$smarty.request.sort_by}style="display:none;"{/if}>
-	    <select name="order_by">
-	        <option value="asc" {if $smarty.request.order_by eq 'asc'}selected {/if}>Ascending</option>
-	        <option value="desc" {if $smarty.request.order_by eq 'desc'}selected {/if}>Descending</option>
-	    </select>
-	</span>
-	<p>
-		<b>Blocked Item in PO:</b>
-		<select name="blocked_po">
-			<option value="">-- No Filter --</option>
-			<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
-			<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
-		</select> &nbsp;&nbsp;
-		
-		<b>Status</b>
-		<select name="status">
-			<option value="all" {if $smarty.request.status eq 'all'}selected {/if}>All</option>
-			<option value="1" {if !isset($smarty.request.a) or $smarty.request.status eq '1'}selected {/if}>Active</option>
-			<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
-		</select>
-		
-		{if $config.enable_gst}
-			&nbsp;&nbsp;
-			<span>
-				<b>Input Tax</b>
-				<select name="input_tax_filter">
-					<option value="">-- All --</option>
-					{foreach from=$input_tax_list key=rid item=r}
-						<option value="{$r.id}" {if $smarty.request.input_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
-					{/foreach}
-				</select>
-			</span>
-			&nbsp;&nbsp;
-			<span>
-				<b>Output Tax</b>
-				<select name="output_tax_filter">
-					<option value="">-- All --</option>
-					{foreach from=$output_tax_list key=rid item=r}
-						<option value="{$r.id}" {if $smarty.request.output_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
-					{/foreach}
-				</select>
-			</span>
+					</optgroup>
+				{/if}
+				{* if $config.consignment_modules && $config.masterfile_branch_region}
+					<optgroup label='Region'>
+						{foreach from=$config.masterfile_branch_region key=type item=f}
+							{if ($sessioninfo.regions && $sessioninfo.regions.$type) || !$sessioninfo.regions}
+								{assign var=curr_type value="REGION_`$type`"}
+								<option value="REGION_{$type}" {if $smarty.request.branch_id eq $curr_type}selected {/if}>{$type|upper}</option>
+							{/if}
+						{/foreach}
+					</optgroup>
+				{/if *}
+			</select>
+			
 		{/if}
-	</p>
+	
+		</div>
+	
+		<div class="col-md-4">
+			<b class="form-label">Vendor</b>
+		<select class="form-control" name="vendor_id" onChange="check_show_by();">
+			<option value="">-- All --</option>
+			{foreach from=$vendors item=r}
+				<option value="{$r.id}" {if $smarty.request.vendor_id eq $r.id}selected {/if}>{$r.description}</option>
+			{/foreach}
+		</select>
+		</div>
+		
+		<div class="col-md-4">
+			<b class="form-label">SKU Type</b>
+		<select class="form-control" name="sku_type">
+			<option value="">-- All --</option>
+			{foreach from=$sku_type item=t}
+				<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
+			{/foreach}
+		</select>
+		</div>
+		
+		<div class="col-md-4">
+			<b class="form-label">Sort by</b>
+		<select class="form-control" name="sort_by" onChange="change_sort_by();">
+			<option id="opt_reset_sort_by" value="">--</option>
+			{foreach from=$sort_arr key=k item=s}
+				<option id="opt_sort_by_{$k}" class="class_sort_by" value="{$k}" {if $smarty.request.sort_by eq $k}selected {/if}>{$s}</option>
+			{/foreach}
+		</select>
+		<span id="span_order_by" {if !$smarty.request.sort_by}style="display:none;"{/if}>
+			<select class="form-control" name="order_by">
+				<option value="asc" {if $smarty.request.order_by eq 'asc'}selected {/if}>Ascending</option>
+				<option value="desc" {if $smarty.request.order_by eq 'desc'}selected {/if}>Descending</option>
+			</select>
+		</span>
+		</div>
+		 
+			<div class="col-md-4">
+				<b class="form-label">Blocked Item in PO:</b>
+			<select class="form-control" name="blocked_po">
+				<option value="">-- No Filter --</option>
+				<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
+				<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
+			</select> 
+			</div>
+			
+			<div class="col-md-4">
+				<b class="form-label">Status</b>
+			<select class="form-control" name="status">
+				<option value="all" {if $smarty.request.status eq 'all'}selected {/if}>All</option>
+				<option value="1" {if !isset($smarty.request.a) or $smarty.request.status eq '1'}selected {/if}>Active</option>
+				<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
+			</select>
+			</div>
+			
+			{if $config.enable_gst}
+				
+				<div class="col-md-4">
+					<span>
+						<b class="form-label">Input Tax</b>
+						<select class="form-control" name="input_tax_filter">
+							<option value="">-- All --</option>
+							{foreach from=$input_tax_list key=rid item=r}
+								<option value="{$r.id}" {if $smarty.request.input_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+				
+				<div class="col-md-4">
+					<span>
+						<b class="form-label">Output Tax</b>
+						<select class="form-control" name="output_tax_filter">
+							<option value="">-- All --</option>
+							{foreach from=$output_tax_list key=rid item=r}
+								<option value="{$r.id}" {if $smarty.request.output_tax_filter eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
+							{/foreach}
+						</select>
+					</span>
+				</div>
+	
+		{/if}
+	</div>
 	<p>
 		{include file='category_autocomplete.tpl' all=true}
 	</p>
-	<p>
-		<b>Date</b>
-		<input type="text" name="date" value="{$smarty.request.date}" id="added1" readonly="1" size="12"> <img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select a Date">
-		&nbsp;
-		&nbsp;&nbsp;
+	<div class="row">
+			<div class="col-md-4">
+				<b class="form-label">Date</b>
+			<div class="form-inline">
+				<input class="form-control" type="text" name="date" value="{$smarty.request.date}" id="added1" readonly="1" size="23"> 
+				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select a Date">
+			</div>
+			
+			</div>
+			
+			<div class="col-md-4">
+				<b class="form-label">Show by</b>
+			<select class="form-control" name="show_by" onchange="change_sort_by_select();">
+				<option id="show_by_cat" value="cat" {if $smarty.request.show_by eq 'cat'}selected {/if}>Category</option>
+				<option id="show_by_vendor" value="vendor" {if $smarty.request.show_by eq 'vendor'}selected {/if}>Vendor</option>
+				<option id="show_by_branch" style="display:none" value="branch" {if $smarty.request.show_by eq 'branch'}selected {/if}>Branch</option>
+			</select>
+			</div>
+			
+	
+		<div class="col-md-4">
+			<div class="form-label form-inline mt-4">
+				<input type="checkbox" id="use_grn" name="use_grn" {if $smarty.request.use_grn}checked{/if}> <b>&nbsp;Use GRN&nbsp;&nbsp;</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.SD_USE_GRN_INFO|escape:javascript}\n- BOM SKU will not show when Show by Vendor option is selected due to no masterfile vendor or receive vendor.')">?</a>]
 		
-		<b>Show by</b>
-		<select name="show_by" onchange="change_sort_by_select();">
-		    <option id="show_by_cat" value="cat" {if $smarty.request.show_by eq 'cat'}selected {/if}>Category</option>
-		    <option id="show_by_vendor" value="vendor" {if $smarty.request.show_by eq 'vendor'}selected {/if}>Vendor</option>
-		    <option id="show_by_branch" style="display:none" value="branch" {if $smarty.request.show_by eq 'branch'}selected {/if}>Branch</option>
-		</select>
-		&nbsp;&nbsp;
+				{if $config.sku_listing_show_hq_cost and $sessioninfo.privilege.SHOW_COST and $BRANCH_CODE eq 'HQ'}
+					<b>&nbsp;HQ Cost&nbsp;</b>
+					<input type="checkbox" id="hq_cost" name="hq_cost" {if $smarty.request.hq_cost eq 'on'}checked {/if}>
+				{/if}
+			</div>
+		</div>
+		
+	</div>
 
-		<input type="checkbox" id="use_grn" name="use_grn" {if $smarty.request.use_grn}checked{/if}> <b>Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.SD_USE_GRN_INFO|escape:javascript}\n- BOM SKU will not show when Show by Vendor option is selected due to no masterfile vendor or receive vendor.')">?</a>]
-&nbsp;&nbsp;
-		{if $config.sku_listing_show_hq_cost and $sessioninfo.privilege.SHOW_COST and $BRANCH_CODE eq 'HQ'}
-			<b>HQ Cost</b>
-			<input type="checkbox" id="hq_cost" name="hq_cost" {if $smarty.request.hq_cost eq 'on'}checked {/if}>
-		{/if}
-	</p>
 	<p>
-		<button name="a" value="show_report">Show Report</button>
+		<button name="a" class="btn btn-primary mt-2" value="show_report">Show Report</button>
 		<!--<input type=hidden name=submit value=1>-->
 		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-			<button name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+			<button name="a" class="btn btn-info mt-2" value="output_excel">{#OUTPUT_EXCEL#}</button>
 		{/if}
-		<input type="button" onclick="do_print()" value="Print">
+		<input type="button" class="btn btn-primary mt-2" onclick="do_print()" value="Print">
 	</p>
 </form>
 <script>
@@ -380,15 +423,18 @@ change_sort_by_select();
 </script>
 </div>
 
-<br />
 {/if}
 
-<ul>
-	<li> <span class="got_sc">*</span> = Got Stock Check</li>
-	<li> <span class="not_up_to_date">*</span> = Not Up-to-date</li>
-	<li> Closing Balance's Value = Cost * Qty.</li>
-	<li> Closing Balance's Sales Value = Selling Price * Qty.</li>
-</ul>
+<div class="alert alert-primary rounded mt-2">
+	<ul>
+		<li> <span class="got_sc">*</span> = Got Stock Check</li>
+		<li> <span class="not_up_to_date">*</span> = Not Up-to-date</li>
+		<li> Closing Balance's Value = Cost * Qty.</li>
+		<li> Closing Balance's Sales Value = Selling Price * Qty.</li>
+	</ul>
+</div>
+	</div>
+</div>
 
 {if !$table}
 	{if $smarty.request.subm}<p>No Data</p>{/if}
@@ -407,39 +453,45 @@ change_sort_by_select();
 	{/if}
 	
 
-	<table width="100%" class="report_table" id="tbl_report">
-		<thead>		
-		    <tr class="header">
-				<th rowspan="2">{if $smarty.request.show_by eq 'vendor'}Vendor{elseif $smarty.request.show_by eq 'branch'}Branch{else}Category{/if}</th>
-				{if $got_range_sc}
-					<th rowspan="2">Stock Take<br />Adjust</th>
-				{/if}
-				<th colspan="{$colspan}">Closing Balance by last cost</th>
-		    </tr>
-		    <tr class="header">
-				{if $got_closing_sc}
-					<th>Stock Take Adjust</th>
-				{/if}
-		        <th>Qty</th>
-				{if $sessioninfo.privilege.SHOW_COST}
-					<th>Value</th>
-				{/if}
-				<th>Sales Value</th>
-		    </tr>
-	    </thead>
-	    {include file='report.closing_stock.row.tpl'}
-	    <tr class="header">
-	        <th class="r">Total</th>
-			{if $got_closing_sc}
-				<th class="r">{$total.sc_adj_to|qty_nf}</th>
-			{/if}
-	        <th class="r">{$total.sb_to|qty_nf}</th>
-   			{if $sessioninfo.privilege.SHOW_COST}
-	        	<th class="r">{$total.sb_to_val|number_format:$config.global_cost_decimal_points}</th>
-	        {/if}
-			<th class="r">{$total.sales_value_to|number_format:2}</th>			
-	    </tr>
-	</table>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table width="100%" class="report_table table mb-0 text-md-nowrap  table-hover" id="tbl_report">
+					<thead class="bg-gray-100">		
+						<tr class="header">
+							<th rowspan="2">{if $smarty.request.show_by eq 'vendor'}Vendor{elseif $smarty.request.show_by eq 'branch'}Branch{else}Category{/if}</th>
+							{if $got_range_sc}
+								<th rowspan="2">Stock Take<br />Adjust</th>
+							{/if}
+							<th colspan="{$colspan}">Closing Balance by last cost</th>
+						</tr>
+						<tr class="header">
+							{if $got_closing_sc}
+								<th>Stock Take Adjust</th>
+							{/if}
+							<th>Qty</th>
+							{if $sessioninfo.privilege.SHOW_COST}
+								<th>Value</th>
+							{/if}
+							<th>Sales Value</th>
+						</tr>
+					</thead>
+					{include file='report.closing_stock.row.tpl'}
+					<tr class="header">
+						<th class="r">Total</th>
+						{if $got_closing_sc}
+							<th class="r">{$total.sc_adj_to|qty_nf}</th>
+						{/if}
+						<th class="r">{$total.sb_to|qty_nf}</th>
+						   {if $sessioninfo.privilege.SHOW_COST}
+							<th class="r">{$total.sb_to_val|number_format:$config.global_cost_decimal_points}</th>
+						{/if}
+						<th class="r">{$total.sales_value_to|number_format:2}</th>			
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

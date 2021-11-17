@@ -87,80 +87,114 @@ var POS_EJOURNAL = {
 }
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
-<form name="f_a" class="stdframe" method="post">
-    <input type="hidden" name="a" value="load_data">
-	<input type="hidden" name="type" value="">
-	<input type="hidden" name="form_submit" value="1">
-	<input type="hidden" name="branch_id" value="">
-	<input type="hidden" name="counter_id" value="">
-	<input type="hidden" name="date" value="">
-    <table>
-        <tr>
-            <th>Counter</th>
-            <td>
-                <select name="counters">
-					{if $BRANCH_CODE == 'HQ'}
-						<option value="">-- All --</option>
-					{/if}
-                    {foreach from=$counters item=r}
-                        {capture assign=counter_all}{$r.branch_id}|all{/capture}
-                        {capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
-                        {if $last_bid ne $r.branch_id}
-                            <option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
-                            {assign var=last_bid value=$r.branch_id}
-                        {/if}
-                        <option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r.network_name}</option>
-                    {/foreach}
-                </select>&nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <th>From</th>
-            <td>
-                <input size=10 type=text name=date_from value="{$form.date_from}" id="date_from" readonly>
-                <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">&nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <th>To</th>
-            <td>
-                <input size=10 type=text name=date_to value="{$form.date_to}" id="date_to" readonly>
-                <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
-            </td>
-        </tr>
-    </table>
-    <br>
-    <input type="button" onclick="POS_EJOURNAL.show_report();" value="Show Report"/>&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" onclick="POS_EJOURNAL.download_report();" value="Download All"/>
-    <br><br>
-    <ul>
-        <li>Report maximum show 30 days of transaction only.</li>
-    </ul>
-</form>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" class="stdframe" method="post">
+			<input type="hidden" name="a" value="load_data">
+			<input type="hidden" name="type" value="">
+			<input type="hidden" name="form_submit" value="1">
+			<input type="hidden" name="branch_id" value="">
+			<input type="hidden" name="counter_id" value="">
+			<input type="hidden" name="date" value="">
+			<table>
+				<tr>
+					<th class="form-label mt-2">Counter&nbsp;</th>
+					<td>
+						<select class="form-control" name="counters">
+							{if $BRANCH_CODE == 'HQ'}
+								<option value="">-- All --</option>
+							{/if}
+							{foreach from=$counters item=r}
+								{capture assign=counter_all}{$r.branch_id}|all{/capture}
+								{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
+								{if $last_bid ne $r.branch_id}
+									<option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
+									{assign var=last_bid value=$r.branch_id}
+								{/if}
+								<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>{$r.network_name}</option>
+							{/foreach}
+						</select>
+					</td>
+					<th class="form-label mt-2">&nbsp;From&nbsp;</th>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" size=22 type=text name=date_from value="{$form.date_from}" id="date_from" readonly>
+						&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+						</div>
+					</td>
+					<th class="form-label mt-2">&nbsp;To&nbsp;</th>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" size=22 type=text name=date_to value="{$form.date_to}" id="date_to" readonly>
+						&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">  
+						</div>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<input class="btn btn-primary" type="button" onclick="POS_EJOURNAL.show_report();" value="Show Report"/>
+			<input class="btn btn-info" type="button" onclick="POS_EJOURNAL.download_report();" value="Download All"/>
+			<br><br>
+			<div class="alert alert-primary rounded mt-2" style="max-width: 400px;">
+				<ul style="list-style-type: none;">
+					<li>Report maximum show 30 days of transaction only.</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+</div>
 <br>
 {if $item_list}
 	{foreach from=$item_list item=i name=p}
-		<h3>Branch: {$i.branch_code}&nbsp;&nbsp;&nbsp;&nbsp; Counter: {$i.counter_name}</h3>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+					Branch: {$i.branch_code} Counter: {$i.counter_name}
+				</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 		<p>
 			<a href="javascript:void(POS_EJOURNAL.toggle_group_info({$i.branch_id}, {$i.counter_id}, 'expand'))"><img src="/ui/expand.gif" title="Expand All"> Expand All</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 			<a href="javascript:void(POS_EJOURNAL.toggle_group_info({$i.branch_id}, {$i.counter_id}, 'collapse'))"><img src="/ui/collapse.gif" title="Collapse All" class="clickable"> Collapse All</a>
 			<button style="float: right;width: 100px;margin-right: 5px" onClick="POS_EJOURNAL.download_report('{$i.branch_id}', '{$i.counter_id}')">Download All</button>
 		</p>
-		<table class="report_table" style="border-collapse: collapse" width="100%">
-		{foreach from=$i.info key=k item=r name=c}
-			<tr class="header">
-				<td style="border-right: none;">
-					{assign var=date value=$k|replace:"-":""}
-					{assign var=d value=$k}
-					<b>{$k}</b>
-					&nbsp;<img {if $smarty.foreach.p.iteration ne 1 or $smarty.foreach.c.iteration ne 1}src="/ui/expand.gif"{else}src="/ui/collapse	.gif"{/if} class="group_button_{$i.branch_id}_{$i.counter_id}" id="button_{$i.branch_id}_{$i.counter_id}_{$date}" onClick="POS_EJOURNAL.toggle_info({$i.branch_id}, {$i.counter_id}, {$date})" title="Show Detail">
-				</td>
-				<td style="border-left: none;">
-					<button style="float: right;width: 100px" onClick="POS_EJOURNAL.download_report('{$i.branch_id}', '{$i.counter_id}', '{$d}')">Download</button>
-				</td>
-			</tr>
-			<tr class="info group_info_{$i.branch_id}_{$i.counter_id}" id="info_{$i.branch_id}_{$i.counter_id}_{$date}" style="{if $smarty.foreach.p.iteration ne 1 or $smarty.foreach.c.iteration ne 1}display: none;{/if}background-color: whitesmoke;">
-				<td colspan="2"><pre>{$r|escape:'html'}</pre></td>
-			</tr>
-		{/foreach}
-		</table>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="report_table" style="border-collapse: collapse" width="100%">
+						{foreach from=$i.info key=k item=r name=c}
+							<thead class="bg-gray-100">
+								<tr class="header">
+									<td style="border-right: none;">
+										{assign var=date value=$k|replace:"-":""}
+										{assign var=d value=$k}
+										<b>{$k}</b>
+										&nbsp;<img {if $smarty.foreach.p.iteration ne 1 or $smarty.foreach.c.iteration ne 1}src="/ui/expand.gif"{else}src="/ui/collapse	.gif"{/if} class="group_button_{$i.branch_id}_{$i.counter_id}" id="button_{$i.branch_id}_{$i.counter_id}_{$date}" onClick="POS_EJOURNAL.toggle_info({$i.branch_id}, {$i.counter_id}, {$date})" title="Show Detail">
+									</td>
+									<td style="border-left: none;">
+										<button style="float: right;width: 100px" onClick="POS_EJOURNAL.download_report('{$i.branch_id}', '{$i.counter_id}', '{$d}')">Download</button>
+									</td>
+								</tr>
+							</thead>
+							<tbody class="fs-08">
+								<tr class="info group_info_{$i.branch_id}_{$i.counter_id}" id="info_{$i.branch_id}_{$i.counter_id}_{$date}" style="{if $smarty.foreach.p.iteration ne 1 or $smarty.foreach.c.iteration ne 1}display: none;{/if}background-color: whitesmoke;">
+									<td colspan="2"><pre>{$r|escape:'html'}</pre></td>
+								</tr>
+							</tbody>
+						{/foreach}
+						</table>
+				</div>
+			</div>
+		</div>
 		<br>
 	{/foreach}
 {else}

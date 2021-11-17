@@ -261,14 +261,22 @@ function show_sc_date(k){
 {/literal}
 {/if}
 <div class="noprint">
-<h1>{$PAGE_TITLE}</h1>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="noscreen">
 <h2>{$p_branch.description}<br>{$title}</h2>
 </div>
-{if !$no_header_footer}
-<div class="noprint stdframe" style="background:#fff;">
+<div class="card mx-3">
+	<div class="card-body">
+		{if !$no_header_footer}
+<div class="noprint stdframe" >
 
 {assign var=got_sc value=0}
 
@@ -278,82 +286,96 @@ function show_sc_date(k){
 <input type="hidden" name="show_export_csv" value="{$smarty.request.show_export_csv}" />
 
 <p>
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id" onChange="chk_filter();">
-	{section name=i loop=$branch}
-	<option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{/if}>{$branch[i].code}</option>
-	{/section}
-	</select> &nbsp;&nbsp;
-{/if}
 
-<b>Vendor</b>
-<select name=vendor_id onchange="chk_filter();" id="vendor_id">
-<option value="">-- All --</option>
-{section name=i loop=$vendor}
-<option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
-{/section}
-</select> &nbsp;&nbsp;
+		<div class="row">
+			<div class="col-md-3">
+				{if $BRANCH_CODE eq 'HQ'}
+				<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id" onChange="chk_filter();">
+				{section name=i loop=$branch}
+				<option value="{$branch[i].id}" {if $smarty.request.branch_id eq $branch[i].id}selected{/if}>{$branch[i].code}</option>
+				{/section}
+				</select>
+			{/if}
+			</div>
+	
+			<div class="col-md-3">
+				<b class="form-label">Vendor</b>
+			<select class="form-control" name=vendor_id onchange="chk_filter();" id="vendor_id">
+			<option value="">-- All --</option>
+			{section name=i loop=$vendor}
+			<option value="{$vendor[i].id}" {if $smarty.request.vendor_id eq $vendor[i].id}selected{assign var=_vd value=`$vendor[i].description`}{/if}>{$vendor[i].description}</option>
+			{/section}
+			</select>
+			</div>
+	
+			<div class="col-md-3">
+					<b class="form-label">Brand</b>
+				<select class="form-control" name="brand_id">
+				<option value=''>-- All --</option>
+				<option value=0>UN-BRANDED</option>
+				
+	
+				{if $brand_groups}
+				<optgroup label="Brand Group">
+					{foreach from=$brand_groups key=bgk item=bgv}
+					<option value="{$bgk}" {if $smarty.request.brand_id eq $bgk}selected{/if}>{$bgv}</option>
+					{/foreach}
+				</optgroup>
+				{/if}
+	
+				{if $brand}
+				<optgroup label="Brand">
+				{section name=i loop=$brand}
+				<option value="{$brand[i].id}" {if $smarty.request.brand_id eq $brand[i].id}selected{/if}>{$brand[i].description}</option>
+				{/section}
+				</optgroup>
+				{/if}
+				</select> 
+			</div>
+	
+			<div class="col-md-3">
+				<b class="form-label">SKU Type</b>
+			<select class="form-control" name="sku_type">
+				<option value="">-- All --</option>
+				{foreach from=$sku_type item=t}
+					<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
+				{/foreach}
+			</select>
+			</div>
+	
+			<div class="col-md-3">
+				<b class="form-label">Sort by</b>
+			<select class="form-control" name="sort_by">
+				<option value="">--</option>
+				<option value="sku_item_code" {if $smarty.request.sort_by eq 'sku_item_code'}selected {/if}>ARMS Code</option>
+				<option value="artno" {if $smarty.request.sort_by eq 'artno'}selected {/if}>Art No</option>
+				<option value="mcode" {if $smarty.request.sort_by eq 'mcode'}selected {/if}>MCode</option>
+				<option value="linkcode" {if $smarty.request.sort_by eq 'linkcode'}selected {/if}>CM Code</option>
+				<option value="description" {if $smarty.request.sort_by eq 'description'}selected {/if}>Description</option>
+			</select>
+			</div>
+		
 
-<b>Brand</b>
-<select name="brand_id">
-<option value=''>-- All --</option>
-<option value=0>UN-BRANDED</option>
-
-{if $brand_groups}
-<optgroup label="Brand Group">
-	{foreach from=$brand_groups key=bgk item=bgv}
-	<option value="{$bgk}" {if $smarty.request.brand_id eq $bgk}selected{/if}>{$bgv}</option>
-	{/foreach}
-</optgroup>
-{/if}
-
-{if $brand}
-<optgroup label="Brand">
-{section name=i loop=$brand}
-<option value="{$brand[i].id}" {if $smarty.request.brand_id eq $brand[i].id}selected{/if}>{$brand[i].description}</option>
-{/section}
-</optgroup>
-{/if}
-</select> &nbsp;&nbsp;
-
-<b>SKU Type</b>
-<select name="sku_type">
-	<option value="">-- All --</option>
-	{foreach from=$sku_type item=t}
-	    <option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
-	{/foreach}
-</select>
-
-&nbsp;&nbsp;
-
-<b>Sort by</b>
-<select name="sort_by">
-	<option value="">--</option>
-	<option value="sku_item_code" {if $smarty.request.sort_by eq 'sku_item_code'}selected {/if}>ARMS Code</option>
-    <option value="artno" {if $smarty.request.sort_by eq 'artno'}selected {/if}>Art No</option>
-    <option value="mcode" {if $smarty.request.sort_by eq 'mcode'}selected {/if}>MCode</option>
-    <option value="linkcode" {if $smarty.request.sort_by eq 'linkcode'}selected {/if}>CM Code</option>
-    <option value="description" {if $smarty.request.sort_by eq 'description'}selected {/if}>Description</option>
-</select>
-</p>
-
-<p>
-	<b>Blocked Item in PO:</b>
-	<select name="blocked_po">
+	<div class="col-md-3">
+		<b class="form-label">Blocked Item in PO:</b>
+	<select class="form-control" name="blocked_po">
 		<option value="">-- No Filter --</option>
 		<option value="yes" {if $smarty.request.blocked_po eq 'yes'}selected {/if}>Yes</option>
 		<option value="no" {if $smarty.request.blocked_po eq 'no'}selected {/if}>No</option>
-	</select> &nbsp;&nbsp;
+	</select> 
+	</div>
 	
-	<b>Status</b>
-	<select name="status">
+	<div class="col-md-3">
+		<b class="form-label">Status</b>
+	<select class="form-control" name="status">
 		<option value="all" {if $smarty.request.status eq 'all'}selected {/if}>All</option>
 		<option value="1" {if !isset($smarty.request.a) or $smarty.request.status eq '1'}selected {/if}>Active</option>
 		<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Inactive</option>
 	</select>
-</p>
+	</div>
 
+</div>
 <p>
 {*
 <b>Category</b>
@@ -373,43 +395,64 @@ function show_sc_date(k){
 </p>
 {if $config.enable_gst}
 <p>
-	<b>Input Tax</b>
-	<select name="input_tax">
+<div class="row">
+	<div class="col">
+		<b class="form-label">Input Tax</b>
+	<select class="form-control" name="input_tax">
 		<option value="">-- All --</option>
 		{foreach from=$input_tax_list key=rid item=r}
 			<option value="{$r.id}" {if $smarty.request.input_tax eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
 		{/foreach}
 	</select>
-	&nbsp;&nbsp;
-	<b>Output Tax</b>
-	<select name="output_tax">
+	</div>
+	
+	<div class="col">
+		<b class="form-label">Output Tax</b>
+	<select class="form-control" name="output_tax">
 		<option value="">-- All --</option>
 		{foreach from=$output_tax_list key=rid item=r}
 			<option value="{$r.id}" {if $smarty.request.output_tax eq $r.id}selected {/if}>{$r.code} ({$r.rate}%)</option>
 		{/foreach}
 	</select>
+	</div>
+</div>
 </p>
 {/if}
 <p>
-<b>Date From</b> 
-<input type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
-&nbsp; 
-<b>To</b> 
-<input type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;
+	<div class="row">
+		<div class="col">
+			<b class="form-label">Date From</b> 
+	<div class="form-inline">
+		<input class="form-control" type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=23> 
+	&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
+	</div>
+	
+		</div>
 
-<input type="checkbox" id="use_grn" name="use_grn" {if $form.use_grn}checked{/if} onChange="chk_filter();" /> <b>Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]
-&nbsp;&nbsp;
+	<div class="col">
+		<b class="form-label">To</b> 
+	<div class="form-inline">
+		<input class="form-control" type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=23> 
+	&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+	</div>
+	</div>
+	</div>
 
-<input type="checkbox" id="use_hq_grn" name="use_hq_grn" {if $form.use_hq_grn}checked{/if} onChange="chk_filter();" /> <b>Use HQ GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_HQ_GRN_INFO|escape:javascript}')">?</a>]
-&nbsp;&nbsp;
 
-<input type=checkbox id=group_by_sku name=group_by_sku {if $form.group_by_sku}checked{/if}> <b>Group By Parent SKU</b>
-&nbsp;&nbsp;
+<div class="form-label form-inline mt-2">
+	<input type="checkbox" id="use_grn" name="use_grn" {if $form.use_grn}checked{/if} onChange="chk_filter();" /> <b>&nbsp;Use GRN&nbsp;</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]&nbsp;
+
+
+<input type="checkbox" id="use_hq_grn" name="use_hq_grn" {if $form.use_hq_grn}checked{/if} onChange="chk_filter();" /> <b>&nbsp;Use HQ GRN&nbsp;</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_HQ_GRN_INFO|escape:javascript}')">?</a>]&nbsp;
+
+
+<input type=checkbox id=group_by_sku name=group_by_sku {if $form.group_by_sku}checked{/if}> <b>&nbsp;Group By Parent SKU&nbsp;</b>
+
 
 {if $config.sku_listing_show_hq_cost and $sessioninfo.privilege.SHOW_COST and $BRANCH_CODE eq 'HQ'}
-<input type=checkbox id=hq_cost name=hq_cost {if $form.hq_cost}checked{/if}> <b>HQ Cost</b>
-&nbsp;&nbsp;
+<input type=checkbox id=hq_cost name=hq_cost {if $form.hq_cost}checked{/if}> <b>&nbsp;HQ Cost&nbsp;</b>
+</div>
+
 {/if}
 </p>
 <p>
@@ -419,9 +462,9 @@ function show_sc_date(k){
 {/if}
 <!--<input type=hidden name=submit value=1>-->
 {if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" name=a value=output_excel onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
+	<button class="btn btn-info" name=a value=output_excel onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
 	{if $sessioninfo.privilege.SHOW_COST}
-		<button class="btn btn-primary" name=a value=output_excel onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
+		<button class="btn btn-info" name=a value=output_excel onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
 	{/if}
 {/if}
 <input class="btn btn-primary" type=button onclick="do_print()" value="Print">
@@ -437,26 +480,30 @@ function show_sc_date(k){
 {/if}
 {if $msg}<p style="color:red">{$msg}</p>{/if}
 
-<ul>
-	<li> Items with zero Opening Balance, Qty in Hand and Closing Balance will not be displayed.</li>
-	<li> <sup>1</sup> The value is from closing date.</li>
-	<li> <sup>2</sup> The Value is from start date.</li>
-	<li> <sup>3</sup> GP is based on Items Sold (POS column) within the selected period.</li>
-	<li> DO{if $config.consignment_modules}, CN, DN{/if} value is from closing date.</li>
-	<li> <font color="red">*</font> means cost is not the latest</li>
-	<li>
-		Opening Balance + Stock Check Adj Qty + Receiving Qty + Adj IN = Total On Hand Qty<br />
-		Total On Hand Qty - POS - GRA - DO - Adj OUT = Closing Balance.
-	</li>
-	<li>Opening / Closing Balance's Value = {if $form.group_by_sku}AVG {/if}Cost * Qty</li>
-	<li>Opening / Closing Balance's Sales Value = Selling Price * Qty</li>
-	<li> Day Turnover Method:
-		<ul>
-			<li> Ratio = total sales / ((opening stock + closing stock) / 2)</li>
-			<li> Days = 365 / ratio</li>
-		</ul>
-	</li>
-</ul>
+<div class="alert alert-primary rounded" style="max-width: 600px;">
+	<ul>
+		<li> Items with zero Opening Balance, Qty in Hand and Closing Balance will not be displayed.</li>
+		<li> <sup>1</sup> The value is from closing date.</li>
+		<li> <sup>2</sup> The Value is from start date.</li>
+		<li> <sup>3</sup> GP is based on Items Sold (POS column) within the selected period.</li>
+		<li> DO{if $config.consignment_modules}, CN, DN{/if} value is from closing date.</li>
+		<li> <font color="red">*</font> means cost is not the latest</li>
+		<li>
+			Opening Balance + Stock Check Adj Qty + Receiving Qty + Adj IN = Total On Hand Qty<br />
+			Total On Hand Qty - POS - GRA - DO - Adj OUT = Closing Balance.
+		</li>
+		<li>Opening / Closing Balance's Value = {if $form.group_by_sku}AVG {/if}Cost * Qty</li>
+		<li>Opening / Closing Balance's Sales Value = Selling Price * Qty</li>
+		<li> Day Turnover Method:
+			<ul>
+				<li> Ratio = total sales / ((opening stock + closing stock) / 2)</li>
+				<li> Days = 365 / ratio</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+	</div>
+</div>
 
 {assign var=item_per_page value=$config.stock_balance_item_per_page|ifzero:20}
 {capture assign=HEADER}

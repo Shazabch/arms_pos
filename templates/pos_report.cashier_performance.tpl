@@ -203,7 +203,13 @@ function toggle_filter(ele){
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <!-- overall Details -->
 <div id="div_details" style="display:none;width:1100px;height:450px;" class="curtain_popup">
@@ -229,54 +235,77 @@ function toggle_filter(ele){
 </div>
 <!-- End of Item Details-->
 
-<form method="post" name="myForm" class="form stdframe">
-<input type="hidden" name="load_report" value="1" />
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch:</b>
-	<select name="branch_id">
-	    <option value="">-- All --</option>
-		{foreach from=$branches key=bid item=r}
-		    <option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$r.code} - {$r.description}</option>
-		{/foreach}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Cashier</b> <select name="user_id">
-	<option value="">-- All --</option>
-	{foreach from=$cashier key=cid item=r}
-	    <option value="{$cid}" {if $smarty.request.user_id eq $cid}selected {/if}>{$r.u}</option>
-	{/foreach}
-</select>
-
-<p>
-<fieldset id="fset_filter">
-	<legend><b>Filter</b></legend>
-	<input type="checkbox" id="all_id" onChange="toggle_filter(this);" /> <label for="all_id">All</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="checkbox" class="inp_filter" name="filter_item_discount" id="filter_item_discount_id" value="1" {if $smarty.request.filter_item_discount}checked {/if} /> <label for="filter_item_discount_id">Item Discount</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="checkbox" class="inp_filter" name="filter_cancel_bill" id="filter_cancel_bill_id" value="1" {if $smarty.request.filter_cancel_bill}checked {/if} /> <label for="filter_cancel_bill_id">Cancel Bills</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="checkbox" class="inp_filter" name="filter_goods_return" id="filter_goods_return_id" value="1" {if $smarty.request.filter_goods_return}checked {/if} /> <label for="filter_goods_return_id">Goods Return</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="checkbox" class="inp_filter" name="filter_open_price" id="filter_open_price_id" value="1" {if $smarty.request.filter_open_price}checked {/if} /> <label for="filter_open_price_id">Open Price</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="checkbox" class="inp_filter" name="filter_receipt_discount" id="filter_receipt_discount_id" value="1" {if $smarty.request.filter_receipt_discount}checked {/if} /> <label for="filter_receipt_discount_id">Receipt Discount</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-	{*{if $config.enable_mix_and_match_promotion}{/if}*}
-	<input type="checkbox" class="inp_filter" name="filter_mm_discount" id="filter_mm_discount_id" value="1" {if $smarty.request.filter_mm_discount}checked {/if} /> <label for="filter_mm_discount_id">Mix & Match Discount</label>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-</fieldset>
-</p>
-
-<input type="submit" name="submits" value="{#SHOW_REPORT#}" />
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" name="myForm" class="form stdframe">
+			<input class="form-control" type="hidden" name="load_report" value="1" />
+			<div class="row">
+				{if $BRANCH_CODE eq 'HQ'}
+				<div class="col">
+					<b class="form-label">Branch:</b>
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches key=bid item=r}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$r.code} - {$r.description}</option>
+					{/foreach}
+				</select>
+				</div>
+			{/if}
+			
+			<div class="col">
+				<b class="form-label">From</b> 
+			<div class="form-inline">
+				<input class="form-control" size=15 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+			
+			</div>
+			<div class="col">
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" size=15 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
+			
+			</div>
+			<div class="col">
+				<b class="form-label">Cashier</b> 
+			<select class="form-control" name="user_id">
+				<option value="">-- All --</option>
+				{foreach from=$cashier key=cid item=r}
+					<option value="{$cid}" {if $smarty.request.user_id eq $cid}selected {/if}>{$r.u}</option>
+				{/foreach}
+			</select>
+			</div>
+			</div>
+			
+			<p>
+			<fieldset id="fset_filter">
+				<legend><b class="form-label">Filter</b></legend>
+				<div class="form-label">
+					<input type="checkbox" id="all_id" onChange="toggle_filter(this);" /> <label for="all_id">All</label>
+				
+				<input type="checkbox" class="inp_filter" name="filter_item_discount" id="filter_item_discount_id" value="1" {if $smarty.request.filter_item_discount}checked {/if} /> <label for="filter_item_discount_id">Item Discount</label>
+				
+				<input type="checkbox" class="inp_filter" name="filter_cancel_bill" id="filter_cancel_bill_id" value="1" {if $smarty.request.filter_cancel_bill}checked {/if} /> <label for="filter_cancel_bill_id">Cancel Bills</label>
+				
+				<input type="checkbox" class="inp_filter" name="filter_goods_return" id="filter_goods_return_id" value="1" {if $smarty.request.filter_goods_return}checked {/if} /> <label for="filter_goods_return_id">Goods Return</label>
+				
+				<input type="checkbox" class="inp_filter" name="filter_open_price" id="filter_open_price_id" value="1" {if $smarty.request.filter_open_price}checked {/if} /> <label for="filter_open_price_id">Open Price</label>
+				
+				<input type="checkbox" class="inp_filter" name="filter_receipt_discount" id="filter_receipt_discount_id" value="1" {if $smarty.request.filter_receipt_discount}checked {/if} /> <label for="filter_receipt_discount_id">Receipt Discount</label>
+				
+				{*{if $config.enable_mix_and_match_promotion}{/if}*}
+				<input type="checkbox" class="inp_filter" name="filter_mm_discount" id="filter_mm_discount_id" value="1" {if $smarty.request.filter_mm_discount}checked {/if} /> <label for="filter_mm_discount_id">Mix & Match Discount</label>
+				
+				</div>
+			</fieldset>
+			</p>
+			
+			<input class="btn btn-primary" type="submit" name="submits" value="{#SHOW_REPORT#}" />
+			</form>
+	</div>
+</div>
 
 
 {if isset($smarty.request.submits)}
@@ -292,164 +321,183 @@ No data
 <span class="span_cancelled_amount">C: Cancelled Transaction</span>
 
 {foreach from=$table key=bid item=p}
-<h3>{$branches.$bid.code}: {count var=$p} cashier(s)</h3>
-<table width="100%" class="sortable report_table small_printing" id="table_{$bid}">
-<tr class="header">
-	<th rowspan="3">No.</th>
-	<th rowspan="3">Cashier Name</th>
-	<th rowspan="3">Work Day</th>
-	
-	{assign var=cols value=22}
-	{if $got_mm_discount}{assign var=cols value=$cols+2}{/if}
-	{if $show_variances}{assign var=cols value=$cols+1}{/if}
-	<th colspan="{$cols}">Total</th>
-	<th colspan="3">AVG</th>
-</tr>
-<tr class="header">
-    <th rowspan="2">Amount</th>
-    <th rowspan="2">Transaction [<a href="javascript:void(alert('Active Transaction Only'))">?</a>]</th>
-    <th colspan="2">Open Price</th>
-    <th colspan="3">Item Discount</th>
-	<th colspan="3">Receipt Discount</th>
-	{if $got_mm_discount}
-		<th colspan="2">Mix & Match Discount</th>
-	{/if}
-    <th rowspan="2">Open Drawer</th>
-    <th colspan="2">Cancelled Bills</th>
-    <th colspan="2">Prune Bills</th>
-    <th colspan="2">Delete Items</th>
-    <th rowspan="2">Goods Return</th>
-	{if $show_variances}
-		<th rowspan="2">Variance</th>
-	{/if}
-    <th colspan="2">Member Sales</th>
-    <th colspan="2">Non Member sales</th>
-    <th rowspan="2">time per-transaction [<a href="javascript:void(alert('Including Cancelled Transaction'))">?</a>]</th>
-    <th colspan="2">Daily</th>
-</tr>
-<tr class="header">
-	<!-- Open Price -->
-	<th>Allow</th>
-	<th>Count</th>
-	
-	<!-- Item Discount -->
-	<th>Allow</th>
-	<th>Count</th>
-	<th>Amt</th>
-	
-	<!-- Receipt Discount -->
-	<th>Allow</th>
-	<th>Count</th>
-	<th>Amt</th>
-	
-	<!-- Cancel Bill -->
-	<th>Allow</th>
-	<th>Count</th>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				{$branches.$bid.code}: {count var=$p} cashier(s)
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-	<!-- Prune Bill -->
-	<th>Allow</th>
-	<th>Count</th>
-	
-	<!-- Delete Items -->
-	<th>Allow</th>
-	<th>Count</th>
-	
-	<!-- Mix and match discount -->
-	{if $got_mm_discount}
-		<th>Count</th>
-		<th>Amt</th>
-	{/if}
-	<th>Transaction</th>
-	<th>Amount</th>
-	<th>Transaction</th>
-	<th>Amount</th>
-	<th>Transaction [<a href="javascript:void(alert('Including Cancelled Transaction'))">?</a>]</th>
-	<th>Amount</th>
-</tr>
-	{foreach from=$p key=cid item=r name=f}
-	    <tr class="clickable thover" onClick="load_details('{$bid}','{$cid}');">
-	        <td>{$smarty.foreach.f.iteration}</td>
-	        <td>{$r.u}
-            	{if $r.allow_open_price}<span class="allow_open_price">*</span>{/if}
-				{if $r.allow_item_discount}<span class="allow_item_discount">*</span>{/if}
-				{if $r.allow_receipt_discount}<span class="allow_receipt_discount">*</span>{/if}
-				{if $r.allow_cancelled_bill}<span class="allow_cancelled_bill">*</span>{/if}
-				{if $r.allow_deleted_items}<span class="allow_deleted_items">*</span>{/if}
-				{if $r.allow_prune_bill}<span class="allow_prune_bill">*</span>{/if}
-			</td>
-	        <td class="r">{count var=$r.day_work}</td>
-	        <td class="r" nowrap>
-				{$r.amount|number_format:2}
-				{if $r.cancelled_amount}
-					<br />
-					<span class="span_cancelled_amount small" title="Cancelled Amount: {$r.cancelled_amount|number_format:2}">C: {$r.cancelled_amount|number_format:2}</span>
-				{/if}
-			</td>
-	        <td class="r">
-				{$r.tran_count|number_format}
-			</td>
-	        
-	        <!-- Open Price-->
-	        <td class="r">{$r.allow_open_price|number_format|ifzero:'-'}</td>
-	        <td class="r">{$r.open_price|number_format|ifzero:'-'}</td>
-	        
-	        
-	        <!-- Item Discount-->
-	        <td class="r">{$r.allow_item_discount|number_format|ifzero:'-'}</td>
-	        <td class="r">{$r.item_discount|number_format|ifzero:'-'}</td>
-	        <td class="r">{$r.item_discount_amt|number_format:2|ifzero:'-'}</td>
-	        
-	        <!-- Receipt Discount-->
-	        <td class="r">{$r.allow_receipt_discount|number_format|ifzero:'-'}</td>
-	        <td class="r">{$r.receipt_discount|number_format|ifzero:'-'}</td>
-	        <td class="r">{$r.receipt_discount_amt|number_format:2|ifzero:'-'}</td>
-	        
-	        <!-- Mix and match discount -->
-	        {if $got_mm_discount}
-	        	<td class="r">{$r.mm_discount|number_format|ifzero:'-'}</td>
-	        	<td class="r">{$r.mm_discount_amt|number_format:2|ifzero:'-'}</td>
-	        {/if}
-	        
-			<!-- Open Drawer -->
-	        <td class="r">{$r.drawer_open_count|number_format}</td>
-			
-			<!-- Cancel Bills -->
-	        <td class="r">{$r.allow_cancelled_bill|number_format}</td>
-	        <td class="r">{$r.cancelled_bill|number_format}</td>
-			
-			<!-- Prune Bills -->
-	        <td class="r">{$r.allow_prune_bill|number_format}</td>
-	        <td class="r">{$r.prune_bill|number_format}</td>
-			
-			<!-- Delete Items -->
-	        <td class="r">{$r.allow_deleted_items|number_format}</td>
-	        <td class="r">{$r.deleted_items|number_format}</td>
-			
-			<!-- Goods Return -->
-	        <td class="r">{$r.total_goods_return|number_format}</td>
-			{if $show_variances}
-				<td class="r">{$r.variances|number_format:2}</td>
-			{/if}
-	        <td class="r">{$r.member_sells.qty|number_format}</td>
-	        <td class="r">{$r.member_sells.amount|number_format:2}</td>
-	        <td class="r">{$r.non_member_sells.qty|number_format}</td>
-	        <td class="r">{$r.non_member_sells.amount|number_format:2}</td>
-	        <td class="r">
-			{if $r.avg_tran_time_hour}{$r.avg_tran_time_hour} hours{/if}
-			{if $r.avg_tran_time_min}{$r.avg_tran_time_min} mins{/if}
-			{if $r.avg_tran_time_sec}{$r.avg_tran_time_sec} secs{/if}
-			</td>
-			<td class="r">{$r.avg_qty|number_format}</td>
-			<td class="r" nowrap>
-				{$r.avg_amount|number_format:2}
-				{if $r.avg_cancelled_amount}
-					<br />
-					<span class="span_cancelled_amount small" title="Cancelled Amount: {$r.avg_cancelled_amount|number_format:2}">C: {$r.avg_cancelled_amount|number_format:2}</span>
-				{/if}
-			</td>
-	    </tr>
-	{/foreach}
-</table>
+<div class="crad mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="sortable report_table small_printing" id="table_{$bid}">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th rowspan="3">No.</th>
+						<th rowspan="3">Cashier Name</th>
+						<th rowspan="3">Work Day</th>
+						
+						{assign var=cols value=22}
+						{if $got_mm_discount}{assign var=cols value=$cols+2}{/if}
+						{if $show_variances}{assign var=cols value=$cols+1}{/if}
+						<th colspan="{$cols}">Total</th>
+						<th colspan="3">AVG</th>
+					</tr>
+					<tr class="header">
+						<th rowspan="2">Amount</th>
+						<th rowspan="2">Transaction [<a href="javascript:void(alert('Active Transaction Only'))">?</a>]</th>
+						<th colspan="2">Open Price</th>
+						<th colspan="3">Item Discount</th>
+						<th colspan="3">Receipt Discount</th>
+						{if $got_mm_discount}
+							<th colspan="2">Mix & Match Discount</th>
+						{/if}
+						<th rowspan="2">Open Drawer</th>
+						<th colspan="2">Cancelled Bills</th>
+						<th colspan="2">Prune Bills</th>
+						<th colspan="2">Delete Items</th>
+						<th rowspan="2">Goods Return</th>
+						{if $show_variances}
+							<th rowspan="2">Variance</th>
+						{/if}
+						<th colspan="2">Member Sales</th>
+						<th colspan="2">Non Member sales</th>
+						<th rowspan="2">time per-transaction [<a href="javascript:void(alert('Including Cancelled Transaction'))">?</a>]</th>
+						<th colspan="2">Daily</th>
+					</tr>
+					<tr class="header">
+						<!-- Open Price -->
+						<th>Allow</th>
+						<th>Count</th>
+						
+						<!-- Item Discount -->
+						<th>Allow</th>
+						<th>Count</th>
+						<th>Amt</th>
+						
+						<!-- Receipt Discount -->
+						<th>Allow</th>
+						<th>Count</th>
+						<th>Amt</th>
+						
+						<!-- Cancel Bill -->
+						<th>Allow</th>
+						<th>Count</th>
+					
+						<!-- Prune Bill -->
+						<th>Allow</th>
+						<th>Count</th>
+						
+						<!-- Delete Items -->
+						<th>Allow</th>
+						<th>Count</th>
+						
+						<!-- Mix and match discount -->
+						{if $got_mm_discount}
+							<th>Count</th>
+							<th>Amt</th>
+						{/if}
+						<th>Transaction</th>
+						<th>Amount</th>
+						<th>Transaction</th>
+						<th>Amount</th>
+						<th>Transaction [<a href="javascript:void(alert('Including Cancelled Transaction'))">?</a>]</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+					{foreach from=$p key=cid item=r name=f}
+						<tbody class="fs-08">
+							<tr class="clickable thover" onClick="load_details('{$bid}','{$cid}');">
+								<td>{$smarty.foreach.f.iteration}</td>
+								<td>{$r.u}
+									{if $r.allow_open_price}<span class="allow_open_price">*</span>{/if}
+									{if $r.allow_item_discount}<span class="allow_item_discount">*</span>{/if}
+									{if $r.allow_receipt_discount}<span class="allow_receipt_discount">*</span>{/if}
+									{if $r.allow_cancelled_bill}<span class="allow_cancelled_bill">*</span>{/if}
+									{if $r.allow_deleted_items}<span class="allow_deleted_items">*</span>{/if}
+									{if $r.allow_prune_bill}<span class="allow_prune_bill">*</span>{/if}
+								</td>
+								<td class="r">{count var=$r.day_work}</td>
+								<td class="r" nowrap>
+									{$r.amount|number_format:2}
+									{if $r.cancelled_amount}
+										<br />
+										<span class="span_cancelled_amount small" title="Cancelled Amount: {$r.cancelled_amount|number_format:2}">C: {$r.cancelled_amount|number_format:2}</span>
+									{/if}
+								</td>
+								<td class="r">
+									{$r.tran_count|number_format}
+								</td>
+								
+								<!-- Open Price-->
+								<td class="r">{$r.allow_open_price|number_format|ifzero:'-'}</td>
+								<td class="r">{$r.open_price|number_format|ifzero:'-'}</td>
+								
+								
+								<!-- Item Discount-->
+								<td class="r">{$r.allow_item_discount|number_format|ifzero:'-'}</td>
+								<td class="r">{$r.item_discount|number_format|ifzero:'-'}</td>
+								<td class="r">{$r.item_discount_amt|number_format:2|ifzero:'-'}</td>
+								
+								<!-- Receipt Discount-->
+								<td class="r">{$r.allow_receipt_discount|number_format|ifzero:'-'}</td>
+								<td class="r">{$r.receipt_discount|number_format|ifzero:'-'}</td>
+								<td class="r">{$r.receipt_discount_amt|number_format:2|ifzero:'-'}</td>
+								
+								<!-- Mix and match discount -->
+								{if $got_mm_discount}
+									<td class="r">{$r.mm_discount|number_format|ifzero:'-'}</td>
+									<td class="r">{$r.mm_discount_amt|number_format:2|ifzero:'-'}</td>
+								{/if}
+								
+								<!-- Open Drawer -->
+								<td class="r">{$r.drawer_open_count|number_format}</td>
+								
+								<!-- Cancel Bills -->
+								<td class="r">{$r.allow_cancelled_bill|number_format}</td>
+								<td class="r">{$r.cancelled_bill|number_format}</td>
+								
+								<!-- Prune Bills -->
+								<td class="r">{$r.allow_prune_bill|number_format}</td>
+								<td class="r">{$r.prune_bill|number_format}</td>
+								
+								<!-- Delete Items -->
+								<td class="r">{$r.allow_deleted_items|number_format}</td>
+								<td class="r">{$r.deleted_items|number_format}</td>
+								
+								<!-- Goods Return -->
+								<td class="r">{$r.total_goods_return|number_format}</td>
+								{if $show_variances}
+									<td class="r">{$r.variances|number_format:2}</td>
+								{/if}
+								<td class="r">{$r.member_sells.qty|number_format}</td>
+								<td class="r">{$r.member_sells.amount|number_format:2}</td>
+								<td class="r">{$r.non_member_sells.qty|number_format}</td>
+								<td class="r">{$r.non_member_sells.amount|number_format:2}</td>
+								<td class="r">
+								{if $r.avg_tran_time_hour}{$r.avg_tran_time_hour} hours{/if}
+								{if $r.avg_tran_time_min}{$r.avg_tran_time_min} mins{/if}
+								{if $r.avg_tran_time_sec}{$r.avg_tran_time_sec} secs{/if}
+								</td>
+								<td class="r">{$r.avg_qty|number_format}</td>
+								<td class="r" nowrap>
+									{$r.avg_amount|number_format:2}
+									{if $r.avg_cancelled_amount}
+										<br />
+										<span class="span_cancelled_amount small" title="Cancelled Amount: {$r.avg_cancelled_amount|number_format:2}">C: {$r.avg_cancelled_amount|number_format:2}</span>
+									{/if}
+								</td>
+							</tr>
+						</tbody>
+					{/foreach}
+				</table>
+		</div>
+	</div>
+</div>
 {/foreach}
 {/if}
 {/if}

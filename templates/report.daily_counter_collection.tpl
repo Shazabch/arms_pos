@@ -117,269 +117,320 @@ function get_counter_name(val){
 </script>
 {/if}
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}</li>
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a" onSubmit="return view_type_check();">
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a" onSubmit="return view_type_check();">
 
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id" id="branch_id" onchange='get_counter_name(this.value)'>
-		<option value='all' {if $smarty.request.branch_id eq 'all'}selected{/if}>- All -</option>
-	    {foreach from=$branches item=b}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	    {/foreach}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{else}
-	<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
-{/if}
-
-<span id="span_counter" {if (!$smarty.request.branch_id || $smarty.request.branch_id eq 'all') && $BRANCH_CODE eq 'HQ'}style="display:none;"{/if}>
-	<b>Counter</b>
-	<span id="counter_id">
-	<select name="counter_id" >
-		{if !$counters}
-			<option value=''>No Data</option>
-		{else}
-			{foreach name=counter_total from=$counters item=c}
-			{/foreach}
-
-			{if $smarty.foreach.counter_total.total >1 }
-				<option value='all'>- All -</option>
-			{/if}
-			{foreach from=$counters item=c}
-				<option value="{$c.counter_id}" {if $smarty.request.counter_id eq $c.counter_id}selected {/if}>{$c.network_name}</option>
-			{/foreach}
-		{/if}
-	</select>
-	</span>&nbsp;&nbsp;&nbsp;&nbsp;
-</span>
-
-<b>Date</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}{$form.from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}{$form.to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
-<span id="span_split_counter" {if (!$smarty.request.branch_id || $smarty.request.branch_id eq 'all') && $BRANCH_CODE eq 'HQ'}style="display:none;"{/if}>
-	<input id="split_counter_id" name="split_counter" type="checkbox" value=1 {if $smarty.request.split_counter}checked {/if}> <label for="split_counter_id"><b>Split by counter</b></label>
-</span>
-
-<p>
-	<input type="hidden" name="submit" value="1" />
-	<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-	{/if}
-</p>
-</form>
+			<div class="row">
+				<div class="col-md-4">
+					{if $BRANCH_CODE eq 'HQ'}
+					<b class="form-label">Branch</b>
+					<select class="form-control" name="branch_id" id="branch_id" onchange='get_counter_name(this.value)'>
+						<option value='all' {if $smarty.request.branch_id eq 'all'}selected{/if}>- All -</option>
+						{foreach from=$branches item=b}
+							<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+						{/foreach}
+					</select>
+				{else}
+					<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}">
+				{/if}
+				</div>
+				
+				
+					<span id="span_counter" {if (!$smarty.request.branch_id || $smarty.request.branch_id eq 'all') && $BRANCH_CODE eq 'HQ'}style="display:none;"{/if}>
+						<div class="col-md-4">
+						<b class="form-label">Counter</b>
+						<span id="counter_id">
+						<select class="form-control" name="counter_id" >
+							{if !$counters}
+								<option value=''>No Data</option>
+							{else}
+								{foreach name=counter_total from=$counters item=c}
+								{/foreach}
+					
+								{if $smarty.foreach.counter_total.total >1 }
+									<option value='all'>- All -</option>
+								{/if}
+								{foreach from=$counters item=c}
+									<option value="{$c.counter_id}" {if $smarty.request.counter_id eq $c.counter_id}selected {/if}>{$c.network_name}</option>
+								{/foreach}
+							{/if}
+						</select>
+						</span>
+					</div>
+					</span>
+				
+				
+				<div class="col-md-4">
+					<b class="form-label">Date</b> 
+				<div class="form-inline">
+					<input class="form-control" size=22 type=text name=date_from value="{$smarty.request.date_from}{$form.from}" id="date_from">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+				</div>
+				</div>
+				
+				<div class="col-md-4">
+					<b class="form-label">To</b> 
+				<div class="form-inline">
+					<input class="form-control" size=22 type=text name=date_to value="{$smarty.request.date_to}{$form.to}" id="date_to">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+				</div>
+				</div>
+			</div>
+			
+			<span id="span_split_counter" {if (!$smarty.request.branch_id || $smarty.request.branch_id eq 'all') && $BRANCH_CODE eq 'HQ'}style="display:none;"{/if}>
+				<input id="split_counter_id" name="split_counter" type="checkbox" value=1 {if $smarty.request.split_counter}checked {/if}> <label for="split_counter_id"><b>Split by counter</b></label>
+			</span>
+			
+			<p>
+				<input type="hidden" name="submit" value="1" />
+				<button class="btn btn-primary mt-2" name="a" value="show_report">{#SHOW_REPORT#}</button>
+				{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+				{/if}
+			</p>
+			</form>
+	</div>
+</div>
 {/if}
 
 {if !$data}
 {if $smarty.request.submit && !$err}<p align=center>-- No data --</p>{/if}
 {else}
 
-<b>Note:</b> *Nett Sales and Variance of sales only showed when current counter collection is finalised<br />
+<div class="alert alert-primary rounded mt-2" style="max-width: 500px;">
+	<b>Note:</b> 
+*Nett Sales and Variance of sales only showed when current counter collection is finalised
+</div>
+<br />
 {foreach from=$data key=counter_id item=d}
 	{assign var=total_all_foreign value=0}
 	{assign var=total_all_amount value=0}
 	{assign var=total_variance value=0}
 	{assign var=total_nett_sales value=0}
-	{if $counter_id}<h2>Counters: {$counters.$counter_id.network_name}</h2>{/if}
-	<table class=report_table width=100%>
-		<tr class="header">
-			<th>
-				{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from eq $smarty.request.date_to}
-					Branch
-				{else}
-					Date
-				{/if}
-			</th>
-			<!-- Normal Payment Method -->
-			{foreach name=dum from=$normal_payment_type item=payment_type}
-				<th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
-			{/foreach}
+	{if $counter_id}
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">Counters: {$counters.$counter_id.network_name}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+{/if}
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class=report_table width=100%>
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>
+								{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from eq $smarty.request.date_to}
+									Branch
+								{else}
+									Date
+								{/if}
+							</th>
+							<!-- Normal Payment Method -->
+							{foreach name=dum from=$normal_payment_type item=payment_type}
+								<th>{$pos_config.payment_type_label.$payment_type|default:$payment_type}</th>
+							{/foreach}
+							
+							<!-- Foreign Currency -->
+							{if $foreign_currency_list}
+								{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
+									<th>{$currency_type}</th>
+								{/foreach}
+								<!--th>Total ({$config.arms_currency.symbol})</th-->
+							{/if}
+							<th>Total Collection</th>
+							<th>Nett Sales</th>
+							<th class="col_variance">Variance</th>
+							<th>
+								{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from ne $smarty.request.date_to}
+									Unfinalised
+								{else}
+									Finalised
+								{/if}
+							</th>
+						</tr>
+					</thead>
 			
-			<!-- Foreign Currency -->
-			{if $foreign_currency_list}
-				{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
-					<th>{$currency_type}</th>
-				{/foreach}
-				<!--th>Total ({$config.arms_currency.symbol})</th-->
-			{/if}
-			<th>Total Collection</th>
-			<th>Nett Sales</th>
-			<th class="col_variance">Variance</th>
-			<th>
-				{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from ne $smarty.request.date_to}
-					Unfinalised
-				{else}
-					Finalised
-				{/if}
-			</th>
-		</tr>
-
-		<col span='{$smarty.foreach.dum.total+1}'>
-		<col span='{$smarty.foreach.curr.total+1}' class='col_foreign_curr'>
-
-		{foreach from=$d key=type item=r}
-			<tr>
-				<th>{$type}</th>
-
-				<!-- Normal Payment Method -->
-				{foreach from=$normal_payment_type item=payment_type}
-					<td class="r {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
-						{$r.cash_domination.$payment_type.amt|number_format:2}
-						{if $r.cash_domination.$payment_type.amt<>$r.cash_domination.$payment_type.o_amt}
-							<br />
-							<span class="small" style="color:black;">{$r.cash_domination.$payment_type.o_amt|number_format:2}</span>
+					<col span='{$smarty.foreach.dum.total+1}'>
+					<col span='{$smarty.foreach.curr.total+1}' class='col_foreign_curr'>
+			
+					{foreach from=$d key=type item=r}
+						<tr>
+							<th>{$type}</th>
+			
+							<!-- Normal Payment Method -->
+							{foreach from=$normal_payment_type item=payment_type}
+								<td class="r {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
+									{$r.cash_domination.$payment_type.amt|number_format:2}
+									{if $r.cash_domination.$payment_type.amt<>$r.cash_domination.$payment_type.o_amt}
+										<br />
+										<span class="small" style="color:black;">{$r.cash_domination.$payment_type.o_amt|number_format:2}</span>
+									{/if}
+									<br />
+									{if $payment_type eq 'Cash'}
+										<span class="small" style="color:grey;">
+										C:{$r.cash_domination.Float.amt+$r.cash_domination.Cash.amt|number_format:2}
+										/ F:{$r.cash_domination.Float.amt|number_format:2}
+										</span>
+									{/if}
+								</td>
+							{/foreach}
+			
+							<!-- Foreign Currency -->
+							{if $foreign_currency_list}
+								{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
+									{assign var=payment_type value=$currency_type}
+									<td class="r {if $r.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} ">
+										{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
+										{*<br />
+										<span class="small_rm_amt" style="color:black;">{$config.arms_currency.symbol} {$r.cash_domination.foreign_currency.$payment_type.rm_amt|number_format:2}</span>*}
+			
+										<!-- Currency Float -->
+										<br />
+										<span class="small" style="color:grey;">
+										C:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
+										/ F:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
+										</span>
+									</td>
+								{/foreach}
+								<!--td class='r {if $fc_amt<0}negative{/if}' >{$fc_amt|number_format:2}</td-->
+							{/if}
+							
+							<td class="r {if $r.cash_domination.nett_sales.amt<0}negative{/if}" nowrap>
+								{if $foreign_currency_list}<span style="float:left;">{$config.arms_currency.symbol}</span>{/if}
+								<span style="float:left;">{$r.cash_domination.nett_sales.amt|number_format:2}</span>
+								{if $foreign_currency_list}
+									<br />
+									{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info name=fc}
+										{assign var=payment_type value=$currency_type}
+										{if $r.cash_domination.foreign_currency.$payment_type.foreign_amt ne 0}
+											<span style="float:left;">{$payment_type}</span>
+											<span style="float:left;">{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}</span>
+											{if !$smarty.foreach.fc.last}<br />{/if}
+										{/if}
+									{/foreach}
+								{/if}
+							</td> 
+							<td class="r {if $r.nett_sales.amt<0}negative{/if}"><span style="float:left;">{$r.nett_sales.amt|number_format:2}</span></td>
+							<td class="r col_variance {if $r.variance.amt<0}negative{/if}">{$r.variance.amt|number_format:2}</td>
+							{assign var=total_variance value=$total_variance+$r.variance.amt}
+							{assign var=total_nett_sales value=$total_nett_sales+$r.nett_sales.amt}
+							{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from ne $smarty.request.date_to}
+								<td align="center" class="{if count($finalized.$bid.$type) eq count($branch_list)}positive{else}negative{/if}">
+									{assign var=have_unfinalized value=0}
+									{assign var=bcount value=0}
+									
+									{assign var=is_first_print value=1}
+									{foreach from=$branch_list key=bid item=b}
+										{assign var=bcount value=$bcount+1}
+										{if !$finalized.$bid.$type}
+											{if !$is_first_print}, {/if}
+											{$b.branch_code}
+											{assign var=is_first_print value=0} 
+											{assign var=have_unfinalized value=1}
+										{/if}
+									{/foreach}
+									{if !$have_unfinalized}No{/if}
+								</td>
+							{else}
+								{if $finalized.$type}
+									{assign var=fin value=1}
+								{else}
+									{assign var=fin value=0}
+								{/if}
+								<td align="center" class="{if $fin}positive{else}negative{/if}">{if $fin}Yes{else}No{/if}</td>				
+							{/if}
+						</tr>
+					{/foreach}
+			
+					<!-- Total each counter -->
+					<tr class='header'>
+						<th>Total ({$config.arms_currency.symbol})</th>
+						<!-- Normal Payment Method -->
+						{foreach from=$normal_payment_type item=payment_type}
+							<td class="r bold {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
+								{$total.$counter_id.cash_domination.$payment_type.amt|number_format:2}
+			
+								{if $total.$counter_id.cash_domination.$payment_type.amt<>$total.$counter_id.cash_domination.$payment_type.o_amt}
+									<br />
+									<span class="small" style="color:black;">{$total.$counter_id.cash_domination.$payment_type.o_amt|number_format:2}</span>
+								{/if}
+								<br />
+								{if $payment_type eq 'Cash'}
+									<span class="small" style="color:grey;">
+									C:{$total.$counter_id.cash_domination.$payment_type.Float.amt+$total.$counter_id.cash_domination.$payment_type.amt|number_format:2}
+									/ F:{$total.$counter_id.cash_domination.$payment_type.Float.amt|number_format:2}
+									</span>
+								{/if}
+							</td>
+						{/foreach}
+			
+						<!-- Foreign Currency -->
+						{if $foreign_currency_list}
+							{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
+								{assign var=payment_type value=$currency_type}
+			
+								<td class="r bold {if $total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} ">
+									{$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}<!--br />
+									<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.$counter_id.cash_domination.foreign_currency.$payment_type.amt|number_format:2}</span-->
+			
+									<!-- Currency Float -->
+									<br />
+									<span class="bold small" style="color:grey;">
+									C:{$total.$counter_id.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
+									/ F:{$total.$counter_id.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
+									</span>
+								</td>
+							{/foreach}
+							<!--td class='r bold {if $total_all_foreign<0}negative{/if}'>{$total_all_foreign|number_format:2}</td-->
 						{/if}
-						<br />
-						{if $payment_type eq 'Cash'}
-							<span class="small" style="color:grey;">
-							C:{$r.cash_domination.Float.amt+$r.cash_domination.Cash.amt|number_format:2}
-							/ F:{$r.cash_domination.Float.amt|number_format:2}
-							</span>
-						{/if}
-					</td>
-				{/foreach}
-
-				<!-- Foreign Currency -->
-				{if $foreign_currency_list}
-					{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
-						{assign var=payment_type value=$currency_type}
-						<td class="r {if $r.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} ">
-							{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
-							{*<br />
-							<span class="small_rm_amt" style="color:black;">{$config.arms_currency.symbol} {$r.cash_domination.foreign_currency.$payment_type.rm_amt|number_format:2}</span>*}
-
-							<!-- Currency Float -->
-							<br />
-							<span class="small" style="color:grey;">
-							C:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
-							/ F:{$r.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
-							</span>
+			
+						<td class='r bold {if $total.$counter_id.cash_domination.amt<0}negative{/if}' nowrap>
+							{if $foreign_currency_list}<span style="float:left;">{$config.arms_currency.symbol}</span>{/if}
+							<span style="float:left;">{$total.$counter_id.cash_domination.nett_sales.amt|number_format:2}</span>
+							{if $foreign_currency_list}
+								<br />
+								{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info name=fc}
+									{assign var=payment_type value=$currency_type}
+									{if $total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt ne 0}
+										<span style="float:left;">{$payment_type}</span>
+										<span style="float:left;">{$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}</span>
+										{if !$smarty.foreach.fc.last}<br />{/if}
+									{/if}
+								{/foreach}
+							{/if}
 						</td>
-					{/foreach}
-					<!--td class='r {if $fc_amt<0}negative{/if}' >{$fc_amt|number_format:2}</td-->
-				{/if}
-				
-				<td class="r {if $r.cash_domination.nett_sales.amt<0}negative{/if}" nowrap>
-					{if $foreign_currency_list}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}
-					<span style="float:left;">{$r.cash_domination.nett_sales.amt|number_format:2}</span>
-					{if $foreign_currency_list}
-						<br />
-						{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info name=fc}
-							{assign var=payment_type value=$currency_type}
-							{if $r.cash_domination.foreign_currency.$payment_type.foreign_amt ne 0}
-								<span style="float:left;">{$payment_type}</span>&nbsp;
-								<span style="float:left;">{$r.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}</span>
-								{if !$smarty.foreach.fc.last}<br />{/if}
-							{/if}
-						{/foreach}
-					{/if}
-				</td> 
-				<td class="r {if $r.nett_sales.amt<0}negative{/if}"><span style="float:left;">{$r.nett_sales.amt|number_format:2}</span></td>
-				<td class="r col_variance {if $r.variance.amt<0}negative{/if}">{$r.variance.amt|number_format:2}</td>
-				{assign var=total_variance value=$total_variance+$r.variance.amt}
-				{assign var=total_nett_sales value=$total_nett_sales+$r.nett_sales.amt}
-				{if $smarty.request.branch_id eq 'all' && $smarty.request.date_from ne $smarty.request.date_to}
-					<td align="center" class="{if count($finalized.$bid.$type) eq count($branch_list)}positive{else}negative{/if}">
-						{assign var=have_unfinalized value=0}
-						{assign var=bcount value=0}
-						
-						{assign var=is_first_print value=1}
-						{foreach from=$branch_list key=bid item=b}
-							{assign var=bcount value=$bcount+1}
-							{if !$finalized.$bid.$type}
-								{if !$is_first_print}, {/if}
-								{$b.branch_code}
-								{assign var=is_first_print value=0} 
-								{assign var=have_unfinalized value=1}
-							{/if}
-						{/foreach}
-						{if !$have_unfinalized}No{/if}
-					</td>
-				{else}
-					{if $finalized.$type}
-						{assign var=fin value=1}
-					{else}
-						{assign var=fin value=0}
-					{/if}
-					<td align="center" class="{if $fin}positive{else}negative{/if}">{if $fin}Yes{else}No{/if}</td>				
-				{/if}
-			</tr>
-		{/foreach}
-
-		<!-- Total each counter -->
-		<tr class='header'>
-			<th>Total ({$config.arms_currency.symbol})</th>
-			<!-- Normal Payment Method -->
-			{foreach from=$normal_payment_type item=payment_type}
-				<td class="r bold {if $r.cash_domination.$payment_type.amt<0}negative{/if}">
-					{$total.$counter_id.cash_domination.$payment_type.amt|number_format:2}
-
-					{if $total.$counter_id.cash_domination.$payment_type.amt<>$total.$counter_id.cash_domination.$payment_type.o_amt}
-						<br />
-						<span class="small" style="color:black;">{$total.$counter_id.cash_domination.$payment_type.o_amt|number_format:2}</span>
-					{/if}
-					<br />
-					{if $payment_type eq 'Cash'}
-						<span class="small" style="color:grey;">
-						C:{$total.$counter_id.cash_domination.$payment_type.Float.amt+$total.$counter_id.cash_domination.$payment_type.amt|number_format:2}
-						/ F:{$total.$counter_id.cash_domination.$payment_type.Float.amt|number_format:2}
-						</span>
-					{/if}
-				</td>
-			{/foreach}
-
-			<!-- Foreign Currency -->
-			{if $foreign_currency_list}
-				{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info}
-					{assign var=payment_type value=$currency_type}
-
-					<td class="r bold {if $total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt<0}negative{/if} ">
-						{$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}<!--br />
-						<span class="small_rm_amt">{$config.arms_currency.symbol} {$total.$counter_id.cash_domination.foreign_currency.$payment_type.amt|number_format:2}</span-->
-
-						<!-- Currency Float -->
-						<br />
-						<span class="bold small" style="color:grey;">
-						C:{$total.$counter_id.cash_domination.foreign_currency.$payment_type.Float.foreign_amt+$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}
-						/ F:{$total.$counter_id.cash_domination.foreign_currency.$payment_type.Float.foreign_amt|number_format:2}
-						</span>
-					</td>
-				{/foreach}
-				<!--td class='r bold {if $total_all_foreign<0}negative{/if}'>{$total_all_foreign|number_format:2}</td-->
-			{/if}
-
-			<td class='r bold {if $total.$counter_id.cash_domination.amt<0}negative{/if}' nowrap>
-				{if $foreign_currency_list}<span style="float:left;">{$config.arms_currency.symbol}</span>&nbsp;{/if}
-				<span style="float:left;">{$total.$counter_id.cash_domination.nett_sales.amt|number_format:2}</span>
-				{if $foreign_currency_list}
-					<br />
-					{foreach name=curr from=$foreign_currency_list key=currency_type item=currency_info name=fc}
-						{assign var=payment_type value=$currency_type}
-						{if $total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt ne 0}
-							<span style="float:left;">{$payment_type}</span>&nbsp;
-							<span style="float:left;">{$total.$counter_id.cash_domination.foreign_currency.$payment_type.foreign_amt|number_format:2}</span>
-							{if !$smarty.foreach.fc.last}<br />{/if}
-						{/if}
-					{/foreach}
-				{/if}
-			</td>
-			<td class='r bold col_variance {if $total_all_amount<0}negative{/if}'><span style="float:left;">{$total_nett_sales|number_format:2}</span></td>
-			<td class='r bold col_variance {if $total_all_amount<0}negative{/if}'>{$total_variance|number_format:2}</td>
-		</tr>
-	</table>
+						<td class='r bold col_variance {if $total_all_amount<0}negative{/if}'><span style="float:left;">{$total_nett_sales|number_format:2}</span></td>
+						<td class='r bold col_variance {if $total_all_amount<0}negative{/if}'>{$total_variance|number_format:2}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/foreach}
 {/if}
 

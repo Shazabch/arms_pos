@@ -26,162 +26,198 @@
 *}
 
 {if $is_export}
-	<h2>{$report_title}</h2>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 {/if}
-
-<h3>
-	Page {$data.curr_page+1} / {$data.total_page}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Page {$data.curr_page+1} / {$data.total_page}
 	<br />
 	As per date: {$data.report_time|date_format:"%Y-%m-%d %H:%M"}
-</h3>
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {assign var=split_field value=$smarty.request.split_field}
-<table class="report_table" width="100%">
-	<tr class="header">
-		<th>No.</th>
-		<th>ARMS Code</th>
-		{if $is_export || $split_field}
-			<th>MCode</th>
-			<th>ArtNo</th>
-			<th>{$config.link_code_name}</th>
-		{else}
-			<th>MCode<br />ArtNo<br />{$config.link_code_name}</th>
-		{/if}
-		<th>Description</th>
-		<th>UOM</th>
-		<th>{if $BRANCH_CODE eq 'HQ'}Total {/if}Stock Balance</th>
-		<th>
-			{if $BRANCH_CODE eq 'HQ'}
-				HQ
-			{/if}
-			Last Cost
-		</th>
-		<th>
-			Stock Value
-			{if $BRANCH_CODE eq 'HQ'}<br />(Using HQ Last Cost){/if}
-		</th>
-		{if $BRANCH_CODE eq 'HQ'}
-			{if $branch_line_count > 1}
-			<th colspan="{$data.branch_per_line}">Stock Balance By Branch</th>
-			{else}
-				{foreach from=$data.branch_id_list_by_line key=line_no item=bid_list name=f_b_list}
-					{foreach from=$bid_list item=bid name=f_bcode}
-						<th colspan="1">{$branches.$bid.code}</th>
-					{/foreach}
-				{/foreach}
-			{/if}
-		{/if}
-	</tr>
-	
-	{assign var=item_no value=$data.start_item_no}
-	{foreach from=$data.data.by_item key=id item=stock_info}
-		{assign var=item_no value=$item_no+1}
-		<tr>
-			<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$item_no}</td>
-			<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.sku_item_code}</td>
-			{if $is_export || $split_field}
-				<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.mcode|default:'-'}</td>
-				<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.artno|default:'-'}</td>
-				<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.link_code|default:'-'}</td>
-			{else}
-				<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">
-					{$data.si_info.$id.mcode|default:'-'}<br />
-					{$data.si_info.$id.artno|default:'-'}<br />
-					{$data.si_info.$id.link_code|default:'-'}
-				</td>
-			{/if}
-			<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.description|default:'-'}</td>
-			<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.uom_code|default:'-'}</td>
-			
-			{* Total Stock Balance *}
-			<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">{$stock_info.total.qty|qty_nf}</td>
-			
-			{* Last Cost *}
-			<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">{$data.si_info.$id.last_cost|number_format:$config.global_cost_decimal_points}</td>
-			
-			{* Stock Value *}
-			<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">
-				{$stock_info.total.cost|number_format:$config.global_cost_decimal_points}
-			</td>
-			
-			{* Stock Balance By Branch *}
-			{if $BRANCH_CODE eq 'HQ'}
-				{if $branch_line_count > 1}
-				{foreach from=$data.branch_id_list_by_line key=line_no item=bid_list name=f_b_list}
-					{if !$smarty.foreach.f_b_list.first}<tr>{/if}
-					
-					{* Branch Code *}
-					{foreach from=$bid_list item=bid name=f_bcode}
-						<td class="td_branch_code" title="{$branches.$bid.description|escape:html}">{$branches.$bid.code}</td>
-					{/foreach}
-					{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
-						{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
-							<td class="td_branch_code">&nbsp;</td>
-						{/section}
-					{/if}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover" width="100%">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th>No.</th>
+						<th>ARMS Code</th>
+						{if $is_export || $split_field}
+							<th>MCode</th>
+							<th>ArtNo</th>
+							<th>{$config.link_code_name}</th>
+						{else}
+							<th>MCode<br />ArtNo<br />{$config.link_code_name}</th>
+						{/if}
+						<th>Description</th>
+						<th>UOM</th>
+						<th>{if $BRANCH_CODE eq 'HQ'}Total {/if}Stock Balance</th>
+						<th>
+							{if $BRANCH_CODE eq 'HQ'}
+								HQ
+							{/if}
+							Last Cost
+						</th>
+						<th>
+							Stock Value
+							{if $BRANCH_CODE eq 'HQ'}<br />(Using HQ Last Cost){/if}
+						</th>
+						{if $BRANCH_CODE eq 'HQ'}
+							{if $branch_line_count > 1}
+							<th colspan="{$data.branch_per_line}">Stock Balance By Branch</th>
+							{else}
+								{foreach from=$data.branch_id_list_by_line key=line_no item=bid_list name=f_b_list}
+									{foreach from=$bid_list item=bid name=f_bcode}
+										<th colspan="1">{$branches.$bid.code}</th>
+									{/foreach}
+								{/foreach}
+							{/if}
+						{/if}
 					</tr>
-					
-					{* Branch Stock *}
-					<tr>
-					{foreach from=$bid_list item=bid}
-						<td align="right">{$stock_info.stock_by_branch.$bid.qty}</td>
-					{/foreach}
-					{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
-						{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
-							<td>&nbsp;</td>
-						{/section}
-					{/if}
-					</tr>
+				</thead>
+				
+				{assign var=item_no value=$data.start_item_no}
+				{foreach from=$data.data.by_item key=id item=stock_info}
+					{assign var=item_no value=$item_no+1}
+					<tbody class="fs-08">
+						<tr>
+							<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$item_no}</td>
+							<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.sku_item_code}</td>
+							{if $is_export || $split_field}
+								<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.mcode|default:'-'}</td>
+								<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.artno|default:'-'}</td>
+								<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.link_code|default:'-'}</td>
+							{else}
+								<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">
+									{$data.si_info.$id.mcode|default:'-'}<br />
+									{$data.si_info.$id.artno|default:'-'}<br />
+									{$data.si_info.$id.link_code|default:'-'}
+								</td>
+							{/if}
+							<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.description|default:'-'}</td>
+							<td rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}">{$data.si_info.$id.uom_code|default:'-'}</td>
+							
+							{* Total Stock Balance *}
+							<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">{$stock_info.total.qty|qty_nf}</td>
+							
+							{* Last Cost *}
+							<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">{$data.si_info.$id.last_cost|number_format:$config.global_cost_decimal_points}</td>
+							
+							{* Stock Value *}
+							<td  rowspan="{if $branch_line_count > 1}{$data.item_row_use}{else}1{/if}" align="right">
+								{$stock_info.total.cost|number_format:$config.global_cost_decimal_points}
+							</td>
+							
+							{* Stock Balance By Branch *}
+							{if $BRANCH_CODE eq 'HQ'}
+								{if $branch_line_count > 1}
+								{foreach from=$data.branch_id_list_by_line key=line_no item=bid_list name=f_b_list}
+									{if !$smarty.foreach.f_b_list.first}<tr>{/if}
+									
+									{* Branch Code *}
+									{foreach from=$bid_list item=bid name=f_bcode}
+										<td class="td_branch_code" title="{$branches.$bid.description|escape:html}">{$branches.$bid.code}</td>
+									{/foreach}
+									{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
+										{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
+											<td class="td_branch_code">&nbsp;</td>
+										{/section}
+									{/if}
+									</tr>
+									
+									{* Branch Stock *}
+									<tr>
+									{foreach from=$bid_list item=bid}
+										<td align="right">{$stock_info.stock_by_branch.$bid.qty}</td>
+									{/foreach}
+									{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
+										{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
+											<td>&nbsp;</td>
+										{/section}
+									{/if}
+									</tr>
+								{/foreach}
+								{else}
+									{* Branch Stock *}
+									
+									{foreach from=$bid_list item=bid}
+										<td align="right">{$stock_info.stock_by_branch.$bid.qty}</td>
+									{/foreach}
+									{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
+										{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
+											<td>&nbsp;</td>
+										{/section}
+									{/if}
+								{/if}
+							{/if}
+						</tr>
+					</tbody>
 				{/foreach}
-				{else}
-					{* Branch Stock *}
-					
-					{foreach from=$bid_list item=bid}
-						<td align="right">{$stock_info.stock_by_branch.$bid.qty}</td>
-					{/foreach}
-					{if $smarty.foreach.f_bcode.iteration < $data.branch_per_line}
-						{section loop=$data.branch_per_line name=s_bcode start=$smarty.foreach.f_bcode.iteration}
-							<td>&nbsp;</td>
-						{/section}
+				<tr class="header">
+					{assign var=cols value=5}
+					{if $is_export || $split_field}
+						{assign var=cols value=$cols+2}
 					{/if}
-				{/if}
-			{/if}
-		</tr>
-	{/foreach}
-	<tr class="header">
-		{assign var=cols value=5}
-		{if $is_export || $split_field}
-			{assign var=cols value=$cols+2}
-		{/if}
-		<td colspan="{$cols}" align="right"><b>Page Total</b></td>
-		<td align="right">{$data.page_total.qty|qty_nf}</td>
-		<td>&nbsp;</td>
-		<td align="right">{$data.page_total.cost|number_format:$config.global_cost_decimal_points}</td>
-		{if $BRANCH_CODE eq 'HQ'}
-			<td colspan="{$data.branch_per_line}">&nbsp;</td>
-		{/if}
-	</tr>
-</table>
+					<td colspan="{$cols}" align="right"><b>Page Total</b></td>
+					<td align="right">{$data.page_total.qty|qty_nf}</td>
+					<td>&nbsp;</td>
+					<td align="right">{$data.page_total.cost|number_format:$config.global_cost_decimal_points}</td>
+					{if $BRANCH_CODE eq 'HQ'}
+						<td colspan="{$data.branch_per_line}">&nbsp;</td>
+					{/if}
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 
 {if $display_grand_total}
 	<br />
-	
-	<h2>Grand Total</h2>
-	<table class="report_table">
-		<tr>
-			<td class="col_header" align="center"><b>Stock Balance</b></th>
-			<td align="right">{$data.grand_total.qty|qty_nf}</td>
-			
-		</tr>
-		
-		<tr>
-			<td class="col_header" align="center">
-				<b>
-					Stock Value
-					{if $BRANCH_CODE eq 'HQ'}<br />(Using HQ Last Cost){/if}
-				</b>
-			</td>
-			<td align="right">{$data.grand_total.cost|qty_nf}</td>
-		</tr>
-	</table>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">Grand Total</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="report_table mb-0 text-md-nowrap  table-hover">
+					<thead class="bg-gray-100">
+						<tr>
+							<td class="col_header" align="center"><b>Stock Balance</b></th>
+							<td align="right">{$data.grand_total.qty|qty_nf}</td>
+							
+						</tr>
+					</thead>
+
+					<tbody class="fs-08">
+						<tr>
+							<td class="col_header" align="center">
+								<b>
+									Stock Value
+									{if $BRANCH_CODE eq 'HQ'}<br />(Using HQ Last Cost){/if}
+								</b>
+							</td>
+							<td align="right">{$data.grand_total.cost|qty_nf}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}

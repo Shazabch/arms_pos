@@ -209,15 +209,23 @@ function submit_form(type){
 </script>
 
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class="errmsg">
 {foreach from=$err item=e}
 <li> {$e} </li>
 {/foreach}
 </ul>
+</div>
 {/if}
 
 {if !$no_header_footer}
@@ -227,114 +235,142 @@ The following error(s) has occured:
 	<h3 align="center">Receipt Details</h3>
 	<div id="div_item_content"></div>
 </div>
-	<form name="f_a" id="f_a" method="post" class="form" onSubmit="return false;">
-		<input type="hidden" name="ajax" value="1">
-		<input type="hidden" name="show_report" value="1">
-		<input type="hidden" name="export_excel" />
-		
-		{*<input type="hidden" name=report_title value="{$report_title}">*}
-	
-		<b>Counter</b> 
-		<select name="counters" onChange="counters_changed();">
-		<option value="">-- Please Select --</option>
-		{foreach from=$counters item=r}
-			{capture assign=counter_all}{$r.branch_id}|all{/capture}
-			{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
-			{if $last_bid ne $r.branch_id}
-			    <option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
-			    {assign var=last_bid value=$r.branch_id}
-			{/if}
-			<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r.network_name}
-			</option>
-		{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-
-		<b>Payment Type</b>
-		<select name="payment_type">
-			<option value="">-- Please Select --</option>
-		    {foreach from=$payment_type key=pt item=pt_label}
-		    	<option {if $pt ne 'Cash'}class="opt_normal_ptype" id="opt_normal_ptype-{$pt|lower}"{/if} value="{$pt}" {if $smarty.request.payment_type eq $pt}selected {/if} >{$pt_label}</option>
-		    {/foreach}
-		    
-			{if ($pos_config.credit_card)}
-				<option class="bold" value="credit_card" id="opt_credit_card" {if $smarty.request.payment_type eq 'credit_card'}  selected {/if}>Credit Card</option>
-				<optgroup id="optgroup_credit_card">
-					{foreach from=$pos_config.credit_card item=cc}
-						<option value="{$cc}" {if $smarty.request.payment_type eq $cc} selected {/if}>{$cc}</option>
+	<div class="card mx-3">
+		<div class="card-body">
+			<form name="f_a" id="f_a" method="post" class="form" onSubmit="return false;">
+				<input type="hidden" name="ajax" value="1">
+				<input type="hidden" name="show_report" value="1">
+				<input type="hidden" name="export_excel" />
+				
+				{*<input type="hidden" name=report_title value="{$report_title}">*}
+			
+				<div class="row">
+					<div class="col-md-3">
+						<b class="form-label">Counter</b> 
+					<select class="form-control" name="counters" onChange="counters_changed();">
+					<option value="">-- Please Select --</option>
+					{foreach from=$counters item=r}
+						{capture assign=counter_all}{$r.branch_id}|all{/capture}
+						{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
+						{if $last_bid ne $r.branch_id}
+							<option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
+							{assign var=last_bid value=$r.branch_id}
+						{/if}
+						<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>
+							{$r.network_name}
+						</option>
 					{/foreach}
-				</optgroup>
-			{/if}
-			{if ($config.foreign_currency)}
-				<option class="bold" value="foreign_currency" id="opt_foreign_currency" {if $smarty.request.payment_type eq 'foreign_currency'}  selected {/if}>Foreign Currency</option>
-				<optgroup id="optgroup_foreign_currency">
-					{foreach from=$config.foreign_currency key=fc_code item=fc_settings}
-						<option value="{$fc_code}" {if $smarty.request.payment_type eq $fc_code} selected {/if}>{$fc_code}</option>
-					{/foreach}
-				</optgroup>
-			{/if}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Date</b> <input size=10 type=text name="date_to" value="{$smarty.request.date_to}" id="date_to">
-		<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<p>
-		<b>Search Remark</b> <input type=text name="search_remark" value="{$smarty.request.search_remark}">
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<button class="btn btn-primary" onClick="submit_form();">{#SHOW_REPORT#}</button>
-		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-		<button class="btn btn-primary" onClick="submit_form('excel');">{#OUTPUT_EXCEL#}</button>
-		{/if}
-	
-		<input name=print type="button" value="Print Report" onclick="print_report();">
-		</p>
-	</form>
+					</select>
+					</div>
+					
+			
+					<div class="col-md-3">
+						<b class="form-label">Payment Type</b>
+					<select class="form-control" name="payment_type">
+						<option value="">-- Please Select --</option>
+						{foreach from=$payment_type key=pt item=pt_label}
+							<option {if $pt ne 'Cash'}class="opt_normal_ptype" id="opt_normal_ptype-{$pt|lower}"{/if} value="{$pt}" {if $smarty.request.payment_type eq $pt}selected {/if} >{$pt_label}</option>
+						{/foreach}
+						
+						{if ($pos_config.credit_card)}
+							<option class="bold" value="credit_card" id="opt_credit_card" {if $smarty.request.payment_type eq 'credit_card'}  selected {/if}>Credit Card</option>
+							<optgroup id="optgroup_credit_card">
+								{foreach from=$pos_config.credit_card item=cc}
+									<option value="{$cc}" {if $smarty.request.payment_type eq $cc} selected {/if}>{$cc}</option>
+								{/foreach}
+							</optgroup>
+						{/if}
+						{if ($config.foreign_currency)}
+							<option class="bold" value="foreign_currency" id="opt_foreign_currency" {if $smarty.request.payment_type eq 'foreign_currency'}  selected {/if}>Foreign Currency</option>
+							<optgroup id="optgroup_foreign_currency">
+								{foreach from=$config.foreign_currency key=fc_code item=fc_settings}
+									<option value="{$fc_code}" {if $smarty.request.payment_type eq $fc_code} selected {/if}>{$fc_code}</option>
+								{/foreach}
+							</optgroup>
+						{/if}
+					</select>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label">Date</b> 
+					<div class="form-inline">
+						<input class="form-control" size=15 type=text name="date_to" value="{$smarty.request.date_to}" id="date_to">
+					&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+					</div>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label">Search Remark</b> 
+					<input class="form-control" type=text name="search_remark" value="{$smarty.request.search_remark}">
+					</div>
+				</div>
+				
+				<button class="btn mt-2 btn-primary" onClick="submit_form();">{#SHOW_REPORT#}</button>
+				{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn mt-2 btn-info" onClick="submit_form('excel');">{#OUTPUT_EXCEL#}</button>
+				{/if}
+			
+				<input class="btn mt-2 btn-primary" name=print type="button" value="Print Report" onclick="print_report();">
+				</p>
+			</form>
+		</div>
+	</div>
 	<script type="text/javascript">check_and_refresh_payment_type_list(true);</script>
 </div>
 {/if}
-	<h2>{$report_title}</h2>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 {if $table}
 	{if $data}	
 		{foreach from=$data key=branch_id item=n_data}
 			{foreach from=$n_data key=counter_name item=nn_data}
 			{if $smarty.request.counter_type ne 'single'}
-			<h3>Counter: {$counter_name}</h3>
+			<h5 class="mx-3 text-primary">Counter: {$counter_name}</h5>
 			{/if}
 				<table id="tbl_report" class="report_table" {if $no_header_footer}border="1"{/if}>
-					<tr class="header">
-						<th>Transaction Time</th>
-						<th>Cashier</th>
-						<th>Receipt No.</th>
-						{if $smarty.request.payment_type eq 'credit_card'}
-						<th>Type</th>
-						{/if}
-						<th>Remark</th>
-						<th>Payment Amount</th>
-						<th>Receipt Amount</th>
-						<th>Approved by</th>
-					</tr>
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th>Transaction Time</th>
+							<th>Cashier</th>
+							<th>Receipt No.</th>
+							{if $smarty.request.payment_type eq 'credit_card'}
+							<th>Type</th>
+							{/if}
+							<th>Remark</th>
+							<th>Payment Amount</th>
+							<th>Receipt Amount</th>
+							<th>Approved by</th>
+						</tr>
+					</thead>
 					{foreach from=$nn_data key=receipt_no item=nnn_data}
 						{foreach from=$nnn_data key=pp_id item=r}
-						<tr class="thover">
-							<td>{$r.pos_time|date_format:'%H:%M:%S'|default:"-"}</td>
-							<td>{$r.pos_username|default:"-"}</td>
-							<td>
-								{if $no_header_footer}
-									{receipt_no_prefix_format branch_id=$r.branch_id counter_id=$r.counter_id receipt_no=$receipt_no}
-								{else}
-									<a href="javascript:items_details('{$r.branch_id}','{$r.counter_id}','{$r.id}','{$r.date}')">{receipt_no_prefix_format branch_id=$r.branch_id counter_id=$r.counter_id receipt_no=$receipt_no}</a>
+						<div class="tbody fs-08">
+							<tr class="thover">
+								<td>{$r.pos_time|date_format:'%H:%M:%S'|default:"-"}</td>
+								<td>{$r.pos_username|default:"-"}</td>
+								<td>
+									{if $no_header_footer}
+										{receipt_no_prefix_format branch_id=$r.branch_id counter_id=$r.counter_id receipt_no=$receipt_no}
+									{else}
+										<a href="javascript:items_details('{$r.branch_id}','{$r.counter_id}','{$r.id}','{$r.date}')">{receipt_no_prefix_format branch_id=$r.branch_id counter_id=$r.counter_id receipt_no=$receipt_no}</a>
+									{/if}
+								</td>
+								{if $smarty.request.payment_type eq 'credit_card'}
+								<td>{$r.type|default:"-"}</td>
 								{/if}
-							</td>
-							{if $smarty.request.payment_type eq 'credit_card'}
-							<td>{$r.type|default:"-"}</td>
-							{/if}
-							<td>{$r.remark|default:"-"}</td>
-							<td class="r">{$r.amount_payment|number_format:2}</td>
-							<td class="r">{$r.receipt_amount|number_format:2}</td>
-							<td>{$r.pp_username|default:"-"}</td>					
-						</tr>
+								<td>{$r.remark|default:"-"}</td>
+								<td class="r">{$r.amount_payment|number_format:2}</td>
+								<td class="r">{$r.receipt_amount|number_format:2}</td>
+								<td>{$r.pp_username|default:"-"}</td>					
+							</tr>
+						</div>
 						{/foreach}	
 					{/foreach}
 				</table>

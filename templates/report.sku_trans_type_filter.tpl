@@ -64,166 +64,231 @@ function check_form(){
 {/if}
 
 <div class="noprint">
-	<h1>{$PAGE_TITLE}</h1>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 </div>
 
 {if $err}
-	<ul style="color:red;">
-	    {foreach from=$err item=e}
-	        <li><b>{$e}</b></li>
-	    {/foreach}
-	</ul>
+	<div class="alert alert-danger mx-3 rounded">
+		<ul style="color:red;">
+			{foreach from=$err item=e}
+				<li><b>{$e}</b></li>
+			{/foreach}
+		</ul>
+	</div>
 {/if}
 
-<form name="f_d" onsubmit="return check_form();"  method="post">
-<div class="noprint stdframe" style="background:#fff;">
-<input type="hidden" name="a" value="show_report" />
-
-{if !$no_header_footer}
-<p>
-{include file='category_autocomplete.tpl' all=$config.allow_all_sku_branch_for_selected_reports}
-</p>
-
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		{foreach from=$branch key=bid item=b}
-		<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
-		{/foreach}
-		</select> &nbsp;&nbsp;
-	{/if}
-
-	<b>SKU Type</b>
-	<select name="sku_type">
-		<option value="">-- All --</option>
-		{foreach from=$sku_type item=t}
-			<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;
-	
-	<b>SKU Status</b>
-	<select name="sku_status">
-		<option value="all" {if $smarty.request.sku_status eq 'all'}selected {/if}>-- All --</option>
-		<option value="1" {if $smarty.request.sku_status eq '1' or $smarty.request.sku_status eq ''}selected {/if}>Active</option>
-		<option value="0" {if $smarty.request.sku_status eq '0'}selected {/if}>Inactive</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<b>Bom Type</b>
-	<select name="is_bom">
-		<option value="" {if $smarty.request.is_bom eq ''}selected {/if}>-- All --</option>
-		<option value="1" {if $smarty.request.is_bom eq '1'}selected {/if}>Yes</option>
-		<option value="0" {if $smarty.request.is_bom eq '0'}selected {/if}>No</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<b>No Inventory</b>
-	<select name="no_inventory">
-		<option value="" {if $smarty.request.no_inventory eq ''}selected {/if}>All</option>
-		<option value="1" {if $smarty.request.no_inventory eq '1'}selected {/if}>Yes</option>
-		<option value="0" {if $smarty.request.no_inventory eq '0'}selected {/if}>No</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<b>Date From</b> 
-	<input type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
-	&nbsp; 
-	<b>To</b> 
-	<input type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-</p>
-
-<p>
-	<b>With Transaction Type</b>&nbsp;&nbsp;
-	{foreach from=$transaction_type key=type_key item=type}
-	<input class="with_trans_type" type="checkbox" onclick="check_trans_type('with','{$type_key}')" name="with_trans_type[{$type_key}]" {if $smarty.request.without_trans_type[$type_key] eq $type_key}disabled{/if} value="{$type_key}" {if $smarty.request.with_trans_type[$type_key] eq $type_key}checked{/if} /> {$type}&nbsp;
-	{/foreach}
-	&nbsp;&nbsp;
-	<b>Condition</b>
-	<select name="condition">
-		<option value="or" {if $smarty.request.condition eq 'or'}selected {/if}>Or</option>
-		<option value="and" {if $smarty.request.condition eq 'and'}selected {/if}>And</option>
-	</select>
-</p>
-<p>
-	<b>Without Transaction Type</b>&nbsp;
-	{foreach from=$transaction_type key=type_key item=type}
-	<input class="without_trans_type" type="checkbox" onclick="check_trans_type('without','{$type_key}')" name="without_trans_type[{$type_key}]" {if $smarty.request.with_trans_type[$type_key] eq $type_key}disabled{/if} value="{$type_key}" {if $smarty.request.without_trans_type[$type_key] eq $type_key}checked{/if} /> {$type}&nbsp;
-	{/foreach}&nbsp;&nbsp;
-	
-	<input type="checkbox" name="group_by_sku" {if $smarty.request.group_by_sku}checked{/if} />
-	<b>Group By Parent SKU</b>
-</p>
-<p>
-	<button class="btn btn-primary" name="show_report">{#SHOW_REPORT#}</button>
-	{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-	<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-	{/if}
-</p>
-<p> * Maximum show 1 year.</p>
-{/if}
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_d" onsubmit="return check_form();"  method="post">
+			<div class="noprint stdframe">
+			<input type="hidden" name="a" value="show_report" />
+			
+			{if !$no_header_footer}
+			<p>
+			{include file='category_autocomplete.tpl' all=$config.allow_all_sku_branch_for_selected_reports}
+			</p>
+			
+			<p>
+				<div class="row">
+					<div class="col-md-3">
+						{if $BRANCH_CODE eq 'HQ'}
+						<b class="form-label mt-2">Branch</b>
+						<select class="form-control" name="branch_id">
+						{foreach from=$branch key=bid item=b}
+						<option value="{$bid}" {if $smarty.request.branch_id eq $bid}selected {/if}>{$b.code}</option>
+						{/foreach}
+						</select> 
+					{/if}
+					</div>
+				
+					<div class="col-md-3">
+						<b class="form-label mt-2">SKU Type</b>
+					<select class="form-control" name="sku_type">
+						<option value="">-- All --</option>
+						{foreach from=$sku_type item=t}
+							<option value="{$t.code}" {if $smarty.request.sku_type eq $t.code}selected {/if}>{$t.description}</option>
+						{/foreach}
+					</select>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label mt-2">SKU Status</b>
+					<select class="form-control" name="sku_status">
+						<option value="all" {if $smarty.request.sku_status eq 'all'}selected {/if}>-- All --</option>
+						<option value="1" {if $smarty.request.sku_status eq '1' or $smarty.request.sku_status eq ''}selected {/if}>Active</option>
+						<option value="0" {if $smarty.request.sku_status eq '0'}selected {/if}>Inactive</option>
+					</select>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label mt-2">Bom Type</b>
+					<select class="form-control" name="is_bom">
+						<option value="" {if $smarty.request.is_bom eq ''}selected {/if}>-- All --</option>
+						<option value="1" {if $smarty.request.is_bom eq '1'}selected {/if}>Yes</option>
+						<option value="0" {if $smarty.request.is_bom eq '0'}selected {/if}>No</option>
+					</select>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label mt-2">No Inventory</b>
+					<select class="form-control" name="no_inventory">
+						<option value="" {if $smarty.request.no_inventory eq ''}selected {/if}>All</option>
+						<option value="1" {if $smarty.request.no_inventory eq '1'}selected {/if}>Yes</option>
+						<option value="0" {if $smarty.request.no_inventory eq '0'}selected {/if}>No</option>
+					</select>
+					</div>
+					
+					
+					<div class="col-md-3">
+						<b class="form-label mt-2">Date From</b> 
+					<div class="form-inline">
+						<input class="form-control" type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=17> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
+					</div>
+					</div>
+					
+					<div class="col-md-3">
+						<b class="form-label mt-2">To</b> 
+				<div class="form-inline">
+					<input class="form-control" type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=17> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				</div>
+					</div>
+				</div>
+			</p>
+			
+			<p>
+				<div class="row">
+					<div class="col">
+						<b class="form-label mt-2">With Transaction Type</b>
+				{foreach from=$transaction_type key=type_key item=type}
+				<input class="with_trans_type" type="checkbox" onclick="check_trans_type('with','{$type_key}')" name="with_trans_type[{$type_key}]" {if $smarty.request.without_trans_type[$type_key] eq $type_key}disabled{/if} value="{$type_key}" {if $smarty.request.with_trans_type[$type_key] eq $type_key}checked{/if} /> {$type}&nbsp;
+				{/foreach}
+					</div>
+				
+				<div class="col">
+					<b class="form-label mt-2">Condition</b>
+				<select class="form-control" name="condition">
+					<option value="or" {if $smarty.request.condition eq 'or'}selected {/if}>Or</option>
+					<option value="and" {if $smarty.request.condition eq 'and'}selected {/if}>And</option>
+				</select>
+				</div>
+				</div>
+			</p>
+			<p>
+					<div class="row">
+						<div class="col">
+							<b class="form-label mt-2">Without Transaction Type</b>&nbsp;
+					{foreach from=$transaction_type key=type_key item=type}
+					<input class="without_trans_type" type="checkbox" onclick="check_trans_type('without','{$type_key}')" name="without_trans_type[{$type_key}]" {if $smarty.request.with_trans_type[$type_key] eq $type_key}disabled{/if} value="{$type_key}" {if $smarty.request.without_trans_type[$type_key] eq $type_key}checked{/if} /> {$type}&nbsp;
+					{/foreach}
+						</div>
+					
+					<div class="col">
+						<div class="form-label form-inline">
+							<input type="checkbox" name="group_by_sku" {if $smarty.request.group_by_sku}checked{/if} />
+						<b>&nbsp;Group By Parent SKU</b>
+						</div>
+					</div>
+					</div>
+			</p>
+			<p>
+				<button class="btn btn-primary mt-2" name="show_report">{#SHOW_REPORT#}</button>
+				{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+				<button class="btn btn-info mt-2" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+				{/if}
+			</p>
+			<p><div class="alert alert-primary rounded" style="max-width: 200px;">
+				* Maximum show 1 year.
+			</div></p>
+			{/if}
+			</div>
+			</form>
+	</div>
 </div>
-</form>
 
 {if !$table}
 	{if $smarty.request.a eq 'show_report' && !$err}<p>-- No Data --</p>{/if}
 {else}
-<h2>{$report_header}</h2>
-<table class="report_table" width="100%">
-	<tr class="header">
-		<th rowspan="2">ARMS Code</th>
-		<th rowspan="2">Mcode</th>
-		<th rowspan="2">Artno </th>
-		<th rowspan="2">Old Code</th>
-		<th rowspan="2">Description</th>
-		<th rowspan="2">BOM SKU</th>
-		<th rowspan="2">Stock Check</th>
-		<th rowspan="2">DO</th>
-		<th rowspan="2">GRN</th>
-		<th colspan="2" rowspan="1">Adjustment</th>
-		<th rowspan="2">GRA</th>
-		<th rowspan="2">POS</th>
-		<th rowspan="2">Closing Stock</th>
-	</tr>
-	<tr class="header">
-		<th rowspan="1">IN</th>
-		<th rowspan="1">OUT</th>
-	</tr>
-	
-	
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_header}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-	{foreach from=$table item=r}
-	<tr>
-		<td align="left">{$r.sku_item_code}</td>
-		<td align="left">{$r.mcode}</td>
-		<td align="left">{$r.artno}</td>
-		<td align="left">{$r.link_code}</td>
-		<td align="left">{$r.description}</td>
-		<td align="left">{if $r.is_bom eq 1}Yes{else}No{/if}</td>
-		<td align="right">{$r.sc_qty|qty_nf|ifzero:"0"}</td>
-		<td align="right">{$r.do_qty|qty_nf|ifzero}</td>
-		<td align="right">{$r.grn_qty|qty_nf|ifzero}</td>
-		<td align="right">{$r.adj_in|qty_nf|ifzero}</td>
-		<td align="right">{$r.adj_out|qty_nf|ifzero}</td>
-		<td align="right">{$r.gra_qty|qty_nf|ifzero}</td>
-		<td align="right">{$r.pos_qty|qty_nf|ifzero}</td>
-		<td align="right">{$r.sb_qty|qty_nf|ifzero}</td>
-	</tr>
-	{/foreach}
-	
-	<tr class="header">
-		<th colspan="6" align="right">Total</th>
-		<th align="right">{$total.sc_qty|qty_nf|ifzero:"0"}</th>
-		<th align="right">{$total.do_qty|qty_nf|ifzero}</th>
-		<th align="right">{$total.grn_qty|qty_nf|ifzero}</th>
-		<th align="right">{$total.adj_in|qty_nf|ifzero}</th>
-		<th align="right">{$total.adj_out|qty_nf|ifzero}</th>
-		<th align="right">{$total.gra_qty|qty_nf|ifzero}</th>
-		<th align="right">{$total.pos_qty|qty_nf|ifzero}</th>
-		<th align="right">{$total.sb_qty|qty_nf|ifzero}</th>
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="report_table table mb-0 text-md-nowrap  table-hover" width="100%">
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th rowspan="2">ARMS Code</th>
+						<th rowspan="2">Mcode</th>
+						<th rowspan="2">Artno </th>
+						<th rowspan="2">Old Code</th>
+						<th rowspan="2">Description</th>
+						<th rowspan="2">BOM SKU</th>
+						<th rowspan="2">Stock Check</th>
+						<th rowspan="2">DO</th>
+						<th rowspan="2">GRN</th>
+						<th colspan="2" rowspan="1">Adjustment</th>
+						<th rowspan="2">GRA</th>
+						<th rowspan="2">POS</th>
+						<th rowspan="2">Closing Stock</th>
+					</tr>
+					<tr class="header">
+						<th rowspan="1">IN</th>
+						<th rowspan="1">OUT</th>
+					</tr>
+				</thead>
+				
+				
+			
+				{foreach from=$table item=r}
+				<tbody class="fs-08">
+					<tr>
+						<td align="left">{$r.sku_item_code}</td>
+						<td align="left">{$r.mcode}</td>
+						<td align="left">{$r.artno}</td>
+						<td align="left">{$r.link_code}</td>
+						<td align="left">{$r.description}</td>
+						<td align="left">{if $r.is_bom eq 1}Yes{else}No{/if}</td>
+						<td align="right">{$r.sc_qty|qty_nf|ifzero:"0"}</td>
+						<td align="right">{$r.do_qty|qty_nf|ifzero}</td>
+						<td align="right">{$r.grn_qty|qty_nf|ifzero}</td>
+						<td align="right">{$r.adj_in|qty_nf|ifzero}</td>
+						<td align="right">{$r.adj_out|qty_nf|ifzero}</td>
+						<td align="right">{$r.gra_qty|qty_nf|ifzero}</td>
+						<td align="right">{$r.pos_qty|qty_nf|ifzero}</td>
+						<td align="right">{$r.sb_qty|qty_nf|ifzero}</td>
+					</tr>
+				</tbody>
+				{/foreach}
+				
+				<tr class="header">
+					<th colspan="6" align="right">Total</th>
+					<th align="right">{$total.sc_qty|qty_nf|ifzero:"0"}</th>
+					<th align="right">{$total.do_qty|qty_nf|ifzero}</th>
+					<th align="right">{$total.grn_qty|qty_nf|ifzero}</th>
+					<th align="right">{$total.adj_in|qty_nf|ifzero}</th>
+					<th align="right">{$total.adj_out|qty_nf|ifzero}</th>
+					<th align="right">{$total.gra_qty|qty_nf|ifzero}</th>
+					<th align="right">{$total.pos_qty|qty_nf|ifzero}</th>
+					<th align="right">{$total.sb_qty|qty_nf|ifzero}</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 {if !$no_header_footer}
 {literal}

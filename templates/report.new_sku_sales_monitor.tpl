@@ -94,231 +94,321 @@ function check_use_grn(obj){
 </script>
 
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class="err">
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form name="f_a" method="post" class="form" action="{$smarty.server.PHP_SELF}">
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" class="form" action="{$smarty.server.PHP_SELF}">
 
-<p>
-{if $BRANCH_CODE eq 'HQ'}
-	<b>Branch</b>
-	<select name="branch_id">
-		<option value="">-- All --</option>
-		{foreach from=$branches item=b}
-			<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		{/foreach}
-		{if $branch_group.header}
-			<optgroup label="Branch Group">
-				{foreach from=$branch_group.header item=r}
-					{capture assign=bgid}bg,{$r.id}{/capture}
-					<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+			
+			<div class="row">
+				{if $BRANCH_CODE eq 'HQ'}
+				<div class="col-md-3">
+					<b class="form-label">Branch</b>
+				<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+						<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+					{/foreach}
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header item=r}
+								{capture assign=bgid}bg,{$r.id}{/capture}
+								<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+				</div>
+			{/if}
+			
+			<div class="col-md-3">
+				<b class="form-label">Apply Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="apply_date_from" value="{$smarty.request.apply_date_from}{$form.date_from}" id="apply_date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ta_added1" style="cursor: pointer;" title="Select Apply Date From">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="apply_date_to" value="{$smarty.request.apply_date_to}" id="apply_date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ta_added2" style="cursor: pointer;" title="Select Apply Date To">
+			</div>
+			</div>
+			
+			
+			<div class="col-md-3">
+				<b class="form-label">Received Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="rcv_date_from" value="{$smarty.request.rcv_date_from}{$form.date_from}" id="rcv_date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="tr_added1" style="cursor: pointer;" title="Select Received Date From">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="rcv_date_to" value="{$smarty.request.rcv_date_to}" id="rcv_date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="tr_added2" style="cursor: pointer;" title="Select Received Date To">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">Sales Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="sales_date_from" value="{$smarty.request.sales_date_from}{$form.date_from}" id="sales_date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ts_added1" style="cursor: pointer;" title="Select Sales Date From">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="sales_date_to" value="{$smarty.request.sales_date_to}" id="sales_date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="ts_added2" style="cursor: pointer;" title="Select Sales Date To">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">DO Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="do_date_from" value="{$smarty.request.do_date_from}{$form.date_from}" id="do_date_from">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="do_added1" style="cursor: pointer;" title="Select DO Date From">
+			</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+			<div class="form-inline">
+				<input class="form-control" size="16" type="text" name="do_date_to" value="{$smarty.request.do_date_to}" id="do_date_to">
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="do_added2" style="cursor: pointer;" title="Select DO Date To">
+			</div>
+			</div>
+			
+		
+			<div class="col-md-3">
+				<b class="form-label">Department</b>
+			<select class="form-control" name="department_id">
+			   <option value="">-- All --</option>
+				{foreach from=$departments item=dept}
+					<option value="{$dept.id}" {if $smarty.request.department_id eq $dept.id}selected {/if}>{$dept.description}</option>
 				{/foreach}
-			</optgroup>
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
+			</select>
+			</div>
 
-<b>Apply Date From</b> <input size="10" type="text" name="apply_date_from" value="{$smarty.request.apply_date_from}{$form.date_from}" id="apply_date_from">
-<img align="absmiddle" src="ui/calendar.gif" id="ta_added1" style="cursor: pointer;" title="Select Apply Date From">
-<b>To</b>
-<input size="10" type="text" name="apply_date_to" value="{$smarty.request.apply_date_to}" id="apply_date_to">
-<img align="absmiddle" src="ui/calendar.gif" id="ta_added2" style="cursor: pointer;" title="Select Apply Date To">
-&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="col-md-3">
+				<b class="form-label">Brand</b>
+			<select class="form-control" name="brand_id">
+			   <option value="">-- All --</option>
+			   <option value="0" {if $smarty.request.brand_id eq '0'}selected {/if}>UNBRANDED</option>
+			   {if $brand_groups}
+			   <optgroup label="Brand Group">
+				{foreach from=$brand_groups key=bgk item=bgv}
+					<option value="{$bgk}" {if $smarty.request.brand_id eq $bgk}selected {/if}>{$bgv}</option>
+				{/foreach}
+			   </optgroup>
+			   {/if}
+			   {if $brands}
+				<optgroup label="Brand">
+				{foreach from=$brands item=brand}
+					<option value="{$brand.id}" {if $smarty.request.brand_id eq $brand.id}selected {/if}>{$brand.description}</option>
+				{/foreach}
+				</optgroup>
+				{/if}
+			</select>
+			</div>
 
-<b>Received Date From</b> <input size="10" type="text" name="rcv_date_from" value="{$smarty.request.rcv_date_from}{$form.date_from}" id="rcv_date_from">
-<img align="absmiddle" src="ui/calendar.gif" id="tr_added1" style="cursor: pointer;" title="Select Received Date From">
-<b>To</b>
-<input size="10" type="text" name="rcv_date_to" value="{$smarty.request.rcv_date_to}" id="rcv_date_to">
-<img align="absmiddle" src="ui/calendar.gif" id="tr_added2" style="cursor: pointer;" title="Select Received Date To">&nbsp;&nbsp;&nbsp;&nbsp;
-
-<b>Sales Date From</b> <input size="10" type="text" name="sales_date_from" value="{$smarty.request.sales_date_from}{$form.date_from}" id="sales_date_from">
-<img align="absmiddle" src="ui/calendar.gif" id="ts_added1" style="cursor: pointer;" title="Select Sales Date From">
-<b>To</b>
-<input size="10" type="text" name="sales_date_to" value="{$smarty.request.sales_date_to}" id="sales_date_to">
-<img align="absmiddle" src="ui/calendar.gif" id="ts_added2" style="cursor: pointer;" title="Select Sales Date To">&nbsp;&nbsp;&nbsp;&nbsp;
-
-<b>DO Date From</b> <input size="10" type="text" name="do_date_from" value="{$smarty.request.do_date_from}{$form.date_from}" id="do_date_from">
-<img align="absmiddle" src="ui/calendar.gif" id="do_added1" style="cursor: pointer;" title="Select DO Date From">
-<b>To</b>
-<input size="10" type="text" name="do_date_to" value="{$smarty.request.do_date_to}" id="do_date_to">
-<img align="absmiddle" src="ui/calendar.gif" id="do_added2" style="cursor: pointer;" title="Select DO Date To">
-</p>
-<p>
-<b>Department</b>
-<select name="department_id">
-   <option value="">-- All --</option>
-    {foreach from=$departments item=dept}
-        <option value="{$dept.id}" {if $smarty.request.department_id eq $dept.id}selected {/if}>{$dept.description}</option>
-    {/foreach}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Brand</b>
-<select name="brand_id">
-   <option value="">-- All --</option>
-   <option value="0" {if $smarty.request.brand_id eq '0'}selected {/if}>UNBRANDED</option>
-   {if $brand_groups}
-   <optgroup label="Brand Group">
-    {foreach from=$brand_groups key=bgk item=bgv}
-        <option value="{$bgk}" {if $smarty.request.brand_id eq $bgk}selected {/if}>{$bgv}</option>
-    {/foreach}
-   </optgroup>
-   {/if}
-   {if $brands}
-    <optgroup label="Brand">
-    {foreach from=$brands item=brand}
-        <option value="{$brand.id}" {if $smarty.request.brand_id eq $brand.id}selected {/if}>{$brand.description}</option>
-    {/foreach}
-	</optgroup>
-	{/if}
-</select>&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Master Vendor</b>
-<select name="vendor_id" style="width:300px;" onchange="check_use_grn(this);">
-   <option value="">-- All --</option>
-    {foreach from=$vendors item=vd}
-        <option value="{$vd.id}" {if $smarty.request.vendor_id eq $vd.id}selected {/if}>{$vd.description}</option>
-    {/foreach}
-</select>
-<!--input type="checkbox" name="use_grn" {if $smarty.request.use_grn}checked{/if} {if !$smarty.request.vendor_id}disabled{/if} /> <label for="GRN_id"><b>Use GRN</b></label> [<a href="javascript:void(0)" onclick="alert('<? print jsstring($LANG['USE_GRN_INFO']);?>')">?</a>]-->
-&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="checkbox" name="group_by_sku" {if $smarty.request.group_by_sku}checked{/if} />
-<b>Group By SKU</b>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-</p>
-
-<p><b>
-Important: <br>
-* Report Maximum Shown in 1 Month for Apply Date. <br />
-* Vendor filter was based on masterfile SKU vendor.<br />
-* Balance Qty = GRN - POS - DO
-</b></p>
-
-<input type="hidden" name="subm" value="1">
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-<br>
-</form>
+			<div class="col-md-3">
+				<b class="form-label">Master Vendor</b>
+			<select class="form-control" name="vendor_id" style="width:300px;" onchange="check_use_grn(this);">
+			   <option value="">-- All --</option>
+				{foreach from=$vendors item=vd}
+					<option value="{$vd.id}" {if $smarty.request.vendor_id eq $vd.id}selected {/if}>{$vd.description}</option>
+				{/foreach}
+			</select>
+			</div>
+			<!--input type="checkbox" name="use_grn" {if $smarty.request.use_grn}checked{/if} {if !$smarty.request.vendor_id}disabled{/if} /> <label for="GRN_id"><b>Use GRN</b></label> [<a href="javascript:void(0)" onclick="alert('<? print jsstring($LANG['USE_GRN_INFO']);?>')">?</a>]-->
+			
+			<div class="col-md-3">
+				<div class="form-label form-inline">
+					<input type="checkbox" name="group_by_sku" {if $smarty.request.group_by_sku}checked{/if} />
+				<b>&nbsp;Group By SKU</b>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="form-label form-inline">
+					<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+				</div>
+			</div>
+			</div>
+			
+			
+			<p><b>
+			<div class="alert alert-primary rounded" style="max-width: 400px;">
+				Important: <br>
+			* Report Maximum Shown in 1 Month for Apply Date. <br />
+			* Vendor filter was based on masterfile SKU vendor.<br />
+			* Balance Qty = GRN - POS - DO
+			</div>
+			</b></p>
+			
+			<input type="hidden" name="subm" value="1">
+			<button class="btn btn-primary mt-2" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-2" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
+			{/if}
+			<br>
+			</form>
+	</div>
+</div>
 
 {/if}
 {if !$sku_table}
 {if $smarty.request.subm && !$err}<p align="center">-- No Data --</p>{/if}
 {else}
-<h2>{$report_title}</h2>
-<table class="rpt_table" id="rpt_table" width=100% cellspacing=0 cellpadding=0>
-	<tr class="header">
-		{assign var=colspan value=2}
-		{if $sessioninfo.show_cost}
-			{assign var=colspan value=$colspan+1}
-		{/if}
-		{if $sessioninfo.show_report_gp}
-			{assign var=colspan value=$colspan+2}
-		{/if}
-		<th width="2%" rowspan="2">#</th>
-		<th width="5%" rowspan="2">SKU Item Code</th>
-		<th width="30%" rowspan="2">Description</th>
-		<th width="5%" rowspan="2">MCode</th>
-		<th width="7%" colspan="2">GRN</th>
-		<th width="5%" colspan="{$colspan}">POS</th>
-		<th width="5%" colspan="2">DO</th>
-		<th width="5%" rowspan="2">Balance<br />Qty</th>
-	</tr>
-	<tr class="header">
-		<th width="5%">Vendor<br />Qty</th>
-		<th width="5%">IBT<br />Qty</th>
-		<th width="5%">Qty</th>
-		<th width="5%">Amount</th>
-		{if $sessioninfo.show_cost}
-			<th width="5%">Cost</th>
-		{/if}
-		{if $sessioninfo.show_report_gp}
-			<th width="5%">GP</th>
-			<th width="5%">GP %</th>
-		{/if}
-		<th width="5%">Qty</th>
-		<th width="5%">Amount</th>
-	</tr>
-	<tbody>
-	{foreach from=$sku_table key=id item=sku name=sku_list}
-		{if $smarty.request.group_by_sku}
-			<tr class="rows">
-				<td>
-					{$smarty.foreach.sku_list.iteration}.
-					{if $table.$id}
-						<img src="/ui/expand.gif" onclick="javascript:void(toggle_sku_group('{$id}', this));" align="absmiddle">
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="rpt_table" id="rpt_table" width=100% cellspacing=0 cellpadding=0>
+				<thead class="bg-gray-100">
+					<tr class="header">
+						{assign var=colspan value=2}
+						{if $sessioninfo.show_cost}
+							{assign var=colspan value=$colspan+1}
+						{/if}
+						{if $sessioninfo.show_report_gp}
+							{assign var=colspan value=$colspan+2}
+						{/if}
+						<th width="2%" rowspan="2">#</th>
+						<th width="5%" rowspan="2">SKU Item Code</th>
+						<th width="30%" rowspan="2">Description</th>
+						<th width="5%" rowspan="2">MCode</th>
+						<th width="7%" colspan="2">GRN</th>
+						<th width="5%" colspan="{$colspan}">POS</th>
+						<th width="5%" colspan="2">DO</th>
+						<th width="5%" rowspan="2">Balance<br />Qty</th>
+					</tr>
+				</thead>
+				<thead class="bg-gray-100">
+					<tr class="header">
+						<th width="5%">Vendor<br />Qty</th>
+						<th width="5%">IBT<br />Qty</th>
+						<th width="5%">Qty</th>
+						<th width="5%">Amount</th>
+						{if $sessioninfo.show_cost}
+							<th width="5%">Cost</th>
+						{/if}
+						{if $sessioninfo.show_report_gp}
+							<th width="5%">GP</th>
+							<th width="5%">GP %</th>
+						{/if}
+						<th width="5%">Qty</th>
+						<th width="5%">Amount</th>
+					</tr>
+				</thead>
+				<tbody class="fs-08">
+				{foreach from=$sku_table key=id item=sku name=sku_list}
+					{if $smarty.request.group_by_sku}
+						<tr class="rows">
+							<td>
+								{$smarty.foreach.sku_list.iteration}.
+								{if $table.$id}
+									<img src="/ui/expand.gif" onclick="javascript:void(toggle_sku_group('{$id}', this));" align="absmiddle">
+								{/if}
+							</td>
+							<td align="center">{$sku.sku_item_code|default:"&nbsp;"}</td>
+							<td nowrap>{$sku.description|default:"&nbsp;"}</td>
+							<td>{$sku.mcode|default:"&nbsp;"}</td>
+							<td align="right">{$sku.vd_qty|qty_nf}</td>
+							<td align="right">{$sku.ibt_qty|qty_nf}</td>
+							<td align="right">{$sku.sales_qty|qty_nf}</td>
+							<td align="right">{$sku.sales_amt|number_format:2}</td>
+							{if $sessioninfo.show_cost}
+								<td align="right">{$sku.cost|number_format:$config.global_cost_decimal_points}</td>
+							{/if}
+							{if $sessioninfo.show_report_gp}
+								{assign var=gp value=$sku.sales_amt-$sku.cost}
+								<td align=right>{$gp|number_format:2}</td>
+								{if $sku.sales_amt>0}
+									{assign var=gp_per value=$gp/$sku.sales_amt*100}
+								{else}
+									{assign var=gp_per value=0}
+								{/if}
+								<td align=right>{$gp_per|number_format:2}</td>
+							{/if}
+							<td align="right">{$sku.do_qty|qty_nf}</td>
+							<td align="right">{$sku.do_amt|number_format:2}</td>
+							<td align="right">{$sku.vd_qty+$sku.ibt_qty-$sku.sales_qty-$sku.do_qty|qty_nf}</td>
+						</tr>
 					{/if}
-				</td>
-				<td align="center">{$sku.sku_item_code|default:"&nbsp;"}</td>
-				<td nowrap>{$sku.description|default:"&nbsp;"}</td>
-				<td>{$sku.mcode|default:"&nbsp;"}</td>
-				<td align="right">{$sku.vd_qty|qty_nf}</td>
-				<td align="right">{$sku.ibt_qty|qty_nf}</td>
-				<td align="right">{$sku.sales_qty|qty_nf}</td>
-				<td align="right">{$sku.sales_amt|number_format:2}</td>
-				{if $sessioninfo.show_cost}
-					<td align="right">{$sku.cost|number_format:$config.global_cost_decimal_points}</td>
-				{/if}
-				{if $sessioninfo.show_report_gp}
-					{assign var=gp value=$sku.sales_amt-$sku.cost}
-					<td align=right>{$gp|number_format:2}</td>
-					{if $sku.sales_amt>0}
-						{assign var=gp_per value=$gp/$sku.sales_amt*100}
-					{else}
-						{assign var=gp_per value=0}
-					{/if}
-					<td align=right>{$gp_per|number_format:2}</td>
-				{/if}
-				<td align="right">{$sku.do_qty|qty_nf}</td>
-				<td align="right">{$sku.do_amt|number_format:2}</td>
-				<td align="right">{$sku.vd_qty+$sku.ibt_qty-$sku.sales_qty-$sku.do_qty|qty_nf}</td>
-			</tr>
-		{/if}
-		{foreach from=$table.$id key=sid item=si name=si_list}
-			<tr class="{if $smarty.request.group_by_sku}child sku_items_{$id}{else}rows{/if}" {if $smarty.request.group_by_sku}style="display:none;"{/if} id="sku_items_{$id}">
-				<td>
-					{if !$smarty.request.group_by_sku}
-						{assign var=si_rows value=$si_rows+1}
-						{$si_rows}.
-					{else}
-						&nbsp;
-					{/if}
-				</td>
-				<td align="center">{$si.sku_item_code|default:"&nbsp;"}</td>
-				<td nowrap>{$si.description|default:"&nbsp;"}</td>
-				<td>{$si.mcode|default:"&nbsp;"}</td>
-				<td align="right">{$si.vd_qty|qty_nf}</td>
-				<td align="right">{$si.ibt_qty|qty_nf}</td>
-				<td align="right">{$si.sales_qty|qty_nf}</td>
-				<td align="right">{$si.sales_amt|number_format:2}</td>
-				{if $sessioninfo.show_cost}
-					<td align="right">{$si.cost|number_format:$config.global_cost_decimal_points}</td>
-				{/if}
-				{if $sessioninfo.show_report_gp}
-					{assign var=gp value=$si.sales_amt-$si.cost}
-					<td align=right>{$gp|number_format:2}</td>
-					{if $si.sales_amt>0}
-						{assign var=gp_per value=$gp/$si.sales_amt*100}
-					{else}
-						{assign var=gp_per value=0}
-					{/if}
-					<td align=right>{$gp_per|number_format:2}</td>
-				{/if}
-				<td align="right">{$si.do_qty|qty_nf}</td>
-				<td align="right">{$si.do_amt|number_format:2}</td>
-				<td align="right">{$si.vd_qty+$si.ibt_qty-$si.sales_qty-$si.do_qty|qty_nf}</td>
-			</tr>
-		{/foreach}
-	{/foreach}
-	</tbody>
-</table>
+					{foreach from=$table.$id key=sid item=si name=si_list}
+						<tr class="{if $smarty.request.group_by_sku}child sku_items_{$id}{else}rows{/if}" {if $smarty.request.group_by_sku}style="display:none;"{/if} id="sku_items_{$id}">
+							<td>
+								{if !$smarty.request.group_by_sku}
+									{assign var=si_rows value=$si_rows+1}
+									{$si_rows}.
+								{else}
+									&nbsp;
+								{/if}
+							</td>
+							<td align="center">{$si.sku_item_code|default:"&nbsp;"}</td>
+							<td nowrap>{$si.description|default:"&nbsp;"}</td>
+							<td>{$si.mcode|default:"&nbsp;"}</td>
+							<td align="right">{$si.vd_qty|qty_nf}</td>
+							<td align="right">{$si.ibt_qty|qty_nf}</td>
+							<td align="right">{$si.sales_qty|qty_nf}</td>
+							<td align="right">{$si.sales_amt|number_format:2}</td>
+							{if $sessioninfo.show_cost}
+								<td align="right">{$si.cost|number_format:$config.global_cost_decimal_points}</td>
+							{/if}
+							{if $sessioninfo.show_report_gp}
+								{assign var=gp value=$si.sales_amt-$si.cost}
+								<td align=right>{$gp|number_format:2}</td>
+								{if $si.sales_amt>0}
+									{assign var=gp_per value=$gp/$si.sales_amt*100}
+								{else}
+									{assign var=gp_per value=0}
+								{/if}
+								<td align=right>{$gp_per|number_format:2}</td>
+							{/if}
+							<td align="right">{$si.do_qty|qty_nf}</td>
+							<td align="right">{$si.do_amt|number_format:2}</td>
+							<td align="right">{$si.vd_qty+$si.ibt_qty-$si.sales_qty-$si.do_qty|qty_nf}</td>
+						</tr>
+					{/foreach}
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 {/if}
 
 {if !$no_header_footer}

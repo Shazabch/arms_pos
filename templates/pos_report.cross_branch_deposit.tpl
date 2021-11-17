@@ -110,135 +110,181 @@ function curtain_clicked(){
 </div>
 </div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if !$no_header_footer}
-<form method="post" class="form" name="f_a">
-<p>
-	{if $BRANCH_CODE eq 'HQ'}
-		<b>Branch</b>
-		<select name="branch_id">
-		    <option value="">-- All --</option>
-		    {foreach from=$branches item=b}
-		        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-		    {/foreach}
-		    {if $branch_group.header}
-		        <optgroup label="Branch Group">
-					{foreach from=$branch_group.header item=r}
-					    {capture assign=bgid}bg,{$r.id}{/capture}
-						<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
-					{/foreach}
-				</optgroup>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" class="form" name="f_a">
+			<p>
+				<div class="row">
+					<div class="col-md-4">
+						{if $BRANCH_CODE eq 'HQ'}
+						<b class="form-label">Branch</b>
+						<select class="form-control" name="branch_id">
+							<option value="">-- All --</option>
+							{foreach from=$branches item=b}
+								<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+							{/foreach}
+							{if $branch_group.header}
+								<optgroup label="Branch Group">
+									{foreach from=$branch_group.header item=r}
+										{capture assign=bgid}bg,{$r.id}{/capture}
+										<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+									{/foreach}
+								</optgroup>
+							{/if}
+						</select>
+					{/if}
+					</div>
+					<div class="col-md-4">
+						<b class="form-label">Deposit Date From</b> 
+					<div class="form-inline">
+						<input class="form-control" size="22" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
+					</div>
+					</div>
+					
+					<div class="col-md-4">
+						<b class="form-label">To</b> 
+					<div class="form-inline">
+						<input class="form-control" size="22" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
+					</div>
+					</div>
+					
+					<div class="col-md-4">
+						<b class="form-label">Account</b>
+					<select class="form-control" name="view_type">
+						<option value="ap" {if $smarty.request.view_type eq 'ap'}selected{/if}>Payable</option>
+						<option value="ar" {if $smarty.request.view_type eq 'ar'}selected{/if}>Receivable</option>
+					</select>
+					[<a href="javascript:void(alert('- Payable: Deposit receive by your branch but customer redeem at other branch, you need to pay that branch.\n- Receivable: Deposit receive by other branch but customer redeem at your branch, you need to claim the amount from that branch.'));">?</a>]
+				
+					</div>
+					<!--b>Counter</b>
+					<select name="counter_id">
+						<option value="">-- All --</option>
+						{foreach from=$counter_list item=c}
+							<option value="{$c.id}" {if $smarty.request.counter_id eq $c.id}selected{/if}>{$c.network_name}</option>
+						{/foreach}
+					</select>
+					-->
+					<div class="col-md-4">
+						<b class="form-label">Cashier</b>
+					<select class="form-control" name="cashier_id">
+						<option value="">-- All --</option>
+						{foreach from=$user_list item=u}
+							<option value="{$u.id}" {if $smarty.request.cashier_id eq $u.id}selected{/if}>{$u.u}</option>
+						{/foreach}
+					</select>
+					</div>
+					
+				
+					<div class="col-md-4">
+						<b class="form-label">Transaction Status</b>
+					<select class="form-control" name="tran_status">
+						<option value="">-- All --</option>
+						{foreach from=$transaction_status key=status item=t}
+							<option value="{$status}" {if $smarty.request.tran_status eq $status}selected {/if}>{$t}</option>
+						{/foreach}
+					</select>
+					</div>
+				</div>
+				
+			</p>
+			<p>
+			<div class="alert alert-primary mt-2" style="max-width:300px;">
+				* View in maximum 1 month
+			</div>
+			</p>
+			<p>
+			<input type="hidden" name="submit" value="1" />
+			<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
 			{/if}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-	{/if}
-	<b>Deposit Date From</b> <input size="10" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
-	
-	<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
-	<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">&nbsp;&nbsp;&nbsp;&nbsp;
-	
-	<b>Account</b>
-	<select name="view_type">
-		<option value="ap" {if $smarty.request.view_type eq 'ap'}selected{/if}>Payable</option>
-		<option value="ar" {if $smarty.request.view_type eq 'ar'}selected{/if}>Receivable</option>
-	</select>
-	[<a href="javascript:void(alert('- Payable: Deposit receive by your branch but customer redeem at other branch, you need to pay that branch.\n- Receivable: Deposit receive by other branch but customer redeem at your branch, you need to claim the amount from that branch.'));">?</a>]
-</p>
-<p>
-	<!--b>Counter</b>
-	<select name="counter_id">
-		<option value="">-- All --</option>
-		{foreach from=$counter_list item=c}
-			<option value="{$c.id}" {if $smarty.request.counter_id eq $c.id}selected{/if}>{$c.network_name}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;-->
-	<b>Cashier</b>
-	<select name="cashier_id">
-		<option value="">-- All --</option>
-		{foreach from=$user_list item=u}
-			<option value="{$u.id}" {if $smarty.request.cashier_id eq $u.id}selected{/if}>{$u.u}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-
-	<b>Transaction Status</b>
-	<select name="tran_status">
-		<option value="">-- All --</option>
-		{foreach from=$transaction_status key=status item=t}
-			<option value="{$status}" {if $smarty.request.tran_status eq $status}selected {/if}>{$t}</option>
-		{/foreach}
-	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-<p>
-* View in maximum 1 month
-</p>
-<p>
-<input type="hidden" name="submit" value="1" />
-<button class="btn btn-primary" name="a" value="show_report">{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name="a" value="output_excel">{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-</form>
+			</p>
+			</form>
+	</div>
+</div>
 {/if}
 
 {if !$table}
 {if $smarty.request.submit && !$err}<p align=center>-- No data --</p>{/if}
 {else}
-	<h2>{$report_title}</h2>
-	<table class="rpt_table" width=100% cellspacing=0 cellpadding=0>
-		<tr class="header">
-			<th width="3%">#</th>
-			<th width="7%">Branch</th>
-			<th width="7%">Date</th>
-			<th width="7%">Receipt No</th>
-			<th width="7%">Cashier</th>
-			<th width="10%">Approved By</th>
-			<th width="10%">Status</th>
-			<th width="10%">Amount</th>
-		</tr>
-		<tbody>
-		{foreach from=$branch_list item=b key=f_bid name=branch}
-			<tr class="b_header">
-				<th colspan="8" align="left">{$b.branch_code} - {$b.description}</th>
-			</tr>
-			{foreach from=$table.$f_bid item=d name=deposit}
-				<tr>
-					<td>{$smarty.foreach.deposit.iteration}.</td>
-					<td align="center">{$d.owe_branch_code}</td>
-					<td align="center">{$d.date}</td>
-					<td align="center">
-						{if $d.have_item_list}
-							<a onclick="trans_detail('{$d.counter_id}','{$d.cashier_id}','{$d.date}','{$d.pos_id}','{$d.rcv_branch_id}')" class="clickable">{receipt_no_prefix_format branch_id=$d.rcv_branch_id counter_id=$d.counter_id receipt_no=$d.receipt_no}</a>
-						{else}
-							{receipt_no_prefix_format branch_id=$d.rcv_branch_id counter_id=$d.counter_id receipt_no=$d.receipt_no}
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+	
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="rpt_table table mb-0 text-md-nowrap  table-hover" width=100% >
+					<thead class="bg-gray-100">
+						<tr class="header">
+							<th width="3%">#</th>
+							<th width="7%">Branch</th>
+							<th width="7%">Date</th>
+							<th width="7%">Receipt No</th>
+							<th width="7%">Cashier</th>
+							<th width="10%">Approved By</th>
+							<th width="10%">Status</th>
+							<th width="10%">Amount</th>
+						</tr>
+					</thead>
+					<tbody class="fs-08">
+					{foreach from=$branch_list item=b key=f_bid name=branch}
+						<tr class="b_header">
+							<th colspan="8" align="left">{$b.branch_code} - {$b.description}</th>
+						</tr>
+						{foreach from=$table.$f_bid item=d name=deposit}
+							<tr>
+								<td>{$smarty.foreach.deposit.iteration}.</td>
+								<td align="center">{$d.owe_branch_code}</td>
+								<td align="center">{$d.date}</td>
+								<td align="center">
+									{if $d.have_item_list}
+										<a onclick="trans_detail('{$d.counter_id}','{$d.cashier_id}','{$d.date}','{$d.pos_id}','{$d.rcv_branch_id}')" class="clickable">{receipt_no_prefix_format branch_id=$d.rcv_branch_id counter_id=$d.counter_id receipt_no=$d.receipt_no}</a>
+									{else}
+										{receipt_no_prefix_format branch_id=$d.rcv_branch_id counter_id=$d.counter_id receipt_no=$d.receipt_no}
+									{/if}
+								</td>
+								<td align="center">{$d.cashier_name}</td>
+								<td align="center">{$d.approved_name|default:'-'}</td>
+								<td align="center">{if $d.status eq 1}Cancelled{else}Active{/if}</td>
+								<td align="right">{$d.deposit_amount|number_format:2}</td>
+							</tr>
+							{assign var=ttl_deposit_amount value=$ttl_deposit_amount+$d.deposit_amount}
+							{assign var=sub_ttl_deposit_amount value=$sub_ttl_deposit_amount+$d.deposit_amount}
+						{/foreach}
+						{if count($branch_list) > 1 && $BRANCH_CODE eq 'HQ'}
+							<tr class="sub_total">
+								<th class="r" colspan="7">Sub Total</th>
+								<th align="right">{$sub_ttl_deposit_amount|number_format:2|ifzero:'-'}</th>
+							</tr>
+							{assign var=sub_ttl_deposit_amount value=0}
 						{/if}
-					</td>
-					<td align="center">{$d.cashier_name}</td>
-					<td align="center">{$d.approved_name|default:'-'}</td>
-					<td align="center">{if $d.status eq 1}Cancelled{else}Active{/if}</td>
-					<td align="right">{$d.deposit_amount|number_format:2}</td>
-				</tr>
-				{assign var=ttl_deposit_amount value=$ttl_deposit_amount+$d.deposit_amount}
-				{assign var=sub_ttl_deposit_amount value=$sub_ttl_deposit_amount+$d.deposit_amount}
-			{/foreach}
-			{if count($branch_list) > 1 && $BRANCH_CODE eq 'HQ'}
-				<tr class="sub_total">
-					<th class="r" colspan="7">Sub Total</th>
-					<th align="right">{$sub_ttl_deposit_amount|number_format:2|ifzero:'-'}</th>
-				</tr>
-				{assign var=sub_ttl_deposit_amount value=0}
-			{/if}
-		{/foreach}
-		</tbody>
-		<tr class="header">
-			<th class="r" colspan="7">Total</th>
-			<th align="right">{$ttl_deposit_amount|number_format:2|ifzero:'-'}</th>
-		</tr>
-	</table>
+					{/foreach}
+					</tbody>
+					<tr class="header">
+						<th class="r" colspan="7">Total</th>
+						<th align="right">{$ttl_deposit_amount|number_format:2|ifzero:'-'}</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 {/if}
 
 {if !$no_header_footer}

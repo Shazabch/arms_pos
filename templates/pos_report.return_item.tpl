@@ -107,88 +107,119 @@ function curtain_clicked()
 {/literal}
 </script>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <!-- Item Details -->
 <div id="div_item_details" style="display:none;width:700px;height:450px;">
 <div style="float:right;"><img onclick="curtain_clicked();" src="/ui/closewin.png" /></div>
-<h3 align="center">Items Details</h3>
+<h3 align="center" class="text-primary">Items Details</h3>
 <div id="div_item_content">
 </div>
 </div>
 
 {if $err}
-	The following error(s) has occured:
+	<div class="alert alert-danger mx-3 rounded">
+		The following error(s) has occured:
 	<ul class="errmsg">
 		{foreach from=$err item=e}
 			<li> {$e}</li>
 		{/foreach}
 	</ul>
+	</div>
 {/if}
 
 
-<form method="post" name="f_a" class="form" onSubmit="return false();">
-	<input type="hidden" name="load_data" value="1" />
-	<p nowrap>
-		<b>From</b> 
-		<input size="10" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>To</b> <input size="10" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" />
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Counter</b> 
-		<select name="counters">
-			{foreach from=$counters item=r}
-				{capture assign=counter_all}{$r.branch_id}|all{/capture}
-				{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
-				{if $last_bid ne $r.branch_id}
-				    <option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
-				    {assign var=last_bid value=$r.branch_id}
-				{/if}
-				<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$r.network_name}
-				</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Receipt No</b> 
-		<input type="text" name="receipt_no" value="{$smarty.request.receipt_no}" size="8" />
-	</p>
-	
-	<p>
-		<b>Transaction Status</b> 
-		<select name="tran_status">
-			<option value="all">-- All --</option>
-			{foreach from=$transaction_status_list key=status item=t}
-				<option value="{$status}" {if $smarty.request.tran_status eq $status}selected {/if}>{$t}</option>
-			{/foreach}
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		
-		<b>Transaction type</b> 
-		<select name="tran_type">
-		<option value="all">-- All --</option>
-		{foreach from=$transaction_type_list key=type item=t}
-			<option value="{$type}" {if $smarty.request.tran_type eq $type}selected {/if}>{$t}</option>
-		{/foreach}
-		</select>
-	</p>
-	
-	{include file='sku_items_autocomplete_multiple_add2.tpl' parent_form='document.f_a'}
-	
-	<input type="button" value="{#SHOW_REPORT#}" onClick="POS_RETURN_ITEM.show_report();" />
-	{if $data}
-		<input type="button" onclick="POS_RETURN_ITEM.do_print();" value="Print" />
-	{/if}
-	
-	<ul>
-		<li> Report maximum show 30 days of transaction.</li>
-	</ul>
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<form method="post" name="f_a" class="form" onSubmit="return false();">
+			<input type="hidden" name="load_data" value="1" />
+			<p nowrap>
+				<div class="row">
+					<div class="col-md-4">
+						<b class="form-label">From</b> 
+					<div class="form-inline">
+						<input class="form-control" size="22" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" />
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
+					</div>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b class="form-label">To</b> 
+					<div class="form-inline">
+						<input class="form-control" size="22" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" />
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
+					</div>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b class="form-label">Counter</b> 
+					<select class="form-control" name="counters">
+						{foreach from=$counters item=r}
+							{capture assign=counter_all}{$r.branch_id}|all{/capture}
+							{capture assign=counter_item}{$r.branch_id}|{$r.id}{/capture}
+							{if $last_bid ne $r.branch_id}
+								<option value="{$counter_all}" {if $smarty.request.counters eq $counter_all}selected {/if}>{$r.code}</option>
+								{assign var=last_bid value=$r.branch_id}
+							{/if}
+							<option value="{$counter_item}" {if $smarty.request.counters eq $counter_item}selected {/if}>
+								{$r.network_name}
+							</option>
+						{/foreach}
+					</select>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b class="form-label">Receipt No</b> 
+					<input class="form-control" type="text" name="receipt_no" value="{$smarty.request.receipt_no}" size="8" />
+					</div>
+				
+					<div class="col-md-4">
+						<b class="form-label">Transaction Status</b> 
+					<select class="form-control" name="tran_status">
+						<option value="all">-- All --</option>
+						{foreach from=$transaction_status_list key=status item=t}
+							<option value="{$status}" {if $smarty.request.tran_status eq $status}selected {/if}>{$t}</option>
+						{/foreach}
+					</select>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b class="form-label">Transaction type</b> 
+					<select class="form-control" name="tran_type">
+					<option value="all">-- All --</option>
+					{foreach from=$transaction_type_list key=type item=t}
+						<option value="{$type}" {if $smarty.request.tran_type eq $type}selected {/if}>{$t}</option>
+					{/foreach}
+					</select>
+					</div>
+				</div>
+			</p>
+			
+			{include file='sku_items_autocomplete_multiple_add2.tpl' parent_form='document.f_a'}
+			
+			<input class="btn btn-primary " type="button" value="{#SHOW_REPORT#}" onClick="POS_RETURN_ITEM.show_report();" />
+			{if $data}
+				<input class="btn btn-primary" type="button" onclick="POS_RETURN_ITEM.do_print();" value="Print" />
+			{/if}
+			
+			<div class="alert alert-primary rounded mt-2" style="max-width: 400px;">
+				<ul>
+					<li> Report maximum show 30 days of transaction.</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+</div>
 
 <script type="text/javascript">
 	POS_RETURN_ITEM.initialize();
@@ -197,71 +228,86 @@ function curtain_clicked()
 {if $smarty.request.load_data and !$err}
 	{if !$data}-- No Data --
 	{else}
-		<h3>{$report_title}</h3>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$report_title}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
 		
-		<table width="100%" class="report_table sortable" id="tbl_content">
-			<thead>
-				<tr class="header">
-					<th width="20">No.</th>
-					<th>Receipt No.</th>
-					<th>Date</th>
-					<th>Counter</th>
-					<th>Cashier</th>
-					<th>Time</th>
-					<th>Transaction Status</th>
-					<th>Transaction Type</th>
-					<th>ARMS Code</th>
-					<th>MCode</th>
-					<th>Art No</th>
-					<th>Description</th>
-					<th>Qty</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			
-			
-			{foreach from=$data.pi_list item=pi name=f_pi}
-				<tr>
-					<td>{$smarty.foreach.f_pi.iteration}.</td>
-					<td><a href="javascript:void(POS_RETURN_ITEM.items_details('{$pi.branch_id}','{$pi.counter_id}','{$pi.pos_id}','{$pi.date}'))">{receipt_no_prefix_format branch_id=$pi.branch_id counter_id=$pi.counter_id receipt_no=$pi.receipt_no}</a></td>
-					<td>{$pi.date}</td>
-					<td>{$pi.network_name}</td>
-					<td>{$pi.cashier_u}</td>
-					<td>{$pi.pos_time|date_format:'%H:%M:%S'}</td>
-					<td>
-						{if !$pi.cancel_status}
-							Valid 
-						{else}
-							{if $pi.prune_status && $pi.cancel_status}
-								Pruned
-							{else}
-								Cancelled
-							{/if}
-							{if $pi.cancelled_by_u}
-								<br /><span class="small" style="color:blue;">(by {$pi.cancelled_by_u})</span>
-							{/if}
-						{/if}</td>
-				    <td>{if $pi.member_no}Member {else}Non-member{/if}</td>
-				    <td>{$pi.sku_item_code|default:'-'}</td>
-				    <td>{$pi.mcode|default:'-'}</td>
-				    <td>{$pi.artno|default:'-'}</td>
-				    <td>{$pi.description|default:'-'}</td>
-				    <td class="r">{$pi.qty}</td>
-				    <td class="r">{$pi.amt|number_format:2}</td>
-				</tr>
-			{/foreach}
-			
-			<tfoot class="sortbottom tfoot_pi_list">
-			<tr class="header sortbottom">
-				{assign var=cols value=12}
-			    <td colspan="{$cols}">
-			    	<div style="float:right;font-weight:bold;">Total</div>
-			    </td>
-			    <td class="r">{$data.total.qty}</td>
-			    <td class="r">{$data.total.amt|number_format:2}</td>
-			</tr>
-			</tfoot>
-		</table>
+		
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table width="100%" class="report_table sortable table mb-0 text-md-nowrap  table-hover" id="tbl_content">
+						<thead class="bg-gray-100">
+							<tr class="header">
+								<th width="20">No.</th>
+								<th>Receipt No.</th>
+								<th>Date</th>
+								<th>Counter</th>
+								<th>Cashier</th>
+								<th>Time</th>
+								<th>Transaction Status</th>
+								<th>Transaction Type</th>
+								<th>ARMS Code</th>
+								<th>MCode</th>
+								<th>Art No</th>
+								<th>Description</th>
+								<th>Qty</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						
+						
+						{foreach from=$data.pi_list item=pi name=f_pi}
+							<tbody class="fs-08">
+								<tr>
+									<td>{$smarty.foreach.f_pi.iteration}.</td>
+									<td><a href="javascript:void(POS_RETURN_ITEM.items_details('{$pi.branch_id}','{$pi.counter_id}','{$pi.pos_id}','{$pi.date}'))">{receipt_no_prefix_format branch_id=$pi.branch_id counter_id=$pi.counter_id receipt_no=$pi.receipt_no}</a></td>
+									<td>{$pi.date}</td>
+									<td>{$pi.network_name}</td>
+									<td>{$pi.cashier_u}</td>
+									<td>{$pi.pos_time|date_format:'%H:%M:%S'}</td>
+									<td>
+										{if !$pi.cancel_status}
+											Valid 
+										{else}
+											{if $pi.prune_status && $pi.cancel_status}
+												Pruned
+											{else}
+												Cancelled
+											{/if}
+											{if $pi.cancelled_by_u}
+												<br /><span class="small" style="color:blue;">(by {$pi.cancelled_by_u})</span>
+											{/if}
+										{/if}</td>
+									<td>{if $pi.member_no}Member {else}Non-member{/if}</td>
+									<td>{$pi.sku_item_code|default:'-'}</td>
+									<td>{$pi.mcode|default:'-'}</td>
+									<td>{$pi.artno|default:'-'}</td>
+									<td>{$pi.description|default:'-'}</td>
+									<td class="r">{$pi.qty}</td>
+									<td class="r">{$pi.amt|number_format:2}</td>
+								</tr>
+							</tbody>
+						{/foreach}
+						
+						<tfoot class="sortbottom tfoot_pi_list">
+						<tr class="header sortbottom">
+							{assign var=cols value=12}
+							<td colspan="{$cols}">
+								<div style="float:right;font-weight:bold;">Total</div>
+							</td>
+							<td class="r">{$data.total.qty}</td>
+							<td class="r">{$data.total.amt|number_format:2}</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
 	{/if}
 	
 {/if}
