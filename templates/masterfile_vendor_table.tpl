@@ -55,9 +55,9 @@ REVISION HISTORY
 		<thead style="height: 25px;">
 			<tr>
 				{if $sessioninfo.privilege.MST_VENDOR}
-				<th bgcolor={#TB_CORNER#} width=50>&nbsp;</th>
+				<th bgcolor={#TB_CORNER#} width=70>&nbsp;</th>
 				{/if}
-				<th bgcolor={#TB_COLHEADER#} width=130>&nbsp;</th>
+				<th bgcolor={#TB_COLHEADER#} width="200" >&nbsp;</th>
 				<th bgcolor={#TB_COLHEADER#}>Code</th>
 				<th bgcolor={#TB_COLHEADER#}>Description</th>
 				<th bgcolor={#TB_COLHEADER#} nowrap>Company No</th>

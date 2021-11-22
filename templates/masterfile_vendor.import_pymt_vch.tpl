@@ -235,7 +235,7 @@ var IMPORT_VENDOR_PYMT_VCH = {
 				<div class="div_tbl">
 					<h4 class="text-primary">Sample</h4>
 					<div class="table-responsive">
-						<table id="si_tbl" width="100%">
+						<table id="si_tbl" width="100%" class="table mb-0 text-md-nowrap  table-hover">
 							<thead class="bg-gray-100">
 								<tr >
 									{foreach from=$sample_headers[1] item=i}

@@ -131,70 +131,78 @@ submit_form = function(action){
 
 <table width="100%">
 <tr>
-	<td><b>Code</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-	<td><input type="text" name="code" size="10" value="{$form.code}" onChange="this.value=this.value.toUpperCase();"/></td>
-	<td><b>Term</b></td>
-	<td><input type="text" name="term" size="4" value="{$form.term}" onChange="miz(this);" /></td>
+	<td><b class="form-label">Code</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+	<td><input class="form-control" type="text" name="code" size="10" value="{$form.code}" onChange="this.value=this.value.toUpperCase();"/></td>
+	<td><b class="form-label">Term</b></td>
+	<td><input class="form-control" type="text" name="term" size="4" value="{$form.term}" onChange="miz(this);" /></td>
 </tr>
 <tr>
-	<td nowrap><b>Company No.</b></td>
-	<td><input type="text" name="company_no" maxlength="30" size="20" value="{$form.company_no}" /></td>
-	<td><b>Credit Limit</b></td>
-	<td><input type="text" name="credit_limit" size="4" value="{$form.credit_limit}" /></td>
+	<td nowrap><b class="form-label">Company No.</b></td>
+	<td><input class="form-control" type="text" name="company_no" maxlength="30" size="20" value="{$form.company_no}" /></td>
+	<td><b class="form-label">Credit Limit</b></td>
+	<td><input class="form-control" type="text" name="credit_limit" size="4" value="{$form.credit_limit}" /></td>
 </tr>
 <tr>
-	<td><b>Description</b></td>
+	<td><b class="form-label">Description</b></td>
 	<td colspan="3">
-	    <textarea name="description" rows="3" style="width:350px;">{$form.description}</textarea>
+	    <textarea class="form-control" name="description" rows="3" style="width:350px;">{$form.description}</textarea>
 	</td>
 </tr>
 <tr>
-	<td valign="top"><b>Address (Bill)</b></td>
-	<td colspan="3"><textarea name="address" rows="5" style="width:350px;">{$form.address}</textarea></td>
+	<td valign="top"><b class="form-label">Address (Bill)</b></td>
+	<td colspan="3"><textarea class="form-control" name="address" rows="5" style="width:350px;">{$form.address}</textarea></td>
 </tr>
 <tr>
-	<td valign="top"><b>Address (Deliver) [<a class="gst_info" href="javascript:void(alert('- it is optional and can be configured to use at the printout of Credit & Cash Sales DO.\n- system will pickup Address (Bill) as Delivery address if left empty.'));">?</a>]</b></td>
-	<td colspan="3"><textarea name="delivery_address" rows="5" style="width:350px;">{$form.delivery_address}</textarea></td>
+	<td valign="top"><b class="form-label">Address (Deliver) [<a class="gst_info" href="javascript:void(alert('- it is optional and can be configured to use at the printout of Credit & Cash Sales DO.\n- system will pickup Address (Bill) as Delivery address if left empty.'));">?</a>]</b></td>
+	<td colspan="3"><textarea class="form-control" name="delivery_address" rows="5" style="width:350px;">{$form.delivery_address}</textarea></td>
 </tr>
 <tr>
-	<td><b>Contact Person</b></td>
-	<td><input onBlur="uc(this)" name="contact_person" size="20" value="{$form.contact_person}"></td>
-	<td><b>Contact Email</b></td>
-	<td><input onBlur="lc(this)" name="contact_email" size="20" value="{$form.contact_email}"></td>
+	<td><b class="form-label">Contact Person</b></td>
+	<td><input class="form-control" onBlur="uc(this)" name="contact_person" size="20" value="{$form.contact_person}"></td>
+	<td><b class="form-label">Contact Email</b></td>
+	<td><input class="form-control" onBlur="lc(this)" name="contact_email" size="20" value="{$form.contact_email}"></td>
 </tr>
 <tr>
-	<td><b>Phone #1</b></td>
-	<td><input name="phone_1" size="20" value="{$form.phone_1}"></td>
-	<td><b>Phone #2</b></td>
-	<td><input name="phone_2" size="20" value="{$form.phone_2}"></td>
+	<td><b class="form-label">Phone #1</b></td>
+	<td><input class="form-control" name="phone_1" size="20" value="{$form.phone_1}"></td>
+	<td><b class="form-label">Phone #2</b></td>
+	<td><input class="form-control" name="phone_2" size="20" value="{$form.phone_2}"></td>
 </tr>
 <tr>
-	<td valign="top"><b>Fax</b></td>
-	<td><input name="phone_3" size="20" value="{$form.phone_3}"></td>
-	<td valign="top"><b>Area</b></td>
-	<td><input name="area" size="20" value="{$form.area}" id="inp_area" />
+	<td valign="top"><b class="form-label">Fax</b></td>
+	<td><input class="form-control" name="phone_3" size="20" value="{$form.phone_3}"></td>
+	<td valign="top"><b class="form-label">Area</b></td>
+	<td><input class="form-control" name="area" size="20" value="{$form.area}" id="inp_area" />
 	<span id="span_loading_area"></span>
      <div id="div_autocomplete_area_choices" class="autocomplete" style="display:none;height:150px !important;width:200px !important;overflow:auto !important;z-index:100"></div>
 
 </tr>
 
 <tr>
-	<td><b>Default MPrice Type</b> [<a href="javascript:void(alert('Use for Sales Order and Delivery Order'))">?</a>]</td>
+	<td><div class="form-inline">
+		<b class="form-label">Default MPrice Type</b> [<a href="javascript:void(alert('Use for Sales Order and Delivery Order'))">?</a>]
+	</div></td>
 	<td colspan="3">
-		<select name="debtor_mprice_type">
-			<option value="">-- None --</option>
-			{foreach from=$config.sku_multiple_selling_price item=mprice_type}
-				<option value="{$mprice_type}" {if $mprice_type eq $form.debtor_mprice_type}selected {/if}>{$mprice_type}</option>
-			{/foreach}
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="checkbox" name="use_debtor_price" value="1" {if $form.use_debtor_price}checked {/if} /> <span style="color:blue;">Use Debtor Price (if have)</span>
+		<div class="form-inline">
+			<select class="form-control" name="debtor_mprice_type">
+				<option value="">-- None --</option>
+				{foreach from=$config.sku_multiple_selling_price item=mprice_type}
+					<option value="{$mprice_type}" {if $mprice_type eq $form.debtor_mprice_type}selected {/if}>{$mprice_type}</option>
+				{/foreach}
+			</select>&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="form-label">
+				<input type="checkbox" name="use_debtor_price" value="1" {if $form.use_debtor_price}checked {/if} /> <span style="color:blue;">&nbsp;Use Debtor Price (if have)</span>
+			</div>
+		</div>
 	</td>
 </tr>
 
 <tr>
-	<td><b>Default Sales Agent</b> [<a href="javascript:void(alert('Use for Credit Sales Delivery Order'))">?</a>]</td>
+	<td><div class="form-inline">
+		<b class="form-label">Default Sales Agent</b> [<a href="javascript:void(alert('Use for Credit Sales Delivery Order'))">?</a>]
+	</div></td>
 	<td colspan="3">
-		<select name="debtor_sales_agent">
+		<select class="form-control" name="debtor_sales_agent">
 		<option value="">-- None --</option>
 		{foreach from=$sales_agent item=sa}
 			<option value="{$sa.id}" {if $sa.id eq $form.sa_id}selected{/if}>{$sa.code} - {$sa.name}</option>
@@ -205,12 +213,13 @@ submit_form = function(action){
 
 {if $config.enable_debtor_portal}
 	<tr>
-		<td><b>Debtor Key</b></td>
+		<td><b class="form-label">Debtor Key</b></td>
 		<td colspan="3">
-			<input type="text" name="login_ticket" value="{$form.login_ticket}" size="15" maxlength="20" onChange="login_ticket_changed();" />
-			<input type="button" value="Generate" onClick="generate_debtor_ticket();" />
-			<input type="button" value="Clear" onClick="clear_debtor_ticket();" />
-			<br />
+			<div class="form-inline">
+				<input class="form-control" type="text" name="login_ticket" value="{$form.login_ticket}" size="15" maxlength="20" onChange="login_ticket_changed();" />
+			&nbsp;<input class="btn btn-primary" type="button" value="Generate" onClick="generate_debtor_ticket();" />
+			&nbsp;<input class="btn btn-danger" type="button" value="Clear" onClick="clear_debtor_ticket();" />
+			</div>
 			<span class="small" style="color:blue;">(Alphabet and number only)</span>
 		</td>
 	</tr>
@@ -218,9 +227,9 @@ submit_form = function(action){
 
 {if $config.enable_reorder_integration}
 	<tr>
-		<td><b>Integration Code</b></td>
+		<td><b class="form-label">Integration Code</b></td>
 		<td colspan="3">
-			<input type="text" name="integration_code" value="{$form.integration_code}" size="15" maxlength="20" onChange="integration_code_changed();" />
+			<input class="form-control" type="text" name="integration_code" value="{$form.integration_code}" size="15" maxlength="20" onChange="integration_code_changed();" />
 			<br />
 		</td>
 	</tr>
@@ -228,18 +237,18 @@ submit_form = function(action){
 
 {if $config.enable_gst}
 	<tr>
-		<td><b>GST Registration Number</b></td>
-		<td><input name="gst_register_no" size="20" value="{$form.gst_register_no}" onChange="gst_reg_no_changed();" /></td>
+		<td><b class="form-label">GST Registration Number</b></td>
+		<td><input class="form-control" name="gst_register_no" size="20" value="{$form.gst_register_no}" onChange="gst_reg_no_changed();" /></td>
 	</tr>
 	<tr>
-		<td><b>GST Start Date</b></td>
+		<td><b class="form-label">GST Start Date</b></td>
 		<td>
-			<input size="10" type="text" name="gst_start_date" value="{$form.gst_start_date|ifzero:''}" id="gst_start_date" readonly  onChange="gst_reg_date_changed();" />
+			<input class="form-control" size="10" type="text" name="gst_start_date" value="{$form.gst_start_date|ifzero:''}" id="gst_start_date" readonly  onChange="gst_reg_date_changed();" />
 			<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select GST Start Date">
 		</td>
 	</tr>
 	<tr>
-		<td><b>GST Special Exemption</b></td>
+		<td><b class="form-label">GST Special Exemption</b></td>
 		<td><input type="checkbox" name="special_exemption" {if $form.special_exemption}checked{/if} value="1" /></td>
 	</tr>
 	<tr>
@@ -261,8 +270,8 @@ submit_form = function(action){
 
 <tr>
 	<td colspan="4" align="center"><br>
-		<input type="button" value="Save" id="btn_save" onclick="submit_form('save');" />
-		<input type="button" value="Close" onclick="submit_form('close');" />
+		<input class="btn btn-primary" type="button" value="Save" id="btn_save" onclick="submit_form('save');" />
+		<input class="btn btn-danger" type="button" value="Close" onclick="submit_form('close');" />
 	</td>
 </tr>
 </table>

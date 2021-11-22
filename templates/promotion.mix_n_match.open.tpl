@@ -2982,6 +2982,7 @@ function item_category_point_inherit_changed(group_id){
 
 
 <!-- MIX AND MATCH DIALOG -->
+
 <div id="div_mnm_choose_item_type_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:700px;height:380px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
 	<div id="div_mnm_choose_item_type_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;" id="span_mnm_choose_item_type_dialog_header">Choose Promotion Item Type</span>
 		<span style="float:right;">
@@ -3019,9 +3020,9 @@ function item_category_point_inherit_changed(group_id){
 
 <!-- WIZARD DIALOG -->
 <div id="div_mnm_wizard_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:800px;height:650px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_mnm_wizard_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;" id="span_mnm_wizard_dialog_header">Promotion Wizard</span>
+	<div id="div_mnm_wizard_dialog_header  ml-2" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;" id="span_mnm_wizard_dialog_header">Promotion Wizard</span>
 		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.close_clicked();" class="clickable"/>
+			<img src="/ui/closewin.png" cla align="absmiddle" onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.close_clicked();" class="clickable mr-2 mt-1"/>
 		</span>
 		<div style="clear:both;"></div>
 	</div>
@@ -3073,28 +3074,33 @@ function item_category_point_inherit_changed(group_id){
 <!-- End of CAT/BRAND AUTOCOMPLETE  DIALOG -->
 
 <!-- WARNING MESSAGE DIALOG -->
-<div id="div_warning_message_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:680px;height:275px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;padding:0;">
-  <div style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;">
-	<span style="float:left;font-weight: bold">Warning</span>
-    <span style="float:right;">
+
+<div id="div_warning_message_dialog" class="curtain_popup" style="position:absolute;z-index:10000;width:680px;height:375px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;padding:0;">
+  <div style="border:2px ridge #CE0000;color:rgb(255, 255, 255);background-color:#CE0000;padding:2px;cursor:default;">
+	<span style="float:left;font-weight: bold" class="ml-1">Warning</span>
+    <span style="float:right;" class="mr-1 mt-1">
       <img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();curtain(false, 'curtain2');" class="clickable"/>
     </span>
 	<div style="clear:both;"></div>
   </div>
   <div style="padding: 20px;text-align:justify;font-weight: bold">
-  Dear user,<br><br>
+  <b class="text-danger">Dear user,</b><br>
   This mix and match feature will be able to output many types of promotions base on your own configurations.<br>
   You may use our wizard to guide you or start creating your own.<br><br>
-  PLEASE NOTE that you should only launch the mix and match promotion created by you after have done through testing and found the outcome of what you have created is indeed the kind of promotion that you want to your customers.<br><br>
-  ARMS Software International Sdn Bhd shall not be liable for any disappointment/failure of any mix and match promotion created and tested by the user.<br><br>
+  <b class="text-danger">PLEASE NOTE</b> that you should only launch the mix and match promotion created by you after have done through testing and found the outcome of what you have created is indeed the kind of promotion that you want to your customers.<br><br>
+  <b class="text-primary">ARMS Software International Sdn Bhd</b> shall not be liable for any disappointment/failure of any mix and match promotion created and tested by the user.<br><br>
   <div style="text-align: center"><button class="btn btn-primary" onClick="default_curtain_clicked();curtain(false, 'curtain2');">OK</button></div>
   </div>
 </div>
 <!-- End of WARNING MESSAGE DIALOG -->
-
-<h1>Mix and Match Promotion {if !is_new_id($form.id)}(ID#{$form.id}){else}(New){/if}</h1>
-
-<h3>Status:
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Mix and Match Promotion {if !is_new_id($form.id)}(ID#{$form.id}){else}(New){/if}
+			</h4>
+			<h5 class="content-title mb-0 my-auto ml-4 text-primary">
+				Status:
 {if $form.label eq 'approved'}
 	Fully Approved
 {elseif $form.label eq 'waiting_approve'}
@@ -3108,7 +3114,12 @@ function item_category_point_inherit_changed(group_id){
 {else}
 	Draft
 {/if}
-</h3>
+			</h5>
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 {include file=approval_history.tpl}
 
 {if $err}
@@ -3133,169 +3144,180 @@ function item_category_point_inherit_changed(group_id){
 
 
 <form name="f_a" method="post" onSubmit="return false;">
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
-
-{if $errm.top}
-	<div id="err"><div class="errmsg"><ul>
-		{foreach from=$errm.top item=e}
-		<li> {$e}
-		{/foreach}
-	</ul></div></div>
-{/if}
-
-<input type="hidden" name="a" value="save" />
-<input type="hidden" name="branch_id" value="{$form.branch_id}" />
-<input type="hidden" name="id" value="{$form.id}" />
-<input type="hidden" name="approval_history_id" value="{$form.approval_history_id}" />
-<input type="hidden" name="reason" />
-{if $is_under_gst}
-	<input type="hidden" name="global_gst_inclusive_tax" value="{$global_gst_settings.inclusive_tax}" />
-{/if}
-<table border="0" cellspacing="0" cellpadding="4">
-	<tr>
-	    <td><b>Title</b></td>
-	    <td><input type="text" name="title" maxlength="200" size="80" value="{$form.title|escape}" class="required" title="Title" /></td>
-	</tr>
-	<tr>
-	    <td><b>Date</b></td>
-	    <td>
-	        <input type="text" name="date_from" id="inp_date_from" size="12" value="{$form.date_from|default:$smarty.now|date_format:"%Y-%m-%d"}" class="required" title="Date From" />
-			{if $allow_edit}
-				<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
-			{/if}
-			<b>to</b>
-			<input type="text" name="date_to" id="inp_date_to" size="12" value="{$form.date_to|default:$smarty.now|date_format:"%Y-%m-%d"}" class="required" title="Date To" />
-			{if $allow_edit}
-				<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
-			{/if}
-	    </td>
-	</tr>
-	<tr>
-	    <td><b>Time</b></td>
-	    <td>
-			<input type="text" name="time_from"  value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" size="10" class="required" title="Time From" />
-			<b>to</b>
-			<input type="text" name="time_to"  value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" size="10" class="required" title="Time To" /> (hh:mm)
-		</td>
-	</tr>
-	
-	{if !$config.promotion_hide_member_options}
-		<tr>
-			<td valign="top"><b>Member Reward Point</b></td>
-			<td>
-				{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
-					<select name="category_point_inherit" onChange="category_point_inherit_changed();">
-						{foreach from=$category_point_inherit_options key=k item=w}
-							<option value="{$k}" {if $form.category_point_inherit eq $k}selected {/if}>{$w}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+			<h4 class="form-label">General Information</h4>
+			
+			{if $errm.top}
+				<div class="alert alert-danger mx-3 rounded">
+					<div id="err"><div class="errmsg"><ul>
+						{foreach from=$errm.top item=e}
+						<li> {$e}
 						{/foreach}
-					</select>
-				{else}
-					<b>
-						{foreach from=$category_point_inherit_options key=k item=w}
-							{if $form.category_point_inherit eq $k}{$w}{/if}
-						{/foreach}
-					</b>
-					<input type="hidden" name="category_point_inherit" value="{$form.category_point_inherit}">
-				{/if}
-		
-				<div id="div_cat_point" style="border:0px solid black;padding:5px;{if $form.category_point_inherit ne 'set'}display:none;{/if}">
-					{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
-						Please enter how many {$config.arms_currency.symbol} for each point.
-					{/if}
-					
-					<table class="report_table">
-						<tr class="header">
-							<td>&nbsp;</td>
-							<td>({$config.arms_currency.symbol} <b>X</b> for 1 Point)</td>
-						</tr>
-						<tr>
-							<td><b>Member</b></td>
-							<td>
-								<input type="text" name="category_point_inherit_data[global]" value="{$form.category_point_inherit_data.global}" size="3" onChange="category_point_value_changed(this);" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
-							</td>
-						</tr>
-						{foreach from=$config.membership_type key=member_type item=mtype_desc name=fmt}
-							{if is_numeric($member_type)}
-								{assign var=mt value=$mtype_desc}
+					</ul></div></div>
+				</div>
+			{/if}
+			
+			<input type="hidden" name="a" value="save" />
+			<input type="hidden" name="branch_id" value="{$form.branch_id}" />
+			<input type="hidden" name="id" value="{$form.id}" />
+			<input type="hidden" name="approval_history_id" value="{$form.approval_history_id}" />
+			<input type="hidden" name="reason" />
+			{if $is_under_gst}
+				<input type="hidden" name="global_gst_inclusive_tax" value="{$global_gst_settings.inclusive_tax}" />
+			{/if}
+			<table border="0" cellspacing="0" cellpadding="4">
+				<tr>
+					<td><b class="form-label">Title</b></td>
+					<td><input  type="text" name="title" maxlength="200" size="80" value="{$form.title|escape}" class="required form-control" title="Title" /></td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Date</b></td>
+					<td>
+					<div class="form-inline">
+						<input type="text" name="date_from" id="inp_date_from" size="12" value="{$form.date_from|default:$smarty.now|date_format:"%Y-%m-%d"}" class="required form-control" title="Date From" />
+						{if $allow_edit}
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" />
+						{/if}
+						<b class="form-label">&nbsp;to&nbsp; </b>
+						<input type="text" name="date_to" id="inp_date_to" size="12" value="{$form.date_to|default:$smarty.now|date_format:"%Y-%m-%d"}" class="required form-control" title="Date To" />
+						{if $allow_edit}
+							&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" />
+						{/if}
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Time</b></td>
+					<td>
+						<div class="form-inline">
+							<input type="text" name="time_from"  value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" size="10" class="required form-control" title="Time From" />
+						<b class="form-label">&nbsp;to&nbsp; </b>
+						<input type="text" name="time_to"  value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" size="10" class="required form-control" title="Time To" /> <b class="form-label">&nbsp;(hh:mm)</b>
+						</div>
+					</td>
+				</tr>
+				
+				{if !$config.promotion_hide_member_options}
+					<tr>
+						<td valign="top"><b class="form-label">Member Reward Point</b></td>
+						<td>
+							{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
+								<select class="form-control" name="category_point_inherit" onChange="category_point_inherit_changed();">
+									{foreach from=$category_point_inherit_options key=k item=w}
+										<option value="{$k}" {if $form.category_point_inherit eq $k}selected {/if}>{$w}</option>
+									{/foreach}
+								</select>
 							{else}
-								{assign var=mt value=$member_type}
+								<b>
+									{foreach from=$category_point_inherit_options key=k item=w}
+										{if $form.category_point_inherit eq $k}{$w}{/if}
+									{/foreach}
+								</b>
+								<input type="hidden" name="category_point_inherit" value="{$form.category_point_inherit}">
 							{/if}
-							{if $smarty.foreach.fmt.first}
-								<tr class="header">
-									<th colspan="2">
-										Member Type (Leave Empty will follow member)
-									</th>
+					
+							<div id="div_cat_point" style="padding:5px;{if $form.category_point_inherit ne 'set'}display:none;{/if}">
+								{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
+									<b class="form-label">Please enter how many {$config.arms_currency.symbol} for each point.</b>
+								{/if}
+								
+								<table class="report_table">
+									<tr class="header">
+										<td>&nbsp;</td>
+										<td>({$config.arms_currency.symbol} <b>X</b> for 1 Point)</td>
+									</tr>
+									<tr>
+										<td><b class="form-label">Member</b></td>
+										<td>
+											<input class="form-control" type="text" name="category_point_inherit_data[global]" value="{$form.category_point_inherit_data.global}" size="3" onChange="category_point_value_changed(this);" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
+										</td>
+									</tr>
+									{foreach from=$config.membership_type key=member_type item=mtype_desc name=fmt}
+										{if is_numeric($member_type)}
+											{assign var=mt value=$mtype_desc}
+										{else}
+											{assign var=mt value=$member_type}
+										{/if}
+										{if $smarty.foreach.fmt.first}
+											<tr class="header">
+												<th colspan="2" class="form-label">
+													Member Type (Leave Empty will follow member)
+												</th>
+											</tr>
+										{/if}
+										<tr>
+											<td><b class="form-label">{$mtype_desc}</b></td>
+											<td>
+												<input class="form-control" type="text" name="category_point_inherit_data[{$mt}]" size="3" onChange="category_point_value_changed(this)" value="{$form.category_point_inherit_data.$mt}" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
+											</td>
+										</tr>
+									{/foreach}
+								</table>
+							</div>
+						</td>
+					</tr>
+				{/if}
+				
+				<tr>
+					<td valign="top"><b class="form-label">Branches</b></td>
+					<td>
+						{if ($form.branch_id==1 and $smarty.request.a ne 'refresh') and $form.id > 1000000000}
+							<b class="form-label">
+								You may select multiple branches
+							</b> <br>
+							<table class="small" border="0" id="tbl_branch">
+								<tr>
+									<td><input type="checkbox" name="all_branches" value="1" onclick="MIX_MATCH_MAIN_MODULE.toggle_all_branches(this);" /> All</td>
+								</tr>
+								{foreach from=$branches key=bid item=b}
+									<tr>
+										<td valign="top">
+										<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" value="{$b.code}" {if $form.promo_branch_id.$bid}checked {/if} /> {$b.code}
+										</td>
+									</tr>
+								{/foreach}
+							</table>
+						{else}
+							<table class="small" border="0">
+							{if $BRANCH_CODE eq 'HQ'}
+								<tr>
+									<td><input type="checkbox" name="all_branches" value="1" onclick="MIX_MATCH_MAIN_MODULE.toggle_all_branches(this);" /> All</td>
 								</tr>
 							{/if}
-							<tr>
-								<td><b>{$mtype_desc}</b></td>
-								<td>
-									<input type="text" name="category_point_inherit_data[{$mt}]" size="3" onChange="category_point_value_changed(this)" value="{$form.category_point_inherit_data.$mt}" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
-								</td>
-							</tr>
-						{/foreach}
-					</table>
-				</div>
-			</td>
-		</tr>
-	{/if}
-	
-	<tr>
-	    <td valign="top"><b>Branches</b></td>
-	    <td>
-		    {if ($form.branch_id==1 and $smarty.request.a ne 'refresh') and $form.id > 1000000000}
-				You may select multiple branches <br>
-				<table class="small" border="0" id="tbl_branch">
-					<tr>
-						<td><input type="checkbox" name="all_branches" value="1" onclick="MIX_MATCH_MAIN_MODULE.toggle_all_branches(this);" /> All</td>
-					</tr>
-					{foreach from=$branches key=bid item=b}
-						<tr>
-							<td valign="top">
-							<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" value="{$b.code}" {if $form.promo_branch_id.$bid}checked {/if} /> {$b.code}
-							</td>
-						</tr>
-					{/foreach}
-				</table>
-			{else}
-			    <table class="small" border="0">
-				{if $BRANCH_CODE eq 'HQ'}
-					<tr>
-						<td><input type="checkbox" name="all_branches" value="1" onclick="MIX_MATCH_MAIN_MODULE.toggle_all_branches(this);" /> All</td>
-					</tr>
-				{/if}
-				{foreach from=$branches key=bid item=b}
-					{if $BRANCH_CODE eq 'HQ'}
-		                <tr>
-							<td valign="top">
-							<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" type="hidden" value="{$b.code}" {if $form.promo_branch_id.$bid}checked {/if} /> {$b.code}
-							</td>
-						</tr>
-					{else}
-					    {if $form.promo_branch_id.$bid or $form.branch_id eq $bid}
-					        <tr>
-								<td valign="top">
-									<span style="display:none;">
-										<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" checked />
-									</span>
-									{$b.code}
-								</td>
-							</tr>
-					    {/if}
-					{/if}
-				{/foreach}
-				</table>
-			{/if}
-		</td>
-	</tr>
-</table>
-
-<div id="div_refresh" style="{if $smarty.request.a eq 'refresh' || $smarty.request.id} display:none; {/if} padding-top:10px">
-	<input class="btn btn-primary" id="btn_refresh" type="button" value="click here to continue" />
+							{foreach from=$branches key=bid item=b}
+								{if $BRANCH_CODE eq 'HQ'}
+									<tr>
+										<td valign="top">
+										<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" type="hidden" value="{$b.code}" {if $form.promo_branch_id.$bid}checked {/if} /> {$b.code}
+										</td>
+									</tr>
+								{else}
+									{if $form.promo_branch_id.$bid or $form.branch_id eq $bid}
+										<tr>
+											<td valign="top">
+												<span style="display:none;">
+													<input type="checkbox" class="chx_branch" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" checked />
+												</span>
+												{$b.code}
+											</td>
+										</tr>
+									{/if}
+								{/if}
+							{/foreach}
+							</table>
+						{/if}
+					</td>
+				</tr>
+			</table>
+			
+			<div id="div_refresh" style="{if $smarty.request.a eq 'refresh' || $smarty.request.id} display:none; {/if} padding-top:10px">
+				<input class="btn btn-primary" id="btn_refresh" type="button" value="click here to continue" />
+			</div>
+			</div>
+	</div>
 </div>
-</div><br>
-
 {if $smarty.request.a eq 'refresh' or !is_new_id($form.id) or $err}
 	<div id="promo_items_group_list">
 		{if $items}
@@ -3320,7 +3342,7 @@ function item_category_point_inherit_changed(group_id){
 {if !$form.approval_screen}
     {if $allow_edit and !$form.first_time}
         <p>
-	        <button id="btn_new_mnm_group"> <img src="/ui/add.png" border="0" align="absmiddle" /> Add New Mix and Match Group</button>
+	        <button id="btn_new_mnm_group" class="btn btn-primary mx-3"> <img src="/ui/add.png" border="0" align="absmiddle" /> Add New Mix and Match Group</button>
 	        <span id="span_adding_mnm_loading" style="display:none;background: yellow;padding:2px;">
 				<img src="/ui/clock.gif" align="absmiddle" /> Loading...
 			</span>
@@ -3328,11 +3350,11 @@ function item_category_point_inherit_changed(group_id){
     {/if}
     
 	<!-- Warning Message -->
-	<div style="padding:10px; border:2px solid red; background-color:LemonChiffon">
-	  Dear user,<br><br>
+	<div class="alert alert-danger mx-3 rounded">
+	  <b class="text-danger">Dear user,</b><br><br>
 	  This mix and match feature will be able to output many types of promotions base on your own configurations.<br>
 	  You may use our wizard to guide you or start creating your own.<br><br>
-	  PLEASE NOTE that you should only launch the mix and match promotion created by you after you have done thorough testing and found what you have created is indeed what you want to launch to your customers.<br><br>
+	  <b class="alert-danger">PLEASE NOTE</b> that you should only launch the mix and match promotion created by you after you have done thorough testing and found what you have created is indeed what you want to launch to your customers.<br><br>
 	  ARMS Software International Sdn Bhd shall not be liable for any disappointment/failure of any mix and match promotion created and tested by the user.
 	</div>
 	<!-- end of Warning Message -->
@@ -3343,7 +3365,7 @@ function item_category_point_inherit_changed(group_id){
 		{/if}
 		
         {if is_new_id($form.id) || !$allow_edit}
-		<input class="btn btn-error" type=button value="Close" onclick="document.location='/promotion.php'" />
+		<input class="btn btn-danger" type=button value="Close" onclick="document.location='/promotion.php'" />
 		{/if}
 
 		{if !$form.first_time}
@@ -3354,7 +3376,7 @@ function item_category_point_inherit_changed(group_id){
 	
 					{/if}
 				{elseif ($form.active || !$form.status) && $allow_edit}
-					<input class="btn btn-error" type=button value="Delete" onclick="do_delete()" />
+					<input class="btn btn-danger" type=button value="Delete" onclick="do_delete()" />
 				{/if}
 			{/if}
 

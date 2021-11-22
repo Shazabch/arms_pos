@@ -100,7 +100,8 @@ function show_blocklist(id,n)
 }
 
 function curtain_clicked(){
-	$('div_debtor_details').hide();
+	//$('div_debtor_details').hide();
+	jQuery('#div_debtor_details').modal('hide');
 	$('div_debtor_blocklist').hide();
 }
 
@@ -113,9 +114,10 @@ function add(){
 }
 
 function open(id){
-    curtain(true);
-	center_div('div_debtor_details');
-	$('div_debtor_details').show();
+   // curtain(true);
+	//center_div('div_debtor_details');
+	//$('div_debtor_details').show();
+	jQuery('#div_debtor_details').modal('show');
 	$('div_debtor_details_content').update(_loading_);
 	new Ajax.Updater('div_debtor_details_content',phpself,{
 	    parameters:{
@@ -326,15 +328,20 @@ function check_gst_allow_edit(){
 	</div>
 </div>
 
-<div id="div_debtor_details" class="debtor_details" style="position:absolute;z-index:10000;width:700px;height:600px;display:none;border:2px solid #CE0000;">
-	<div id="div_debtor_details_header" class="debtor_details_header"><span style="float:left;">Debtor Details</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_debtor_details_content" class="debtor_details_content" style="overflow-x:hidden;overflow-y:auto;max-height:92%;"></div>
+<div class="modal" id="div_debtor_details">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_debtor_details_header">
+                <h6 class="modal-title text-white">Debtor Details</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body" id="div_debtor_details_content" class="debtor_details_content" >
+                
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div id="div_debtor_blocklist" class="debtor_details" style="position:absolute;z-index:10000;width:800px;height:250px;display:none;border:2px solid #CE0000;">
 	<div id="div_debtor_blocklist_header" class="debtor_details_header"><span style="float:left;">Branch Block List</span>

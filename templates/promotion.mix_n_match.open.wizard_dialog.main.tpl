@@ -31,14 +31,14 @@ li.li_pw_selected{
 <br style="clear:both;" />
 
 <div style="float:left;" class="btn_padding">
-	<button onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.back_page();" id="btn_promotion_wizard_back_screen">
+	<button class="btn btn-primary mx-2" onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.back_page();" id="btn_promotion_wizard_back_screen">
 		&lt; Back
 
 	</button>
 </div>
 
 <div style="float:right;" class="btn_padding">
-	<button onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.next_page();" id="btn_promotion_wizard_next_screen">
+	<button class="btn btn-primary mx-2" onClick="MIX_MATCH_MAIN_WIZARD_DIALOG.next_page();" id="btn_promotion_wizard_next_screen">
 		Next
 		&gt;
 	</button>

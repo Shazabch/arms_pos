@@ -45,7 +45,7 @@ REVISION HISTORY
 
 <div class="table-responsive">
 	<table class="sortable table mb-0 text-md-nowrap  table-hover mt-3" id="debtor_tbl" width="100%">
-		<thead>
+		<thead style="height:25px;">
 			<tr>
 				<th bgcolor={#TB_CORNER#} width=40>&nbsp;</th>
 				<th bgcolor={#TB_COLHEADER#}>Code</th>
