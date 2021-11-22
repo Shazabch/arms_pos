@@ -16,20 +16,22 @@
 - Fix location description empty bug.
 *}
 {capture assign=hrcount}{count var=$payment_type}{/capture}
-<div style="margin-top:-1.5em;margin-left:140px;position:absolute;white-space:nowrap;"><b>Last updated: {$smarty.now|date_format:'%I:%M:%S %p'}</b></div>
-<table cellpadding=2 cellspacing=2 border=0 style="border:1px solid #000" width="100%">
-	<tr bgcolor=#ffee99>
-		<th nowrap>{if $curr_lvl != $level_priv}{$lvl_desc}<br><a href="javascript:list_payment_type('{$tab_slctd}', '{$prev_lvl}', '{$payment_type_lvl2_bid}')">Back</a>{/if}</th>
-		{foreach from=$payment_type key=p item=pt}
-			<th nowrap>{$pos_config.payment_type_label.$pt|default:$pt}</th>
-		{/foreach}
-		<th nowrap>Total</th>
-	</tr>
+<div style="margin-top:-3em;margin-left:530px;position:absolute;white-space:nowrap;"><b class="form-label">Last updated: {$smarty.now|date_format:'%I:%M:%S %p'}</b></div>
+<table cellpadding=2 cellspacing=2 border=0  width="100%">
+	<thead class="bg-gray-100 fs-08" style="height: 25px;">
+		<tr >
+			<th nowrap>{if $curr_lvl != $level_priv}{$lvl_desc}<br><a href="javascript:list_payment_type('{$tab_slctd}', '{$prev_lvl}', '{$payment_type_lvl2_bid}')">Back</a>{/if}</th>
+			{foreach from=$payment_type key=p item=pt}
+				<th nowrap>{$pos_config.payment_type_label.$pt|default:$pt}</th>
+			{/foreach}
+			<th nowrap>Total</th>
+		</tr>
+	</thead>
 	{foreach from=$col_list item=type key=t}
 	<tr>
 		{assign var=type_desc value=$type}
 		{if !$type_desc}{assign var=type_desc value='Untitled'}{/if}
-		<th align=left bgcolor=#ffee99 nowrap>
+		<th class="text-primary" nowrap>
 			<div style="float:left;background-color:{$type|random_color};width:5px;height:5px;margin:4px;border:1px solid black;"></div>
 			{if $next_lvl != '' && $paytype_row_total.$type.amt != ''}<a href="javascript:list_payment_type('{$tab_slctd}', '{$next_lvl}', '{$t}')">{$type_desc}</a>{else}{if $curr_lvl == 3 && $paytype_row_total.$type.amt != '' && $tab_slctd == 1}<a href="javascript:tran_details('{$payment_type_lvl2_bid|default:$smarty.request.branch_id}', '{$t}')">{$type_desc}</a>{else}{$type_desc}{/if}{/if}
 		</th>
@@ -40,14 +42,14 @@
 		<th align=right bgcolor="#FFF0FF" nowrap>{$paytype_row_total.$type.amt|number_format:$number_format|ifzero:"-"}</th>
 	</tr>
 	{/foreach}
-	<tr bgcolor=#ffee99>
+	<tr class="bg-gray-100">
 		<th nowrap>Total</th>
 		{foreach from=$payment_type key=p item=pt}
 			<th align=right nowrap>{$paytype_col_total.$pt.amt|number_format:$number_format|ifzero:"-"}</th>
 		{/foreach}
 		<th align=right rowspan="2" nowrap>{$paytype_grand_total.amt|number_format:$number_format|ifzero:"-"}</th>
 	</tr>
-	<tr bgcolor=#ffee99>
+	<tr class="bg-gray-100">
 		<th nowrap>Accumulated Total</th>
 		{foreach from=$payment_type key=p item=pt}
 			{assign var=running_ttl value=$running_ttl+$paytype_col_total.$pt.amt}

@@ -2442,7 +2442,10 @@ function show_notification_message(type){
 	</div>
 	</div>
 	<div id=tb3>
-		<h3>Display Settings</h3>
+		<div class="card mx-3">
+			<div class="card-body " style="overflow-x: auto;">
+			
+		<h3 class="text-primary">Display Settings</h3>
 		<table border=0>
 		{if $config.single_server_mode && ($BRANCH_CODE ne 'HQ' || $form.branch_id > 1)}
 		<tr>
@@ -2764,8 +2767,11 @@ function show_notification_message(type){
 				</table>
 			</div>
 		{/if}
+	</div>
+</div>
 	<iframe name=if {if !strstr($smarty.server.HTTP_HOST,'maximus')}style="width:1px;height:1px;visibility:hidden"{/if}></iframe>
 	</div>
+	
 
 	<div id=tb4>
 		<div class="card mx-3">

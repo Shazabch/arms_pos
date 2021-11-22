@@ -1572,11 +1572,18 @@ function toggle_all_branches(obj){
 </div>
 
 <iframe style="visibility:hidden" width=1 height=1 name=ifprint id=ifprint></iframe>
-
-<h1>Promotion{if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Promotion{if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}
+			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 {if $form.id<$time_value}
-<h3>Status:
+<h3 class="mx-3 text-primary mt-2">Status:
 {if $form.status == 1}
 	{if $form.approved}
 		Fully Approved
@@ -1600,31 +1607,37 @@ function toggle_all_branches(obj){
 
 {if $approval_history}
 <br>
-<div class="stdframe" style="background:#fff">
-<h4>Approval History</h4>
-{section name=i loop=$approval_history}
-<p>
-{if $approval_history[i].status==1}
-	<img src=ui/approved.png width=16 height=16>
-{elseif $approval_history[i].status==2}
-	<img src=ui/rejected.png width=16 height=16>
-{else}
-	<img src=ui/terminated.png width=16 height=16>
-{/if}
-{$approval_history[i].timestamp} by {$approval_history[i].u}<br>
-{$approval_history[i].log}
-</p>
-{/section}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<h4 class="text-primary">Approval History</h4>
+			{section name=i loop=$approval_history}
+			<p>
+			{if $approval_history[i].status==1}
+				<img src=ui/approved.png width=16 height=16>
+			{elseif $approval_history[i].status==2}
+				<img src=ui/rejected.png width=16 height=16>
+			{else}
+				<img src=ui/terminated.png width=16 height=16>
+			{/if}
+			{$approval_history[i].timestamp} by {$approval_history[i].u}<br>
+			{$approval_history[i].log}
+			</p>
+			{/section}
+			</div>
+	</div>
 </div>
 {/if}
 <br>
 
 {if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$errm.top item=e}
+		<li> {$e}
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
 {if $smarty.request.msg}<div style="color:blue;">{$smarty.request.msg}</div>{/if}
@@ -1633,260 +1646,286 @@ function toggle_all_branches(obj){
 </div>
 
 
-<form name="f_a" method=post ENCTYPE="multipart/form-data">
-<input type=hidden name=id value="{$form.id}">
-<input type=hidden name=user_id value="{$form.user_id|default:$sessioninfo.id}">
-<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
-<input type=hidden name=a value="save">
-<input type=hidden name=approval_history_id value="{$form.approval_history_id}">
-<input type=hidden name=readonly value="{$readonly}">
-<input type=hidden name=active value="{$form.active}">
-<input type=hidden name=active value="{$form.active}">
-
-<div class="stdframe" style="background:#fff">
-<table border=0 cellspacing=0 cellpadding=4>
-<tr>
-<td><b>Title</b></td>
-<td colspan=3><input name="title" value="{$form.title|escape}" size=80></td>
-</tr>
-<tr>
-<td><b>Date</b></td>
-<td colspan=3>
-	<input name="date_from" value="{if $form.date_from>0}{$form.date_from|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_from" />
-	{if $allow_edit}
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	{/if}
-	<b>To</b>
-
-	<input name="date_to" value="{if $form.date_to>0}{$form.date_to|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_to" />
-	{if $allow_edit}
-		<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-	{/if}
-	(yyyy-mm-dd)
-</td>
-</tr>
-<tr><td><b>Time</b></td>
-<td colspan=3>
-<input id="time_from_id" name="time_from" value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" onclick="if(this.value)this.select();" size=10>
-<b>To</b> 
-<input id="time_to_id" name="time_to" value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" onclick="if(this.value)this.select();" size=10> (hh:mm)
-&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="checkbox" id="all_day_id" name="all_day" value="all_day" onclick="change_wholeday(this)"> <label for="all_day_id"><b>All Day</b></label>
-<br>
-</td>
-</tr>
-<tr>
-<td><b>Print title in receipt</b></td>
-<td colspan=3><input type="checkbox" name="print_title_in_receipt" value="1" {if $form.print_title_in_receipt}checked{/if}></td>
-</tr>
-<tr {if !$config.use_consignment_bearing or (($smarty.request.a eq 'refresh' || $smarty.request.id) and $form.consignment_bearing ne 'yes')} style="display:none;" {/if} >
-<td valign="top"><b>Use Consignment Bearing Table</b></td>
-<td>
-	<input type="checkbox" name="s_consignment_bearing" onchange="consignment_toggle(this.checked);" value="yes" {if $form.consignment_bearing eq 'yes'}checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if} >
-	<b>Note:</b> Only consignment items that had selected brand / vendor trade discount table which match the consignment bearing table.
-	<input id='id_consignment' type=hidden name="consignment_bearing" value="{$form.consignment_bearing}" > &nbsp;&nbsp;&nbsp;&nbsp;
-	<table border=0 id="consignment_table_id" style="display:none;border:1px solid #000" >
-	    <tr>
-	        <th>Department</th>
-	        <td>
-				<select name="s_dept_id" onchange="change_brand_vendor(this);" id="sel_did" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
-					<option value="">-- Please Select --</option>
-					{foreach from=$departments item=dept}
-						<option value={$dept.id} {if $form.dept_id eq $dept.id}selected {/if}>{$dept.description}</option>
-					{/foreach}
-				</select>
-				<input id='id_dept_id' type=hidden name="dept_id" value="{$form.dept_id}" >
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method=post ENCTYPE="multipart/form-data">
+			<input type=hidden name=id value="{$form.id}">
+			<input type=hidden name=user_id value="{$form.user_id|default:$sessioninfo.id}">
+			<input type=hidden name=branch_id value="{$form.branch_id|default:$sessioninfo.branch_id}">
+			<input type=hidden name=a value="save">
+			<input type=hidden name=approval_history_id value="{$form.approval_history_id}">
+			<input type=hidden name=readonly value="{$readonly}">
+			<input type=hidden name=active value="{$form.active}">
+			<input type=hidden name=active value="{$form.active}">
+			
+			<div class="stdframe" style="background:#fff">
+			<table border=0 cellspacing=0 cellpadding=4>
+			<tr>
+			<td><b class="form-label">Title</b></td>
+			<td colspan=3><input class="form-control" name="title" value="{$form.title|escape}" size=80></td>
+			</tr>
+			<tr>
+			<td><b class="form-label">Date<span class="text-danger" title="Required Field"> *</span></b></td>
+			<td colspan=3>
+				<div class="form-inline">
+					<input class="form-control" name="date_from" value="{if $form.date_from>0}{$form.date_from|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_from" />
+				{if $allow_edit}
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date" /> 
+					
+				{/if}
+				<b class="form-label">To<span class="text-danger" title="Required Field">*&nbsp;</span></b>
+			
+				<input class="form-control" name="date_to" value="{if $form.date_to>0}{$form.date_to|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}" onclick="if(this.value)this.select();" size="10" id="inp_date_to" />
+				{if $allow_edit}
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date" /> 
+				{/if}
+				<b class="form-label">&nbsp;(yyyy-mm-dd)</b>
+				</div>
 			</td>
-	    </tr>
-	    <tr>
-	        <th align="left">Type</th>
-	        <td>
-	    		<input type=radio name="s_r_type" value="vendor" onchange="load_data(this.value)"
-				{if $form.r_type eq 'vendor'}
-					{assign var=selected_vb_id value=$form.vendor_id}
-					checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>Vendor &nbsp;&nbsp;&nbsp;&nbsp;
-
-				<input type=radio name="s_r_type" value="brand" onchange="load_data(this.value)"
-				{if $form.r_type eq 'brand'}
-					{assign var=selected_vb_id value=$form.brand_id}
-					checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>Brand &nbsp;&nbsp;&nbsp;&nbsp;
-
-				<input type=radio name="s_r_type" value="none" onchange="load_data(this.value)" {if $form.r_type eq 'none'}checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>None &nbsp;&nbsp;&nbsp;&nbsp;
-				<input id='id_r_type' type=hidden name="r_type" value='{$form.r_type}' >
+			</tr>
+			<tr><td><b class="form-label">Time</b></td>
+			<td colspan=3>
+			<div class="form-inline">
+				<input class="form-control" id="time_from_id" name="time_from" value="{if $form.time_from>0}{$form.time_from|date_format:"%H:%M"}{else}00:00{/if}" onclick="if(this.value)this.select();" size=10>
+			<b class="form-label">&nbsp;To&nbsp;</b> 
+			<input class="form-control" id="time_to_id" name="time_to" value="{if $form.time_to>0}{$form.time_to|date_format:"%H:%M"}{else}23:59{/if}" onclick="if(this.value)this.select();" size=10> <b class="form-label">&nbsp;(hh:mm)</b>
+		
+			<div class="form-label form-inline">
+				&nbsp;&nbsp;<input type="checkbox" id="all_day_id" name="all_day" value="all_day" onclick="change_wholeday(this)"> <label for="all_day_id"><b>&nbsp;All Day</b></label>
+			</div>
+			</div>
+			
 			</td>
-	    </tr>
-	    <tr id=vendor style="display:none;">
-            <th align="left">Vendor</th>
+			</tr>
+			<tr>
 			<td>
-				<select name="vendor_id" onchange="save_id('vendor',this.value)" id="sel_vid" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
-					<option value="">-- Please Select A Vendor--</option>
-				</select>
-				<input id='id_vid' type=hidden name="s_vendor_id" value="{if $form.s_vendor_id}{$form.s_vendor_id}{else}{$form.vendor_id}{/if}">
+				<div class="form-inline form-label">
+					<b>Print title in receipt</b></td>
+			<td colspan=3><input type="checkbox" name="print_title_in_receipt" value="1" {if $form.print_title_in_receipt}checked{/if}>
+				</div>
 			</td>
-		</tr>
-        <tr id=brand style="display:none;" >
-            <th align="left">Brand</th>
+			</tr>
+			<tr {if !$config.use_consignment_bearing or (($smarty.request.a eq 'refresh' || $smarty.request.id) and $form.consignment_bearing ne 'yes')} style="display:none;" {/if} >
+			<td valign="top"><b class="text-primary">Use Consignment Bearing Table</b></td>
 			<td>
-				<select name="brd_id" onchange="save_id('brand',this.value)" id="sel_bid" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
-                	<option value="">-- Please Select A Brand--</option>
-				</select>
-				<input id='id_bid' type=hidden name="s_brand_id" value='{if $form.s_brand_id}{$form.s_brand_id}{else}{$form.brand_id}{/if}'>
+				<input type="checkbox" name="s_consignment_bearing" onchange="consignment_toggle(this.checked);" value="yes" {if $form.consignment_bearing eq 'yes'}checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if} >
+				<b >Note:</b> Only consignment items that had selected brand / vendor trade discount table which match the consignment bearing table.
+				<input id='id_consignment' type=hidden name="consignment_bearing" value="{$form.consignment_bearing}" > &nbsp;&nbsp;&nbsp;&nbsp;
+				<table border=0 id="consignment_table_id" style="display:none;border:1px solid #000" >
+					<tr>
+						<th>Department</th>
+						<td>
+							<select name="s_dept_id" onchange="change_brand_vendor(this);" id="sel_did" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
+								<option value="">-- Please Select --</option>
+								{foreach from=$departments item=dept}
+									<option value={$dept.id} {if $form.dept_id eq $dept.id}selected {/if}>{$dept.description}</option>
+								{/foreach}
+							</select>
+							<input id='id_dept_id' type=hidden name="dept_id" value="{$form.dept_id}" >
+						</td>
+					</tr>
+					<tr>
+						<th align="left">Type</th>
+						<td>
+							<input type=radio name="s_r_type" value="vendor" onchange="load_data(this.value)"
+							{if $form.r_type eq 'vendor'}
+								{assign var=selected_vb_id value=$form.vendor_id}
+								checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>Vendor &nbsp;&nbsp;&nbsp;&nbsp;
+			
+							<input type=radio name="s_r_type" value="brand" onchange="load_data(this.value)"
+							{if $form.r_type eq 'brand'}
+								{assign var=selected_vb_id value=$form.brand_id}
+								checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>Brand &nbsp;&nbsp;&nbsp;&nbsp;
+			
+							<input type=radio name="s_r_type" value="none" onchange="load_data(this.value)" {if $form.r_type eq 'none'}checked {/if} {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>None &nbsp;&nbsp;&nbsp;&nbsp;
+							<input id='id_r_type' type=hidden name="r_type" value='{$form.r_type}' >
+						</td>
+					</tr>
+					<tr id=vendor style="display:none;">
+						<th align="left">Vendor</th>
+						<td>
+							<select name="vendor_id" onchange="save_id('vendor',this.value)" id="sel_vid" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
+								<option value="">-- Please Select A Vendor--</option>
+							</select>
+							<input id='id_vid' type=hidden name="s_vendor_id" value="{if $form.s_vendor_id}{$form.s_vendor_id}{else}{$form.vendor_id}{/if}">
+						</td>
+					</tr>
+					<tr id=brand style="display:none;" >
+						<th align="left">Brand</th>
+						<td>
+							<select name="brd_id" onchange="save_id('brand',this.value)" id="sel_bid" {if $smarty.request.a eq 'refresh' || $smarty.request.id}disabled {/if}>
+								<option value="">-- Please Select A Brand--</option>
+							</select>
+							<input id='id_bid' type=hidden name="s_brand_id" value='{if $form.s_brand_id}{$form.s_brand_id}{else}{$form.brand_id}{/if}'>
+						</td>
+					</tr>
+				</table>
 			</td>
-		</tr>
-	</table>
-</td>
-</tr>
-
-{if !$config.promotion_hide_member_options}
-<tr>
-	<td valign="top"><b>Member Reward Point</b>
-		<a href="javascript:void(alert('This feature only available at counter BETA v168.\n\nInherit: Member Type -> Member\n\nRequire privilege PROMOTION_MEMBER_POINT_REWARD_EDIT to use this.'));">
-			<img src="/ui/icons/information.png" align="absmiddle" />
-		</a>
-	</td>
-	<td>
-		{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
-			<select name="category_point_inherit" onChange="category_point_inherit_changed();">
-				{foreach from=$category_point_inherit_options key=k item=w}
-					<option value="{$k}" {if $form.category_point_inherit eq $k}selected {/if}>{$w}</option>
-				{/foreach}
-			</select>
-		{else}
-			<b>
-				{foreach from=$category_point_inherit_options key=k item=w}
-					{if $form.category_point_inherit eq $k}{$w}{/if}
-				{/foreach}
-			</b>
-			<input type="hidden" name="category_point_inherit" value="{$form.category_point_inherit}">
-		{/if}
-		<div id="div_cat_point" style="border:0px solid black;padding:5px;{if $form.category_point_inherit ne 'set'}display:none;{/if}">
-			{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
-				Please enter how many {$config.arms_currency.symbol} for each point.
-			{/if}
-						
-			<table class="report_table">
-				<tr class="header">
-					<td>&nbsp;</td>
-					<td>({$config.arms_currency.symbol} <b>X</b> for 1 Point)</td>
-				</tr>
-				<tr>
-					<td><b>Member</b></td>
-					<td>
-						<input type="text" name="category_point_inherit_data[global]" value="{$form.category_point_inherit_data.global}" size="3" onChange="category_point_value_changed(this);" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
-					</td>
-				</tr>
-				{foreach from=$config.membership_type key=member_type item=mtype_desc name=fmt}
-					{if is_numeric($member_type)}
-						{assign var=mt value=$mtype_desc}
+			</tr>
+			
+			{if !$config.promotion_hide_member_options}
+			<tr>
+				<td valign="top">
+					<div class="form-inline">
+						<b class="form-label">Member Reward Point</b>
+					<a href="javascript:void(alert('This feature only available at counter BETA v168.\n\nInherit: Member Type -> Member\n\nRequire privilege PROMOTION_MEMBER_POINT_REWARD_EDIT to use this.'));">
+						<img src="/ui/icons/information.png" align="absmiddle" />
+					</a>
+					</div>
+				</td>
+				<td>
+					{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
+						<select class="form-control" name="category_point_inherit" onChange="category_point_inherit_changed();">
+							{foreach from=$category_point_inherit_options key=k item=w}
+								<option value="{$k}" {if $form.category_point_inherit eq $k}selected {/if}>{$w}</option>
+							{/foreach}
+						</select>
 					{else}
-						{assign var=mt value=$member_type}
+						<b class="form-label">
+							{foreach from=$category_point_inherit_options key=k item=w}
+								{if $form.category_point_inherit eq $k}{$w}{/if}
+							{/foreach}
+						</b>
+						<input type="hidden" name="category_point_inherit" value="{$form.category_point_inherit}">
 					{/if}
-					{if $smarty.foreach.fmt.first}
-						<tr class="header">
-							<th colspan="2">
-								Member Type (Leave Empty will follow member)
-							</th>
+					<div id="div_cat_point" style="border:0px solid black;padding:5px;{if $form.category_point_inherit ne 'set'}display:none;{/if}">
+						{if $sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}
+							<div class="alert alert-primary rounded">
+								Please enter how many {$config.arms_currency.symbol} for each point.
+							</div>
+						{/if}
+									
+						<table class="report_table">
+							<div class="mt-2">
+								<tr class="header">
+									<td>&nbsp;</td>
+									<td>({$config.arms_currency.symbol} <b>X</b> for 1 Point)</td>
+								</tr>
+							</div>
+							<tr>
+								<td><b class="form-label">Member</b></td>
+								<td>
+									<input class="form-control" type="text" name="category_point_inherit_data[global]" value="{$form.category_point_inherit_data.global}" size="3" onChange="category_point_value_changed(this);" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
+								</td>
+							</tr>
+							{foreach from=$config.membership_type key=member_type item=mtype_desc name=fmt}
+								{if is_numeric($member_type)}
+									{assign var=mt value=$mtype_desc}
+								{else}
+									{assign var=mt value=$member_type}
+								{/if}
+								{if $smarty.foreach.fmt.first}
+									<tr class="header">
+										<th class="form-label" colspan="2">
+											Member Type (Leave Empty will follow member)
+										</th>
+									</tr>
+								{/if}
+								<tr>
+									<td><b class="form-label">{$mtype_desc}</b></td>
+									<td>
+										<input class="form-control" type="text" name="category_point_inherit_data[{$mt}]" size="3" onChange="category_point_value_changed(this)" value="{$form.category_point_inherit_data.$mt}" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
+									</td>
+								</tr>
+							{/foreach}
+						</table>
+					</div>
+				</td>
+			</tr>
+			{/if}
+			
+			<tr>
+				<td valign=top><b class="form-label">Branches Promotion</b> </td>
+			{if ($form.branch_id==1 and $smarty.request.a ne 'refresh') and $form.id > 1000000000 and !$errm}
+				<td>You may select multiple branches <br>
+					<table class="small" border=0 id=tbl_branch>
+					<div class="form-label">
+						<tr>
+							<td><input type="checkbox" name="all_branches" value="1" onclick="toggle_all_branches(this); active_btn();" /> All</td>
+						</tr>
+						{section name=i loop=$branch}
+						{assign var=bid value=$branch[i].id}
+						<tr>
+							<td valign=top>
+							<input onchange="active_btn();" type=checkbox id=dt_{$branch[i].id} name="promo_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" {if is_array($form.promo_branch_id) and in_array($branch[i].id,$form.promo_branch_id)}checked{/if}>&nbsp;{$branch[i].code}
+							</td>
+						</tr>
+					</div>
+					{/section}
+					</table>
+			
+					<div id=srefresh style="display:none; padding-top:10px">
+					<input class="btn btn-primary" type=button onclick="void(refresh_tables())" value="click here to continue">
+					</div>
+			
+				</td>
+			{else}
+				<td>
+					<table class="small" border=0>
+					{if $BRANCH_CODE eq 'HQ'}
+						<tr>
+							<td><input type="checkbox" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</td>
 						</tr>
 					{/if}
-					<tr>
-						<td><b>{$mtype_desc}</b></td>
-						<td>
-							<input type="text" name="category_point_inherit_data[{$mt}]" size="3" onChange="category_point_value_changed(this)" value="{$form.category_point_inherit_data.$mt}" {if !$sessioninfo.privilege.MEMBER_POINT_REWARD_EDIT}readonly{/if} />
-						</td>
-					</tr>
-				{/foreach}
-			</table>
-		</div>
-	</td>
-</tr>
-{/if}
-
-<tr>
-	<td valign=top><b>Branches Promotion</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
-{if ($form.branch_id==1 and $smarty.request.a ne 'refresh') and $form.id > 1000000000 and !$errm}
-	<td>You may select multiple branches <br>
-		<table class="small" border=0 id=tbl_branch>
-		<tr>
-			<td><input type="checkbox" name="all_branches" value="1" onclick="toggle_all_branches(this); active_btn();" /> All</td>
-		</tr>
-		{section name=i loop=$branch}
-		{assign var=bid value=$branch[i].id}
-		<tr>
-			<td valign=top>
-			<input onchange="active_btn();" type=checkbox id=dt_{$branch[i].id} name="promo_branch_id[]" value="{$branch[i].id}" class="branch branch_cb" {if is_array($form.promo_branch_id) and in_array($branch[i].id,$form.promo_branch_id)}checked{/if}>&nbsp;{$branch[i].code}
-			</td>
-		</tr>
-		{/section}
-		</table>
-
-		<div id=srefresh style="display:none; padding-top:10px">
-		<input class="btn btn-primary" type=button onclick="void(refresh_tables())" value="click here to continue">
-		</div>
-
-	</td>
-{else}
-	<td>
-	    <table class="small" border=0>
-		{if $BRANCH_CODE eq 'HQ'}
-			<tr>
-				<td><input type="checkbox" name="all_branches" value="1" onclick="toggle_all_branches(this);" /> All</td>
-			</tr>
-		{/if}
-		{section name=i loop=$branch}
-			{assign var=bid value=$branch[i].id}
-			{assign var=bcode value=$branch[i].code}
-			{if $BRANCH_CODE eq 'HQ'}
-                <tr>
-					<td valign="top">
-					<input type="checkbox" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" class="branch_cb" {if $form.promo_branch_id.$bid}checked {/if} /> {$bcode}
-					</td>
-				</tr>
-			{else}
-			    {if $form.promo_branch_id.$bid}
-			        <tr>
-						<td valign="top">
-						<span style="display:none;"><input type="checkbox" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" class="branch_cb" checked /></span>
-						{$bcode}
-						</td>
-					</tr>
-			    {/if}
+					{section name=i loop=$branch}
+						{assign var=bid value=$branch[i].id}
+						{assign var=bcode value=$branch[i].code}
+						{if $BRANCH_CODE eq 'HQ'}
+							<tr>
+								<td valign="top">
+								<input type="checkbox" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" class="branch_cb" {if $form.promo_branch_id.$bid}checked {/if} /> {$bcode}
+								</td>
+							</tr>
+						{else}
+							{if $form.promo_branch_id.$bid}
+								<tr>
+									<td valign="top">
+									<span style="display:none;"><input type="checkbox" name="promo_branch_id[{$bid}]" type="hidden" value="{$bcode}" class="branch_cb" checked /></span>
+									{$bcode}
+									</td>
+								</tr>
+							{/if}
+						{/if}
+					{/section}
+					</table>
+					<div id=srefresh style=" {if $smarty.request.a eq 'refresh' || $smarty.request.id} display:none; {/if} padding-top:10px">
+					<input type=button onclick="void(refresh_tables())" class="btn btn-success" value="click here to continue">
+					</div>
+				</td>
 			{/if}
-		{/section}
-		</table>
-		<div id=srefresh style=" {if $smarty.request.a eq 'refresh' || $smarty.request.id} display:none; {/if} padding-top:10px">
-		<input type=button onclick="void(refresh_tables())" style="font-size:1.5em; color:#fff; background:#091" value="click here to continue">
-		</div>
-	</td>
-{/if}
-
-</tr>
-
-
-
-</table>
-
-</div><br>
-
-{if $data_collector_invalid_items}
-	<div class="errmsg stdframe" style="background-color:yellow;">
-		<h3>The following item(s) code got error:</h3>
-		<ul>
-			{foreach from=$data_collector_invalid_items item=it}
-				<li>
-					Line {$it.line_no}: {$it.code} - {$it.msg}
-				</li>
-			{/foreach}
-		</ul>
-	</div><br />
-{/if}
-
-{if ($smarty.request.a eq 'refresh' or $smarty.request.a eq 'save' or $smarty.request.a eq 'confirm') or $form.id < 1000000000}
-	<div id=promo_items_list>
-		{include file=promotion.new.sheet.tpl}
+			
+			</tr>
+			
+			
+			
+			</table>
+			
+			</div><br>
+			
+			{if $data_collector_invalid_items}
+				<div class="errmsg stdframe" style="background-color:yellow;">
+					<h3 class="text-danger">The following item(s) code got error:</h3>
+					<ul>
+						{foreach from=$data_collector_invalid_items item=it}
+							<div class="alert alert-danger mx-3">
+								<li>
+									Line {$it.line_no}: {$it.code} - {$it.msg}
+								</li>
+							</div>
+						{/foreach}
+					</ul>
+				</div><br />
+			{/if}
+			
+			{if ($smarty.request.a eq 'refresh' or $smarty.request.a eq 'save' or $smarty.request.a eq 'confirm') or $form.id < 1000000000}
+				<div id=promo_items_list>
+					{include file=promotion.new.sheet.tpl}
+				</div>
+			{/if}
+			</form>
+			
 	</div>
-{/if}
-</form>
-
+</div>
 
 <script type="text/javascript">
 //reset_vendor_autocomplete();

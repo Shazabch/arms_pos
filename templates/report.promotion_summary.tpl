@@ -108,59 +108,89 @@
 		{/literal}
 	{/if}
 
-	<h1>{$PAGE_TITLE}</h1>
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			</div>
+		</div>
+	</div>
+	
 
 	{if $err}
-		The following error(s) has occured:
+		<div class="alert alert-danger mx-3 rounded">
+			The following error(s) has occured:
 		<ul class=err>
 		{foreach from=$err item=e}
 		<li> {$e}
 		{/foreach}
 		</ul>
+		</div>
 	{/if}
 	{if !$no_header_footer}
 		<iframe style="visibility:hidden" width=1 height=1 name=ifprint></iframe>
-		<form method=post class=form name="f_a" onSubmit="passArrayToInput()">
-		<input type=hidden name=print value=0>
-		<b>Date</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-		<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="card mx-3">
+			<div class="card-body">
+				<form method=post class=form name="f_a" onSubmit="passArrayToInput()">
+					<input type=hidden name=print value=0>
 
-		{if $BRANCH_CODE eq 'HQ'}
-			<b>Branch</b> {dropdown name=branch_id all="-- All --" values=$branches selected=$smarty.request.branch_id key=id value=code}
-		{/if}
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Approval Status</b>
-		<select name="approved">
-		<option value="1" {if $smarty.request.approved}selected{/if}>Approved</option>
-		<option value="0" {if !$smarty.request.approved}selected{/if}>Not approved</option>
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<b>Search by</b> 
-		<select name=type onchange="change_type();">
-		<option value="sku" {if $smarty.request.type eq 'sku'}selected{/if}>SKU</option>
-		<option value="category" {if $smarty.request.type eq 'category'}selected{/if}>Category/Brand</option>
-		<option value="items_in_promotion" {if $smarty.request.type eq 'items_in_promotion'}selected{/if}>Items in promotion</option>
-		</select>
-		&nbsp;&nbsp;
-		<div id="sku_select" style="display:none;">{include file="sku_items_autocomplete_multiple.tpl"}</div>
-		<div id="category_select" style="display:none;">{include file="category_autocomplete.tpl"  autocomplete_callback="get_brand($('category_id').value,'')"}<br>
-		<b>Brand</b>
-		<span id="brand_select"></span>
-		&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="row">
+						<div class="col">
+							<b class="form-label">Date</b> 
+					<div class="form-inline">
+						<input class="form-control"  size=15 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+					&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					</div>
+						</div>
+					
+			
+					<div class="col">
+						{if $BRANCH_CODE eq 'HQ'}
+						<b class="form-label">Branch</b> 
+						{dropdown name=branch_id all="-- All --" values=$branches selected=$smarty.request.branch_id key=id value=code}
+					{/if}
+					</div>
+					
+					<div class="col">
+						<b class="form-label">Approval Status</b>
+					<select  class="form-control" name="approved">
+					<option value="1" {if $smarty.request.approved}selected{/if}>Approved</option>
+					<option value="0" {if !$smarty.request.approved}selected{/if}>Not approved</option>
+					</select>
+					</div>
+					
+					<div class="col">
+						<b class="form-label">Search by</b> 
+					<select class="form-control" name=type onchange="change_type();">
+					<option value="sku" {if $smarty.request.type eq 'sku'}selected{/if}>SKU</option>
+					<option value="category" {if $smarty.request.type eq 'category'}selected{/if}>Category/Brand</option>
+					<option value="items_in_promotion" {if $smarty.request.type eq 'items_in_promotion'}selected{/if}>Items in promotion</option>
+					</select>
+					</div>
+					</div>
+					<br>
+					<div id="sku_select" style="display:none;">{include file="sku_items_autocomplete_multiple.tpl"}</div>
+					<div id="category_select" style="display:none;">{include file="category_autocomplete.tpl"  autocomplete_callback="get_brand($('category_id').value,'')"}<br>
+					<b class="form-label">Brand</b>
+					<span id="brand_select"></span>
+					
+					</div>
+			
+					<input type=hidden name=submit value=1>
+					<button class="btn btn-primary" name=show_report onclick="do_show_report();">{#SHOW_REPORT#}</button>
+					<button class="btn btn-info" name=output_excel onclick="do_excel();">{#OUTPUT_EXCEL#}</button>
+					<button class="btn btn-primary" name=print_report onclick="do_print();">Print</button>
+					
+					<div class="alert alert-primary rounded mt-2" style="max-width: 400px;">
+						<ul style="list-style-type:none;">
+							{*{if $config.enable_mix_and_match_promotion}{/if}*}
+							<li> This report does not include Mix & Match Promotion</li>
+						</ul>
+					</div>
+					
+					</form>
+			</div>
 		</div>
-
-		<input type=hidden name=submit value=1>
-		<button class="btn btn-primary" name=show_report onclick="do_show_report();">{#SHOW_REPORT#}</button>
-		<button class="btn btn-primary" name=output_excel onclick="do_excel();">{#OUTPUT_EXCEL#}</button>
-		<button class="btn btn-primary" name=print_report onclick="do_print();">Print</button>
-		
-		<ul>
-		    {*{if $config.enable_mix_and_match_promotion}{/if}*}
-			<li> This report does not include Mix & Match Promotion</li>
-	    </ul>
-	    
-		</form>
 	{/if}
 {else}
 	{include file=report_header.landscape.tpl print_me=1}

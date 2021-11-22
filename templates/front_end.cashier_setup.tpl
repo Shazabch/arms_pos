@@ -124,8 +124,10 @@ function search_input_keypress(event){
 		</div>
 		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 	</div>
-	<div id="div_container" style="border:1px solid #000" class="stdframe">
-		{include file='front_end.cashier_setup.list.tpl'}
+	<div id="div_container"  class="stdframe">
+	
+				{include file='front_end.cashier_setup.list.tpl'}
+			
 	</div>
 </div>
 

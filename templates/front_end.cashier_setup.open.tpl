@@ -263,7 +263,13 @@ function uname_blur(u){
 }
 {/literal}
 </script>
-<h1>Cashier Profile</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">Cashier Profile</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
 <form style="display:none;" name="f_approval">
 	<input type="hidden" name="id" value="{$form.id}" />
@@ -274,200 +280,211 @@ function uname_blur(u){
 </form>
 
 {if $form.reject_reason}
-	<div style="border:1px solid red;background-color:yellow;padding:5px;">
+	<div class="alert alert-danger mx-3 rounded">
 		<b>Rejected Reason:</b><br />
 		{$form.reject_reason}
 	</div><br />
 {/if}
 
-<form name="f_a" method="post" class="stdframe">
-	<input type="hidden" name="id" value="{$form.id}" />
-	<input type="hidden" name="branch_id" value="{$form.branch_id}" />
-	<input type="hidden" name="is_tmp" value="{$form.is_tmp}" />
-	<input type="hidden" name="a" value="" />
-	
-	<h3>General Information</h3>
-	
-	{if $err}
-		The following error(s) has occured:
-		<ul class="err">
-			{foreach from=$err item=e}
-				<li> {$e}</li>
-			{/foreach}
-		</ul>
-	{/if}
-	
-	<table>
-		<tr>
-			<td width="100"><b>Username</b></td>
-			<td>
-				{if $form.id>0}
-					{$form.u}
-				{else}
-					<input type="text" name="u" value="{$form.u}" onblur="uname_blur(this)" maxlength="50" size="50" class="required" title="Username" />
-					<img src="/ui/rq.gif" align="absmiddle" />
-				{/if}
-			</td>
-		</tr>
-		{if $config.user_profile_need_ic}
-			<tr>
-			    <td><b>IC No.</b></td>
-			    <td>
-					<input type="text" name="ic_no" size="50" maxlength="20" value="{$form.ic_no}" class="required" title="IC No."/>
-					<img src="/ui/rq.gif" align="absmiddle" />
-				</td>
-			</tr>
-		{/if}
-		<tr>
-			<td><b>Barcode</b></td>
-			<td><input name="barcode" size="50" maxlength="16" value="{$form.barcode}" onBlur="uc(this)" /></td>
-		</tr>
-		<tr>
-			<td><b>Full Name</b></td>
-			<td><input name="fullname" size="50" maxlength="100" value="{$form.fullname}" onBlur="uc(this)" /></td>
-		</tr>
-		<tr>
-			<td><b>Location</b></td>
-			<td>
-				{if $BRANCH_CODE eq 'HQ'}
-					<select name="default_branch_id" class="required" title="Location">
-						<option value="">-- Please Select --</option>
-						{foreach from=$branches key=bid item=r}
-							<option value="{$bid}" {if $form.default_branch_id eq $bid}selected {/if}>{$r.code}</option>
-						{/foreach}
-					</select>
-					<img src="/ui/rq.gif" align="absmiddle" />
-				{else}
-					{$branches[$form.default_branch_id].code|default:$branches[$sessioninfo.branch_id].code}
-				{/if}
-			</td>
-		</tr>
-		<tr>
-			<td><b>Position</b></td>
-			<td>
-				<input type="text" name="position" size="50" maxlength="100" value="{$form.position}" onBlur="uc(this)" class="required" title="Position" />
-				<img src="/ui/rq.gif" align="absmiddle" />
-			</td>
-		</tr>
-		
-		<tr>
-			<td><b>User Department</b></td>
-			<td><input name="user_dept" size="50" maxlength="100" value="{$form.user_dept}" onBlur="uc(this)" title="User Department" type="text"/></td>
-		</tr>
-		<tr>
-			<td><b>Login ID</b></td>
-			<td>
-				<input type="text" name="l" size="20" value="{$form.l}" class="required" title="Login ID"/>
-				<img src="/ui/rq.gif" align="absmiddle" />
-			</td>
-		</tr>
-		{if !$readonly}
-			<tr>
-				<td><b>Password</b></td>
-				<td><input name="newpassword" type="password" size="20" /> (password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</td>
-			</tr>
-			<tr>
-				<td><b>Retype Password</b></td>
-				<td><input alt="Reconfirm password" name="newpassword2" type="password" size="20" /></td>
-			</tr>
-		{/if}
-		<tr>
-			<td><b>Email</b></td>
-			<td>
-				<input type="text" name="email" size="20" value="{$form.email}" onchange="lc(this)" class="required" title="Email" />
-				<img src="/ui/rq.gif" align="absmiddle" />
-			</td>
-		</tr>
-		<tr>
-			<td><b>Discount Limit</b>
-				[<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))">?</a>]
-			</td>
-			<td><input name="discount_limit" size="1" maxlength="3" value="{$form.discount_limit}" /> % 
-				{if $config.user_profile_show_item_discount_only_allow_percent}
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="checkbox" name="item_disc_only_allow_percent" {if $form.item_disc_only_allow_percent}checked {/if} value="1" />
-					Force this user to only allow discount by percentage for Item Discount
-				{/if}
-			</td>
-		</tr>
-		<tr {if !$mprice_list}style="display:none;"{/if}>
-			<td><b>Allow Mprice</b></td>
-			<td>
-			<ul style="list-style:none; margin:0; padding:0;">
-			{assign var=mp value=$form.allow_mprice}
-			<li style="float:left; padding-right:10px; margin:0;"><input type="checkbox" style="margin-left:0;" name="allow_mprice[not_allow]" onclick="check_cashier_setup_mprice_list(this)" {if $mp.not_allow}checked{/if} /> Not Allow</li>
-			{foreach from=$mprice_list item=val}
-				<li class="cashier_setup_mprice_list" {if $mp.not_allow}style="display:none;float:left; padding-right:10px; margin:0;"{else}style="float:left; padding-right:10px; margin:0;"{/if}><input type="checkbox" style="margin-left:0;" name="allow_mprice[{$val}]" {if $mp.$val && !$mp.not_allow}checked{/if} /> {$val}</li>
-			{/foreach}
-			</ul>
-			</td>
-		</tr>
-	</table>
-	
-	<hr noshade size="1">
-	
-	{if !$readonly}
-		<b style="color: #CE0000;">Copy template/cashier privilege: </b>
-		<select id="sel_copy_privilege" onChange="copy_privilege();">
-			<option value="">------------------</option>
-			{foreach from=$templates_user key=tmp_uid item=r}
-				<option value="{$tmp_uid}">{$r.u} {if $r.template}(Template){/if}</option>
-			{/foreach}
-		</select>
-		<span id="span_copy_privilege_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading Privilege...</span>
-		<br /><br />
-	{/if}
-	
-	<!-- Privilege Table -->
-	{assign var=user_privilege value=$form.user_privilege}
-	<table border="0" cellspacing="0" cellpadding="4">
-		<tbody>
-			<tr class="add_btm_line">
-				<td colspan="2"><h5>POS Privileges</h5></td>
-				{foreach from=$branches key=bid item=b}
-					{if $BRANCH_CODE eq 'HQ' || $BRANCH_CODE eq $b.code}
-						<th width="50">
-							{if !$readonly}
-							<a href="javascript:void(checkallcol('{$bid}', true))"><img src="ui/checkall.gif" border="0" title="Check all" /></a><br>
-							<a href="javascript:void(checkallcol('{$bid}', false))"><img src="ui/uncheckall.gif" border="0" title="Uncheck all" /></a><br>
-							{/if}
-							<label title="{$b.description}">{$b.code}</label>
-						</th>
-					{/if}
-				{/foreach}
-				<th align="left" width="100%">Description</th>
-			</tr>
-		</tbody>
-		
-		<tbody id="tbody_privilege_list">
-		{foreach from=$privilege_list item=pv}
-			<tr class="add_btm_line">
-				<td>
-					{if !$readonly}
-					<a href="javascript:void(checkallrow('{$pv.code}', true))"><img src="ui/checkall.gif" border="0" title="Check all" /></a><br>
-					<a href="javascript:void(checkallrow('{$pv.code}', false))"><img src="ui/uncheckall.gif" border="0" title="Uncheck all" /></a>
-					{/if}
-				</td>
-				<th align="left"><label title="{$pv.description}">{$pv.code}</label></th>
-				{foreach from=$branches key=bid item=b}
-					{if $BRANCH_CODE eq 'HQ' || $BRANCH_CODE eq $b.code}
-						<td style="border-bottom:1px solid #999" align="center">
-						{if $pv.hq_only && $b.code ne 'HQ'}
-						-
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a" method="post" class="stdframe">
+			<input type="hidden" name="id" value="{$form.id}" />
+			<input type="hidden" name="branch_id" value="{$form.branch_id}" />
+			<input type="hidden" name="is_tmp" value="{$form.is_tmp}" />
+			<input type="hidden" name="a" value="" />
+			
+			<h3 class="text-primary">General Information</h3>
+			
+			{if $err}
+				<div class="alert alert-danger mx-3 rounded">
+					The following error(s) has occured:
+				<ul class="err">
+					{foreach from=$err item=e}
+						<li> {$e}</li>
+					{/foreach}
+				</ul>
+				</div>
+			{/if}
+			
+			<table>
+				<tr>
+					<td width="100"><b class="form-label">Username<span class="text-danger" title="Required field"> *</span></b></td>
+					<td>
+						{if $form.id>0}
+							{$form.u}
 						{else}
-						<input type="checkbox" name="user_privilege[{$bid}][{$pv.code}]" {if $user_privilege.$bid[$pv.code]}checked {/if} bid="{$bid}" pv_code="{$pv.code}" value="1" class="inp_pv_code" />
+							<input  type="text" name="u" value="{$form.u}" onblur="uname_blur(this)" maxlength="50" size="50" class="required form-control" title="Username" />
+						
 						{/if}
+					</td>
+				</tr>
+				{if $config.user_profile_need_ic}
+					<tr class="mt-2">
+						<td><b class="form-label">IC No.<span class="text-danger"> *</span></b></td>
+						<td>
+							<input type="text" name="ic_no" size="50" maxlength="20" value="{$form.ic_no}" class="required form-control" title="IC No."/>
+						
 						</td>
-					{/if}
+					</tr>
+				{/if}
+				<tr>
+					<td><b class="form-label">Barcode</b></td>
+					<td><input class="form-control" name="barcode" size="50" maxlength="16" value="{$form.barcode}" onBlur="uc(this)" /></td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Full name</b></td>
+					<td><input class="form-control" name="fullname" size="50" maxlength="100" value="{$form.fullname}" onBlur="uc(this)" /></td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Location<span class="text-danger"> *</span></b></td>
+					<td>
+						{if $BRANCH_CODE eq 'HQ'}
+							<select  name="default_branch_id" class="required form-control" title="Location">
+								<option value="">-- Please Select --</option>
+								{foreach from=$branches key=bid item=r}
+									<option value="{$bid}" {if $form.default_branch_id eq $bid}selected {/if}>{$r.code}</option>
+								{/foreach}
+							</select>
+							
+						{else}
+							{$branches[$form.default_branch_id].code|default:$branches[$sessioninfo.branch_id].code}
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Position<span class="text-danger"> *</span></b></td>
+					<td>
+						<input  type="text" name="position" size="50" maxlength="100" value="{$form.position}" onBlur="uc(this)" class="required form-control" title="Position" />
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td><b class="form-label">User Department</b></td>
+					<td><input class="form-control" name="user_dept" size="50" maxlength="100" value="{$form.user_dept}" onBlur="uc(this)" title="User Department" type="text"/></td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Login ID<span class="text-danger"> *</span></b></td>
+					<td>
+						<input type="text" name="l" size="20" value="{$form.l}" class="required form-control" title="Login ID"/>
+						
+					</td>
+				</tr>
+				{if !$readonly}
+					<tr>
+						<td><b class="form-label">Password</b></td>
+						<td><input class="form-control" name="newpassword" type="password" size="20" /> (password should consists of numbers and alphabates, with at least {$MIN_PASSWORD_LENGTH} character)</td>
+					</tr>
+					<tr>
+						<td><b class="form-label">Retype Password</b></td>
+						<td><input class="form-control" alt="Reconfirm password" name="newpassword2" type="password" size="20" /></td>
+					</tr>
+				{/if}
+				<tr>
+					<td><b class="form-label">Email<span class="text-danger"> *</span></b></td>
+					<td>
+						<input  type="text" name="email" size="20" value="{$form.email}" onchange="lc(this)" class="required form-control" title="Email" />
+					
+					</td>
+				</tr>
+				<tr>
+					<td><b class="form-label">Discount Limit</b>
+						[<a href="javascript:void(alert('- This limit will apply to item discount and receipt discount.\n- Discount can be key in by price or by percentage.'))">?</a>]
+					</td>
+					<td>
+						<div class="form-inline">
+							<input class="form-control" name="discount_limit" size="1" maxlength="3" value="{$form.discount_limit}" /> % 
+						{if $config.user_profile_show_item_discount_only_allow_percent}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="item_disc_only_allow_percent" {if $form.item_disc_only_allow_percent}checked {/if} value="1" />
+							Force this user to only allow discount by percentage for Item Discount
+						{/if}
+						</div>
+					</td>
+				</tr>
+				<tr {if !$mprice_list}style="display:none;"{/if}>
+					<td><b class="form-label">Allow Mprice</b></td>
+					<td>
+					<div class="form-label">
+						<ul style="list-style:none; margin:0; padding:0;">
+							{assign var=mp value=$form.allow_mprice}
+							<li style="float:left; padding-right:10px; margin:0;"><input type="checkbox" style="margin-left:0;" name="allow_mprice[not_allow]" onclick="check_cashier_setup_mprice_list(this)" {if $mp.not_allow}checked{/if} /> Not Allow</li>
+							{foreach from=$mprice_list item=val}
+								<li class="cashier_setup_mprice_list" {if $mp.not_allow}style="display:none;float:left; padding-right:10px; margin:0;"{else}style="float:left; padding-right:10px; margin:0;"{/if}><input type="checkbox" style="margin-left:0;" name="allow_mprice[{$val}]" {if $mp.$val && !$mp.not_allow}checked{/if} /> {$val}</li>
+							{/foreach}
+							</ul>
+					</div>
+					</td>
+				</tr>
+			</table>
+			
+			<hr noshade size="1">
+			
+			{if !$readonly}
+				<b style="color: #CE0000;" class="form-label">Copy template/cashier privilege: </b>
+				<select class="form-control" id="sel_copy_privilege" onChange="copy_privilege();">
+					<option value="">------------------</option>
+					{foreach from=$templates_user key=tmp_uid item=r}
+						<option value="{$tmp_uid}">{$r.u} {if $r.template}(Template){/if}</option>
+					{/foreach}
+				</select>
+				<span id="span_copy_privilege_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading Privilege...</span>
+				<br /><br />
+			{/if}
+			
+			<!-- Privilege Table -->
+			{assign var=user_privilege value=$form.user_privilege}
+			<table border="0" cellspacing="0" cellpadding="4">
+				<tbody class="bg-gray-100">
+					<tr class="add_btm_line">
+						<td colspan="2"><h5>POS Privileges</h5></td>
+						{foreach from=$branches key=bid item=b}
+							{if $BRANCH_CODE eq 'HQ' || $BRANCH_CODE eq $b.code}
+								<th width="50">
+									{if !$readonly}
+									<a href="javascript:void(checkallcol('{$bid}', true))"><img src="ui/checkall.gif" border="0" title="Check all" /></a><br>
+									<a href="javascript:void(checkallcol('{$bid}', false))"><img src="ui/uncheckall.gif" border="0" title="Uncheck all" /></a><br>
+									{/if}
+									<label title="{$b.description}">{$b.code}</label>
+								</th>
+							{/if}
+						{/foreach}
+						<th align="left" width="100%">Description</th>
+					</tr>
+				</tbody>
+				
+				<tbody id="tbody_privilege_list">
+				{foreach from=$privilege_list item=pv}
+					<tr class="add_btm_line">
+						<td>
+							{if !$readonly}
+							<a href="javascript:void(checkallrow('{$pv.code}', true))"><img src="ui/checkall.gif" border="0" title="Check all" /></a><br>
+							<a href="javascript:void(checkallrow('{$pv.code}', false))"><img src="ui/uncheckall.gif" border="0" title="Uncheck all" /></a>
+							{/if}
+						</td>
+						<th align="left"><label title="{$pv.description}">{$pv.code}</label></th>
+						{foreach from=$branches key=bid item=b}
+							{if $BRANCH_CODE eq 'HQ' || $BRANCH_CODE eq $b.code}
+								<td style="border-bottom:1px solid #999" align="center">
+								{if $pv.hq_only && $b.code ne 'HQ'}
+								-
+								{else}
+								<input type="checkbox" name="user_privilege[{$bid}][{$pv.code}]" {if $user_privilege.$bid[$pv.code]}checked {/if} bid="{$bid}" pv_code="{$pv.code}" value="1" class="inp_pv_code" />
+								{/if}
+								</td>
+							{/if}
+						{/foreach}
+						<td class="small">
+							{$pv.description}
+						</td>
+					</tr>
 				{/foreach}
-				<td class="small">
-					{$pv.description}
-				</td>
-			</tr>
-		{/foreach}
-		</tbody>
-	</table>
-</form>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
 	
 <p align="center">
 	{if $form.is_tmp}	<!-- temporary data -->
@@ -487,7 +504,7 @@ function uname_blur(u){
 		<input class="btn btn-success" type="button" value="Save & Close" onclick="submit_form('save_cashier');" />
 	{/if}
 	
-	<input class="btn btn-error type="button" value="Close" style="width:70px" onclick="document.location='{$smarty.server.PHP_SELF}'" />
+	<input class="btn btn-danger" type="button" value="Close" style="width:80px" onclick="document.location='{$smarty.server.PHP_SELF}'" />
 </p>
 
 

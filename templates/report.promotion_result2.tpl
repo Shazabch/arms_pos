@@ -103,9 +103,9 @@
 			</select>&nbsp;&nbsp;&nbsp;&nbsp;
 		{/if}
 		
-		<b>Promotion Title</b>
+		<b class="form-label">Promotion Title</b>
 		<span id=title>
-			<select name="promo_title">
+			<select class="form-control" name="promo_title">
 				<option value="all">-- All --</option>
 				{foreach from=$promo_title item=r}
 					{if $r.title ne ''}

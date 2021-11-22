@@ -40,7 +40,14 @@
 {assign var=msg value=$smarty.request.msg}
 <p align=center><font color=red>{$msg}</font></p>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
+
 
 <div id=show_last>
 {if $smarty.request.type eq 'save'}
@@ -56,52 +63,56 @@
 {/if}
 </div>
 
-<ul>
-	<li> <img src="ui/new.png" align="absmiddle"> <a href="promotion.php?a=open&id=0">Create New Discount</a></li>
-	<li>
-		<img src="ui/new.png" align="absmiddle"> <a href="javascript:void(togglediv('import_data'))">Create New Discount from Data Collector input</a><br />
-		<div style="margin: 5px 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); display:none;" class="stdframe" id="import_data">
-		<form enctype="multipart/form-data" method="post" name="f_a">
-		<input type="hidden" value="create_from_upload_file" name="a" />
-		<table border="0" cellspacing="0" cellpadding="4">
-		<tbody>
-		<tr>
-			<th align="left">Import Format</th>
-			<td>
-				<input type="radio" name="import_format" value="1" checked /> Default (ARMS CODE / MCODE / {$config.link_code_name|default:'OLD CODE'} / ART NO), Member Discount, Member Price, Non-Member Discount, Non-Member Price<br />
-				<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode), Member Discount, Member Price, Non-Member Discount, Non-Member Price
-			</td>
-		</tr>
-		<tr>
-			<th align="left">Delimiter</th>
-			<td>
-				<select name="delimiter">
-					<option value="|">| (Pipe)</option>
-					<option value="," selected>, (Comma)</option>
-					<option value=";">; (Semicolon)</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-		<th width="80" valign="top" align="left">Import File</th>
-		<td align="left">
-			<input type="file" size="50" class="files" id="file" name="files" /> <span><img align="absbottom" title="Required Field" src="ui/rq.gif" /></span><br />
-			<input type="submit" style="background-color:#f90; color:#fff;" value="Upload" />
-		</td>
-		</tr>
-		</tbody>
-		</table>
-		</form>
-		</div>
-	</li>
-	{if file_exists('promotion.mix_n_match.php')} 
-		{if $sessioninfo.privilege.PROMOTION_MIX}
-			<li> <img src="ui/new.png" align="absmiddle"> <a href="promotion.mix_n_match.php?a=open">Create New Mix & Match</a></li>
-		{else}
-			<li> You need privilege to create Mix & Match Promotion</li>	
-		{/if}
-	{/if}
-</ul>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul>
+			<li> <img src="ui/new.png" align="absmiddle"> <a href="promotion.php?a=open&id=0">Create New Discount</a></li>
+			<li>
+				<img src="ui/new.png" align="absmiddle"> <a href="javascript:void(togglediv('import_data'))">Create New Discount from Data Collector input</a><br />
+				<div style="margin: 5px 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); display:none;" class="stdframe" id="import_data">
+				<form enctype="multipart/form-data" method="post" name="f_a">
+				<input type="hidden" value="create_from_upload_file" name="a" />
+				<table border="0" cellspacing="0" cellpadding="4">
+				<tbody>
+				<tr>
+					<th align="left" class="form-label">Import Format</th>
+					<td>
+						<input type="radio" name="import_format" value="1" checked /> Default (ARMS CODE / MCODE / {$config.link_code_name|default:'OLD CODE'} / ART NO), Member Discount, Member Price, Non-Member Discount, Non-Member Price<br />
+						<input type="radio" name="import_format" value="2" /> GRN Barcode (barcode), Member Discount, Member Price, Non-Member Discount, Non-Member Price
+					</td>
+				</tr>
+				<tr>
+					<th align="left" class="form-label">Delimiter</th>
+					<td>
+						<select class="form-control" name="delimiter">
+							<option value="|">| (Pipe)</option>
+							<option value="," selected>, (Comma)</option>
+							<option value=";">; (Semicolon)</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+				<th width="80" valign="top" align="left" class="form-label">Import File<span class="text-danger" title="Required Field"> *</span></th>
+				<td align="left">
+					<input type="file" size="50" class="files" id="file" name="files" /> 
+					<input type="submit" class="btn btn-warning mt-2" value="Upload" />
+				</td>
+				</tr>
+				</tbody>
+				</table>
+				</form>
+				</div>
+			</li>
+			{if file_exists('promotion.mix_n_match.php')} 
+				{if $sessioninfo.privilege.PROMOTION_MIX}
+					<li> <img src="ui/new.png" align="absmiddle"> <a href="promotion.mix_n_match.php?a=open">Create New Mix & Match</a></li>
+				{else}
+					<li> You need privilege to create Mix & Match Promotion</li>	
+				{/if}
+			{/if}
+		</ul>
+	</div>
+</div>
 <br>
 
 <script>
@@ -116,9 +127,9 @@ function list_sel(n,s)
 		if ($('lst'+i)!=undefined)
 		{
 			if (i==n)
-				$('lst'+i).className='active';
+				$('lst'+i).addClassName('selected');
 			else
-				$('lst'+i).className='';
+				$('lst'+i).removeClassName('selected');
 		}
 	}
 	
@@ -160,8 +171,8 @@ function export_to_csv(bid, id){
 }
 
 function search_tab_clicked(obj) {
-	$(obj).siblings().each(function(el){el.className = '';});
-	obj.className = 'active';
+	$(obj).siblings().each(function(el){el.removeClassName('selected');});
+	obj.addClassName('selected');
 	$('promotion_list').update();
 	$('search_area').show();
 }
@@ -174,42 +185,50 @@ function display_day_count(v) {
 {/literal}
 
 <form name=f onsubmit="list_sel(0);return false;">
-<div class=tab style="height:20px;white-space:nowrap;">
-&nbsp;&nbsp;&nbsp;
-<a href="javascript:list_sel(1)" id=lst1 class=active>Saved Promotion</a>
-<a href="javascript:list_sel(2)" id=lst2>Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id=lst5>Rejected</a>
-<a href="javascript:list_sel(3)" id=lst3>Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id=lst4>Approved</a>
-<a name="find" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find Promotion</a>
+<div class="tab row mx-3 mb-3" style="white-space:nowrap;">
+<a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Saved Promotion</a>
+&nbsp;<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+&nbsp;<a href="javascript:list_sel(5)" id=lst5 class="btn btn-outline-primary btn-rounded">Rejected</a>
+&nbsp;<a href="javascript:list_sel(3)" id=lst3 class="btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+&nbsp;<a href="javascript:list_sel(4)" id=lst4 class="btn btn-outline-primary btn-rounded">Approved</a>
+&nbsp;<a name="find" class="btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find Promotion</a>
 </div>
 
-<div style="border:1px solid #000;">
+<div >
 
-<div id="search_area" style="display:none;">
-	<table border="0">
-		<tr>
-			<th align="left">Find Promotion / Doc No</th>
-			<td><input name="search" id="search" value="{$smarty.request.search}" size="15" /></td>
-		</tr>
-		<tr>
-			<th align="left">Status</th>
-			<td>
-				<select name="search_filter" onchange="display_day_count(this.value);">
-					<option value="">&nbsp;</option>
-					<option value="starting_in">Starting in .. </option>
-					<option value="ending_in">Ending in .. </option>
-					<option value="currently_active">Currently active </option>
-				</select>
-				<span id="day_count" style="display:none;">&nbsp;&nbsp;<input type="text" name="day_count" size="2" onchange="mi(this);" /> day(s)</span>
-				&nbsp;&nbsp;<input type="submit" value="Go">
-			</td>
-		</tr>
-	</table>
+
+		<div id="search_area" style="display:none;">
+			<div class="card mx-3">
+				<div class="card-body">
+			<table border="0">
+				<tr>
+					<th align="left" class="form-label">Find Promotion / Doc No</th>
+					<td><input class="form-control" name="search" id="search" value="{$smarty.request.search}" size="15" /></td>
+				</tr>
+				<tr>
+					<th align="left" class="form-label">Status</th>
+					<td>
+						<select class="form-control" name="search_filter" onchange="display_day_count(this.value);">
+							<option value="">&nbsp;</option>
+							<option value="starting_in">Starting in .. </option>
+							<option value="ending_in">Ending in .. </option>
+							<option value="currently_active">Currently active </option>
+						</select>
+						<span id="day_count" style="display:none;">&nbsp;&nbsp;<input type="text" name="day_count" size="2" onchange="mi(this);" /> day(s)</span>
+						&nbsp;&nbsp;<input class="btn btn-primary mt-2" type="submit" value="Go">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
 
-<div id="promotion_list"></div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="promotion_list"></div>
 
+</div>
+	</div>
 </div>
 </form>
 

@@ -213,7 +213,7 @@ function export_adjustment_item(id,bid){
 
 	</div>
 	<div class="col">
-		<div class="form-inline">
+		<div class="form-inline mt-2 ml-1">
 			<a class="" name="find_po" id="lst0">Find Adjustment 
 				<input class="form-control" id=search name=pono> 
 				<input type="submit" class="btn btn-primary" value="Go">

@@ -18,41 +18,43 @@
 - Added Sales Qty tab
 *}
 {capture assign=deptcount}{count var=$members}{/capture}
-<div style="margin-top:-1.5em;margin-left:400px;position:absolute;white-space:nowrap;"><b>Last updated: {$smarty.now|date_format:'%I:%M:%S %p'}</b></div>
+<div style="margin-top:-3em;margin-left:540px;position:absolute;white-space:nowrap;"><b class="form-label">Last updated: {$smarty.now|date_format:'%I:%M:%S %p'}</b></div>
 <div style="margin-top:-1.5em;margin-left:450px;position:absolute;white-space:nowrap;"></div>
-<table cellpadding=2 cellspacing=2 border=0 style="border:1px solid #000" width="100%">
-	<tr bgcolor=#ffee99>
-		{foreach from=$members key=mm item=member}
-			{if $mm == 'Non Member'}
-				{foreach from=$member item=m}
-					{assign var=non_member value=$non_member+1}
-				{/foreach}
-			{else if $mm == 'Member'}
-				{foreach from=$member item=t}
-					{assign var=is_member value=$is_member+1}
-				{/foreach}
-			{/if}
-		{/foreach}
-		<th rowspan=2 nowrap>{if $curr_lvl != $level_priv}{$lvl_desc}<br><a href="javascript:list_member('{$tab_slctd}', '{$prev_lvl}', '{$member_lvl2_bid}')">Back</a>{/if}</th>
-		{foreach from=$members key=mm item=member}
-			{if $mm == 'Non Member'}
-				{assign var=nomember value=$mm}
-				<th nowrap colspan={$non_member+1}>{$mm}</th>
-			{else}
-				{assign var=ismember value=$mm}
-				<th nowrap colspan={$is_member+1}>{$mm}</th>
-			{/if}
-		{/foreach}
-		<th width="50" rowspan=2 nowrap>Total</th>
-	</tr>
-	<tr bgcolor=#ffee99>
-		{foreach from=$members key=mm item=member}
-			{foreach from=$member item=m}
-				<th width="50" nowrap>{$m}</th>
+<table cellpadding=2 cellspacing=2  width="100%">
+	<thead class="bg-gray-100">
+		<tr >
+			{foreach from=$members key=mm item=member}
+				{if $mm == 'Non Member'}
+					{foreach from=$member item=m}
+						{assign var=non_member value=$non_member+1}
+					{/foreach}
+				{else if $mm == 'Member'}
+					{foreach from=$member item=t}
+						{assign var=is_member value=$is_member+1}
+					{/foreach}
+				{/if}
 			{/foreach}
-			<th width="50" nowrap>Sub Total</th>
-		{/foreach}
-	</tr>
+			<th rowspan=2 nowrap>{if $curr_lvl != $level_priv}{$lvl_desc}<br><a href="javascript:list_member('{$tab_slctd}', '{$prev_lvl}', '{$member_lvl2_bid}')">Back</a>{/if}</th>
+			{foreach from=$members key=mm item=member}
+				{if $mm == 'Non Member'}
+					{assign var=nomember value=$mm}
+					<th nowrap colspan={$non_member+1}>{$mm}</th>
+				{else}
+					{assign var=ismember value=$mm}
+					<th nowrap colspan={$is_member+1}>{$mm}</th>
+				{/if}
+			{/foreach}
+			<th width="50" rowspan=2 nowrap>Total</th>
+		</tr>
+		<tr >
+			{foreach from=$members key=mm item=member}
+				{foreach from=$member item=m}
+					<th width="50" nowrap>{$m}</th>
+				{/foreach}
+				<th width="50" nowrap>Sub Total</th>
+			{/foreach}
+		</tr>
+	</thead>
 	{if $tab_slctd == 3 || $tab_slctd == 5}
 		{assign var=decimal_places value="0"}
 	{else}
@@ -62,7 +64,7 @@
 		{assign var=type_desc value=$type}
 		{if !$type_desc}{assign var=type_desc value='Untitled'}{/if}
 	<tr>
-		<th align=left bgcolor=#ffee99 nowrap style="width:100px;max-width:100px">
+		<th class="text-primary" nowrap style="width:100px;max-width:100px">
 			<div style="float:left;background-color:{$type|random_color};width:5px;height:5px;margin:4px;border:1px solid black;"></div>
 			{if $next_lvl != '' && $member_row_total.$mm.$type.amt != ''}
 				<a href="javascript:list_member('{$tab_slctd}', '{$next_lvl}', '{$t}')">{$type_desc}</a>
@@ -81,12 +83,12 @@
 					<td align=right {if $mc%2 == 0} bgcolor="#EEF6FF,#DEE6FF"{/if} nowrap>{$member_data.$type.$mm.$m.amt|number_format:$decimal_places|ifzero:"-"}</td>
 					{if $max_figure < $member_data.$type.$mm.$m.amt}{assign var=max_figure value=$member_data.$type.$mm.$m.amt}{/if}
 				{/foreach}
-				<th align=right bgcolor="#FFF0FF" nowrap>{if $member_row_total.$mm.$type.count}{$member_row_total.$mm.$type.amt/$member_row_total.$mm.$type.count|number_format:$decimal_places|ifzero:"-"}{else}-{/if}</th>
+				<th class="bg-gray-100" nowrap>{if $member_row_total.$mm.$type.count}{$member_row_total.$mm.$type.amt/$member_row_total.$mm.$type.count|number_format:$decimal_places|ifzero:"-"}{else}-{/if}</th>
 			{/foreach}
-			<th align=right bgcolor="#FFF0FF" nowrap>{if $member_row_grand_total.$type.count}{$member_row_grand_total.$type.amt/$member_row_grand_total.$type.count|number_format:$decimal_places|ifzero:"-"}{else}-{/if}</th>
+			<th class="bg-gray-100" nowrap>{if $member_row_grand_total.$type.count}{$member_row_grand_total.$type.amt/$member_row_grand_total.$type.count|number_format:$decimal_places|ifzero:"-"}{else}-{/if}</th>
 	</tr>
 	{/foreach}
-	<tr bgcolor=#ffee99>
+	<tr class="bg-gray-100">
 		<th nowrap>Total</th>
 		{foreach from=$members key=mm item=member}
 			{foreach from=$member item=m}
@@ -96,7 +98,7 @@
 		{/foreach}
 		<th width="50" align=right rowspan="2" nowrap>{if $member_grand_total.count}{$member_grand_total.amt/$member_grand_total.count|number_format:$decimal_places|ifzero:"-"}{else}-{/if}</th>
 	</tr>
-	<tr bgcolor="#ffee99" style="{if $tab_slctd == 4}display:none;{/if}">
+	<tr class="bg-gray-100" style="{if $tab_slctd == 4}display:none;{/if}">
 		<th nowrap>Accumulated Total</th>
 		{foreach from=$members key=mm item=member}
 			{foreach from=$member item=m}

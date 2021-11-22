@@ -51,35 +51,37 @@
 <div class="table-responsive">
 	<table  class=" table mb-0 text-md-nowrap  table-hover">
 		<thead class="bg-gray-100">
-			<tr>
-				<th rowspan=2 bgcolor={#TB_CORNER#} width=40>&nbsp;</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Network Name</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Location</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>POS<br>Settings</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Print<br>Receipt Reference Code</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Deposit Setting</th>
-				<!--<th rowspan=2 bgcolor={#TB_COLHEADER#}>Return Policy</th>-->
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Trade In</th>
-				{if $config.membership_control_counter_adjust_point}<th rowspan=2 bgcolor={#TB_COLHEADER#}>Adjust Member Point</th>{/if}
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Block Goods Return</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Hold Bill Slot</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>MEMBERSHIP<br>Settings</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Last User</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Open Drawer<br> Count</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>C.O.H</th>
-				<th colspan=3 bgcolor={#TB_COLHEADER#}>Card Inventory</th>
-				<th {if !$mprice}style="display:none;"{/if} colspan="{$mprice_colspan}" bgcolor={#TB_COLHEADER#}>Mprice Settings</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Sync to weight scale</th>
-				<th rowspan=2 bgcolor={#TB_COLHEADER#}>Self Checkout Counter</th>
-			</tr>
-			<tr>
-				<th bgcolor={#TB_COLHEADER#}>R</th>
-				<th bgcolor={#TB_COLHEADER#}>G</th>
-				<th bgcolor={#TB_COLHEADER#}>B</th>
-				{foreach from=$mprice item=val}
-					<th bgcolor={#TB_COLHEADER#}>{$val}</th>
-				{/foreach}
-			</tr>
+			<thead class="bg-gray-100">
+				<tr>
+					<th rowspan=2  width=40>&nbsp;</th>
+					<th rowspan=2 >Network Name</th>
+					<th rowspan=2 >Location</th>
+					<th rowspan=2 >POS<br>Settings</th>
+					<th rowspan=2 >Print<br>Receipt Reference Code</th>
+					<th rowspan=2 >Deposit Setting</th>
+					<!--<th rowspan=2 >Return Policy</th>-->
+					<th rowspan=2 >Trade In</th>
+					{if $config.membership_control_counter_adjust_point}<th rowspan=2 >Adjust Member Point</th>{/if}
+					<th rowspan=2 >Block Goods Return</th>
+					<th rowspan=2 >Hold Bill Slot</th>
+					<th rowspan=2 >MEMBERSHIP<br>Settings</th>
+					<th rowspan=2 >Last User</th>
+					<th rowspan=2 >Open Drawer<br> Count</th>
+					<th rowspan=2 >C.O.H</th>
+					<th colspan=3 >Card Inventory</th>
+					<th {if !$mprice}style="display:none;"{/if} colspan="{$mprice_colspan}" >Mprice Settings</th>
+					<th rowspan=2 >Sync to weight scale</th>
+					<th rowspan=2 >Self Checkout Counter</th>
+				</tr>
+				<tr>
+					<th >R</th>
+					<th >G</th>
+					<th >B</th>
+					{foreach from=$mprice item=val}
+						<th >{$val}</th>
+					{/foreach}
+				</tr>	
+			</thead>
 		</thead>
 		{section name=i loop=$counters}
 		<tbody class="fs-08">

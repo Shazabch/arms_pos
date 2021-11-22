@@ -537,7 +537,7 @@ function search_tab_clicked(obj){
 				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Verification</a>
 				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Verified</a>
 			{/if}
-			<a name="find" class="fs-07 ml-1  btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+			<a name="find" class="fs-07 ml-1 mt-2  btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
 				<span >Find GRN / Doc No / Vendor</span>
 			</a>
 	</div>

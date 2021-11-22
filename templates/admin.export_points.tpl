@@ -109,23 +109,25 @@ MEMBER_EXPORT_POINTS = {
 			    <label><strong>Select Date : </strong></label>
 				<p>
 					<input type="radio" name="date_filter_type" value="1" {if !$smarty.request.date_filter_type or $smarty.request.date_filter_type eq 1}checked {/if} /> All</p>
-				<p>
-					<input type="radio" name="date_filter_type" value="2" {if $smarty.request.date_filter_type eq 2}checked {/if}/> Single Day
-					<select class="form-control" name="date">
-						<option value="">-- Please Select --</option>
-						{foreach from=$date_list item=d}
-							<option value="{$d}" {if $smarty.request.date eq $d}selected {/if}>{$d}</option>
-						{/foreach}
-					</select>
-				</p>
-			<div class="row">
 				
+			<div class="row">
+				<div class="col-md-4">
+					<p>
+						<input type="radio" name="date_filter_type" value="2" {if $smarty.request.date_filter_type eq 2}checked {/if}/> Single Day
+						<select class="form-control" name="date">
+							<option value="">-- Please Select --</option>
+							{foreach from=$date_list item=d}
+								<option value="{$d}" {if $smarty.request.date eq $d}selected {/if}>{$d}</option>
+							{/foreach}
+						</select>
+					</p>
+				</div>
 					<div class="col-md-4">
 						<input type="radio" name="date_filter_type" value="3" {if $smarty.request.date_filter_type eq 3}checked {/if}/>
 					From
 					<div class="form-inline">
-						<input type="text" class="form-control" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly size="12" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+						<input type="text" class="form-control" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly size="16" />
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
 					</div>
 					</div>
 					
@@ -133,8 +135,8 @@ MEMBER_EXPORT_POINTS = {
 					<div class="col-md-4">
 						To	
 				<div class="form-inline">
-					<input type="text" class="form-control" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="12" />
-					<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
+					<input type="text" class="form-control" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="16" />
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> &nbsp;&nbsp;
 				</div>
 					</div>
 				

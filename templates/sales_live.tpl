@@ -96,9 +96,9 @@ function list_hourly(h, level, lid, lvl_desc){
 	for(i=1;i<=5;i++){
 		if (i==h){
 			tab_slctd = i;
-		    $('hourly_lst'+i).className='active';
+		    $('hourly_lst'+i).addClassName('selected');
 		}else{
-		    $('hourly_lst'+i).className='';
+		    $('hourly_lst'+i).removeClassName('selected');
 		}
 	}
 
@@ -146,9 +146,9 @@ function list_department(d, level, lid, col_level_id, cat_level){
 	for(i=1;i<=5;i++){
 		if (i==d){
 			tab_slctd = i;
-		    $('department_lst'+i).className='active';
+		    $('department_lst'+i).addClassName('selected');
 		}else{
-		    $('department_lst'+i).className='';
+		    $('department_lst'+i).removeClassName('selected');
 		}
 	}
 
@@ -200,9 +200,9 @@ function list_member(m, level, lid){
 	for(i=1;i<=5;i++){
 		if (i==m){
 			tab_slctd = i;
-		    $('member_lst'+i).className='active';
+		    $('member_lst'+i).addClassName('selected')
 		}else{
-		    $('member_lst'+i).className='';
+		    $('member_lst'+i).removeClassName('selected');
 		}
 	}
 
@@ -250,9 +250,9 @@ function list_payment_type(pt, level, lid){
 	for(i=1;i<=2;i++){
 		if (i==pt){
 			tab_slctd = i;
-		    $('payment_type_lst'+i).className='active';
+		    $('payment_type_lst'+i).addClassName('selected');
 		}else{
-		    $('payment_type_lst'+i).className='';
+		    $('payment_type_lst'+i).removeClassName('selected');
 		}
 	}
 
@@ -414,35 +414,58 @@ function curtain_clicked(type){
 
 {/literal}
 </script>
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<div class=stdframe style="background:#fff;">
-<form method="post" name="f_sales_live">
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch: </b>
-<select name="branch_id" id="branch_id">
-	<option value="">-- All --</option>
-	{foreach from=$branch_list item=r}
-	    <option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
-	    {if $smarty.request.branch eq $r.id}
-			{assign var=bcode value=$r.code}
-	    {/if}
-	{/foreach}
-</select>
-&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-<b>Date</b> <input size=10 type=text name=date value="{$smarty.request.date}" id="date">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input class="btn btn-primary" type="submit" name="submits" value="Load">
-
-<br />
-{if $got_deposit}
-	<br />* Please take note Deposit may make the Payment Amount and Sales not tally.
-	<br />* This is because the Cash Payment received by Deposit is in transaction A, but later the items was purchased in transaction B. Transaction A & B could be in different date.
-{/if}
-</form>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=stdframe >
+			<form method="post" name="f_sales_live">
+			<div class="row">
+				{if $BRANCH_CODE eq 'HQ'}
+			<div class="col">
+				<b class="form-label">Branch: </b>
+			<select class="form-control" name="branch_id" id="branch_id">
+				<option value="">-- All --</option>
+				{foreach from=$branch_list item=r}
+					<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id} selected {/if}>{$r.code}</option>
+					{if $smarty.request.branch eq $r.id}
+						{assign var=bcode value=$r.code}
+					{/if}
+				{/foreach}
+			</select>
+		
+			</div>
+			{/if}
+			<div class="col">
+				<b class="form-label">Date</b> 
+			<div class="form-inline">
+				<input class="form-control" size=22 type=text name=date value="{$smarty.request.date}" id="date">
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
+			
+			
+		<div class="col">
+			<input class="btn btn-primary  mt-4" type="submit" name="submits" value="Load">
+		</div>
+			</div>
+			
+			<br />
+			{if $got_deposit}
+				<div class="alert alert-primary rounded" style="max-width: 650px;">
+					<br />* Please take note Deposit may make the Payment Amount and Sales not tally.
+				<br />* This is because the Cash Payment received by Deposit is in transaction A, but later the items was purchased in transaction B. Transaction A & B could be in different date.
+				</div>
+			{/if}
+			</form>
+			</div>
+	</div>
 </div>
 
 <div id="div_tran_details" style="overflow:hidden;position:absolute;left:0;top:0;display:none;width:600px;height:410px;padding:10px;border:1px solid #000;background:#fff;z-index:20000;">
@@ -456,109 +479,113 @@ function curtain_clicked(type){
 	<div id="div_item_content"></div>
 </div>
 
-<table border="0" cellpadding="12">
-	<tr>
-		<td width="50%" align=center valign=top>
-			<div style="padding:10px 0;">
-				<h2 align="left" style="padding-bottom:10px;" nowrap>Hourly Sales</h2>
-				<div class="tab" style="height:21px;white-space:nowrap;" id="div_list_hourly"  align=left>
-				&nbsp;&nbsp;&nbsp;
-					<a href="javascript:list_hourly(1, '{$level_priv}', '')" data-id=1 id=hourly_lst1 class=active>Sales Amt</a>
-					<a href="javascript:list_hourly(5, '{$level_priv}', '')" data-id=5 id=hourly_lst5>Sales Qty</a>
-					<a href="javascript:list_hourly(2, '{$level_priv}', '')" data-id=2 id=hourly_lst2>Promotion</a>
-					<a href="javascript:list_hourly(3, '{$level_priv}', '')" data-id=3 id=hourly_lst3>Count</a>
-					<a href="javascript:list_hourly(4, '{$level_priv}', '')" data-id=4 id=hourly_lst4>Buying Power</a>
-				</div>
-				<div id=hourly_list style="border: 0px;">
-					{include file=sales_live.hourly.tpl}
-				</div>
-			</div>
-			</ol>
-		</td>
-		<td width="50%" align=left valign=top>
-			<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;<br>&nbsp;</h2>
-			<div id="hourly_chart">-</div>
-		</td>
-	<tr>
-		<td align=center valign=top>
-			<div style="padding:10px 0;">
-				<h2 align="left" style="padding-bottom:10px;" nowrap>Department Sales</h2>
-				<div class=tab style="height:21px;white-space:nowrap;" id="div_list_department" align=left>
-				&nbsp;&nbsp;&nbsp;
-					<a href="javascript:list_department(1, '{$level_priv}', '', '', '')" data-id=1 id=department_lst1 class=active>Sales Amt</a>
-					<a href="javascript:list_department(5, '{$level_priv}', '', '', '')" data-id=5 id=department_lst5>Sales Qty</a>
-					<a href="javascript:list_department(2, '{$level_priv}', '', '', '')" data-id=2 id=department_lst2>Promotion</a>
-					<a href="javascript:list_department(3, '{$level_priv}', '', '', '')" data-id=3 id=department_lst3>Count</a>
-					<a href="javascript:list_department(4, '{$level_priv}', '', '', '')" data-id=4 id=department_lst4>Buying Power</a>
-				</div>
-				<div id=department_list style="border: 0px;">
-				{include file=sales_live.department.tpl}
-				</div>
-			</div>
-			</ol>
-		</td>
-		<td align=left valign=top>
-			<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;<br>&nbsp;</h2>
-			<div id="department_chart">-</div>
-		</td>
-	</tr>
-	<tr>
-		<td align=center valign=top>
-			<div style="padding:10px 0;">
-				<h2 align="left" style="padding-bottom:10px;" nowrap>Member Sales</h2>
-				<div class=tab style="height:21px;white-space:nowrap;" id="div_list_member"  align=left>
-				&nbsp;&nbsp;&nbsp;
-					<a href="javascript:list_member(1, '{$level_priv}', '')" data-id=1 id=member_lst1 class=active>Sales Amt</a>
-					<a href="javascript:list_member(5, '{$level_priv}', '')" data-id=5 id=member_lst5>Sales Qty</a>
-					<a href="javascript:list_member(2, '{$level_priv}', '')" data-id=2 id=member_lst2>Promotion</a>
-					<a href="javascript:list_member(3, '{$level_priv}', '')" data-id=3 id=member_lst3>Count</a>
-					<a href="javascript:list_member(4, '{$level_priv}', '')" data-id=4 id=member_lst4>Buying Power</a>
-				</div>
-				<div id=member_list style="border: 0px;">
-				{include file=sales_live.member.tpl}
-				</div>
-			</div>
-			</ol>
-		</td>
-		<td align="left" valign=top>
-			<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;</h2>
-			<table>
-				<tr>
-					<td><div id="member_chart_pc1" style="float: left;">-</div></td>
-					<td><div id="member_chart_pc2" style="float: left;">-</div></td>
-				</tr>
-				<tr>
-					<td><br><div id="member_chart_pc3" style="float: left;">-</div></td>
-				</tr>
-			</table>
-		</td>
-	<tr>
-	</tr>
-		<td align=center valign=top>
-			<div style="padding:10px 0;">
-				<h2 align="left" style="padding-bottom:10px;" nowrap>Payment Type Sales</h2>
-				<div class=tab style="height:21px;white-space:nowrap;" id="div_list_payment_type"  align=left>
-				&nbsp;&nbsp;&nbsp;
-					<a href="javascript:list_payment_type(1, '{$level_priv}', '')" id=payment_type_lst1 class=active>Sales Amt</a>
-					<a href="javascript:list_payment_type(2, '{$level_priv}', '')" id=payment_type_lst2>Count</a>
-				</div>
-				<div id=payment_type_list style="border: 0px;">
-				{include file=sales_live.payment_type.tpl}
-				</div>
-			</div>
-			</ol>
-		</td>
-		<td align=left valign=top>
-			<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;</h2>
-			<table>
-				<tr>
-					<td><div id="ptype_chart_pc1" style="float: left;">-</div></td>
-					<td><div id="ptype_chart_pc2" style="float: left;">-</div></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<table border="0" cellpadding="12">
+			<tr>
+				<td width="50%" align=center valign=top>
+					<div style="padding:10px 0;">
+						<h2 align="left" class="text-primary" style="padding-bottom:10px;" nowrap>Hourly Sales</h2>
+						<div class="tab row mx-3 mb-3" style="white-space:nowrap;" id="div_list_hourly"  align=left>
+						
+							<a href="javascript:list_hourly(1, '{$level_priv}', '')" data-id=1 id=hourly_lst1 class="btn btn-outline-primary btn-rounded">Sales Amt</a>
+							&nbsp;<a href="javascript:list_hourly(5, '{$level_priv}', '')" data-id=5 id=hourly_lst5 class="btn btn-outline-primary btn-rounded">Sales Qty</a>
+							&nbsp;<a href="javascript:list_hourly(2, '{$level_priv}', '')" data-id=2 id=hourly_lst2 class="btn btn-outline-primary btn-rounded">Promotion</a>
+							&nbsp;<a href="javascript:list_hourly(3, '{$level_priv}', '')" data-id=3 id=hourly_lst3 class="btn btn-outline-primary btn-rounded">Count</a>
+							&nbsp;<a href="javascript:list_hourly(4, '{$level_priv}', '')" data-id=4 id=hourly_lst4 class="btn btn-outline-primary btn-rounded">Buying Power</a>
+						</div>
+						<div id=hourly_list style="border: 0px;">
+							{include file=sales_live.hourly.tpl}
+						</div>
+					</div>
+				</td>
+				<td width="50%" align=left valign=top>
+					<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;<br>&nbsp;</h2>
+					<div id="hourly_chart">-</div>
+				</td>
+			</tr>
+			<tr>
+				<td align=center valign=top>
+					<div style="padding:10px 0;">
+						<h2 align="left" class="text-primary" style="padding-bottom:10px;" nowrap>Department Sales</h2>
+						<div class="tab mx-3 mb-3" style="white-space:nowrap;" id="div_list_department" align=left>
+						
+							<a href="javascript:list_department(1, '{$level_priv}', '', '', '')" data-id=1 id=department_lst1 class="btn btn-outline-primary btn-rounded">Sales Amt</a>
+							&nbsp;<a href="javascript:list_department(5, '{$level_priv}', '', '', '')" data-id=5 id=department_lst5 class="btn btn-outline-primary btn-rounded">Sales Qty</a>
+							&nbsp;<a href="javascript:list_department(2, '{$level_priv}', '', '', '')" data-id=2 id=department_lst2 class="btn btn-outline-primary btn-rounded">Promotion</a>
+							&nbsp;<a href="javascript:list_department(3, '{$level_priv}', '', '', '')" data-id=3 id=department_lst3 class="btn btn-outline-primary btn-rounded">Count</a>
+							&nbsp;<a href="javascript:list_department(4, '{$level_priv}', '', '', '')" data-id=4 id=department_lst4 class="btn btn-outline-primary btn-rounded">Buying Power</a>
+						</div>
+						<div id=department_list style="border: 0px;">
+						{include file=sales_live.department.tpl}
+						</div>
+					</div>
+					</ol>
+				</td>
+				<td align=left valign=top>
+					<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;<br>&nbsp;</h2>
+					<div id="department_chart">-</div>
+				</td>
+			</tr>
+			<tr>
+				<td align=center valign=top>
+					<div style="padding:10px 0;">
+						<h2 align="left" class="text-primary" style="padding-bottom:10px;" nowrap>Member Sales</h2>
+						<div class="tab mx-3 mb-3" style="white-space:nowrap;" id="div_list_member"  align=left>
+						
+							<a href="javascript:list_member(1, '{$level_priv}', '')" data-id=1 id=member_lst1 class="btn btn-outline-primary btn-rounded">Sales Amt</a>
+							&nbsp;<a href="javascript:list_member(5, '{$level_priv}', '')" data-id=5 id=member_lst5 class="btn btn-outline-primary btn-rounded">Sales Qty</a>
+							&nbsp;<a href="javascript:list_member(2, '{$level_priv}', '')" data-id=2 id=member_lst2 class="btn btn-outline-primary btn-rounded">Promotion</a>
+							&nbsp;<a href="javascript:list_member(3, '{$level_priv}', '')" data-id=3 id=member_lst3 class="btn btn-outline-primary btn-rounded">Count</a>
+							&nbsp;<a href="javascript:list_member(4, '{$level_priv}', '')" data-id=4 id=member_lst4 class="btn btn-outline-primary btn-rounded">Buying Power</a>
+						</div>
+						<div id=member_list style="border: 0px;">
+						{include file=sales_live.member.tpl}
+						</div>
+					</div>
+					</ol>
+				</td>
+				<td align="left" valign=top>
+					<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;</h2>
+					<table>
+						<tr>
+							<td><div id="member_chart_pc1" style="float: left;">-</div></td>
+							<td><div id="member_chart_pc2" style="float: left;">-</div></td>
+						</tr>
+						<tr>
+							<td><br><div id="member_chart_pc3" style="float: left;">-</div></td>
+						</tr>
+					</table>
+				</td>
+			<tr>
+			</tr>
+				<td align=center valign=top>
+					<div style="padding:10px 0;">
+						<h2 align="left" class="text-primary" style="padding-bottom:10px;" nowrap>Payment Type Sales</h2>
+						<div class="tab row mx-3 mb-3" style="white-space:nowrap;" id="div_list_payment_type"  align=left>
+						
+							<a href="javascript:list_payment_type(1, '{$level_priv}', '')" id=payment_type_lst1 class="btn btn-outline-primary btn-rounded">Sales Amt</a>
+							&nbsp;<a href="javascript:list_payment_type(2, '{$level_priv}', '')" id=payment_type_lst2 class="btn btn-outline-primary btn-rounded">Count</a>
+						</div>
+						<div id=payment_type_list style="border: 0px;">
+						{include file=sales_live.payment_type.tpl}
+						</div>
+					</div>
+					</ol>
+				</td>
+				<td align=left valign=top>
+					<h2 align="left" style="padding-bottom:10px;" nowrap>&nbsp;</h2>
+					<table>
+						<tr>
+							<td><div id="ptype_chart_pc1" style="float: left;">-</div></td>
+							<td><div id="ptype_chart_pc2" style="float: left;">-</div></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
 {literal}
 <script type="text/javascript">
     Calendar.setup({

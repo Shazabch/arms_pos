@@ -23,78 +23,84 @@
 *}
 
 {$pagination}
-<table class=sortable id=promo_tbl width=100% cellpadding=4 cellspacing=1 border=0 style="padding:2px">
-<tr bgcolor=#ffee99>
-	<th>&nbsp;</th>
-	<th>Promo#</th>
-	<th>Description</th>
-	<th>Type</th>
-	<th>From</th>
-	<th>To</th>
-	<th>Branch</th>
-	<th>Last Update</th>
-	<th>Created By</th>
-</tr>
-
-{section name=i loop=$promo_list}
-    {assign var=pt value=$promo_list[i].promo_type}
-    {assign var=phpfile value="promotion.php"}
-    {if $pt eq 'mix_and_match'}{assign var=phpfile value="promotion.mix_n_match.php"}{/if}
-<tr bgcolor={cycle values=",#eeeeee"}>
-	<td nowrap>
-		{if !$promo_list[i].status}
-		    {if $promo_list[i].branch_id!=$sessioninfo.branch_id}
-				<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}"><img src="ui/approved.png" title="Open this promotion" border=0></a>
-			{else}
-				<a href="{$phpfile}?a=open&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}"><img src="ui/ed.png" title="Open this promotion" border=0></a>
-			{/if}
-            <a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', '', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/print.png" border="0" title="Print Promotion" /></a>
-        {elseif $promo_list[i].status==2}
-			<a href="{$phpfile}?a=open&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/rejected.png" title="Open this promotion" border=0></a>
-		{elseif $promo_list[i].status==4 or $promo_list[i].status==5}
-			<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/cancel.png" title="Open this promotion" border=0></a>
-		{else}
-			<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/approved.png" title="Open this promotion" border=0></a>
-			<a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', '', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/print.png" border="0" title="Print Promotion" /></a>
-			{if $pt eq 'discount'}
-				<a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', 'mot', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/my.gif" border="0" title="Print Ministry of Trade" /></a>
-				<a href="javascript:void(export_to_csv('{$promo_list[i].branch_id}','{$promo_list[i].id}'))"><img src="ui/icons/page_excel.png" border="0" title="Export to CSV" /></a>
-				
-				{if $config.membership_mobile_settings and $promo_list[i].branch_id eq $sessioninfo.branch_id and $promo_list[i].status eq 1 and $promo_list[i].approved eq 1 and $sessioninfo.privilege.PROMOTION_MEMBER_MOBILE_CONFIGURE}
-					<a href="promotion.php?a=edit_member_mobile&branch_id={$promo_list[i].branch_id}&id={$promo_list[i].id}" target="_blank">
-						<img src="ui/icons/ipod_cast.png" title="Configure Membership Mobile Settings" />
-					</a>
-				{/if}
-				{if $promo_list[i].status eq 1 and $promo_list[i].approved eq 1 and $sessioninfo.privilege.PROMOTION_POP_CARD}
-				<a href="promotion.php?a=promotion_pop_card_setting&branch_id={$promo_list[i].branch_id}&id={$promo_list[i].id}" target="_blank">
-					<img src="ui/icons/photo.png" title="Print Pop Card" />
-				</a>
-				{/if}
-			{/if}
-		{/if}
+<div class="table-responsive">
+	<table class=sortable id=promo_tbl width=100%  style="padding:2px">
+		<thead class="bg-gray-100" style="height: 25px;">
+			<tr >
+				<th>&nbsp;</th>
+				<th>Promo#</th>
+				<th>Description</th>
+				<th>Type</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Branch</th>
+				<th>Last Update</th>
+				<th>Created By</th>
+			</tr>
+		</thead>
 		
-	</td>
-	<td align=center>{$promo_list[i].id}</td>
-	<td>{$promo_list[i].title}
-		{if preg_match('/\d/',$promo_list[i].approvals) and $promo_list[i].status==1}
-			<div class=small>Approvals: <font color=#0000ff>{get_user_list list=$promo_list[i].approvals aorder_id=$promo_list[i].approval_order_id}</font></div>
-		{/if}
-	</td>
-	<td>
-		{$promo_type_info.$pt}
-	</td>
-	<td>{$promo_list[i].date_from} {$promo_list[i].time_from}</td>
-	<td>{$promo_list[i].date_to} {$promo_list[i].time_to}</td>
-	<td>{$promo_list[i].promo_branch_id}</td>
-	<td>{$promo_list[i].last_update}</td>
-	<td>{$promo_list[i].u}</td>
-</tr>
-{sectionelse}
-<tr>
-	<td colspan=6>- no record -</td>
-</tr>
-{/section}
-</table>
+		{section name=i loop=$promo_list}
+			{assign var=pt value=$promo_list[i].promo_type}
+			{assign var=phpfile value="promotion.php"}
+			{if $pt eq 'mix_and_match'}{assign var=phpfile value="promotion.mix_n_match.php"}{/if}
+		<tbody class="fs-08">
+			<tr bgcolor={cycle values=",#eeeeee"}>
+				<td nowrap>
+					{if !$promo_list[i].status}
+						{if $promo_list[i].branch_id!=$sessioninfo.branch_id}
+							<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}"><img src="ui/approved.png" title="Open this promotion" border=0></a>
+						{else}
+							<a href="{$phpfile}?a=open&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}"><img src="ui/ed.png" title="Open this promotion" border=0></a>
+						{/if}
+						<a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', '', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/print.png" border="0" title="Print Promotion" /></a>
+					{elseif $promo_list[i].status==2}
+						<a href="{$phpfile}?a=open&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/rejected.png" title="Open this promotion" border=0></a>
+					{elseif $promo_list[i].status==4 or $promo_list[i].status==5}
+						<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/cancel.png" title="Open this promotion" border=0></a>
+					{else}
+						<a href="{$phpfile}?a=view&id={$promo_list[i].id}&branch_id={$promo_list[i].branch_id}" target="_blank"><img src="ui/approved.png" title="Open this promotion" border=0></a>
+						<a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', '', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/print.png" border="0" title="Print Promotion" /></a>
+						{if $pt eq 'discount'}
+							<a href="javascript:void(PROMO_PRINT.show('{$promo_list[i].branch_id}', '{$promo_list[i].id}', '{$promo_list[i].promo_type}', 'mot', '{$promo_list[i].str_promo_branch_id_list}', '{$promo_list[i].active}', '{$promo_list[i].status}', '{$promo_list[i].approved}'))"><img src="ui/my.gif" border="0" title="Print Ministry of Trade" /></a>
+							<a href="javascript:void(export_to_csv('{$promo_list[i].branch_id}','{$promo_list[i].id}'))"><img src="ui/icons/page_excel.png" border="0" title="Export to CSV" /></a>
+							
+							{if $config.membership_mobile_settings and $promo_list[i].branch_id eq $sessioninfo.branch_id and $promo_list[i].status eq 1 and $promo_list[i].approved eq 1 and $sessioninfo.privilege.PROMOTION_MEMBER_MOBILE_CONFIGURE}
+								<a href="promotion.php?a=edit_member_mobile&branch_id={$promo_list[i].branch_id}&id={$promo_list[i].id}" target="_blank">
+									<img src="ui/icons/ipod_cast.png" title="Configure Membership Mobile Settings" />
+								</a>
+							{/if}
+							{if $promo_list[i].status eq 1 and $promo_list[i].approved eq 1 and $sessioninfo.privilege.PROMOTION_POP_CARD}
+							<a href="promotion.php?a=promotion_pop_card_setting&branch_id={$promo_list[i].branch_id}&id={$promo_list[i].id}" target="_blank">
+								<img src="ui/icons/photo.png" title="Print Pop Card" />
+							</a>
+							{/if}
+						{/if}
+					{/if}
+					
+				</td>
+				<td align=center>{$promo_list[i].id}</td>
+				<td>{$promo_list[i].title}
+					{if preg_match('/\d/',$promo_list[i].approvals) and $promo_list[i].status==1}
+						<div class=small>Approvals: <font color=#0000ff>{get_user_list list=$promo_list[i].approvals aorder_id=$promo_list[i].approval_order_id}</font></div>
+					{/if}
+				</td>
+				<td>
+					{$promo_type_info.$pt}
+				</td>
+				<td>{$promo_list[i].date_from} {$promo_list[i].time_from}</td>
+				<td>{$promo_list[i].date_to} {$promo_list[i].time_to}</td>
+				<td>{$promo_list[i].promo_branch_id}</td>
+				<td>{$promo_list[i].last_update}</td>
+				<td>{$promo_list[i].u}</td>
+			</tr>
+		</tbody>
+		{sectionelse}
+		<tr>
+			<td colspan=6>- no record -</td>
+		</tr>
+		{/section}
+		</table>
+</div>
 <script>
 ts_makeSortable($('promo_tbl'));
 </script>

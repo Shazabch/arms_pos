@@ -450,7 +450,7 @@ MIX_MATCH_MAIN_MODULE = {
 			    try{
 	                ret = JSON.parse(str); // try decode json object
 	                if(ret['ok'] && ret['html']){ // success
-	                    new Insertion.Bottom('tbody_promo_group_items-'+group_id, ret['html']);
+	                    	 Insertion.Bottom('tbody_promo_group_items-'+group_id, ret['html']);
 	                    MIX_MATCH_MAIN_MODULE.reset_row_no(group_id);
 		                return;
 					}else{  // save failed
