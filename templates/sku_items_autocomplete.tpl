@@ -340,8 +340,11 @@ hide_div_sku_autocomplete_popup_notification = function(){
 		{/if}
 		{if $show_qty_input}
 			<span id="span_autocomplete_qty">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Qty</b>
-				<input id="inp_autocomplete_qty" name="sku_autocomplete_qty" onclick="this.select()" style="font-size:14px;width:50px;" />
+			
+				
+					<b class="form-label mt-2">Qty</b>
+				<input class="form-control" id="inp_autocomplete_qty" name="sku_autocomplete_qty" onclick="this.select()" style="font-size:14px;" />
+			
 			</span>
 		{/if}
 		

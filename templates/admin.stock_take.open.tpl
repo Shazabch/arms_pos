@@ -110,8 +110,8 @@ submit_form = function(action){
 <table width="100%">
 {if $BRANCH_CODE eq 'HQ' and $config.single_server_mode}
 <tr>
-    <td><b>Branch</b></td><td>
-    <select name=bran>
+    <td><b class="form-label">Branch</b></td><td>
+    <select class="form-control" name=bran>
     {foreach from=$branches item=r}
     <option value="{$r.id}" {if $smarty.request.bran eq $r.id or $bid eq $r.id}selected {/if}>{$r.code}</option>
     {/foreach}
@@ -121,30 +121,37 @@ submit_form = function(action){
 	<input type="hidden" name="bran" value="{$sessioninfo.branch_id}" />
 {/if}
 <tr>
-	<td><b>Date</b></td>
-	<td><input name="dat" id="added1" size=12 value="{$dat}" readonly> 
-	<img align=absmiddle src="ui/calendar.gif" id="t_addeded" style="cursor: pointer;" title="Select Date">
-	<img src="/ui/rq.gif" align="absmiddle" /></td>
-</tr>
-<tr>
-	<td nowrap><b>Location</b></td>
-	<td><input type="text" name="loc" onchange="this.value=this.value.toUpperCase();" value="{$loc}" /><img src="/ui/rq.gif" align="absmiddle" /></td>
-</tr>
-<tr>
-	<td><b>Shelf</b></td>
+	<td><b class="form-label">Date<SPAN class="text-danger"> *</SPAN></b></td>
 	<td>
-		<input type="text" name="shelf" onchange="this.value=this.value.toUpperCase();" value="{$shelf}" />
-	    <img src="/ui/rq.gif" align="absmiddle" />
+		<div class="form-inline">
+			<input class="form-control" name="dat" id="added1" size=22 value="{$dat}" readonly> 
+	&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_addeded" style="cursor: pointer;" title="Select Date">
+		</div>
+	</td>
+</tr>
+<tr>
+	<td nowrap><b class="form-label">Location<span class="text-danger"> *</span></b></td>
+	<td><input class="form-control" type="text" name="loc" onchange="this.value=this.value.toUpperCase();" value="{$loc}" /></td>
+</tr>
+<tr>
+	<td><b class="form-label">Shelf<span class="text-danger"> *</span></b></td>
+	<td>
+		<input class="form-control" type="text" name="shelf" onchange="this.value=this.value.toUpperCase();" value="{$shelf}" />
+	    
 	</td>
 </tr>
    {include file="admin.stock_take.autocomplete.tpl"}
 <tbody id="arms">
 </tbody>
 <tr>
-	<td valign="top"><b>Quantity</b></td>
-	<td><input type="text" size=10 name="qty" value="{$form.qty}" onKeyPress="checkkey(event,'1')">&nbsp;&nbsp;
-	<input type=button value="Add" class="btn_save" onclick="submit_form('save');" />
-	<input type=button value="Multiple Add" id="btn_multiple_save" onclick="show_stock_take_direct_add_multiple();" />
+	<td valign="top">
+		<b class="form-label">Quantity</b></td>
+	<td>
+		<div class="form-inline">
+			<input class="form-control" type="text" size=10 name="qty" value="{$form.qty}" onKeyPress="checkkey(event,'1')">&nbsp;&nbsp;
+	&nbsp;<input cla type=button value="Add" class="btn_save btn btn-primary" onclick="submit_form('save');" />
+	&nbsp;<input type=button value="Multiple Add" class="btn btn-danger" id="btn_multiple_save" onclick="show_stock_take_direct_add_multiple();" />
+		</div>
 	<div id=div_loading></div></td>
 </tr>
 <!--<tr>
@@ -157,10 +164,10 @@ submit_form = function(action){
 
 <div align=center>
 
-	<div id="details_display" style="overflow: auto;height: 200px;width: 600px;">
+	<div class="mt-2" id="details_display" style="overflow: auto;height: 200px;width: 600px;">
 	{include file="admin.stock_take.scan_item.tpl"}
 	</div>
-	<input type=button value="Close" onclick="submit_form('close');" />
+	<input type=button class="btn btn-danger" value="Close" onclick="submit_form('close');" />
 </div>
 </form>
 

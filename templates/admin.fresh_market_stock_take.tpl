@@ -127,8 +127,9 @@ function add(){
 	var loc = document.f_a['location'].value;
 	var shelf = document.f_a['shelf'].value;
 	
-	curtain(true);
-	center_div($('div_stock_take').show());
+//	curtain(true);
+//	center_div($('div_stock_take').show());
+	jQuery('#div_stock_take').modal('show');
 	$('div_stock_take_content').update(_loading_);
 	new Ajax.Updater('div_stock_take_content', phpself+'?a=ajax_open', {
 		parameters: {
@@ -724,15 +725,21 @@ function recalc_variance(id,qty,sb_qty){
 </script>
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
 
-<div id="div_stock_take" class="curtain_popup" style="position:absolute;z-index:10000;width:850px;height:515px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_stock_take_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Stock Take Details</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_stock_take_content" style="padding:2px;"></div>
+
+<div class="modal" id="div_stock_take">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_stock_take_header">
+                <h6 class="modal-title text-white">Stock Take Details</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body">
+                <div id="div_stock_take_content" style="padding:2px;"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div id="div_possible_items" class="curtain_popup" style="position:absolute;z-index:10001;width:650px;height:515px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
 	<div id="div_possible_items_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Stock Take Possible Items</span>
@@ -756,140 +763,158 @@ function recalc_variance(id,qty,sb_qty){
 </div>
 <!-- end of multiple add div -->
 
-Tips
+<div class="alert alert-primary rounded mx-3 mt-2">
+	<b>Tips</b>
 <ul>
 	<li> Put stock take date as '2010-06-01' if you want to see the sales data for '2010-05-31'.</li>
 </ul>
+</div>
 
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+    <div class="my-auto">
+        <div class="d-flex">
+            <h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+        </div>
+    </div>
+</div>
 
-<form name="f_a">
-    <input type=hidden name="a" />
-    
-    {if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
-    
-    <table>
-		<tr>
-		    {if $can_select_branch}<td><b>Branch</b></td>{/if}
-			<td valign=top><b>Date</b><span id="span_date_loading"></span></td>
-			<td><b>Location</b><span id="span_loc_loading"></span></td>
-			<td><b>Shelf</b><span id="span_shelf_loading"></span></td>
-			<td></td>
-		</tr>
-		<tr>
-		    {if $can_select_branch}
-		        <td>
-		            <select name="branch_id" onchange="branch_changed()" size="10" class="sel_1">
-						{foreach from=$branches item=r}
-							<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
-						{/foreach}
-					</select>
-		        </td>
-		    {/if}
-		    <td>
-		        <select name="date" onChange="date_changed();" size="10"  class="sel_1" id="sel_date">
-		            {foreach from=$date item=r}
-		                <option value="{$r.d}" {if $smarty.request.date eq $r.d}selected {/if}>{$r.d}</option>
-		            {/foreach}
-		        </select>
-		    </td>
-		    <td>
-		        <select name="location" onChange="loc_changed();" size="10"  class="sel_1" id="sel_loc">
-		            {foreach from=$loc item=r}
-		                <option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc}</option>
-		            {/foreach}
-		        </select>
-		    </td>
-		    <td>
-		        <select name="shelf" size="10" onChange="shelf_changed();" class="sel_1" id="sel_shelf">
-		            {foreach from=$shelf item=r}
-		                <option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
-		            {/foreach}
-		        </select>
-		    </td>
-		    <td>
-		        <fieldset style="width: 300px;">
-				<legend><b>Select By Range</b></legend>
-				<table>
-					<tr>
-						<td nowrap>Location From</td>
+<div class="card mx-3">
+	<div class="card-body">
+		<form name="f_a">
+			<input type=hidden name="a" />
+			
+			{if !$can_select_branch}<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />{/if}
+			
+			<table>
+				<tr>
+					{if $can_select_branch}<td><b class="form-label">Branch</b></td>{/if}
+					<td valign=top><b class="form-label">Date</b><span id="span_date_loading"></span></td>
+					<td><b class="form-label">Location</b><span id="span_loc_loading"></span></td>
+					<td><b class="form-label">Shelf</b><span id="span_shelf_loading"></span></td>
+					<td></td>
+				</tr>
+				<tr>
+					{if $can_select_branch}
 						<td>
-							<select name="loc_from" onChange="reload_shelf_range();" id="sel_loc_from">
-								{foreach from=$loc item=r}
-									<option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc|upper}</option>
+							<select name="branch_id" onchange="branch_changed()" size="10" class="sel_1 form-control">
+								{foreach from=$branches item=r}
+									<option value="{$r.id}" {if !$smarty.request.branch_id and $BRANCH_CODE eq $r.code}selected {else}{if $smarty.request.branch_id eq $r.id}selected {/if}{/if}>{$r.code}</option>
 								{/foreach}
 							</select>
 						</td>
-						<td>To</td>
-						<td>
-							<select name="loc_to" onChange="reload_shelf_range();" id="sel_loc_to">
-								{foreach from=$loc item=r}
-									<option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc|upper}</option>
-								{/foreach}
-							</select>
-						</td>
-						<td id="td_loading_shelf_range" nowrap></td>
-					</tr>
-					<tr id="tr_shelf_range">
-						<td>Shelf From</td>
-						<td>
-							<select name="shelf_from" id="sel_shelf_from">
-								{foreach from=$shelf2 item=r}
-									<option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
-								{/foreach}
-							</select>
-						</td>
-						<td>To</td>
-						<td>
-							<select name="shelf_to" id="sel_shelf_to">
-								{foreach from=$shelf2 item=r}
-									<option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
-								{/foreach}
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Sku Type</td>
-						<td>
-							<select name="p_sku_type">
-							    <option value=''>All</option>
-							    {foreach from=$sku_type item=r}
-							    	<option value='{$r.code}' {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
-							    {/foreach}
-							</select>
-						</td>
-					</tr>
-					{if $config.stock_take_count_sheet}
-						<tr>
-						    <td nowrap>Stock Count Sheet No.</td>
-						    <td><input name='count_sheet' type="text" maxlength="5" size="10" value='{$smarty.request.count_sheet}' onChange="miz(this);" /></td>
-						</tr>
 					{/if}
-				</table>
-				<br>
-				<input type=button value="Print Check List" onclick="print_sheet();">&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="checkbox" name="print_with_qty" value=1> Print with quantity
-			</fieldset>
-		    </td>
-		</tr>
-		<tr>
-		    <td colspan="4">
-		        <input id="inp_reload_stock_take_list" type="button" value="Reload" {if !$smarty.request.shelf}disabled {/if} onClick="reload_clicked();" />
-		        &nbsp;&nbsp;&nbsp;
-		        <b>SKU Type</b>
-		        <select name="sku_type" onChange="sku_type_changed();">
-		            <option value="">-- All --</option>
-		            {foreach from=$sku_type item=r}
-		                <option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
-		            {/foreach}
-		        </select>
-		    </td>
-		</tr>
-	</table>
-</form>
+					<td>
+						<select name="date" onChange="date_changed();" size="10"  class="sel_1 form-control" id="sel_date">
+							{foreach from=$date item=r}
+								<option value="{$r.d}" {if $smarty.request.date eq $r.d}selected {/if}>{$r.d}</option>
+							{/foreach}
+						</select>
+					</td>
+					<td>
+						<select name="location" onChange="loc_changed();" size="10"  class="sel_1 form-control" id="sel_loc">
+							{foreach from=$loc item=r}
+								<option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc}</option>
+							{/foreach}
+						</select>
+					</td>
+					<td>
+						<select name="shelf" size="10" onChange="shelf_changed();" class="sel_1 form-control" id="sel_shelf">
+							{foreach from=$shelf item=r}
+								<option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
+							{/foreach}
+						</select>
+					</td>
+					<td>
+						<fieldset style="width: 300px;">
+						<legend><b class="form-label ml-2">Select By Range</b></legend>
+						<table>
+							<tr>
+								<td nowrap class="form-label mt-2 ml-2">Location From&nbsp;</td>
+								<td>
+									<select class="form-control" name="loc_from" onChange="reload_shelf_range();" id="sel_loc_from">
+										{foreach from=$loc item=r}
+											<option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc|upper}</option>
+										{/foreach}
+									</select>
+								</td>
+								<td class="form-label mt-2">&nbsp;To&nbsp;</td>
+								<td>
+									<select class="form-control" name="loc_to" onChange="reload_shelf_range();" id="sel_loc_to">
+										{foreach from=$loc item=r}
+											<option value="{$r.loc}" {if $smarty.request.location eq $r.loc}selected {/if}>{$r.loc|upper}</option>
+										{/foreach}
+									</select>
+								</td>
+								<td id="td_loading_shelf_range" nowrap></td>
+							</tr>
+							<tr id="tr_shelf_range">
+								<td class="form-label ml-2">Shelf From</td>
+								<td>
+									<select class="form-control" name="shelf_from" id="sel_shelf_from">
+										{foreach from=$shelf2 item=r}
+											<option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
+										{/foreach}
+									</select>
+								</td>
+								<td class="form-label">&nbsp;To&nbsp;</td>
+								<td>
+									<select class="form-control" name="shelf_to" id="sel_shelf_to">
+										{foreach from=$shelf2 item=r}
+											<option value="{$r.s}" {if $smarty.request.shelf eq $r.s}selected {/if}>{$r.s}</option>
+										{/foreach}
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="form-label ml-2">Sku Type</td>
+								<td>
+									<select class="form-control" name="p_sku_type">
+										<option value=''>All</option>
+										{foreach from=$sku_type item=r}
+											<option value='{$r.code}' {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
+										{/foreach}
+									</select>
+								</td>
+							</tr>
+							{if $config.stock_take_count_sheet}
+								<tr>
+									<td nowrap class="form-label ml-2">Stock Count Sheet No.</td>
+									<td><input class="form-control" name='count_sheet' type="text" maxlength="5" size="10" value='{$smarty.request.count_sheet}' onChange="miz(this);" /></td>
+								</tr>
+							{/if}
+						</table>
+						<br>
+						<div class="form-inline ml-2">
+							<input class="btn btn-primary" type=button value="Print Check List" onclick="print_sheet();">&nbsp;&nbsp;&nbsp;&nbsp;
+						<div class="form-label"><input type="checkbox" name="print_with_qty" value=1> Print with quantity</div>
+						</div>
+					</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<div class="form-inline">
+							<input class="btn btn-primary" id="inp_reload_stock_take_list" type="button" value="Reload" {if !$smarty.request.shelf}disabled {/if} onClick="reload_clicked();" />
+						&nbsp;&nbsp;&nbsp;
+						<b class="form-label">SKU Type</b>
+						&nbsp;<select class="form-control" name="sku_type" onChange="sku_type_changed();">
+							<option value="">-- All --</option>
+							{foreach from=$sku_type item=r}
+								<option value="{$r.code}" {if $smarty.request.sku_type eq $r.code}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</select>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
 
 <br>
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Stock</a> </div>
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Stock</a> </div>
+</div>
 <br>
 
 <div id="div_stock_take_list" class="stdframe" style="{if !$smarty.request.shelf}display:none;{/if}">

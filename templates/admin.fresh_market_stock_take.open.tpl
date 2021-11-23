@@ -13,15 +13,17 @@
 <form name="f_b" onSubmit="return false;">
 <table width="100%">
 	<tr>
-	    <td><b>Date</b></td>
+	    <td><b class="form-label">Date</b></td>
 	    <td>
-	        <input name="date" id="inp_stock_take_date" size="12" value="{$smarty.request.date|default:$smarty.now|date_format:'%Y-%m-%d'}" readonly />
-			<img align="absmiddle" src="ui/calendar.gif" id="img_stock_take_date" style="cursor: pointer;" title="Select Date" />
+	      <div class="form-inline">
+			<input class="form-control" name="date" id="inp_stock_take_date" size="16" value="{$smarty.request.date|default:$smarty.now|date_format:'%Y-%m-%d'}" readonly />
+			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_stock_take_date" style="cursor: pointer;" title="Select Date" />
+		  </div>
 	    </td>
 	    {if $can_select_branch}
-		    <td><b>Branch</b></td>
+		    <td><b class="form-label">Branch</b></td>
 		    <td>
-		        <select name="branch_id">
+		        <select class="form-control" name="branch_id">
 					{foreach from=$branches item=r}
 						<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code}</option>
 					{/foreach}
@@ -34,15 +36,15 @@
 	    {/if}
 	</tr>
 	<tr>
-		<td nowrap><b>Location</b></td>
+		<td nowrap><b class="form-label">Location<span class="text-danger"> *</span></b></td>
 		<td>
-			<input type="text" name="location" onchange="this.value=this.value.toUpperCase();" value="{$smarty.request.location}" />
-			<img src="/ui/rq.gif" align="absmiddle" />
+			<input class="form-control" type="text" name="location" onchange="this.value=this.value.toUpperCase();" value="{$smarty.request.location}" />
+			
 		</td>
-		<td><b>Shelf</b></td>
+		<td><b class="form-label">Shelf<span class="text-danger"> *</span></b></td>
 		<td>
-			<input type="text" name="shelf" onchange="this.value=this.value.toUpperCase();" value="{$smarty.request.shelf}" />
-			<img src="/ui/rq.gif" align="absmiddle" />
+			<input class="form-control" type="text" name="shelf" onchange="this.value=this.value.toUpperCase();" value="{$smarty.request.shelf}" />
+			
 		</td>
 	</tr>
 </table>
@@ -58,21 +60,25 @@
 	</div>
 </div>
 
-<div style="border:3px inset #ddd;height:300px;overflow-x:hidden;overflow-y:auto;">
-	<table width="100%" style="border-collapse:collapse;" border="1">
-		<tr bgcolor="#cccccc">
-		    <th width="50"></th>
-			<th width="100">Arms Code</th>
-			<th width="80">Art No.</th>
-			<th>Description</th>
-			<th width="60">UOM</th>
-			<th width="120">Quantity</th>
-		</tr>
-		<tbody id="tbody_ajax_added_item">
-		</tbody>
-	</table>
+<div class="table-responsive">
+	<div>
+		<table width="100%" class="table mb-0 text-md-nowrap  table-hover">
+			<thead class="bg-gray-100" style="height: 25px;">
+				<tr >
+					<th width="50"></th>
+					<th width="100">Arms Code</th>
+					<th width="80">Art No.</th>
+					<th>Description</th>
+					<th width="60">UOM</th>
+					<th width="120">Quantity</th>
+				</tr>
+			</thead>
+			<tbody class="fs-08" id="tbody_ajax_added_item">
+			</tbody>
+		</table>
+	</div>
 </div>
-<p align="center"><input class="btn btn-error" type="button" value="Close" onClick="default_curtain_clicked();" /></p>
+<p align="center"><input class="btn btn-danger mt-3" type="button" value="Close" onClick="default_curtain_clicked();" /></p>
 </form>
 
 <script>

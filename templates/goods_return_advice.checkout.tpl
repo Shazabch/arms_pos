@@ -193,7 +193,7 @@ function init_calendar(){
 }
 
 function search_tab_clicked(obj){
-	$('lst'+tab).addClassName('selected');
+	$('lst'+tab).removeClassName('selected');
 	$('search_area').show();
 	obj.addClassName('selected');
 	$('gra_list').update();

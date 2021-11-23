@@ -91,9 +91,9 @@ var CC_ASSGN_LIST = {
 
 		var all_tab = $$('#div_tab .a_tab');
 		for(var i=0;i<all_tab.length;i++){
-			$(all_tab[i]).removeClassName('active');
+			$(all_tab[i]).removeClassName('selected');
 		}
-		$('lst'+this.tab_num).addClassName('active');
+		$('lst'+this.tab_num).addClassName('selected');
 		
 		$('cc_list').update(_loading_);
 		new Ajax.Updater('cc_list', phpself+'?a=ajax_list_sel&t='+this.tab_num+'&p='+this.page_num,{
@@ -246,10 +246,10 @@ var CC_CLONE_DIALOG = {
 	tab_changed: function(tab_name){
 		// de-activate tab
 		$$('#div_clone_tab a.a_tab').each(function(ele){
-			$(ele).removeClassName('active');
+			$(ele).removeClassName('selected');
 		});
 		// only active the selected tab
-		$('clone_tab-'+tab_name).addClassName('active');
+		$('clone_tab-'+tab_name).addClassName('selected');
 		
 		// hide all details
 		$$('#div_clone_contain div.div_clone_details').invoke('hide');
@@ -509,27 +509,25 @@ var CC_CLONE_DIALOG = {
 
 
 <div class="row mx-3 mb-2">
-	<div id=" div_tab " class="row tab" style="white-space:nowrap;">
-		<div class="col">
+	<div id="div_tab" class="row tab" style="white-space:nowrap;">
 			{if $sessioninfo.privilege.STOCK_TAKE_CYCLE_COUNT_ASSGN_EDIT}
-			<a href="javascript:void(CC_ASSGN_LIST.list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
-			<a href="javascript:void(CC_ASSGN_LIST.list_sel(2))" id="lst2" class="a_tab btn-outline-primary btn-rounded">Waiting for Approval</a>
-			<a href="javascript:void(CC_ASSGN_LIST.list_sel(3))" id="lst3" class="a_tab btn-outline-primary btn-rounded">Rejected</a>
-			<a href="javascript:void(CC_ASSGN_LIST.list_sel(4))" id="lst4" class="a_tab btn-outline-primary btn-rounded">Cancelled</a>
+			&nbsp;&nbsp;&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+			&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
+			&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(3))" id="lst3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+			&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(4))" id="lst4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled</a>
 		{/if}
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(5))" id="lst5" class="a_tab btn-outline-primary btn-rounded">Approved</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(6))" id="lst6" class="a_tab btn-outline-primary btn-rounded">Printed</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(7))" id="lst7" class="a_tab btn-outline-primary btn-rounded">WIP</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(8))" id="lst8" class="a_tab btn-outline-primary btn-rounded">Completed</a>
-		<a href="javascript:void(CC_ASSGN_LIST.list_sel(9))" id="lst9" class="a_tab btn-outline-primary btn-rounded">Sent to Store Stock Take</a>
-		</div>
-		<div class="col">
-			<a class="a_tab form-inline" id="lst0">
+		&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(5))" id="lst5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
+		&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(6))" id="lst6" class="a_tab btn btn-outline-primary btn-rounded">Printed</a>
+		&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(7))" id="lst7" class="a_tab btn btn-outline-primary btn-rounded">WIP</a>
+		&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(8))" id="lst8" class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
+		&nbsp;<a href="javascript:void(CC_ASSGN_LIST.list_sel(9))" id="lst9" class="a_tab btn btn-outline-primary btn-rounded">Sent to Store Stock Take</a>
+		
+			<a class="a_tab form-inline mt-2 ml-3" id="lst0">
 				Search [<span class="link" onclick="CC_ASSGN_LIST.toggle_search_info();">?</span>] 
 				&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="CC_ASSGN_LIST.search_input_keypress(event);" /> 
 				&nbsp;<input type="button" class="btn btn-primary" value="Go" onClick="CC_ASSGN_LIST.list_sel(0);" />
 			</a>
-		</div>
+		
 		<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 	</div>
 </div>

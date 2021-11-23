@@ -548,24 +548,28 @@ function stock_date_changed(imported){
 						*}
 					</td>
 					<td id="td_sku_type" style="display:none;" colspan="{if BRANCH_CODE eq 'HQ'}2{else}1{/if}">
-						<b>SKU Type:</b>
-						<select name="sku_type">
+						<div class="form-inline">
+							<b class="form-label">SKU Type:</b>
+						&nbsp;<select class="form-control" name="sku_type">
 							<option value="">All</option>
 							{foreach from=$sku_type key=r item=st}
 								<option value="{$st.code}">{$st.description}</option>
 							{/foreach}
 						</select>
+						</div>
 					</td>
 				</tr>
 			</table>
-				<div style="display:none;" id="fill_zero_by_category_vendor">
+				<div style="display:none;" class="mt-2" id="fill_zero_by_category_vendor">
 					<table>
-						<tr>
-							<td><b>Category (Max lv10)</b></td>
+						<tr class="mt-2">
+							<td><b class="form-label">Category (Max lv10)</b></td>
 							<td>
-								<input id="inp_search_cat_autocomplete" name="search_cat_autocomplete" style="font-size:14px;width:500px;" onclick="reset_category_autocomplete();" />
+								<div class="form-inline">
+									<input class="form-control" id="inp_search_cat_autocomplete" name="search_cat_autocomplete" style="font-size:14px;width:500px;" onclick="reset_category_autocomplete();" />
 								<div id="div_search_cat_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-								<input type="button" value="Add" onclick="cat_add_autocomplete();" />
+								&nbsp;<input class="btn btn-primary" type="button" value="Add" onclick="cat_add_autocomplete();" />
+								</div>
 								<input type="hidden" name="category_id" value="" />
 								<input type="hidden" name="category_desc" value="" />
 								<span id="span_cat_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
@@ -575,9 +579,9 @@ function stock_date_changed(imported){
 							<td>&nbsp;</td>
 							<td colspan="{if BRANCH_CODE eq 'HQ'}3{else}2{/if}">
 								<table>
-									<tr>
+									<tr >
 										<td rowspan="5">
-											<select multiple name="category_list" id="category_list" style="width:497px;height:100px;">
+											<select class="form-control" multiple name="category_list" id="category_list" style="width:497px;height:100px;">
 											{if $category}
 												{foreach from=$category item=c}
 													{if $c.sku_item_code ne ''}
@@ -592,10 +596,10 @@ function stock_date_changed(imported){
 										<td></td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input type="button" value="Remove" id="remove_cat" onClick="remove_cat_from_list();" disabled style="width:100px;"></td>
+										<td style="width:100px;"><input type="button" class="btn btn-primary mt-4" value="Remove" id="remove_cat" onClick="remove_cat_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									<tr>
-										<td><input type="button" value="Clear" id="clear_cat" onClick="clear_cat_from_list();" disabled style="width:100px;"></td>
+										<td><input type="button" class="btn btn-danger" value="Clear" id="clear_cat" onClick="clear_cat_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									{foreach from=$category item=c}
 										{if $c.sku_item_code ne ''}
@@ -608,12 +612,14 @@ function stock_date_changed(imported){
 								</table>
 							</td>
 						</tr>
-						<tr>
-							<td><b>Vendor</b></td>
+						<tr class="mt-2">
+							<td><b class="form-label">Vendor</b></td>
 							<td>
-								<input id="inp_search_vendor_autocomplete" name="search_vendor_autocomplete" style="font-size:14px;width:500px;" onclick="reset_vendor_autocomplete();" />
+								<div class="form-inline">
+									<input class="form-control" id="inp_search_vendor_autocomplete" name="search_vendor_autocomplete" style="font-size:14px;width:500px;" onclick="reset_vendor_autocomplete();" />
 								<div id="div_search_vendor_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-								<input type="button" value="Add" onclick="vendor_add_autocomplete();" />
+								&nbsp;<input class="btn btn-primary" type="button" value="Add" onclick="vendor_add_autocomplete();" />
+								</div>
 								<input type="hidden" name="vendor_id" value="" />
 								<input type="hidden" name="vendor_desc" value="" />
 								<span id="span_vendor_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
@@ -625,7 +631,7 @@ function stock_date_changed(imported){
 								<table>
 									<tr>
 										<td rowspan="5">
-											<select multiple name="vendor_list" id="vendor_list" style="width:497px;height:100px;">
+											<select class="form-control" multiple name="vendor_list" id="vendor_list" style="width:497px;height:100px;">
 											{if $vendors}
 												{foreach from=$vendors item=v}
 													{if $v.sku_item_code ne ''}
@@ -640,10 +646,10 @@ function stock_date_changed(imported){
 										<td></td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input type="button" value="Remove" id="remove_vendor" onClick="remove_vendor_from_list();" disabled style="width:100px;"></td>
+										<td style="width:100px;"><input class="btn btn-primary mt-4" type="button" value="Remove" id="remove_vendor" onClick="remove_vendor_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									<tr>
-										<td><input type="button" value="Clear" id="clear_vendor" onClick="clear_vendor_from_list();" disabled style="width:100px;"></td>
+										<td><input type="button" class="btn btn-danger" value="Clear" id="clear_vendor" onClick="clear_vendor_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									{foreach from=$vendors item=v}
 										{if $v.sku_item_code ne ''}
@@ -656,12 +662,14 @@ function stock_date_changed(imported){
 								</table>
 							</td>
 						</tr>
-						<tr>
-							<td><b>Brand</b></td>
+						<tr class="mt-2">
+							<td><b class="form-label">Brand</b></td>
 							<td>
-								<input id="inp_search_brand_autocomplete" name="search_brand_autocomplete" style="font-size:14px;width:500px;" onclick="reset_brand_autocomplete();" />
+								<div class="form-inline">
+									<input class="form-control" id="inp_search_brand_autocomplete" name="search_brand_autocomplete" style="font-size:14px;width:500px;" onclick="reset_brand_autocomplete();" />
 								<div id="div_search_brand_autocomplete_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-								<input type="button" value="Add" onclick="brand_add_autocomplete();" />
+								&nbsp;<input class="btn btn-primary" type="button" value="Add" onclick="brand_add_autocomplete();" />
+								</div>
 								<input type="hidden" name="brand_id" value="" />
 								<input type="hidden" name="brand_desc" value="" />
 								<span id="span_brand_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
@@ -673,7 +681,7 @@ function stock_date_changed(imported){
 								<table>
 									<tr>
 										<td rowspan="5">
-											<select multiple name="brand_list" id="brand_list" style="width:497px;height:100px;">
+											<select class="form-control" multiple name="brand_list" id="brand_list" style="width:497px;height:100px;">
 											{if $brands}
 												{foreach from=$brands item=b}
 													{if $b.sku_item_code ne ''}
@@ -688,10 +696,10 @@ function stock_date_changed(imported){
 										<td></td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input type="button" value="Remove" id="remove_brand" onClick="remove_brand_from_list();" disabled style="width:100px;"></td>
+										<td style="width:100px;"><input class="btn btn-primary mt-4" type="button" value="Remove" id="remove_brand" onClick="remove_brand_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									<tr>
-										<td><input type="button" value="Clear" id="clear_brand" onClick="clear_brand_from_list();" disabled style="width:100px;"></td>
+										<td><input type="button" class="btn btn-danger" value="Clear" id="clear_brand" onClick="clear_brand_from_list();" disabled style="width:100px;"></td>
 									</tr>
 									{foreach from=$brands item=b}
 										{if $b.sku_item_code ne ''}

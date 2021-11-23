@@ -1224,13 +1224,15 @@ roundup_value = function (type,doc_allow_decimal,ele){
 </div>
 <!-- end of multiple add div -->
 
-<br>
-<div><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Stock</a> (Please re-select <b>date</b>, <b>location</b> and <b>shelf</b> to refresh the item list)
-	<br /><br />
-	<a href="admin.stock_take.upload_csv.php">
-		<img src="ui/new.png" title="New" align="absmiddle" border="0" />
-		Add New Stock Take by CSV
-	</a>
+
+<div class="card mx-3">
+	<div class="card-body"><a accesskey="A" href="javascript:void(add())"><img src=ui/new.png title="New" align=absmiddle border=0></a> <a href="javascript:void(add())"><u>A</u>dd New Stock</a> (Please re-select <b>date</b>, <b>location</b> and <b>shelf</b> to refresh the item list)
+		<br /><br />
+		<a href="admin.stock_take.upload_csv.php">
+			<img src="ui/new.png" title="New" align="absmiddle" border="0" />
+			Add New Stock Take by CSV
+		</a>
+	</div>
 </div>
 <br>
 <form name="tbl" action="admin.stock_take.php" method='post'>
