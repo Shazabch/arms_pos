@@ -2660,11 +2660,16 @@ function show_upload_csv_popup(){
 </div>
 
 <iframe style="visibility:hidden" width=1 height=1 name=ifprint id=ifprint></iframe>
-
-<h1>Purchase Order {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
+				Purchase Order {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}
+			</h4>
+			
 {if $form.id<$time_value}
-<h3>Status:
+			<h5 class="content-title mb-0 my-auto ml-4 text-primary">
+				Status:
 {if $form.status == 1}
 	{if $form.approved}
 		Fully Approved  
@@ -2697,7 +2702,11 @@ function show_upload_csv_popup(){
 {/if}
 
 {if $form.revoke_id}(This PO has been revoked to PO ID#{$form.revoke_id} <a href="?a=open&id={$form.revoke_id}&branch_id={$form.branch_id}"><img src=ui/view.png border=0 title="Click here to open the new PO" align=absmiddle></a>){/if}
-</h3>
+			</h5>
+			<span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {* if $approval_history}
 <br>
@@ -2747,17 +2756,18 @@ function show_upload_csv_popup(){
 <div class="card mx-3">
 	<div class="card-body">
 		
-<div class="stdframe" >
-	<h4>General Information</h4>
-	
+		<h4>General Information</h4>
+
 	{if $errm.top}
-	<div id=err><div class=errmsg><ul>
-	{foreach from=$errm.top item=e}
-	<div class="alert alert-danger rounded">
-		<li> {$e} </li>
+	<div class="alert alert-danger mx-3 rounded">
+		<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.top item=e}
+			<div class="alert alert-danger rounded">
+				<li> {$e} </li>
+			</div>
+			{/foreach}
+			</ul></div></div>
 	</div>
-	{/foreach}
-	</ul></div></div>
 	{/if}
 	
 	<table border="0" cellspacing="0" cellpadding="4" width="100%">
@@ -2893,7 +2903,7 @@ function show_upload_csv_popup(){
 	
 	{if $form.branch_id==1 && !$form.po_branch_id}
 		<tr>
-			<td valign=top{if $config.po_allow_hq_purchase} rowspan=2{/if}><b>PO Option</b></td>
+			<td valign=top{if $config.po_allow_hq_purchase} rowspan=2{/if}><b class="form-label">PO Option</b></td>
 			<td><input type=radio name="po_option" value="2" {if $form.po_option == 2 or !$form.po_option}checked{/if} {if $sessioninfo.branch_id==1}onclick="hq_purchase_clicked(this);"{/if}>
 			HQ purchase on behalf of Branches 
 			<font color=#990000><b>(Branch Payment)</b></font>
@@ -2909,13 +2919,15 @@ function show_upload_csv_popup(){
 			</tr>
 		
 			<tr id="hq_delivery_date" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
-				<td><b>Delivery Date</b></td>
+				<td><b class="form-label">Delivery Date</b></td>
 				<td>
-					<input id="hq_dd" name="hq_delivery_date" value="{$form.hq_delivery_date}" onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
+					<div class="form-inline">
+	<input class="form-control" id="hq_dd" name="hq_delivery_date" value="{$form.hq_delivery_date}" onclick="if(this.value)this.select();" onchange="hq_purchase_clicked();" size="10" maxlength="10" />
 					
 					{if $allow_edit}
-						<img align="absbottom" src="ui/calendar.gif" id="img_hq_dd" style="cursor: pointer;" title="Select Date"/>
-					{/if}
+						&nbsp;<img align="absbottom" src="ui/calendar.gif" id="img_hq_dd" style="cursor: pointer;" title="Select Date"/>
+					{/if}					
+					</div>
 					<br>
 				</td>
 			</tr>
@@ -2937,14 +2949,14 @@ function show_upload_csv_popup(){
 			<tr id="hq_partial_delivery" {if $form.po_option ne 3 || $readonly}style="display:none;"{/if}>
 				<td><b class="form-label">Partial Delivery</b></td>
 				<td>
-					<input class="form-control" name="hq_partial_delivery" type="checkbox" {if $form.hq_partial_delivery}checked{/if} id="hq_pd" onclick="hq_partial_delivery_clicked(this);"> <label for="hq_pd">Allowed</label>
+					<input name="hq_partial_delivery" type="checkbox" {if $form.hq_partial_delivery}checked{/if} id="hq_pd" onclick="hq_partial_delivery_clicked(this);"> <label for="hq_pd">Allowed</label>
 				</td>
 			</tr>
 		{/if}
 		
 		<tr>
 			<td valign=top><b class="form-label">Delivery Branches</b></td>
-			<td>You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
+			<td>You may select multiple branches to deliver <span class="text-danger" title="Required Field"> *</span><br>
 				<table class="small" border=0 id=tbl_branch>
 				{section name=i loop=$branch}
 				{assign var=bid value=$branch[i].id}
@@ -2956,9 +2968,11 @@ function show_upload_csv_popup(){
 						<table border=0 {if !is_array($form.deliver_to) or !in_array($branch[i].id,$form.deliver_to)}style="display:none"{/if}>
 						<tr>
 							<td colspan=6>
-							<i>Deliver by</i> 
-							<input size=1 name=delivery_vendor[{$branch[i].id}] value="{$form.delivery_vendor[$bid]|default:0}" readonly> 
-							<input size=50 id="vendor[{$branch[i].id}]" name=delivery_vendor_name[{$branch[i].id}] value="{$form.delivery_vendor_name[$bid]|default:"-same as above-"}" onclick="this.select()">
+							<div class="form-inline">
+							<i class="form-label">Deliver by</i> 
+							&nbsp;<input class="form-control" size=1 name=delivery_vendor[{$branch[i].id}] value="{$form.delivery_vendor[$bid]|default:0}" readonly> 
+							&nbsp;<input class="form-control" size=50 id="vendor[{$branch[i].id}]" name=delivery_vendor_name[{$branch[i].id}] value="{$form.delivery_vendor_name[$bid]|default:"-same as above-"}" onclick="this.select()">
+							</div>
 							<div id="autocomplete_vendor[{$branch[i].id}]" class="autocomplete"></div>
 							<script>
 							new Ajax.Autocompleter("vendor[{$branch[i].id}]", "autocomplete_vendor[{$branch[i].id}]", "ajax_autocomplete.php?a=ajax_search_vendor&type=po", {literal}{ paramName:"vendor", afterUpdateElement: function (obj, li) { {/literal}document.f_a.elements['delivery_vendor[{$branch[i].id}]'].value = li.title; {literal}}}{/literal});
@@ -2966,39 +2980,42 @@ function show_upload_csv_popup(){
 							</td>
 						</tr>
 						<tr>
-							<td><i>Delivery Date</i></td>
+							<div class="form-inline">
+								<td><i class="form-label">Delivery Date <span class="text-danger"> *</span></i></td>
 							<td>
-								<input type="text" name="delivery_date[{$bid}]" id="dt1[{$bid}]" value="{$form.delivery_date[$bid]}" size=12 onchange="check_date(this); {if $config.po_agreement_cancellation_days}delivery_date_changed('{$bid}', this);{/if}" onclick="if(this.value)this.select();"> 
-								<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
+								<input class="form-control mt-2" type="text" name="delivery_date[{$bid}]" id="dt1[{$bid}]" value="{$form.delivery_date[$bid]}" size=12 onchange="check_date(this); {if $config.po_agreement_cancellation_days}delivery_date_changed('{$bid}', this);{/if}" onclick="if(this.value)this.select();"> 
+								
 	
 								{if $allow_edit}
-								<img align=absbottom src="ui/calendar.gif" id="t_dt1[{$bid}]" style="cursor: pointer;" title="Select Date"/>
+								&nbsp;<img align=absbottom src="ui/calendar.gif" id="t_dt1[{$bid}]" style="cursor: pointer;" title="Select Date"/>
 								{/if}
 							</td>
-							<td><i>Cancellation Date</i></td>
+							<td><i class="form-label">Cancellation Date	 <span class="text-danger"> *</span></i></td>
 							<td>
-								<input type="text" name="cancel_date[{$bid}]" id="dt2[{$bid}]" value="{$form.cancel_date[$bid]}" size=12 onchange="check_date(this);" onclick="if(this.value)this.select();">
-								<span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-								 
+								<input class="form-control mt-2" type="text" name="cancel_date[{$bid}]" id="dt2[{$bid}]" value="{$form.cancel_date[$bid]}" size=12 onchange="check_date(this);" onclick="if(this.value)this.select();">
+								
 								{if $allow_edit}
-								<img align=absbottom src="ui/calendar.gif" id="t_dt2[{$bid}]" style="cursor: pointer;" title="Select Date"/>
+								&nbsp;<img align=absbottom src="ui/calendar.gif" id="t_dt2[{$bid}]" style="cursor: pointer;" title="Select Date"/>
 								{/if}
 							</td>
 							<td>
-								<input name="partial_delivery[{$bid}]" type="checkbox" {if $form.partial_delivery[$bid]}checked{/if} onclick="return partial_delivery_clicked(this);" id="pd{$bid}"> 
-								Allow Partial Delivery
+								<div class="form-label form-inline">
+									<input name="partial_delivery[{$bid}]" type="checkbox" {if $form.partial_delivery[$bid]}checked{/if} onclick="return partial_delivery_clicked(this);" id="pd{$bid}"> 
+								&nbsp;Allow Partial Delivery
+								</div>
 							</td>
+							</div>
 						</tr>
 						
 						<tr>
-						<td valign=top><i>User Selection</i></td>
+						<td valign=top><i class="form-label">User Selection</i></td>
 						<td colspan=4>
-							<i>Tick below to send PM / E-mail to users</i><br />
-							<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+							<i class="form-label mb-1">Tick below to send PM / E-mail to users</i><br />
+							<div id=user_select style="padding:20px;height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
 							{section name=u loop=`$user_list.$bid.user`}
 							 {assign var=u value=`$smarty.section.u.iteration-1`}
 							 {assign var=id value=`$user_list.$bid.user_id.$u`}
-							<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_list.$bid.user.$u}<br>
+							<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>&nbsp;{$user_list.$bid.user.$u}<br>
 							{/section}
 							</div>
 						</td>
@@ -3090,7 +3107,7 @@ function show_upload_csv_popup(){
 		</tr>
 		{if $BRANCH_CODE!='HQ' || count($form.deliver_to)>0 || $form.po_branch_id}
 		<tr>
-			<td><input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
+			<td><input class="btn btn-primary" id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();"></td>
 		</tr>
 		{/if}
 	</table>

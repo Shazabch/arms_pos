@@ -143,11 +143,13 @@ function export_adjustment_item(id,bid){
 		<tr>
 			<td colspan="2">
 				<fieldset>
-					<legend><b>Custom Selection</b></legend>
+					<div class="form-label">
+						<legend><b >Custom Selection&nbsp;</b></legend>
 					<ul style="list-style:none;">
 						<li> <input type="checkbox" name="cost_enable" value="1" checked /> Show Cost</li>
 						<li> <input type="checkbox" name="sp_enable" value="1" checked /> Show Selling Price</li>
 					</ul>
+					</div>
 				</fieldset>
 			</td>
 		</tr>
@@ -156,15 +158,17 @@ function export_adjustment_item(id,bid){
 	
 	<tr>
 		<td colspan="2" align="center">
-			This Adjustment will Print with <br> <b>A4 Portrait</b> Format.
+			<div class="alert alert-primary rounded mx-3">
+				This Adjustment will Print with <br> <b>A4 Portrait</b> Format.
+			</div>
 		</td>
 	</tr>
 	
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
 		<td colspan="2" align="center">
-			<input type=button value="Print" onclick="print_ok()">
-			<input type=button value="Cancel" onclick="curtain_clicked();">
+			<input type=button class="btn btn-primary" value="Print" onclick="print_ok()">
+			<input type=button class="btn btn-danger" value="Cancel" onclick="curtain_clicked();">
 		</td>
 	</tr>
 </table>

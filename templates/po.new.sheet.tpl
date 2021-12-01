@@ -138,7 +138,7 @@
 </b></p>
 {/if}
 
-<table width=100% style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border small body fixed_header" border=0 cellspacing=1 cellpadding=1 id=tbl_items>
+<table width=100% style="overflow: auto; padding:5px; background-color:#fe9 ;" class="input_no_border small body fixed_header" border=0 cellspacing=1 cellpadding=1 id=tbl_items>
 <thead>
 <!--START MULTIPLE DELIVER BRANCHES-->
 {if $view_hq}
