@@ -26,21 +26,23 @@
 
 {config_load file=site.conf}
 
-<div class="card mx-3">
+<div class="card mx-3" style="z-index: 1;">
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class="sortable table mb-0 text-md-nowrap  table-hover" id="branch_tbl"  width=100%>
-				<tr>
-					<th bgcolor="{#TB_CORNER#}" width="130">&nbsp;</th>
-					<th bgcolor="{#TB_COLHEADER#}">Code</th>
-					<th bgcolor="{#TB_COLHEADER#}">Company Name</th>
-					<th bgcolor="{#TB_COLHEADER#}">Company Registration No.</th>
-					<th bgcolor="{#TB_COLHEADER#}">Contact Person</th>
-					<th bgcolor="{#TB_COLHEADER#}">GST Registration Number</th>
-					{if $config.enable_reorder_integration}
-						<th bgcolor="{#TB_COLHEADER#}">Integration Code</th>
-					{/if}
-				</tr>
+				<thead class="bg-gray-100" style="height: 25px;">
+					<tr>
+						<th  width="130">&nbsp;</th>
+						<th>Code</th>
+						<th>Company Name</th>
+						<th>Company Registration No.</th>
+						<th>Contact Person</th>
+						<th>GST Registration Number</th>
+						{if $config.enable_reorder_integration}
+							<th>Integration Code</th>
+						{/if}
+					</tr>
+				</thead>
 				{section name=i loop=$branches}
 					<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
 					<td bgcolor="{#TB_ROWHEADER#}" nowrap>

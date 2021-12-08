@@ -172,7 +172,7 @@ var AUTO_REDEMP_SETUP = {
         </table>
         
         <p>
-            <input type="button" value="Save" id="btn_save" />
+            <input class="btn btn-primary" type="button" value="Save" id="btn_save" />
             <span id="span_saving" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Updating...</span>
         </p>
     </form>

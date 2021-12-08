@@ -1,4 +1,4 @@
-<div class="row ml-5">
+<div class="row">
 	<div class="col">
 		<b class="form-label">Shelf No From</b>
 <select class="form-control" name='shelf_no_from'>
@@ -20,7 +20,7 @@
 	{/foreach}
 </select>	
 </div>
-<div class="form-label">
+<div class="form-label mt-4">
 	<input type='checkbox' name='all_shelf_no' onChange='toggle_all_shelf_no();' {if $smarty.request.all_shelf_no}checked {/if}> <b>&nbsp;All</b>
 <script>toggle_all_shelf_no();</script>
 </div>

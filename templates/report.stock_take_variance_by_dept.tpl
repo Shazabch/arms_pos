@@ -450,8 +450,10 @@ function change_stock_take_type(clicked_sel){
 			
 			<div class="form-label form-inline">
 				<span id="span_group_by_sku" style="{if !$smarty.request.dept_id}display:none;{/if}">
-					<input type="checkbox" name="group_by_sku" id="inp_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> 
-					<label for="inp_group_by_sku"><b>Group by SKU</b></label>
+					<div class="form-label form-inline mt-2">
+						<input type="checkbox" name="group_by_sku" id="inp_group_by_sku" {if $smarty.request.group_by_sku}checked {/if} value="1" /> 
+					<label for="inp_group_by_sku"><b>&nbsp;Group by SKU</b></label>
+					</div>
 				</span>
 			</div>
 			

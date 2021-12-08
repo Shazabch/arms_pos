@@ -203,8 +203,12 @@ function showMore(){
 	{include file="pos_live.all_counters.tpl"}
 {/if}
 <br>
-<div id="cc_tracking">
-{include file="pos_live.cc_tracking_error.tpl"}
+<div class="card mx-3">
+	<div class="card-body">
+		<div id="cc_tracking">
+			{include file="pos_live.cc_tracking_error.tpl"}
+			</div>
+	</div>
 </div>
 
 {literal}

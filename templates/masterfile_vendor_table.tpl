@@ -52,21 +52,21 @@ REVISION HISTORY
 
 <div class="table-responsive">
 	<table  class="sortable table mb-0 text-md-nowrap  table-hover" id="vendor_tbl"  width=100%>
-		<thead style="height: 25px;">
+		<thead style="height: 25px;" class="bg-gray-200">
 			<tr>
 				{if $sessioninfo.privilege.MST_VENDOR}
-				<th bgcolor={#TB_CORNER#} width=70>&nbsp;</th>
+				<th  width="70">&nbsp;</th>
 				{/if}
-				<th bgcolor={#TB_COLHEADER#} width="200" >&nbsp;</th>
-				<th bgcolor={#TB_COLHEADER#}>Code</th>
-				<th bgcolor={#TB_COLHEADER#}>Description</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Company No</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>GST Registration Number</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Address</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Phone #1</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Phone #2</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Fax No.</th>
-				<th bgcolor={#TB_COLHEADER#}>Contact</th>
+				<th  width="130">&nbsp;</th>
+				<th>Code</th>
+				<th>Description</th>
+				<th nowrap>Company No</th>
+				<th nowrap>GST Registration Number</th>
+				<th nowrap>Address</th>
+				<th nowrap>Phone #1</th>
+				<th nowrap>Phone #2</th>
+				<th nowrap>Fax No.</th>
+				<th>Contact</th>
 				</tr>
 		</thead>
 		{section name=i loop=$vendors}

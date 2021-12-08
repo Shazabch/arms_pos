@@ -124,7 +124,7 @@ function display_hide_company_logo(){
 {/literal}
 </script>
 
-<form name="f_b" method="post" target="if1" style="z-index: 100900000;" enctype="multipart/form-data" onSubmit="return false;">
+<form name="f_b" method="post" target="if1" style="padding: 10px;" enctype="multipart/form-data" onSubmit="return false;">
 	<div id="bmsg" style="padding:10 0 10 0px;"></div>
 	
 	<input type="hidden" name="a" value="ajax_update_branch" />
@@ -136,20 +136,20 @@ function display_hide_company_logo(){
 		<td valign=top>
 			<table>
 			<tr>
-				<td><b>Code</b></td>
+				<td><b class="form-label">Code <span class="text-danger" title="Required Field"> *</span></b></td>
 				<td>
-					<input onBlur="uc(this)" {if !$allow_add_branch || $form.code eq 'HQ'}readonly {/if} name="code" size="15" maxlength="15" value="{$form.code}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+					<input class="form-control" onBlur="uc(this)" {if !$allow_add_branch || $form.code eq 'HQ'}readonly {/if} name="code" size="15" maxlength="15" value="{$form.code}" />
 				</td>
 			</tr>
 			<tr>
-				<td><b>Report Prefix</b></td>
+				<td><b class="form-label">Report Prefix <span class="text-danger " title="Required Field"> *</span></b></td>
 				<td>
-					<input onBlur="uc(this)" {if !$allow_add_branch || $form.code eq 'HQ'}readonly {/if} name="report_prefix" size="5" maxlength="5" value="{$form.report_prefix}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+					<input class="form-control" onBlur="uc(this)" {if !$allow_add_branch || $form.code eq 'HQ'}readonly {/if} name="report_prefix" size="5" maxlength="5" value="{$form.report_prefix}" /> 
 				</td>
 			</tr>
 			<tr>
-				<td><b>Company Name</b></td>
-				<td><input name="description" size="30" value="{$form.description}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+				<td><b class="form-label">Company Name<span class="text-danger " title="Required Field"> *</span></b></td>
+				<td><input class="form-control" name="description" size="30" value="{$form.description}" /> </td>
 			</tr>
 			<tr id="hide_company_name" {if $form.is_vertical_logo neq 1}style="display:none;" {/if}>
 				<td colspan="2">
@@ -157,65 +157,67 @@ function display_hide_company_logo(){
 				</td>
 			</tr>
 			<tr>
-				<td><b>Registration No.</b></td>
-				<td><input onBlur="uc(this)" name="company_no" maxlength="30" size="20" value="{$form.company_no}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+				<td><b class="form-label">Registration No.<span class="text-danger " title="Required Field"> *</span></b></td>
+				<td><input class="form-control" onBlur="uc(this)" name="company_no" maxlength="30" size="20" value="{$form.company_no}" /> </td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Phone #1</b></td>
-				<td><input name="phone_1" size="20" value="{$form.phone_1}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+				<td valign="top"><b class="form-label">Phone #1<span class="text-danger " title="Required Field"> *</span></b></td>
+				<td><input class="form-control" name="phone_1" size="20" value="{$form.phone_1}" /></td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Phone #2</b></td>
-				<td><input name="phone_2" size="20" value="{$form.phone_2}" /></td>
+				<td valign="top"><b class="form-label">Phone #2</b></td>
+				<td><input class="form-control" name="phone_2" size="20" value="{$form.phone_2}" /></td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Phone #3</b></td>
-				<td><input name="phone_3" size="20" value="{$form.phone_3}" /></td>
+				<td valign="top"><b class="form-label">Phone #3</b></td>
+				<td><input class="form-control" name="phone_3" size="20" value="{$form.phone_3}" /></td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Contact Person</b></td>
-				<td><input onBlur="uc(this)" name="contact_person" size="30" value="{$form.contact_person}" /> <img src="ui/rq.gif" align="absbottom" title="Required Field"></td>
+				<td valign="top"><b class="form-label">Contact Person<span class="text-danger " title="Required Field"> *</span></b></td>
+				<td><input class="form-control" onBlur="uc(this)" name="contact_person" size="30" value="{$form.contact_person}" /></td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Contact Email</b></td>
-				<td><input onBlur="lc(this)" name="contact_email" size="20" value="{$form.contact_email}" /></td>
+				<td valign="top"><b class="form-label">Contact Email</b></td>
+				<td><input class="form-control" onBlur="lc(this)" name="contact_email" size="20" value="{$form.contact_email}" /></td>
 			</tr>
 			<tr>
-				<td valign="top"><b>Counter Limit</b></td>
+				<td valign="top"><b class="form-label">Counter Limit</b></td>
 				<td>
-					<input type="text" name="counter_limit" size="5" {if $sessioninfo.id ne 1}readonly {/if} value="{$form.counter_limit}" />
+					<input class="form-control" type="text" name="counter_limit" size="5" {if $sessioninfo.id ne 1}readonly {/if} value="{$form.counter_limit}" />
 				</td>
 			</tr>
 			{if $config.consignment_modules}
 				<tr>
-					<td valign="top"><b>Department</b></td>
+					<td valign="top"><b class="form-label">Department</b></td>
 					<td>
-						<input onBlur="lc(this)" name="con_dept_name" size="30" maxlength="100" value="{$form.con_dept_name}" />
+						<input class="form-control" onBlur="lc(this)" name="con_dept_name" size="30" maxlength="100" value="{$form.con_dept_name}" />
 					</td>
 				</tr>
 				<tr>
-					<td valign="top"><b>Terms</b></td>
+					<td valign="top"><b class="form-label">Terms</b></td>
 					<td>
-						<input onBlur="lc(this)" name="con_terms" size="10" maxlength="10" value="{$form.con_terms}" />
+						<input class="form-control" onBlur="lc(this)" name="con_terms" size="10" maxlength="10" value="{$form.con_terms}" />
 					</td>
 				</tr>
 				<tr>
-					<td valign="top"><b>Consignment Lost Invoice Discount</b></td>
+					<td valign="top"><b class="form-label">Consignment Lost Invoice Discount</b></td>
 					<td>
-						<input onBlur="check_lost_inv_disc(this);" name="con_lost_ci_discount" size="5" value="{$form.con_lost_ci_discount}" /> %
+						<input class="form-control" onBlur="check_lost_inv_disc(this);" name="con_lost_ci_discount" size="5" value="{$form.con_lost_ci_discount}" /> %
 					</td>
 				</tr>
 				<tr>
-					<td valign="top"><b>Allow edit selling price in Consingment Invoice</b></td>
+					<div class="form-label">
+						<td valign="top"><b >Allow edit selling price in Consingment Invoice</b></td>
 					<td>
 						<input type="checkbox" name="ci_allow_edit_selling_price" value="1" {if $form.ci_allow_edit_selling_price}checked {/if} />
 					</td>
+					</div>
 				</tr>
 				<tr>
-					<td valign="top"><b>Monthly report settings</b></td>
+					<td valign="top"><b class="form-label">Monthly report settings</b></td>
 					<td>
-						<b>Sort by</b>
-						<select name="con_sort_by" id="sort_by_id">
+						<b class="form-label">Sort by</b>
+						<select class="form-control" name="con_sort_by" id="sort_by_id">
 							<option value="artno" {if $form.con_sort_by eq 'artno'}selected {/if}>Artno</option>
 							<option value="super" {if $form.con_sort_by eq 'super'}selected {/if}>Supermarket Code, Artno</option>
 							<option value="price" {if $form.con_sort_by eq 'price'}selected {/if}>Price, Artno</option>
@@ -231,10 +233,10 @@ function display_hide_company_logo(){
 			{/if}
 			{if $config.masterfile_branch_region and (!$form.id or $form.id>1)}
 				<tr id="tr_region_row">
-					<td valign="top"><b>Region</b></td>
+					<td valign="top"><b class="form-label">Region</b></td>
 					<td>
 						<input type="hidden" name="old_region" value="{$form.region}" />
-						<select name="region">
+						<select class="form-control" name="region">
 							<option value="">--</option>
 							{foreach from=$config.masterfile_branch_region key=region_code item=region}
 								<option value="{$region_code}" {if $form.region eq $region_code}selected {/if}>{$region.name}</option>
@@ -250,9 +252,11 @@ function display_hide_company_logo(){
 			{/if}
 			
 			<tr>
-				<td valign="top"><b>Timezone </b>(<a href="#" onClick="alert('This feature only available at counter live v192 or above (counter BETA v341 or above).');">?</a>)</td>
+				<div class="form-label">
+					<td valign="top"><b class="form-label">Timezone </b>(<a href="#" onClick="alert('This feature only available at counter live v192 or above (counter BETA v341 or above).');">?</a>)</td>
+				</div>
 				<td>
-					<select name="timezone">
+					<select class="form-control" name="timezone">
 						<option value="">-- Please Select --</option>
 						{foreach from=$timezone key=k item=tz}
 							<option value="{$k}" {if $form.timezone eq $k}selected {/if}>{$tz}</option>
@@ -263,9 +267,9 @@ function display_hide_company_logo(){
 		
 			{if $config.consignment_modules and $config.enable_consignment_transport_note and $config.enable_transporter_masterfile}
 				<tr>
-					<td align="top"><b>Transporter</b></td>
+					<td align="top"><b class="form-label">Transporter</b></td>
 					<td>
-						<select name="transporter_id">
+						<select class="form-control" name="transporter_id">
 							<option value="0">-- None --</option>
 							{foreach from=$transporters key=tid item=r}
 								<option value="{$tid}" {if $form.transporter_id eq $tid}selected {/if}>{$r.code} - {$r.company_name}</option>
@@ -276,9 +280,9 @@ function display_hide_company_logo(){
 			{/if}
 		
 			<tr>
-				<td><b>Can change price when in-active</b></td>
+				<td><b class="form-label">Can change price when in-active</b></td>
 				<td>
-					<select name="inactive_change_price">
+					<select class="form-control" name="inactive_change_price">
 						<option value="0">No</option>
 						<option value="1" {if $form.inactive_change_price}selected {/if}>YES</option>
 					</select>
@@ -286,27 +290,29 @@ function display_hide_company_logo(){
 			</tr>
 			{if $config.consignment_modules}
 				<tr>
-					<td><b>Transaction End Date</b></td>
+					<td><b class="form-label">Transaction End Date</b></td>
 					<td>
-						<b>Date</b> <input size="10" type="text" name="trans_end_date" value="{$form.trans_end_date}" id="trans_end_date">
-						<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Transaction End Date">
+						<div class="form-inline">
+							<b class="form-label">Date</b> &nbsp;<input class="form-control" size="10" type="text" name="trans_end_date" value="{$form.trans_end_date}" id="trans_end_date">
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Transaction End Date">
+						</div>
 					</td>
 				</tr>
 			{/if}
 			{if $config.masterfile_use_branch_type}
 				<tr>
-					<td valign="top"><b>Branch's Type</b></td>
+					<td valign="top"><b class="form-label">Branch's Type</b></td>
 					<td>
-						<select name="type" onchange="check_branch_type(this);">
+						<select class="form-control" name="type" onchange="check_branch_type(this);">
 							<option value="branch" {if $form.type eq 'branch'}selected {/if}>Own Branch</option>
 							<option value="franchise" {if $form.type eq 'franchise'}selected {/if}>Franchise</option>
 						</select>
 					</td>
 				</tr>
 				<tr id="debtor" {if $form.type ne "franchise"}style="display:none;"{/if}>
-					<td valign="top"><b>Debtor</b></td>
+					<td valign="top"><b class="form-label">Debtor</b></td>
 					<td>
-						<select name="debtor_id" {if $form.type ne "franchise"}disabled{/if} style="width:206px;">
+						<select class="form-control" name="debtor_id" {if $form.type ne "franchise"}disabled{/if} style="width:206px;">
 							{foreach from=$debtors key=r item=i}
 								<option value="{$i.id}" {if $form.debtor_id eq $i.id}selected {/if}>{$i.code} - {$i.description}</option>
 							{/foreach}
@@ -316,27 +322,29 @@ function display_hide_company_logo(){
 			{/if}
 
 			<tr>
-				<td valign="top"><b>Integration Code</b></td>
-				<td><input name="integration_code" size="20" value="{$form.integration_code}" onChange="integration_code_changed();" maxlength="10" /></td>
+				<td valign="top"><b class="form-label">Integration Code</b></td>
+				<td><input class="form-control" name="integration_code" size="20" value="{$form.integration_code}" onChange="integration_code_changed();" maxlength="10" /></td>
 			</tr>
 
 			{if $config.enable_gst}
 				<tr>
-					<td><b>GST Registration Number</b></td>
-					<td><input name="gst_register_no" size="20" value="{$form.gst_register_no}" onChange="gst_reg_no_changed();" /></td>
+					<td><b class="form-label">GST Registration Number</b></td>
+					<td><input class="form-control" name="gst_register_no" size="20" value="{$form.gst_register_no}" onChange="gst_reg_no_changed();" /></td>
 				</tr>
 				<tr>
-					<td><b>GST Start Date</b></td>
+					<td><b class="form-label">GST Start Date</b></td>
 					<td>
-						<input size="10" type="text" name="gst_start_date" value="{$form.gst_start_date|ifzero:''}" id="gst_start_date" readonly  onChange="gst_reg_date_changed();" />
-						<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select GST Start Date">
+						<div class="form-inline">
+							<input size="10" type="text" name="gst_start_date" value="{$form.gst_start_date|ifzero:''}" id="gst_start_date" readonly  onChange="gst_reg_date_changed();" />
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select GST Start Date">
+						</div>
 					</td>
 				</tr>
 				{if $config.consignment_modules}
 					<tr>
-						<td><b>Export Type</b></td>
+						<td><b class="form-label">Export Type</b></td>
 						<td>
-							<select name="is_export">
+							<select class="form-control" name="is_export">
 								<option value="0" {if !$form.is_export}selected {/if}>Local</option>
 								<option value="1" {if $form.is_export == 1}selected {/if}>Foreign</option>
 								<option value="2" {if $form.is_export == 2}selected {/if}>Designated Areas</option>
@@ -345,21 +353,21 @@ function display_hide_company_logo(){
 					</tr>
 				{/if}
 				<tr>
-					<td><b>Account Code (Vendor)</b></td>
+					<td><b class="form-label">Account Code (Vendor)</b></td>
 					<td>
-						<input type="text" name="account_code" value="{$form.account_code}" />
+						<input class="form-control" type="text" name="account_code" value="{$form.account_code}" />
 					</td>
 				</tr>
 				<tr>
-					<td><b>Account Code (Debtor)</b></td>
+					<td><b class="form-label">Account Code (Debtor)</b></td>
 					<td>
-						<input type="text" name="account_code_debtor" value="{$form.account_code_debtor}" />
+						<input class="form-control" type="text" name="account_code_debtor" value="{$form.account_code_debtor}" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="4">
 						<fieldset>
-							<legend><b>GL Code</b></legend>
+							<legend><b class="form-label">GL Code</b></legend>
 							<table>
 								<tr>
 									<td><b>Sales Account Code</b></td>
@@ -379,31 +387,32 @@ function display_hide_company_logo(){
 				</tr>
 			{/if}
 				<tr>
-					<td valign=top><b>Branch Operation Time</b></td>
-					<td><textarea name="operation_time" rows="3" cols="30">{$form.operation_time}</textarea></td>
+					<td valign=top><b class="form-label">Branch Operation Time</b></td>
+					<td><textarea class="form-control" name="operation_time" rows="3" cols="30">{$form.operation_time}</textarea></td>
 				</tr>
 				<tr>
-					<td><b>Longitude </b>(<a href="/ui/getlocation/getlocation.png" target="_blank">?</a>)</td>
+						<td><div class="form-label"><b>Longitude </b>(<a href="/ui/getlocation/getlocation.png" target="_blank">?</a>)</div></td>
+					
 					<td>
-						<input type="text" name="longitude" value="{$form.longitude}" />
+						<input class="form-control" type="text" name="longitude" value="{$form.longitude}" />
 					</td>
 				</tr>
 				<tr>
-					<td><b>Latitude </b>(<a href="/ui/getlocation/getlocation.png" target="_blank">?</a>)</td>
+					<td><div class="form-label"><b>Latitude </b>(<a href="/ui/getlocation/getlocation.png" target="_blank">?</a>)</div></td>
 					<td>
-						<input type="text" name="latitude" value="{$form.latitude}" />
+						<input class="form-control" type="text" name="latitude" value="{$form.latitude}" />
 					</td>
 				</tr>
 				<tr>
-					<td><b>Warehouse Number</td>
+					<td><b class="form-label">Warehouse Number</td>
 					<td>
-						<input type="text" name="warehouse_number" value="{$form.warehouse_number}" />
+						<input class="form-control" type="text" name="warehouse_number" value="{$form.warehouse_number}" />
 					</td>
 				</tr>
 				<tr>
-					<td><b>Warehouse Name</b></td>
+					<td><b class="form-label">Warehouse Name</b></td>
 					<td>
-						<input type="text" name="warehouse_name" value="{$form.warehouse_name}" />
+						<input class="form-control" type="text" name="warehouse_name" value="{$form.warehouse_name}" />
 					</td>
 				</tr>		
 			</table>
@@ -411,17 +420,17 @@ function display_hide_company_logo(){
 
 		<!-- col #2 -->
 		<td valign=top >
-			<b>Address</b> <img src="ui/rq.gif" align="absbottom" title="Required Field"><br />
-			<textarea name="address" rows="5" cols="40">{$form.address}</textarea><br />
+			<b class="form-label">Address<span class="text-danger " title="Required Field"> *</span></b><br />
+			<textarea class="form-control" name="address" rows="5" cols="40">{$form.address}</textarea><br />
 	
-			<b>Deliver To</b><br /> 
-			<textarea name="deliver_to" rows="5" cols="40">{$form.deliver_to}</textarea><br /> 	
+			<b class="form-label">Deliver To</b><br /> 
+			<textarea class="form-control" name="deliver_to" rows="5" cols="40">{$form.deliver_to}</textarea><br /> 	
 			
 			<br />
-			<label><input name="use_branch_logo" type="checkbox" {if $form.logo}checked{/if}/><b>Branch Document Logo</b></label>
+			<label><div class="form-label"><input name="use_branch_logo" type="checkbox" {if $form.logo}checked{/if}/><b>Branch Document Logo</b></div></label>
 			(<a href="#" onClick="alert('This logo will be used in documents for this branch');">?</a>)&nbsp;&nbsp;
 			<input type="file" name="logo" onchange="upload_check();" /><br />
-			<div style="color:#0000ff; font-weight:bold;">
+			<div class="alert alert-primary rounded mt-2">
 				<ul>
 					<li>Please ensure the file is a valid image file (JPG/JPEG).</li>
 					<li>Uploaded logo will replace existing one.</li>
@@ -435,7 +444,7 @@ function display_hide_company_logo(){
 				<h2 style="color:grey;">Not set</h2>
 				{/if}
 			</div>
-			<div><input onchange="display_hide_company_logo()" id="is_vertical_logo" type="checkbox" name="is_vertical_logo" value="1" {if $form.is_vertical_logo eq 1}checked{/if} /><b>Logo is Vertical Size</b></div>
+			<div><div class="form-label"><input onchange="display_hide_company_logo()" id="is_vertical_logo" type="checkbox" name="is_vertical_logo" value="1" {if $form.is_vertical_logo eq 1}checked{/if} /><b>&nbsp;Logo is Vertical Size</b></div></div>
 		</td>
 	</tr>
 </table>
@@ -465,9 +474,9 @@ function display_hide_company_logo(){
 	<div style="height:120px;border:2px solid black;overflow:auto;">
 		<table>
 			<tr>
-				<td><b>Copy Selling Prices from branch</b></td>
+				<td><b class="form-label">Copy Selling Prices from branch</b></td>
 				<td>
-					<select name="copy_selling_price">
+					<select class="form-control" name="copy_selling_price">
 					<option value="">--</option>
 					{foreach from=$branches key=brkey item=br}
 					<option value="{$br.id}">{$br.code}</option>
@@ -476,9 +485,9 @@ function display_hide_company_logo(){
 				</td>
 			</tr>
 			<tr>
-				<td><b>Copy Block PO from branch</b></td>
+				<td><b class="form-label">Copy Block PO from branch</b></td>
 				<td>
-					<select name="copy_block_po">
+					<select class="form-control" name="copy_block_po">
 					<option value="">--</option>
 					{foreach from=$branches key=brkey item=br}
 					<option value="{$br.id}">{$br.code}</option>
@@ -487,9 +496,9 @@ function display_hide_company_logo(){
 				</td>
 			</tr>
 			<tr>
-				<td><b>Copy POS Settings from branch</b></td>
+				<td><b class="form-label">Copy POS Settings from branch</b></td>
 				<td>
-					<select name="copy_pos_settings">
+					<select class="form-control" name="copy_pos_settings">
 					<option value="">--</option>
 					{foreach from=$branches key=brkey item=br}
 					<option value="{$br.id}">{$br.code}</option>
@@ -498,9 +507,9 @@ function display_hide_company_logo(){
 				</td>
 			</tr>
 			<tr>
-				<td><b>Copy Member Discount from branch</b></td>
+				<td><b class="form-label">Copy Member Discount from branch</b></td>
 				<td>
-					<select name="copy_discount">
+					<select class="form-control" name="copy_discount">
 					<option value="">--</option>
 					{foreach from=$branches key=brkey item=br}
 					<option value="{$br.id}">{$br.code}</option>
@@ -509,9 +518,9 @@ function display_hide_company_logo(){
 				</td>
 			</tr>
 			<tr>
-				<td><b>Copy Member Points from branch</b></td>
+				<td><b class="form-label">Copy Member Points from branch</b></td>
 				<td>
-					<select name="copy_point">
+					<select class="form-control" name="copy_point">
 					<option value="">--</option>
 					{foreach from=$branches key=brkey item=br}
 					<option value="{$br.id}">{$br.code}</option>
@@ -525,8 +534,8 @@ function display_hide_company_logo(){
 
 	<br />
 	<div align="center" id="div_branch_btn_area">
-		<input type="button" value="Confirm" onClick="update_branch();" />  
-		<input type="button" value="Close" onclick="hidediv('div_branch');" />
+		<input type="button" class="btn btn-primary" value="Confirm" onClick="update_branch();" />  
+		<input type="button" class="btn btn-danger" value="Close" onclick="hidediv('div_branch');" />
 		<div id="div_branch_processing_msg"></div>
 	</div>
 </form>

@@ -48,26 +48,39 @@ save_discount_table = function(){
 {/literal}
 </script>
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(default_curtain_clicked())" accesskey="C"><img src=ui/closewin.png border=0 align=absmiddle></a><br><u>C</u>lose (Alt+C)</div>
-<h2>{$branch_info.code}<br />{$branch_info.description}</h2>
+<div class=" text-white" style="background-color: #ee335e;">
+	<div class="small text-white" style="position:absolute; right:10; text-align:right;"><a href="javascript:void(default_curtain_clicked())" accesskey="C"><img class="mt-2 mr-2" src=ui/closewin.png border=0 align=absmiddle ></a><br><span class="mr-2"><u>C</u>lose (Alt+C)</span></div>
+<h2 style="padding: 10px;">{$branch_info.code}<br />{$branch_info.description}</h2>
+</div>
 
 <form name="form_discount_table" id="form_discount_table" onSubmit="return false;">
 <input type="hidden" name="branch_id" value="{$branch_info.id}" />
-<table cellpadding="5" width="100%">
-<tr height=24 bgcolor=#ffee99>
-	<th>Discount Type</th><th>Discount %</th><th>Discount Type</th><th>Discount %</th>
-</tr>
-{assign var=ti value=0}
-{foreach from=$trade_info key=tid item=r name=ti}
-	{if $ti%2 eq 0}<tr>{/if}
-		<td><b>{$r.code}</b></td>
-		<td align="center"><input type="text" name="trade_discount[{$tid}]" size="10" style="text-align:right;" onChange="check_value(this);" value="{$r.value|ifzero:''}" /> %</td>
-	{if $ti%2 eq 1}</tr>{/if}
-	{assign var=ti value=$ti+1}
-{/foreach}
-</table>
+<div class="table-responsive">
+	<table cellpadding="5" width="100%">
+		
+			<thead style="height: 25px;" class="bg-gray-100">
+				<tr height=24 >
+					<th>Discount Type</th><th>Discount %</th><th>Discount Type</th><th>Discount %</th>
+				</tr>
+			</thead>
+		
+		{assign var=ti value=0}
+		{foreach from=$trade_info key=tid item=r name=ti}
+			{if $ti%2 eq 0}
+			<tbody class="fs-08">
+				<tr>{/if}
+					<td><b class="form-label">{$r.code}</b></td>
+					<td align="center"><div class="form-inline">
+						<input class="form-control" type="text" name="trade_discount[{$tid}]" size="10" style="text-align:right;" onChange="check_value(this);" value="{$r.value|ifzero:''}" />%
+					</div></td>
+				{if $ti%2 eq 1}</tr>
+			</tbody>{/if}
+			{assign var=ti value=$ti+1}
+		{/foreach}
+		</table>
+</div>
 <p style="text-align:center;">
-	<input type="button" value="Save" id="btn_save_discount_table" onClick="save_discount_table();" />
-	<input type="button" value="Close" onClick="close_discount_table();" />
+	<input class="btn btn-primary" type="button" value="Save" id="btn_save_discount_table" onClick="save_discount_table();" />
+	<input class="btn btn-danger" type="button" value="Close" onClick="close_discount_table();" />
 </p>
 </form>

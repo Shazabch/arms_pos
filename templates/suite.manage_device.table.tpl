@@ -8,17 +8,19 @@
 	<div class="card-body">
 		<div class="table-responsive">
 			<table class=" table mb-0 text-md-nowrap  table-hover">
-				<tr>
-					<th bgcolor="{#TB_CORNER#}" width="40">&nbsp;</th>
-					<th bgcolor="{#TB_COLHEADER#}">Device Code</th>
-					<th bgcolor="{#TB_COLHEADER#}">Device Name</th>
-					<th bgcolor="{#TB_COLHEADER#}">Type</th>
-					{if BRANCH_CODE eq 'HQ'}
-						<th bgcolor="{#TB_COLHEADER#}">Allowed Branches</th>
-					{/if}
-					<th bgcolor="{#TB_COLHEADER#}">Active Status</th>
-					<th bgcolor="{#TB_COLHEADER#}">Pair Status</th>
-				</tr>
+				<thead class="bg-gray-100" style="height: 30px;">
+					<tr>
+						<th  width="60">&nbsp;</th>
+						<th>Device Code</th>
+						<th>Device Name</th>
+						<th>Type</th>
+						{if BRANCH_CODE eq 'HQ'}
+							<th>Allowed Branches</th>
+						{/if}
+						<th>Active Status</th>
+						<th>Pair Status</th>
+					</tr>
+				</thead>
 				
 				{foreach from=$device_list key=device_guid item=r}
 					<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">

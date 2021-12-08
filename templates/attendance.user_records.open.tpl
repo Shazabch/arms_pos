@@ -142,6 +142,6 @@
 </form>
 
 <p id="p_action" align="center">
-	<input type="button" value="Save" id="btn_save" onClick="DAILY_RECORD_DIALOG.save_clicked();" />
-	<input type="button" value="Close" onClick="DAILY_RECORD_DIALOG.close();" />
+	<input class="btn btn-primary" type="button" value="Save" id="btn_save" onClick="DAILY_RECORD_DIALOG.save_clicked();" />
+	<input class="btn btn-danger" type="button" value="Close" onClick="DAILY_RECORD_DIALOG.close();" />
 </p>

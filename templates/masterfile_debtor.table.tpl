@@ -45,19 +45,19 @@ REVISION HISTORY
 
 <div class="table-responsive">
 	<table class="sortable table mb-0 text-md-nowrap  table-hover mt-3" id="debtor_tbl" width="100%">
-		<thead style="height:25px;">
+		<thead style="height:30px;">
 			<tr>
-				<th bgcolor={#TB_CORNER#} width=40>&nbsp;</th>
-				<th bgcolor={#TB_COLHEADER#}>Code</th>
-				<th bgcolor={#TB_COLHEADER#}>Description</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Company No</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Address (Bill)</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Address (Deliver)</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Area</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Phone #1</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Phone #2</th>
-				<th bgcolor={#TB_COLHEADER#} nowrap>Fax No.</th>
-				<th bgcolor={#TB_COLHEADER#}>Contact</th>
+				<th width=80>&nbsp;</th>
+				<th>Code</th>
+				<th>Description</th>
+				<th nowrap>Company No</th>
+				<th nowrap>Address (Bill)</th>
+				<th nowrap>Address (Deliver)</th>
+				<th nowrap>Area</th>
+				<th nowrap>Phone #1</th>
+				<th nowrap>Phone #2</th>
+				<th nowrap>Fax No.</th>
+				<th>Contact</th>
 				{if $config.enable_gst}
 					<th bgcolor="{#TB_COLHEADER#}">GST No.</th>
 				{/if}

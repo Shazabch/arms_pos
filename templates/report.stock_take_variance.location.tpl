@@ -1,5 +1,5 @@
 
-	<div class="row ml-2">
+	<div class="row ">
 		<div class="col">
 			<b class="form-label">Location From</b>
 	<select class="form-control" name='location_from' onchange="load_shelf_no();">
@@ -23,7 +23,7 @@
 	
 	
 	</div>
-	<div class="form-label mt-2">
+	<div class="form-label mt-4">
 		<input type='checkbox' name='all_location' onChange='toggle_all_location(); load_shelf_no();' {if $smarty.request.all_location}checked {/if}> <b>&nbsp;All</b>
 	<script>toggle_all_location();</script>
 	</div>

@@ -89,9 +89,10 @@ var phpself = '{$smarty.server.PHP_SELF}';
 {literal}
 function show_blocklist(id,n)
 {
-	curtain(true);
-	center_div('div_debtor_blocklist');
-	$('div_debtor_blocklist').show();
+	//curtain(true);
+	//center_div('div_debtor_blocklist');
+	//$('div_debtor_blocklist').show();
+	jQuery('#div_debtor_blocklist').modal('show');
 	$('div_debtor_blocklist_content').update(_loading_);
 	new Ajax.Updater("div_debtor_blocklist_content", "masterfile_debtor.php",{
 	    parameters:  'a=load_blocklist&debtor_id='+id,
@@ -342,17 +343,20 @@ function check_gst_allow_edit(){
     </div>
 </div>
 
-
-<div id="div_debtor_blocklist" class="debtor_details" style="position:absolute;z-index:10000;width:800px;height:250px;display:none;border:2px solid #CE0000;">
-	<div id="div_debtor_blocklist_header" class="debtor_details_header"><span style="float:left;">Branch Block List</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="default_curtain_clicked();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	
-	<div id="div_debtor_blocklist_content" class="debtor_details_content" style="height:240px;overflow-x:auto;overflow-y:auto;max-height:92%;"></div>
+<div class="modal" id="div_debtor_blocklist">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_debtor_blocklist_header">
+                <h6 class="modal-title text-white">Branch Block List</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body" id="div_debtor_blocklist_content" class="debtor_details_content" >
+                
+            </div>
+        </div>
+    </div>
 </div>
+
 
 {include file=footer.tpl}
 

@@ -25,17 +25,20 @@
 <input type=hidden name=reject_comment value="">
 <input type=hidden name=a value="create_po">
 <input type=hidden name=department_id value={$smarty.request.department_id}>
-<p>
-- Select items to approve or reject.
-</p>
 
 <div class="card mx-3">
 	<div class="card-body">
-		<div class="tabe-responsive">
-			<table id=tb border=0 cellspacing=1 cellpadding=2 width=100% style="border:1px solid #000">
+<p>
+<div class="alert alert-primary rounded">
+	- Select items to approve or reject.
+</div>
+</p>
+
+		<div class="table-responsive">
+			<table id=tb class="table mb-0 text-md-nowrap  table-hover" width=100% >
 			<thead class="bg-gray-100">
 				<tr >
-					<th align=left><input type="checkbox" onclick="CheckAll(this);"></th>
+					<th align=left ><input type="checkbox" onclick="CheckAll(this);"></th>
 					<th>ARMS Code</th>
 					<th>Artno/Mcode</th>
 					<th>SKU</th>
@@ -124,9 +127,9 @@
 </form>
 
 <p id=submitbtn align=center>
-<input name=bsubmit type=button value="Approve Selected" style="font:bold 20px Arial; background-color:#f90; color:#fff;" onclick="do_approve();">
+<input name=bsubmit class="btn btn-warning" type=button value="Approve Selected"  onclick="do_approve();">
 &nbsp;&nbsp;&nbsp;
-<input type=button value="Reject Selected" style="font:bold 20px Arial; background-color:#091; color:#fff;" onclick="do_delete()">
+<input type=button  class="btn btn-success" value="Reject Selected"  onclick="do_delete()">
 </p>
 {else}
 <p><img src=/ui/bananaman.gif align=absmiddle> There is no PO Request for this department</p>

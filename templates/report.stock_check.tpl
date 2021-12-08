@@ -323,17 +323,18 @@ function toggle_all_shelf_no() {
 			
 			
 		<div class="row">
+			<div class="col-md-6">
 			<span id="span_location">
-				<div class="col">
 					{include file='report.stock_take_variance.location.tpl'}
-				</div>
 			</span>
+		</div>
+
+		<div class="col-md-6">
 			<span id="span_shelf_no">
-				<div class="col">
 					{include file='report.stock_take_variance.shelf_no.tpl'}
-				</div>
 			</span>
-				<div class="col">
+		</div>
+				<div class="col-md-3">
 					<span>
 						<b class="form-label">Vendor</b>
 						<select class="form-control" name="vendor_id">
@@ -345,7 +346,7 @@ function toggle_all_shelf_no() {
 					</span>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<span>
 						<b class="form-label">Brand</b>
 						<select class="form-control" name="brand_id">
@@ -362,7 +363,7 @@ function toggle_all_shelf_no() {
 			<p>
 				<table>
 					<tr>
-						<td><b style="float:left;" class="form-label">Department</b></td>
+						<td><b style="float:left;" class="form-label mt-2">Department</b></td>
 						<td><input class="form-control" name='inp_department' type='hidden' id='inp_department' value="{$smarty.request.inp_department}" />&nbsp;<input type='checkbox' id="checkbox_department" name='all_department' {if $smarty.request.inp_department eq '' } checked{/if} onchange="departmentselect_all()" ><b>&nbsp;All</b></td>
 					</tr>
 					<tr>

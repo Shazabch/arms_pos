@@ -14,34 +14,40 @@
 
 {if $counters_error}
 	<h3>Counter Error</h3>
-	<table class="report_table">
-		<tr class="header">
-			{if $BRANCH_CODE eq 'HQ' and !$no_branch_code}
-				<th>Branch</th>
-			{/if}
-			<th>Counter</th>
-			<th>Error</th>
-			<th>Last Ping</th>
-		</tr>
-		{foreach from=$counters_error key=bid item=counter_list}
-			{foreach from=$counter_list key=counter_id item=r}
-				<tr>
+	<div class="table-responsive">
+		<table class="report_table mb-0 " style="width: 100%;">
+			<thead class="bg-gray-100">
+				<tr class="header">
 					{if $BRANCH_CODE eq 'HQ' and !$no_branch_code}
-						<td>{$r.info.branch_code}</td>
+						<th>Branch</th>
 					{/if}
-					<td>{$r.info.network_name}</td>
-					<td>
-						<ul style="color:red;">
-							{foreach from=$r.error_list item=e}
-								<li> {$e}</li>
-							{/foreach}
-						</ul>
-					</td>
-					<td>{$r.info.lastping}</td>
+					<th>Counter</th>
+					<th>Error</th>
+					<th>Last Ping</th>
 				</tr>
+			</thead>
+			{foreach from=$counters_error key=bid item=counter_list}
+				{foreach from=$counter_list key=counter_id item=r}
+					<tbody class="fs-08">
+						<tr>
+							{if $BRANCH_CODE eq 'HQ' and !$no_branch_code}
+								<td>{$r.info.branch_code}</td>
+							{/if}
+							<td>{$r.info.network_name}</td>
+							<td>
+								<ul class="mt-2" style="color:red;">
+									{foreach from=$r.error_list item=e}
+										<li> {$e}</li>
+									{/foreach}
+								</ul>
+							</td>
+							<td>{$r.info.lastping}</td>
+						</tr>
+					</tbody>
+				{/foreach}
 			{/foreach}
-		{/foreach}
-	</table>
+		</table>
+	</div>
 {/if}
 
 {if $ss_error}

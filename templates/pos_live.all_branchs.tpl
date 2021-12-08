@@ -52,7 +52,7 @@ function hide_context_menu()
 {/literal}
 
 {if !$all_branchs}
-	{if isset($smarty.request.submits)}<br />No data{/if}
+	{if isset($smarty.request.submits)}<br /><span class="mx-3 text-danger">No data</span>{/if}
 {else}
 	<!-- Popup menu -->
 	<div id="item_context_menu" style="display:none;position:absolute;">

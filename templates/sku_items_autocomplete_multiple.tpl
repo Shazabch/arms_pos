@@ -260,7 +260,7 @@ function add_sku_item(sku_group_id,branch_id,user_id){
 <td></td></tr>
 <tr>
 	<td width="200"><!--<input type=button value="Add" onClick="add_sku_to_list()" style="width:80px;">-->
-		<div style="position:absolute;width:300px;height:130px;margin-left:100px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group">
+		<div style="margin-top:13px;border:1px solid rgb(46, 102, 124);border-radius:3px;padding:6px;position:absolute;width:300px;height:130px;margin-left:150px;display:none;overflow-x:hidden;overflow-y:auto;" class="autocomplete" id="div_sku_group">
 		</div>
 		<input type="hidden" name="sku_group_load_count" value="0" id="sku_group_load_count">
 		<input type="button" class="btn btn-primary mt-3 ml-2" value="Add by Group" style="width:120px;"  onClick="load_SKU_Group()" />

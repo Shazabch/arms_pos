@@ -343,8 +343,8 @@ function unset_login_status(bid, cid, event){
 		</div>
 		<!-- End of Item Details-->
 
-		<h1>Branch: {$bcode}
-		</h1>
+		<h4 class="text-primary mx-3">Branch: {$bcode}
+		</h4>
 	{/if}
 	
 	<div id="div_counters_table">

@@ -59,27 +59,27 @@
 	<div class="card-body">
 		<form method=post class=form>
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<input type=hidden name=report_title value="{$report_title}">
-			<b class="form-label">From</b> 
+			<b class="form-label mt-2">From</b> 
 			<div class="form-inline">
-				<input class="form-control" size=17 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+				<input class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
 			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
 			</div>
 				</div>
 			
-			<div class="col-md-3">
-				<b class="form-label">To</b> 
+			<div class="col-md-4">
+				<b class="form-label mt-2">To</b> 
 			<div class="form-inline">
-				<input class="form-control" size=17 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+				<input class="form-control" size=23 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
 			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
 			</div>
 			</div>
 			
 			
-			<div class="col-md-3">
+			<div class="col-md-4">
 				{if $BRANCH_CODE eq 'HQ'}
-			<b class="form-label">Branch</b> <select class="form-control" name="branch_id">
+			<b class="form-label mt-2">Branch</b> <select class="form-control" name="branch_id">
 					<option value="">-- All --</option>
 					{foreach from=$branches item=b}
 					
@@ -107,8 +107,8 @@
 			{/if}
 			</div>
 			
-			<div class="col-md-3">
-				<b class="form-label">Department</b>
+			<div class="col-md-4">
+				<b class="form-label mt-2">Department</b>
 			<select class="form-control" name="department_id">
 			<option value=0>-- All --</option>
 			{foreach from=$departments item=dept}
@@ -117,18 +117,18 @@
 			</select>
 			</div>
 			
-			<div class="col-md-3">
-				<b class="form-label">By</b>
+			<div class="col-md-4">
+				<b class="form-label mt-2">By</b>
 			<select class="form-control" name="view_type">
 			<option value="day" {if $smarty.request.view_type eq 'day'}selected{/if}>Day</option>
 			<option value="week" {if $smarty.request.view_type eq 'week'}selected{/if}>Week</option>
 			</select>
 			</div>
 			
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class=" mt-4">
 					<input type=hidden class="btn btn-primary " name=submit value=1>
-			<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
+			<button class="btn btn-primary mt-2" name=show_report>{#SHOW_REPORT#}</button>
 			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
 			<button class="btn btn-info mt-2" name=output_excel>{#OUTPUT_EXCEL#}</button>
 			{/if}
@@ -136,7 +136,7 @@
 			</div>
 			</div>
 			<div class="alert alert-primary mt-2" style="max-width: 300px;">
-				Note: Report Maximum Shown 365 Days
+				<b>Note:</b> Report Maximum Shown 365 Days
 			</div>
 			</form>
 	</div>

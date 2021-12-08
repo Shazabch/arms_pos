@@ -693,9 +693,9 @@ var OUTLET_PHOTO_DIALOG = {
 		$('div_outlet_photo_dialog_content').update(_loading_);
 		
 		//show dialog
-		curtain(true);
-		center_div($('div_outlet_photo').show());
-			
+	//	curtain(true);
+	//	center_div($('div_outlet_photo').show());
+	jQuery('#div_outlet_photo').modal('show');		
 		var THIS = this;
 		var params = {
 			a: 'ajax_show_outlet_photo',
@@ -850,26 +850,27 @@ var OUTLET_PHOTO_DIALOG = {
 <!-- End of Div Sort Branch Sequence -->
 
 <!-- start payment vocher maintenance div -->
-<div class="ndiv" id="vvc_div" style="position:absolute;left:300;top:100;display:none;background-color: white;">
+<div class="ndiv mt-5 shadow" id="vvc_div" style="background-color: #fff;  position:absolute;left:550;top:120;display:none;z-index: 2;">
 {include file=masterfile_branch_index.vvc.tpl}
 </div>
-<div class="ndiv" >
-<div class="content" id="div_trade_discount" style="position:absolute;left:300;top:100;display:none;height:450px;width:500px;overflow-y:auto;z-index:10000;"></div>
+<div class="ndiv" style="" >
+<div class="content rounded" id="div_trade_discount" style="background-color: #fff; padding: 10px; border: 1px solid rgb(51, 48, 48); position:absolute;left:300;top:100;display:none;height:400px;width:500px;overflow-y:auto;z-index:10000;"></div>
 </div>
 <!-- end of div -->
 
 <!-- branch popup -->
-<div class="ndiv" id="div_branch" style="position:absolute;left:150;top:150;display:none;">
+<div class="ndiv shadow" id="div_branch" style="z-index: 2; background-color: #fff; position:absolute;margin-left:100px; margin-top:30px;display:none; width: 850px; height: 500px; overflow: auto;">
 	<div class="blur">
 		<div class="shadow">
 			<div class="content">
-				<div style="height:20px;background-color:#6883C6;position:absolute;left:0;top:0;width:100%;color:white;font-weight:bold;padding:2px;" id="div_branch_header">
-					<div class="small" style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(hidediv('div_branch'))"><img src="ui/closewin.png" border="0" align="absmiddle"></a></div>
-					Branch Information
+				<div style="height:30px;background-color:#6883C6; position:absolute;left:0;top:0;width:100%;color:white;font-weight:bold;padding:2px;" id="div_branch_header">
+					<div class="small" style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(hidediv('div_branch'))"><img class="mt-1" src="ui/closewin.png" border="0" align="absmiddle"></a></div>
+					<span class="ml-2">Branch Information</span>
 				</div>
 
-				<div id="div_branch_content" style="margin-top:20px;min-width:400px;min-height:400px;">
+				<div id="div_branch_content" style="margin-top:20px;">
 					{include file='masterfile_branch.open.tpl'}
+					
 				</div>
 			</div>
 		</div>
@@ -877,16 +878,21 @@ var OUTLET_PHOTO_DIALOG = {
 </div>
 
 <!-- branch outlet photo popup-->
-<div id="div_outlet_photo" class="curtain_popup" style="position:absolute;z-index:10005;width:550px;height:330px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_sa_photo_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;">
-		<span style="float:left;">Branch Outlet Photo</span>
-		<a style="float:right;" href="javascript:void(default_curtain_clicked())">
-			<img src="/ui/closewin.png" align="absmiddle" class="clickable"/>
-		</a>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_outlet_photo_dialog_content" style="padding:2px;"></div>
+
+<div class="modal" id="div_outlet_photo">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_sa_photo_dialog_header">
+                <h6 class="modal-title text-white">Branch Outlet Photo</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body" id="div_outlet_photo_dialog_content"  >
+                
+            </div>
+        </div>
+    </div>
 </div>
+
 <iframe name="if_outlet_photo" style="width:1px;height:1px;visibility:hidden;"></iframe>
 
 <!-- copy settings popup -->
@@ -894,15 +900,15 @@ var OUTLET_PHOTO_DIALOG = {
 	<div class="ndiv" id="div_cs" style="position:absolute;left:150;top:150;z-index:10000;display:none;">
 		<div class="blur">
 			<div class="shadow">
-				<div class="content">
-					<div style="height:20px;background-color:#6883C6;position:absolute;left:0;top:0;width:100%;color:white;font-weight:bold;padding:2px;" id="div_cs_header">
-						<div class="small" style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(hidediv('div_cs'))"><img src="ui/closewin.png" border=0 align="absmiddle"></a></div>
-						Copy Settings
+				<div class="content" style="background-color:white; padding: 15px; border-bottom: solid 1px #aebcce ;">
+					<div style="height:25px;background-color:#3d5a80;position:absolute;left:0;top:0;width:100%;color:white;font-weight:bold;padding:2px;" id="div_cs_header">
+						<div class="small" style="position:absolute; right:10; text-align:right;top:2px;"><a href="javascript:void(hidediv('div_cs'))"><img class=" mt-1" src="ui/closewin.png" border=0 align="absmiddle"></a></div>
+						<b class="ml-2 ">Copy Settings</b>
 					</div>
 
-					<div id="div_cs_content" style="margin-top:35px;min-width:100px;">
-						Copy &nbsp;
-						<select name="copy_type" id="copy_type">
+					<div id="div_cs_content" style="min-width:100px;">
+						<b class="form-label mt-4">Copy</b>
+						<select class="form-control" name="copy_type" id="copy_type">
 							<option value="">Please Select</option>
 							<option value="1">Selling Prices</option>
 							<option value="2">Block PO</option>
@@ -913,8 +919,8 @@ var OUTLET_PHOTO_DIALOG = {
 							<option value="7">Approval Flow</option>
 							<option value="8">Block GRN</option>
 						</select>
-						&nbsp;From branch
-						<select name="copy_from_bid" id="copy_from_bid">
+						<b class="form-label mt-2">From branch</b>
+						<select class="form-control" name="copy_from_bid" id="copy_from_bid">
 							<option value="">Please Select</option>
 							{foreach from=$branches key=r item=branch}
 								<option value="{$branch.id}">{$branch.code}</option>
@@ -926,8 +932,8 @@ var OUTLET_PHOTO_DIALOG = {
 						<div id="div_copying" style="margin-top:5px;padding:2px;color:black;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Copying... Please wait</div>
 					</div>
 					<div id="div_btn" align="center">
-						<input type="button" value="Copy" id="copy_btn" onclick="copy_settings_clicked(this);" />
-						<input type="button" value="Cancel" id="cancel_btn" onclick="curtain_clicked();" />
+						<input type="button" class="btn btn-primary" value="Copy" id="copy_btn" onclick="copy_settings_clicked(this);" />
+						<input type="button" class="btn btn-danger" value="Cancel" id="cancel_btn" onclick="curtain_clicked();" />
 						<input type="hidden" name="cbid" id="cbid" value="" />
 						<input type="hidden" name="a" value="branch_copy_settings" />
 					</div>

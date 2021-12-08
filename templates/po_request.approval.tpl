@@ -105,15 +105,16 @@ function CheckAll(obj)
 </div>
 
 
-<div id=reject_popup style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:250;height:120">
-<p align=center>
+
+<div class="card card-body" id=reject_popup style="display:none;position:absolute;z-index:10000;background:#fff;padding:5px;width:450;height:200">
+<p align=center class="mt-2">
 Are You Sure Want To Delete? <br>
 Please Enter Your Reject Comment :
-<p align=center><input id=reject_comment size=30>
+<p align=center><input class="form-control" id=reject_comment size=30>
 <br>
 <p align=center>
-<input type=button value="OK" onclick="close_popup(document.f_p.a.value);">&nbsp;&nbsp;&nbsp;
-<input type=button value="Cancel" onclick="cancel_popup();">
+<input type=button class="btn btn-primary " value="OK" onclick="close_popup(document.f_p.a.value);">&nbsp;&nbsp;&nbsp;
+<input type=button class="btn btn-danger " value="Cancel" onclick="cancel_popup();">
 </div>
 
 
@@ -162,9 +163,9 @@ Please Enter Your Reject Comment :
 	</div>
 </div>
 
-<div class="alert alert-primary mx-3 rounded">
+
 	<div id=request></div>
-</div>
+
 {include file=footer.tpl}
 
 <script>

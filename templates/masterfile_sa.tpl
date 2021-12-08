@@ -717,9 +717,9 @@ var SALES_AGENT_PHOTO_DIALOG = {
 		$('div_sa_photo_dialog_content').update(_loading_);
 		
 		// Show Dialog
-		curtain(true);
-		center_div($('div_sa_photo_dialog').show());
-		
+	//	curtain(true);
+	//	center_div($('div_sa_photo_dialog').show());
+	jQuery('#div_sa_photo_dialog').modal('show');	
 		var THIS = this;
 		var params = {
 			a: 'ajax_show_sa_photo',
@@ -846,16 +846,21 @@ var SEARCH_LEADER_DIALOG = {
 {/literal}
 
 {* SA Photo Dialog *}
-<div id="div_sa_photo_dialog" class="curtain_popup" style="position:absolute;z-index:10005;width:550px;height:330px;display:none;border:2px solid #CE0000;background-color:#FFFFFF;background-image:url(/ui/ndiv.jpg);background-repeat:repeat-x;padding:0;">
-	<div id="div_sa_photo_dialog_header" style="border:2px ridge #CE0000;color:white;background-color:#CE0000;padding:2px;cursor:default;"><span style="float:left;">Sales Agent Photo</span>
-		<span style="float:right;">
-			<img src="/ui/closewin.png" align="absmiddle" onClick="SALES_AGENT_PHOTO_DIALOG.close();" class="clickable"/>
-		</span>
-		<div style="clear:both;"></div>
-	</div>
-	<div id="div_sa_photo_dialog_content" style="padding:2px;">
-	</div>
+
+<div class="modal" id="div_sa_photo_dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header bg-danger" id="div_sa_photo_dialog_header">
+                <h6 class="modal-title text-white">Sales Agent Photo</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				<div style="clear:both;"></div>
+			</div>
+            <div class="modal-body" id="div_sa_photo_dialog_content"  >
+                
+            </div>
+        </div>
+    </div>
 </div>
+
 <iframe name="if_sa_photo" style="width:1px;height:1px;visibility:hidden;"></iframe>
 
 <div class="breadcrumb-header justify-content-between">

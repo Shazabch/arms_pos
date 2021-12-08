@@ -35,9 +35,10 @@ function multiple_reject_items(branch_id){
 
 function reject_items(n,branch_id){
 	no_delete = n;
-	center_div('reject_item');
-	curtain(true);
-	Element.show('reject_item');
+	//center_div('reject_item');
+	//curtain(true);
+	//Element.show('reject_item');
+	jQuery('#reject_item').modal('show');
 	document.f_p.branch_id.value=branch_id;
 }
 
@@ -124,17 +125,23 @@ function get_price_history(obj,id){
 	</div>
 </div>
 
-<div id=reject_item style="display:none;position:absolute;z-index:10000;background:#fff;border:2px solid #000;padding:5px;width:250;height:120">
-<p align=center>
-Enter the reason to reject request item:
-<br><br>
-<input id="reject_comment" size="30" maxlength="30" />
-<br><br>
-<input type=button value="Reject" onclick="close_popup();">&nbsp;&nbsp;&nbsp;
-<input type=button value="Cancel" onclick="reject_popup();">
-</p>
-
+<div class="modal" id="reject_item" style="z-index: 10000000000;">
+	<div class="modal-dialog modal-dialog-centered modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-danger" >
+					<h6 class="modal-title tx-center text-white">Enter the reason to reject request item:</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" class="text-white">&times;</span></button>
+				</div>
+			<div class="modal-body tx-center">
+				<input class="form-control" id="reject_comment" size="30" maxlength="30" />
+			<br><br>
+			<input class="btn btn-primary" type=button value="Reject" onclick="close_popup();">&nbsp;&nbsp;&nbsp;
+			<input class="btn btn-danger" type=button value="Cancel" onclick="reject_popup();">
+			</div>
+		</div>
+	</div>
 </div>
+
+
 
 {if $smarty.request.t eq 'complete'}
 <p>
@@ -179,9 +186,8 @@ Enter the reason to reject request item:
 	</div>
 </div>
 
-<div class="alert alert-primary mx-3">
 	<b><div id=request></div></b>
-</div>
+
 {include file=footer.tpl}
 
 <script>
