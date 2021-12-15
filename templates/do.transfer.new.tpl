@@ -2040,25 +2040,33 @@ Please wait..
 <input type=hidden name="curr_date" value="{$form.do_date}">
 </form>
 {/if}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>Transfer DO {if $form.do_no}(DO/{$form.do_no}){else}{if $form.id<$time_value}(ID#{$form.id}){/if}{/if}</h4>
+				<h5>Status:
+					{if $form.approved}
+						Fully Approved
+					{elseif $form.status == 1}
+						In Approval Cycle
+					{elseif $form.status == 5}
+						Cancelled
+					{elseif $form.status == 4}
+						Terminated
+					{elseif $form.status == 3}
+						In Approval Cycle (KIV)
+					{elseif $form.status == 2}
+						Rejected
+					{elseif $form.status == 0}
+						Draft Delivery Order
+					{/if}
+				</h5>
 
-<h1>Transfer DO {if $form.do_no}(DO/{$form.do_no}){else}{if $form.id<$time_value}(ID#{$form.id}){/if}{/if}</h1>
-<h3>Status:
-{if $form.approved}
-	Fully Approved
-{elseif $form.status == 1}
-	In Approval Cycle
-{elseif $form.status == 5}
-	Cancelled
-{elseif $form.status == 4}
-	Terminated
-{elseif $form.status == 3}
-	In Approval Cycle (KIV)
-{elseif $form.status == 2}
-	Rejected
-{elseif $form.status == 0}
-	Draft Delivery Order
-{/if}
-</h3>
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $form.related_do_list}
 	<div class="stdframe" style="background:#C9FFFE;margin:1em 0;">
@@ -2118,234 +2126,246 @@ Please wait..
 <input type="hidden" name="inv_total_gst_amt" value="{$form.inv_total_gst_amt}"/>
 <input type="hidden" name="inv_sheet_foreign_discount_amt" value="{$form.inv_sheet_foreign_discount_amt}"/>
 
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
-{/if}
-<div id=errpr></div>
-
-<table border=0 cellspacing=0 cellpadding=4>
-{if $form.added}
-    <tr>
-        <th width=160 align=left>Added Date</th>
-        <td>{$form.added}</td>
-    </tr>
-{/if}
-<tr>
-<th width=160 align=left>DO Date </th>
-<td>
-<input name="do_date" id="added1" size=12 onchange="on_do_date_changed();" maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
-{*if $form.status<1 || $form.status eq '2'*}
-{if !$readonly && !$form.approval_screen}
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-{/if}
-</td>
-</tr>
-
-{if $config.do_approval_by_department}
-<tr>
-<th width=160 align=left>Department</th>
-	<td>
-		<select name="dept_id" id="dept_id" onchange="change_user_list()">
-			<option value=0>-- Please Select --</option>
-			{foreach from=$departments item=dept}
-				<option value={$dept.id} {if $form.dept_id eq $dept.id}selected{/if}>{$dept.description}</option>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
+			<h4>General Information</h4>
+			
+			{if $errm.top}
+			<div id=err><div class=errmsg><ul>
+			{foreach from=$errm.top item=e}
+			<li> {$e}</li>
 			{/foreach}
-		</select> <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span>
-	</td>
-</tr>
-{/if}
-
-{if $show_discount}
-	<tr>
-	    <th align="left">Invoice Discount</th>
-	    <td>
-			<input type="text" name="discount" value="{$form.discount}" size="10" style="text-align:right;" onChange="discount_change();"/>
-			<b>[<a href="javascript:void(show_discount_help());">?</a>]</b>
-		
-		</td>
-	</tr>
-{/if}
-
-{if $config.do_enable_do_markup}
-	<tr>
-	    <th align="left">
-	        <table>
-	            <tr><td rowspan="2"><b>DO</b></td><td><input type="radio" name="markup_type" value="up" {if $form.markup_type eq 'up' || !$form.markup_type}checked {/if} onChange="do_markup_changed();" /> <b>Markup</b></td></tr>
-	            <tr><td><input type="radio" name="markup_type" value="down" {if $form.markup_type eq 'down'}checked {/if} onChange="do_markup_changed();" /> <b>Discount</b></td></tr>
-	        </table>
-		</th>
-	    <td><input type="text" name="do_markup" value="{$form.do_markup}" size="10" style="text-align:right;" onChange="do_markup_changed();"/>%
-        	{if $config.do_split_auto_add_do_discount and $form.do_branch_id}
-			    <span style="color:blue">
-			        (Once confirm, System will automatically insert branch trade discount if DO markup/discount is zero)
-			    </span>
+			</ul></div></div>
 			{/if}
-		</td>
-	</tr>
-{/if}
-<tr>
-<th align=left>PO No.</th>
-<td>
-<input name="po_no" id="po_no" maxlength=12 size=12 value="{$form.po_no}" onchange="uc(this);" {if $form.create_type eq 3}readonly{/if}> 
-</td>
-</tr>
-
-{if $form.id<$time_value}
-<tr>
-	<td align=left><b>Owner</b></td>
-	<td style="color:blue;">
-	{$form.user}
-	</td>
-</tr>
-{/if}
-
-<tr>
-	<td valign=top><b>Price From</b></td>
-	<td id="getoptlabel_id">
-		{if $config.sku_multiple_selling_price}
-			{foreach from=$config.sku_multiple_selling_price key=i item=e}
-			{if $i eq '1'}
-				<span class="nowrap"><input type=radio name="price_indicate" id="pi_1" value="1" onchange="refresh_cost(this);" {if $form.price_indicate eq '1' || ($config.do_default_price_from eq 'cost' && !$form.price_indicate)}checked {/if} onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator(this);return false;{/if}" /><label for='pi_1'>Cost</label>&nbsp;&nbsp;</span>
-			{elseif $i eq '2'}
-				<span class="nowrap"><input type=radio name="price_indicate" id="pi_2" value="2" onchange="refresh_cost(this);" {if $form.price_indicate eq '2' || ($config.do_default_price_from eq 'selling' && !$form.price_indicate) || (!$config.do_default_price_from && !$form.price_indicate)}checked {/if}><label for='pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
-			{elseif $i eq '3'}
-				<span class="nowrap"><input type=radio name="price_indicate" id="pi_3" value="3" onchange="refresh_cost(this);" {if $form.price_indicate eq '3' || ($config.do_default_price_from eq 'last_do' and !$form.price_indicate)}checked {/if}><label for='pi_3'>Last DO</label> &nbsp;&nbsp;</span>
-			{elseif $i eq '4'}
-				{if $from_po}<span class="nowrap"><input type=radio name="price_indicate" id="pi_4" value="4" onchange="refresh_cost(this);" {if $form.price_indicate eq $i}checked {/if} {if !$sessioninfo.privilege.SHOW_COST}disabled {/if}><label for='pi_4'>PO Cost</label> &nbsp;&nbsp;</span>{/if}			
-			{else}
-			<span class="nowrap"><input id='sp_{$i}' type=radio name="price_indicate" id="pi_{$i}" value="{$i}" onchange="refresh_cost(this);" {if $form.price_indicate eq $i}checked {/if}><label for='sp_{$i}'>{$e}</label>&nbsp;</span>
+			<div id=errpr></div>
+			
+			<table border=0 cellspacing=0 cellpadding=4>
+			{if $form.added}
+				<tr>
+					<th width=160 align=left class="form-label">Added Date</th>
+					<td>{$form.added}</td>
+				</tr>
 			{/if}
-			{/foreach}
-		{/if}
-	  <br />
-	  <span id="span_chaging_price_indicator" style="background:yellow;padding:2px;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Price Updating...</span>
-	</td>
-</tr>
-
-<tr>
-<td valign=top><b>Remarks</b></td>
-<td colspan=3>
-<textarea rows="2" cols="68" name=remark onchange="uc(this);">{$form.remark}</textarea>
-</td>
-</tr>
-<tr>
-	<td valign=top><b>Deliver From</b></td>
-	<td>
-	    {assign var=can_change_from value=0}
-	    {if $config.consignment_modules && is_new_id($form.id)}{assign var=can_change_from value=1}{/if}
-	    <select id="sel_branch_id" {if !$can_change_from}disabled {else}name="branch_id"{/if}>
-	        <option value="">-- Please Select --</option>
-			{section name=i loop=$all_branch}
-			{assign var=bid value=$all_branch[i].id}
-			<option value="{$bid}" {if ($form.branch_id>0 and $form.branch_id eq $bid) or (!$form.branch_id and $all_branch[i].code eq $BRANCH_CODE)}selected {/if}>{$all_branch[i].code} - {$all_branch[i].description}</option>
-			{/section}
-	    </select>
-		{if !$can_change_from}
-		    <input type="hidden" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" />
-		{/if}
-	</td>
-</tr>
-
-<tr style="display:none;">
-    <td valign=top><b>Deliver To</b></td>
-	<td>
-		<input type=radio name="create_type" value=1 checked onclick="select_type(this.value);" >{*Branches*}
-	</td>
-</tr>
-<tr id="delivery_branches">
-    <td valign=top><b>Deliver To</b></td>
-	    {if (($form.deliver_branch || !$form.do_branch_id) && !$config.consignment_modules) || ($form.deliver_branch && $config.consignment_modules)}
-		<td>
-			<div id="div_multi_branch_selected">
-				You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
-				<br />
-				{if $form.id>=$time_value}
-				Select by: 
-				<select name="sel_brn_grp" id="sel_brn_grp" >
-					<option value="" >-- All --</option>
-					{section name=j loop=$brn_grp_list}
-					<option value="{$brn_grp_list[j].grp_items}" >{$brn_grp_list[j].code} - {$brn_grp_list[j].description}</option>
-					{/section}
-				</select>&nbsp;&nbsp;
-				
-				<input type="button" style="width:70px;" value="Select " onclick="check_branch_by_group();" />&nbsp;
-				<input type="button" style="width:70px;" value="De-select" onclick="uncheck_branch_by_group();" /><br /><br />
-				{/if}
-				
-				{if count($branch)<=10}
-					<table class="small">
-						{section name=i loop=$branch}
-							{assign var=bid value=$branch[i].id}
-							<tr>
-								<td valign="top">
-									<input class="branch" onchange="do_branch_changed();" type=checkbox name="deliver_branch[]" value="{$branch[i].id}" 
-									{if is_array($form.deliver_branch) and in_array($branch[i].id,$form.deliver_branch) or (is_array($po_multi_deliver_to) and in_array($bid,$po_multi_deliver_to))}checked {/if} 
-									id="dt_{$bid}" {if $form.id<$time_value}onclick="return false;"{/if}
-									got_gst_interbranch="{if $gst_interbranch.$bid}1{/if}">
-									&nbsp;<label for=dt_{$bid}>{$branch[i].code} {if $config.enable_gst && !$config.consignment_modules && $gst_interbranch.$bid}<sup class="small" style="color:red;">(GST)</sup>{/if}</label>
-									&nbsp;&nbsp;
-								</td>
-								{if is_array($form.deliver_branch) and (in_array($bid,$form.deliver_branch))}
-									<td>
-										<table border=0>
-											<tr>
-												<td valign="top"><i>User Selection</i></td>
-												<td>
-													<div id=user_select_{$bid} style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
-														{foreach from=$user_list.$bid key=id item=user_name}
-															<input type="checkbox" name="allowed_user[{$bid}][{$id}]" {if $form.allowed_user.$bid.$id}checked{/if}>{$user_name}<br />
-														{/foreach}
-													</div>
-												</td>
-											</tr>
-										</table>
-									</td>
-								{/if}
-							</tr>
-						{/section}
-					</table>
-				{else}
-					<div style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
-						<table>
-						{section name=i loop=$branch}
-							{assign var=bid value=$branch[i].id}
-							{if $bid ne $form.branch_id}
-							<tr>
-								<td>
-									<input class="branch" onchange="do_branch_changed();" type=checkbox name="deliver_branch[]" value="{$branch[i].id}" {if (is_array($form.deliver_branch) and in_array($branch[i].id,$form.deliver_branch)) or (is_array($po_multi_deliver_to) and in_array($bid,$po_multi_deliver_to))}checked {/if} id="dt_{$bid}" {if $form.id<$time_value}onclick="return false;"{/if}
-									got_gst_interbranch="{if $gst_interbranch.$bid}1{/if}">&nbsp;<label for=dt_{$bid}>{$branch[i].code} - {$branch[i].description} {if $config.enable_gst && !$config.consignment_modules && $gst_interbranch.$bid}<sup class="small" style="color:red;">(GST)</sup>{/if}</label>
-								</td>
-								{if is_array($form.deliver_branch) and (in_array($bid,$form.deliver_branch))}
-									<td>
-										<table border=0 class="small">
-											<tr>
-												<td valign="top"><i>User Selection</i></td>
-												<td>
-													<div id=user_select_{$bid} style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
-														{foreach from=$user_list.$bid key=id item=user_name}
-															<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_name}<br />
-														{/foreach}
-													</div>
-												</td>
-											</tr>
-										</table>
-									</td>
-								{/if}
-
-							</tr>
-							{/if}
-						{/section}
-						</table>
-					</div>
-				{/if}
+			<tr>
+			<th width=160 align=left class="form-label">DO Date </th>
+			<td>
+			<div class="form-inline">
+				<input class="form-control" name="do_date" id="added1" size=23 onchange="on_do_date_changed();" maxlength=10 value="{$form.do_date|default:$smarty.now|date_format:"%Y-%m-%d"}">
+			{*if $form.status<1 || $form.status eq '2'*}
+			{if !$readonly && !$form.approval_screen}
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
 			</div>
+			{/if}
+			</td>
+			</tr>
+			
+			{if $config.do_approval_by_department}
+			<tr>
+			<th width=160 align=left class="form-label">Department <span class="text-danger" title="Required Field"> *</span></th>
+				<td>
+					<select class="form-control" name="dept_id" id="dept_id" onchange="change_user_list()">
+						<option value=0>-- Please Select --</option>
+						{foreach from=$departments item=dept}
+							<option value={$dept.id} {if $form.dept_id eq $dept.id}selected{/if}>{$dept.description}</option>
+						{/foreach}
+					</select> 
+				</td>
+			</tr>
+			{/if}
+			
+			{if $show_discount}
+				<tr>
+					<th align="left" class="form-label">Invoice Discount</th>
+					<td>
+						<div class="form-label form-inline">
+							<input type="text" class="form-control" name="discount" value="{$form.discount}" size="10" style="text-align:right;" onChange="discount_change();"/>
+						&nbsp;<b>[<a href="javascript:void(show_discount_help());">?</a>]</b>
+						</div>
+					
+					</td>
+				</tr>
+			{/if}
+			
+			{if $config.do_enable_do_markup}
+				<tr>
+					<th align="left">
+						<table>
+							<tr class="form-label"><td rowspan="2"><b>DO</b></td><td><input type="radio" name="markup_type" value="up" {if $form.markup_type eq 'up' || !$form.markup_type}checked {/if} onChange="do_markup_changed();" /> <b>Markup</b></td></tr>
+							<tr class="form-label"><td><input type="radio" name="markup_type" value="down" {if $form.markup_type eq 'down'}checked {/if} onChange="do_markup_changed();" /> <b>Discount</b></td></tr>
+						</table>
+					</th>
+					<div class="form-inline">
+						<td><input class="form-control" type="text" name="do_markup" value="{$form.do_markup}" size="10" style="text-align:right;" onChange="do_markup_changed();"/> %
+							{if $config.do_split_auto_add_do_discount and $form.do_branch_id}
+								<span style="color:blue">
+								&nbsp;	(Once confirm, System will automatically insert branch trade discount if DO markup/discount is zero)
+								</span>
+							{/if}
+					</td>
+				</div>
+				</tr>
+			{/if}
+			<tr>
+			<th align=left class="form-label">PO No.</th>
+			<td>
+			<input class="form-control" name="po_no" id="po_no" maxlength=12 size=12 value="{$form.po_no}" onchange="uc(this);" {if $form.create_type eq 3}readonly{/if}> 
+			</td>
+			</tr>
+			
+			{if $form.id<$time_value}
+			<tr>
+				<td align=left><b class="form-label">Owner</b></td>
+				<td style="color:blue;">
+				{$form.user}
+				</td>
+			</tr>
+			{/if}
+			
+			<tr>
+				<td valign=top><b class="form-label">Price From</b></td>
+				<td class="form-label" id="getoptlabel_id">
+					{if $config.sku_multiple_selling_price}
+						{foreach from=$config.sku_multiple_selling_price key=i item=e}
+						{if $i eq '1'}
+							<span class="nowrap"><input type=radio name="price_indicate" id="pi_1" value="1" onchange="refresh_cost(this);" {if $form.price_indicate eq '1' || ($config.do_default_price_from eq 'cost' && !$form.price_indicate)}checked {/if} onClick="{if !$sessioninfo.privilege.SHOW_COST}check_cannot_use_cost_indicator(this);return false;{/if}" /><label for='pi_1'>Cost</label>&nbsp;&nbsp;</span>
+						{elseif $i eq '2'}
+							<span class="nowrap"><input type=radio name="price_indicate" id="pi_2" value="2" onchange="refresh_cost(this);" {if $form.price_indicate eq '2' || ($config.do_default_price_from eq 'selling' && !$form.price_indicate) || (!$config.do_default_price_from && !$form.price_indicate)}checked {/if}><label for='pi_2'>Selling (Normal)</label> &nbsp;&nbsp;</span>
+						{elseif $i eq '3'}
+							<span class="nowrap"><input type=radio name="price_indicate" id="pi_3" value="3" onchange="refresh_cost(this);" {if $form.price_indicate eq '3' || ($config.do_default_price_from eq 'last_do' and !$form.price_indicate)}checked {/if}><label for='pi_3'>Last DO</label> &nbsp;&nbsp;</span>
+						{elseif $i eq '4'}
+							{if $from_po}<span class="nowrap"><input type=radio name="price_indicate" id="pi_4" value="4" onchange="refresh_cost(this);" {if $form.price_indicate eq $i}checked {/if} {if !$sessioninfo.privilege.SHOW_COST}disabled {/if}><label for='pi_4'>PO Cost</label> &nbsp;&nbsp;</span>{/if}			
+						{else}
+						<span class="nowrap"><input id='sp_{$i}' type=radio name="price_indicate" id="pi_{$i}" value="{$i}" onchange="refresh_cost(this);" {if $form.price_indicate eq $i}checked {/if}><label for='sp_{$i}'>{$e}</label>&nbsp;</span>
+						{/if}
+						{/foreach}
+					{/if}
+				  <br />
+				  <span id="span_chaging_price_indicator" style="background:yellow;padding:2px;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Price Updating...</span>
+				</td>
+			</tr>
+			
+			<tr>
+			<td valign=top><b class="form-label">Remarks</b></td>
+			<td colspan=3>
+			<textarea class="form-control" rows="2" cols="68" name=remark onchange="uc(this);">{$form.remark}</textarea>
+			</td>
+			</tr>
+			<tr>
+				<td valign=top><b class="form-label">Deliver From</b></td>
+				<td>
+					{assign var=can_change_from value=0}
+					{if $config.consignment_modules && is_new_id($form.id)}{assign var=can_change_from value=1}{/if}
+					<select class="form-control" id="sel_branch_id" {if !$can_change_from}disabled {else}name="branch_id"{/if}>
+						<option value="">-- Please Select --</option>
+						{section name=i loop=$all_branch}
+						{assign var=bid value=$all_branch[i].id}
+						<option value="{$bid}" {if ($form.branch_id>0 and $form.branch_id eq $bid) or (!$form.branch_id and $all_branch[i].code eq $BRANCH_CODE)}selected {/if}>{$all_branch[i].code} - {$all_branch[i].description}</option>
+						{/section}
+					</select>
+					{if !$can_change_from}
+						<input type="hidden" name="branch_id" value="{$form.branch_id|default:$sessioninfo.branch_id}" />
+					{/if}
+				</td>
+			</tr>
+			
+			<tr style="display:none;">
+				<td valign=top><b class="form-label">Deliver To</b></td>
+				<td>
+					<input type=radio name="create_type" value=1 checked onclick="select_type(this.value);" >{*Branches*}
+				</td>
+			</tr>
+			<tr id="delivery_branches">
+				<td valign=top><b class="form-label">Deliver To</b></td>
+					{if (($form.deliver_branch || !$form.do_branch_id) && !$config.consignment_modules) || ($form.deliver_branch && $config.consignment_modules)}
+					<td>
+						<div id="div_multi_branch_selected">
+							You may select multiple branches to deliver <span><img src="ui/rq.gif" align="absbottom" title="Required Field"></span><br>
+							<br />
+							{if $form.id>=$time_value}
+							Select by: 
+							<select class="form-control" name="sel_brn_grp" id="sel_brn_grp" >
+								<option value="" >-- All --</option>
+								{section name=j loop=$brn_grp_list}
+								<option value="{$brn_grp_list[j].grp_items}" >{$brn_grp_list[j].code} - {$brn_grp_list[j].description}</option>
+								{/section}
+							</select>&nbsp;&nbsp;
+							
+							<input type="button" style="width:70px;" value="Select " onclick="check_branch_by_group();" />&nbsp;
+							<input type="button" style="width:70px;" value="De-select" onclick="uncheck_branch_by_group();" /><br /><br />
+							{/if}
+							
+							{if count($branch)<=10}
+								<table class="small">
+									{section name=i loop=$branch}
+										{assign var=bid value=$branch[i].id}
+										<tr>
+											<td valign="top">
+												<input class="branch" onchange="do_branch_changed();" type=checkbox name="deliver_branch[]" value="{$branch[i].id}" 
+												{if is_array($form.deliver_branch) and in_array($branch[i].id,$form.deliver_branch) or (is_array($po_multi_deliver_to) and in_array($bid,$po_multi_deliver_to))}checked {/if} 
+												id="dt_{$bid}" {if $form.id<$time_value}onclick="return false;"{/if}
+												got_gst_interbranch="{if $gst_interbranch.$bid}1{/if}">
+												&nbsp;<label for=dt_{$bid}>{$branch[i].code} {if $config.enable_gst && !$config.consignment_modules && $gst_interbranch.$bid}<sup class="small" style="color:red;">(GST)</sup>{/if}</label>
+												&nbsp;&nbsp;
+											</td>
+											{if is_array($form.deliver_branch) and (in_array($bid,$form.deliver_branch))}
+												<td>
+													<table border=0>
+														<tr>
+															<td valign="top" class="form-label"><i>User Selection</i></td>
+															<td>
+																<div id=user_select_{$bid} style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+																	{foreach from=$user_list.$bid key=id item=user_name}
+																		<input type="checkbox" name="allowed_user[{$bid}][{$id}]" {if $form.allowed_user.$bid.$id}checked{/if}>&nbsp;{$user_name}<br />
+																	{/foreach}
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											{/if}
+										</tr>
+									{/section}
+								</table>
+							{else}
+								<div style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
+									<div class="table-responsive">
+										<table>
+											{section name=i loop=$branch}
+												{assign var=bid value=$branch[i].id}
+												{if $bid ne $form.branch_id}
+												<tr>
+													<td>
+														<input class="branch" onchange="do_branch_changed();" type=checkbox name="deliver_branch[]" value="{$branch[i].id}" {if (is_array($form.deliver_branch) and in_array($branch[i].id,$form.deliver_branch)) or (is_array($po_multi_deliver_to) and in_array($bid,$po_multi_deliver_to))}checked {/if} id="dt_{$bid}" {if $form.id<$time_value}onclick="return false;"{/if}
+														got_gst_interbranch="{if $gst_interbranch.$bid}1{/if}">&nbsp;<label for=dt_{$bid}>{$branch[i].code} - {$branch[i].description} {if $config.enable_gst && !$config.consignment_modules && $gst_interbranch.$bid}<sup class="small" style="color:red;">(GST)</sup>{/if}</label>
+													</td>
+													{if is_array($form.deliver_branch) and (in_array($bid,$form.deliver_branch))}
+														<td>
+															<table border=0 class="small">
+																<tr>
+																	<td valign="top"><i>User Selection</i></td>
+																	<td>
+																		<div id=user_select_{$bid} style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
+																			{foreach from=$user_list.$bid key=id item=user_name}
+																				<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_name}<br />
+																			{/foreach}
+																		</div>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													{/if}
+					
+												</tr>
+												{/if}
+											{/section}
+											</table>
+									</div>
+								</div>
+							{/if}
+			</div>
+	</div>
+</div>
 		</td>
 		</tr>
 	    {else}
@@ -2365,29 +2385,31 @@ Please wait..
 			<tr>
 				<td>&nbsp;</td>
 				<td>
-					<input type="checkbox" name="use_address_deliver_to" value="1" {if $form.use_address_deliver_to}checked{/if} onclick="consignment_branch_clicked(this)"> 
-					<b> Use Deliver To Address from Branch</b><br />
+					<div class="form-label">
+						<input type="checkbox" name="use_address_deliver_to" value="1" {if $form.use_address_deliver_to}checked{/if} onclick="consignment_branch_clicked(this)"> 
+					<b> Use Deliver To Address from Branch</b>
+					</div>
 					<span id="span_adt" {if !$form.use_address_deliver_to}style="display:none;"{/if}>
-					<textarea rows="5" cols="30" name="address_deliver_to" placeholder="[if delivery address is different, please enter here]">{$form.address_deliver_to}</textarea>
+					<textarea class="form-control" rows="5" cols="30" name="address_deliver_to" placeholder="[if delivery address is different, please enter here]">{$form.address_deliver_to}</textarea>
 					</span>
 
 				</td>
 			</tr>
 			{if $config.consignment_modules && $config.masterfile_branch_region && $config.consignment_multiple_currency}
 				<tr>
-					<td><b>Exchange Rate</b></td>
+					<td><b class="form-label">Exchange Rate</b></td>
 					<td>
-						<input type="text" name="exchange_rate" size="15" value="{if $form.exchange_rate ne 1}{$form.exchange_rate}{/if}" onchange="this.value=float(this.value); if(this.value == 0 || this.value == '') this.value = 1; foreign_variable_handler(true);" class="r">
+						<input aria-colspan="form-control" type="text" name="exchange_rate" size="15" value="{if $form.exchange_rate ne 1}{$form.exchange_rate}{/if}" onchange="this.value=float(this.value); if(this.value == 0 || this.value == '') this.value = 1; foreign_variable_handler(true);" class="r">
 					</td>
 				</tr>
 			{/if}
 			<tr>
-				<td valign="top"><b>User Selection</b></td>
+				<td valign="top"><b class="form-label">User Selection</b></td>
 				<td>
 					<div id=user_select style="height:100px;width:200px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;">
 						{assign var=bid value=$form.do_branch_id}
 						{foreach from=$user_list.$bid key=id item=user_name}
-							<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>{$user_name}<br />
+							<input type=checkbox name=allowed_user[{$bid}][{$id}] {if $form.allowed_user.$bid.$id}checked{/if}>&nbsp;{$user_name}<br />
 						{/foreach}
 					</div>
 				</td>
@@ -2406,40 +2428,46 @@ Please wait..
 <br>
 
 {if $errm_link_code}
-<div id=err>
-<div class=errmsg>
-<ul>
-<li>
-The following Link Code are INVALID :
-</ul>
-</div>
-{foreach from=$errm_link_code item=e}
-<b>{$e}</b><br>
-{/foreach}
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err>
+		<div class=errmsg>
+		<ul>
+		<li>
+		The following Link Code are INVALID :
+		</ul>
+		</div>
+		{foreach from=$errm_link_code item=e}
+		<b>{$e}</b><br>
+		{/foreach}
+		</div>
 </div>
 {/if}
 
 <br>
 
 {if $errm_sku_item_code}
-<div id=err>
-<div class=errmsg>
-<ul>
-<li>The following ARMS Code are INVALID :</li>
-</ul>
-</div>
-{foreach from=$errm_sku_item_code item=e}
-<b>{$e}</b><br>
-{/foreach}
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err>
+		<div class=errmsg>
+		<ul>
+		<li>The following ARMS Code are INVALID :</li>
+		</ul>
+		</div>
+		{foreach from=$errm_sku_item_code item=e}
+		<b>{$e}</b><br>
+		{/foreach}
+		</div>
 </div>
 {/if}
 
 {if $errm.item}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.item item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$errm.item item=e}
+		<li> {$e}</li>
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
 {assign var=total_inv_amt value=0}
@@ -2447,39 +2475,51 @@ The following Link Code are INVALID :
 
 {if $have_select_delivery}
 	<div id="new_sheets">
-		{include file=do.new.sheet.tpl}
+		<div class="card mx-3">
+			<div class="card-body">
+				{include file=do.new.sheet.tpl}
+			</div>
+		</div>
 	</div>
 	{if (!$form.status || $form.status=='2') && $form.create_type ne '3' && !$form.approval_screen && !$form.approved && !$readonly}	
-		<table id=tbl_sku width=100% style="border:1px solid #999; padding:2px; background-color:#dddddd">
-		{include file='scan_barcode_autocomplete.tpl' no_need_table=1 need_hr_bottom=1}
-		<tr class=normal>
-			<td width="90px" valign="top" nowrap>
-			<input name="sku_item_id" size=3 type=hidden>
-			<input name="sku_item_code" size=13 type=hidden>
-			
-			<b>Search SKU </b>
-			</td>
-			<td nowrap><input id="autocomplete_sku" name="sku" size=35 onclick="this.select()">
-			
-			<input class="btn btn-primary" type=button value="Add" onclick="add_item('', '{$bid}')">
-			<input class="btn btn-primary" type=button value="Multiple Add" onclick="open_multi_add()">
-			<input class="btn btn-primary" type=button value="Add Matrix" onclick="add_size_color()">
-			<input class="btn btn-primary" type=button value="Add Parent & Child" onclick="add_parent_child()">
-			{if $config.enable_replacement_items}
-			    <input class="btn btn-primary" type=button value="Use Replacements" onclick="show_available_replacement_items();" />
-			{/if}
-			{if $config.do_allow_open_item}
-				<input class="btn btn-primary" type=button value="Add Open Item" onclick="add_item('1', '{$bid}')">
-			{/if}
-			<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-			<br>
-			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
-			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
-			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
-			<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
-			</td>
-		</tr>
-		</table>
+		<div class="card mx-3 mt-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id=tbl_sku width=100% >
+						<span class="row form-inline">{include file='scan_barcode_autocomplete.tpl' no_need_table=1 need_hr_bottom=1}</span>
+						<tr class=normal>
+							<td width="90px" valign="top" nowrap>
+							<input name="sku_item_id" size=3 type=hidden>
+							<input name="sku_item_code" size=13 type=hidden>
+							
+							<b class="form-label">Search SKU </b>
+							</td>
+							<td nowrap><input class="form-control" id="autocomplete_sku" name="sku" size=35 onclick="this.select()">
+							
+						
+							<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+							<br>
+							<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="1" checked> MCode &amp; {$config.link_code_name}
+							<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="2" {if $smarty.request.search_type eq 2 || (!$smarty.request.search_type and $config.consignment_modules)}checked {/if}> Article No
+							<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="3"> ARMS Code
+							<input onchange="reset_sku_autocomplete()" type=radio name="search_type" value="4"> Description
+								<br><br>
+							<input class="btn btn-primary" type=button value="Add" onclick="add_item('', '{$bid}')">
+							<input class="btn btn-primary" type=button value="Multiple Add" onclick="open_multi_add()">
+							<input class="btn btn-primary" type=button value="Add Matrix" onclick="add_size_color()">
+							<input class="btn btn-primary" type=button value="Add Parent & Child" onclick="add_parent_child()">
+							{if $config.enable_replacement_items}
+								<input class="btn btn-primary" type=button value="Use Replacements" onclick="show_available_replacement_items();" />
+							{/if}
+							{if $config.do_allow_open_item}
+								<input class="btn btn-primary" type=button value="Add Open Item" onclick="add_item('1', '{$bid}')">
+							{/if}
+						</td>
+						</tr>
+						</table>
+				</div>
+			</div>
+		</div>
 		<script>reset_sku_autocomplete();</script>
 	{/if}
 {/if}
@@ -2502,9 +2542,9 @@ The following Link Code are INVALID :
 <p id=submitbtn align=center>
 
 {if $form.is_approval and $form.status==1 and $form.approved==0 and $form.approval_screen}
-<input type=button value="Approve" style="background-color:#f90; color:#fff;" onclick="do_approve()">
-<input type=button value="Reject" style="background-color:#f90; color:#fff;" onclick="do_reject()">
-<input type=button value="Terminate" style="background-color:#900; color:#fff;" onclick="do_cancel()">
+<input type=button value="Approve" class="btn btn-warning" onclick="do_approve()">
+<input type=button value="Reject" class="btn btn-warning" onclick="do_reject()">
+<input type=button value="Terminate" class="btn btn-danger" onclick="do_cancel()">
 {/if}
 
 {if !$form.approval_screen}
@@ -2515,22 +2555,22 @@ The following Link Code are INVALID :
 		</span><br />
 	    {/if}
 		{if (!$form.status || $form.status==2) && $have_select_delivery}
-		<input class="btn btn-success" name=bsubmit type=button value="Save & Close" onclick="do_save()" >
+		<input class="btn btn-success mt-2" name=bsubmit type=button value="Save & Close" onclick="do_save()" >
 		{/if}
 		
 		{if $form.id<$time_value}
-		<input class="btn btn-error" type=button value="Delete" onclick="do_delete()">
+		<input class="btn btn-danger mt-2" type=button value="Delete" onclick="do_delete()">
   		{/if}
-        {*<input type=button value="Close" style="font:bold 20px Arial; background-color:#09c; color:#fff;" onclick="document.location='/do.php?page={$do_type}'">*}
+        {*<input type=button value="Close" class="btn btn-info mt-2" style="font:bold 20px Arial;  onclick="document.location='/do.php?page={$do_type}'">*}
         
 		{if (!$form.status || $form.status==2) && $have_select_delivery}
-		<input class="btn btn-primary" type=button value="Confirm" onclick="do_confirm()">
+		<input class="btn btn-primary mt-2" type=button value="Confirm" onclick="do_confirm()">
 		{/if}
 	{else}
 	    {if $form.approved eq 1 && ($sessioninfo.level>=$config.doc_reset_level || $sessioninfo.privilege.DO_ALLOW_USER_RESET)}
-	        <input type=button class="btn btn-warning" value="Reset" onclick="do_reset();">
+	        <input type=button class="btn btn-warning mt-2" value="Reset" onclick="do_reset();">
 	    {/if}
-		<input type=button class="btn btn-error" value="Close" onclick="document.location='/do.php?page={$do_type}'">
+		<input type=button class="btn btn-danger mt-2" value="Close" onclick="document.location='/do.php?page={$do_type}'">
 	{/if}
 {/if}
 </p>

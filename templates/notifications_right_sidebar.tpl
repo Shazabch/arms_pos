@@ -274,12 +274,17 @@ Item : {$redemption_items[i].sku_item_code} [ {$redemption_items[i].days_left} d
 </div>
 
 <!-- Stock Reorder -->
-{if $stock_reorder_data}
+<div class="card mx-3">
+	<div class="card-body">
+		{if $stock_reorder_data}
 	<h5>
 	{*<img src="/ui/store.png" align="absmiddle" border="0">*}
-	<i class="icofont-user-suited icofont"></i> Vendor Stock Reorder</h5>
-	<div class="ntc">Belows are some pre-generated reorder list by vendor and department.</div>
-	<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
+	<div class="card-category fs-09">
+		<i class="icofont-user-suited icofont"></i> Vendor Stock Reorder
+	</div>
+</h5>
+	<div class="ntc text-muted text-center">Belows are some pre-generated reorder list by vendor and department.</div>
+	<div style="padding:5px;height:200px;width:300px; overflow:auto;">
 		{foreach from=$stock_reorder_data key=vendor_id item=tmp_vendor_data}
 			<div style="border-bottom:1px solid #eee"> 
 				{foreach from=$tmp_vendor_data key=category_id item=r name=f_st}
@@ -288,7 +293,7 @@ Item : {$redemption_items[i].sku_item_code} [ {$redemption_items[i].days_left} d
 						<br />
 					{/if}
 					
-					<div>
+					<div class="leading-loose text-left overflow-auto">
 						<img src="/ui/pixel.gif" width="20" align="absmiddle" height="1" /> 
 						<a href="/report.stock_reorder.php?load_report=1&category_id={$r.category_id}&vendor_id={$r.vendor_id}&use_pregen_sku=1&reorder_type={$r.reorder_type}&by_last_vendor=1" target="_blank">
 						{$r.c_desc}
@@ -307,3 +312,5 @@ Item : {$redemption_items[i].sku_item_code} [ {$redemption_items[i].days_left} d
 		{/foreach}
 	</div>
 {/if}
+	</div>
+</div>

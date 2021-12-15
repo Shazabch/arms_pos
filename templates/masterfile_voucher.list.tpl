@@ -45,8 +45,8 @@
 	<div class="card mx-3">
 		<div class="card-body">
 			<div class="table-responsive">
-				<table width=100% >
-					<thead class="bg-gray-100">
+				<table width=100% class="table mb-0 text-md-nowrap  table-hover" >
+					<thead class="bg-gray-100" style="height: 40px; padding-top: 5px;">
 						<tr>
 							<th rowspan=2>#</th>
 							<th rowspan=2>&nbsp;</th>

@@ -537,10 +537,11 @@ function search_tab_clicked(obj){
 				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Verification</a>
 				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Verified</a>
 			{/if}
-			<a name="find" class="fs-07 ml-1 mt-2  btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
-				<span >Find GRN / Doc No / Vendor</span>
+		</div>
+			<a name="find" class="fs-09 ml-1 mt-2 " id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+				<span><b class="form-label">Find GRN / Doc No / Vendor</b></span>
 			</a>
-	</div>
+
 	</div>
 	<div id="div_grn" >
 		<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>
@@ -556,9 +557,11 @@ function search_tab_clicked(obj){
 							</td>
 						</tr>
 						<tr>
-							<th align="left" class="form-label">Find GRN / Doc No / GRR</th>
+							<div class="mx-3">
+								<th align="left" class="form-label">Find GRN / Doc No / GRR</th>
 							<td><input class="form-control" name="search" id="search" name="find" value="{$smarty.request.search}"></td>
 							<td align="center"><input class="btn btn-primary" type="submit" value="Go"></td>
+							</div>
 						</tr>
 					</table>
 				</div>

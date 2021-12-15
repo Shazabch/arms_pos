@@ -166,7 +166,7 @@ function tdloaded()
 				<div class="row">
 					
 			<div class="col-md-3">
-				<b>Description :</b> 
+				<b class="form-label">Description :</b> 
 			<input type="text" class="form-control" name="desc" size="15" />
 		
 			</div>
@@ -262,18 +262,18 @@ function tdloaded()
 </div>
 
 <!-- start vendor TRADE_DISCOUNT table -->
-<div class="ndiv" id="ddiv" style="position:absolute;left:180;top:150;display:none;">
-<div class="blur"><div class="shadow"><div class="content">
+<div class="ndiv" id="ddiv" style="background-color: white;  position:absolute;margin-left:300;margin-top:50;display:none;">
+<div class="blur"><div class="shadow"><div class="content" style="padding: 15px;">
 
-<div class=small style="position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ddiv'))" ><img src=ui/closewin.png border=0 align=absmiddle></a></div>
+<div class=small style="padding: ; position:absolute; right:10; text-align:right;"><a href="javascript:void(hidediv('ddiv'))" ><img src=ui/closewin.png border=0 align=absmiddle></a></div>
 
 <form method=post name=f_d target=_irs>
 <div id=tmsg style="padding:10 0 10 0px;"></div>
 <input type=hidden name=a value="ad">
 <input type=hidden name=brand_id value="">
-<b>Trade Discount Table for <span id=td_name>#</span></b><br>
+<b class="form-label">Trade Discount Table for <span id=td_name>#</span></b>
 <br>
-<b>Select Department</b> <select name=department_id onchange="showtd(brand_id.value)">
+<b class="form-label">Select Department</b> <select class="form-control" name=department_id onchange="showtd(brand_id.value)">
 {section name=i loop=$department}
 <option value={$department[i].id}>{$department[i].description}</option>
 {/section}
@@ -281,7 +281,7 @@ function tdloaded()
 <br>
 
 {section name=b loop=$branches}
-<h4>{$branches[b].code}</h4>
+<h4 class="form-label">{$branches[b].code}</h4>
 <table class=small>
 <tr>
 {section name=i loop=$skutype}
@@ -290,7 +290,7 @@ function tdloaded()
 </tr>
 <tr>
 {section name=i loop=$skutype}
-<td><input size=5 name="commission[{$skutype[i].code}][{$branches[b].id}]" {if !$sessioninfo.privilege.MST_BRAND}disabled{/if}></td>
+<td><input class="form-control" size=5 name="commission[{$skutype[i].code}][{$branches[b].id}]" {if !$sessioninfo.privilege.MST_BRAND}disabled{/if}></td>
 {/section}
 </tr>
 </table>
@@ -298,15 +298,17 @@ function tdloaded()
 
 {if $sessioninfo.privilege.MST_BRAND and $sessioninfo.level>=9999}
 <p>
-	<input type="checkbox" name="force_update" value="1" /> <b>Force update SKU cost.</b><br />
+	<div class="form-label form-inline">
+		<input type="checkbox" name="force_update" value="1" /> <b>&nbsp;Force update SKU cost.</b><br />
+	</div>
 </p>
 {/if}
 
 <p align=center>
 	{if $sessioninfo.privilege.MST_BRAND}
-		<input type=submit value="Save">
+		<input class="btn btn-primary" type=submit value="Save">
 	{/if}
-	<input type=button value="Close" onclick="f_d.reset(); hidediv('ddiv');">
+	<input class="btn btn-danger" type=button value="Close" onclick="f_d.reset(); hidediv('ddiv');">
 </p>
 
 </form>

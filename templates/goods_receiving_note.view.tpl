@@ -194,24 +194,33 @@ var allow_reset = int('{$allow_reset}');
 
 <!-- download grr attachment -->
 <iframe id="_download" style="visibility: hidden;width:1px;height: 1px;" src=""></iframe>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>GRN (Goods Receiving Note) (ID#{$form.id})</h4>
+				<h5>Status:
+					{if $form.active}
+						{if $form.status==0}
+							New
+						{else}
+							{if $form.approved==0}
+								Waiting for {if $config.use_grn_future}Approval{else}Verification{/if}
+							{else}
+								Verified
+							{/if}
+						{/if}
+					{else}
+						Cancelled/Terminated
+					{/if}
+				</h5>
 
-<h1>GRN (Goods Receiving Note) (ID#{$form.id})</h1>
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+<h1></h1>
 
-<h3>Status:
-{if $form.active}
-	{if $form.status==0}
-		New
-	{else}
-		{if $form.approved==0}
-			Waiting for {if $config.use_grn_future}Approval{else}Verification{/if}
-		{else}
-			Verified
-		{/if}
-	{/if}
-{else}
-	Cancelled/Terminated
-{/if}
-</h3>
 
 {if $form.unfinish_gra_list}
 	<div class="stdframe" style="background-color:#FFE4E1;">
@@ -276,57 +285,61 @@ var allow_reset = int('{$allow_reset}');
 <iframe width=1 height=1 style="visibility:hidden" name=ifprint></iframe>
 
 {if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$errm.top item=e}
+		<li> {$e}
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
 <form name=f_a>
-<div class="stdframe" style="background:#fff">
-<h4>General Information</h4>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe">
+<h4 class="form-label">General Information</h4>
 <table  border=0 cellspacing=0 cellpadding=4>
 <tr>
-<td><b>GRR No</b></td><td>{$grr.report_prefix}{$grr.grr_id|string_format:"%05d"}</td>
-<td><b>GRR ID</b></td><td>#{$grr.grr_item_id}</td>
-<td><b>GRR Date</b></td><td>{$grr.added|date_format:$config.dat_format}</td>
-<td><b>By</b></td><td>{$grr.u}</td>
+<td><b class="form-label">GRR No</b></td><td>{$grr.report_prefix}{$grr.grr_id|string_format:"%05d"}</td>
+<td><b class="form-label">GRR ID</b></td><td>#{$grr.grr_item_id}</td>
+<td><b class="form-label">GRR Date</b></td><td>{$grr.added|date_format:$config.dat_format}</td>
+<td><b class="form-label">By</b></td><td>{$grr.u}</td>
 </tr><tr>
-<td><b>GRR Amount</b></td><td>{$grr.grr_amount|number_format:2}</td>
-<td><b>Received Qty</b></td><td>Ctn:{$grr.grr_ctn|qty_nf} / Pcs:{$grr.grr_pcs|qty_nf}</td>
-<td><b>Received Date</b></td><td>{$grr.rcv_date|date_format:$config.dat_format}</td>
-<td><b>By</b></td><td>{$grr.rcv_u}</td>
+<td><b class="form-label">GRR Amount</b></td><td>{$grr.grr_amount|number_format:2}</td>
+<td><b class="form-label">Received Qty</b></td><td>Ctn:{$grr.grr_ctn|qty_nf} / Pcs:{$grr.grr_pcs|qty_nf}</td>
+<td><b class="form-label">Received Date</b></td><td>{$grr.rcv_date|date_format:$config.dat_format}</td>
+<td><b class="form-label">By</b></td><td>{$grr.rcv_u}</td>
 </tr>
 <tr>
-<td><b>Branch</b></td>
+<td><b class="form-label">Branch</b></td>
 <td>{$form.branch_code}</td>
-<td><b>GRN Owner</b></td>
+<td><b class="form-label">GRN Owner</b></td>
 <td style="color:blue">{$form.u}</td>
 {if $grr.invoice_no}
-	<td><b>Invoice No.</b></td>
+	<td><b class="form-label">Invoice No.</b></td>
 	<td style="color:blue" colspan="3">{$grr.invoice_no}</td>
 {/if}
 </tr>
 <tr>
-<td><b>Department</b></td><td colspan=3>{$form.department|default:$grr.department}</td>
+<td><b class="form-label">Department</b></td><td colspan=3>{$form.department|default:$grr.department}</td>
 </tr><tr>
-<td><b>Vendor</b></td><td colspan=3>{$grr.vendor}</td>
-<td><b>Lorry No</b></td><td>{$grr.transport}</td>
+<td><b class="form-label">Vendor</b></td><td colspan=3>{$grr.vendor}</td>
+<td><b class="form-label">Lorry No</b></td><td>{$grr.transport}</td>
 {if $config.grn_summary_show_related_invoice && $grr.type eq 'PO'}
-<td valign="top"><b>Related Invoice</b></td><td>{$grr.related_invoice}</td>
+<td valign="top"><b class="form-label">Related Invoice</b></td><td>{$grr.related_invoice}</td>
 {/if}
 </tr><tr>
-<td width=100 valign="top"><b>Document Type.</b></td><td width=100 valign="top"><font color=blue>{$grr.type}</font></td>
-<td width=100 valign="top"><b>Document No.</b></td><td width=150 valign="top"><font color=blue>{$grr.doc_no}</font></td>
+<td width=100 valign="top"><b class="form-label">Document Type.</b></td><td width=100 valign="top"><font color=blue>{$grr.type}</font></td>
+<td width=100 valign="top"><b class="form-label">Document No.</b></td><td width=150 valign="top"><font color=blue>{$grr.doc_no}</font></td>
 {if $grr.type eq 'PO'}
-<td width=100 valign="top"><b>PO Amount{if $grr.po_is_under_gst}<br />(Excluded GST){/if}</b></td><td width=100 valign="top"><font color=blue>{$grr.po_amount|number_format:2}</font></td>
-<td width=100 valign="top"><b>Partial Delivery</b></td><td width=100 valign="top"><font color=blue>{if $config.use_grn_future}{if $grr.pd_po}{$grr.pd_po} (Not Allowed){else}Allowed{/if}{else}{if $grr.partial_delivery}Allowed{else}Not Allowed{/if}{/if}</font></td>
+<td width=100 valign="top"><b class="form-label">PO Amount{if $grr.po_is_under_gst}<br />(Excluded GST){/if}</b></td><td width=100 valign="top"><font color=blue>{$grr.po_amount|number_format:2}</font></td>
+<td width=100 valign="top"><b class="form-label">Partial Delivery</b></td><td width=100 valign="top"><font color=blue>{if $config.use_grn_future}{if $grr.pd_po}{$grr.pd_po} (Not Allowed){else}Allowed{/if}{else}{if $grr.partial_delivery}Allowed{else}Not Allowed{/if}{/if}</font></td>
 {/if}
 </tr>
 {if $grr.currency_code}
 	<tr>
-		<td><b>Currency</b></td>
+		<td><b class="form-label">Currency</b></td>
 		<td>
 			<font color="blue">
 				{if !$grr.currency_code}
@@ -337,7 +350,7 @@ var allow_reset = int('{$allow_reset}');
 			</font>
 		</td>
 		{if $grr.currency_code}
-			<td><b>Exchange Rate</b></td>
+			<td><b class="form-label">Exchange Rate</b></td>
 			<td>
 				<font color="blue">{$grr.currency_rate|default:1}</font>
 			</td>
@@ -346,12 +359,12 @@ var allow_reset = int('{$allow_reset}');
 {/if}
 
 <tr>
-	<td><b>Tax</b> <a href="javascript:void(alert('{$LANG.GRR_TAX_PERCENT_INFO|escape:javascript}'));">[?]</a></td>
+	<td><div class="form-inline form-label"><b class="">Tax</b> &nbsp;<a href="javascript:void(alert('{$LANG.GRR_TAX_PERCENT_INFO|escape:javascript}'));">[?]</a></div></td>
 	<td>
 		{$form.grn_tax|number_format:2} %
 		<input type="hidden" name="grn_tax" value="{$form.grn_tax}" />
 	</td>
-	<td><b>Total GRR Tax</b></td>
+	<td><b class="form-label">Total GRR Tax</b></td>
 	<td>
 		{$grr.grr_tax|number_format:2|default:0}
 	</td>
@@ -378,19 +391,27 @@ var allow_reset = int('{$allow_reset}');
 
 
 {if $config.use_grn_future_allow_generate_gra}
-	* This GRN will generate all returned items to become GRA once approved.
+	* <div class="alert alert-primary rounded mt-2">
+		This GRN will generate all returned items to become GRA once approved.
+	</div>
 {/if}
 
 </div>
 
-
+	</div>
+</div>
+<div class="card mx-3 mt-3">
+	<div class="card-body">
+		
 <div id=tblist>
-{if $form.approved}{assign var=manager_col value=1}{/if}
-{if $config.use_grn_future}
-	{include file=goods_receiving_note2.view.list.tpl}
-{else}
-	{include file=goods_receiving_note.view.list.tpl}
-{/if}
+	{if $form.approved}{assign var=manager_col value=1}{/if}
+	{if $config.use_grn_future}
+		{include file=goods_receiving_note2.view.list.tpl}
+	{else}
+		{include file=goods_receiving_note.view.list.tpl}
+	{/if}
+	</div>
+	</div>
 </div>
 </form>
 {if ($form.non_sku_items || $have_grn_returned_items) && $config.use_grn_future}
@@ -517,7 +538,7 @@ var allow_reset = int('{$allow_reset}');
 	    <input class="btn btn-warning" type=button value="Reset" onclick="do_reset();">
 	{/if}
 {/if}
-<input class="btn btn-error" class="btn btn-error" type=button value="Close" onclick="close_window('/goods_receiving_note.php')">
+<input class="btn btn-danger"  type=button value="Close" onclick="close_window('/goods_receiving_note.php')">
 </p>
 {include file=footer.tpl}
 {if $config.use_grn_future && $form.approved}

@@ -1144,7 +1144,7 @@ function close_curtain2(){
 	    <input type="hidden" name="reorder_by_branch" value="{$data.reorder_by_branch}" />
 	    
 	    {if $data.pregen_sku_data}
-	    	<div style="border:1px solid red;background-color:yellow;">
+	    	<div class="alert alert-primary mx-3 rounded" >
 	    		<ul>
 	    			<li>Please note that you are under pregen mode and the SKU list may be in-accurate.</li>
 					<li>The SKU list was pre-generated at {$data.pregen_sku_data.added}.</li>
@@ -1157,10 +1157,11 @@ function close_curtain2(){
 	    		</ul>
 	    	</div><br />
 	    {/if}
-	    
-		<div class="stdframe">
-			<b>Generate to: </b>
-			<select name="generate_type" onChange="STOCK_REORDER.generate_type_changed();">
+	    <div class="card mx-3">
+			<div class="card-body">
+		<div class="stdframe form-inline">
+			<b class="form-label">Generate to: </b>
+			&nbsp;<select class="form-control" name="generate_type" onChange="STOCK_REORDER.generate_type_changed();">
 				<option value="po">PO</option>
 				{if $BRANCH_CODE eq 'HQ' and $smarty.request.reorder_type ne 'less_then_grace_period'}
 					<option value="do">DO</option>
@@ -1171,141 +1172,161 @@ function close_curtain2(){
 			</select>
 		</div>
 		
-		<div id="div_generate_details">
-			<div class="stdframe div_generate_details" id="div_info-po">
-				<h4>PO Information</h4>
-				<table>
-					
-					<tr>
-						<td><b>Delivery Branch:</b></td>
-						<td>
-							{if $BRANCH_CODE eq 'HQ'}
-								{if !$data.reorder_by_branch}
-									<select name="po_branch_id">
-										{foreach from=$branches key=bid item=b}
-											<option value="{$bid}" {if $bid eq $sessioninfo.branch_id}selected {/if}>{$b.code} - {$b.description}</option>
-										{/foreach}
-									</select>
-								{else}
-									{foreach from=$data.reorder_bid item=bid}
-										<input type="checkbox" name="po_deliver_to[]" value="{$bid}" checked /> {$branches.$bid.code} &nbsp;&nbsp;&nbsp;&nbsp;
-									{/foreach}
-								{/if}
-							{else}
-								{$BRANCH_CODE}
-								<input type="hidden" name="po_branch_id" value="{$sessioninfo.branch_id}" />
-							{/if}
-						</td>
-					</tr>
-
-					{if $config.po_enable_ibt}
-						<tr>
-							<td><b>IBT</b></td>
-							<td><input type="checkbox" name="is_ibt" value="1" /></td>
-						</tr>
-					{/if}
-					<tr>
-						<td><b>Partial Delivery</b></td>
-						<td><input type="checkbox" name="partial_delivery" value="1" /></td>
-					</tr>
-					<tr>
-						<td><b>PO Date</b></td>
-						<td>
-							<input name="po_date" id="inp_po_date" size="10" maxlength="10"  value="{$smarty.request.po_date|date_format:"%Y-%m-%d"}" readonly />
-							<img align="absmiddle" src="ui/calendar.gif" id="img_po_date" style="cursor: pointer;" title="Select PO Date" />
-						</td>
-					</tr>
-					<tr>
-						<td><b>Delivery Date</b></td>
-						<td>
-							<input name="delivery_date" id="inp_delivery_date" size="10" maxlength="10"  value="{$smarty.request.delivery_date|date_format:"%Y-%m-%d"}" readonly />
-							<img align="absmiddle" src="ui/calendar.gif" id="img_delivery_date" style="cursor: pointer;" title="Select Deliver Date" />
-						</td>
-					</tr>
-					<tr>
-						<td><b>Cancellation Date</b></td>
-						<td>
-							<input name="cancel_date" id="inp_cancel_date" size="10" maxlength="10"  value="{$smarty.request.cancel_date|date_format:"%Y-%m-%d"}" readonly />
-							<img align="absmiddle" src="ui/calendar.gif" id="img_cancel_date" style="cursor: pointer;" title="Select Cancellation Date" />
-						</td>
-					</tr>
-				</table>
-			</div>
-			
-			<div class="stdframe div_generate_details" id="div_info-do" style="display:none;">
-				<h4>DO Information</h4>
-				<table>
-					<tr>
-						<td><b>Deliver To: </b></td>
-						<td>
-							{if !$data.reorder_by_branch}
-								<select name="do_branch_id">
-									{foreach from=$branches key=bid item=b}
-										{if $bid ne $sessioninfo.branch_id}
-											<option value="{$bid}">{$b.code} - {$b.description}</option>
-										{/if}
-									{/foreach}
-								</select>
-							{else}
-								{foreach from=$data.reorder_bid item=bid}
-									<input type="checkbox" name="do_deliver_to[]" value="{$bid}" {if $bid ne $sessioninfo.branch_id}checked{else}disabled{/if} /> {$branches.$bid.code} &nbsp;&nbsp;&nbsp;&nbsp;
-								{/foreach}
-							{/if}
-						</td>
-					</tr>
-					<tr>
-						<td><b>DO Date</b></td>
-						<td>
-							<input name="do_date" id="inp_do_date" size="10" maxlength="10"  value="{$smarty.request.do_date|date_format:"%Y-%m-%d"}" readonly />
-							<img align="absmiddle" src="ui/calendar.gif" id="img_do_date" style="cursor: pointer;" title="Select DO Date" />
-						</td>
-					</tr>
-				</table>
-				* Multiple rows of same sku will be combine into 1 sku row.
-			</div>
-			
-			{if $got_do_request}
-				<div class="stdframe div_generate_details" id="div_info-do_request" style="display:none;">
-					<h4>DO Request Information</h4>
-					<table>
-						<tr>
-							<td><b>Choose Supply Branch: </b></td>
-							<td>
-								<select name="request_branch_id">
-									{foreach from=$branches key=bid item=b}
-										{if $bid ne $sessioninfo.branch_id}
-											<option value="{$bid}" {if $bid eq 1}selected {/if}>{$b.code} - {$b.description}</option>
-										{/if}
-									{/foreach}
-								</select>
-							</td>
-						</tr>
-						{if $got_expect_do_date}
+		
+				<div id="div_generate_details">
+					<div class="stdframe div_generate_details" id="div_info-po">
+						<h4 class="form-label">PO Information</h4>
+						<table>
+							
 							<tr>
-								<td><b>Expected Delivery Date</b></td>
+								<td><b class="form-label">Delivery Branch:</b></td>
 								<td>
-									<input name="expect_do_date" id="inp_expect_do_date" size="10" maxlength="10"  value="{$default_expect_do_date}" readonly />
-									<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
+									{if $BRANCH_CODE eq 'HQ'}
+										{if !$data.reorder_by_branch}
+											<select class="form-control" name="po_branch_id">
+												{foreach from=$branches key=bid item=b}
+													<option value="{$bid}" {if $bid eq $sessioninfo.branch_id}selected {/if}>{$b.code} - {$b.description}</option>
+												{/foreach}
+											</select>
+										{else}
+											{foreach from=$data.reorder_bid item=bid}
+												<input type="checkbox" name="po_deliver_to[]" value="{$bid}" checked /> {$branches.$bid.code} &nbsp;&nbsp;&nbsp;&nbsp;
+											{/foreach}
+										{/if}
+									{else}
+										{$BRANCH_CODE}
+										<input type="hidden" name="po_branch_id" value="{$sessioninfo.branch_id}" />
+									{/if}
 								</td>
 							</tr>
-						{/if}
-					</table>
-					* Multiple rows of same sku will be combine into 1 sku row.
+		
+							{if $config.po_enable_ibt}
+								<tr>
+									<div class="form-label form-inline">
+										<td><b>IBT</b></td>
+									<td><input type="checkbox" name="is_ibt" value="1" /></td>
+									</div>
+								</tr>
+							{/if}
+							<tr>
+								<div class="form-label form-inline">
+									<td><b class="form-label">Partial Delivery</b></td>
+								<td><input type="checkbox" name="partial_delivery" value="1" /></td>
+								</div>
+							</tr>
+							<tr>
+								<td><b class="form-label">PO Date</b></td>
+								<td>
+									<div class="form-inline">
+										<input class="form-control" name="po_date" id="inp_po_date" size="23" maxlength="23"  value="{$smarty.request.po_date|date_format:"%Y-%m-%d"}" readonly />
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_po_date" style="cursor: pointer;" title="Select PO Date" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><b class="form-label">Delivery Date</b></td>
+								<td>
+									<div class="form-inline">
+										<input class="form-control" name="delivery_date" id="inp_delivery_date" size="23" maxlength="23"  value="{$smarty.request.delivery_date|date_format:"%Y-%m-%d"}" readonly />
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_delivery_date" style="cursor: pointer;" title="Select Deliver Date" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><b class="form-label">Cancellation Date</b></td>
+								<td>
+									<div class="form-inline">
+										<input class="form-control" name="cancel_date" id="inp_cancel_date" size="23" maxlength="23"  value="{$smarty.request.cancel_date|date_format:"%Y-%m-%d"}" readonly />
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_cancel_date" style="cursor: pointer;" title="Select Cancellation Date" />
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="stdframe div_generate_details" id="div_info-do" style="display:none;">
+						<h4 class="form-label">DO Information</h4>
+						<table>
+							<tr>
+								<td><b class="form-label">Deliver To: </b></td>
+								<td>
+									{if !$data.reorder_by_branch}
+										<select class="form-control" name="do_branch_id">
+											{foreach from=$branches key=bid item=b}
+												{if $bid ne $sessioninfo.branch_id}
+													<option value="{$bid}">{$b.code} - {$b.description}</option>
+												{/if}
+											{/foreach}
+										</select>
+									{else}
+										{foreach from=$data.reorder_bid item=bid}
+											<input type="checkbox" name="do_deliver_to[]" value="{$bid}" {if $bid ne $sessioninfo.branch_id}checked{else}disabled{/if} /> {$branches.$bid.code} &nbsp;&nbsp;&nbsp;&nbsp;
+										{/foreach}
+									{/if}
+								</td>
+							</tr>
+							<tr>
+								<td><b class="form-label">DO Date</b></td>
+								<td>
+									<div class="form-inline">
+										<input class="form-control" name="do_date" id="inp_do_date" size="23" maxlength="23"  value="{$smarty.request.do_date|date_format:"%Y-%m-%d"}" readonly />
+									&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_do_date" style="cursor: pointer;" title="Select DO Date" />
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div class="alert alert-primary rounded mt-3">
+							* Multiple rows of same sku will be combine into 1 sku row.
+						</div>
+					</div>
+					
+					{if $got_do_request}
+						<div class="stdframe div_generate_details" id="div_info-do_request" style="display:none;">
+							<h4 class="form-label">DO Request Information</h4>
+							<table>
+								<tr>
+									<td><b class="form-label">Choose Supply Branch: </b></td>
+									<td>
+										<select class="form-control" name="request_branch_id">
+											{foreach from=$branches key=bid item=b}
+												{if $bid ne $sessioninfo.branch_id}
+													<option value="{$bid}" {if $bid eq 1}selected {/if}>{$b.code} - {$b.description}</option>
+												{/if}
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								{if $got_expect_do_date}
+									<tr>
+										<td><b class="form-label">Expected Delivery Date</b></td>
+										<td>
+											<div class="form-inline">
+												<input class="form-control" name="expect_do_date" id="inp_expect_do_date" size="10" maxlength="10"  value="{$default_expect_do_date}" readonly />
+											&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date" style="cursor: pointer;" title="Select Date" />
+											</div>
+										</td>
+									</tr>
+								{/if}
+							</table>
+							<div class="alert alert-primary rounded mt-2">
+								* Multiple rows of same sku will be combine into 1 sku row.
+							</div>
+						</div>
+					{/if}
 				</div>
-			{/if}
+			</div>
 		</div>
-		<br />
 	    
 	    {if $smarty.request.reorder_type eq 'do_range' or $smarty.request.reorder_type eq 'sales_range_plus_do'}
 	        {assign var=show_do_range value=1}
 	    {/if}
 	    {foreach from=$data.vendor_data key=vendor_id item=vendors}
-	        <div id="div_vendor-{$vendor_id}" class="stdframe" style="background-color:#fff;position:relative;">
+	        <div id="div_vendor-{$vendor_id}" class="stdframe" style="position:relative;">
 	            <div style="position:absolute;right:5px;">
 					<img src="/ui/del.png" title="Remove this vendor from generate PO" class="clickable" onClick="STOCK_REORDER.remove_vendor('{$vendor_id}');" />
 				</div>
 	
-	            <h3>{$vendors.info.code} - {$vendors.info.description} {if !$vendors.info.active}(Inactived){/if}
+	            <h3 class="text-primary mx-3">{$vendors.info.code} - {$vendors.info.description} {if !$vendors.info.active}(Inactived){/if}
 	            	{if $smarty.request.reorder_type eq 'less_then_grace_period'}
 		            	<br />
 		            	Grace Period: {$vendors.info.grace_period}
@@ -1812,12 +1833,14 @@ function close_curtain2(){
 						</div>
 					</div>
 				</div>
-	            <input type="button" value="Generate PO"  onClick="STOCK_REORDER.generate_po('{$vendor_id}');" class=" btn btn-warning inp_generate inp_generate-po" />
+	            <div class="mx-3">
+					<input type="button" value="Generate PO"  onClick="STOCK_REORDER.generate_po('{$vendor_id}');" class=" btn btn-warning inp_generate inp_generate-po" />
 	            {if $config.enable_reorder_integration}
 	            <input type="button" value="Export to CSV"  onClick="STOCK_REORDER.export_po('{$vendor_id}')" class="btn btn-info inp_export inp_export-po" />
 	            {/if}
 	            <input type="button" value="Generate DO" style="display:none;" class="btn btn-warning" onClick="STOCK_REORDER.generate_do('{$vendor_id}');" class="inp_generate inp_generate-do" />
-	        </div><br />
+				</div>
+	        </div>
 	    {/foreach}
 	    </form>
 	    <p align="center">

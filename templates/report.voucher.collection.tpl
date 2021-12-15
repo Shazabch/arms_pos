@@ -32,9 +32,15 @@
 </style>
 {/literal}
 {/if}
-
-<h1>{$PAGE_TITLE}</h1>
-
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>{$PAGE_TITLE}</h4>
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 {if !$no_header_footer}
 
 <div class="card mx-3">

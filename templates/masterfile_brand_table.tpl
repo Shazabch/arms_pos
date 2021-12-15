@@ -23,14 +23,15 @@
 <span id="span_loading_brand_list" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...<br /><br /></span>
 
 {if $pagination}
-Page:&nbsp;&nbsp;
-<select name="pg" id="pg" onchange="reload_table(true)">
+<div class="form-inline form-label mx-3">
+	Page:&nbsp;&nbsp;
+<select class="form-control" name="pg" id="pg" onchange="reload_table(true)">
 	{$pagination}
-</select>&nbsp;of <b>{$total_page}</b>
+</select>&nbsp;of &nbsp;<b>{$total_page}</b>
 &nbsp;&nbsp;
+
 {/if}
-<span style="color:#CE0000;"><b>(Total of {$bcount} records)</b></span>
-<br /><br />
+<span style="color:#CE0000;"><b>(Total of {$bcount} records)</b></span></div>
 <div class="card mx-3">
 	<div class="card-body">
 		<div class="table-responsive" class=" table mb-0 text-md-nowrap  table-hover">

@@ -745,39 +745,46 @@ var HOME = {
 {/literal}
 </script>
 
-<p>
-<input type="hidden" name="a" value="get_axis_data" />
-{if BRANCH_CODE eq 'HQ'}
-	<b>Branch : </b>
-	<select id="branch" >
+<div class="card mx-3">
+	<div class="card-body">
+		<p>
+<div class="row">
+	<input type="hidden" name="a" value="get_axis_data" />
+<div class="col">
+	{if BRANCH_CODE eq 'HQ'}
+	<b class="form-label">Branch : </b>
+	<select class="form-control" id="branch" >
 		<option value="">--All--</option>
 		{foreach from=$brn key=bid item=bn}
 			<option value="{$bid}">{$bn}</option>
 		{/foreach}
 	</select>
 	&nbsp;&nbsp;&nbsp;
-{/if}
-<b>Year : </b>
-<select id="year">
+{/if}</div>
+<div class="col">
+	<b class="form-label">Year : </b>
+<select class="form-control" id="year">
 	{foreach from=$yea key=yea item=yr}
 		<option value="{$yea}" {if $year eq $yea}selected{/if}>{$yr}</option>
 	{/foreach}
 </select>
-&nbsp;&nbsp;&nbsp;
-<b>Month: </b>
-<select id="month">
+&nbsp;&nbsp;&nbsp;</div>
+<div class="col">
+	<b class="form-label">Month: </b>
+<select  class="form-control" id="month">
 	{foreach from=$mon key=mon item=mn}
 		<option value="{$mon}" {if $month eq $mon}selected{/if}>{$mn}</option>
 	{/foreach}
 </select>
-&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;</div>
 
-<input type="button" value="Refresh" id="refresh_btn" onclick="HOME.reload_race_sales();HOME.reload_gender_sales();HOME.reload_age_sales();HOME.hide();"> 
+<div class="col">
+	<input class="btn btn-primary mt-4" type="button" value="Refresh" id="refresh_btn" onclick="HOME.reload_race_sales();HOME.reload_gender_sales();HOME.reload_age_sales();HOME.hide();"> </div>
+</div>
 
-<ul>
-<li><b>This module shows finalised sales only.</b></li>
-</ul>
+<b class="alert alert-primary rounded">This module shows finalised sales only.</b>
 </p>
+		</div></div>
 
 <div id="div_chart_sales_by_gender" class="ui-corner-all div_chart"></div>
 <div class="ui-corner-all div_chart1"></div>

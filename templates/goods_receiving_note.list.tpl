@@ -79,7 +79,9 @@ REVISION HISTORY
 <h3>General GRN</h3>
 {/if}
 
-{$pagination}
+<div class="mx-3 form-label">
+	{$pagination}
+</div>
 {assign var=nr_colspan value=11}
 <div class="card mx-3">
 	<div class="card-body">

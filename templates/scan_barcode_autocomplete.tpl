@@ -1,4 +1,4 @@
-{*
+	{*
 12/14/2012 2:17:00 PM Fithri
 - remove config checking on scan barcode
 
@@ -44,7 +44,8 @@ function add_grn_barcode_item(ele){
 					<div class="col">
 						<div class="form-inline">
 						<input class="form-control" id="grn_barcode" name="grn_barcode" onkeypress="if(event.keyCode==13){$add_action}" /> 
-				{if !$no_button}&nbsp;<input class="addbutton btn btn-primary fs-08" type="button" value="{$_add_value|default:'Add'}" onclick="{$add_action}" />{/if}
+				{if !$no_button}&nbsp;
+				<input class="addbutton btn btn-primary fs-08" type="button" value="{$_add_value|default:'Add'}" onclick="{$add_action}" />{/if}
 						</div>
 					</div>
 				</div>

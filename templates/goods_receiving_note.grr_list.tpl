@@ -27,9 +27,12 @@ REVISION HISTORY
 {if $grr}
 	{assign var=rmk_colspan value=5}
 	{if $config.use_grn_future && !$is_search}
-		&nbsp;
-		<form>
-		<b class="form-label">&nbsp;Find Document No.</b> <input class="from-control" name="find_grr" value="{$smarty.request.find_grr}" size="5"> <input type="submit" class="btn btn-primary" value="Find">
+		<form class="mx-3">
+		<b class="form-label">Find Document No.</b> 
+		<div class="form-inline">
+			<input class="form-control" name="find_grr" value="{$smarty.request.find_grr}" size="5"> 
+		&nbsp;&nbsp;<input type="submit" class="btn btn-primary" value="Find">
+		</div>
 		<input type="hidden" name="t" value="7">
 		</form>
 	{/if}

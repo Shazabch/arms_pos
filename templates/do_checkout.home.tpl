@@ -241,28 +241,31 @@ function print_assignment_note_by_batch(){
 {/if}
 </div>
 
-<ul>
-	{if $config.enable_reorder_integration}
-		<li><img src=ui/new.png align=absmiddle> <a href="?a=do_checkout_by_batch">DO Checkout by Batch</a></li>
-		<li> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('print_assignment_note_by_batch'));"> Print Assignment Note by Batch</a>
-			<div id="print_assignment_note_by_batch" class="stdframe" style="display:none;">
-				<form name="f_print_assignment_note_by_batch">
-					<input type="hidden" name="a" value="print_assignment_note_by_batch" />
-					<b>Batch Code</b> <input type="text" name="batch_code" id="inp_batch_code" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
-					<span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span><br>
-					<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
-					<input class="btn btn-primary" type="button" value="Print" onclick="print_assignment_note_by_batch();" />
-				</form>
-			</div>
-		</li>
-	{/if}
-	{if file_exists("`$smarty.server.DOCUMENT_ROOT`/do.multi_confirm_checkout.php")}
-		<li>
-			<img src="ui/table_multiple.png" align="absmiddle"> <a href="/do.multi_confirm_checkout.php?process_type=checkout" target="_blank">DO Multiple Checkout</a>
-		</li>
-	{/if}
-</ul>
-<br>
+<div class="card mx-3">
+	<div class="card-body">
+		<ul style="list-style-type: none;">
+			{if $config.enable_reorder_integration}
+				<li><img src=ui/new.png align=absmiddle> <a href="?a=do_checkout_by_batch">DO Checkout by Batch</a></li>
+				<li> <img src="ui/new.png" align="absmiddle"><a href="javascript:void(togglediv('print_assignment_note_by_batch'));"> Print Assignment Note by Batch</a>
+					<div id="print_assignment_note_by_batch" class="stdframe" style="display:none;">
+						<form name="f_print_assignment_note_by_batch">
+							<input type="hidden" name="a" value="print_assignment_note_by_batch" />
+							<b>Batch Code</b> <input type="text" name="batch_code" id="inp_batch_code" /> <img src="ui/rq.gif" align="absbottom" title="Required Field">
+							<span id="span_loading_batch_code" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span><br>
+							<div id="div_autocomplete_batch_code_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div>
+							<input class="btn btn-primary" type="button" value="Print" onclick="print_assignment_note_by_batch();" />
+						</form>
+					</div>
+				</li>
+			{/if}
+			{if file_exists("`$smarty.server.DOCUMENT_ROOT`/do.multi_confirm_checkout.php")}
+				<li>
+					<img src="ui/table_multiple.png" align="absmiddle"> <a href="/do.multi_confirm_checkout.php?process_type=checkout" target="_blank">DO Multiple Checkout</a>
+				</li>
+			{/if}
+		</ul>
+	</div>
+</div>
 <!-- print dialog -->
 {include file="do.print_dialog.tpl"}
 <!--end print dialog-->
@@ -272,7 +275,7 @@ function print_assignment_note_by_batch(){
 	<div class="tab row mx-5" style="white-space:nowrap;">
 	 <div class="col-md-6">
 		<a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Saved</a>
-		<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Completed</a>
+		&nbsp;&nbsp;<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Completed</a>
 	 </div>
 		<div class="col-md-6">
 			<div class="">	

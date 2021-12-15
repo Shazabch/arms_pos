@@ -548,7 +548,16 @@ function update_do_checkout(){
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE} (DO/{$form.do_no})</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>{$PAGE_TITLE} (DO/{$form.do_no})</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <div id="div_sku_details" style="position:absolute;z-index:10000;width:500px;height:450px;display:none;border:2px solid #CE0000;">
 	<div id="div_sku_details_header"><span style="float:left;">SKU Items Details</span>
@@ -608,195 +617,211 @@ function update_do_checkout(){
 <input type="hidden" name="first_checkout_date" value="{$form.first_checkout_date}">
 <input type="hidden" name="is_under_gst" value="{$form.is_under_gst}">
 
-<div class="stdframe" style="background:#fff">
-<h4>General Information<br/> <a style="font-size:x-small" target="_blank" href="do.php?a=open&id={$form.id}&branch_id={$form.branch_id}&type={$do_type}">(View DO Information)</a></h4>
-
-{if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}</li>
-{/foreach}
-</ul></div></div>
-{/if}
-
-
-<table border=0 cellspacing=0 cellpadding=4>
-<tr align=left>
-<td>
-	<table>
-	<tr>
-		<th width=80 align=left>Added Date</th>
-		<td>{$form.added}</td>
-	</tr>
-	<tr>
-	<th width=80 align=left>DO Date</th>
-	<td width=150>
-	{if !$view_only}
-		<input name="do_date" id="added1" size=12 onchange="on_do_date_changed();" maxlength=10 value="{if $form.first_checkout_date}{$form.do_date|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}">
-		<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+<div class="card mx-3">
+<div class="card-body">
+	<div class="stdframe" >
+		<h4 class="form-label">General Information<br/> <a style="font-size:x-small" target="_blank" href="do.php?a=open&id={$form.id}&branch_id={$form.branch_id}&type={$do_type}">(View DO Information)</a></h4>
 		
-	{else}
-		{$form.do_date|date_format:"%Y-%m-%d"}
-	{/if}
-	</td>
-	
-	{if $form.po_no}
-		<th align=left width=80>PO No.</th>
-		<td width=150>
-		{$form.po_no}
-		</td>
-	{/if}	
-	
-	<th align=left width=80>Owner</th>
-	<td style="color:blue;" align=left width="150">
-	{$form.user}
-	</td>
-	{if $config.do_enable_do_markup}
-	    <th align="left">DO Markup(+) / Discount(-)</th>
-	    <td><input type="text" value="{$form.do_markup}" size="3" style="text-align:right;" readonly />%</td>
-	{/if}
-	</tr>
-	{if !$form.first_checkout_date && !$view_only}
-		<tr>
-			<td></td>
-			<td colspan=3 nowrap style="background-color:yellow"><img align="absmiddle" src="ui/icons/information.png" /> System have automatically help you to change DO Date to today.</td>
-		</tr>			
-	{/if}
-	</table>
-</td>
-</tr>
-
-<tr>
-<td>
-	<table>
-	{if $do_type eq 'transfer'}
-	    <td valign=top width=80><b>Deliver From</b></td>
-		<td valign=top>
-		{$form.from_branch_name}
-		- {$form.from_branch_description}
-		</td>
-	{/if}
-	<tr>
-		<td valign=top width=80><b>Deliver To</b></td>
-		<td valign=top>
-		{if $do_type eq 'credit_sales'}
-            {assign var=debtor_id value=$form.debtor_id}
-	    	Debtor: {$debtor.$debtor_id.code} - {$debtor.$debtor_id.description}
-	    {elseif $do_type eq 'open'}
-	    	Company Name: {$form.open_info.name} - {$form.open_info.address}
-		{else}
-			{$form.do_branch_name|default:$form.open_info.name}{if $form.do_branch_description} - {$form.do_branch_description}{/if}
+		{if $errm.top}
+		<div class="alert alert-danger rounded">
+			<div id=err><div class=errmsg><ul>
+				{foreach from=$errm.top item=e}
+				<li> {$e}</li>
+				{/foreach}
+				</ul></div></div>
+		</div>
 		{/if}
-		</td>
-	</tr>
-	{if $config.consignment_modules && $config.masterfile_branch_region && $do_type eq 'transfer'}
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				{if $form.use_address_deliver_to}
-					<img src="/ui/checked.gif" id="sn_dtl_icon" align="absmiddle">
-				{else}
-					<img src="/ui/unchecked.gif" id="sn_dtl_icon" align="absmiddle">
-				{/if}
-				<b> Use Deliver To Address from Branch</b>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td id="span_adt" {if !$form.use_address_deliver_to}style="display:none;"{/if}>
-				<textarea rows="5" cols="30" name="address_deliver_to" readonly>{$form.address_deliver_to}</textarea>
-			</td>
-		</tr>
-		{if $config.consignment_multiple_currency}
+		
+		
+		<table border=0 cellspacing=0 cellpadding=4>
+		<tr align=left>
+		<td>
+			<table>
 			<tr>
-				<td><b>Exchange Rate</b></td>
-				<td>
-					<input type="text" name="exchange_rate" size="15" value="{$form.exchange_rate}" onchange="this.value=float(this.value)" class="r" readonly>
+				<th width=80 align=left class="form-label">Added Date</th>
+				<td>{$form.added}</td>
+			</tr>
+			<tr>
+			<th width=80 align=left class="form-label">DO Date</th>
+			<td width=150>
+			{if !$view_only}
+				<input name="do_date" id="added1" size=12 onchange="on_do_date_changed();" maxlength=10 value="{if $form.first_checkout_date}{$form.do_date|date_format:"%Y-%m-%d"}{else}{$smarty.now|date_format:"%Y-%m-%d"}{/if}">
+				<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				
+			{else}
+				{$form.do_date|date_format:"%Y-%m-%d"}
+			{/if}
+			</td>
+			
+			{if $form.po_no}
+				<th align=left width=80 class="form-label">PO No.</th>
+				<td width=150>
+				{$form.po_no}
+				</td>
+			{/if}	
+			
+			<th align=left width=80 class="form-label">Owner</th>
+			<td style="color:blue;" align=left width="150">
+			{$form.user}
+			</td>
+			{if $config.do_enable_do_markup}
+				<th align="left" class="form-label">DO Markup(+) / Discount(-)</th>
+				<td><div class="form-inline">
+					<input class="form-control" type="text" value="{$form.do_markup}" size="3" style="text-align:right;" readonly />%
+				</div></td>
+			{/if}
+			</tr>
+			{if !$form.first_checkout_date && !$view_only}
+				<tr>
+					<td></td>
+					<td colspan=3 nowrap style="background-color:yellow"><img align="absmiddle" src="ui/icons/information.png" /> System have automatically help you to change DO Date to today.</td>
+				</tr>			
+			{/if}
+			</table>
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+			<table>
+			{if $do_type eq 'transfer'}
+				<td valign=top width=80><b class="form-label">Deliver From</b></td>
+				<td valign=top>
+				{$form.from_branch_name}
+				- {$form.from_branch_description}
+				</td>
+			{/if}
+			<tr>
+				<td valign=top width=80><b class="form-label">Deliver To</b></td>
+				<td valign=top>
+				{if $do_type eq 'credit_sales'}
+					{assign var=debtor_id value=$form.debtor_id}
+					Debtor: {$debtor.$debtor_id.code} - {$debtor.$debtor_id.description}
+				{elseif $do_type eq 'open'}
+					Company Name: {$form.open_info.name} - {$form.open_info.address}
+				{else}
+					{$form.do_branch_name|default:$form.open_info.name}{if $form.do_branch_description} - {$form.do_branch_description}{/if}
+				{/if}
 				</td>
 			</tr>
-		{/if}
-	{/if}
-	{if $config.masterfile_enable_sa && $form.mst_sa}
-		<tr>
-			<td><b>Sales Agent</b></td>
-			<td>
-				<div style="width:400px;height:100px;border:1px solid #ddd;overflow:auto;" id="do_sa_list">
-					{foreach from=$form.mst_sa name=i key=r item=sa_id}
-						{$sa_list.$sa_id.code} - {$sa_list.$sa_id.name}<br />
-					{/foreach}
-				</div>
-			</td>
+			{if $config.consignment_modules && $config.masterfile_branch_region && $do_type eq 'transfer'}
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						{if $form.use_address_deliver_to}
+							<img src="/ui/checked.gif" id="sn_dtl_icon" align="absmiddle">
+						{else}
+							<img src="/ui/unchecked.gif" id="sn_dtl_icon" align="absmiddle">
+						{/if}
+						<b> Use Deliver To Address from Branch</b>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td id="span_adt" {if !$form.use_address_deliver_to}style="display:none;"{/if}>
+						<textarea class="form-control" rows="5" cols="30" name="address_deliver_to" readonly>{$form.address_deliver_to}</textarea>
+					</td>
+				</tr>
+				{if $config.consignment_multiple_currency}
+					<tr>
+						<td><b class="form-label">Exchange Rate</b></td>
+						<td>
+							<input type="text" name="exchange_rate" size="15" value="{$form.exchange_rate}" onchange="this.value=float(this.value)" class="r form-control" readonly>
+						</td>
+					</tr>
+				{/if}
+			{/if}
+			{if $config.masterfile_enable_sa && $form.mst_sa}
+				<tr>
+					<td><b class="form-label">Sales Agent</b></td>
+					<td>
+						<div style="width:400px;height:100px;border:1px solid #ddd;overflow:auto;" id="do_sa_list">
+							{foreach from=$form.mst_sa name=i key=r item=sa_id}
+								{$sa_list.$sa_id.code} - {$sa_list.$sa_id.name}<br />
+							{/foreach}
+						</div>
+					</td>
+				</tr>
+			{/if}
+			</table>
+		</td>
 		</tr>
-	{/if}
-	</table>
-</td>
-</tr>
-
-<tr>
-<td>
-	<table>
-	<tr>
-	<td valign="middle" width="80">
-	<b>Lorry No.</b> {if !$config.do_checkout_no_need_lorry_info}*{/if}</td>
-	
-	<td width="150">
-		<input name="checkout_info[lorry_no]" value="{$form.checkout_info.lorry_no|escape:'html'}" size="10" onchange="uc(this);">
-		{if !$view_only}
-			<button id="load_di_btn" onclick="load_driver_info();" title="Load Last Driver Info"><img src="ui/icons/lorry_go.png"></button>
-		{/if}
-	</td>
-	
-	<td valign="middle" width="80" align="left">
-	<b>Driver Name</b> {if !$config.do_checkout_no_need_lorry_info}*{/if}</td>
-	
-	<td width="350">
-	<input name="checkout_info[name]" value="{$form.checkout_info.name|escape:'html'}" size="40" onchange="uc(this);"></td>
-	
-	<td valign="middle" width="80" align="left"><b>IC No.</b></td>
-	<td><input name="checkout_info[nric]" value="{$form.checkout_info.nric|escape:'html'}" size="15" onchange="uc(this);"></td>
-	</tr>
-	<tr>
-		<td nowrap><b>Shipment Method</b></td>
-		<td><input name="shipment_method" value="{$form.shipment_method|escape:'html'}" size="20" onchange="uc(this);"></td>
-		<td nowrap><b>Tracking Code</b></td>
-		<td><input name="tracking_code" value="{$form.tracking_code|escape:'html'}" size="25" onchange="uc(this);"></td>
-	</tr>
-	<tr>
-		<td><b>Upload Image</b></td>
-		<td>{if $enable_edit or !$view_only}<img src="/ui/add.png"  onclick="add_image();" />{/if}</td>
-	</tr>
-	</table>
-</td>
-</tr>
-</table>
-
-</td>
-</tr>
-</table>
-<div style="display:flex;">
-	<div id="do_checkout_img_list" style="display:block;">
-	{foreach from=$form.image_list item=img}
-	<div class="div_img">
-		<img width="100" height="90" align="absmiddle" vspace="4" hspace="4" src="{$img}" border="0" onclick="show_img_full('{$img}')"  title="View"><br>
-	
-		{if $enable_edit || !$view_only}<span style="padding:4px;cursor:pointer;" title="Delete" onclick="delete_image(this.parentNode,'{$img}')"> <img src="/ui/del.png" align="absmiddle">  Delete</span>{/if}
-	</div>
-	{/foreach}
-	</div>
+		
+		<tr>
+		<td>
+			<table>
+			<tr>
+			<td valign="middle" width="80">
+			<b class="form-label">Lorry No.</b> {if !$config.do_checkout_no_need_lorry_info}*{/if}</td>
+			
+			<td width="150">
+				<input class="form-control" name="checkout_info[lorry_no]" value="{$form.checkout_info.lorry_no|escape:'html'}" size="10" onchange="uc(this);">
+				{if !$view_only}
+					<button class="btn btn-primary" id="load_di_btn" onclick="load_driver_info();" title="Load Last Driver Info"><img src="ui/icons/lorry_go.png"></button>
+				{/if}
+			</td>
+			
+			<td valign="middle" width="80" align="left">
+			<b class="form-label">Driver Name</b> {if !$config.do_checkout_no_need_lorry_info}*{/if}</td>
+			
+			<td width="350">
+			<input class="form-control" name="checkout_info[name]" value="{$form.checkout_info.name|escape:'html'}" size="40" onchange="uc(this);"></td>
+			
+			<td valign="middle" width="80" align="left"><b class="form-label">IC No.</b></td>
+			<td><input class="form-control" name="checkout_info[nric]" value="{$form.checkout_info.nric|escape:'html'}" size="15" onchange="uc(this);"></td>
+			</tr>
+			<tr>
+				<td nowrap><b class="form-label">Shipment Method</b></td>
+				<td><input class="form-control" name="shipment_method" value="{$form.shipment_method|escape:'html'}" size="20" onchange="uc(this);"></td>
+				<td nowrap><b class="form-label">Tracking Code</b></td>
+				<td><input class="form-control" name="tracking_code" value="{$form.tracking_code|escape:'html'}" size="25" onchange="uc(this);"></td>
+			</tr>
+			<tr>
+				<td><b class="form-label">Upload Image</b></td>
+				<td>{if $enable_edit or !$view_only}<img src="/ui/add.png"  onclick="add_image();" />{/if}</td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		</tr>
+		</table>
+		<div style="display:flex;">
+			<div id="do_checkout_img_list" style="display:block;">
+			{foreach from=$form.image_list item=img}
+			<div class="div_img">
+				<img width="100" height="90" align="absmiddle" vspace="4" hspace="4" src="{$img}" border="0" onclick="show_img_full('{$img}')"  title="View"><br>
+			
+				{if $enable_edit || !$view_only}<span style="padding:4px;cursor:pointer;" title="Delete" onclick="delete_image(this.parentNode,'{$img}')"> <img src="/ui/del.png" align="absmiddle">  Delete</span>{/if}
+			</div>
+			{/foreach}
+			</div>
+		</div>
+		
+		</div>
 </div>
-
 </div>
 
 <br>
 {if (count($form.deliver_branch)>0 || $form.do_branch_id || $form.debtor_id)}
 <div id="new_sheets">
-{include file=do.new.sheet.tpl}
+<div class="card mx-3 mt-3">
+	<div class="card-body">
+		{include file=do.new.sheet.tpl}
+	</div>
+</div>
 
 <br>
-<h4>Additional Remark</h4>
-<textarea style="border:1px solid #000;width:100%;height:100px;" name=checkout_remark>
+<div class="card mx-3">
+	<div class="card-body">
+		<h4 class="form-label">Additional Remark</h4>
+<textarea class="form-control" style="width:100%;height:100px;" name=checkout_remark>
 {$form.checkout_remark|escape}
 </textarea>
+	</div>
+</div>
 </div>
 {/if}
 
@@ -820,7 +845,7 @@ function update_do_checkout(){
 {if $enable_edit}
 <input class="btn btn-success" type="button" value="Save" onclick="update_do_checkout();" />
 {/if} 
-<input class="btn btn-error" type=button value="Close" onclick="document.location='/do_checkout.php'">
+<input class="btn btn-danger" type=button value="Close" onclick="document.location='/do_checkout.php'">
 
 {if !$view_only}
 	{if $config.do_checkout_scan_item_variance}
