@@ -14,15 +14,17 @@
 {include file=front_end.tpl}
 {literal}
 <style>
-#result {
-	width:700px;
-	margin:0 auto;
-	border:1px solid #ccc;
-	margin-top:1px;
-	padding:10px;
+#result p{
+	margin-left: 20px;
+	background-color: seagreen;
+	padding: 10px;
+	border-radius: 20px;
+	max-width: 231px;
+	color: white;
 }
 #result .item {
-	font-size:11px;
+	margin-top: 5px;
+	font-size:12px;
 	padding-bottom:10px;
 	border-top:1px solid #999;
 }
@@ -34,6 +36,7 @@
 #result .block
 {
 	float:left;
+	margin-right: 20px;
 }
 #result .bignumber
 {
@@ -100,7 +103,7 @@ function replacement_item_code_clicked(params){
     </div>
 </div>
 
-<div class="alert alert-primary mx-3 rounded" style="max-width: 350px;">
+<div class="alert alert-primary mx-3 rounded" style="max-width: 300px;">
 	- Use this module for SKU lookup.
 </div>
 <div class="card mx-3">
@@ -116,7 +119,7 @@ function replacement_item_code_clicked(params){
 						<td>&nbsp;<input class="btn btn-primary" type="submit" value="Find"></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="checkbox" name="show_child" value="1"> Show child items</td>
+						<td colspan="2"><div class="form-label form-inline">&nbsp;<input type="checkbox" name="show_child" value="1">&nbsp; Show child items</div></td>
 					</tr>
 				</table>
 			</div>

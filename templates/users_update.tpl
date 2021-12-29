@@ -330,7 +330,7 @@
 		</p>
 	</div>
 
-<div class="container">
+
 	<div class="breadcrumb-header justify-content-between">
 		<div class="my-auto">
 			<div class="d-flex">
@@ -353,7 +353,7 @@
 				<div {if $eform_user}style="display:none;"{/if}>
 					<div class="form-group" >
 						<div class="row">
-							<div class="col-3">
+							<div class="col-md-3 col-12">
 								{if $BRANCH_CODE eq 'HQ'}
 									<label class="mt-3">Branch</label>
 									<select class="form-control select2" name="branch_id" onChange="refresh2();">
@@ -367,7 +367,7 @@
 								{/if}
 							</div>
 							
-							<div class="col-3">
+							<div class="col-md-3 col-12">
 								<label class="mt-3">Status</label>
 								<select class="form-control select2" name="status" onChange="refresh2();">
 									<option value=-1>- All -</option>
@@ -375,7 +375,7 @@
 									<option value=0 {if $smarty.request.status eq '0'}selected{/if}>Inactive</option>
 								</select>
 							</div>
-							<div class="col-6">
+							<div class="col-md-3 col-12">
 								<label class="mt-3">Select username</label> 
 								<select class="form-control select2" name="user_id" onChange="refresh();document.f_u.search_username.value = '';" {if $eform_user}id="select_disabled"{/if}>
 									<option value=0>----------</option>
@@ -384,12 +384,13 @@
 									{/section}
 								</select>
 							</div>
-							<div class="col">
+							<div class="col-md-3 col-12">
 									<label class="mt-3">Search username</label>
 									<input class="form-control" type="text" id="search_username" name="search_username"  />
 									<div id="autocomplete_username" class="autocomplete" style="display:none;height:150px !important;width:400px !important;overflow:auto !important;z-index:100"></div>
-									<button class="btn btn-primary mt-3" name="submitbtn"  onclick="refresh()">Refresh</button>
+									
 							</div>
+							<button class="btn btn-primary mt-3 ml-2" name="submitbtn"  onclick="refresh()">Refresh</button>
 
 						</div>		
 					</div>
@@ -397,7 +398,6 @@
 			</form>
 		</div>
 	</div>
-</div>
 <div id=udiv class="stdframe"></div>
 	
 	{include file=footer.tpl}

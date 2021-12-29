@@ -21,7 +21,7 @@
 - Enhanced to add "export adjustment item" icon.
 *}
 
-{$pagination}
+<div class="mx-3">{$pagination}</div>
 <div class="card mx-3">
 	<div class="card-body">
 		<div class="table-responsive">

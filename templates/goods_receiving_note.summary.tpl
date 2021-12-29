@@ -77,13 +77,21 @@ function dept_changed(sel){
 			<input type="hidden" name="a" value="show" />
 			
 			<p>
-			<div class="form-inline">
-				<b class="form-label">GRR Receive From</b>&nbsp;&nbsp;
-			<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp; 
-			&nbsp;&nbsp;&nbsp;	<b class="form-label">To</b> &nbsp;&nbsp;
+			
+			<div class="row">
+			<div class="col-md-4 form-inline">
+				<b class="form-label">GRR Receive From&nbsp;</b>
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
+				<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp; 
+			</div>
+			
+			<div class="col-md-4 form-inline" style="white-space: nowrap;">
+				<b class="form-label">To&nbsp;</b>
 			<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 />
 			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
 			</div>
+			</div>
+			
 			
 			<!-- calendar stylesheet -->
 			<link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
@@ -170,7 +178,7 @@ function dept_changed(sel){
 				<div class="col-md-4 mt-4">
 					<span id="span_itemize" style="{if $smarty.request.department_id}display:none;{/if}">
 						<span class="form-label form-inline">
-							<input type="checkbox" name="itemize" value="1" {if $smarty.request.itemize}checked {/if} /> <b>&nbsp;&nbsp;Itemize</b>
+							<input type="checkbox" name="itemize" value="1" {if $smarty.request.itemize}checked {/if} /> <b>Itemize</b>
 						</span>
 					</span>
 				</div>

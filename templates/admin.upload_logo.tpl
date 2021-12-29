@@ -104,8 +104,8 @@ function enable_hide_company_name(){
 						<td>
 							<b class="fs-09">Upload New Logo: </b>
 							&nbsp;&nbsp;&nbsp;
-							<input type="file" name="logo"/>&nbsp;&nbsp;&nbsp;
-							<input type="submit" class="btn btn-primary" name="import_btn" value="Upload" />
+							<input type="file" name="logo"/>
+							<input type="submit" class="btn btn-primary mt-2 mt-md-0" name="import_btn" value="Upload" />
 						</td>
 					</tr>
 				</table>

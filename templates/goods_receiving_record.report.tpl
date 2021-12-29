@@ -82,18 +82,31 @@ REVISION HISTORY
 	<div class="card-body">
 		<form class="noprint" action="{$smarty.server.PHP_SELF}" method="get" >
 			<p>
-				<div class="form-inline">
-			<select class="form-control" name="date_type"onchange="change_date(this)" id="date_type">
-				<option value="grr_date" {if $smarty.request.date_type eq "grr_date"}selected{/if}>GRR Date</option>
-				<option value="inv_date" {if $smarty.request.date_type eq "inv_date"}selected{/if}>Invoice Date</option>
-			</select>
-		
-				&nbsp;&nbsp;<b class="form-label">From</b>&nbsp;&nbsp;
-			 <input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 />
-			 &nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			 &nbsp;&nbsp;<b class="form-label">To</b>&nbsp;&nbsp;
-			    <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
-			   <img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			
+			<div class="row">
+				<div class="col-md-4">
+					<select class="form-control" name="date_type"onchange="change_date(this)" id="date_type">
+						<option value="grr_date" {if $smarty.request.date_type eq "grr_date"}selected{/if}>GRR Date</option>
+						<option value="inv_date" {if $smarty.request.date_type eq "inv_date"}selected{/if}>Invoice Date</option>
+					</select>
+				</div>
+			
+					<div class="col-md-4">
+					<div class="form-inline">
+						<b class="form-label">From&nbsp;</b>
+						<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 />
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					</div>
+					</div>
+				
+					<div class="col-md-4">
+						<div class="form-inline">
+							<b class="form-label">To&nbsp;</b>
+						<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
+						&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+						</div>
+					</div>
+				
 			</div>
 			
 			<!-- calendar stylesheet -->
@@ -272,7 +285,7 @@ REVISION HISTORY
 			<div class="row">
 				<p>
 					<b class="form-inline form-label mt-2">
-						&nbsp;&nbsp;&nbsp;<input name="inv_only" id="inv_only" type="checkbox" {if $smarty.request.date_type eq "inv_date"}disabled checked{elseif $smarty.request.date_type eq "grr_date" && $smarty.request.inv_only}checked{/if}> &nbsp;Show GRR with Invoive Only
+						&nbsp;<input name="inv_only" id="inv_only" type="checkbox" {if $smarty.request.date_type eq "inv_date"}disabled checked{elseif $smarty.request.date_type eq "grr_date" && $smarty.request.inv_only}checked{/if}> &nbsp;Show GRR with Invoive Only
 					</b>
 					</p>
 					<p>
@@ -332,10 +345,10 @@ REVISION HISTORY
 	<div class="my-auto">
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
-				{if $smarty.request.branch_id || $BRANCH_CODE!='HQ'} Branch:{$form.branch}&nbsp;&nbsp; {/if}
+				{if $smarty.request.branch_id || $BRANCH_CODE!='HQ'} Branch:{$form.branch} {/if}
 From:{$smarty.request.from}
-&nbsp;&nbsp; To:{$smarty.request.to}
-&nbsp;&nbsp; Department:{if $_dp}{$_dp}{else}ALL{/if}
+ To:{$smarty.request.to}
+ Department:{if $_dp}{$_dp}{else}ALL{/if}
 			</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
 		</div>
 	</div>

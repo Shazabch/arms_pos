@@ -154,8 +154,7 @@ var UPDATE_SKU_CATEGORY_DISCOUNT_MODULE = {
 	<div class="card mx-3">
 		<div class="card-body">
 			<table>
-				<tr>
-					<td colspan="4" >
+				
 					<div class="alert alert-primary rounded">
 						<b>Note:</b><br />
 						* This module will update the Category Discount from SKU Masterfile.<br/>
@@ -167,15 +166,19 @@ var UPDATE_SKU_CATEGORY_DISCOUNT_MODULE = {
 						* Insert "clear" onto the discount value will clean up the Discount value from database.<br />
 						<br />
 					</div>
-					</td>
-				</tr>
-				<tr>
-					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-					<td>
-						&nbsp;&nbsp;<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-						&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
-					</td>
-				</tr>
+					
+					<div class="row">
+					<div class="col-md-2">
+						<b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b>
+					</div>
+					<div class="col-md-3 mt-2">
+						<input type="file" name="update_csv"/>
+					</div>
+					<div class="col-md-2">
+						<input type="Submit" class="btn btn-primary mt-2 mt-md-0" value="Show Result" />
+					</div>
+					</div>
+					
 				<tr>
 					<td valign="top"><div style="margin-top:3px;"><b class="form-label">Update Category Discount by</b></div></td>
 					<td>
@@ -204,24 +207,26 @@ var UPDATE_SKU_CATEGORY_DISCOUNT_MODULE = {
 		</div>
 		<div class="card mx-3">
 			<div class="card-body">
-				<table id="si_tbl" width="100%">
-					<thead class="bg-gray-100">
-						<tr >
-							{foreach from=$sample_headers.1 item=i}
-								<th>{$i}</th>
-							{/foreach}
-						</tr>
-					</thead>
-					{foreach from=$sample.1 item=s}
-						<tbody class="fs-08">
-							<tr>
-								{foreach from=$s item=i}
-									<td>{$i}</td>
+				<div class="table-responsive">
+					<table id="si_tbl" width="100%">
+						<thead class="bg-gray-100">
+							<tr >
+								{foreach from=$sample_headers.1 item=i}
+									<th>{$i}</th>
 								{/foreach}
-								</tr>
-						</tbody>
-					{/foreach}
-				</table>
+							</tr>
+						</thead>
+						{foreach from=$sample.1 item=s}
+							<tbody class="fs-08">
+								<tr>
+									{foreach from=$s item=i}
+										<td>{$i}</td>
+									{/foreach}
+									</tr>
+							</tbody>
+						{/foreach}
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

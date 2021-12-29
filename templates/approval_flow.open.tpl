@@ -17,36 +17,38 @@
 	
 	<div class="table-responsive">
 		<table class="table mb-0 text-md-nowrap table-sm table-borderless">
-			<tr>
-				{* Branch *}
-				<td width="100"><label><b>Branch</b><span id="rq_img1" class="text-danger"> *</span></label></td>
-				<td>
+			
+					<div class="row">
+
+						<div class="col-12 col-md-4">
+							{* Branch *}
+			  		<label class="mt-2"><b>Branch</b><span id="rq_img1" class="text-danger"> *</span></label>
 					<select name="branch_id" class="form-control">
-						<option value="">-- Please Select --</option>
-						{foreach from=$branch_list key=bid item=b}
-							{if $bid eq $form.branch_id or $b.active}
-								<option value="{$bid}" {if $bid eq $form.branch_id}selected {/if}>{$b.code}</option>
-							{/if}
-						{/foreach}
+					<option value="">-- Please Select --</option>
+					{foreach from=$branch_list key=bid item=b}
+						{if $bid eq $form.branch_id or $b.active}
+							<option value="{$bid}" {if $bid eq $form.branch_id}selected {/if}>{$b.code}</option>
+						{/if}
+					{/foreach}
 					</select>
-				</td>
+						</div>
 				
-				{* Flow Type *}
-				<td width="100"><label><b>Flow Type</b><span id="rq_img2" class="text-danger"> *</span></label></td>
-				<td>
+				
+					<div class="col-12 col-md-4">
+						{* Flow Type *}
+					<label class="mt-2"><b>Flow Type</b><span id="rq_img2" class="text-danger"> *</span></label>
 					<select name="type" onChange="APPROVAL_FLOW.flow_type_changed();" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$flow_set item=r}
 							<option value="{$r.type}" {if $r.type eq $form.type}selected {/if}>{if $r.description}{$r.description}{else}{$r.type}{/if}</option>
 						{/foreach}
 					</select>
-				</td>
-			</tr>
+					</div>
 			
-			<tr>
-				{* Department *}
-				<td width="100"><label><b>Department</b><span id="rq_img3" class="text-danger"> *</span></label></td>
-				<td>
+
+					<div class="col-12 col-md-4">
+						{* Department *}
+					<label class="mt-2"><b>Department</b><span id="rq_img3" class="text-danger"> *</span></label>
 					<select name="sku_category_id" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$dept_list key=dept_id item=r}
@@ -55,32 +57,31 @@
 							{/if}
 						{/foreach}
 					</select>
-				</td>
+					</div>
 				
-				{* SKU Type *}
-				<td width="100"><label><b>SKU Type</b><span id="rq_img4" class="text-danger"> *</span></label></td>
-				<td>
+					<div class="col-12 col-md-4">
+						{* SKU Type *}
+					<label class="mt-2"><b>SKU Type</b><span id="rq_img4" class="text-danger"> *</span></label>
 					<select name="sku_type" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$sku_type_list key=st item=r}
 							<option value="{$st}" {if $form.sku_type eq $st}selected {/if}>{$r.description}</option>
 						{/foreach}
 					</select>
-				</td>
-			</tr>
+					</div>
 			
-			{* Approval Order *}
-			<tr>
-				<td width="100"><label><b>Approval Order</b><span id="rq_img5" class="text-danger"> *</span></label></td>
-				<td>
+			
+				<div class="col-12 col-md-4">
+					{* Approval Order *}
+				<label class="mt-2"><b>Approval Order</b><span id="rq_img5" class="text-danger"> *</span></label>
 					<select name="aorder" onChange="APPROVAL_FLOW.aorder_changed();" class="form-control">
 						<option value="">-- Please Select --</option>
 						{foreach from=$aorder key=aorder_id item=r}
 							<option value="{$aorder_id}" {if $aorder_id eq $form.aorder}selected {/if}>{$r.description}</option>
 						{/foreach}
 					</select>
-				</td>
-			</tr>
+					</div>
+				</div>
 			
 			{* Search User *}
 			<tr>

@@ -205,12 +205,18 @@ var IMPORT_SKU = {
 						* The custom mprice header must match with system mprice settings. (You can refer to SKU Change Selling Price module)<br />
 						* When data import has RSP and RSP Discount, the system will automatically calculate selling price.<br /><br />
 				</div>
-				<div class="mt-4">
-					<td><b>Upload CSV <br />(<a href="?a=download_sample_sku&method=1">Download Sample</a>)</b></td>
-					<td>
-						&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input type="Submit" class="btn btn-primary" value="Show Result" />
-					</td>
+				<div class="row mt-4">
+						<div class="col-md-3">
+							<b>Upload CSV <br>(<a href="?a=download_sample_sku&method=1">Download Sample</a>)</b>
+						</div>
+					
+						<div class="col-md-3 mt-2">
+							<input type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
+						</div>
+						<div class="col-md-3">
+							<input type="Submit" class="btn btn-primary" value="Show Result" />
+						</div>
+					
 				</div>
 			</table>
 			<div class="div_tbl mt-4">

@@ -60,15 +60,26 @@ REVISION HISTORY
 	<div class="card-body">
 <form class="noprint" action="{$smarty.server.PHP_SELF}" method="get" >
 <p>
-<div class="form-inline">
-	<b class="form-label">GRA Date From</b>&nbsp;&nbsp;
-<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
-&nbsp;<b class="form-label">To</b> &nbsp;&nbsp;
-<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
 
+<div class="row">
+<div class="col-md-4">
+	<b class="form-label">GRA Date From</b>
+	<div class="form-inline">
+		<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=22 /> 
+	&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
+	</div>
 </div>
+
+<div class="col-md-4">
+	<b class="form-label">To</b> 
+	<div class="form-inline">
+		<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=22 /> 
+	&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+	</div>
+</div>
+</div>
+
+
 <!-- calendar stylesheet -->
 <link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
 
@@ -193,12 +204,12 @@ show_report();
 
 {if $gra}
 <div class="noscreen">
-<h4>{if $smarty.request.branch_id || $BRANCH_CODE!='HQ'} Branch:{$form.branch}&nbsp;&nbsp; {/if}
+<h4>{if $smarty.request.branch_id || $BRANCH_CODE!='HQ'} Branch:{$form.branch} {/if}
 From:{$smarty.request.from}
-&nbsp;&nbsp; To:{$smarty.request.to}
-&nbsp;&nbsp; Department:{if $_dp}{$_dp}{else}ALL{/if}
-&nbsp;&nbsp; SKU Type:{if $smarty.request.sku_type}{$smarty.request.sku_type}{else}ALL{/if}
-&nbsp;&nbsp; Status:{if $_st}{$_st}{else}ALL{/if}
+ To:{$smarty.request.to}
+ Department:{if $_dp}{$_dp}{else}ALL{/if}
+ SKU Type:{if $smarty.request.sku_type}{$smarty.request.sku_type}{else}ALL{/if}
+ Status:{if $_st}{$_st}{else}ALL{/if}
 </h4>
 </div>
 {assign var=count value=0}

@@ -521,26 +521,28 @@ function search_tab_clicked(obj){
 
 <div style="padding:10px 0;">
 	<form name="f_s" onsubmit="list_sel(0,0); return false;">
-	<div class=" mx-3">
-		<div class="tab row mx-3 mb-3 " style="white-space:nowrap;">
-			{if $config.use_grn_future}
-				<a href="javascript:list_sel(7)" id="lst7" class="fs-07 ml-1 btn btn-outline-primary btn-rounded">GRR</a>
-				<a href="javascript:list_sel(1)" id="lst1" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Saved GRN</a>
-				<a href="javascript:list_sel(2)" id="lst2" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Pending Documents</a>
-				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Account Verification</a>
-				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-				<a href="javascript:list_sel(5)" id="lst5" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Approval</a>
-				<a href="javascript:list_sel(6)" id="lst6" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Approved</a>
-			{else}
-				<a href="javascript:list_sel(1)" id="lst1" class="fs-07 ml-1 btn btn-outline-primary btn-rounded">Saved GRN</a>
-				<a href="javascript:list_sel(2)" id="lst2" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-				<a href="javascript:list_sel(3)" id="lst3" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Waiting for Verification</a>
-				<a href="javascript:list_sel(4)" id="lst4" class="fs-07 ml-1  btn btn-outline-primary btn-rounded">Verified</a>
-			{/if}
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="tab row mx-3 mb-3 " style="white-space:nowrap;">
+				{if $config.use_grn_future}
+					<a href="javascript:list_sel(7)" id="lst7" class="m-2 m-md-1 fs-07  btn btn-outline-primary btn-rounded">GRR</a>
+					<a href="javascript:list_sel(1)" id="lst1" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Saved GRN</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(2)" id="lst2" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Pending Documents</a>
+					<a href="javascript:list_sel(3)" id="lst3" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Account Verification</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(4)" id="lst4" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+					<a href="javascript:list_sel(5)" id="lst5" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(6)" id="lst6" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Approved</a>
+				{else}
+					<a href="javascript:list_sel(1)" id="lst1" class="m-2 m-md-1 fs-07  btn btn-outline-primary btn-rounded">Saved GRN</a>
+					<a href="javascript:list_sel(2)" id="lst2" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Cancelled/Terminated</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(3)" id="lst3" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Waiting for Verification</a>
+					<a href="javascript:list_sel(4)" id="lst4" class="m-2 m-md-1 fs-07   btn btn-outline-primary btn-rounded">Verified</a>
+				{/if}
+			</div>
+				<a name="find" class="fs-09 ml-1 mt-2 " id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+					<span><b class="form-label">Find GRN / Doc No / Vendor</b></span>
+				</a>
 		</div>
-			<a name="find" class="fs-09 ml-1 mt-2 " id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
-				<span><b class="form-label">Find GRN / Doc No / Vendor</b></span>
-			</a>
 
 	</div>
 	<div id="div_grn" >

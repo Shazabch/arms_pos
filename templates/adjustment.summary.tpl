@@ -59,23 +59,22 @@ function zoom_dept(dept_id){
 			<form name="f_d">
 			<input type=hidden name=a value="refresh">
 			
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group">
-					<div class="form-inline">
-						<span>
-							<b class="form-label">Date From</b> 
-							<input class="form-control" type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"> 
-							&nbsp; 
-							<b>To</b> 
-							<input class="form-control" type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-							&nbsp;&nbsp;
-						</span>
-					</div>
-				</div>
+		<div class="row">	
+					
+			<div class="col-md-6">
+				<b class="form-label">Date From</b> 
+			<div class="form-inline"><input class="form-control" type="text" name="from" value="{$form.from}" id="added1" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"></div>
+			</div>
+			
+			<div class="col-md-6">
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to" value="{$form.to}" id="added2" readonly="1" size=12> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
 			</div>
 			
 			{if $BRANCH_CODE eq 'HQ'}
+			
 			<div class="col-md-6">
 				<div class="form-group">
 					<span>
@@ -84,7 +83,7 @@ function zoom_dept(dept_id){
 							{section name=i loop=$branch}
 							<option value="{$branch[i].id}" {if $branch_id eq $branch[i].id}selected{/if}>{$branch[i].code}</option>
 							{/section}
-							</select> &nbsp;&nbsp;
+							</select>
 					</span>
 				</div>
 			</div>
@@ -99,7 +98,7 @@ function zoom_dept(dept_id){
 						{section name=i loop=$dept}
 						<option value="{$dept[i].id}" {if $smarty.request.department_id eq $dept[i].id}selected{/if}>{$dept[i].description}</option>
 						{/section}
-						</select> &nbsp;&nbsp;
+						</select>
 				</span>
 			</div>
 		</div>
@@ -114,7 +113,7 @@ function zoom_dept(dept_id){
 							{section name=i loop=$brand}
 							<option value="{$brand[i].id}" {if $smarty.request.brand_id eq $brand[i].id}selected{/if}>{$brand[i].description}</option>
 							{/section}
-							</select> &nbsp;&nbsp;
+							</select>
 					</span>
 				</div>
 			</div>
@@ -128,7 +127,7 @@ function zoom_dept(dept_id){
 						{section name=i loop=$adj_type_list}
 						<option value="{$adj_type_list[i].adjustment_type}" {if $smarty.request.adjustment_type eq $adj_type_list[i].adjustment_type}selected{/if}>{$adj_type_list[i].adjustment_type}</option>
 						{/section}
-						</select> &nbsp;&nbsp;	
+						</select>	
 				</span>
 			</div>
 		</div>

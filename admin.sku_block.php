@@ -202,7 +202,7 @@ function check_action(obj)
 	print "<ul>$msg</ul>";
 ?>
 
-<label>Action </label>
+<label class="form-label">Action </label>
 <select name="action" class="form-control select2" onchange="check_action(this);">
 <option <? if ($_REQUEST['action'] == 'Block') print "selected";?>>Block</option>
 <option <? if ($_REQUEST['action'] == 'Unblock') print "selected";?>>Unblock</option>
@@ -234,7 +234,7 @@ else
 ?>
 <br /><br />
 Please select CSV list <input type=file name=f size=30>
-<input type=submit class="btn btn-primary" value="Run">
+<input type=submit class="btn btn-primary mt-2 mt-md-0" value="Run">
 &nbsp;&nbsp;<a href="?a=view_sample" target="_blank"> View sample</a> (Accept ARMS Code, MCode)
 </form>
 		</div>

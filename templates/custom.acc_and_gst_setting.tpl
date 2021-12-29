@@ -202,7 +202,8 @@ var CUSTOM_ACC_AND_GST_SETTING = {
 		</div>
 		<div class="card mx-3">
 			<div class="card-body">
-				<table class="table" cellpadding="5" class="report_table table mb-0 text-md-nowrap  table-hover"
+				<div class="table-responsive">
+					<table class="table" cellpadding="5" class="report_table table mb-0 text-md-nowrap  table-hover"
 		>
 			<thead class="bg-gray-100">
 				<tr>
@@ -235,6 +236,7 @@ var CUSTOM_ACC_AND_GST_SETTING = {
 				{/foreach}
 			</tbody>
 		</table>
+				</div>
 			</div>
 		</div>
 	</div>

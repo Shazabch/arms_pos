@@ -151,34 +151,37 @@ var UPDATE_SKU_PO_REORDER_QTY_MODULE = {
 <div class="card mx-3">
 	<div class="card-body">
 		<table>
-			<tr>
-				<td colspan="4" >
-					<div class="alert alert-primary rounded ">
-						<b>Note:</b><br />
-					* This module will update the PO Reorder Qty from SKU Masterfile.<br/>
-					* Min Qty is optional.<br/>
-					* Notify Person is optional but must exists if provided.<br/>
-					* Notify Person must have the privilege "NT_STOCK_REORDER".
+				<div class="alert alert-primary rounded ">
+					<b>Note:</b><br />
+				* This module will update the PO Reorder Qty from SKU Masterfile.<br/>
+				* Min Qty is optional.<br/>
+				* Notify Person is optional but must exists if provided.<br/>
+				* Notify Person must have the privilege "NT_STOCK_REORDER".
+				</div>
+				
+				<div class="row">
+					<div class="col-md-2">
+						<b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b>
 					</div>
-				</td>
-			</tr>
-			<tr>
-				<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-				<td>
-				&nbsp;	<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-					&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
-				</td>
-			</tr>
-			<tr>
-				<td><b class="form-label">Update PO Reorder Qty by</b></td>
-				<td>
+				<div class="col-md-3 mt-2">
+					<input type="file" name="update_csv"/>
+				</div>
+				<div class="col-md-2">
+					<input type="Submit" class="btn btn-primary mt-2 mt-md-0" value="Show Result" />
+				</div>
+				</div>
+				
+					<div class="row">
+						<div class="col-md-3 mt-2 mt-md-0">
+							<b class="form-label">Update PO Reorder Qty by</b>
 					<select class="form-control" name="update_type" onchange="UPDATE_SKU_PO_REORDER_QTY_MODULE.toggle_update_type(this);">
 						{foreach from=$upd_type_list key=upd_type item=upd_desc}
 							<option value="{$upd_type}" {if $smarty.request.update_type eq $upd_type}selected{/if}>{$upd_desc}</option>
 						{/foreach}
 					</select>
-				</td>
-			</tr>
+						</div>
+					</div>
+
 			<tr>
 				<td>&nbsp;</td>
 				<td  id="div_branch_list" {if $smarty.request.update_type ne 'branch'}style="display:none;"{/if}>

@@ -72,7 +72,7 @@ function check_form(){
 		<form name="f_a" enctype="multipart/form-data" class="stdframe" method="post" onSubmit="return check_form();">
 			<input type="hidden" name="a" value="update_pt" />
 			
-			<b>Branch</b>
+			<b>Branch</b><br>
 			{foreach from=$branches key=bid item=b}
 				<span style="white-space:nowrap;margin-right:10px;">
 					<input type="checkbox" name="branch_id[]" {if is_array($smarty.request.branch_id) and in_array($bid, $smarty.request.branch_id)}checked {/if} value="{$bid}" />

@@ -162,7 +162,7 @@ var DO_REQUEST_REJECTED_REPORT = {
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-4 mt-2 mt-md-0">
 				<select class="form-control" name="sort_order">
 					<option value="asc" {if $smarty.request.sort_order eq 'asc'}selected {/if}>Ascending</option>
 					<option value="desc" {if $smarty.request.sort_order eq 'desc'}selected {/if}>Descending</option>

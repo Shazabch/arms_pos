@@ -134,20 +134,26 @@ var CNOTE = {
 		</div>
 	</div>
 </div>
-<div class="row mx-3">
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="row">
 	
-<div id="div_tab" class="tab" style="white-space:nowrap;">
-	<a href="javascript:void(CNOTE.reload_list(1))" id="lst-1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
-	<a href="javascript:void(CNOTE.reload_list(2))" id="lst-2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
-	<a href="javascript:void(CNOTE.reload_list(3))" id="lst-3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
-	<a href="javascript:void(CNOTE.reload_list(4))" id="lst-4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-	<a href="javascript:void(CNOTE.reload_list(5))" id="lst-5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
-	<a class="a_tab" id="lst-0">Find CN No 
-		<input id="inp_item_search" onKeyPress="CNOTE.check_and_search(event);" /> 
-		<input class="btn btn-primary fs-08" type="button" value="Go" onClick="CNOTE.reload_list(0);" />
-	</a>
-	<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
-</div>
+			<div id="div_tab" class="tab" style="white-space:nowrap;">
+				<a href="javascript:void(CNOTE.reload_list(1))" id="lst-1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+				<a href="javascript:void(CNOTE.reload_list(2))" id="lst-2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+				<a href="javascript:void(CNOTE.reload_list(3))" id="lst-3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a><br class="d-none d-md-inline d-lg-none">
+				<a href="javascript:void(CNOTE.reload_list(4))" id="lst-4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+				<a href="javascript:void(CNOTE.reload_list(5))" id="lst-5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
+				<a class="a_tab" id="lst-0"><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					Find CN No 
+					<input id="inp_item_search" onKeyPress="CNOTE.check_and_search(event);" /> 
+					<input class="btn btn-primary fs-08" type="button" value="Go" onClick="CNOTE.reload_list(0);" />
+				</a>
+				<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
+			</div>
+			</div>
+	</div>
 </div>
 
 <div id="data_list" class="mt-2">

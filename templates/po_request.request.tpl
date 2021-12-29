@@ -251,13 +251,17 @@ function get_item_details(sku_item_id){
 			
 	</div>
 </div>
-<div class="row mx-3 mb-3">
-	<div class=tab style="white-space:nowrap;">
-		<a id=lst1 href="javascript:list_sel(1);" class="btn btn-outline-primary btn-rounded" >New</a>
-		<a id=lst2 href="javascript:list_sel(2);" class="btn btn-outline-primary btn-rounded">Approved</a>
-		<a id=lst3 href="javascript:list_sel(3);" class="btn btn-outline-primary btn-rounded">Used In PO</a>
-		<a id=lst4 href="javascript:list_sel(4);" class="btn btn-outline-primary btn-rounded">Rejected</a>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="row mb-3 ml-2">
+			<div class=tab style="white-space:nowrap;">
+				<a id=lst1 href="javascript:list_sel(1);" class="btn btn-outline-primary btn-rounded" >New</a>
+				<a id=lst2 href="javascript:list_sel(2);" class="btn btn-outline-primary btn-rounded">Approved</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+				<a id=lst3 href="javascript:list_sel(3);" class="btn btn-outline-primary btn-rounded">Used In PO</a>
+				<a id=lst4 href="javascript:list_sel(4);" class="btn btn-outline-primary btn-rounded">Rejected</a>
+				</div>
 		</div>
+	</div>
 </div>
 
 <div id="req_items">

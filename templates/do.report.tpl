@@ -284,13 +284,24 @@
 			<!-- end of popup div-->
 			
 			<p>
-			<div class="form-inline">
-				<b class="form-label">Date From</b>&nbsp;&nbsp;
-			 <input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1"  />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			 &nbsp;&nbsp;<b class="form-label">To</b>&nbsp;&nbsp;
-			   <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1"  />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<b class="form-label">DO Type</b>&nbsp;&nbsp;
+			
+			<div class="row">
+			<div class="col-md-3">
+				<b class="form-label">Date From</b>
+				<div class="form-inline">
+					<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1"  /> <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">To</b>
+				<div class="form-inline">
+					<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1"  /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<b class="form-label">DO Type</b>
 			<select class="form-control" name="do_type">
 				<option value="">-- All --</option>
 				<option value="transfer" {if $smarty.request.do_type eq 'transfer'}selected {/if}>Transfer</option>
@@ -299,9 +310,13 @@
 				{/if}
 				<option value="open" {if $smarty.request.do_type eq 'open'}selected {/if}>Cash Sales</option>
 			</select>
+			</div>
 			
-			&nbsp;&nbsp;&nbsp;<input type=submit class="btn btn-primary " name=subm value="Refresh">
-		</div>
+			<div class="col-md-3">
+				<input type=submit class="btn btn-primary mt-2 mt-md-4" name=subm value="Refresh">
+			</div>
+			</div>
+		
 			</p>
 			<p>
 

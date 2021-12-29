@@ -62,7 +62,7 @@
 		<div class="col-md-4">
 			<b class="form-label">Date From</b>
 			<div class="form-inline">
-				<input class="form-control" type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				<input class="form-control" type="text" name="from_date" value="{$form.from_date}" id="added1" readonly="1" > <img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
 			</div>
 			
 		</div>
@@ -70,7 +70,7 @@
 			<div class="col-md-4">
 				<b class="form-label">To</b>
 			<div class="form-inline">
-				<input class="form-control" type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" >&nbsp;&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				<input class="form-control" type="text" name="to_date" value="{$form.to_date}" id="added2" readonly="1" > <img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
 			</div>
 			
 		

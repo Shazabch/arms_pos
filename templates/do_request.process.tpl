@@ -699,7 +699,7 @@ function curtain_clicked(){
 							<input class="form-control" name="expect_do_date_from" id="inp_expect_do_date_from" size="12" maxlength="10" />
 							<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_from" style="cursor: pointer;" title="Select Date" />
 					
-						&nbsp;&nbsp;To
+						&nbsp;&nbsp;<br class="d-inline d-sm-none"> To
 					
 						&nbsp;<input class="form-control" name="expect_do_date_to" id="inp_expect_do_date_to" size="12" maxlength="10" value="{$default_expect_do_date_to}" />
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_expect_do_date_to" style="cursor: pointer;" title="Select Date" />
@@ -728,7 +728,7 @@ function curtain_clicked(){
 		</select>
 	</div>
 		
-		<div class="col-md-3">
+		<div class="col-md-3 mt-2 mt-md-0">
 			<select class="form-control" name="sort_order">
 				<option value="asc">Ascending</option>
 				<option value="desc">Descending</option>

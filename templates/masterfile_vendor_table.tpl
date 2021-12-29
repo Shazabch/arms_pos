@@ -52,12 +52,12 @@ REVISION HISTORY
 
 <div class="table-responsive">
 	<table  class="sortable table mb-0 text-md-nowrap  table-hover" id="vendor_tbl"  width=100%>
-		<thead style="height: 25px;" class="bg-gray-200">
+		<thead style="height: 30px;" class="bg-gray-200">
 			<tr>
 				{if $sessioninfo.privilege.MST_VENDOR}
-				<th  width="70">&nbsp;</th>
+				<th  style="min-width: 70px;">&nbsp;</th>
 				{/if}
-				<th  width="130">&nbsp;</th>
+				<th  style="min-width: 130px;">&nbsp;</th>
 				<th>Code</th>
 				<th>Description</th>
 				<th nowrap>Company No</th>

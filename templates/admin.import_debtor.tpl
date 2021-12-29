@@ -128,13 +128,12 @@ var IMPORT_DEBTOR = {
 					* If GST Registration number is provided, but GST Start Date is empty, system will auto assign {$config.global_gst_start_date}.
 				</div>
 				
-				<tr>
-					<td><b class="fs-08">Upload CSV <br />(<a href="?a=download_sample_debtor&method=1">Download Sample</a>)</b></td>
-					<td>
-						&nbsp;&nbsp;&nbsp;<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input type="Submit" class="btn btn-primary fs-07" value="Show Result" />
-					</td>
-				</tr>
+				
+						<div class="row">
+							<div class="col-md-3"><b class="fs-08">Upload CSV <br />(<a href="?a=download_sample_debtor&method=1">Download Sample</a>)</b></div>
+						<div class="col-md-3 mt-2"><input class="fs-08" type="file" name="import_csv"/></div>
+						<div class="col-md-3"><input type="Submit" class="btn btn-primary mt-2 mt-md-0 fs-07" value="Show Result" /></div>
+						</div>
 			</table>
 			<div class="div_tbl mt-2">
 				<h5 class="bg-gray-100 py-1 px-2">Sample</h5>

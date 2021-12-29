@@ -626,7 +626,7 @@ function show_more_info(){
 			
 			<table class="tl" >
 			<tr><b class="form-label mt-2">Search SKU<span class="text-danger" title="required field"> *</span></b>
-			<input class="form-control" id="autocomplete_sku" name="sku" size=50 onclick="this.select();" style="font-size:14px;width:500px;"> <span></span>
+			<input class="form-control" id="autocomplete_sku" name="sku" size=30 onclick="this.select();" style="font-size:14px;width:500px;"> <span></span>
 			<span id="span_loading_item_info"></span>
 			<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 			<div id="autocomplete_sku_choices" class="autocomplete" style="display:none;height:150px !important;width:500px !important;overflow:auto !important;z-index:100"></div></td></tr>
@@ -689,26 +689,30 @@ function show_more_info(){
 <br />
 
 
-<div class=tab style="white-space:nowrap;">
-		<div class="row mx-3 mb-3">
-		<div class="col">
-			<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Saved Items</a>
-		<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Processing</a>
-		<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
-		<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
-		
-		</div>
-		<div class="col">
-			<a class="a_tab" id=lst4> 
-				<div class="form-inline">
-					<b class="form-label">Find Items </b>
-				&nbsp;&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" /> 
-				&nbsp;&nbsp;<input type="button" class="btn btn-primary" value="Go" onClick="list_sel(4);" />
-				</div>
-			</a>
-		</div>
-		
-</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class=tab style="white-space:nowrap;">
+			<div class="row mb-3">
+			<div class="col">
+				<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Saved Items</a>
+			<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Processing</a><br class="d-inline d-md-inline d-lg-none"><br class="d-inline d-md-inline d-lg-none">
+			<a href="javascript:void(list_sel(5))" id=lst5 class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
+			<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a><br>
+			
+			</div>
+			<div class="col">
+				<a class="a_tab" id=lst4> 
+					<div class="form-inline">
+						<b class="form-label mt-2 mt-md-0">Find Items </b>
+					&nbsp;&nbsp;<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" /> 
+				<input type="button" class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0" value="Go" onClick="list_sel(4);" />
+					</div>
+				</a>
+			</div>
+			
+	</div>
+	</div>
+	</div>
 </div>
 <div id="items_list" >
 </div>

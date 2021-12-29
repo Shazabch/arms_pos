@@ -114,24 +114,26 @@ var UPDATE_MODULE = {
 	<div class="card mx-3">
 		<div class="card-body">
 			<table>
-				<tr>
-					
-						<td colspan="4" >
-							<div class="alert alert-primary">
+				
+						<div class="alert alert-primary">
 							<b>Note:</b><br />
 							* This module will update the {$method|ucwords} and Price Type from SKU Masterfile.<br/>
 							* {$method|ucwords} Code or Price Type is optional but cannot left both empty.<br/>
 						</div>
-						</td>
 					
-				</tr>
-				<tr>
-					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method={$method}">Download Sample</a>)</b></td>
-					<td>
-					&nbsp;&nbsp;	<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-						<input type="Submit" class="btn btn-primary" value="Show Result" />
-					</td>
-				</tr>
+					<div class="row">
+						
+					<div class="col-md-2">
+						<b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method={$method}">Download Sample</a>)</b>
+					</div>
+					<div class="col-md-3 mt-2">
+						<input type="file" name="update_csv"/>
+					</div>
+					<div class="col-md-2">
+						<input type="Submit" class="btn btn-primary mt-2 mt-md-0" value="Show Result" />
+					</div>
+					</div>
+				
 			</table>
 		</div>
 	</div>

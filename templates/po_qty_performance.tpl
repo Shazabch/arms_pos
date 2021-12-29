@@ -66,17 +66,26 @@ span.span_po_date{
 	<div class="card-body">
 		<form method=post class=form name="f_a">
 			<input type="hidden" name="a" value="showForm">
+			
+			<div class="row">
+				<div class="col-md-6">
+					<b class="form-label">Date From</b>
+					<div class="form-inline">
+						<input class="form-control" size=22 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+					&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					</div>
+				</div>
+			
+			<div class="col-md-6">
+				<b class="form-label">To</b>
 			<div class="form-inline">
-				<b class="form-label">Date</b>
-			&nbsp<b class="form-label">From</b>&nbsp;
-			 <input class="form-control" size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-			<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<b class="form-label">To</b> &nbsp;
-			<input class="form-control" size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-			&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="form-control" size=22 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+			&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
 			</div>
+			</div>
+			</div>
+			
+			
 			<p>
 				<b class="form-label">Department</b> {dropdown name=dept_id values=$departments selected=$smarty.request.dept_id key=id value=description}&nbsp;&nbsp;&nbsp;&nbsp;
 				<b class="form-label">Vendor</b> {dropdown name=vendor_id all="-- All --" values=$vendors selected=$smarty.request.vendor_id key=id value=description}

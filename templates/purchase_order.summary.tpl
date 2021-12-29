@@ -44,13 +44,22 @@ function status_selected(){
 		<form name=f1 class="noprint" action="{$smarty.server.PHP_SELF}" method=get >
 			<input type=hidden name=a value="show">
 			
-		<div class="form-inline">
-			<b class="form-label">PO Date From</b> 
-			&nbsp;&nbsp;<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
-			&nbsp;&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
-			&nbsp;&nbsp;<b class="form-label">To</b> 
-			&nbsp;&nbsp;<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
-			&nbsp;&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+		<div class="row">
+			<div class="col-md-6">
+				<b class="form-label">PO Date From</b> 
+			<div class="form-inline">
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
+			<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
+			</div>
+			</div>
+			
+			<div class="col-md-6">
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
+			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			</div>
+			</div>
 		</div>
 			
 			<!-- calendar stylesheet -->

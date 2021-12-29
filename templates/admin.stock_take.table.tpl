@@ -37,73 +37,79 @@
 {config_load file=site.conf}
 <h5>{count var=$flows} record(s) <span id="span_refreshing"></span></h5>
 
-<table  border=0 cellpadding=4 cellspacing=1>
-<tr bgcolor="{#TB_COLHEADER#}">
-<th bgcolor="{#TB_CORNER#}" width=40>&nbsp;</th>
-<th>Date</th>
-<th>Location</th>
-<th>Shelf</th>
-<th>Username</th>
-<th>Arms Code</th>
-<th>Mcode</th>
-<th>Art No</th>
-<th>Description</th>
-<th>Price Type</th>
-<th>Quantity</th>
-{if $sessioninfo.privilege.SHOW_COST}
-<th>Unit Cost <b>[<a href="javascript:void(show_cost_help());">?</a>]</b></th>
-{/if}
-<th>Stock Bal</th>
-<th>Variances</th>
-</tr>
-{if $flows}
-{foreach name=f from=$flows item=val}
-<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
-<td bgcolor={#TB_ROWHEADER#} nowrap>
-	<a href="javascript:void(delete_record({$val.id}));"><img src="ui/deact.png" title="Delete" border=0></a>
-	<a href="javascript:void(swap('up','{$val.id}','{$val.branch_id}'));" style="{if $smarty.foreach.f.first}visibility:hidden;{/if}">
-		<img src="ui/icons/arrow_up.png" title="Swap Up" border=0></a>
-	<a href="javascript:void(swap('down','{$val.id}','{$val.branch_id}'));" style="{if $smarty.foreach.f.last}visibility:hidden;{/if}">
-		<img src="ui/icons/arrow_down.png" title="Swap Down" border=0></a>
-	<input type="hidden" name="mid[{$val.id}]" class="sku_item_id_{$val.sku_item_id}" item_id="{$val.id}" sku_item_id="{$val.sku_item_id}" sb_qty="{$val.sb_qty}" value="{$val.mid}" />
-</td>
-<td>{$val.date}</td>
-<td>{$val.location|upper}</td>
-<td>{$val.shelf|upper}</td>
-<td>{$val.u|upper}</td>
-<td>{$val.sku_item_code}</td>
-<td>{$val.mcode}</td>
-<td>{$val.artno|upper}</td>
-<td>{$val.description|upper}</td>
-<td>{$val.trade_discount_code|upper}</td>
-<td>
-	<input type="text" size=3 name="qtys[{$val.id}]" tabindex='{$smarty.foreach.f.iteration}' value="{$val.qty}" onchange="roundup_value('qty','{$val.doc_allow_decimal}',this); recalc_variance({$val.id}, this.value, {$val.sb_qty|default:0});" style="text-align:right">
-</td>
-{if $sessioninfo.privilege.SHOW_COST}
-<td>
-	<input type="text" size=5 name="cost_prices[{$val.id}]" tabindex='{$smarty.foreach.f.iteration}' value="{$val.cost_price}" onchange="roundup_value('cost','{$val.doc_allow_decimal}',this)" style="text-align:right" {if !$sessioninfo.privilege.STOCK_TAKE_EDIT_COST} disabled {/if} >
-</td>
-{/if}
-<td class="r">
-	<span id="span_stk_bal_{$val.id}">
-		{if $val.mid eq $val.id}
-			{if strpos($val.sb_qty,'.')}{$val.sb_qty|qty_nf}{else}{$val.sb_qty|number_format}{/if}
-		{else}
-			-
-		{/if}
-	</span>
-</td>
-{*assign var=variances value=$val.qty-$val.sb_qty*}
-{assign var=variances value=$val.variance}
-<td class="r {if $variances>0}positive{elseif $variances<0}negative{/if}" id="var_{$val.id}">
-	{if $val.mid eq $val.id}
-		{if $variances>0}+{/if}{if strpos($variances,'.')}{$variances|qty_nf}{else}{$variances|number_format}{/if}
-	{else}
-		-
-	{/if}
-</td>
-
-</tr>
-{/foreach}
-{/if}
-</table>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table  border=0 cellpadding=4 cellspacing=1>
+				<tr bgcolor="{#TB_COLHEADER#}">
+				<th bgcolor="{#TB_CORNER#}" width=40>&nbsp;</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>Shelf</th>
+				<th>Username</th>
+				<th>Arms Code</th>
+				<th>Mcode</th>
+				<th>Art No</th>
+				<th>Description</th>
+				<th>Price Type</th>
+				<th>Quantity</th>
+				{if $sessioninfo.privilege.SHOW_COST}
+				<th>Unit Cost <b>[<a href="javascript:void(show_cost_help());">?</a>]</b></th>
+				{/if}
+				<th>Stock Bal</th>
+				<th>Variances</th>
+				</tr>
+				{if $flows}
+				{foreach name=f from=$flows item=val}
+				<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
+				<td bgcolor={#TB_ROWHEADER#} nowrap>
+					<a href="javascript:void(delete_record({$val.id}));"><img src="ui/deact.png" title="Delete" border=0></a>
+					<a href="javascript:void(swap('up','{$val.id}','{$val.branch_id}'));" style="{if $smarty.foreach.f.first}visibility:hidden;{/if}">
+						<img src="ui/icons/arrow_up.png" title="Swap Up" border=0></a>
+					<a href="javascript:void(swap('down','{$val.id}','{$val.branch_id}'));" style="{if $smarty.foreach.f.last}visibility:hidden;{/if}">
+						<img src="ui/icons/arrow_down.png" title="Swap Down" border=0></a>
+					<input type="hidden" name="mid[{$val.id}]" class="sku_item_id_{$val.sku_item_id}" item_id="{$val.id}" sku_item_id="{$val.sku_item_id}" sb_qty="{$val.sb_qty}" value="{$val.mid}" />
+				</td>
+				<td>{$val.date}</td>
+				<td>{$val.location|upper}</td>
+				<td>{$val.shelf|upper}</td>
+				<td>{$val.u|upper}</td>
+				<td>{$val.sku_item_code}</td>
+				<td>{$val.mcode}</td>
+				<td>{$val.artno|upper}</td>
+				<td>{$val.description|upper}</td>
+				<td>{$val.trade_discount_code|upper}</td>
+				<td>
+					<input type="text" size=3 name="qtys[{$val.id}]" tabindex='{$smarty.foreach.f.iteration}' value="{$val.qty}" onchange="roundup_value('qty','{$val.doc_allow_decimal}',this); recalc_variance({$val.id}, this.value, {$val.sb_qty|default:0});" style="text-align:right">
+				</td>
+				{if $sessioninfo.privilege.SHOW_COST}
+				<td>
+					<input type="text" size=5 name="cost_prices[{$val.id}]" tabindex='{$smarty.foreach.f.iteration}' value="{$val.cost_price}" onchange="roundup_value('cost','{$val.doc_allow_decimal}',this)" style="text-align:right" {if !$sessioninfo.privilege.STOCK_TAKE_EDIT_COST} disabled {/if} >
+				</td>
+				{/if}
+				<td class="r">
+					<span id="span_stk_bal_{$val.id}">
+						{if $val.mid eq $val.id}
+							{if strpos($val.sb_qty,'.')}{$val.sb_qty|qty_nf}{else}{$val.sb_qty|number_format}{/if}
+						{else}
+							-
+						{/if}
+					</span>
+				</td>
+				{*assign var=variances value=$val.qty-$val.sb_qty*}
+				{assign var=variances value=$val.variance}
+				<td class="r {if $variances>0}positive{elseif $variances<0}negative{/if}" id="var_{$val.id}">
+					{if $val.mid eq $val.id}
+						{if $variances>0}+{/if}{if strpos($variances,'.')}{$variances|qty_nf}{else}{$variances|number_format}{/if}
+					{else}
+						-
+					{/if}
+				</td>
+				
+				</tr>
+				{/foreach}
+				{/if}
+				</table>
+		</div>
+	</div>
+</div>

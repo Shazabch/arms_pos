@@ -32,7 +32,7 @@
 			<table class="sortable table mb-0 text-md-nowrap  table-hover" id="branch_tbl"  width=100%>
 				<thead class="bg-gray-100" style="height: 25px;">
 					<tr>
-						<th  width="130">&nbsp;</th>
+						<th  style="min-width: 130px;">&nbsp;</th>
 						<th>Code</th>
 						<th>Company Name</th>
 						<th>Company Registration No.</th>

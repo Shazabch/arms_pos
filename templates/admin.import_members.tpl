@@ -170,7 +170,7 @@ var IMPORT_MEMBERS = {
 		<td><b class="fs-09">Upload CSV <br />(<a class="fs-08" href="?a=download_sample_members&method=1">Download Sample</a>)</b></td>
 		<td>
 		&nbsp;&nbsp;	<input type="file" class="fs-08"  name="import_csv"/>
-			<input type="Submit" class="btn btn-primary fs-08" value="Show Result" />
+			<input type="Submit" class="btn btn-primary fs-08 mt-2 mt-md-0 ml-2 ml-md-0" value="Show Result" />
 		</td>
 	</tr>
 </table>

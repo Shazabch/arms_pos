@@ -208,24 +208,28 @@ function do_cancel(id, bid){
 
 	</div>
 </div>
-<div class="row mx-3">
-	<div class="col">
-		<div class="tab" style="white-space:nowrap;">
-			<a href="javascript:void(list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
-			<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a>
-			<a href="javascript:void(list_sel(3))" id="lst3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a>
-			<a href="javascript:void(list_sel(4))" id="lst4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-			<a href="javascript:void(list_sel(5))" id="lst5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
-		
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="row mx-3">
+			<div class="col">
+				<div class="tab" style="white-space:nowrap;">
+					<a href="javascript:void(list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Saved</a>
+					<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded">Waiting for Approval</a><br class="d-inline d-sm-none"> <br class="d-inline d-sm-none">
+					<a href="javascript:void(list_sel(3))" id="lst3" class="a_tab btn btn-outline-primary btn-rounded">Rejected</a><br class="d-none d-md-inline d-lg-none"> <br class="d-none d-md-inline d-lg-none">
+					<a href="javascript:void(list_sel(4))" id="lst4" class="a_tab btn btn-outline-primary btn-rounded">Cancelled/Terminated</a><br class="d-inline d-sm-none"> <br class="d-inline d-sm-none">
+					<a href="javascript:void(list_sel(5))" id="lst5" class="a_tab btn btn-outline-primary btn-rounded">Approved</a>
+				
+				</div>
+			</div>
+			<div class="col">
+		<div class="form-inline mt-2 mt-md-2 mt-lg-0">
+			<a class="a_tab" id="lst6"><span class="p-2">Find Doc No</span>
+				<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" value="{$smarty.request.search_str}" /> 
+				<input class="btn btn-primary mt-2 mt-md-2 mt-lg-0 ml-0 ml-md-2" type="button" value="Go" onClick="list_sel(6);" />
+			</a>
 		</div>
-	</div>
-	<div class="col">
-<div class="form-inline">
-	<a class="a_tab" id="lst6"><span class="p-2">Find Doc No</span>
-		<input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" value="{$smarty.request.search_str}" /> 
-		&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="Go" onClick="list_sel(6);" />
-	</a>
-</div>
+			</div>
+		</div>
 	</div>
 </div>
 

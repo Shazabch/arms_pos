@@ -867,27 +867,31 @@ function list_sel(n,s)
 	<form name="f_l" onsubmit="list_sel(0,0);return false;">
 
 	<div class=tab style="white-space:nowrap;">
-		<div class="row mx-3 mb-2">
-		<div class="col">
-			<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded ">Saved GRA</a>
-		{if !$config.gra_no_approval_flow}
-			<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded ">Waiting for Approval</a>
-		{/if}
-		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded ">Cancelled/Terminated</a>
-		{if !$config.gra_no_approval_flow}
-			<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded ">Approved</a>
-		{/if}
-		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded ">Completed</a>
-		{if $config.gra_enable_disposal}
-			<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded ">Disposed</a>
-		{/if}
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="row  mb-2">
+					<div class="col">
+						<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded ">Saved GRA</a>
+					{if !$config.gra_no_approval_flow}
+						<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded ">Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					{/if}
+					<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded ">Cancelled/Terminated</a><br class="d-none d-md-inline d-lg-none"><br class="d-none d-md-inline d-lg-none">
+					{if !$config.gra_no_approval_flow}
+						<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded ">Approved</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					{/if}
+					<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded ">Completed</a>
+					{if $config.gra_enable_disposal}
+						<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded ">Disposed</a>	
+					{/if}
+					</div>
+					<div class="col">
+						<a name="find" class="btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
+							Find GRA / Vendor
+						</a>
+					</div>
+			</div>
+			</div>
 		</div>
-		<div class="col">
-			<a name="find" class="btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">
-				Find GRA / Vendor
-			</a>
-		</div>
-</div>
 	</div>
 	<div class="card mx-3">
 		<div class="card-body">

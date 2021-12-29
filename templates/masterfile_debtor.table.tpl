@@ -47,7 +47,7 @@ REVISION HISTORY
 	<table class="sortable table mb-0 text-md-nowrap  table-hover mt-3" id="debtor_tbl" width="100%">
 		<thead style="height:30px;">
 			<tr>
-				<th width=80>&nbsp;</th>
+				<th style="min-width:80px;">&nbsp;</th>
 				<th>Code</th>
 				<th>Description</th>
 				<th nowrap>Company No</th>

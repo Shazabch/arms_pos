@@ -148,7 +148,7 @@ function check_form(form,type){
 	<input type="hidden" name="a" value="import_selling" />
 	<input type="hidden" name="import_method" value="selling" />
 	
-	<label class="mt-1"><b>Branch</b>
+	<label class="mt-1"><b>Branch</b><br>
 	{foreach from=$branches key=bid item=b}
 		<span style="white-space:nowrap;margin-right:20px;">
 		    <input type="checkbox" name="branch_id[]" class="branches_chkbx" {if is_array($smarty.request.branch_id) and in_array($bid, $smarty.request.branch_id)}checked {/if} value="{$bid}" />
@@ -163,9 +163,9 @@ function check_form(form,type){
 	<div class="alert alert-danger " style="max-width: 305px;">
 		<b>Warning:</b> This action cannot be undo.
 	</div>
-	<input class="btn btn-primary" type="submit" value="Import" onclick="document.f_a['import_method'].value='selling';" /> 
+	<input class="btn btn-info" type="submit" value="Import" onclick="document.f_a['import_method'].value='selling';" /> 
 	{if $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE}
-		<input class="btn btn-primary" type="submit" value="Generate Batch Price Change" onclick="document.f_a['import_method'].value='batch_selling';" />
+		<input class="btn btn-primary mt-2 mt-md-0" type="submit" value="Generate Batch Price Change" onclick="document.f_a['import_method'].value='batch_selling';" />
 	{/if}	<br>
 	<input class="mt-3" type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
  </form>
@@ -243,9 +243,9 @@ The following error(s) has occured:
 				<div class="alert alert-danger" style="max-width: 305px;">
 					<b>Warning:</b> This action cannot be undo.
 				</div>
-				<input class="btn btn-primary" type="submit" value="Import" onclick="document.f_b['import_method'].value='selling';" /> 
+				<input class="btn btn-info" type="submit" value="Import" onclick="document.f_b['import_method'].value='selling';" /> 
 				{if $sessioninfo.privilege.MST_SKU_UPDATE_FUTURE_PRICE}
-					<input class="btn btn-primary" type="submit" value="Generate Batch Price Change" onclick="document.f_b['import_method'].value='batch_selling';" />
+					<input class="btn btn-primary mt-2 mt-md-0" type="submit" value="Generate Batch Price Change" onclick="document.f_b['import_method'].value='batch_selling';" />
 				{/if}<br>
 				<input  class="mt-2" type="checkbox" name="no_sync" {if $smarty.request.no_sync}checked {/if} value="1" /> <b>No Auto Sync to Counters</b>
 			</form>

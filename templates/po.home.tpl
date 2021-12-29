@@ -463,19 +463,23 @@ function search_tab_clicked(obj){
 {/literal}
 
 <form name="f_l" onsubmit="list_sel(0,0);return false;">
-<div class="row mx-3 mb-3">
-	<div class=tab style="white-space:nowrap;">
-		<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded">Saved PO</a>
-		<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded">Waiting for Approval</a>
-		<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded">Rejected</a>
-		<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-		<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded">Approved</a>
-		{if BRANCH_CODE eq 'HQ'}
-		<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded">HQ Distribution List</a>
-		{$conf}
-		{/if}
-		<a name="find_po" id="lst0" class="btn btn-outline-primary btn-rounded" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find PO / Vendor</a>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="row  mb-3">
+			<div class=tab style="white-space:nowrap;">
+				<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded">Saved PO</a>
+				<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded">Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+				<a href="javascript:list_sel(5)" id="lst5" class="btn btn-outline-primary btn-rounded">Rejected</a><br class="d-none d-md-inline d-lg-none"><br class="d-none d-md-inline d-lg-none">
+				<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded">Cancelled/Terminated</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+				<a href="javascript:list_sel(4)" id="lst4" class="btn btn-outline-primary btn-rounded">Approved</a><br class="d-none d-md-inline d-lg-none"><br class="d-none d-md-inline d-lg-none">
+				{if BRANCH_CODE eq 'HQ'}
+				<a href="javascript:list_sel(6)" id="lst6" class="btn btn-outline-primary btn-rounded">HQ Distribution List</a><br class="d-inline d-md-inline d-lg-none"><br class="d-inline d-md-inline d-lg-none">
+				{$conf}
+				{/if}
+				<a name="find_po" id="lst0" class="btn btn-outline-primary btn-rounded" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find PO / Vendor</a>
+				</div>
 		</div>
+	</div>
 </div>
 <div>
 	<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>

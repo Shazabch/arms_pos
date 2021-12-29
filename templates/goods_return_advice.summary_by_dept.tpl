@@ -50,14 +50,25 @@ function zoom_dept(dept_id)
             <p>
                 <div class="card mx-3">
                     <div class="card-body">
+
+           <div class="row">
+           <div class="col-md-3">
+            <b class="form-label">GRA Date From</b> 
             <div class="form-inline">
-                <b class="form-label">GRA Date From</b> &nbsp;&nbsp;
-            <input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 /> 
-            <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
-            &nbsp;&nbsp;&nbsp;<b class="form-label">To</b>&nbsp;&nbsp; 
-            <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
-            
+                <input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=22 /> 
+            &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/>
             </div>
+           </div>
+            
+            <div class="col-md-3">
+                <b class="form-label">To</b> 
+            <div class="form-inline">
+                <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=22 /> 
+            &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+            </div>
+            </div>
+           </div>
+            
             <!-- calendar stylesheet -->
             <link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />
             
@@ -168,11 +179,11 @@ function zoom_dept(dept_id)
 		<div class="d-flex">
 			<h4 class="content-title mb-0 my-auto ml-4 text-primary">
                 Date: From {$smarty.request.from|default:"-"} to {$smarty.request.to|default:"-"}
-&nbsp;&nbsp;
+
 Department: {$_dp|default:"All"}
-&nbsp;&nbsp;
+
 Vendor: {$_vd|default:"All"}
-&nbsp;&nbsp;
+
 Status: {$_st|default:"All"}
             </h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
 		</div>

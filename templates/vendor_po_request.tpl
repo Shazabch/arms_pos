@@ -211,17 +211,18 @@ Expiry date : <font color=blue>{$smarty.request.expire}</font>
 							<input class="form-control" name="vendor_id" size=1 value="{$form.vendor_id}" readonly>
 					&nbsp;&nbsp;	<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" >
 						<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-					&nbsp;&nbsp;	<input class="btn btn-primary" type=button value="History" onclick="show_history()">
+					&nbsp;&nbsp;	<input class="btn btn-primary mt-2 mt-md-0" type=button value="History" onclick="show_history()">
 						</div>
 				
 			</div>
 			</div>
 			<tr>
 				<td valign="top"><b class="form-label mt-2">Department<span class="text-danger" title="Required Field"> *</span></b></td>
-				
+			</tr>
+			<tr>
 				<td id="td_department">
 					
-					<div class="mt-2" style="height:200px;width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
+					<div class="mt-2" style="height:200px;max-width:400px;overflow:auto;background:#fff;border:1px solid #ccc;padding:4px;float:left">
 						<input type="checkbox" id="dept_all_id" onclick="toggle_all_check(this,'department')" onchange="get_po_owners();" value="1" />
 						<label for="dept_all_id"><b class="form-label">ALL DEPARTMENTS</b></label><br /><br />
 						{assign var=tmp_dept value=""}

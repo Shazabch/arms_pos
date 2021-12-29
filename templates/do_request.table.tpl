@@ -92,14 +92,14 @@ item_id_list = [];
 		{/foreach}
 	</select>
 </div>
-<div class="col-md-4">
+<div class="col-md-4 mt-2 mt-md-0">
 	<select class="form-control" id="sort_order">
 		<option value="asc" {if $sort_order eq "asc"}selected{/if}>Ascending</option>
 		<option value="desc" {if $sort_order eq "desc"}selected{/if}>Descending</option>
 	</select>
 </div>
 <div class="col-md-2">
-	<button class="btn btn-info" onclick="list_sel('{$curr_tab}');">Refresh</button>
+	<button class="btn btn-info mt-2 mt-md-0" onclick="list_sel('{$curr_tab}');">Refresh</button>
 </div>
 </div>
 

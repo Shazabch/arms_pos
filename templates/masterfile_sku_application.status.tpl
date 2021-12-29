@@ -26,7 +26,7 @@
 				<b class="form-label">Search SKU Application #ID</b> 
 				<div class="form-inline">
 					<input class="form-control" name=sku_id size=53 value="{$smarty.request.sku_id}">
-				 &nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-info " value="Find">
+				 <input type="submit" class="btn btn-info ml-0 ml-md-2 mt-2 mt-md-0 " value="Find">
 				</div>
 			</form>
 		</div>
@@ -36,7 +36,7 @@
 				<b class="form-label">Search Code/Description</b> 
 				<div class="form-inline">	
 				<input class="form-control" name=search_code size=53 value="{$smarty.request.search_code}"> 
-				&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-info  " value="Find"></div>
+				<input type="submit" class="btn btn-info  ml-0 ml-md-2 mt-2 mt-md-0  " value="Find"></div>
 			</form>
 		</div>
 	</div>
@@ -80,55 +80,57 @@
 
 <div class="stdframe card mx-3" id=udiv>
 <div class="card-body">
-	<table  class="report_table table mb-0 text-md-nowrap  table-hover fs-08">
-		<thead class="bg-gray-200" style="height: 30px;">
+	<div class="table-responsive">
+		<table  class="report_table table mb-0 text-md-nowrap  table-hover fs-08">
+			<thead class="bg-gray-200" style="height: 30px;">
+				<tr>
+					<th>ID#</th>
+					<th>Status</th>
+					<th>Applying Branch</th>
+					<th>Brand</th>
+					<th>Apply By</th>
+					<th>Submit Date</th>
+					<th>Approved By</th>
+					<th>Need Approval From</th>
+					<th>Last Update</th>
+					</tr>
+			</thead>
+			{section name=i loop=$sku}
 			<tr>
-				<th>ID#</th>
-				<th>Status</th>
-				<th>Applying Branch</th>
-				<th>Brand</th>
-				<th>Apply By</th>
-				<th>Submit Date</th>
-				<th>Approved By</th>
-				<th>Need Approval From</th>
-				<th>Last Update</th>
-				</tr>
-		</thead>
-		{section name=i loop=$sku}
-		<tr>
-		<th bgcolor=#ffffff rowspan=2>{$sku[i].id}<br>
-		<a class=small href="{$smarty.server.PHP_SELF}?a=view&id={$sku[i].id}" target=_blank>view</a></th>
-		<td align=center class=small bgcolor=#ffffff rowspan=2>
-		{if $sku[i].status == 0}<img src=ui/notify_sku_new.png align=absmiddle><br>New Application
-		{elseif $sku[i].status == 1}<img src=ui/notify_sku_approve.png align=absmiddle><br>
-			{if $sku[i].approvals=='' or $sku[i].approvals=='|'}
-				Fully Approved
-			{else}
-				In Approval Cycle
+			<th bgcolor=#ffffff rowspan=2>{$sku[i].id}<br>
+			<a class=small href="{$smarty.server.PHP_SELF}?a=view&id={$sku[i].id}" target=_blank>view</a></th>
+			<td align=center class=small bgcolor=#ffffff rowspan=2>
+			{if $sku[i].status == 0}<img src=ui/notify_sku_new.png align=absmiddle><br>New Application
+			{elseif $sku[i].status == 1}<img src=ui/notify_sku_approve.png align=absmiddle><br>
+				{if $sku[i].approvals=='' or $sku[i].approvals=='|'}
+					Fully Approved
+				{else}
+					In Approval Cycle
+				{/if}
+			{elseif $sku[i].status == 2}<img src=ui/notify_sku_reject.png align=absmiddle><br>Rejected
+			{elseif $sku[i].status == 3}<img src=ui/notify_sku_pending.png align=absmiddle><br>KIV (Pending)
+			{else}<img src=ui/notify_sku_terminate.png align=absmiddle><br>
+				{if $sku[i].approvals=='' or $sku[i].approvals=='|'}
+					Terminated
+				{else}
+					In Terminate Cycle
+				{/if}
 			{/if}
-		{elseif $sku[i].status == 2}<img src=ui/notify_sku_reject.png align=absmiddle><br>Rejected
-		{elseif $sku[i].status == 3}<img src=ui/notify_sku_pending.png align=absmiddle><br>KIV (Pending)
-		{else}<img src=ui/notify_sku_terminate.png align=absmiddle><br>
-			{if $sku[i].approvals=='' or $sku[i].approvals=='|'}
-				Terminated
-			{else}
-				In Terminate Cycle
-			{/if}
-		{/if}
-		</td>
-		<td bgcolor=#ffffff class="small" colspan=7>{$sku[i].cat_tree}</td>
-		</tr>
-		<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
-		<td>{$sku[i].branch}</td>
-		<td>{$sku[i].brand}</td>
-		<td>{$sku[i].u}</td>
-		<td class=small>{$sku[i].added}</td>
-		<td>{$sku[i].approved_by|default:"-"}</td>
-		<td>{if $sku[i].app_status ne 1}{$sku[i].approvals|default:"-"}{else}-{/if}</td>
-		<td class=small>{$sku[i].timestamp}</td>
-		</tr>
-		{/section}
-		</table>
+			</td>
+			<td bgcolor=#ffffff class="small" colspan=7>{$sku[i].cat_tree}</td>
+			</tr>
+			<tr onmouseover="this.bgColor='{#TB_ROWHIGHLIGHT#}';" onmouseout="this.bgColor='';">
+			<td>{$sku[i].branch}</td>
+			<td>{$sku[i].brand}</td>
+			<td>{$sku[i].u}</td>
+			<td class=small>{$sku[i].added}</td>
+			<td>{$sku[i].approved_by|default:"-"}</td>
+			<td>{if $sku[i].app_status ne 1}{$sku[i].approvals|default:"-"}{else}-{/if}</td>
+			<td class=small>{$sku[i].timestamp}</td>
+			</tr>
+			{/section}
+			</table>
+	</div>
 </div>
 </div>
 

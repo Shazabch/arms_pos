@@ -83,8 +83,11 @@ function page_change(ele){
 			
 			<a href="javascript:void(list_sel(1))" id="lst1" class="a_tab btn btn-outline-primary btn-rounded">Active</a>
 			<a href="javascript:void(list_sel(2))" id="lst2" class="a_tab btn btn-outline-primary btn-rounded ">Cancelled</a>
-			&nbsp;&nbsp;<a class="a_tab" id="lst3">Find Inv No / DN No / ID 
-				<input id="inp_dn_search" onKeyPress="search_input_keypress(event);" /> 
+			&nbsp;&nbsp;<a class="a_tab" id="lst3">
+				<br class="d-inline d-sm-none">
+				Find Inv No / DN No / ID 
+				<br class="d-inline d-sm-none">
+				<input class="" id="inp_dn_search" onKeyPress="search_input_keypress(event);" /> 
 				<input class="btn btn-primary fs-08" type="button" value="Go" onClick="list_sel(3);" /></a>
 			<span id="span_list_loading" style="background:yellow;padding:2px 5px;display:none;"><img src="/ui/clock.gif" align="absmiddle" /> Processing...</span>
 			</div>

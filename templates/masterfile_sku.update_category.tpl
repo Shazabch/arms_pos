@@ -123,22 +123,25 @@ var UPDATE_SKU_CATEGORY_MODULE = {
 	<div class="card mx-3">
 		<div class="card-body">
 			<table>
-				<tr>
-					<td colspan="4" >
+				
 					<div class="alert alert-primary rounded mx-3">
 						<b>Note:</b><br />
 						* This module will update the SKU's category.<br />
 						* Category is mandatory.
 					</div>
-					</td>
-				</tr>
-				<tr>
-					<td><b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b></td>
-					<td>
-						&nbsp;&nbsp;<input type="file" name="update_csv"/>&nbsp;&nbsp;&nbsp;
-						&nbsp;<input type="Submit" class="btn btn-primary" value="Show Result" />
-					</td>
-				</tr>
+					
+					<div class="row">
+						<div class="col-md-2">
+							<b class="form-label">Upload CSV <br />(<a href="?a=download_sample&method=1">Download Sample</a>)</b>
+						</div>
+						<div class="col-md-3 mt-2">
+							<input type="file" name="update_csv"/>
+						</div>
+						<div class="col-md-2">
+							<input type="Submit" class="btn btn-primary mt-2 mt-md-0" value="Show Result" />
+						</div>
+					</div>
+					
 			</div>
 			</table>
 		</div>

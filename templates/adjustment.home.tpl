@@ -207,22 +207,26 @@ function export_adjustment_item(id,bid){
 <form onsubmit="list_sel(0,0);return false;">
 <div class="tab" style="white-space:nowrap;">
 
-<div class="row mx-3">
-	<div class="col">
-		<a href="javascript:list_sel(1)"  id="lst1" class="fs-08 btn btn-outline-primary btn-rounded" >Saved Adjustment</a>
-<a href="javascript:list_sel(2)" id="lst2" class="fs-08 btn btn-outline-primary btn-rounded" >Waiting for Approval</a>
-<a href="javascript:list_sel(5)" id="lst5" class="fs-08 btn btn-outline-primary btn-rounded" >Rejected</a>
-<a href="javascript:list_sel(3)" id="lst3" class="fs-08 btn btn-outline-primary btn-rounded" >Cancelled/Terminated</a>
-<a href="javascript:list_sel(4)" id="lst4" class="fs-08 btn btn-outline-primary btn-rounded" >Approved</a>
-
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="row">
+			<div class="col">
+				<a href="javascript:list_sel(1)"  id="lst1" class="fs-08 btn btn-outline-primary btn-rounded" >Saved Adjustment</a>
+		<a href="javascript:list_sel(2)" id="lst2" class="fs-08 btn btn-outline-primary btn-rounded" >Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+		<a href="javascript:list_sel(5)" id="lst5" class="fs-08 btn btn-outline-primary btn-rounded" >Rejected</a><br class="d-none d-md-inline d-lg-none"><br class="d-none d-md-inline d-lg-none">
+		<a href="javascript:list_sel(3)" id="lst3" class="fs-08 btn btn-outline-primary btn-rounded" >Cancelled/Terminated</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+		<a href="javascript:list_sel(4)" id="lst4" class="fs-08 btn btn-outline-primary btn-rounded" >Approved</a><br>
+		
+			</div>
+			<div class="col">
+				<div class="form-inline mt-2 ml-1">
+					<a class="" name="find_po" id="lst0">Find Adjustment 
+						<input class="form-control" id=search name=pono> 
+						<input type="submit" class="btn btn-primary" value="Go">
+					</a>
+				</div>
+			</div>
 	</div>
-	<div class="col">
-		<div class="form-inline mt-2 ml-1">
-			<a class="" name="find_po" id="lst0">Find Adjustment 
-				<input class="form-control" id=search name=pono> 
-				<input type="submit" class="btn btn-primary" value="Go">
-			</a>
-		</div>
 	</div>
 </div>
 

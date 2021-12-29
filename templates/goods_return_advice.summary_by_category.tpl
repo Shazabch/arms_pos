@@ -80,23 +80,23 @@
             <input type=hidden name=root_id value="">
             <table>
                <div class="row">
-                   <div class="col">
-                       <div class="form-inline">
+                   <div class="col-md-3">
+                     
                            
-                    <b class="form-label">Date From : </b>&nbsp;&nbsp;
+                    <b class="form-label">Date From : </b>
                     <div class="form-inline">
-                     <input class="form-control" type="text" name="date_from" id="date_from" size="10" value="{$form.date_from}" readonly/>
-                    &nbsp; <img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />&nbsp;&nbsp;&nbsp;&nbsp;
+                     <input class="form-control" type="text" name="date_from" id="date_from" size="22" value="{$form.date_from}" readonly/>
+                    &nbsp; <img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date From" />
                     </div>
-                
-                  <b class="form-label">Date To : </b>&nbsp;&nbsp;
+                </div>
+                <div class="col-md-3">
+                  <b class="form-label">Date To : </b>
                 
                    <div class="form-inline">
-                     <input class="form-control" type="text" name="date_to" id="date_to" size="10" value="{$form.date_to}" readonly/>
+                     <input class="form-control" type="text" name="date_to" id="date_to" size="22" value="{$form.date_to}" readonly/>
                    &nbsp;  <img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date To" />
                    </div>
             
-                       </div>
                    </div>
                </div>     
                 <div class="row mt-2">

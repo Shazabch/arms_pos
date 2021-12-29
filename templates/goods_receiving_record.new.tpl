@@ -1502,16 +1502,28 @@ function fill_data_from_po(){
 
 <form>
 
-	<div class="row mx-3">
-		<div class="form-inline">
-			<img src="ui/grr_tb.png" align="absmiddle">
-		 <a href="javascript:void(togglediv('tlist'))">&nbsp;Show/Hide recent GRR</a> &nbsp;&nbsp; 
-		 <b class="form-label">Find Document No.</b>&nbsp;&nbsp; 
-		 <input class="form-control" name="find_grr" value="{$smarty.request.find_grr}" size="5"> 
-		&nbsp;&nbsp; <input class="btn btn-primary fs-08" type="submit" value="Find"></form>
-		</div>
 	
-	</div>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4 mt-2">
+					<img src="ui/grr_tb.png" align="absmiddle">
+				<a href="javascript:void(togglediv('tlist'))">&nbsp;Show/Hide recent GRR</a>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-inline">
+						<b class="form-label">Find Document No.</b>
+						&nbsp;<input class="form-control" name="find_grr" value="{$smarty.request.find_grr}" size="22"> 
+						&nbsp;<input class="btn btn-primary mt-2 mt-md-0 fs-08" type="submit" value="Find">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>	
+</form>
+		
 <div id="tlist" {if !$smarty.request.find_grr}style="display:none"{/if}>
 {assign var=nr_colspan value=12}
 {assign var=rmk_colspan value=4}
@@ -1658,20 +1670,24 @@ function fill_data_from_po(){
 				<div class="card-body">
 			<table class="stdframe"  cellpadding="4" cellspacing="0" border="0">
 			<tr>
-				<th align="left" class="form-label">Search from PO/DO</th>
-				<td>
-					<div class="form-inline">
-						<input class="form-control" type="text" id="search_doc_no" name="search_doc_no" value="" onkeyup="ajax_search_doc_info(event);" size="10" {if $form.grn_used}readonly{/if} />
-					<span id="loading_area"></span>&nbsp;
-					<input type="radio" name="search_doc_type" value="PO" {if $form.edit_on}disabled{else}checked{/if} />&nbsp;PO&nbsp;
-					<input type="radio" name="search_doc_type" value="DO" {if $form.edit_on}disabled{else}checked{/if} />&nbsp;DO
+				<div class="row">
+					<div class="col-md-2">
+						<b class="form-label mt-2">Search from PO/DO</b>
 					</div>
-				</td>
-				<td>
-					{if $config.do_skip_generate_grn}
-					<input class="btn btn-primary" type="button" value="Find available DO" onclick="show_available_do(this)">
-					{/if}
-				</td>
+					<div class="col-md-3">
+							<div class="form-inline">
+								<input class="form-control" type="text" id="search_doc_no" name="search_doc_no" value="" onkeyup="ajax_search_doc_info(event);" size="10" {if $form.grn_used}readonly{/if} />
+							<span id="loading_area"></span>&nbsp;
+							<input type="radio" name="search_doc_type" value="PO" {if $form.edit_on}disabled{else}checked{/if} />&nbsp;PO&nbsp;
+							<input type="radio" name="search_doc_type" value="DO" {if $form.edit_on}disabled{else}checked{/if} />&nbsp;DO
+							</div>
+					</div>
+				<div class="col-md-2">
+						{if $config.do_skip_generate_grn}
+						<input class="btn btn-primary mt-2 mt-md-0" type="button" value="Find available DO" onclick="show_available_do(this)">
+						{/if}
+				</div>
+				</div>
 				{if $config.foreign_currency}
 					<td valign="top" align="right" colspan="4" rowspan="2">
 						<table>
@@ -1707,101 +1723,124 @@ function fill_data_from_po(){
 				{/if}
 			</tr>
 			<tr>
-				<td>&nbsp;</td>
-				<td style="color:blue;font-size:8pt">Note: Press Enter after key in PO/DO number</td>
+				
+				<div class="alert alert-primary mt-3" style="max-width: 400px;">
+					Note: Press Enter after key in PO/DO number
+				</div>
 			</tr>
-			<tr>
-				<td width="100"><b class="form-label"> Vendor<span class="text-danger" title="Required Field"> *</span></b></td>
-				<td colspan="6">
-					<div class="form-inline">
-						<input class="from-control" id="vendor_id" name="vendor_id" type="hidden" value="{$form.vendor_id}" readonly>
-					<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=80 {if $form.edit_on}disabled{/if} >
-					<input class="form-control" id="autocomplete_vendor" type="hidden" name="vendor_descrip" value="{$form.vendor}" size=80 >
-					<div id="autocomplete_vendor_choices" class="autocomplete"></div>
-					{if !$form.grn_used}
-					&nbsp;&nbsp;	<input class="btn btn-primary " type="button" value="Find available PO" onclick="show_available_po(this)" class="grr_info">
-					{/if}
+				<div class="row">
+					<div class="col-md-2">
+						<b class="form-label"> Vendor<span class="text-danger" title="Required Field"> *</span></b>
 					</div>
-				</td>
-			</tr>
+					<div class="col-md-3">
+							<input class="from-control" id="vendor_id" name="vendor_id" type="hidden" value="{$form.vendor_id}" readonly>
+							<input class="form-control" id="autocomplete_vendor" name="vendor" value="{$form.vendor}" size=80 {if $form.edit_on}disabled{/if} >
+							<input class="form-control" id="autocomplete_vendor" type="hidden" name="vendor_descrip" value="{$form.vendor}" size=80 >
+							<div id="autocomplete_vendor_choices" class="autocomplete"></div>
+					</div>
+					<div class="col-md-2">
+						{if !$form.grn_used}
+							<input class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0 " type="button" value="Find available PO" onclick="show_available_po(this)" class="grr_info">
+							{/if}
+					</div>
+				</div>
 			<tr>
 				<td colspan="2"><div id="vendor_checkout" style="Display:none;"></div></td>
 			</tr>
-			<tr>
-				<td><b class="form-label">Department<span class="text-danger" title="Required Field"> *</span></b></td>
-				<td colspan="6">
-					<div class="form-inline">
+				<div class="row mt-3">
+					<div class="col-md-2">
+						<b class="form-label mt-2">Department<span class="text-danger" title="Required Field"> *</span></b>
+					</div>
+					<div class="col-md-3 mt-2">
+						<input type="checkbox" name="allow_multi_dept" {if $form.allow_multi_dept}checked{/if} value="1" /> <b class="text-dark">&nbsp;Allow Different Department PO</b>
+					</div>
+					<div class="col-md-4 mt-2 mt-md-0">
 						<select class="form-control" name="department_id" {if $form.grn_used}onfocus="this.blur();"{/if}>
-							<option value="0">-- Select Department --</option>
+							&nbsp;<option value="0">-- Select Department --</option>
 							{section name=i loop=$dept}
 							<option value="{$dept[i].id}" {if $form.department_id == $dept[i].id}selected{/if}>{$dept[i].description}</option>
 							{/section}
-							</select> 
-							&nbsp;<input type="checkbox" name="allow_multi_dept" {if $form.allow_multi_dept}checked{/if} value="1" /> <b class="text-dark">&nbsp;Allow Different Department PO</b>
-						
+						</select> 
 					</div>
-				</td>
-			</tr>
-			<tr>
-				<td width="100"><b class="form-label">Lorry No.<span class="text-danger" title="Required Field"> *</span></b></td>
-				<td>
-					<input class="form-control" name="transport" onchange="ucz(this)" value="{$form.transport}" size="10" maxlength="10" class="grr_info" {if $form.grn_used}readonly{/if}>
-				</td>
+				</div>
 			
-				<td width="100"><b class="form-label">Received By<span class="text-danger"> *</span></b></td>
-				<td>
+				<div class="row mt-3">
+
+					<div class="col-md-4">
+						<b class="form-label">Lorry No.<span class="text-danger" title="Required Field"> *</span></b>
+					<input class="form-control" name="transport" onchange="ucz(this)" value="{$form.transport}" size="10" maxlength="10" class="grr_info" {if $form.grn_used}readonly{/if}>
+					</div>
+					
+				
+					<div class="col-md-4">
+						<b class="form-label">Received By<span class="text-danger"> *</span></b>
 					<select class="form-control" name="rcv_by" {if $form.grn_used}onfocus="this.blur();"{/if}>
 					{section name=i loop=$rcv}
 					<option value="{$rcv[i].id}" {if ((!$form.rcv_by && $rcv[i].id == $sessioninfo.id) || ($form.rcv_by && $rcv[i].id == $form.rcv_by))}selected{/if}>{$rcv[i].u}</option>
 					{/section}
 					</select>
-				</td>
-			
-				<td width="100"><b class="form-label">Received Date<span class="text-danger" title="Required Field"> *</span></b></td>
-				<td>
-					<input class="form-control" name="rcv_date" id="rcv" onchange="upper_lower_limit(this); check_gst_status(); {if !$form.grn_used}reload_currency_rate();{/if}" maxlength="10" value="{if $form.rcv_date}{$form.rcv_date|date_format:'%Y-%m-%d'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" size="10" {if $form.grn_used}readonly{/if}>
+					</div>
+				
+					<div class="col-md-4">
+						<b class="form-label">Received Date<span class="text-danger" title="Required Field"> *</span></b>
+					<div class="form-inline">
+						<input class="form-control" name="rcv_date" id="rcv" onchange="upper_lower_limit(this); check_gst_status(); {if !$form.grn_used}reload_currency_rate();{/if}" maxlength="10" value="{if $form.rcv_date}{$form.rcv_date|date_format:'%Y-%m-%d'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" size="10" {if $form.grn_used}readonly{/if}>
 					{if !$form.grn_used}
-						<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
 					{/if}
-				</td>
-			</tr>
-			<tr>
-				<td width="100"><b class="form-label">Total Carton</b></td>
-				<td>
-					<input  name="grr_ctn" value="{$form.grr_ctn}" size="10" class="r form-control" readonly>
-				</td>
-				<td width="100"><b class="form-label">Total Pcs</b></td>
-				<td>
-					<input  name="grr_pcs" value="{$form.grr_pcs}" size="10" class="r form-control" readonly>
-				</td>
-			<tr>
-				<td width="100"><div class="from-inline"><b class="form-label">Total Amount</b> <a href="javascript:void(alert('Amount Inclusive Tax.'));">[?]</a></div></td>
-				<td>
-					<input name="grr_amount" value="{$form.grr_amount}" size="10" class="r form-control" readonly>
-					<input type="hidden" name="old_grr_amount" value="{$form.old_grr_amount}" />
-					<span id="amt_checker" style="background-color: yellow; color: red; font-weight: bold; display: none">*must equal to {$form.old_grr_amount|number_format:2}</span>
-				</td>
-				<td width="100" class="gst_info"><b class="form-label">Total GST Amount</b></td>
-				<td class="gst_info">
-					<input name="grr_gst_amount" value="{$form.grr_gst_amount}" size="10" class="from-conrol r gst_fields" readonly>
-					<input type="hidden" name="old_grr_gst_amount" value="{$form.old_grr_gst_amount}" />
-					<span id="gst_amt_checker" style="background-color: yellow; color: red; font-weight: bold; display: none">*must equal to {$form.old_grr_gst_amount|number_format:2}</span>
-				</td>
-			</tr>
+					</div>
+					</div>
+
+				</div>
 			
-			<tr class="tax_info">
-				<td width="100"><b class="form-label">Tax</b> <a href="javascript:void(alert('{$LANG.GRR_TAX_PERCENT_INFO|escape:javascript}'));">[?]</a></td>
-				<td>
-					<input name="tax_percent" value="{$form.tax_percent|default:0}" size="10" class="form-control r" readonly onChange="tax_percent_changed();" /> %
-				</td>
-				<td width="100" ><b class="form-label">Total GRR Tax</b></td>
-				<td>
+			
+				<div class="row mt-2">
+					<div class="col-md-4">
+						<b class="form-label">Total Carton</b>
+					<input  name="grr_ctn" value="{$form.grr_ctn}" size="10" class="r form-control" readonly>
+					</div>
+					<div class="col-md-4">
+						<b class="form-label">Total Pcs</b>
+					<input  name="grr_pcs" value="{$form.grr_pcs}" size="10" class="r form-control" readonly>
+					</div>
+				</div>
+
+			
+					<div class="row mt-2">
+						<div class="col-md-4">
+							<div class="from-inline form-label"><b>Total Amount</b> <a href="javascript:void(alert('Amount Inclusive Tax.'));">[?]</a></div>
+						<input name="grr_amount" value="{$form.grr_amount}" size="10" class="r form-control" readonly>
+						<input type="hidden" name="old_grr_amount" value="{$form.old_grr_amount}" />
+						<span id="amt_checker" style="background-color: yellow; color: red; font-weight: bold; display: none">*must equal to {$form.old_grr_amount|number_format:2}</span>
+						</div>
+					
+						<div class="col-md-4 gst_info ">
+							<b class="form-label">Total GST Amount</b>
+						<input  name="grr_gst_amount" value="{$form.grr_gst_amount}" size="10" class="form-control r gst_fields" readonly>
+						<input type="hidden" name="old_grr_gst_amount" value="{$form.old_grr_gst_amount}" />
+						<span id="gst_amt_checker" style="background-color: yellow; color: red; font-weight: bold; display: none">*must equal to {$form.old_grr_gst_amount|number_format:2}</span>
+						</div>
+					</div>
+			
+			
+			<div class="row tax_info mt-2">
+					<div class="col-md-4">
+						<div class="form-label form-inline"><b >Tax</b> <a href="javascript:void(alert('{$LANG.GRR_TAX_PERCENT_INFO|escape:javascript}'));">&nbsp;[?]</a></div>
+						<div class="form-inline">
+							<input name="tax_percent" value="{$form.tax_percent|default:0}" size="23" class="form-control r" readonly onChange="tax_percent_changed();" /> %
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<b class="form-label">Total GRR Tax</b>
 					<input clas name="grr_tax" value="{$form.grr_tax|default:0}" size="10" class="r readonly />
-					<span id="tax_amt_checker" style="background-color: yellow;font-weight: bold; display: none;"></span>
-				</td>
-			</tr>
-			<tr>
-				<td width="100" colspan="6">
+					<span id="tax_amt_checker" style="background-color: yellow;font-weight: bold; display: none;"></span> 
+					</div>
+			</div>
+
+			<div class="row mt-3">
+				<div class="col-md-6">
+					
 					<h5 class="form-label">Photo Attachment [<a href="javascript:void(alert('If the pdf preview failed to load, please contact system admin'))">?</a>] <img src="/ui/add.png" align="absmiddle" onclick="add_image()"></h5>
 					<div id="item_photos">
 						{if $tmp}
@@ -1819,8 +1858,9 @@ function fill_data_from_po(){
 							</div>
 						{/foreach}
 					</div>
-				</td>
-			</tr>
+				</div>
+			</div>
+				
 			</table>
 			</div>
 			</div>
@@ -1852,7 +1892,7 @@ function fill_data_from_po(){
 							<th rowspan="2" class="tax_info">Tax Amount</th>
 							<th rowspan="2">Remark</th>
 						</tr>
-						<tr bgcolor="#fff" class="small">
+						<tr  class="small bg-gray-100">
 							<th width="50">PO</td>
 							<th width="50">INVOICE</td>
 							<th width="50">DO</td>
@@ -1958,8 +1998,7 @@ function fill_data_from_po(){
 			
 			</form>
 			</div>
-	</div>
-</div>
+	
 <iframe id="_download" style="visibility: hidden;width:1px;height: 1px;" src=""></iframe>
 {include file=footer.tpl}
 

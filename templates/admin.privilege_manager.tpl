@@ -163,9 +163,9 @@ function use_preset_privilege(){
 						</span>
 						<div style="clear:both;"></div>
 					</div>
-					<div id="div_pv_details-{$grp_code}-content" style="padding:2px;height:410px;overflow:auto;">
-						<div class="table-responsive">
-							<table width="100%">
+					<div id="div_pv_details-{$grp_code}-content" >
+						<div class="table-responsive" style="overflow: auto;">
+							<table width="100%" class="table mb-0 text-md-nowrap  table-hover">
 								<thead class="bg-gray-100">
 									<tr>
 										<th>Code</th>

@@ -134,13 +134,18 @@ var IMPORT_VENDOR = {
 					* If GST No is provided, the GST start date will be 2015-04-01.<br/>
 				</div>
 				
-				<tr>
-					<td><b class="fs-08">Upload CSV <br />(<a class="fs-08" href="?a=download_sample_vendor&method=1">Download Sample</a>)</b></td>
-					<td>
-					&nbsp;&nbsp;&nbsp;	<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input type="Submit" class="btn btn-primary fs-06" value="Show Result" />
-					</td>
-				</tr>
+					<div class="row">
+						<div class="col-md-3">
+							<b class="fs-08">Upload CSV <br />(<a class="fs-08" href="?a=download_sample_vendor&method=1">Download Sample</a>)</b>
+						</div>
+						<div class="col-md-3">
+							<input class="fs-08" type="file" name="import_csv"/>
+						</div>
+						<div class="col-md-3">
+							<input type="Submit" class="btn btn-primary mt-2 mt-md-0 fs-06" value="Show Result" />
+						</div>
+					</div>
+
 			</table>
 			<div class="div_tbl mt-2">
 				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>
@@ -221,13 +226,13 @@ var IMPORT_VENDOR = {
 				</div>
 				
 				
-				<tr class=>
-					<td><b class="fs-08 ">Upload CSV <br />(<a href="?a=download_sample_vendor&method=2">Download Sample</a>)</b></td>
-					<td>
-						&nbsp;&nbsp;&nbsp;<input class="fs-08" type="file" name="import_csv"/>&nbsp;&nbsp;&nbsp;
-						<input class="btn btn-primary fs-06" type="Submit" value="Show Result" />
-					</td>
-				</tr>
+				
+						<div class="row">
+							<div class="col-md-3"><b class="fs-08 ">Upload CSV <br />(<a href="?a=download_sample_vendor&method=2">Download Sample</a>)</b></div>
+						<div class="col-md-3"><input class="fs-08" type="file" name="import_csv"/></div>
+						<div class="col-md-3"><input class="btn btn-primary mt-2 mt-md-0 fs-06" type="Submit" value="Show Result" /></div>
+						</div>
+				
 			</table>
 			<div class="div_tbl mt-2">
 				<h5 class="bg-gray-100 px-2 py-1">Sample</h5>

@@ -146,8 +146,8 @@ var UPDATE_SKU_MASTER_COST = {
 	<div class="mt-2">
 		<br>
 			<b class="mt-2">Upload CSV <br />(<a href="?a=download_sample&method=1"><span class="text-primary">Download Sample</span></a>)</b></td>
-				&nbsp;&nbsp;<input type="file" name="csv_file"/>&nbsp;&nbsp;
-				<input type="Submit" class="btn btn-primary" value="Show Result" />
+				&nbsp;&nbsp;<input type="file" name="csv_file"/>
+				<input type="Submit" class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0" value="Show Result" />
 	</div>
 	</table>
     <div class="div_tbl mt-2">

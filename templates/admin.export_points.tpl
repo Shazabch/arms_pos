@@ -111,7 +111,7 @@ MEMBER_EXPORT_POINTS = {
 					<input type="radio" name="date_filter_type" value="1" {if !$smarty.request.date_filter_type or $smarty.request.date_filter_type eq 1}checked {/if} /> All</p>
 				
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-12 col-md-4">
 					<p>
 						<input type="radio" name="date_filter_type" value="2" {if $smarty.request.date_filter_type eq 2}checked {/if}/> Single Day
 						<select class="form-control" name="date">
@@ -122,7 +122,7 @@ MEMBER_EXPORT_POINTS = {
 						</select>
 					</p>
 				</div>
-					<div class="col-md-4">
+					<div class="col-12 col-md-4">
 						<input type="radio" name="date_filter_type" value="3" {if $smarty.request.date_filter_type eq 3}checked {/if}/>
 					From
 					<div class="form-inline">
@@ -132,7 +132,7 @@ MEMBER_EXPORT_POINTS = {
 					</div>
 					
 					
-					<div class="col-md-4">
+					<div class="col-12 col-md-4">
 						To	
 				<div class="form-inline">
 					<input type="text" class="form-control" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly size="16" />
@@ -144,7 +144,7 @@ MEMBER_EXPORT_POINTS = {
 		
 	
 			<div class="row mt-3" >
-				<di class="col">
+				<di class="col-12 col-md-6">
 					<label ><strong>Other Settings : </strong></label><br>
 					<input type='checkbox' name='show_branch' value='1' {if !$smarty.request.export_point or $smarty.request.show_branch}checked {/if} /> Show Branch&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type='checkbox' name='show_date' value='1' {if !$smarty.request.export_point or $smarty.request.show_date}checked {/if} /> Show Date&nbsp;&nbsp;&nbsp;&nbsp;

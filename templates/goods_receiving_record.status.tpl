@@ -42,14 +42,25 @@ REVISION HISTORY
 	<div class="card-body">
 		<form class="noprint" action="{$smarty.server.PHP_SELF}" method=get >
 			<p>
-			<div class="form-inline">
-				<b class="form-label">GRR Date From</b> &nbsp;&nbsp;
-		&nbsp;	<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 />
-			 <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
-			 &nbsp;&nbsp;&nbsp;<b class="form-label">To</b> &nbsp;&nbsp;
-			  <input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
-			  <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			
+			<div class="row">
+			<div class="col-md-4">
+				<div class="form-inline">
+					<b class="form-label">GRR Date From&nbsp;</b>
+				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=12 />
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
+				</div>
 			</div>
+			
+			<div class="col-md-4">
+			<div class="form-inline">
+				<b class="form-label">To&nbsp;</b>
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=12 /> 
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+			</div>
+			</div>
+			</div>
+			
 			
 			<!-- calendar stylesheet -->
 			<link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-blue.css" title="calendar-blue" />

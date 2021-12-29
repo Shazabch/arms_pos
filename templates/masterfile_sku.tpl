@@ -966,9 +966,12 @@ function detect_to_hide_context_menu(){
 				<table>
 					
 					<div class="row">
-						<div class="col-md-4">
-							<span class="form-inline"><b class="form-label">Find</b>&nbsp;
-								<input  style="width: 150px;" class="form-control" name=search_description value="{$smarty.request.search_description}" size=20> <b class="form-label">&nbsp;in&nbsp;</b> 
+						<div class="col-md-2">
+							<b class="form-label">Find</b>
+								<input  style="width: 150px;" class="form-control" name=search_description value="{$smarty.request.search_description}" size=20> 
+						</div>
+						<div class="col-md-2">
+							<b class="form-label">in</b> 
 								<select class="form-control" name="search_filter">
 									<option value="">-- All --</option>
 									{if $config.link_code_name}<option value="linkcode" {if $smarty.request.search_filter eq "linkcode"}selected {/if}>{$config.link_code_name}</option>{/if}
@@ -976,33 +979,34 @@ function detect_to_hide_context_menu(){
 									<option value="artno" {if $smarty.request.search_filter eq "artno"}selected {/if}>Artno</option>
 									<option value="mcode" {if $smarty.request.search_filter eq "mcode"}selected {/if}>Mcode</option>
 									<option value="description" {if $smarty.request.search_filter eq "description"}selected {/if}>Description</option>
-								</select></span>
+								</select>
 						</div>
 						
 						<div class="col-md-4">
 							
-							<span class="form-inline"><b class="form-label">&nbsp;Match Word With&nbsp;</b> 
+							<b class="form-label">&nbsp;Match Word With&nbsp;</b> 
 								<select class="form-control" name="match_method">
 									{foreach from=$matching_method_list key=method_type item=method_name}
 										<option value="{$method_type}" {if $smarty.request.match_method eq $method_type}selected{/if}>{$method_name}</option>
 									{/foreach}
-								</select></span>
+								</select>
 						</div>
 					
 						<div class="col-md-4">
 							
-							<span class="form-inline">
-								&nbsp;<b class="form-label">Sort By</b>&nbsp; 
-								<select class="form-control" name="sorting_type">
-									{foreach from=$sorting_list key=sort_type item=sort_name}
-										<option value="{$sort_type}" {if $smarty.request.sorting_type eq $sort_type}selected{/if}>{$sort_name}</option>
-									{/foreach}
-								</select>&nbsp;
-								<select class="form-control" name="sorting_sequence">
-									<option value="asc" {if $smarty.request.sorting_sequence eq 'asc'}selected{/if}>Ascending</option>&nbsp;&nbsp;&nbsp;&nbsp;
-									<option value="desc" {if $smarty.request.sorting_sequence eq 'desc' or !$smarty.request.sorting_sequence}selected{/if}>Descending</option>
-								</select>
-							</span>
+							
+								<b class="form-label">Sort By</b>
+								<div class="form-inline">
+									<select class="form-control" name="sorting_type">
+										{foreach from=$sorting_list key=sort_type item=sort_name}
+											<option value="{$sort_type}" {if $smarty.request.sorting_type eq $sort_type}selected{/if}>{$sort_name}</option>
+										{/foreach}
+									</select>
+									&nbsp;<select class="form-control" name="sorting_sequence">
+										<option value="asc" {if $smarty.request.sorting_sequence eq 'asc'}selected{/if}>Ascending</option>&nbsp;&nbsp;&nbsp;&nbsp;
+										<option value="desc" {if $smarty.request.sorting_sequence eq 'desc' or !$smarty.request.sorting_sequence}selected{/if}>Descending</option>
+									</select>
+								</div>
 						</div>
 
 						
@@ -1016,7 +1020,8 @@ function detect_to_hide_context_menu(){
 				<input name="show_advanced_search" id="inp_show_advanced_search" type="hidden" value="{$smarty.request.show_advanced_search}" />
 				
 				<table style="{if !$smarty.request.show_advanced_search}display:none;{/if}" id="tbl_advanced_filter">
-					<tr>
+					
+						<tr>
 						<td>
 							<span><b class="form-label">Category</b></span>
 						</td>
@@ -1034,6 +1039,7 @@ function detect_to_hide_context_menu(){
 						</span>
 						</td>
 					</tr>
+				
 			
 					<tr>
 						<td>

@@ -494,35 +494,40 @@ function stock_date_changed(imported){
 <div class="card mx-3">
 	<div class="card-body">
 		<fieldset>
-			<legend><b>Import</b></legend>
+			<legend><b class="form-label">Import</b></legend>
 			<form name="import_stock_take" id="f_import" onSubmit="return check_form(this);">
 			<input type="hidden" name="a" value="import_stock_take" />
 			<table>
-				<tr>
-					{if $BRANCH_CODE eq 'HQ'}
-						<td><b class="form-label">Branch</b> 
-							<select class="form-control" name="branch_id" onchange="stock_branch_change(0);">
-						<option value="">-- Please Select --</option>
-						{foreach from=$branch item=r}
-							<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
-						{/foreach}
-						</select>&nbsp;&nbsp;&nbsp;</td>
-					{else}
-						<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
-					{/if}
-					<td>
-						<div id="div_import_stock_take_date">
-							{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.import im_re=import type=0}
+						<div class="row">
+							<div class="col-md-4">
+									{if $BRANCH_CODE eq 'HQ'}
+									<b class="form-label">Branch</b> 
+									<select class="form-control" name="branch_id" onchange="stock_branch_change(0);">
+									<option value="">-- Please Select --</option>
+									{foreach from=$branch item=r}
+										<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
+									{/foreach}
+									</select>
+									{else}
+									<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
+									{/if}
+							</div>
+
+							<div class="col-md-4 mt-2 mt-md-0">
+								<div id="div_import_stock_take_date">
+									{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.import im_re=import type=0}
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<span id="btn_import"><input type="submit" class="btn btn-primary mt-md-4" value="Import" /></span>
+							</div>
 						</div>
-					</td>
-					<td>
-						<span id="btn_import"><input type="submit" class="btn btn-primary ml-2" value="Import" /></span>
-					</td>
-				</tr>
+				
 				<tr>
-					<td>
-						<div class="form-inline">
-							<b class="form-label">Action </b> [<a href="javascript:void(alert('
+					<td >
+						<div class="form-inline form-label mt-2 mt-md-0">
+							<b>Action </b> &nbsp;[<a href="javascript:void(alert('
 						1. No Auto Fill Zero\n
 						- The system will import all Stock Take according to the selected branch and date only, without zerolise the rest of the non-scanned Stock Take items.\n\n
 						2. Auto Add Zero for Same SKU Parent\n
@@ -531,14 +536,14 @@ function stock_date_changed(imported){
 						- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items.\n\n
 						4. Auto Add Zero for Selected Categories, Vendors & Brands\n
 						- The system will import all Stock Take according to the selected branch and date, and then zerolise the rest of the non-scanned Stock Take items base on the selected categories, vendors and brands.\n
-						'));">?</a>]
-						&nbsp;&nbsp;<select class="form-control" name="fill_zero_options" onchange="check_options(this);">
+						'));">?</a>]</div>
+						<select class="form-control" name="fill_zero_options" onchange="check_options(this);">
 							<option value="no_fill">No auto fill zero</option>
 							{if !$config.stock_take_hide_auto_zero_sku_parent_option}<option value="fill_parent">Auto add zero for same SKU parent</option>{/if}
 							<option value="fill_zero">Auto add zero for non-scan items</option>
 							<option value="fill_zero_by_category_vendor">Auto add zero for selected Categories, Vendors & Brands</option>
 						</select>
-						</div>
+						
 						
 						{*
 						<input id="fill_zero_1" type="radio" name="fill_zero_options" value='no_fill' checked /><label for="fill_zero_1"><b>No auto fill zero</b></label> 
@@ -726,31 +731,37 @@ function stock_date_changed(imported){
 <div class="card mx-3">
 	<div class="card-body">
 		<fieldset>
-			<legend><b>Reset</b></legend>
+			<legend><b class="form-label">Reset</b></legend>
 			<form name="reset_stock_take" id="f_reset" onSubmit="return check_form(this);">
 			<input type="hidden" name="a" value="reset_stock_take" />
 			<table>
-				<tr>
-					{if $BRANCH_CODE eq 'HQ'}
-						<td><b class="form-label">Branch</b>
+				<div class="row">
+					
+					<div class="col-md-4">
+						{if $BRANCH_CODE eq 'HQ'}
+						<b class="form-label">Branch</b>
 						<select class="form-control" name="branch_id" onchange="stock_branch_change(1);">
 						<option value="">-- Please Select --</option>
 						{foreach from=$branch item=r}
 							<option value="{$r.id}" {if $smarty.request.branch_id eq $r.id}selected {/if}>{$r.code} - {$r.description}</option>
 						{/foreach}
-						</select>&nbsp;&nbsp;&nbsp;</td>
+						</select>
 					{else}
 						<input class="form-control" type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 					{/if}
-					<td>
-						<div id="div_reset_stock_take_date" class="ml-3">
+					</div>
+					
+					<div class="col-md-4 mt-2 mt-md-0">
+						<div id="div_reset_stock_take_date">
 							{include file='admin.stock_take.import_page.stock_take_date.tpl' available_date=$date_data.reset im_re=reset type=1 }
 						</div>
-					</td>
-					<td>&nbsp;&nbsp;&nbsp;
-						<span id="btn_reset"><input class="btn btn-warning fs-08" type="submit" value="Reset"  /></span>
-					</td>
-				</tr>
+					</div>
+					
+					<div class="col-md-4">
+						<span id="btn_reset"><input class="btn btn-warning fs-08 mt-md-4" type="submit" value="Reset"  /></span>
+					</div>	
+				</div>
+				
 			</table>
 			</form>
 				{if $smarty.request.t eq 'reset' and $smarty.request.msg}

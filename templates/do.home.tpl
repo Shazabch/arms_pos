@@ -856,26 +856,29 @@ function reset_batch_code_autocomplete(){
 	<form onsubmit="list_sel(0,0);return false;">
 		<div class="tab" style="white-space:nowrap;">
 		<div class="row">
-			<div class="form-group">
-				<div class="col-md-6">
-					<a href="javascript:list_sel(1)" class="btn btn-outline-primary btn-rounded" id=lst1 >Saved DO</a>
-				<a href="javascript:list_sel(2)" class="btn btn-outline-primary btn-rounded" id=lst2>Waiting for Approval</a>
-				<a href="javascript:list_sel(5)" class="btn btn-outline-primary btn-rounded" id=lst5>Rejected</a>
-				<a href="javascript:list_sel(3)" class="btn btn-outline-primary btn-rounded" id=lst3>Cancelled/Terminated</a>
-				<a href="javascript:list_sel(4)" class="btn btn-outline-primary btn-rounded" id=lst4>Approved</a>
-				<a href="javascript:list_sel(6)" class="btn btn-outline-primary btn-rounded" id=lst6>Checkout</a>
+			<div class="card mx-3 card-body">
+				<div class="form-group">
+					<div class="col-md-6">
+						<a href="javascript:list_sel(1)" class="btn btn-outline-primary btn-rounded" id=lst1 >Saved DO</a>
+					<a href="javascript:list_sel(2)" class="btn btn-outline-primary btn-rounded" id=lst2>Waiting for Approval</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(5)" class="btn btn-outline-primary btn-rounded" id=lst5>Rejected</a><br class="d-none d-md-inline d-lg-none"><br class="d-none d-md-inline d-lg-none">
+					<a href="javascript:list_sel(3)" class="btn btn-outline-primary btn-rounded" id=lst3>Cancelled/Terminated</a><br class="d-inline d-sm-none"><br class="d-inline d-sm-none">
+					<a href="javascript:list_sel(4)" class="btn btn-outline-primary btn-rounded" id=lst4>Approved</a>
+					<a href="javascript:list_sel(6)" class="btn btn-outline-primary btn-rounded" id=lst6>Checkout</a>
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-md-6">
-					<div class="form-inline">
-						<a name=find_po id=lst0>Find DO / Invoice 
-							<input id="search" class="form-control" name=pono> 
-							<input type="submit" class="btn btn-primary" value="Go">
-						</a>
+				<div class="form-group">
+					<div class="col-md-6">
+						<div class="form-inline">
+							<a name=find_po id=lst0>Find DO / Invoice 
+								<input id="search" class="form-control" name=pono> 
+								<input type="submit" class="btn btn-primary mt-2 mt-md-0" value="Go">
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
+		
 			{if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
 			<div class="form-group">
 				<div class="col-md-6">

@@ -228,7 +228,7 @@ function print_dn_ok(){
 <div class="breadcrumb-header justify-content-between">
 	<div class="my-auto">
 		<div class="d-flex">
-			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+			<h4 class="content-title mb-0 my-auto ml-4 text-primary">{$PAGE_TITLE}</h4><span class="text-muted mt-1 tx-13 m-2 ml-md-1 mb-0"></span>
 		</div>
 	</div>
 </div>
@@ -349,14 +349,18 @@ function list_sel(n,s)
 {/literal}
 <div style="padding:10px 0;">
 	<form name="f_l" onsubmit="list_sel(0,0);return false;">
-	<div class="tab row  mx-4 mb-3" style="white-space:nowrap;">
-	<a href="javascript:list_sel(1)" id=lst1 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">{if $config.gra_no_approval_flow}Saved{else}Approved{/if} GRA</a>
-	<a href="javascript:list_sel(2)" id=lst2 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Completed</a>
-	<a href="javascript:list_sel(3)" id=lst3 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
-	{if $config.gra_enable_disposal}
-		<a href="javascript:list_sel(4)" id=lst4 class="fs-08 ml-2 btn btn-outline-primary btn-rounded">Disposed</a>
-	{/if}
-	<a name="find" class="fs08 ml-2 btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find GRA / Vendor</a>
+	<div class="card mx-3">
+		<div class="card-body">
+			<div class="tab row  mx-4 mb-3" style="white-space:nowrap;">
+				<a href="javascript:list_sel(1)" id=lst1 class="fs-08 m-2 ml-md-1 btn btn-outline-primary btn-rounded">{if $config.gra_no_approval_flow}Saved{else}Approved{/if} GRA</a>
+				<a href="javascript:list_sel(2)" id=lst2 class="fs-08 m-2 ml-md-1 btn btn-outline-primary btn-rounded">Completed</a><br class="d-inline d-sm-none">
+				<a href="javascript:list_sel(3)" id=lst3 class="fs-08 m-2 ml-md-1 btn btn-outline-primary btn-rounded">Cancelled/Terminated</a>
+				{if $config.gra_enable_disposal}
+					<a href="javascript:list_sel(4)" id=lst4 class="fs-08 m-2 ml-md-1 btn btn-outline-primary btn-rounded">Disposed</a>
+				{/if}
+				<a name="find" class="fs08 m-2 ml-md-1 btn btn-outline-primary btn-rounded" id="lst0" onclick="search_tab_clicked(this);" style="cursor:pointer;">Find GRA / Vendor</a>
+				</div>
+		</div>
 	</div>
 	<div >
 		<div id="search_area" {if (!$smarty.request.search && !$smarty.request.vendor_id) && $smarty.request.t ne '0'}style="display:none;"{/if}>

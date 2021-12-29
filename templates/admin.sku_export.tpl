@@ -129,7 +129,7 @@ function hide_export_txt_btn(){
 		<input type="hidden" name="export_type" />
 
 		<span class="menu_spacing">
-		<label class="menu_spacing">Branch</label>
+		<label class="menu_spacing form-label mt-2 font-weight-bold">Branch</label>
 			{if $BRANCH_CODE eq 'HQ'}
 				<select class="form-control select2" name=branch_sel onchange="bsel(this.value)">
 				{foreach from=$branch item=b}
@@ -144,7 +144,7 @@ function hide_export_txt_btn(){
 		<div class="row">
 			<div class="">
 				<span class="menu_spacing">
-					{*<label class="menu_spacing">Department</label>
+					{*<label class="menu_spacing form-label mt-2 font-weight-bold">Department</label>
 						<select class="form-control select2" name=dept>
 							<option value="all">-- All --</option>
 							{foreach from=$dept item=r}
@@ -168,7 +168,7 @@ function hide_export_txt_btn(){
 <div class="row">
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Vendor</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Vendor</label>
 				<select class="form-control select2" name="vendor_id">
 					<option value="">-- All --</option>
 					{foreach from=$vendors item=r}
@@ -179,7 +179,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Brand</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Brand</label>
 			<select class="form-control select2" name="brand_id">
 					<option value="">-- All --</option>
 					<option value="0">UNBRANDED</option>
@@ -191,7 +191,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Input Tax</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Input Tax</label>
 				<select class="form-control select2" name="input_tax">
 					<option value="">-- All --</option>
 					{foreach from=$input_tax_list key=rid item=r}
@@ -202,7 +202,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Output Tax</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Output Tax</label>
 				<select class="form-control select2" name="output_tax">
 					<option value="">-- All --</option>
 					{foreach from=$output_tax_list key=rid item=r}
@@ -213,7 +213,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Selling Price Inclusive Tax</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Selling Price Inclusive Tax</label>
 				<select class="form-control select2" name="inclusive_tax">
 					<option value="">-- All --</option>
 					<option value="yes">YES</option>
@@ -223,7 +223,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">SKU Type</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">SKU Type</label>
 				<select class="form-control select2" name="sku_type">
 					<option value="">-- All --</option>
 					{foreach from=$sku_type item=r}
@@ -234,7 +234,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Scale Type</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Scale Type</label>
 				<select class="form-control select2" name="scale_type">
 					<option value="">-- All --</option>
 					{foreach from=$scale_type_list key=st_value item=st_name}
@@ -247,7 +247,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Active</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Active</label>
 				<select class="form-control select2" name="active">
 					<option value="">-- All --</option>
 					<option value="1">Yes</option>
@@ -257,7 +257,7 @@ function hide_export_txt_btn(){
 	</div>
 	<div class="col-md-4">
 		<span class="menu_spacing">
-			<label class="menu_spacing">Parent Child?</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Parent Child?</label>
 				<select class="form-control select2" name="parent_child_filter">
 					<option value="">-- All --</option>
 					<option value="1">Yes</option>
@@ -271,14 +271,14 @@ function hide_export_txt_btn(){
 	<div class="col-md-4">
 
 		<div class="form-group">
-			<label class="menu_spacing">Price Markup%</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Price Markup%</label>
 			<span class="menu_spacing"><input class="form-control" size=3 name="price_markup"></span>
 		</div>
 </div>
 <div class="col-md-4">
 
 		<div class="form-group">
-			<label class="menu_spacing">Cost Markup%</label>
+			<label class="menu_spacing form-label mt-2 font-weight-bold">Cost Markup%</label>
 			<span class="menu_spacing"><input class="form-control" size=3 name="cost_markup"></span>
 		</div>
 

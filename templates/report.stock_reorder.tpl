@@ -1112,14 +1112,15 @@ function close_curtain2(){
 				&nbsp;&nbsp;	<input class="form-control" readonly name="category_id" size="1" value="{$smarty.request.category_id}" />
 				<input type="hidden" name="category_tree" value="{$smarty.request.category_tree}" />
 				&nbsp;<input class="form-control" id="autocomplete_category" name="category" value="{$smarty.request.category|default:'Enter keyword to search'}" size="50" default_text="Enter keyword to search" />
-				
-				<span style="white-space:nowrap" class="fs-08 text-primary">&nbsp;&nbsp;(Please use deeper level category for better report speed,<br> &nbsp;&nbsp;report will take longer time to process if using higher level category.)</span>
+			</div>	
+				<span style="white-space:nowrap" class="fs-08 text-primary"><br>
+					 Please use deeper level category for better report speed,<br> &nbsp;&nbsp;report will take longer time to process if using higher level category.)</span>
 				<br>
 				<span id="span_autocomplete_loading" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Loading...</span>
 				<div id="autocomplete_category_choices" class="autocomplete" style="width:600px !important;display:none;"></div>
 				
 				<span id="str_cat_tree" class="small" style="color:#00f;margin-left:90px;">{$smarty.request.category_tree|default:''}</span>
-			</div>		
+				
 				</p>
 			<input type="button" class="btn btn-primary fs-08" value="Show Report" onClick="STOCK_REORDER.submit_form();" />
 			&nbsp;<input type="checkbox" name="by_last_vendor" value="1" {if $smarty.request.by_last_vendor}checked {/if} /> last vendor only

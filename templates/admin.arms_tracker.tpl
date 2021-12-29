@@ -400,7 +400,7 @@ function do_search(){
 				
 					{/if}
 					
-					<div class="col-md-4">
+					<div class="col-md-4 mt-2 mt-md-0">
 					
 								<input name="s" class="form-control" >
 					

@@ -272,19 +272,23 @@ function print_assignment_note_by_batch(){
 <form name=f_a onsubmit="list_sel(0,0);return false;">
 <input type=hidden name=a value=''>
 <input type=hidden name=do_no value=''>
-	<div class="tab row mx-5" style="white-space:nowrap;">
-	 <div class="col-md-6">
-		<a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Saved</a>
-		&nbsp;&nbsp;<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Completed</a>
-	 </div>
-		<div class="col-md-6">
-			<div class="">	
-			<a name=find_po class="form-inline" id=lst0 >
-			<b class="form-label">Find DO / Branch</b> 
-			&nbsp;<input id=search class="form-control" name=pono> 
-			&nbsp;<input class="btn btn-primary" type=submit value="Go"></a>
-		</div>
-		</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="tab row" style="white-space:nowrap;">
+			<div class="col-md-6">
+			   <a href="javascript:list_sel(1)" id=lst1 class="btn btn-outline-primary btn-rounded">Saved</a>
+			   &nbsp;&nbsp;<a href="javascript:list_sel(2)" id=lst2 class="btn btn-outline-primary btn-rounded">Completed</a>
+			</div>
+			   <div class="col-md-6 mt-2 mt-md-0">
+				   <div class="">	
+				   <a name=find_po class="form-inline" id=lst0 >
+				   <b class="form-label">Find DO / Branch</b> 
+				   &nbsp;<input id=search class="form-control" name=pono> 
+				   &nbsp;<input class="btn btn-primary mt-2 mt-md-0" type=submit value="Go"></a>
+			   </div>
+			   </div>
+	   </div>
+	</div>
 </div>
 </form>
 <div id=do_list >

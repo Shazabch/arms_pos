@@ -89,24 +89,26 @@ var DO_PREPARATION_MODULE = {
 
 <form onsubmit="DO_PREPARATION_MODULE.tab_sel(0,0);return false;">
 	<div class="tab" style="white-space:nowrap;">
-		<div class="row mx-5">
+		<div class="row mx-3 ">
+			<div class="card card-body">
+				<div class="col">
+					<div class="form-group">
+						<a href="javascript:DO_PREPARATION_MODULE.tab_sel(1)" id="tab1" class="btn btn-outline-primary btn-rounded">Saved DO</a>
+					</div>
+				</div>
+			<!--a href="javascript:DO_PREPARATION_MODULE.tab_sel(2)" id="tab2">Cancelled/Terminated</a-->
+			<input type="hidden" id="tab2" />
 			<div class="col">
 				<div class="form-group">
-					<a href="javascript:DO_PREPARATION_MODULE.tab_sel(1)" id="tab1" class="btn btn-outline-primary btn-rounded">Saved DO</a>
+				<div class="form-inline">
+					<a name="find_do" id="tab0">Find DO 
+						&nbsp;<input class="form-control" id="search" name="dono"> 
+						&nbsp;<input class="btn btn-primary mt-2 mt-md-0" class="b" type="submit" value="Search">
+					</a>
+				</div>
 				</div>
 			</div>
-		<!--a href="javascript:DO_PREPARATION_MODULE.tab_sel(2)" id="tab2">Cancelled/Terminated</a-->
-		<input type="hidden" id="tab2" />
-		<div class="col">
-			<div class="form-group">
-			<div class="form-inline">
-				<a name="find_do" id="tab0">Find DO 
-					&nbsp;<input class="form-control" id="search" name="dono"> 
-					&nbsp;<input class="btn btn-primary" class="b" type="submit" value="Search">
-				</a>
 			</div>
-			</div>
-		</div>
 		{if $BRANCH_CODE eq 'HQ' && $config.consignment_modules}
 			<a id="tab7">
 				Branch

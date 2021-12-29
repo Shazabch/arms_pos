@@ -1,4 +1,4 @@
-{*
+	{*
 10/14/2011 3:20:48 PM Alex
 - Modified the Ctn and Pcs round up to base on config set.
 
@@ -156,10 +156,9 @@ function export_itemise_info(root_id){
 <input type="hidden" name="cat_id" value="{$smarty.request.cat_id}" />
 
 <div class="row">
-	<div class="col-md-2">
-		<div class="row form-inline">
-			{if $BRANCH_CODE eq 'HQ'}&nbsp;&nbsp;&nbsp;
-	<b class="form-label">Branch</b>&nbsp;
+	<div class="col-md-4">
+			{if $BRANCH_CODE eq 'HQ'}
+	<b class="form-label">Branch</b>
 	<select class="form-control" name="branch_id">
 	<option value=''>-- All --</option>
 	{foreach from=$branches key=bid item=r}
@@ -167,12 +166,10 @@ function export_itemise_info(root_id){
 	{/foreach}
 	</select>
 	{/if}
-		</div>
 		
 	</div>
 
-<div class="col-md-2">
-	<div class="row form-inline">
+<div class="col-md-4">
 		<b class="form-label">SKU Type</b>
 <select class="form-control" name="sku_type">
 	<option value="">-- All --</option>
@@ -180,31 +177,34 @@ function export_itemise_info(root_id){
 		<option value="{$r.code}" {if $r.code eq $smarty.request.sku_type}selected {/if}>{$r.code}</option>
 	{/foreach}
 </select>
-	</div>
-
 </div>
 
-<div class="col-md-2">
-	<div class="row form-inline">
-		<b class="form-label">Status</b>&nbsp;
+<div class="col-md-4">
+		<b class="form-label">Status</b>
 <select class="form-control" name="status">
 	<option value="" {if !$smarty.request.status}selected {/if}>-- All --</option>
 	<option value="1" {if $smarty.request.status eq 1}selected {/if}>Approved</option>
 	<option value="0" {if $smarty.request.status eq '0'}selected {/if}>Not Approved</option>
 </select>
-	</div>
 </div>
 
-<div class="col">
-	<div class="form-inline">
-		<b class="form-label">Date From</b>&nbsp;
-<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly="1" size=12 />
-<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
-<b class="form-label">To</b>&nbsp;
-<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly="1" size=12 />
-<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> 
+	<div class="col-md-4">
+		<b class="form-label mt-2">Date From&nbsp;</b>
+		<div class="form-inline">
+			<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="inp_date_from" readonly="1" size=23 />
+		<img align="absmiddle" src="ui/calendar.gif" id="img_date_from" style="cursor: pointer;" title="Select Date"/> &nbsp;
+		</div>
+	
 	</div>
-</div>
+
+	<div class="col-md-4">
+		<b class="form-label mt-2">To&nbsp;</b>
+		<div class="form-inline">
+			<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="inp_date_to" readonly="1" size=23 />
+	<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date"/> 
+		</div>
+	</div>
+	
 
 </div>
  	<input class="btn btn-primary mt-3" type="submit" value='Show Report' /> &nbsp;&nbsp;

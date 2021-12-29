@@ -193,9 +193,9 @@ var SKU_RECEIVING_HISTORY = {
 							{foreach from=$branch_group.header key=bgid item=bg}
 								<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
 							{/foreach}
-						</select>&nbsp;&nbsp;
-						<input type="button" class="btn btn-primary"  value="Select " onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(true);" />&nbsp;
-						<input type="button" class="btn btn-danger"  value="De-select" onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(false);" /><br /><br />
+						</select>
+						<input type="button" class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0"  value="Select " onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(true);" />&nbsp;
+						<input type="button" class="btn btn-danger ml-0 ml-md-2 mt-2 mt-md-0"  value="De-select" onclick="SKU_RECEIVING_HISTORY.check_branch_by_group(false);" /><br /><br />
 						
 						</div>
 						<div id="div_branch_list" class="mt-2 p-2" style="width:100%;height:200px;border:1px solid #ddd;overflow:auto;">
