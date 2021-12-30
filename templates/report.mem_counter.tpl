@@ -293,7 +293,7 @@ function init_calendar()
 	<div class="card-body">
 		<form name="f_d">
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b>
 				<select class="form-control" name="branch_id" onChange="reload_list()">
@@ -305,19 +305,21 @@ function init_calendar()
 			{/if}
 			
 				</div>
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">Date</b> <div class="form-inline">
 					<input class="form-control" size=30 id=sdate name=date value="{$smarty.now|date_format:"%d/%m/%Y"}"> &nbsp;<img align=absbottom src="ui/calendar.gif" id="bdate" style="cursor: pointer;" title="Select Date"> &nbsp;&nbsp;
 				</div>
 			</div>
-			</div>
+			
 			<script>
 			init_calendar();
 			</script>
-			<input type="button" class="btn btn-primary mt-2" value="Reload" onclick="reload_list()"> 
-			<input type=button class="btn btn-info mt-2" value="Print" onclick="do_print()">
+			<div class="col-md-4 form-inline mt-2">
+				<input type="button" class="btn btn-primary mt-2" value="Reload" onclick="reload_list()"> 
+			<input type=button class="btn btn-info mt-2 ml-2" value="Print" onclick="do_print()">
+			</div>
 			</form>
-	
+		</div>
 </p>
 
 <div id="udiv">

@@ -1134,14 +1134,14 @@ var PN_DIALOG = {
 			<p>
 				<input class="btn btn-primary" type="submit" value="Refresh" onClick="submit_form('refresh');">
 				<button class="btn btn-primary" onClick="submit_form('print');"><img src="/ui/print.png" align="absmiddle" /> Print</button>
-				<button class="btn btn-info" name="output_excel" onClick="check_export_excel();return false;">{#OUTPUT_EXCEL#} Excel</button>
-				<button class="btn btn-info" name="output_csv" onClick="check_export_csv();return false;">{#OUTPUT_EXCEL#} CSV </button>
-				<button class="btn btn-primary" onClick="submit_form('print_mailing_list');"><img src="/ui/print.png" align="absmiddle" /> Print Mailing List</button>
+				<button class="btn btn-info mt-2 mt-md-0" name="output_excel" onClick="check_export_excel();return false;">{#OUTPUT_EXCEL#} Excel</button>
+				<button class="btn btn-info mt-2 mt-md-0" name="output_csv" onClick="check_export_csv();return false;">{#OUTPUT_EXCEL#} CSV </button>
+				<button class="btn btn-primary mt-2 mt-md-0" onClick="submit_form('print_mailing_list');"><img src="/ui/print.png" align="absmiddle" /> Print Mailing List</button>
 				{if $sessioninfo.privilege.MEMBERSHIP_ALLOW_SMS && $config.isms_user}
-					<button class="btn btn-primary" onClick="send_sms();return false;"><img src="ui/icons/ipod_cast.png" align="absmiddle" /> SMS Broadcast</button>
+					<button class="btn btn-primary mt-2 mt-md-0" onClick="send_sms();return false;"><img src="ui/icons/ipod_cast.png" align="absmiddle" /> SMS Broadcast</button>
 				{/if}
 				{if $config.membership_mobile_settings and $config.enable_push_notification and $sessioninfo.privilege.MEMBERSHIP_ALLOW_PN and $smarty.request.mobile_registered eq 'y'}
-					<button class="btn btn-primary" onClick="PN_DIALOG.open();return false;"><img src="/ui/icons/note_go.png" align="absmiddle" /> Send Push Notification</button>
+					<button class="btn btn-primary mt-2 mt-md-0" onClick="PN_DIALOG.open();return false;"><img src="/ui/icons/note_go.png" align="absmiddle" /> Send Push Notification</button>
 				{/if}
 			</p>
 			
@@ -1165,7 +1165,7 @@ var PN_DIALOG = {
 </form>
 
 {if $members}
-	<div class="card mx-3">
+	<div class="card mx-3 mt-2">
 		<div class="card-body">
 			<span id="span_loading"></span>
 	<div id="div_content">

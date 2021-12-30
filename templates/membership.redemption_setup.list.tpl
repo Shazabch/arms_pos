@@ -116,10 +116,10 @@
 	
 	<div id="div_save_area" {if !$redemption_items}style="display:none;"{/if}>
 	    <p style="text-align:center;padding:10px;background:#fff;">
-	    	<input class="btn btn-primary" name="act_btn" type="button" value="Activate Selected Item(s)" onclick="javascript:void(status_set_selected_item('1'));" >
-	        <input class="btn btn-warning" name="dect_btn" type="button" value="Deactivate Selected Item(s)" onclick="javascript:void(status_set_selected_item('0'));" >
-		    <input class="btn btn-success" name="save_btn" type="button" value="Save" onclick="save_redemption_items();" >        
-			<input class="btn btn-error" name="del_btn" type="button" value="Delete Selected Item(s)" onclick="javascript:void(delete_selected_item());" >
+	    	<input class="btn btn-primary mt-2 mt-md-0" name="act_btn" type="button" value="Activate Selected Item(s)" onclick="javascript:void(status_set_selected_item('1'));" >
+	        <input class="btn btn-warning mt-2 mt-md-0" name="dect_btn" type="button" value="Deactivate Selected Item(s)" onclick="javascript:void(status_set_selected_item('0'));" >
+		    <input class="btn btn-success mt-2 mt-md-0" name="save_btn" type="button" value="Save" onclick="save_redemption_items();" >        
+			<input class="btn btn-danger mt-2 mt-md-0" name="del_btn" type="button" value="Delete Selected Item(s)" onclick="javascript:void(delete_selected_item());" >
 	    </p>
 	</div>
 {/if}

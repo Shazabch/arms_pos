@@ -134,7 +134,7 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-					<div class="col">
+					<div class="col-md-4">
 						<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">
 						<option value="">-- All --</option>
@@ -152,7 +152,7 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 					</select>
 					</div>
 				{/if}
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date From</b> 
 				<div class="form-inline">
 					<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
@@ -160,7 +160,7 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 				</div>
 				</div>
 				
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">

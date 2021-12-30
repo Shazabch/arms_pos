@@ -86,7 +86,7 @@ function vd_toggle(obj){
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-					<div class="col">
+					<div class="col-md-4">
 						<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id" onChange="chk_vd_filter();">
 						<option value="">-- All --</option>
@@ -117,11 +117,11 @@ function vd_toggle(obj){
 					</div>
 					
 				{/if}
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Year</b> 
 				{dropdown name=year values=$years selected=$smarty.request.year key=year value=year}&nbsp;&nbsp;&nbsp;&nbsp; 
 				</div>
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Month</b>
 				<select class="form-control" name="month">
 					{foreach from=$months key=k item=r}

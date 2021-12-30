@@ -750,7 +750,7 @@ var HOME = {
 		<p>
 <div class="row">
 	<input type="hidden" name="a" value="get_axis_data" />
-<div class="col">
+<div class="col-md-3">
 	{if BRANCH_CODE eq 'HQ'}
 	<b class="form-label">Branch : </b>
 	<select class="form-control" id="branch" >
@@ -761,7 +761,7 @@ var HOME = {
 	</select>
 	&nbsp;&nbsp;&nbsp;
 {/if}</div>
-<div class="col">
+<div class="col-md-3">
 	<b class="form-label">Year : </b>
 <select class="form-control" id="year">
 	{foreach from=$yea key=yea item=yr}
@@ -769,7 +769,7 @@ var HOME = {
 	{/foreach}
 </select>
 &nbsp;&nbsp;&nbsp;</div>
-<div class="col">
+<div class="col-md-3">
 	<b class="form-label">Month: </b>
 <select  class="form-control" id="month">
 	{foreach from=$mon key=mon item=mn}
@@ -778,7 +778,7 @@ var HOME = {
 </select>
 &nbsp;&nbsp;&nbsp;</div>
 
-<div class="col">
+<div class="col-md-3">
 	<input class="btn btn-primary mt-4" type="button" value="Refresh" id="refresh_btn" onclick="HOME.reload_race_sales();HOME.reload_gender_sales();HOME.reload_age_sales();HOME.hide();"> </div>
 </div>
 

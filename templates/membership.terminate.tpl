@@ -64,7 +64,7 @@ function init_calendar(sstr){
 			<form action="{$smarty.server.PHP_SELF}" method=post>
 			<div class="row">
 				<input type=hidden name=a value=list>
-			<div class="col">
+			<div class="col-md-4">
 				{if BRANCH_CODE eq 'HQ'}
 			<b class="form-label">Apply Branch</b> 
 			<select class="form-control" name=branch_id>
@@ -75,14 +75,14 @@ function init_calendar(sstr){
 			</select>
 			{/if}
 			</div>
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">Membership Expiry Date</b>
 			<div class="form-inline">
 				<input class="form-control" name="expiry" id="expiry" size="30" value="{$smarty.request.expiry|default:$smarty.now|date_format:'%Y-%m-%d'}">
 			&nbsp;<img align=absbottom src="ui/calendar.gif" id="img_expiry" style="cursor: pointer;" title="Select Date"/>&nbsp;
 			</div>
 			</div>
-			<div class="col">
+			<div class="col-md-4">
 				<input class="btn btn-primary mt-4"  type=submit value="Retrieve">
 			</div>
 			</div>

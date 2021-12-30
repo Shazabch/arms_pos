@@ -87,7 +87,7 @@ var USAGE_REPORT = {
 			<input type="hidden" name="output_excel" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch: </b>
 				<select class="form-control" name="branch_id">
@@ -101,7 +101,7 @@ var USAGE_REPORT = {
 			{/if}
 			
 				</div>
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Year: </b>
 			<select class="form-control" name="year">
 				{foreach from=$year_list item=y}
@@ -110,7 +110,7 @@ var USAGE_REPORT = {
 			</select>
 			</div>
 			
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Month: </b>
 			<select class="form-control" name="month">
 				{foreach from=$month_list key=m item=m_label}
@@ -119,7 +119,7 @@ var USAGE_REPORT = {
 			</select>
 			</div>
 			
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Staff Type: </b>
 			<select class="form-control" name="staff_type">
 				<option value="">-- All --</option>

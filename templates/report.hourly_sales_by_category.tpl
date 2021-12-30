@@ -75,7 +75,7 @@ option.bg_item{
 			<input type=hidden name=report_title value="{$report_title}">
 
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
@@ -84,7 +84,7 @@ option.bg_item{
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b> 
 				<select class="form-control" name="branch_id">
@@ -126,8 +126,8 @@ option.bg_item{
 				{/if}
 				</div>
 				
-				<div class="col">
-					<div class="form-inline form-label">
+				<div class="col-md-4 mt-2">
+					<div class="form-inline form-label ">
 						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} />&nbsp;Exclude inactive SKU</label>
 					</div>
 					

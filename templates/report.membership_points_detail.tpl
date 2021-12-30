@@ -159,7 +159,7 @@ The following error(s) has occured:
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">
 						<option value="">-- All --</option>
@@ -177,22 +177,22 @@ The following error(s) has occured:
 					</select>
 				</div>
 				{/if}
-				<div class="col">
-					<b>Date From</b> 
+				<div class="col-md-3">
+					<b class="form-label">Date From</b> 
 			<div class="form-inline">
 				<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
 				&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
 			</div>
 				</div>
-				<div class="col">
-					<b>To</b>
+				<div class="col-md-3">
+					<b class="form-label">To</b>
 				 <div class="form-inline">
 					<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
 				 </div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Type</b>
 				<select class="form-control" name="type">
 					<option value="">-- All --</option>
@@ -203,7 +203,7 @@ The following error(s) has occured:
 				</div>
 				</div>
 			</p>
-			<p>
+			<p class="alert alert-primary" style="max-width:250px;">
 			* View in maximum 1 year
 			</b></p>
 			</p>

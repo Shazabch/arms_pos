@@ -159,7 +159,7 @@ function cancel_redemption(id,branch_id){
 	<form method=post class="form" name="f_a">
 		{if $BRANCH_CODE eq 'HQ'}
 		<b class="form-label">Branch</b>
-		<select class="from-control" name=branch_id onchange="list_sel('1');">
+		<select class="form-control" name=branch_id onchange="list_sel('1');">
 		<option value="">All</option>
 			{foreach from=$branches item=branch_id key=branch}
 				<option value="{$branch_id}" {if $branch_id eq $smarty.request.branch_id}selected{/if}>{$branch}</option>
@@ -169,27 +169,35 @@ function cancel_redemption(id,branch_id){
 			<input name=branch_id value="{$branches.$BRANCH_CODE}" type=hidden>
 		{/if}&nbsp;&nbsp;&nbsp;&nbsp;
 		
-		<b class="form-control">Date</b> <input class="form-control" size=10 type=text name=date value="{$smarty.request.date}" id="date">
+		<b class="form-label">Date</b> <input class="form-control" size=10 type=text name=date value="{$smarty.request.date}" id="date">
 <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date" onchange="list_sel('1');">&nbsp;&nbsp;&nbsp;&nbsp;
-		<input name="search" type="button" value="Search" onclick="list_sel('1');" >
+		<input class="form-control" name="search" type="button" value="Search" onclick="list_sel('1');" >
 	</form>
 {/if*}
 
-<div class="tab row mx-3 mb-3" style="white-space:nowrap;">
-{if $config.membership_redemption_use_enhanced}
-	{if $smarty.request.do_verify}
-	<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Verification List</a>
-	{else}
-	&nbsp;<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Waiting for Verification</a>
-	{/if}
-{/if}
-{if !$smarty.request.do_verify}
-	&nbsp;<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
-	&nbsp;<a href="javascript:void(list_sel(4))" id=lst4 class="a_tab btn btn-outline-primary btn-rounded">Cancelled</a>
-{/if}
-&nbsp;&nbsp;<div class="form-inline">
-	<a class="a_tab mt-1" id=lst5><b class="text-dark">Find Redemption</b> <input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" value="{$smarty.request.search_str}" /> <input type="button" class="btn btn-primary" value="Go" onClick="list_sel(5);" /></a>
-</div>
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="tab row" style="white-space:nowrap;">
+			<div class="col-md-6">
+				{if $config.membership_redemption_use_enhanced}
+				{if $smarty.request.do_verify}
+				<a href="javascript:void(list_sel(1))" id=lst1 class="a_tab btn btn-outline-primary btn-rounded">Verification List</a>
+				{else}
+				&nbsp;<a href="javascript:void(list_sel(2))" id=lst2 class="a_tab btn btn-outline-primary btn-rounded">Waiting for Verification</a>
+				{/if}
+			{/if}
+			{if !$smarty.request.do_verify}
+				&nbsp;<a href="javascript:void(list_sel(3))" id=lst3 class="a_tab btn btn-outline-primary btn-rounded">Completed</a>
+				&nbsp;<a href="javascript:void(list_sel(4))" id=lst4 class="a_tab btn btn-outline-primary btn-rounded">Cancelled</a>
+			{/if}
+			</div>
+			<div class="col-md-6">
+				<div class="form-inline">
+					<a class="a_tab mt-1" id=lst5><b class="text-dark">Find Redemption</b> <input class="form-control" id="inp_item_search" onKeyPress="search_input_keypress(event);" value="{$smarty.request.search_str}" /> <input type="button" class="btn btn-primary mt-2 mt-md-0" value="Go" onClick="list_sel(5);" /></a>
+				</div>
+			</div>
+			</div>
+	</div>
 </div>
 
 <div class="card mx-3">

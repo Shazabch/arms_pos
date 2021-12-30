@@ -136,7 +136,7 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 		<form method="post" class="form" name="f_a">
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b>
 				<select class="form-control" name="branch_id">
@@ -155,14 +155,14 @@ function toggle_date_details(obj, said, bid, ym, target_sales_amt){
 				</select>
 			{/if}
 				</div>
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">Date From</b> 
 		<div class="form-inline">
 			<input  class="form-control" size="23" type="text" name="date_from" value="{$smarty.request.date_from|default:$form.date_from}" id="date_from">
 			&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
 		</div>
 			</div>
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">To</b> 
 			<div class="form-inline">
 				<input class="form-control" size="23" type="text" name="date_to" value="{$smarty.request.date_to|default:$form.date_to}" id="date_to">

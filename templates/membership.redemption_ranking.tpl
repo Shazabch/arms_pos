@@ -103,32 +103,32 @@ option.bg_item{
 		
 			<p>
 			<div class="row">
-			<div class="col">
+			<div class="col-md-4 mt-2">
 				<b class="form-label">Redemption Date From</b>
 				<div class="form-inline">
-					<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=16 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
+					<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=22 /><img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> &nbsp;
 				</div>
 			</div>
 			
-			<div class="col">
+			<div class="col-md-4 mt-2">
 				
 				<b class="form-label">To</b> 
 			<div class="form-inline">
-				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=16 />&nbsp; <img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
+				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=22 /><img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date"/>
 			</div>
 			</div>
 		
-		<div class="col">
+		<div class="col-md-4 mt-2">
 			<b class="form-label">PostCode</b>
 			<input class="form-control" type="text" size="5" name="postcode" value="{$smarty.request.postcode}" />
 		</div>
 			
-		<div class="col">
+		<div class="col-md-4 mt-2">
 			<b class="form-label">State</b>
 			<input class="form-control" type="text" size="20" name="state" value="{$smarty.request.state}" />
 		</div>
 			
-		<div class="col">
+		<div class="col-md-4 mt-2">
 			<b class="form-label">City</b>
 			<input class="form-control" type="text" size="20" name="city" value="{$smarty.request.city}" />
 		</div>
@@ -137,7 +137,7 @@ option.bg_item{
 			
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4 mt-2">
 					<div class="form-inline mt-4">
 						<select class="form-control" name="top_or_btm">
 							<option value="top" {if $smarty.request.top_or_btm eq 'top'}selected {/if}>Top</option>
@@ -147,7 +147,7 @@ option.bg_item{
 					</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4 mt-2">
 					<b class="form-label">By</b>
 				<select class="form-control" name="sort_by">
 					<option value="qty" {if $smarty.request.sort_by eq 'qty'}selected {/if}>Qty</option>
@@ -156,7 +156,7 @@ option.bg_item{
 				</select>
 				</div>
 
-				<div class="col">
+				<div class="col-md-4 mt-2">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">

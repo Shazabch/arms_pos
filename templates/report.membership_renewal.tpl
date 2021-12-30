@@ -133,7 +133,7 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Apply Branch</b>
 					<select class="form-control" name="apply_branch_id">
 						 <option value="">-- All --</option>
@@ -151,7 +151,7 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 						{/foreach}
 					</select>
 					</div>
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Sales From Branch</b>
 					<select class="form-control" name="sales_branch_id">
 						 <option value="">-- All --</option>
@@ -171,7 +171,7 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 					</div>
 				{/if}
 			
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Date Before Renewal From</b> 
 				<div class="form-inline">
 					<input class="form-control" size="20" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
@@ -180,7 +180,7 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 				</div>
 				
 			
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size="20" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
@@ -192,17 +192,17 @@ function show_member_details(member_card_no, issue_date, expiry_date, obj){
 			
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Item Count From</b>
 				<input class="form-control" type="text" name="item_count_from" value="{$smarty.request.item_count_from}" size="5" />
 				
 					</div>
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b>
 				<input class="form-control" type="text" name="item_count_to" value="{$smarty.request.item_count_to}" size="5" />
 				
 				</div>
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Member Card</b>
 				<input class="form-control" type="text" name="card_no" value="{$smarty.request.card_no}" size="15" /> (Optional)
 				</div>

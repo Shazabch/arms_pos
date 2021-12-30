@@ -1,4 +1,4 @@
-{*
+	{*
 4/18/2015 10:43 AM Andy
 - Enhanced to have report title.
 
@@ -352,11 +352,11 @@ var VENDOR_REPORT = {
 				</div>
 		</div>
 				
-				<input type="button" class="btn btn-info" value='Show Report' onClick="VENDOR_REPORT.submit_form();" /> 
-				<input type="button" class="btn btn-primary" value="Print" onclick="VENDOR_REPORT.do_print();" />
+				<input type="button" class="btn btn-info mt-2 mt-md-0" value='Show Report' onClick="VENDOR_REPORT.submit_form();" /> 
+				<input type="button" class="btn btn-primary mt-2 mt-md-0" value="Print" onclick="VENDOR_REPORT.do_print();" />
 				
 				{if $sessioninfo.privilege.EXPORT_EXCEL}
-					<input type=button class="btn btn-info" value="Export to Excel" onclick="VENDOR_REPORT.submit_form('excel');" />
+					<input type=button class="btn btn-info mt-2 mt-md-0" value="Export to Excel" onclick="VENDOR_REPORT.submit_form('excel');" />
 				{/if}
 			
 			

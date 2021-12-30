@@ -78,7 +78,7 @@ function check_form(obj){
 		<form name=report_form method=post class=form onsubmit="return check_form(this);">
 			<input type=hidden name=report_title value="{$report_title}">
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b> <select class="form-control" name="branch_id">
 						<option value="">-- Please Select --</option>
@@ -108,7 +108,7 @@ function check_form(obj){
 				{/if}
 				</div>
 				
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">From</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
@@ -116,7 +116,7 @@ function check_form(obj){
 				</div>
 			</div>
 				
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">

@@ -167,7 +167,7 @@ function change_date_label(obj){
 		<form method="post" class="form" name="f_a">
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Date</b> 
 				<div class="form-inline">
 					<input  class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}{$form.from}" id="date_from">
@@ -176,7 +176,7 @@ function change_date_label(obj){
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_to value="{$smarty.request.date_to}{$form.to}" id="date_to">
@@ -185,7 +185,7 @@ function change_date_label(obj){
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b>
 				<select class="form-control" name="branch_id" id="branch_id" onChange="chk_vd_filter();">
@@ -228,7 +228,7 @@ function change_date_label(obj){
 				{/if}
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">View By</b>
 				<input type="radio" name="view_type" onclick="change_date_label(this);" value="date" {if !$smarty.request.view_type || $smarty.request.view_type eq 'date'}checked{/if}> Date&nbsp;
 				<input type="radio" name="view_type" onclick="change_date_label(this);" value="vendor"{if $smarty.request.view_type eq 'vendor'}checked{/if}> Vendor
@@ -238,7 +238,7 @@ function change_date_label(obj){
 		</p>
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Vendor</b>
 			<select class="form-control" name=vendor_id id=vendor_id onChange="chk_vd_filter();">
 			<option value="">-- All --</option>
@@ -251,14 +251,14 @@ function change_date_label(obj){
 				</div>
 			
 			
-			<div class="col">
+			<div class="col-md-3">
 				<div class="form-inline form-label mt-2">
 					<input type=checkbox id=use_grn name=use_grn {if $smarty.request.use_grn}checked{/if} {if $smarty.request.vendor_id == ''}disabled{/if}> <b>&nbsp;Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]
 				</div>
 			</div>
 			
 			
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">PO Owner</b>
 			<select class="form-control" name=owner_id>
 			<option value=0>-- All --</option>

@@ -94,7 +94,7 @@ function group_split_check(){
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-					<div class="col">
+					<div class="col-md-4">
 						<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id" {if $branch_group.header}onchange="group_split_check();"{/if}>
 						<option value="">-- All --</option>
@@ -123,7 +123,7 @@ function group_split_check(){
 						{/if}
 					</select>
 					</div>
-				<div class="col">
+				<div class="col-md-4">
 					<span id="branch_split" {if !$branch_group.header}style="display:'none';"{/if}>
 						<div class="form-inline form-label mt-4">
 							<input type="checkbox" id="split_bg" name="split_bg" {if $smarty.request.split_bg}checked{/if}> <b>&nbsp;Split Branch Group</b>
@@ -135,7 +135,7 @@ function group_split_check(){
 			</p>
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-4">
 						<b class="form-label">Department</b>
 				<select class="form-control" name="department_id">
 				<option value=0>-- All --</option>
@@ -145,7 +145,7 @@ function group_split_check(){
 				</select>
 					</div>
 
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">SKU Type</b>
 				<select class="form-control" name="sku_type">
 					<option value="">-- All --</option>
@@ -158,7 +158,7 @@ function group_split_check(){
 			</p>
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-4">
 						<b class="form-label">Date</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}{$form.from}" id="date_from">
@@ -167,7 +167,7 @@ function group_split_check(){
 			
 					</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date_to value="{$smarty.request.date_to}{$form.to}" id="date_to">
@@ -176,7 +176,7 @@ function group_split_check(){
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label form-inline mt-4">
 						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 					</div>

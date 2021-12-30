@@ -109,7 +109,7 @@ var REPORT = {
 				<input type="hidden" name="show_report" value="1" />
 				
 	<div class="row">
-		<div class="col">
+		<div class="col-md-4">
 			{if $BRANCH_CODE eq 'HQ'}
 			<span>
 			<b class="form-label">Branch</b>
@@ -157,7 +157,7 @@ var REPORT = {
 		{/if}
 		</div>
 			
-				<div class="col">
+				<div class="col-md-4">
 					<span>
 						<b class="form-label">Date From</b> 
 						<div class="form-inline">
@@ -166,7 +166,7 @@ var REPORT = {
 						</div>
 					</span>
 				</div>
-				<div class="col">
+				<div class="col-md-4">
 					<span>
 						<b class="form-label">To</b> 
 						<div class="form-inline">
@@ -180,7 +180,7 @@ var REPORT = {
 	</div>
 				<p>
 					<div class="row">
-						<div class="col">
+						<div class="col-md-4">
 							<span>
 								<b class="form-label">Group Data by</b>
 								<select class="form-control" name="group_type">

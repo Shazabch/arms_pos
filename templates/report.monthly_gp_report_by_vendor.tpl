@@ -118,7 +118,7 @@ function toggle_po_owner(obj){
 		
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-4">
 						{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">
@@ -130,7 +130,7 @@ function toggle_po_owner(obj){
 				{/if}
 					</div>
 		
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date From</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="added1" readonly="1" size=23> &nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
@@ -138,7 +138,7 @@ function toggle_po_owner(obj){
 				
 				</div>
 		
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">To</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="added2" readonly="1" size=23>&nbsp; <img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
@@ -147,14 +147,16 @@ function toggle_po_owner(obj){
 				</div>
 				</div>
 		
-				<div>
-					<b class="form-label mt-2">PO Owner</b>
-					<div style="padding: 10px; width:20%;height:200px;border:1px solid #ddd;overflow:auto;">
+				<div class="row">
+					<div class="col-md-6">
+						<b class="form-label mt-2">PO Owner</b>
+					<div style="padding: 10px; min-width: 60px;height:200px;border:1px solid #ddd;overflow:auto;">
 						<input type="checkbox" name="tgl_po_owner" value="1" {if $smarty.request.tgl_po_owner}checked{/if} onclick="toggle_po_owner(this);">&nbsp;All<br />
 						{foreach from=$owner_list item=owner}
 							{assign var=owner_id value=$owner.id}
 							<input type="checkbox" name="po_owner_list[{$owner_id}]" class="chkbx_po_owner" value="{$owner_id}" {if $smarty.request.po_owner_list.$owner_id}checked{/if}>&nbsp;{$owner.u}<br />
 						{/foreach}
+					</div>
 					</div>
 				</div>
 			</p>

@@ -287,117 +287,119 @@ function expand_sub(cat_id, indent, img){
 				
 				
 				<p>
-					<table>
-						<tr>
-							{if $BRANCH_CODE eq 'HQ'}
-								<td><b class="form-label">Branch</b></td>
-							{/if}
-							<td><b class="form-label">Brand</b></td>
-							<td><b class="form-label">Colour</b></td>
-							<td><b class="form-label">Size</b></td>
-							{if $price_range}
-							<td><b class="form-label">Price Range</b></td>
-							{/if}
-						</tr>
-						<tr>
-							{if $BRANCH_CODE eq 'HQ'}
-								<!-- Branch -->
+					<div class="table-responsive">
+						<table>
+							<tr>
+								{if $BRANCH_CODE eq 'HQ'}
+									<td><b class="form-label">Branch</b></td>
+								{/if}
+								<td><b class="form-label">Brand</b></td>
+								<td><b class="form-label">Colour</b></td>
+								<td><b class="form-label">Size</b></td>
+								{if $price_range}
+								<td><b class="form-label">Price Range</b></td>
+								{/if}
+							</tr>
+							<tr>
+								{if $BRANCH_CODE eq 'HQ'}
+									<!-- Branch -->
+									<td>
+										<div class="div_multi_select">
+											<ul style="list-style:none;">
+												<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
+												{foreach from=$branches key=branch_id item=r}
+												
+													{if $config.sales_report_branches_exclude}
+													{if in_array($r.code,$config.sales_report_branches_exclude)}
+													{assign var=skip_this_branch value=1}
+													{else}
+													{assign var=skip_this_branch value=0}
+													{/if}
+													{/if}
+												
+													{if !$skip_this_branch}
+													<li>
+														<input type="checkbox" name="branch_id[]" value="{$branch_id}" {if is_array($smarty.request.branch_id) and in_array($branch_id, $smarty.request.branch_id)}checked {/if} /> {$r.code}
+													</li>
+													{/if}
+													
+												{/foreach}
+											</ul>
+										</div>
+									</td>
+								{/if}
+				
+								<!-- Brand -->
 								<td>
 									<div class="div_multi_select">
 										<ul style="list-style:none;">
 											<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
-											{foreach from=$branches key=branch_id item=r}
-											
-												{if $config.sales_report_branches_exclude}
-												{if in_array($r.code,$config.sales_report_branches_exclude)}
-												{assign var=skip_this_branch value=1}
-												{else}
-												{assign var=skip_this_branch value=0}
-												{/if}
-												{/if}
-											
-												{if !$skip_this_branch}
+											<li><input type="checkbox" name="brand_id[]" value="0" {if is_array($smarty.request.brand_id) and in_array(0, $smarty.request.brand_id)}checked {/if} /> UN-BRANDED</li>
+											{if $brand_group}
+											<li><br /><b>Brand Group</b></li>
+											{foreach from=$brand_group key=bgk item=bgv}
 												<li>
-													<input type="checkbox" name="branch_id[]" value="{$branch_id}" {if is_array($smarty.request.branch_id) and in_array($branch_id, $smarty.request.branch_id)}checked {/if} /> {$r.code}
+													<input type="checkbox" name="brand_group[]" value="{$bgk}" {if is_array($smarty.request.brand_group) and in_array($bgk, $smarty.request.brand_group)}checked {/if} /> {$bgv}
 												</li>
-												{/if}
-												
+											{/foreach}
+											{/if}
+											<li><br /><b>Brand</b></li>
+											{foreach from=$brands key=brand_id item=r}
+												<li>
+													<input type="checkbox" name="brand_id[]" value="{$brand_id}" {if is_array($smarty.request.brand_id) and in_array($brand_id, $smarty.request.brand_id)}checked {/if} /> {$r.description}
+												</li>
 											{/foreach}
 										</ul>
 									</div>
 								</td>
-							{/if}
-			
-							<!-- Brand -->
-							<td>
-								<div class="div_multi_select">
-									<ul style="list-style:none;">
-										<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
-										<li><input type="checkbox" name="brand_id[]" value="0" {if is_array($smarty.request.brand_id) and in_array(0, $smarty.request.brand_id)}checked {/if} /> UN-BRANDED</li>
-										{if $brand_group}
-										<li><br /><b>Brand Group</b></li>
-										{foreach from=$brand_group key=bgk item=bgv}
-											<li>
-												<input type="checkbox" name="brand_group[]" value="{$bgk}" {if is_array($smarty.request.brand_group) and in_array($bgk, $smarty.request.brand_group)}checked {/if} /> {$bgv}
-											</li>
-										{/foreach}
-										{/if}
-										<li><br /><b>Brand</b></li>
-										{foreach from=$brands key=brand_id item=r}
-											<li>
-												<input type="checkbox" name="brand_id[]" value="{$brand_id}" {if is_array($smarty.request.brand_id) and in_array($brand_id, $smarty.request.brand_id)}checked {/if} /> {$r.description}
-											</li>
-										{/foreach}
-									</ul>
-								</div>
-							</td>
-							
-							<!-- Color -->
-							<td>
-								<div class="div_multi_select">
-									<ul style="list-style:none;">
-										<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
-										<li><input type="checkbox" name="color[]" value="NOTSET" {if is_array($smarty.request.color) and in_array('NOTSET', $smarty.request.color)}checked {/if} /> NOT SET</li>
-										{foreach from=$colors item=c}
-											<li>
-												<input type="checkbox" name="color[]" value="{$c}" {if is_array($smarty.request.color) and in_array($c, $smarty.request.color)}checked {/if} /> {$c}
-											</li>
-										{/foreach}
-									</ul>
-								</div>
-							</td>
-							
-							<!-- Size -->
-							<td>
-								<div class="div_multi_select">
-									<ul style="list-style:none;">
-										<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
-										<li><input type="checkbox" name="size[]" value="NOTSET" {if is_array($smarty.request.size) and in_array('NOTSET', $smarty.request.size)}checked {/if} /> NOT SET</li>
-										{foreach from=$sizes item=s}
-											<li>
-												<input type="checkbox" name="size[]" value="{$s}" {if is_array($smarty.request.size) and in_array($s, $smarty.request.size)}checked {/if} /> {$s}
-											</li>
-										{/foreach}
-									</ul>
-								</div>
-							</td>
-							<!-- Price range -->
-							{if $price_range}
-							<td>
-								<div class="div_multi_select">
-									<ul style="list-style:none;">
-										<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
-										{foreach from=$price_range item=s}
-											<li>
-												<input type="checkbox" name="price_range[]" value="{$s.from}-{$s.to}" {if is_array($smarty.request.price_range) and in_array($s.from, $smarty.request.price_range)}checked {/if} /> {$s.from} - {$s.to}
-											</li>
-										{/foreach}
-									</ul>
-								</div>
-							</td>
-							{/if}
-						</tr>
-					</table>
+								
+								<!-- Color -->
+								<td>
+									<div class="div_multi_select">
+										<ul style="list-style:none;">
+											<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
+											<li><input type="checkbox" name="color[]" value="NOTSET" {if is_array($smarty.request.color) and in_array('NOTSET', $smarty.request.color)}checked {/if} /> NOT SET</li>
+											{foreach from=$colors item=c}
+												<li>
+													<input type="checkbox" name="color[]" value="{$c}" {if is_array($smarty.request.color) and in_array($c, $smarty.request.color)}checked {/if} /> {$c}
+												</li>
+											{/foreach}
+										</ul>
+									</div>
+								</td>
+								
+								<!-- Size -->
+								<td>
+									<div class="div_multi_select">
+										<ul style="list-style:none;">
+											<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
+											<li><input type="checkbox" name="size[]" value="NOTSET" {if is_array($smarty.request.size) and in_array('NOTSET', $smarty.request.size)}checked {/if} /> NOT SET</li>
+											{foreach from=$sizes item=s}
+												<li>
+													<input type="checkbox" name="size[]" value="{$s}" {if is_array($smarty.request.size) and in_array($s, $smarty.request.size)}checked {/if} /> {$s}
+												</li>
+											{/foreach}
+										</ul>
+									</div>
+								</td>
+								<!-- Price range -->
+								{if $price_range}
+								<td>
+									<div class="div_multi_select">
+										<ul style="list-style:none;">
+											<li><input type="checkbox" onChange="toggle_group_chx(this);" /> <b>All</b></li>
+											{foreach from=$price_range item=s}
+												<li>
+													<input type="checkbox" name="price_range[]" value="{$s.from}-{$s.to}" {if is_array($smarty.request.price_range) and in_array($s.from, $smarty.request.price_range)}checked {/if} /> {$s.from} - {$s.to}
+												</li>
+											{/foreach}
+										</ul>
+									</div>
+								</td>
+								{/if}
+							</tr>
+						</table>
+					</div>
 					<br style="clear:both;">
 				</p>
 				
