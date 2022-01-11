@@ -157,8 +157,8 @@ var MULTI_BRANCH_SALES = {
 							<option value="{$bgid}" >{$bg.code} - {$bg.description}</option>
 						{/foreach}
 					</select>&nbsp;
-					<input class="btn btn-success ml-2" type="button" value="Select " onclick="MULTI_BRANCH_SALES.check_branch_by_group(true);" />&nbsp;
-					<input class="btn btn-danger ml-2" type="button" value="De-select" onclick="MULTI_BRANCH_SALES.check_branch_by_group(false);" /><br /><br />
+					<input class="btn btn-success mt-2 mt-md-0 ml-0 ml-md-2" type="button" value="Select " onclick="MULTI_BRANCH_SALES.check_branch_by_group(true);" />&nbsp;
+					<input class="btn btn-danger mt-2 mt-md-0 ml-1" type="button" value="De-select" onclick="MULTI_BRANCH_SALES.check_branch_by_group(false);" /><br /><br />
 					
 					</div>
 					<div id="div_branch_list" style="padding: 10px; width:100%;height:200px;border:1px solid #ddd;overflow:auto;">

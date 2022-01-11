@@ -50,24 +50,24 @@
             <input type=hidden name=report_title value="{$report_title}">
 
           <div class="row">
-           <div class="col">
+           <div class="col-md-3 mt-2">
             <b class="form-label">From</b> 
             <div class="form-inline">
              <input class="form-control" size=15 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-             &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+            <img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
             </div>
            </div>
              
-             <div class="col">
+             <div class="col-md-3 mt-2">
                 <b class="form-label">To</b> 
                 <div class="form-inline">
                  <input class="form-control" size=15 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-                 &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+                 <img class="ml-0 ml-md-2" align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
                 </div>
              </div>
              
              
-             <div class="col">
+             <div class="col-md-3 mt-2">
                 {if $BRANCH_CODE eq 'HQ'}
                 <b class="form-label">Branch</b> 
                 <select class="form-control" name="branch_id">
@@ -89,7 +89,7 @@
                 {/if}
              </div>
              
-             <div class="col">
+             <div class="col-md-3 mt-2">
                 <b class="form-label">By</b>
                 <select class="form-control" name="view_type">
                 <option value="month" {if $smarty.request.view_type eq 'month'}selected{/if}>Month</option>

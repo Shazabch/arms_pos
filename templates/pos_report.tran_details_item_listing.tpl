@@ -104,7 +104,7 @@ table.report_table tr.extra_info {
 				
 				<p nowrap style="padding-left: 5px">
 					<div class="row">
-						<div class="col">
+						<div class="col-md-3">
 							<b class="title form-label">From </b>
 						<div class="form-inline">
 							<input class="form-control" type="text" name="date_from" id="date_from" size="10" value="{$form.date_from}" />
@@ -112,7 +112,7 @@ table.report_table tr.extra_info {
 						</div>
 						</div>
 						
-						<div class="col">
+						<div class="col-md-3">
 							<b class="title form-label">To </b>
 						<div class="form-inline">
 							<input class="form-control" type="text" name="date_to" id="date_to" size="10" value="{$form.date_to}" />
@@ -120,7 +120,7 @@ table.report_table tr.extra_info {
 						</div>
 						</div>
 						
-						<div class="col">
+						<div class="col-md-3">
 							<b class="title form-label">Counter : </b>
 						<select class="form-control" name="counter">
 							{foreach from=$counters item=r}
@@ -137,14 +137,14 @@ table.report_table tr.extra_info {
 						</select> 
 						</div>
 						
-						<div class="col">
+						<div class="col-md-3">
 							<b class="title form-label">Receipt No : </b>
 						<input class="form-control" type="text" name="receipt_num" value="{$form.receipt_num}"/> 
 						</div>
 					</div>
 					
 					
-					<div class="col">
+					<div class="col-md-3">
 						<div class="row form-inline mt-2">
 						<input type="checkbox" class="mb-1" id="time_filter" name="time_filter" onChange="TRAN_DETAILS_ITEM_LISTING.toggleTimeFilter();" {if $form.time_filter}checked{/if}/>
 						<b class="title form-label">&nbsp;Time from&nbsp; </b>

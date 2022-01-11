@@ -100,7 +100,7 @@ function check_form(){
 			<p>
 				<div class="row">
 					{if $BRANCH_CODE eq 'HQ'}
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">
 						<option value="">-- All --</option>
@@ -119,12 +119,12 @@ function check_form(){
 					</div>
 				{/if}
 			
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Serial No</b> 
 				<input class="form-control" type="text" name="serial_no" size="20" value="{$smarty.request.serial_no}" />
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Status</b>
 				<select class="form-control" name="status">
 					<option value="" {if !$smarty.request.status}selected{/if}>All</option>
@@ -133,7 +133,7 @@ function check_form(){
 				</select>
 				</div>
 
-				<div class="col">
+				<div class="col-md-3">
 					<div class="form-label form-inline mt-4">
 						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 					</div>

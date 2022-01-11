@@ -179,92 +179,94 @@ function show_formula_help()
 				</div>
 			</form>
 			
-			<table class=" table mb-0 text-md-nowrap  table-hover"><tr>
-			<td valign=top>
-				<div id=droptarget>
-				<table cellspacing=4 cellpadding=0>
-				<tr>
-					<td style="border:1px solid #999;">
-						<div id=drop_pg style="width:150px;height:50px;background:url(images/pv_page.jpg);">
-						<ul id=l_pg class="droplist">
-				{foreach name=i from=$form.l_pg item=ll}
-						<li id="{$ll}">{$ll}</li>
-				{/foreach}
-						</ul>
+			<div class="table-responsive">
+				<table class=" table mb-0 text-md-nowrap  table-hover"><tr>
+					<td valign=top>
+						<div id=droptarget>
+						<table cellspacing=4 cellpadding=0>
+						<tr>
+							<td style="border:1px solid #999;">
+								<div id=drop_pg style="width:150px;height:50px;background:url(images/pv_page.jpg);">
+								<ul id=l_pg class="droplist">
+						{foreach name=i from=$form.l_pg item=ll}
+								<li id="{$ll}">{$ll}</li>
+						{/foreach}
+								</ul>
+								</div>
+							</td>
+					
+						</tr>
+						<tr>
+							<td id=drop_delete align=center style="border:1px solid #999;">
+							<font color=red>-drop here to remove-</font>
+							</td>
+							<td style="border:1px solid #999;">
+								<div id=drop_col style="width:300px; height:100px;background:url(images/pv_col.jpg);">
+								<ul id=l_cols class="droplist">
+						{foreach name=i from=$form.l_cols item=ll}
+								<li id="{$ll}">{$ll}</li>
+						{/foreach}
+								</ul>
+								</div>
+							</td>
+						</tr><tr>
+							<td style="border:1px solid #999;">
+								<div id=drop_row style="width:150px; height:350px;background:url(images/pv_row.jpg);">
+								<ul id=l_rows class="droplist">
+						{foreach name=i from=$form.l_rows item=ll}
+								<li id="{$ll}">{$ll}</li>
+						{/foreach}
+								</ul>
+								</div>
+							</td>
+							<td style="border:1px solid #999;">
+								<div id=drop_data style="width:300px; height:350px;background:url(images/pv_data.jpg);">
+								  <ul id=l_data class="droplist">
+						{foreach name=i from=$form.l_data item=ll}
+								<li id="{$ll}">{$ll}</li>
+						{/foreach}
+								</ul>
+								</div>
+							</td>
+						</tr>
+						</table>
 						</div>
-					</td>
-			
-				</tr>
-				<tr>
-					<td id=drop_delete align=center style="border:1px solid #999;">
-					<font color=red>-drop here to remove-</font>
-					</td>
-					<td style="border:1px solid #999;">
-						<div id=drop_col style="width:300px; height:100px;background:url(images/pv_col.jpg);">
-						<ul id=l_cols class="droplist">
-				{foreach name=i from=$form.l_cols item=ll}
-						<li id="{$ll}">{$ll}</li>
-				{/foreach}
-						</ul>
+					
+						<div id=preview style="width:452px; height:510px; overflow:scroll; padding:5px; border:2px solid black; display:none;">
 						</div>
+					
+					</td><td valign=top>
+					<!--- the field window -->
+					<h4 class="form-label">Fields</h4>
+					<div class="alert alert-primary" style="max-width: 300px;">
+						Drag a field into the table on your left
+					</div>
+					
+					<ul class="dragable" id=fields style="padding:2px;">
+					{foreach from=$fields item=field}
+					<li id="f[{$field}]" style="float:left; width:100px; cursor:pointer; " onmouseover="this.style.background='#d6e0ff'" onmouseout="this.style.background='#fff'">{$field}</li>
+					{/foreach}
+					</ul>
+					
+					<br style="clear:both">
+					<p align=center>
+					<div class="form-inline">
+						<b class="form-label">
+							Data Formula:&nbsp;
+						</b> <select class="form-control" id=newdata_type>
+						<option value="SUM">Sum</option>
+						<option value="COUNT">Count</option>
+						<option value="UNIQUE">Unique Count</option>
+						<option value="MIN">Min</option>
+						<option value="MAX">Max</option>
+						<option value="AVG">Average</option>
+						</select>&nbsp; [<a href="javascript:void(show_formula_help())">Help</a>]
+					</div>
+					</p>
+					
 					</td>
-				</tr><tr>
-					<td style="border:1px solid #999;">
-						<div id=drop_row style="width:150px; height:350px;background:url(images/pv_row.jpg);">
-						<ul id=l_rows class="droplist">
-				{foreach name=i from=$form.l_rows item=ll}
-						<li id="{$ll}">{$ll}</li>
-				{/foreach}
-						</ul>
-						</div>
-					</td>
-					<td style="border:1px solid #999;">
-						<div id=drop_data style="width:300px; height:350px;background:url(images/pv_data.jpg);">
-						  <ul id=l_data class="droplist">
-				{foreach name=i from=$form.l_data item=ll}
-						<li id="{$ll}">{$ll}</li>
-				{/foreach}
-						</ul>
-						</div>
-					</td>
-				</tr>
-				</table>
-				</div>
-			
-				<div id=preview style="width:452px; height:510px; overflow:scroll; padding:5px; border:2px solid black; display:none;">
-				</div>
-			
-			</td><td valign=top>
-			<!--- the field window -->
-			<h4 class="form-label">Fields</h4>
-			<div class="alert alert-primary" style="max-width: 300px;">
-				Drag a field into the table on your left
+					</tr></table>
 			</div>
-			
-			<ul class="dragable" id=fields style="padding:2px;">
-			{foreach from=$fields item=field}
-			<li id="f[{$field}]" style="float:left; width:100px; cursor:pointer; " onmouseover="this.style.background='#d6e0ff'" onmouseout="this.style.background='#fff'">{$field}</li>
-			{/foreach}
-			</ul>
-			
-			<br style="clear:both">
-			<p align=center>
-			<div class="form-inline">
-				<b class="form-label">
-					Data Formula:&nbsp;
-				</b> <select class="form-control" id=newdata_type>
-				<option value="SUM">Sum</option>
-				<option value="COUNT">Count</option>
-				<option value="UNIQUE">Unique Count</option>
-				<option value="MIN">Min</option>
-				<option value="MAX">Max</option>
-				<option value="AVG">Average</option>
-				</select>&nbsp; [<a href="javascript:void(show_formula_help())">Help</a>]
-			</div>
-			</p>
-			
-			</td>
-			</tr></table>
 			
 			</div>
 	</div>

@@ -114,7 +114,7 @@ function validate_data(){
 		<form method="post" class="form" name="report_form" id="rpt_form" onSubmit="return validate_data();">
 			<input type="hidden" name="report_title" value="{$report_title}">
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b> 
 				<select class="form-control" name="branch_id">
@@ -156,7 +156,7 @@ function validate_data(){
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">From</b> 
 			<div class="form-inline">
 				<input class="form-control" size="22" type="text" name="date_from" value="{$smarty.request.date_from}" id="date_from">
@@ -164,7 +164,7 @@ function validate_data(){
 			</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b> 
 			<div class="form-inline">
 				<input class="form-control" size="22" type="text" name="date_to" value="{$smarty.request.date_to}" id="date_to">
@@ -179,17 +179,17 @@ function validate_data(){
 			</p>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Minimum Transaction Count</b> 
 				<input class="form-control" size="10" type="text" name="min_tran" value="{$smarty.request.min_tran}">
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Minimum Amount</b> 
 				<input class="form-control" size="10" type="text" name="min_amount" value="{$smarty.request.min_amount}">
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">From</b>
 				<div class="form-inline">
 					<select class="form-control" name="order_type">
@@ -200,7 +200,7 @@ function validate_data(){
 				</div>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label"> By </b>
 					<div class="form-inline">
 						<select class="form-control" name="quantity_amount_type">

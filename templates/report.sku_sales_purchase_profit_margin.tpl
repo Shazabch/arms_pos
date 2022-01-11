@@ -83,7 +83,7 @@ var MULTI_BRANCH_SALES = {
 			{if !$no_header_footer}
 				
 					<div class="row">
-						<div class="col">
+						<div class="col-md-4">
 							<b class="form-label">Year</b>
 						<select class="form-control" name="year">
 							{foreach from=$years item=y}
@@ -92,7 +92,7 @@ var MULTI_BRANCH_SALES = {
 						</select>
 						</div>
 					
-						<div class="col">
+						<div class="col-md-4">
 							<b class="form-label">Month</b>
 						<select class="form-control" name="month">
 							{foreach from=$months key=m item=months}
@@ -105,7 +105,7 @@ var MULTI_BRANCH_SALES = {
 					{if $BRANCH_CODE eq 'HQ'}
 					<div>
 						<div class="row">
-							<div class="col">
+							<div class="col-md-4">
 								<b class="form-label">Select Branch By:</b>
 						<select class="form-control" id="sel_brn_grp" >
 							<option value="">-- All --</option>
@@ -115,7 +115,7 @@ var MULTI_BRANCH_SALES = {
 						</select>
 							</div>
 
-						<div class="col">
+						<div class="col-md-4">
 							<input class="btn btn-success mt-4" type="button"  value="Select " onclick="MULTI_BRANCH_SALES.check_branch_by_group(true);" />
 						<input class="btn btn-danger mt-4" type="button"  value="De-select" onclick="MULTI_BRANCH_SALES.check_branch_by_group(false);" /><br /><br />
 						
@@ -143,7 +143,7 @@ var MULTI_BRANCH_SALES = {
 				
 				<p>
 					<div class="row">
-						<div class="col">
+						<div class="col-md-4">
 							<span>
 								<b class="form-label">Status:</b>
 								<select class="form-control" name="status">
@@ -154,7 +154,7 @@ var MULTI_BRANCH_SALES = {
 							</span>
 						</div>
 						
-						<div class="col">
+						<div class="col-md-4">
 							<span>
 								<b class="form-label">SKU Type: </b>
 								<select class="form-control" name="sku_type">
@@ -166,7 +166,7 @@ var MULTI_BRANCH_SALES = {
 							</span>
 						</div>
 						
-						<div class="col">
+						<div class="col-md-4">
 							<span>
 								<div class="form-label form-inline mt-4">
 									<input type="checkbox" name="group_by_sku" value="1" {if $smarty.request.group_by_sku}checked {/if} /> <b>&nbsp;Group by SKU</b>

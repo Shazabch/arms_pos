@@ -183,7 +183,7 @@ function curtain_clicked(){
 			<input type="hidden" name="reportDataID" value="{$data.reportDataID}" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 					<span>
 						<b class="form-label">Branch</b> 
@@ -213,7 +213,7 @@ function curtain_clicked(){
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<span>
 						<b class="form-label">Stock at</b>
 						<div class="form-inline">
@@ -231,7 +231,7 @@ function curtain_clicked(){
 					</span>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<span>
 						<b class="form-label">Filter have Stock Age at</b>
 						<select class="form-control" name="stock_age">
@@ -271,7 +271,7 @@ function curtain_clicked(){
 			
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-4">
 						<span>
 							<b class="form-label">Vendor</b>
 							<select class="form-control" name="vendor_id">
@@ -283,7 +283,7 @@ function curtain_clicked(){
 						</span>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-4">
 						<span>
 							<b class="form-label">Brand</b>
 							<select class="form-control" name="brand_id">
@@ -309,7 +309,7 @@ function curtain_clicked(){
 						</span>
 					</div>
 				
-					<div class="col">
+					<div class="col-md-4">
 						<span>
 							<b class="form-label">SKU Type</b>
 							<select class="form-control" name="sku_type">

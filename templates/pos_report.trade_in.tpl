@@ -91,7 +91,7 @@ function submit_form(type){
 			<input type="hidden" name="show_report" value="1" />
 		
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<span>
 					<b class="form-label">Branch</b>
@@ -107,7 +107,7 @@ function submit_form(type){
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">From</b>
 				<div class="form-inline">
 					<input class="form-control" name="date_from" id="inp_date_from" size="10" maxlength="10"  value="{$smarty.request.date_from|date_format:"%Y-%m-%d"}" />
@@ -115,7 +115,7 @@ function submit_form(type){
 				</div>
 				</div>
 				
-			<div class="col">
+			<div class="col-md-4">
 					
 				<b class="form-label">To</b>
 				<div class="form-inline">
@@ -125,7 +125,7 @@ function submit_form(type){
 			</div>
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Finalised</b>
 				<select class="form-control" name="finalized_status">
 					<option value="all">-- All --</option>
@@ -134,7 +134,7 @@ function submit_form(type){
 				</select>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Status</b>
 				<select class="form-control" name="status">
 					{foreach from=$status_list key=k item=label}

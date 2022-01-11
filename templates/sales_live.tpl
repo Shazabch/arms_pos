@@ -428,7 +428,7 @@ function curtain_clicked(type){
 			<form method="post" name="f_sales_live">
 			<div class="row">
 				{if $BRANCH_CODE eq 'HQ'}
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Branch: </b>
 			<select class="form-control" name="branch_id" id="branch_id">
 				<option value="">-- All --</option>
@@ -442,7 +442,7 @@ function curtain_clicked(type){
 		
 			</div>
 			{/if}
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Date</b> 
 			<div class="form-inline">
 				<input class="form-control" size=22 type=text name=date value="{$smarty.request.date}" id="date">
@@ -451,7 +451,7 @@ function curtain_clicked(type){
 			</div>
 			
 			
-		<div class="col">
+		<div class="col-md-3">
 			<input class="btn btn-primary  mt-4" type="submit" name="submits" value="Load">
 		</div>
 			</div>

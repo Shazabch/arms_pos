@@ -158,7 +158,7 @@ var REPORTS = {
 			<input type="hidden" name="output_excel" />
 		<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch</b>
 					<select class="form-control" name="branch_id">
@@ -182,7 +182,7 @@ var REPORTS = {
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date From</b> 
 				<div class="form-inline">
 					<input class="form-control" size="23" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" />
@@ -190,7 +190,7 @@ var REPORTS = {
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size="23" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" />

@@ -213,7 +213,7 @@ var PRINT_FULL_TAX = {
         <div class="form-inline">
           <b class="form-label">Search receipt by Ref. No.&nbsp;</b> 
           <input class="form-control" type="text" id="ref_no" name="ref_no" value=""/> 
-         &nbsp;&nbsp; <button class="btn btn-primary" type="button" onclick="load_receipt('search')">Search</button>
+        <button class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0" type="button" onclick="load_receipt('search')">Search</button>
         </div>
           <span id="loading"></span>
           <input type="hidden" id="card_no" name="card_no" value="">
@@ -223,15 +223,15 @@ var PRINT_FULL_TAX = {
        <div class="col-md-6 mt-2">
         {if $branches}
         <div class="form-inline">
-          <b class="form-label">Branched</b>
+          <b class="form-label">Branched<span class="text-danger"  title="Required Field"> *</span> </b>
         &nbsp;<select class="form-control" id="branch_id" name="branch_id" onchange="load_counter()">
           <option value="">-- Please Select --</option>
           {foreach name="branch" from=$branches item=b}
             <option value="{$b.id}">{$b.code}</option>
           {/foreach}
         </select> 
-       <span class="text-danger"  title="Required Field"> *</span> <span id="loading2"></span>
-       &nbsp; <button class="btn btn-primary" type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button>
+       <span id="loading2"></span>
+       &nbsp; <button class="btn btn-primary mt-2 mt-md-0" type="button" id="last_receipt" onclick="load_receipt('last_receipt')">Search Last Receipt</button>
         
         </div>
       {else}
@@ -243,10 +243,10 @@ var PRINT_FULL_TAX = {
   
        <div class="col-md-6 mt-2">
         <div class="form-inline">
-          <b class="form-label">Date</b> 
+          <b class="form-label">Date <span class="text-danger" title="Required Field"> *</span></b> 
           &nbsp;<input class="form-control" size=22 type=text name=date value="{$form.date}" id="date"/>
           &nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date"/> 
-          <span class="text-danger" title="Required Field"> *</span>
+          
          </div>
        </div>
         
@@ -254,10 +254,10 @@ var PRINT_FULL_TAX = {
           <div class="col-md-6 mt-2">
             <div id="data_type_row">
               <div class="form-inline">
-              <b class="form-label">Counter</b>
+              <b class="form-label">Counter<span class="text-danger" title="Required Field"> *</span></b>
               &nbsp;<select class="form-control" id="counter" name="counter_id" data-selected="">
                 <option value="">-- Please Select --</option>
-              </select> <span class="text-danger" title="Required Field"> *</span>
+              </select> 
             </div>
             </div>
           </div>
@@ -265,10 +265,10 @@ var PRINT_FULL_TAX = {
   
         <div class="col-md-6 mt-2">
           <div class="form-inline">
-            <b class="form-label">Receipt No.</b> 
+            <b class="form-label">Receipt No. <span class="text-danger" title="Required Field"> *</span></b> 
            &nbsp; <input class="form-control" type="text" name="receipt_no" id="receipt_no" value=""/> 
-          &nbsp; <span class="text-danger" title="Required Field"> *</span>
-          &nbsp;<button class="btn btn-primary" type="button" id="btn-submit" onclick="PRINT_FULL_TAX.show_remark();">Show</button>
+          &nbsp;
+         <button class="btn btn-primary ml-0 ml-md-2 mt-2 mt-md-0" type="button" id="btn-submit" onclick="PRINT_FULL_TAX.show_remark();">Show</button>
           </div>
         </div>
     </div>

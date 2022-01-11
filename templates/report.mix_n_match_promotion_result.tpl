@@ -95,7 +95,7 @@ function toggle_branch_promo_id(ele){
 			<input type="hidden" name="export_excel" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3 mt-2">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch:</b>
 					<select class="form-control" name="branch_id" onChange="reload_promo_list();">
@@ -109,7 +109,7 @@ function toggle_branch_promo_id(ele){
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3 mt-2">
 					<b class="form-label">Year:</b>
 				<select class="form-control" name="year" onChange="reload_promo_list();">
 					<option value="">-- Please Select --</option>
@@ -119,7 +119,7 @@ function toggle_branch_promo_id(ele){
 				</select>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3 mt-2">
 					<b class="form-label">Month:</b>
 				<select class="form-control" name="month" onChange="reload_promo_list();">
 					<option value="">-- Please Select --</option>
@@ -129,7 +129,7 @@ function toggle_branch_promo_id(ele){
 				</select>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3 mt-2">
 					<b class="form-label">Promotion Filter:</b>
 				<select class="form-control" name="promo_filter" onChange="reload_promo_list();">
 					<option value="">-- All --</option>

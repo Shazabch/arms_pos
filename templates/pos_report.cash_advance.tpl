@@ -86,7 +86,7 @@ function submit_form(type){
 		
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Counter</b> 
 					<select class="form-control" name="counters">
 						{foreach from=$counters item=r}
@@ -103,7 +103,7 @@ function submit_form(type){
 					</select>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">From</b>
 					<div class="form-inline">
 						<input class="form-control" name="date_from" id="inp_date_from" size="15" maxlength="10"  value="{$smarty.request.date_from|date_format:"%Y-%m-%d"}" />
@@ -112,7 +112,7 @@ function submit_form(type){
 					
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">To</b>
 					<div class="form-inline">
 						<input class="form-control" name="date_to" id="inp_date_to" size="15" maxlength="10"  value="{$smarty.request.date_to|date_format:"%Y-%m-%d"}" />
@@ -121,7 +121,7 @@ function submit_form(type){
 					
 					</div>
 			
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Reason</b>
 					<select class="form-control" name="reason">
 						<option value="" {if !$smarty.request.cashier}selected {/if}>-- All --</option>
@@ -135,7 +135,7 @@ function submit_form(type){
 			
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Cashier</b>
 					<select class="form-control" name="cashier">
 						<option value="" {if !$smarty.request.cashier}selected {/if}>-- All --</option>
@@ -145,7 +145,7 @@ function submit_form(type){
 					</select>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Approved By</b>
 					<select class="form-control" name="approved_by">
 						<option value="" {if !$smarty.request.approved_by}selected {/if}>-- All --</option>
@@ -155,7 +155,7 @@ function submit_form(type){
 					</select>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Remark</b>
 					<input class="form-control" type="text" name="remark" value="{$smarty.request.remark}" size="50" />
 					</div>

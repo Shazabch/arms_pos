@@ -224,7 +224,7 @@ function chk_vd_filter(){
 			<input type=hidden name=report_title value="{$report_title}">
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date</b>
 				<div class="form-inline">
 					<input class="form-control" type=text name=date id=date value="{$smarty.request.date|ifzero:$smarty.now|date_format:'%Y-%m-%d'}" size=23>
@@ -232,7 +232,7 @@ function chk_vd_filter(){
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b> 
 				<select class="form-control" name="branch_id" id="branch_id">
@@ -253,7 +253,7 @@ function chk_vd_filter(){
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label mt-4">
 						<input type=radio name=filter_date value="mtd" {if $smarty.request.filter_date ne 'ytd'}checked{/if}><b>&nbsp;MTD</b>
 					&nbsp;<input type=radio name=filter_date value="ytd" {if $smarty.request.filter_date eq 'ytd'}checked{/if}><b>&nbsp;YTD</b>
@@ -262,7 +262,7 @@ function chk_vd_filter(){
 			</div>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label mt-2">SKU Type</b>
 			<select class="form-control" name="sku_type">
 				<option value="">-- All --</option>
@@ -272,7 +272,7 @@ function chk_vd_filter(){
 			</select>
 				</div>
 			
-			<div class="col">
+			<div class="col-md-4">
 				<p>
 					<div class="form-label mt-4">
 						<b >Department/Category</b>
@@ -287,7 +287,7 @@ function chk_vd_filter(){
 			</div>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label mt-2">Vendor</b>
 				<div class="form-inline">
 					<select class="form-control"  name="vendor_id" id="vendor_id" onChange="chk_vd_filter();" style="width: 200px;">
@@ -301,7 +301,7 @@ function chk_vd_filter(){
 				</div>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-inline form-label mt-2">
 						<b class="">Use GRN</b>
 				[<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>] 
@@ -317,7 +317,7 @@ function chk_vd_filter(){
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label form-inline mt-4">
 						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 					</div>

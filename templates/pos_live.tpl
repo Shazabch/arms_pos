@@ -146,7 +146,7 @@ function showMore(){
 			<input type="hidden" name="a" value="load_counter">
 		
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch: </b>
 					<select class="form-control" name="branch_id">
@@ -164,7 +164,7 @@ function showMore(){
 					{/if}
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Date</b> 
 				<div class="form-inline">
 					<input class="form-control" size=23 type=text name=date value="{$smarty.request.date}" id="date">
@@ -173,7 +173,7 @@ function showMore(){
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					<input class="btn btn-primary mt-4" type="submit" name="submits" value="Load">
 				</div>
 				

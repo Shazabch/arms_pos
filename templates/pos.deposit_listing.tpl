@@ -363,7 +363,7 @@ var DEPOSIT_LISTING = {
 			<input type="hidden" name="show_data" value="1" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Deposit Issued Branch: &nbsp;</b>
 				{if $BRANCH_CODE eq 'HQ'}
 					<select class="form-control" name="deposit_branch_id">
@@ -378,7 +378,7 @@ var DEPOSIT_LISTING = {
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Status: &nbsp;</b>
 				<select class="form-control" name="deposit_status" onChange="DEPOSIT_LISTING.deposit_status_changed();">
 					{foreach from=$deposit_status_list key=k item=v}
@@ -387,7 +387,7 @@ var DEPOSIT_LISTING = {
 				</select>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Receipt: </b>
 				<input class="form-control" type="text" name="filter_receipt" size="8" value="{$smarty.request.filter_receipt}" />
 				
@@ -397,7 +397,7 @@ var DEPOSIT_LISTING = {
 			<span id="span_filter_issued_branch" style="{if $smarty.request.deposit_status ne 'used'}display:none;{/if}">
 				<p>
 					<div class="row">
-						<div class="col">
+						<div class="col-md-3">
 							<b class="form-label">Used at Branch: </b>
 						{if $BRANCH_CODE eq 'HQ'}
 							<select class="form-control" name="used_branch_id">
@@ -412,7 +412,7 @@ var DEPOSIT_LISTING = {
 						</div>
 						
 					
-						<div class="col">
+						<div class="col-md-3">
 							<b class="form-label">Filter Issued Branch [<a href="javascript:void(alert('- No: It will ignore Deposit Issued Branch.\n- Yes: It will filter Deposit Issued Branch.'));">?</a>]: </b>
 						<select class="form-control" name="used_filter_deposit_branch">
 							<option value="0">No</option>

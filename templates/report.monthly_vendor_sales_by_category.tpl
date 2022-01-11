@@ -121,7 +121,7 @@ function change_sort_by(ele){
 			<input type=hidden name=report_title value="{$report_title}">
 			<div class="row">
 				
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">From</b>
 			<div class="form-inline">
 				<input class="form-control" size=14 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
@@ -129,7 +129,7 @@ function change_sort_by(ele){
 			</div>
 			</div>
 			
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">To</b> 
 			<div class="form-inline">
 				<input class="form-control" size=14 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
@@ -138,7 +138,7 @@ function change_sort_by(ele){
 			</div>
 			
 			
-			<div class="col">
+			<div class="col-md-3">
 				{if $BRANCH_CODE eq 'HQ'}
 			<b class="form-label">Branch</b> <select class="form-control" name="branch_id" onChange="chk_vd_filter();">
 					<option value="">-- All --</option>
@@ -159,7 +159,7 @@ function change_sort_by(ele){
 			{/if}
 			</div>
 			
-			<div class="col">
+			<div class="col-md-3">
 				<b class="form-label">Sort by</b>
 					<select class="form-control" name="sort_by" onChange="change_sort_by(this);">
 						<option value="">--</option>
@@ -185,7 +185,7 @@ function change_sort_by(ele){
 			</p><p>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">SKU_Type</b>
 				<select class="form-control" name="sku_type_code">
 				<option value="all" {if $smarty.request.sku_type_code eq 'all'}selected{/if}>All </option>
@@ -196,7 +196,7 @@ function change_sort_by(ele){
 				</select>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Vendor</b>
 				<select class="form-control" name="vendor_id" onChange="chk_vd_filter();">
 				<option value="all" {if $smarty.request.vendor_id eq 'all'} selected {/if}>-- All --</option>

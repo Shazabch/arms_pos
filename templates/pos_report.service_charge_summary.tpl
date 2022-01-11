@@ -68,7 +68,7 @@
 		<form method=post class=form name="f_a">
 			<input type=hidden name=submit value=1>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch</b> 
 					<select class="form-control" name="branch_id">
@@ -82,7 +82,7 @@
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Group By</b>
 				<select class="form-control" name="group_by">
 					<option value="daily" {if $form.group_by eq 'daily'}selected {/if}>Daily</option>
@@ -91,7 +91,7 @@
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">From</b>
 				<div class="form-inline">
 					<input class="form-control" size=17 type=text name=date_from value="{$form.date_from}" id="date_from">
@@ -99,7 +99,7 @@
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="from-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=17 type=text name=date_to value="{$form.date_to}" id="date_to">

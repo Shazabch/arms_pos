@@ -128,7 +128,7 @@ option.bg_item {
 			<span id="month_label">{if $smarty.request.view_type eq 'yearly'} Start from {/if}</span></b>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Month</b> 
 				<select class="form-control" name=month>
 				{section loop=12 name=i}
@@ -137,7 +137,7 @@ option.bg_item {
 				</select>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Year</b> 
 				<select class="form-control" name=year>
 				{foreach from=$years item=y}
@@ -146,7 +146,7 @@ option.bg_item {
 				</select>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label mt-4">
 						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 					</div>

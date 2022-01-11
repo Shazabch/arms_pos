@@ -158,7 +158,7 @@ option.bg_item{
 			<input type="hidden" name="page" value="0" />
 				
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Date From</b> 
 				<div class="form-inline">
 					<input class="form-control" size=17 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
@@ -166,7 +166,7 @@ option.bg_item{
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=17 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
@@ -174,13 +174,13 @@ option.bg_item{
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Sales Quantity <= </b>
 				<input class="form-control" type="text" name="quantity" value="{$smarty.request.quantity}" size="10">
 				</div>
 				
 				{if $BRANCH_CODE eq 'HQ'}
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Branch</b> 
 				<select class="form-control" name="branch_id" onchange="check_use_grn();">
 						<option value="">-- All --</option>
@@ -220,7 +220,7 @@ option.bg_item{
 			
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Vendor</b>
 					<select class="form-control" name="vendor_id" onchange="check_use_grn();">
 						<option value="">-- All --</option>
@@ -230,7 +230,7 @@ option.bg_item{
 					</select>
 				</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<div class="form-label form-inline mt-4">
 							<input type="checkbox" id="use_grn" name="use_grn" value="1" {if $smarty.request.use_grn}checked{/if}> <b>&nbsp;Use GRN</b> [<a href="javascript:void(0)" onclick="alert('{$LANG.USE_GRN_INFO|escape:javascript}')">?</a>]
 						</div>

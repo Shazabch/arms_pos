@@ -70,61 +70,94 @@ function close_sub(tbody_id,img_id){
 {/literal}
 </style>
 {/if}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>{$PAGE_TITLE}</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {if $err}
-The following error(s) has occured:
+<div class="alert alert-danger mx-3 rounded">
+	The following error(s) has occured:
 <ul class=err>
 {foreach from=$err item=e}
 <li> {$e}
 {/foreach}
 </ul>
+</div>
 {/if}
 {if !$no_header_footer}
-<form method=post class=form name=report_form>
-<input type=hidden name=report_title value="{$report_title}">
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="card mx-3">
+	<div class="card-body">
+		<form method=post class=form name=report_form>
+			<input type=hidden name=report_title value="{$report_title}">
+			
+		<div class="row">
+			<div class="col-md-4">
+				<b class="form-label">From</b> 
+			<div class="form-inline">
+				<input class="form-control" size=22 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+			<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
+			
+			<div class="col-md-4">
+				<b class="form-label">To</b> 
+			<div class="form-inline">
+				<input class="form-control" size=22 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+			<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+			</div>
+			</div>
+			
+			
+			<div class="col-md-4">
+				{if $BRANCH_CODE eq 'HQ'}
+			<b class="form-label">Branch</b> 
+			<select class="form-control" name="branch_id">
+					<option value="">-- All --</option>
+					{foreach from=$branches item=b}
+						{if !$branch_group.have_group[$b.id]}
+						<option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
+						{/if}
+					{/foreach}
+					{if $branch_group.header}
+						<optgroup label="Branch Group">
+							{foreach from=$branch_group.header item=r}
+								{capture assign=bgid}bg,{$r.id}{/capture}
+								<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+				</select>
+			{/if}
+			</div>
+		</div>
 
-{if $BRANCH_CODE eq 'HQ'}
-<b>Branch</b> <select name="branch_id">
-	    <option value="">-- All --</option>
-	    {foreach from=$branches item=b}
-	        {if !$branch_group.have_group[$b.id]}
-	        <option value="{$b.id}" {if $smarty.request.branch_id eq $b.id}selected {/if}>{$b.code}</option>
-	        {/if}
-	    {/foreach}
-	    {if $branch_group.header}
-	        <optgroup label="Branch Group">
-				{foreach from=$branch_group.header item=r}
-				    {capture assign=bgid}bg,{$r.id}{/capture}
-					<option value="bg,{$r.id}" {if $smarty.request.branch_id eq $bgid}selected {/if}>{$r.code}</option>
-				{/foreach}
-			</optgroup>
-		{/if}
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;
-{/if}
-<p>
-
-{include file="category_autocomplete.tpl"  all=true autocomplete_callback="get_brand($('category_id').value,'')"}
-
-<b>Brand</b>
-<span id="brand_select"></span>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>Exclude inactive SKU</b></label>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<input type=hidden name=submit value=1>
-<button class="btn btn-primary" name=show_report>{#SHOW_REPORT#}</button>
-{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-<button class="btn btn-primary" name=output_excel>{#OUTPUT_EXCEL#}</button>
-{/if}
-</p>
-Note: Report Maximum Shown 1 Year
-</form>
+			<p>
+			
+			{include file="category_autocomplete.tpl"  all=true autocomplete_callback="get_brand($('category_id').value,'')"}
+			
+			<b class="form-label mt-2">Brand</b>
+			<span id="brand_select"></span>
+			<label class="form-label form-inline"><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+			
+			<input type=hidden name=submit value=1>
+			<button class="btn btn-primary mt-2 mt-md-0" name=show_report>{#SHOW_REPORT#}</button>
+			{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
+			<button class="btn btn-info mt-2 mt-md-0" name=output_excel>{#OUTPUT_EXCEL#}</button>
+			{/if}
+			</p>
+			<div>
+				<b class="alert alert-primary rounded">Note: Report Maximum Shown 1 Year</b>
+			</div>
+			</form>
+	</div>
+</div>
 <script>
 //get_brand(document.report_form.department_id.value,'{$smarty.request.brand_id}');
 get_brand($('category_id').value,'{$smarty.request.brand_id}');

@@ -171,7 +171,7 @@ function curtain_clicked(){
 		<form method="post" class="form" name="f_a">
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-3">
 						{if $BRANCH_CODE eq 'HQ'}
 						<b class="form-label">Branch</b>
 						<select class="form-control" name="branch_id">
@@ -190,18 +190,18 @@ function curtain_clicked(){
 						</select>
 					{/if}
 					</div>
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Date From</b> 
 					<div class="form-inline">
-						<input class="form-control" size="10" type="text" name="date_from" value="{$smarty.request.date_from}" id="date_from">
+						<input class="form-control" size="22" type="text" name="date_from" value="{$smarty.request.date_from}" id="date_from">
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
 					</div>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">To</b> 
 					<div class="form-inline">
-						<input class="form-control" size="10" type="text" name="date_to" value="{$smarty.request.date_to}" id="date_to">
+						<input class="form-control" size="22" type="text" name="date_to" value="{$smarty.request.date_to}" id="date_to">
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="img_date_to" style="cursor: pointer;" title="Select Date From">
 					</div>
 					</div>
@@ -214,7 +214,7 @@ function curtain_clicked(){
 						{/foreach}
 					</select>
 					-->
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Cashier</b>
 					<select class="form-control" name="cashier_id">
 						<option value="">-- All --</option>
@@ -225,7 +225,7 @@ function curtain_clicked(){
 					</div>
 					
 				
-					<div class="col">
+					<div class="col-md-3">
 						{*<b class="form-label">Transaction Status</b>
 					<select class="form-control" name="tran_status">
 						<option value="">-- All --</option>

@@ -103,7 +103,7 @@ function submit_form(type){
 			
 		<div class="row">
 			{if $BRANCH_CODE eq 'HQ'}
-		<div class="col">
+		<div class="col-md-3">
 			<b class="form-label">Branch</b>
 		<select class="form-control" name="branch_id">
 			 {foreach from=$branches key=bid item=b}
@@ -122,7 +122,7 @@ function submit_form(type){
 		</div>
 		{/if}
 		
-		<div class="col">
+		<div class="col-md-3">
 			<b class="form-label">Year</b>
 		<select class="form-control" name="year">
 			{foreach from=$years item=r}
@@ -131,7 +131,7 @@ function submit_form(type){
 		</select>
 		</div>
 		
-		<div class="col">
+		<div class="col-md-3">
 			<span id="span_month">
 				<b class="form-label">Month</b>
 				<select class="form-control" name="month">
@@ -142,7 +142,7 @@ function submit_form(type){
 				</span>
 		</div>
 		
-		<div class="col">
+		<div class="col-md-3">
 			<div class="form-label mt-4">
 				<b>View By</b>
 			<input type="radio" name="view_type" value="day" {if !$smarty.request.view_type or $smarty.request.view_type eq 'day'}checked {/if} onChange="view_type_changed();" /> Day

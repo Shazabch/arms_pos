@@ -128,7 +128,7 @@ function curtain_clicked(){
 		<form method="post" class="form" name="f_a">
 			<p>
 				<div class="row">
-					<div class="col">
+					<div class="col-md-3">
 						{if $BRANCH_CODE eq 'HQ'}
 						<b class="form-label">Branch</b>
 						<div class="form-inline">
@@ -155,7 +155,7 @@ function curtain_clicked(){
 						</div>
 					</div>
 				
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">From</b>
 					<div class="form-inline">
 						<input class="form-control" size="16" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
@@ -163,7 +163,7 @@ function curtain_clicked(){
 					</div>
 					</div>
 					
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">To</b> 
 					<div class="form-inline">
 						<input class="form-control" size="16" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
@@ -180,7 +180,7 @@ function curtain_clicked(){
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;-->
 				
-					<div class="col">
+					<div class="col-md-3">
 						<b class="form-label">Cashier</b>
 					<select class="form-control" name="cashier_id">
 						<option value="">-- All --</option>

@@ -74,7 +74,7 @@
 			<input type="hidden" name="a" value="show_report" />
 		<p>
 		<div class="row">
-			<div class="col">
+			<div class="col-md-4">
 				{if $BRANCH_CODE eq 'HQ'}
 		<b class="form-label">Branch</b> 
 		<select class="form-control" name="branch_id">
@@ -98,7 +98,7 @@
 			<input type="hidden" name="branch_id" value="{$sessioninfo.branch_id}" />
 		{/if}
 			</div>	
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">Date From</b>
 			  <div class="form-inline">
 				<input class="form-control" type="text" name="from" value="{$smarty.request.from}" id="added1" readonly="1" size=23> 
@@ -106,7 +106,7 @@
 			  </div>
 			
 			</div>
-			<div class="col">
+			<div class="col-md-4">
 				<b class="form-label">To</b>
 			<div class="form-inline">
 				<input class="form-control" type="text" name="to" value="{$smarty.request.to}" id="added2" readonly="1" size=23> 

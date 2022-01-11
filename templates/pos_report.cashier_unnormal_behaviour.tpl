@@ -135,7 +135,16 @@ function curtain_clicked(type){
 }
 </script>
 {/literal}
-<h1>{$PAGE_TITLE}</h1>
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>{$PAGE_TITLE}</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 <!-- Item Details -->
 <div id="div_details" style="display:none;width:800px;height:400px;">
@@ -144,41 +153,75 @@ function curtain_clicked(type){
 </div>
 </div>
 
-<form method="post" name="myForm" class="form">
-<input type="hidden" name="a" value="load_table" />
-<b>From</b> <input size=10 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
-<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>To</b> <input size=10 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
-<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Cashier</b> <select name="cashier_id">
-	<option value="all">-- All --</option>
-	{foreach from=$cashier key=cid item=r}
-	    <option value="{$cid}" {if $smarty.request.cashier_id eq $cid}selected {/if}>{$r.u}</option>
-	{/foreach}
-</select><br />
-<p>
-<b>Cancelled Bill at least</b> <input type="text" name="cancelled_bill" value="{$smarty.request.cancelled_bill}" size="5" />
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Goods Return at least</b> <input type="text" name="goods_return" value="{$smarty.request.goods_return}" size="5" />
-&nbsp;&nbsp;&nbsp;&nbsp;
-<b>Open Draw Count - Transaction</b>
-<select name="diff_type">
-    <option value="not_set" {if $smarty.request.diff_type eq 'not_set'}selected {/if}>Not Set</option>
-	<option value="more" {if $smarty.request.diff_type eq 'more'}selected {/if}>More Than</option>
-	<option value="less" {if $smarty.request.diff_type eq 'less'}selected {/if}>Less Than</option>
-</select>
-<input type="text" name="diff_open_tran" value="{$smarty.request.diff_open_tran}" size="5" />
-</p>
-<p style="margin:0;">
-	<b>Note:</b>
-	<ul style="padding:0;">
-		<li style="padding:0;">Transaction column including Active and Cancelled Transaction</li>
-	</ul>
-</p>
-<input type="submit" name="submits" value="{#SHOW_REPORT#}" />
-</form>
+<div class="card mx-3 card-body">
+	<form method="post" name="myForm" class="form">
+		<input type="hidden" name="a" value="load_table" />
+		
+		<div class="row">
+			<div class="col-md-4">
+					<b class="form-label">From</b>
+					<div class="form-inline"> <input class="form-control" size=23 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date">
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<b class="form-label">To</b>
+				<div class="form-inline"> <input class="form-control" size=23 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
+				&nbsp;<img align=absmiddle src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date">
+				</div>
+			</div>
+			
+	
+			<div class="col-md-4">
+				<b class="form-label">Cashier</b> <select class="form-control" name="cashier_id">
+					<option value="all">-- All --</option>
+					{foreach from=$cashier key=cid item=r}
+						<option value="{$cid}" {if $smarty.request.cashier_id eq $cid}selected {/if}>{$r.u}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+
+	
+
+		<div class="row">
+			<div class="col-md-4 form-label mt-2">
+				<b>Cancelled Bill at least</b> <input class="form-control" type="text" name="cancelled_bill" value="{$smarty.request.cancelled_bill}" size="5" />
+			</div>
+		
+			<div class="col-md-4 form-label mt-2">
+				<b>Goods Return at least</b> <input class="form-control" type="text" name="goods_return" value="{$smarty.request.goods_return}" size="5" />
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<b class="form-label">Open Draw Count - Transaction</b>
+		<div class="form-inline">
+			<select class="form-control" name="diff_type">
+				<option value="not_set" {if $smarty.request.diff_type eq 'not_set'}selected {/if}>Not Set</option>
+				<option value="more" {if $smarty.request.diff_type eq 'more'}selected {/if}>More Than</option>
+				<option value="less" {if $smarty.request.diff_type eq 'less'}selected {/if}>Less Than</option>
+			</select>
+			
+			&nbsp;&nbsp;<input class="form-control" type="text" name="diff_open_tran" value="{$smarty.request.diff_open_tran}" size="5" />
+		</div>	
+		</div>
+		</div>
+		
+	
+		<p style="margin:0;">
+			<div class="alert alert-primary rounded mt-2" style="max-width: 350px;">
+				<b >Note:</b>
+			<ul style="padding:0; list-style-type: none;">
+				<li style="padding:0;">Transaction column including Active and Cancelled Transaction</li>
+			</ul>
+			</div>
+		</p>
+		<input class="btn btn-primary" type="submit" name="submits" value="{#SHOW_REPORT#}" />
+		</form>
+</div>
 
 <div id="div_tran_details" style="overflow:hidden;position:absolute;left:0;top:0;display:none;width:600px;height:410px;padding:10px;border:1px solid #000;background:#fff;z-index:20000;">
 	<div style="float:right;"><img onclick="curtain_clicked('div_tran_details'); curtain(false);" src="/ui/closewin.png" /></div>

@@ -99,7 +99,7 @@ var HOURLY_SALES_REPORT = {
 			<input type="hidden" name="output_excel" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					{if $BRANCH_CODE eq "HQ"}
 				<b class="form-label">Branch :</b>
 					<select class="form-control" name="branch_id">
@@ -114,7 +114,7 @@ var HOURLY_SALES_REPORT = {
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date From :</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_from" id="date_from" size="10" value="{$form.date_from}" />
@@ -123,7 +123,7 @@ var HOURLY_SALES_REPORT = {
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Date To :</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_to" id="date_to" size="10" value="{$form.date_to}" />
@@ -133,7 +133,7 @@ var HOURLY_SALES_REPORT = {
 				
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Vendor :</b>
 				<select class="form-control" name="vendor_id">
 					<option value="0">-- All --</option>
@@ -144,7 +144,7 @@ var HOURLY_SALES_REPORT = {
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-4">
 					<b class="form-label">Brand :</b>
 				<select class="form-control" name="brand_id">
 					<option value="">-- All --</option>
@@ -177,13 +177,13 @@ var HOURLY_SALES_REPORT = {
 			</p>
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label form-inline mt-2">
 						<label><input type="checkbox" name="group_by_parent_child" value="1" {if $smarty.request.group_by_parent_child}checked{/if} /><b>&nbsp;Group by parent & child</b></label>
 					</div>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-inline">
 						<b class="form-label">Sort By :</b>
 				&nbsp;<select class="form-control" name="sort_by">
@@ -198,7 +198,7 @@ var HOURLY_SALES_REPORT = {
 				
 				</div>
 				
-				<div class="col">
+				<div class="col-md-4">
 					<div class="form-label form-inline mt-2">
 						<label><input type="checkbox" name="show_by_date" value="1" {if $form.show_by_date}checked{/if} onclick="HOURLY_SALES_REPORT.toggle_show_by_date(this.checked);" /><b>&nbsp;Show by Date</b></label>
 					</div>
@@ -208,7 +208,7 @@ var HOURLY_SALES_REPORT = {
 					
 						<span id="show_by_date_type" style="display:{if !$smarty.request.show_by_date}none{/if};">
 							<div class="form-label form-inline mt-2">
-							<div class="col">
+							<div class="col-md-4">
 							<label><input type="radio" value="qty" name="show_type" {if $form.show_type eq 'qty'}checked{/if}>Sales Qty</label>
 							<label><input type="radio" value="amt" name="show_type" {if $form.show_type eq 'amt'}checked{/if}>Sales Amount</label>
 						</div>
@@ -219,7 +219,7 @@ var HOURLY_SALES_REPORT = {
 			
 			
 			
-			<div class="col">
+			<div class="col-md-4">
 				<div class="form-label form-inline mt-2">
 					<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 				</div>

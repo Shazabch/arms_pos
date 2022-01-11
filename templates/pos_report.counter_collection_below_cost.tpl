@@ -50,7 +50,7 @@ var date_to = '{$smarty.request.date_to}';
 			<input type="hidden" name="a" value="load_table" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">From</b> 
 				<div class="form-inline">
 					<input class="form-control" size=15 type=text name=date_from value="{$smarty.request.date_from}" id="date_from">
@@ -58,7 +58,7 @@ var date_to = '{$smarty.request.date_to}';
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b> 
 				<div class="form-inline">
 					<input class="form-control" size=15 type=text name=date_to value="{$smarty.request.date_to}" id="date_to">
@@ -66,7 +66,7 @@ var date_to = '{$smarty.request.date_to}';
 				</div>
 				
 				</div>
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Cashier</b> 
 				<select class="form-control" name="cashier_id">
 					<option value="all">-- All --</option>
@@ -76,7 +76,7 @@ var date_to = '{$smarty.request.date_to}';
 				</select>
 				</div>
 				{if $BRANCH_CODE eq 'HQ'}
-				<div class="col">
+				<div class="col-md-3">
 					
 				<b class="form-label">Branch</b> 
 				<select class="form-control" name="branch_id">

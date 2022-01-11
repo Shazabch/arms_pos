@@ -229,7 +229,7 @@ function export_itemise_info(){
 			<input type=hidden name=report_title value="{$report_title}">
 			<p>
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 				<b class="form-label">Branch</b>
 				 <select class="form-control" name="branch_id">
@@ -253,7 +253,7 @@ function export_itemise_info(){
 				{/if}
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Month</b> 
 				<select class="form-control" name=month>
 				{section loop=12 name=i}
@@ -262,7 +262,7 @@ function export_itemise_info(){
 				</select>
 				</div>
 	
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Year</b> 
 				<select class="form-control" name=year>
 				{foreach from=$years item=y}
@@ -272,9 +272,9 @@ function export_itemise_info(){
 				</div>
 				
 	
-				<div class="col">
+				<div class="col-md-3">
 					<div class="form-label">
-						<label><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
+						<label class="mt-4"><input type="checkbox" name="exclude_inactive_sku" value="1" {if $smarty.request.exclude_inactive_sku}checked{/if} /><b>&nbsp;Exclude inactive SKU</b></label>
 					</div>
 				</div>
 			</div>

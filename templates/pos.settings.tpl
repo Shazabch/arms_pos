@@ -1693,32 +1693,34 @@ function show_notification_message(type){
 				<tr>
 					<td class="form-label"><b>Show other types of code at pop ups</b></td>
 					<td>
-						<table border="0">
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="form[pos_show_other_code][mcode]" value="mcode" {if $form.pos_show_other_code.mcode}checked{/if}/> MCode
-									</label>
-								</td>
-								<td>
-									<label>
-										<input type="checkbox" name="form[pos_show_other_code][artno]" value="artno" {if $form.pos_show_other_code.artno}checked{/if}/> Art No.
-									</label>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label>
-										<input type="checkbox" name="form[pos_show_other_code][link_code]" value="link_code" {if $form.pos_show_other_code.link_code}checked{/if}/> Old Code / Link Code
-									</label>
-								</td>
-								<td>
-									<label>
-										<input type="checkbox" name="form[pos_show_other_code][barcode]" value="barcode" {if $form.pos_show_other_code.barcode}checked{/if}/> Scan Code
-									</label>
-								</td>
-							</tr>
-						</table>
+						<div class="table-responsive">
+							<table border="0">
+								<tr>
+									<td>
+										<label>
+											<input type="checkbox" name="form[pos_show_other_code][mcode]" value="mcode" {if $form.pos_show_other_code.mcode}checked{/if}/> MCode
+										</label>
+									</td>
+									<td>
+										<label>
+											<input type="checkbox" name="form[pos_show_other_code][artno]" value="artno" {if $form.pos_show_other_code.artno}checked{/if}/> Art No.
+										</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>
+											<input type="checkbox" name="form[pos_show_other_code][link_code]" value="link_code" {if $form.pos_show_other_code.link_code}checked{/if}/> Old Code / Link Code
+										</label>
+									</td>
+									<td>
+										<label>
+											<input type="checkbox" name="form[pos_show_other_code][barcode]" value="barcode" {if $form.pos_show_other_code.barcode}checked{/if}/> Scan Code
+										</label>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</td>			
 				</tr>
 		
@@ -1738,80 +1740,86 @@ function show_notification_message(type){
 					<td valign="top">
 						<b class="form-label">Set payment type in counter</b>
 						{if $config.counter_collection_extra_payment_type}
-						<table>
-							<tr>
-								<td><div style="height: 20px; width: 20px; display: block; background-color: #ffa042;"></div></td>
-								<td valign="bottom"><b>Custom Payment</b>
-									<br />
-									<span class="small">(POS Counter will only able to show maximum of 6 custom payment.)</span>
-								</td>
-							</tr>
-						</table>
+						<div class="table-responsive">
+							<table>
+								<tr>
+									<td><div style="height: 20px; width: 20px; display: block; background-color: #ffa042;"></div></td>
+									<td valign="bottom"><b>Custom Payment</b>
+										<br />
+										<span class="small">(POS Counter will only able to show maximum of 6 custom payment.)</span>
+									</td>
+								</tr>
+							</table>
+						</div>
 						{/if}
 					</td>
 					{assign var=pt value=$form.payment_type}
 					{assign var=n value=1}
 					<td>
-						<table>
-							<div >
-								<tr class="form-label">
-									<td nowrap><b class="">Credit Card</b></td>						
-									<td nowrap><input type="radio" name="form[payment_type][credit_card]" value="1" {if !isset($pt.credit_card) or $pt.credit_card}checked{/if}> Yes
-									<input type="radio" name="form[payment_type][credit_card]" value="0" {if isset($pt.credit_card) and !$pt.credit_card}checked{/if}> No 
-									</td>
-									<td nowrap style="padding-left:20px;"><b>Voucher</b></td>
-									<td nowrap><input type="radio" name="form[payment_type][voucher]" value="1" {if !isset($pt.voucher) or $pt.voucher}checked{/if}> Yes
-									<input type="radio" name="form[payment_type][voucher]" value="0" {if isset($pt.voucher) and !$pt.voucher}checked{/if}> No 
-									</td>
+						<div class="table-responsive">
+							<table>
+								<div >
+									<tr class="form-label">
+										<td nowrap><b class="">Credit Card</b></td>						
+										<td nowrap><input type="radio" name="form[payment_type][credit_card]" value="1" {if !isset($pt.credit_card) or $pt.credit_card}checked{/if}> Yes
+										<input type="radio" name="form[payment_type][credit_card]" value="0" {if isset($pt.credit_card) and !$pt.credit_card}checked{/if}> No 
+										</td>
+										<td nowrap style="padding-left:20px;"><b>Voucher</b></td>
+										<td nowrap><input type="radio" name="form[payment_type][voucher]" value="1" {if !isset($pt.voucher) or $pt.voucher}checked{/if}> Yes
+										<input type="radio" name="form[payment_type][voucher]" value="0" {if isset($pt.voucher) and !$pt.voucher}checked{/if}> No 
+										</td>
+									</tr>
+									<tr class="form-label">
+										<td nowrap><b>Coupon</b></td>
+										<td nowrap><input type="radio" name="form[payment_type][coupon]" value="1" {if !isset($pt.coupon) or $pt.coupon}checked{/if}> Yes
+										<input type="radio" name="form[payment_type][coupon]" value="0" {if isset($pt.coupon) and !$pt.coupon}checked{/if}> No 
+										</td>					
+										<td nowrap style="padding-left:20px;"><b>Cheque</b></td>
+										<td nowrap><input type="radio" name="form[payment_type][check]" value="1" {if !isset($pt.check) or $pt.check}checked{/if}> Yes
+										<input type="radio" name="form[payment_type][check]" value="0" {if isset($pt.check) and !$pt.check}checked{/if}> No 
+										</td>
+									</tr>					
+									<tr class="form-label">
+										<td nowrap><b>Debit</b></td>
+										<td nowrap><input type="radio" name="form[payment_type][debit]" value="1" {if isset($pt.debit) and $pt.debit}checked{/if}> Yes
+										<input type="radio" name="form[payment_type][debit]" value="0" {if !isset($pt.debit) or !$pt.debit}checked{/if}> No 					
+										</td>
+										
+										{if $config.counter_collection_extra_payment_type}
+											{foreach from=$config.counter_collection_extra_payment_type item=ptype}
+												{assign var=ptype_lower value=$ptype|lower}
+												{assign var=n value=$n+1}
+												<td nowrap bgcolor="#ffa042" {if ($n%2)==0}style="padding-left:20px;"{/if}><b>{$ptype}</b></td>
+												<td nowrap ><input type="radio" name="form[payment_type][{$ptype_lower}]" value="1" {if $pt.$ptype_lower}checked{/if}> Yes
+												<input type="radio" name="form[payment_type][{$ptype_lower}]" value="0" {if !$pt.$ptype_lower}checked{/if}> No 								
+												</td>		
+												{if ($n%2)==0}
+												</tr>
+								</div>
+											<tr>
+											{/if}
+										{/foreach}
+									{else}
 								</tr>
-								<tr class="form-label">
-									<td nowrap><b>Coupon</b></td>
-									<td nowrap><input type="radio" name="form[payment_type][coupon]" value="1" {if !isset($pt.coupon) or $pt.coupon}checked{/if}> Yes
-									<input type="radio" name="form[payment_type][coupon]" value="0" {if isset($pt.coupon) and !$pt.coupon}checked{/if}> No 
-									</td>					
-									<td nowrap style="padding-left:20px;"><b>Cheque</b></td>
-									<td nowrap><input type="radio" name="form[payment_type][check]" value="1" {if !isset($pt.check) or $pt.check}checked{/if}> Yes
-									<input type="radio" name="form[payment_type][check]" value="0" {if isset($pt.check) and !$pt.check}checked{/if}> No 
-									</td>
-								</tr>					
-								<tr class="form-label">
-									<td nowrap><b>Debit</b></td>
-									<td nowrap><input type="radio" name="form[payment_type][debit]" value="1" {if isset($pt.debit) and $pt.debit}checked{/if}> Yes
-									<input type="radio" name="form[payment_type][debit]" value="0" {if !isset($pt.debit) or !$pt.debit}checked{/if}> No 					
-									</td>
-									
-									{if $config.counter_collection_extra_payment_type}
-										{foreach from=$config.counter_collection_extra_payment_type item=ptype}
-											{assign var=ptype_lower value=$ptype|lower}
-											{assign var=n value=$n+1}
-											<td nowrap bgcolor="#ffa042" {if ($n%2)==0}style="padding-left:20px;"{/if}><b>{$ptype}</b></td>
-											<td nowrap ><input type="radio" name="form[payment_type][{$ptype_lower}]" value="1" {if $pt.$ptype_lower}checked{/if}> Yes
-											<input type="radio" name="form[payment_type][{$ptype_lower}]" value="0" {if !$pt.$ptype_lower}checked{/if}> No 								
-											</td>		
-											{if ($n%2)==0}
-											</tr>
-							</div>
-										<tr>
-										{/if}
-									{/foreach}
-								{else}
-							</tr>
-								{/if}
-						</table>
+									{/if}
+							</table>
+						</div>
 					</td>
 				</tr>
 				{if $config.counter_collection_extra_payment_type}
 				<tr class="mt-2">
 					<td class="form-label"><b>Last Settlement</b><br/>The payment amount cannot be changed when paid as last settlement</td>
 					<td>
-					<table>
-					<tr>
-					{foreach from=$config.counter_collection_extra_payment_type item=ptype}		
-					{assign var=pt value=$form.last_settlement}
-						<td nowrap><input type="checkbox" name="form[last_settlement][{$ptype}]" value="1" {if $pt.$ptype}checked{/if}>{$ptype}</td>
-					{/foreach}
-					</tr>
-					</table>
+					<div class="table-responsive">
+						<table>
+							<tr>
+							{foreach from=$config.counter_collection_extra_payment_type item=ptype}		
+							{assign var=pt value=$form.last_settlement}
+								<td nowrap><input type="checkbox" name="form[last_settlement][{$ptype}]" value="1" {if $pt.$ptype}checked{/if}>{$ptype}</td>
+							{/foreach}
+							</tr>
+							</table>
+					</div>
 					</td>
 				</tr>
 				{/if}

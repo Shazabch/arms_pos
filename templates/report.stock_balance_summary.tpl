@@ -504,18 +504,18 @@ function do_submit(mode){
 	
 		
 	<p>
-		<button class="btn btn-primary" name="a" value="show_report" onclick="do_submit('qty')" >Show by Qty</button>
+		<button class="btn btn-primary mt-2 mt-md-0" name="a" value="show_report" onclick="do_submit('qty')" >Show by Qty</button>
 		{if $sessioninfo.privilege.SHOW_COST}
-			<button class="btn btn-primary" name="a" value="show_report" onclick="do_submit('cost')">Show by Cost</button>
+			<button class="btn btn-primary mt-2 mt-md-0" name="a" value="show_report" onclick="do_submit('cost')">Show by Cost</button>
 		{/if}
 		<!--<input type=hidden name=submit value=1>-->
 		{if $sessioninfo.privilege.EXPORT_EXCEL eq '1'}
-			<button class="btn btn-info" name="a" value="output_excel" onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
+			<button class="btn btn-info mt-2 mt-md-0" name="a" value="output_excel" onclick="do_submit('qty')">{#OUTPUT_EXCEL#} by Qty</button>
 			{if $sessioninfo.privilege.SHOW_COST}
-				<button class="btn btn-info" name="a" value="output_excel" onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
+				<button class="btn btn-info mt-2 mt-md-0" name="a" value="output_excel" onclick="do_submit('cost')">{#OUTPUT_EXCEL#} by Cost</button>
 			{/if}
 		{/if}
-		<input type="button" class="btn btn-primary" onclick="do_print()" value="Print">
+		<input type="button" class="btn btn-primary mt-2 mt-md-0" onclick="do_print()" value="Print">
 	</p>
 </form>
 <script>

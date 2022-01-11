@@ -139,7 +139,7 @@ var SKU_TRANS_DETAILS_REPORT = {
 			<input type="hidden" name="load_report" value="1" />
 			
 			<div class="row">
-				<div class="col">
+				<div class="col-md-3">
 					{if $BRANCH_CODE eq 'HQ'}
 					<b class="form-label">Branch:</b>
 					<select class="form-control" name="branch_id">
@@ -151,7 +151,7 @@ var SKU_TRANS_DETAILS_REPORT = {
 				{/if}
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">Date From</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_from" value="{$smarty.request.date_from}" id="inp_date_from" readonly="1" size="12" />
@@ -159,7 +159,7 @@ var SKU_TRANS_DETAILS_REPORT = {
 				</div>
 				</div>
 				
-				<div class="col">
+				<div class="col-md-3">
 					<b class="form-label">To</b>
 				<div class="form-inline">
 					<input class="form-control" type="text" name="date_to" value="{$smarty.request.date_to}" id="inp_date_to" readonly="1" size="12" />
@@ -168,7 +168,7 @@ var SKU_TRANS_DETAILS_REPORT = {
 				</div>
 				
 				
-				<div class="col">
+				<div class="col-md-3">
 					<div class="form-label mt-4">
 						<input type="checkbox" name="group_by_sku" value="1" {if $smarty.request.group_by_sku}checked {/if} /> <b>&nbsp;Group by SKU</b>
 					</div>

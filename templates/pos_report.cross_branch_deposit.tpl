@@ -126,7 +126,7 @@ function curtain_clicked(){
 				<div class="row">
 					<div class="col-md-4">
 						{if $BRANCH_CODE eq 'HQ'}
-						<b class="form-label">Branch</b>
+						<b class="form-label mt-2">Branch</b>
 						<select class="form-control" name="branch_id">
 							<option value="">-- All --</option>
 							{foreach from=$branches item=b}
@@ -144,7 +144,7 @@ function curtain_clicked(){
 					{/if}
 					</div>
 					<div class="col-md-4">
-						<b class="form-label">Deposit Date From</b> 
+						<b class="form-label mt-2">Deposit Date From</b> 
 					<div class="form-inline">
 						<input class="form-control" size="22" type="text" name="date_from" value="{$smarty.request.date_from}{$form.from}" id="date_from">
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added1" style="cursor: pointer;" title="Select Date From">
@@ -152,7 +152,7 @@ function curtain_clicked(){
 					</div>
 					
 					<div class="col-md-4">
-						<b class="form-label">To</b> 
+						<b class="form-label mt-2">To</b> 
 					<div class="form-inline">
 						<input class="form-control" size="22" type="text" name="date_to" value="{$smarty.request.date_to}{$form.to}" id="date_to">
 					&nbsp;<img align="absmiddle" src="ui/calendar.gif" id="t_added2" style="cursor: pointer;" title="Select Date To">
@@ -160,12 +160,12 @@ function curtain_clicked(){
 					</div>
 					
 					<div class="col-md-4">
-						<b class="form-label">Account</b>
+						<b class="form-label mt-2">Account [<a href="javascript:void(alert('- Payable: Deposit receive by your branch but customer redeem at other branch, you need to pay that branch.\n- Receivable: Deposit receive by other branch but customer redeem at your branch, you need to claim the amount from that branch.'));">?</a>]</b>
 					<select class="form-control" name="view_type">
 						<option value="ap" {if $smarty.request.view_type eq 'ap'}selected{/if}>Payable</option>
 						<option value="ar" {if $smarty.request.view_type eq 'ar'}selected{/if}>Receivable</option>
 					</select>
-					[<a href="javascript:void(alert('- Payable: Deposit receive by your branch but customer redeem at other branch, you need to pay that branch.\n- Receivable: Deposit receive by other branch but customer redeem at your branch, you need to claim the amount from that branch.'));">?</a>]
+					
 				
 					</div>
 					<!--b>Counter</b>
@@ -177,7 +177,7 @@ function curtain_clicked(){
 					</select>
 					-->
 					<div class="col-md-4">
-						<b class="form-label">Cashier</b>
+						<b class="form-label mt-2">Cashier</b>
 					<select class="form-control" name="cashier_id">
 						<option value="">-- All --</option>
 						{foreach from=$user_list item=u}
@@ -188,7 +188,7 @@ function curtain_clicked(){
 					
 				
 					<div class="col-md-4">
-						<b class="form-label">Transaction Status</b>
+						<b class="form-label mt-2">Transaction Status</b>
 					<select class="form-control" name="tran_status">
 						<option value="">-- All --</option>
 						{foreach from=$transaction_status key=status item=t}
