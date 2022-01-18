@@ -2663,7 +2663,7 @@ Do you wish to print GRN report?<br>
 		{if ($grr.type eq 'INVOICE' || $grr.type eq 'OTHER') && ($smarty.request.action eq 'edit' && !$form.authorized) }
 		<input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();">
 		{/if}
-		<hr noshade size=1>
+		
 	</div>
 </div>
 {else}
