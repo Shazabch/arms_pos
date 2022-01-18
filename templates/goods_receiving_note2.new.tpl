@@ -2502,9 +2502,12 @@ Do you wish to print GRN report?<br>
 
 <!-- download grr attachment -->
 <iframe id="_download" style="visibility: hidden;width:1px;height: 1px;" src=""></iframe>
-
-<h1>
-	Goods Receiving Note {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>
+					Goods Receiving Note {if $form.id<$time_value}(ID#{$form.id}){else}(New){/if}
 	{if $smarty.request.action eq 'verify'}
 		- SKU Manage
 	{elseif $smarty.request.action eq 'grr_edit'}
@@ -2513,7 +2516,12 @@ Do you wish to print GRN report?<br>
 	{if $smarty.request.action eq 'edit' && $form.authorized eq '1'}
 		(Confirmed)
 	{/if}
-</h1>
+				</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
 {include file=approval_history.tpl}
 
@@ -2537,9 +2545,9 @@ Do you wish to print GRN report?<br>
 <input type="hidden" name="is_under_gst" value="{$form.is_under_gst}" />
 <input type="hidden" name="branch_is_under_gst" value="{$form.branch_is_under_gst}" />
 
-<br>
-
-<div class="stdframe" style="background:#fff">
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="stdframe" >
 <h4>General Information</h4>
 <table border=0 cellspacing=0 cellpadding=4>
 <tr>
@@ -2639,9 +2647,11 @@ Do you wish to print GRN report?<br>
 	<input type="hidden" name="generate_gra" value="1" />
 {/if}
 </div>
+	</div>
+</div>
 
 {if $smarty.request.action eq 'edit'}
-<div style="padding:10px 0;">
+<div style="padding:10px 0;">		
 	{if $config.check_block_grn_as_po}
 		{include file='sku_items_autocomplete.tpl' multiple_add=1 block_list=1}
 	{else}
@@ -2664,11 +2674,13 @@ Do you wish to print GRN report?<br>
 <span id="span_autocomplete_adding" style="padding:2px;background:yellow;display:none;"><img src="ui/clock.gif" align="absmiddle" /> Adding... Please wait</span>
 
 {if $errm.top}
-<div id=err><div class=errmsg><ul>
-{foreach from=$errm.top item=e}
-<li> {$e}
-{/foreach}
-</ul></div></div>
+<div class="alert alert-danger mx-3 rounded">
+	<div id=err><div class=errmsg><ul>
+		{foreach from=$errm.top item=e}
+		<li> {$e}
+		{/foreach}
+		</ul></div></div>
+</div>
 {/if}
 
 {* set tables that to be print on the list *}
@@ -2683,7 +2695,7 @@ Do you wish to print GRN report?<br>
 
 {if $smarty.request.action eq 'edit' || ($smarty.request.action eq 'verify' && ($sessioninfo.privilege.GRN_VAR_DIV || $sessioninfo.privilege.GRN_SIV_DIV || $sessioninfo.privilege.GRN_PC_DIV))}
 {if $smarty.request.action eq 'verify'}
-<p><b>
+<p class="alert alert-primary rounded mx-3"><b>
 	Confirm required: <br />
 	* All SKU not in ARMS must become {if $form.type eq 'PO' || $grr.is_ibt_do}Items not in {$grr.type}{else}Received items{/if} OR mark as Return. 
 	{if $config.grn_check_selling_price && ($grr.type eq 'PO' || $grr.is_ibt_do)}
@@ -2694,44 +2706,51 @@ Do you wish to print GRN report?<br>
 {* print different tables based on the table loop set *}
 {if $grr.type eq 'PO' || $grr.is_ibt_do}
 <div style="overflow:auto;{if !$config.grn_future_show_po}display:none;{/if}">
-<h2>Items in {$grr.type} (Parent & Child)</h2>
-<table width="100%" class="tbl_item" id="tbl_item_0" style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
-	<thead>
-	<tr>
-		<th rowspan="2">#</th>
-		<th rowspan="2">ARMS Code</th>
-		<th rowspan="2">Artno</th>
-		<th rowspan="2">Mcode</th>
-		{if $config.link_code_name && $config.docs_show_link_code}
-			<th rowspan="2">{$config.link_code_name}</th>
-		{/if}
-		<th rowspan="2" width="80%">Description</th>
-		<th colspan="2">Order Qty</th>
-	</tr>
-	<tr align="center">
-		<th>Ctn</th>
-		<th>Pcs</th>
-	</tr>
-	</thead>
 
-	<tbody id="grn_items_0" class="multiple_add_container_0">
-	{assign var=doc_type value=0}
-	{foreach from=$form.items item=item name=fitem}
-		{if $item.item_group eq '0'}
-			<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="0_titem{$item.id}" id="0_titem{$item.id}">
-			{include file=goods_receiving_note2.new.list.tpl}
+<div class="card mx-3 card-body">
+	<div class="table-responsive">
+		<table width="100%" class="tbl_item table mb-0 text-md-nowrap  table-hover" id="tbl_item_0" style="background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
+			<thead class="bg-gray-100">
+			<tr>
+				<th rowspan="2">#</th>
+				<th rowspan="2">ARMS Code</th>
+				<th rowspan="2">Artno</th>
+				<th rowspan="2">Mcode</th>
+				{if $config.link_code_name && $config.docs_show_link_code}
+					<th rowspan="2">{$config.link_code_name}</th>
+				{/if}
+				<th rowspan="2" width="80%">Description</th>
+				<th colspan="2">Order Qty</th>
 			</tr>
-		{/if}
-	{/foreach}
-	</tbody>
-	
-</table>
+			<tr align="center">
+				<th>Ctn</th>
+				<th>Pcs</th>
+			</tr>
+			</thead>
+		
+			<tbody id="grn_items_0" class="multiple_add_container_0">
+			{assign var=doc_type value=0}
+			{foreach from=$form.items item=item name=fitem}
+				{if $item.item_group eq '0'}
+					<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="0_titem{$item.id}" id="0_titem{$item.id}">
+					{include file=goods_receiving_note2.new.list.tpl}
+					</tr>
+				{/if}
+			{/foreach}
+			</tbody>
+			
+		</table>
+	</div>
+</div>
 </div>
 
 {assign var=confirmed value=0}
-
-<br><h2>
-		Matched with {$grr.type}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>
+					Matched with {$grr.type}
 		{if $div1_id}
 			{assign var=confirmed value=1}
 			<input type="hidden" name="div1_confirmed" value="1">
@@ -2740,96 +2759,107 @@ Do you wish to print GRN report?<br>
         {if $allow_auto_load_po_items}
         <input type="button" value="Load all PO Items" onclick="load_po_items();"/>
         {/if}
-	</h2>
-	<div style="overflow:auto;">
-	<table width="100%" class="tbl_item" id="tbl_item_1" style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
-	<thead>
-	<tr>
-		<th rowspan="2">#</th>
-		<th rowspan="2">ARMS Code</th>
-		<th rowspan="2">Artno</th>
-		<th rowspan="2">Mcode</th>
-		{if $config.link_code_name && $config.docs_show_link_code}
-			<th rowspan="2">{$config.link_code_name}</th>
-		{/if}
-		<th rowspan="2" width="80%">Description</th>
-		<th rowspan="2">Packing<br />UOM</th>
-		{if $smarty.request.action eq 'verify' && $sessioninfo.privilege.GRN_SHOW_PO_QTY}
-			<th colspan="2">{$grr.type} Qty</th>			
-		{/if}
-		<th colspan="2">Rcv Qty</th>
-		{if $smarty.request.action eq 'verify'}
-			<th colspan="2">Return Qty</th>
-		{/if}
-		<th rowspan="2">Remark</th>
-	</tr>
-	<tr align="center">
-		{if $smarty.request.action eq 'verify'}
-			<th>Ctn</th>
-			<th>Pcs</th>
-			{if $sessioninfo.privilege.GRN_SHOW_PO_QTY}
-				<th>Ctn</th>
-				<th>Pcs</th>		
-			{/if}
-		{/if}
-		
-		<th>Ctn</th>
-		<th>Pcs</th>
-	</tr>
-	</thead>
-
-	<tbody id="grn_items_1" class="multiple_add_container_1">
-		{assign var=doc_type value=1}
-		{assign var=have_items value=0}
-		{assign var=ttl_po_ctn value=0}
-		{foreach from=$form.items item=item name=fitem}
-			{if $item.item_group eq '1' || $item.item_group eq '2' || ($item.item_group eq '0' && $smarty.request.action eq 'verify')}
-				{if $item.from_isi}
-					<tr bgcolor="#AFC7C7" title="{$item.sku_item_code} is new SKU item" onmouseover="this.bgColor='#CFECEC';" onmouseout="this.bgColor='#AFC7C7';" class="titem_1" id="1_titem{$item.id}">
-				{else}
-					<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_1" id="1_titem{$item.id}">
-				{/if}
-				{include file=goods_receiving_note2.new.list.tpl existed_item=1}
-				</tr>
-				{assign var=have_items value=1}
-				{if $sessioninfo.privilege.GRN_SHOW_PO_QTY}
-					{assign var=ttl_po_ctn value=$ttl_po_ctn+$item.po_ctn}
-					{assign var=ttl_po_pcs value=$ttl_po_pcs+$item.po_pcs}
-				{/if}
-			{/if}
-		{/foreach}
-		{if !$have_items && $smarty.request.action ne 'edit'}
-			<tr align="center" id="no_data_{$doc_type}">
-				<td colspan="10">No data</td>
-			</tr>
-		{/if}
-	</tbody>
-
-	<tfoot>
-		<tr bgcolor=#ffffff>
-			{assign var=colspan value=6}
-			{if $config.link_code_name && $config.docs_show_link_code}
-				{assign var=colspan value=$colspan+1}
-			{/if}
-			<td colspan="{$colspan}" align="right"><b>Total</b></td>
-			{if $smarty.request.action eq 'verify' && $sessioninfo.privilege.GRN_SHOW_PO_QTY}
-				<td colspan="2" align="right" nowrap>Ctn: {$ttl_po_ctn|qty_nf|default:'0'} Pcs: {$ttl_po_pcs|qty_nf|default:'0'}</td>
-			{/if}
-			<td colspan="2" align="right" id="total_qty_1">&nbsp;</td>
-			{if $smarty.request.action eq 'verify'}
-				<td colspan="2" align="right" id="total_return_qty_1">&nbsp;</td>
-			{/if}
-			<td align="center"><div id="{if $new ne 1}total_qty_var_1{/if}" class=r>&nbsp;</div></td>
-		</tr>
-	</tfoot>
-</table>
+				</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
+
+	<div class="card mx-3 card-body">
+		<div class="table-responsive">
+			<table width="100%" class="tbl_item" id="tbl_item_1"  class="input_no_border body" cellspacing=1 cellpadding=4>
+				<thead class="bg-gray-100">
+				<tr>
+					<th rowspan="2">#</th>
+					<th rowspan="2">ARMS Code</th>
+					<th rowspan="2">Artno</th>
+					<th rowspan="2">Mcode</th>
+					{if $config.link_code_name && $config.docs_show_link_code}
+						<th rowspan="2">{$config.link_code_name}</th>
+					{/if}
+					<th rowspan="2" width="80%">Description</th>
+					<th rowspan="2">Packing<br />UOM</th>
+					{if $smarty.request.action eq 'verify' && $sessioninfo.privilege.GRN_SHOW_PO_QTY}
+						<th colspan="2">{$grr.type} Qty</th>			
+					{/if}
+					<th colspan="2">Rcv Qty</th>
+					{if $smarty.request.action eq 'verify'}
+						<th colspan="2">Return Qty</th>
+					{/if}
+					<th rowspan="2">Remark</th>
+				</tr>
+				<tr align="center">
+					{if $smarty.request.action eq 'verify'}
+						<th>Ctn</th>
+						<th>Pcs</th>
+						{if $sessioninfo.privilege.GRN_SHOW_PO_QTY}
+							<th>Ctn</th>
+							<th>Pcs</th>		
+						{/if}
+					{/if}
+					
+					<th>Ctn</th>
+					<th>Pcs</th>
+				</tr>
+				</thead>
+			
+				<tbody id="grn_items_1" class="multiple_add_container_1">
+					{assign var=doc_type value=1}
+					{assign var=have_items value=0}
+					{assign var=ttl_po_ctn value=0}
+					{foreach from=$form.items item=item name=fitem}
+						{if $item.item_group eq '1' || $item.item_group eq '2' || ($item.item_group eq '0' && $smarty.request.action eq 'verify')}
+							{if $item.from_isi}
+								<tr bgcolor="#AFC7C7" title="{$item.sku_item_code} is new SKU item" onmouseover="this.bgColor='#CFECEC';" onmouseout="this.bgColor='#AFC7C7';" class="titem_1" id="1_titem{$item.id}">
+							{else}
+								<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_1" id="1_titem{$item.id}">
+							{/if}
+							{include file=goods_receiving_note2.new.list.tpl existed_item=1}
+							</tr>
+							{assign var=have_items value=1}
+							{if $sessioninfo.privilege.GRN_SHOW_PO_QTY}
+								{assign var=ttl_po_ctn value=$ttl_po_ctn+$item.po_ctn}
+								{assign var=ttl_po_pcs value=$ttl_po_pcs+$item.po_pcs}
+							{/if}
+						{/if}
+					{/foreach}
+					{if !$have_items && $smarty.request.action ne 'edit'}
+						<tr align="center" id="no_data_{$doc_type}">
+							<td colspan="10">No data</td>
+						</tr>
+					{/if}
+				</tbody>
+			
+				<tfoot>
+					<tr bgcolor=#ffffff>
+						{assign var=colspan value=6}
+						{if $config.link_code_name && $config.docs_show_link_code}
+							{assign var=colspan value=$colspan+1}
+						{/if}
+						<td colspan="{$colspan}" align="right"><b>Total</b></td>
+						{if $smarty.request.action eq 'verify' && $sessioninfo.privilege.GRN_SHOW_PO_QTY}
+							<td colspan="2" align="right" nowrap>Ctn: {$ttl_po_ctn|qty_nf|default:'0'} Pcs: {$ttl_po_pcs|qty_nf|default:'0'}</td>
+						{/if}
+						<td colspan="2" align="right" id="total_qty_1">&nbsp;</td>
+						{if $smarty.request.action eq 'verify'}
+							<td colspan="2" align="right" id="total_return_qty_1">&nbsp;</td>
+						{/if}
+						<td align="center"><div id="{if $new ne 1}total_qty_var_1{/if}" class=r>&nbsp;</div></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
 {/if}
 
 {assign var=confirmed value=0}
-<br>
-<h2>
-	{if ($grr.type eq 'PO' || $grr.is_ibt_do) && !$grr.allow_grn_without_po}
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>
+					{if ($grr.type eq 'PO' || $grr.is_ibt_do) && !$grr.allow_grn_without_po}
 		SKU Return List 
 	{elseif $grr.type eq 'PO' || $grr.is_ibt_do}
 		Items not in {$grr.type} 
@@ -2841,75 +2871,87 @@ Do you wish to print GRN report?<br>
 		<input type="hidden" name="div2_confirmed" value="1">
 		(Confirmed)
 	{/if}
-</h2>
-<div style="overflow:auto;">
-<table width="100%" class="tbl_item" id="tbl_item_3" style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
-	<thead>
-	<tr>
-		{assign var=col_d value=8}
-		<th rowspan="2">
-			Return
-			{if (($grr.type eq 'PO'  || $grr.is_ibt_do) && $grr.allow_grn_without_po && !$form.div2_approved_by) || ($grr.type ne 'PO' && !$form.div2_approved_by)}
-				<br><input type=checkbox id="check_return_3" name="check_return_3" onclick="check_all_return('3')" title="Return All">
-			{/if}
-		</th>
-		<th rowspan="2">#</th>
-		<th rowspan="2">ARMS Code</th>
-		<th rowspan="2">Artno</th>
-		<th rowspan="2">Mcode</th>
-		{if $config.link_code_name && $config.docs_show_link_code}
-			<th rowspan="2">{$config.link_code_name}</th>
-		{/if}
-		<th rowspan="2" width="80%">Description</th>
-		<th rowspan="2">Cost Price</th>
-		<th rowspan="2">Packing<br />UOM</th>
-		<th colspan="2">Rcv Qty</th>
-	</tr>
-	<tr align="center">
-		<th>Ctn</th>
-		<th>Pcs</th>
-	</tr>
-	</thead>
-
-	<tbody id="grn_items_3" class="multiple_add_container_3">
-		{assign var=doc_type value=3}
-		{assign var=have_items value=0}
-		{foreach from=$form.items item=item name=fitem}
-			{if $item.item_group eq '3'}
-				{if $item.from_isi}
-					<tr bgcolor="#AFC7C7" title="{$item.sku_item_code} is new SKU item" onmouseover="this.bgColor='#CFECEC';" onmouseout="this.bgColor='#AFC7C7';" class="titem_3" id="3_titem{$item.id}">
-				{else}
-					<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_3" id="3_titem{$item.id}">
-				{/if}
-				{include file=goods_receiving_note2.new.list.tpl}
-				</tr>
-				{assign var=have_items value=1}
-			{/if}
-		{/foreach}
-		{if !$have_items && $smarty.request.action ne 'edit'}
-			<tr align="center" id="no_data_{$doc_type}">
-				<td colspan="9">No data</td>
-			</tr>
-		{/if}
-	</tbody>
-
-	<tfoot>
-		<tr bgcolor=#ffffff>
-			{if $config.link_code_name && $config.docs_show_link_code}
-				{assign var=col_d value=$col_d+1}
-			{/if}
-		
-			<td colspan="{$col_d|default:7}" align=right><b>Total</b></td>
-			<td align=center colspan="2" id="total_qty_3">&nbsp;</td>
-		</tr>
-	</tfoot>	
-</table>
+				</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
 </div>
 
+<div class="card mx-3 card-body">
+	<div class="table-responsive">
+		<table width="100%" class="tbl_item" id="tbl_item_3" style="background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
+			<thead>
+			<tr>
+				{assign var=col_d value=8}
+				<th rowspan="2">
+					Return
+					{if (($grr.type eq 'PO'  || $grr.is_ibt_do) && $grr.allow_grn_without_po && !$form.div2_approved_by) || ($grr.type ne 'PO' && !$form.div2_approved_by)}
+						<br><input type=checkbox id="check_return_3" name="check_return_3" onclick="check_all_return('3')" title="Return All">
+					{/if}
+				</th>
+				<th rowspan="2">#</th>
+				<th rowspan="2">ARMS Code</th>
+				<th rowspan="2">Artno</th>
+				<th rowspan="2">Mcode</th>
+				{if $config.link_code_name && $config.docs_show_link_code}
+					<th rowspan="2">{$config.link_code_name}</th>
+				{/if}
+				<th rowspan="2" width="80%">Description</th>
+				<th rowspan="2">Cost Price</th>
+				<th rowspan="2">Packing<br />UOM</th>
+				<th colspan="2">Rcv Qty</th>
+			</tr>
+			<tr align="center">
+				<th>Ctn</th>
+				<th>Pcs</th>
+			</tr>
+			</thead>
+		
+			<tbody id="grn_items_3" class="multiple_add_container_3">
+				{assign var=doc_type value=3}
+				{assign var=have_items value=0}
+				{foreach from=$form.items item=item name=fitem}
+					{if $item.item_group eq '3'}
+						{if $item.from_isi}
+							<tr bgcolor="#AFC7C7" title="{$item.sku_item_code} is new SKU item" onmouseover="this.bgColor='#CFECEC';" onmouseout="this.bgColor='#AFC7C7';" class="titem_3" id="3_titem{$item.id}">
+						{else}
+							<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_3" id="3_titem{$item.id}">
+						{/if}
+						{include file=goods_receiving_note2.new.list.tpl}
+						</tr>
+						{assign var=have_items value=1}
+					{/if}
+				{/foreach}
+				{if !$have_items && $smarty.request.action ne 'edit'}
+					<tr align="center" id="no_data_{$doc_type}">
+						<td colspan="9">No data</td>
+					</tr>
+				{/if}
+			</tbody>
+		
+			<tfoot>
+				<tr bgcolor=#ffffff>
+					{if $config.link_code_name && $config.docs_show_link_code}
+						{assign var=col_d value=$col_d+1}
+					{/if}
+				
+					<td colspan="{$col_d|default:7}" align=right><b>Total</b></td>
+					<td align=center colspan="2" id="total_qty_3">&nbsp;</td>
+				</tr>
+			</tfoot>	
+		</table>
+	</div>
+</div>
+
+
 {assign var=confirmed value=0}
-<br>
-<h2>
-	SKU not in ARMS 
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>
+					SKU not in ARMS 
 	{if $div2_id}
 		{assign var=confirmed value=1}
 		<input type="hidden" name="div3_confirmed" value="1">
@@ -2917,115 +2959,138 @@ Do you wish to print GRN report?<br>
 	{elseif $smarty.request.action eq 'verify' && $form.non_sku_items}
 		<input type=button name="recheck_btn" value="Recheck All" style="font:bold 14px Arial; background-color:#09a; color:#fff;" onclick="ajax_recheck_nsi()">
 	{/if}
-</h2>
-<div style="overflow:auto;">
-<table width="100%" class="tbl_item" id="tbl_item_4" style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
-	<thead>
-	<tr>
-		{assign var=col_d value=5}
-		<th>
-			Return
-			{if $sessioninfo.privilege.GRN_SIV_DIV && !$div2_id}
-				<br><input type=checkbox id="check_return_4" name="check_return_4" onclick="check_all_return('4')" title="Return All">
-			{/if}
-		</th>
-		<th>#</th>
-		<th width="20%">Code</th>
-		<th width="60%">Description</th>
-		<th>Cost Price</th>
-		<th>Rcv<br />Qty (Pcs)</th>
-	</tr>
-	</thead>
+				</h4>
+				
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
 
-	<tbody id="grn_items_4" class="multiple_add_container_4">
-		{assign var=doc_type value=4}
-		{assign var=have_items value=0}
-		{if $form.non_sku_items}
-			{foreach from=$form.non_sku_items.code key=sku_code item=qty name=fitem}
-				{assign var=n value=$smarty.foreach.fitem.iteration-1}
-				<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_4" id="4_titem{$form.non_sku_items.code.$n|default:$sku_code}">
-				{include file=goods_receiving_note2.new.list.tpl}
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="tbl_item" id="tbl_item_4" style=" background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
+				<thead class="bg-gray-100">
+				<tr>
+					{assign var=col_d value=5}
+					<th>
+						Return
+						{if $sessioninfo.privilege.GRN_SIV_DIV && !$div2_id}
+							<br><input type=checkbox id="check_return_4" name="check_return_4" onclick="check_all_return('4')" title="Return All">
+						{/if}
+					</th>
+					<th>#</th>
+					<th width="20%">Code</th>
+					<th width="60%">Description</th>
+					<th>Cost Price</th>
+					<th>Rcv<br />Qty (Pcs)</th>
 				</tr>
-				{assign var=have_items value=1}
-			{/foreach}
-			{if !$have_items && $smarty.request.action ne 'edit'}
-				<tr align="center" id="no_data_{$doc_type}">
-					<td colspan="6">No data</td>
-				</tr>
-			{/if}
-		{/if}
-	</tbody>
-
-	<tfoot>
-		<tr bgcolor=#ffffff>
-			<td colspan="{$col_d|default:4}" align=right><b>Total</b></td>
-			<td align=center id="total_qty_4">&nbsp;</td>
-		</tr>
-	</tfoot>
-</table>
+				</thead>
+			
+				<tbody id="grn_items_4" class="multiple_add_container_4">
+					{assign var=doc_type value=4}
+					{assign var=have_items value=0}
+					{if $form.non_sku_items}
+						{foreach from=$form.non_sku_items.code key=sku_code item=qty name=fitem}
+							{assign var=n value=$smarty.foreach.fitem.iteration-1}
+							<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_4" id="4_titem{$form.non_sku_items.code.$n|default:$sku_code}">
+							{include file=goods_receiving_note2.new.list.tpl}
+							</tr>
+							{assign var=have_items value=1}
+						{/foreach}
+						{if !$have_items && $smarty.request.action ne 'edit'}
+							<tr align="center" id="no_data_{$doc_type}">
+								<td colspan="6">No data</td>
+							</tr>
+						{/if}
+					{/if}
+				</tbody>
+			
+				<tfoot>
+					<tr bgcolor=#ffffff>
+						<td colspan="{$col_d|default:4}" align=right><b>Total</b></td>
+						<td align=center id="total_qty_4">&nbsp;</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
 </div>
 {/if}
 
 {assign var=confirmed value=0}
 {if ($grr.type eq 'PO' || $grr.is_ibt_do) && $sessioninfo.privilege.GRN_PC_DIV && $smarty.request.action eq 'verify'}
-<br>
-<h2>
-	{$grr.type} Suggested Selling Price 
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<div class="content-title mb-0 my-auto ml-4 text-primary">
+				<h4>
+					{$grr.type} Suggested Selling Price 
 	{if $div3_id}
 		(Confirmed)
 		{assign var=confirmed value=1}
 	{/if}
-</h2>
-<div style="overflow:auto;">
-<table width="100%" class="tbl_item" id="tbl_item_5" style="border:1px solid #999; padding:5px; background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
-	<thead>
-	<tr>
-		<th>#</th>
-		<th>ARMS Code</th>
-		<th>Artno</th>
-		<th>Mcode</th>
-		<th width=80%>Description</th>
-		<th>PO No</th>
-		<th>PO<br />Date</th>
-		<th>Current<br>Selling<br>Price</th>
-		<th>Suggested<br>Selling<br>Price</th>
-		{if $config.grn_check_selling_price}
-			<th>Remark</th>
-		{/if}
-	</tr>
-	</thead>
-
-	<tbody id="grn_items_5" class="multiple_add_container_5">
-		{assign var=doc_type value=5}
-		{assign var=have_items value=0}
-		{foreach from=$form.items item=item name=fitem}
-			{if $item.item_group eq '1' || $item.item_group eq '2'}
-				{if $form.branch_is_under_gst && $item.inclusive_tax eq 'yes'}
-					{assign var=selling_price value=$item.gst_selling_price}
-				{else}
-					{assign var=selling_price value=$item.selling_price}
-				{/if}
+				</h4>
 				
-				{if $config.grn_check_selling_price && $item.po_item_id ne '' && $selling_price ne ''}
-					{if $config.grn_check_selling_price eq "LOWER" && $selling_price|round2 >= $item.curr_selling_price|round2}
-					{elseif $config.grn_check_selling_price eq "HIGHER" && $selling_price|round2 <= $item.curr_selling_price|round2}
-					{elseif $config.grn_check_selling_price eq "DIFF" && $selling_price|round2 eq $item.curr_selling_price|round2}
-					{else}
-						<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_5" id="5_titem{$item.id}">
-						{include file=goods_receiving_note2.new.list.tpl}
-						</tr>
-						{assign var=have_items value=1}
+			</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+		</div>
+	</div>
+</div>
+
+<div class="card mx-3">
+	<div class="card-body">
+		<div class="table-responsive">
+			<table width="100%" class="tbl_item" id="tbl_item_5" style="background-color:#fe9" class="input_no_border body" cellspacing=1 cellpadding=4>
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>ARMS Code</th>
+					<th>Artno</th>
+					<th>Mcode</th>
+					<th width=80%>Description</th>
+					<th>PO No</th>
+					<th>PO<br />Date</th>
+					<th>Current<br>Selling<br>Price</th>
+					<th>Suggested<br>Selling<br>Price</th>
+					{if $config.grn_check_selling_price}
+						<th>Remark</th>
 					{/if}
-				{/if}
-			{/if}
-		{/foreach}
-		{if !$have_items && $smarty.request.action ne 'edit'}
-			<tr align="center" id="no_data_{$doc_type}">
-				<td colspan="8">No data</td>
-			</tr>
-		{/if}
-	</tbody>
-</table>
+				</tr>
+				</thead>
+			
+				<tbody id="grn_items_5" class="multiple_add_container_5">
+					{assign var=doc_type value=5}
+					{assign var=have_items value=0}
+					{foreach from=$form.items item=item name=fitem}
+						{if $item.item_group eq '1' || $item.item_group eq '2'}
+							{if $form.branch_is_under_gst && $item.inclusive_tax eq 'yes'}
+								{assign var=selling_price value=$item.gst_selling_price}
+							{else}
+								{assign var=selling_price value=$item.selling_price}
+							{/if}
+							
+							{if $config.grn_check_selling_price && $item.po_item_id ne '' && $selling_price ne ''}
+								{if $config.grn_check_selling_price eq "LOWER" && $selling_price|round2 >= $item.curr_selling_price|round2}
+								{elseif $config.grn_check_selling_price eq "HIGHER" && $selling_price|round2 <= $item.curr_selling_price|round2}
+								{elseif $config.grn_check_selling_price eq "DIFF" && $selling_price|round2 eq $item.curr_selling_price|round2}
+								{else}
+									<tr bgcolor="#ffee99" onmouseover="this.bgColor='#ffffcc';" onmouseout="this.bgColor='';" class="titem_5" id="5_titem{$item.id}">
+									{include file=goods_receiving_note2.new.list.tpl}
+									</tr>
+									{assign var=have_items value=1}
+								{/if}
+							{/if}
+						{/if}
+					{/foreach}
+					{if !$have_items && $smarty.request.action ne 'edit'}
+						<tr align="center" id="no_data_{$doc_type}">
+							<td colspan="8">No data</td>
+						</tr>
+					{/if}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 {/if}
 
@@ -3045,118 +3110,132 @@ Do you wish to print GRN report?<br>
 		{assign var=ttl_nsi_gross_amt value=0}
 		{assign var=ttl_nsi_gst_amt value=0}
 		{assign var=ttl_nsi_amt value=0}
-		<br><h2>Returned Item(s)</h2>
-		<div style="overflow:auto;">
-		<table width=100% cellpadding=2 cellspacing=1 border=0 style="border:1px solid #000">
-			<thead>
-			<tr height=32 bgcolor="#ffee99" class="small">
-				<th>#</th>
-				<th width="20%">Code</th>
-				<th width="60%">Description</th>
-				<th>Cost Price</th>
-				{if $form.is_under_gst}
-					<th>GST Code</th>
-				{/if}
-				<th>Rcv Qty<br />(Pcs)</th>
-				<th>Amount</th>
-				{if $form.is_under_gst}
-					<th>GST</th>
-					<th>Amount<br />Include GST</th>
-				{/if}
-			</tr>
-			</thead>
-		
-			<tbody id="tbditems">
-				{if $form.non_sku_items}
-					{foreach from=$form.non_sku_items key=sku_code item=item name=fitem}
-						{assign var=n value=$smarty.foreach.fitem.iteration-1}
-						{if $form.non_sku_items.code.$n}
-							<!--{$ri_count++}-->
-							{assign var=ttl_pcs value=$ttl_pcs+$form.non_sku_items.qty.$n}
-							{assign var=row_gross_amt value=$form.non_sku_items.qty.$n*$form.non_sku_items.cost.$n}
-							{assign var=row_gross_amt value=$row_gross_amt|round2}
-							{assign var=ttl_nsi_gross_amt value=$ttl_nsi_gross_amt+$row_gross_amt}
-							<tr height="24" {cycle name=r2 values=",bgcolor=#eeeeee"}>
-								<td nowrap width="2%" align="right">{$ri_count}.</td>
-								<td>{$form.non_sku_items.code.$n}</td>
-								<td>{$form.non_sku_items.description.$n}</td>
-								<td align="right">{$form.non_sku_items.cost.$n|number_format:$config.global_cost_decimal_points:".":""}</td>
-								{if $form.is_under_gst}
-									<td nowrap>{$form.non_sku_items.gst_code.$n} ({$form.non_sku_items.gst_rate.$n|default:'0'}%)</td>
-								{/if}
-								<td class="r" width="5%">{$form.non_sku_items.qty.$n|default:0}</td>
-								<td class="r" width="5%">{$row_gross_amt|round2}</td>
-								{if $form.is_under_gst}
-									{assign var=row_gst_rate value=$form.non_sku_items.gst_rate.$n}
-									{assign var=row_gst_amt value=$row_gross_amt*$row_gst_rate/100}
-									{assign var=row_gst_amt value=$row_gst_amt|round:2}
-									{assign var=row_amt value=$row_gross_amt+$row_gst_amt}
-									{assign var=ttl_nsi_gst_amt value=$ttl_nsi_gst_amt+$row_gst_amt}
-									{assign var=ttl_nsi_amt value=$ttl_nsi_amt+$row_amt}
-									
-									<td class="r">{$row_gst_amt|number_format:2}</td>
-									<td class="r">{$row_amt|number_format:2}</td>
-								{/if}
-							</tr>
-						{/if}
-					{/foreach}
-				{/if}
-				{if $have_grn_returned_items}
-					{foreach from=$form.items item=item name=i key=iid}
-						{if $item.item_check}
-							<!--{$ri_count++}-->
-							{assign var=row_qty value=`$item.ctn*$item.uom_fraction+$item.pcs`}
-							{assign var=ttl_pcs value=$ttl_pcs+$row_qty}
-							{assign var=row_gross_amt value=`$item.cost*$row_qty/$item.uom_fraction`}
-							{assign var=row_gross_amt value=$row_gross_amt|round2}
-							{assign var=ttl_nsi_gross_amt value=$ttl_nsi_gross_amt+$row_gross_amt|round2}
-							<tr height="24" {cycle name=r2 values=",bgcolor=#eeeeee"}>
-								<td nowrap width="2%" align="right">{$ri_count}.</td>
-								<td>{$item.sku_item_code}</td>
-								<td>{$item.description}</td>
-								<td align="right">{$item.cost|number_format:$config.global_cost_decimal_points:".":""}</td>
-								{if $form.is_under_gst}
-									<td nowrap>{$item.gst_code} ({$item.gst_rate|default:'0'}%)</td>
-								{/if}
-								<td class="r" width="5%">{$row_qty|qty_nf}</td>
-								<td class="r" width="5%">{$row_gross_amt|round2}</td>
-								{if $form.is_under_gst}
-									{assign var=row_gst_rate value=$item.gst_rate}
-									{assign var=row_gst_amt value=$row_gross_amt*$row_gst_rate/100}
-									{assign var=row_gst_amt value=$row_gst_amt|round:2}
-									{assign var=row_amt value=$row_gross_amt+$row_gst_amt}
-									{assign var=ttl_nsi_gst_amt value=$ttl_nsi_gst_amt+$row_gst_amt}
-									{assign var=ttl_nsi_amt value=$ttl_nsi_amt+$row_amt}
-									
-									<td class="r">{$row_gst_amt|number_format:2}</td>
-									<td class="r">{$row_amt|number_format:2}</td>
-								{/if}
-							</tr>
-						{/if}
-					{/foreach}
-				{/if}
-			</tbody>
-		
-			<tfoot>
-				<tr height="24" bgcolor="#ffee99">
-					{assign var=colspan value=4}
-					{if $form.is_under_gst}
-						{assign var=colspan value=$colspan+1}
-					{/if}
-					{if $config.link_code_name && $config.docs_show_link_code}
-						{assign var=colspan value=$colspan+1}
-					{/if}
-					<td colspan="{$colspan}" align="right"><b>Total</b></td>
-					<td align="right" id="total_qty">{$ttl_pcs|default:0}</td>
-					<td align="right" id="total_amt">{$ttl_nsi_gross_amt|default:0}</td>
-					{if $form.is_under_gst}	
-						<td align="right">{$ttl_nsi_gst_amt|number_format:2|default:0}</td>						
-						<td align="right">{$ttl_nsi_amt|number_format:2|default:0}</td>						
-					{/if}
-				</tr>
+		<div class="breadcrumb-header justify-content-between">
+			<div class="my-auto">
+				<div class="d-flex">
+					<div class="content-title mb-0 my-auto ml-4 text-primary">
+						<h4>Returned Item(s)</h4>
+						
+					</div><span class="text-muted mt-1 tx-13 ml-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
 
-			</tfoot>
-		</table>
+		<div class="card mx-3">
+			<div class="card-body">
+				<div class="table-responsive">
+					<table width=100% cellpadding=2 cellspacing=1 border=0 >
+						<thead>
+						<tr height=32 bgcolor="#ffee99" class="small">
+							<th>#</th>
+							<th width="20%">Code</th>
+							<th width="60%">Description</th>
+							<th>Cost Price</th>
+							{if $form.is_under_gst}
+								<th>GST Code</th>
+							{/if}
+							<th>Rcv Qty<br />(Pcs)</th>
+							<th>Amount</th>
+							{if $form.is_under_gst}
+								<th>GST</th>
+								<th>Amount<br />Include GST</th>
+							{/if}
+						</tr>
+						</thead>
+					
+						<tbody id="tbditems">
+							{if $form.non_sku_items}
+								{foreach from=$form.non_sku_items key=sku_code item=item name=fitem}
+									{assign var=n value=$smarty.foreach.fitem.iteration-1}
+									{if $form.non_sku_items.code.$n}
+										<!--{$ri_count++}-->
+										{assign var=ttl_pcs value=$ttl_pcs+$form.non_sku_items.qty.$n}
+										{assign var=row_gross_amt value=$form.non_sku_items.qty.$n*$form.non_sku_items.cost.$n}
+										{assign var=row_gross_amt value=$row_gross_amt|round2}
+										{assign var=ttl_nsi_gross_amt value=$ttl_nsi_gross_amt+$row_gross_amt}
+										<tr height="24" {cycle name=r2 values=",bgcolor=#eeeeee"}>
+											<td nowrap width="2%" align="right">{$ri_count}.</td>
+											<td>{$form.non_sku_items.code.$n}</td>
+											<td>{$form.non_sku_items.description.$n}</td>
+											<td align="right">{$form.non_sku_items.cost.$n|number_format:$config.global_cost_decimal_points:".":""}</td>
+											{if $form.is_under_gst}
+												<td nowrap>{$form.non_sku_items.gst_code.$n} ({$form.non_sku_items.gst_rate.$n|default:'0'}%)</td>
+											{/if}
+											<td class="r" width="5%">{$form.non_sku_items.qty.$n|default:0}</td>
+											<td class="r" width="5%">{$row_gross_amt|round2}</td>
+											{if $form.is_under_gst}
+												{assign var=row_gst_rate value=$form.non_sku_items.gst_rate.$n}
+												{assign var=row_gst_amt value=$row_gross_amt*$row_gst_rate/100}
+												{assign var=row_gst_amt value=$row_gst_amt|round:2}
+												{assign var=row_amt value=$row_gross_amt+$row_gst_amt}
+												{assign var=ttl_nsi_gst_amt value=$ttl_nsi_gst_amt+$row_gst_amt}
+												{assign var=ttl_nsi_amt value=$ttl_nsi_amt+$row_amt}
+												
+												<td class="r">{$row_gst_amt|number_format:2}</td>
+												<td class="r">{$row_amt|number_format:2}</td>
+											{/if}
+										</tr>
+									{/if}
+								{/foreach}
+							{/if}
+							{if $have_grn_returned_items}
+								{foreach from=$form.items item=item name=i key=iid}
+									{if $item.item_check}
+										<!--{$ri_count++}-->
+										{assign var=row_qty value=`$item.ctn*$item.uom_fraction+$item.pcs`}
+										{assign var=ttl_pcs value=$ttl_pcs+$row_qty}
+										{assign var=row_gross_amt value=`$item.cost*$row_qty/$item.uom_fraction`}
+										{assign var=row_gross_amt value=$row_gross_amt|round2}
+										{assign var=ttl_nsi_gross_amt value=$ttl_nsi_gross_amt+$row_gross_amt|round2}
+										<tr height="24" {cycle name=r2 values=",bgcolor=#eeeeee"}>
+											<td nowrap width="2%" align="right">{$ri_count}.</td>
+											<td>{$item.sku_item_code}</td>
+											<td>{$item.description}</td>
+											<td align="right">{$item.cost|number_format:$config.global_cost_decimal_points:".":""}</td>
+											{if $form.is_under_gst}
+												<td nowrap>{$item.gst_code} ({$item.gst_rate|default:'0'}%)</td>
+											{/if}
+											<td class="r" width="5%">{$row_qty|qty_nf}</td>
+											<td class="r" width="5%">{$row_gross_amt|round2}</td>
+											{if $form.is_under_gst}
+												{assign var=row_gst_rate value=$item.gst_rate}
+												{assign var=row_gst_amt value=$row_gross_amt*$row_gst_rate/100}
+												{assign var=row_gst_amt value=$row_gst_amt|round:2}
+												{assign var=row_amt value=$row_gross_amt+$row_gst_amt}
+												{assign var=ttl_nsi_gst_amt value=$ttl_nsi_gst_amt+$row_gst_amt}
+												{assign var=ttl_nsi_amt value=$ttl_nsi_amt+$row_amt}
+												
+												<td class="r">{$row_gst_amt|number_format:2}</td>
+												<td class="r">{$row_amt|number_format:2}</td>
+											{/if}
+										</tr>
+									{/if}
+								{/foreach}
+							{/if}
+						</tbody>
+					
+						<tfoot>
+							<tr height="24" bgcolor="#ffee99">
+								{assign var=colspan value=4}
+								{if $form.is_under_gst}
+									{assign var=colspan value=$colspan+1}
+								{/if}
+								{if $config.link_code_name && $config.docs_show_link_code}
+									{assign var=colspan value=$colspan+1}
+								{/if}
+								<td colspan="{$colspan}" align="right"><b>Total</b></td>
+								<td align="right" id="total_qty">{$ttl_pcs|default:0}</td>
+								<td align="right" id="total_amt">{$ttl_nsi_gross_amt|default:0}</td>
+								{if $form.is_under_gst}	
+									<td align="right">{$ttl_nsi_gst_amt|number_format:2|default:0}</td>						
+									<td align="right">{$ttl_nsi_amt|number_format:2|default:0}</td>						
+								{/if}
+							</tr>
+			
+						</tfoot>
+					</table>
+				</div>
+			</div>
 		</div>
 	{/if}
 {/if}
@@ -3168,13 +3247,13 @@ Do you wish to print GRN report?<br>
 {/if}
 
 {if $form.authorized eq '1' && (($sessioninfo.privilege.GRN_VAR_DIV && $smarty.request.action eq 'verify' && ($grr.type eq 'PO' || $grr.is_ibt_do)) || ($sessioninfo.privilege.GRN_SIV_DIV && $smarty.request.action eq 'verify' && $grr.type ne 'PO') || ($sessioninfo.privilege.GRN_ACCV_DIV && !$smarty.request.action))}
-	<input class="btn btn-error" type=button name="reject" value="Reject" onclick="do_reject()">
+	<input class="btn btn-danger" type=button name="reject" value="Reject" onclick="do_reject()">
 {/if}
 {if $form.id<$time_value && $smarty.request.action eq 'edit'}
 <input class="btn btn-warning" type=button name="cancel" value="Cancel" onclick="do_cancel()">
 {/if}
 
-<input class="btn btn-error" class="btn btn-error" type=button name="close" value="Close" onclick="do_close()">
+<input class="btn btn-danger" class="btn btn-danger" type=button name="close" value="Close" onclick="do_close()">
 </p>
 
 </form>
