@@ -2651,18 +2651,20 @@ Do you wish to print GRN report?<br>
 </div>
 
 {if $smarty.request.action eq 'edit'}
-<div style="padding:10px 0;">		
-	{if $config.check_block_grn_as_po}
-		{include file='sku_items_autocomplete.tpl' multiple_add=1 block_list=1}
-	{else}
-		{include file='sku_items_autocomplete.tpl' multiple_add=1 doc_block_type='grn'}
-	{/if}
-	
-	{include file='scan_barcode_autocomplete.tpl'}
-	{if ($grr.type eq 'INVOICE' || $grr.type eq 'OTHER') && ($smarty.request.action eq 'edit' && !$form.authorized) }
-	<input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();">
-	{/if}
-	<hr noshade size=1>
+<div class="card mx-3 card-body">
+	<div style="padding:10px 0;">		
+		{if $config.check_block_grn_as_po}
+			{include file='sku_items_autocomplete.tpl' multiple_add=1 block_list=1}
+		{else}
+			{include file='sku_items_autocomplete.tpl' multiple_add=1 doc_block_type='grn'}
+		{/if}
+		
+		{include file='scan_barcode_autocomplete.tpl'}
+		{if ($grr.type eq 'INVOICE' || $grr.type eq 'OTHER') && ($smarty.request.action eq 'edit' && !$form.authorized) }
+		<input id="btn_add_item_by_csv" type="button" value="Add items by CSV" onclick="show_upload_csv_popup();">
+		{/if}
+		<hr noshade size=1>
+	</div>
 </div>
 {else}
 	<input type="hidden" name="sku_item_id" value=0>
