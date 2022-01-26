@@ -40,15 +40,17 @@
 		</div>
 	</div>
 </div>
+<div class=errmsg>
 <div class="alert alert-danger rounded">
-	<div class=errmsg>
+	
 		{if $errmsg.a}
 		<ul>
 			<li><span style="font-size: 13px;">This User can no longer be approved, please reject this application.</span></li>
 			{foreach item=m from=$errmsg.a}<li>{$m}{/foreach}
 		</ul>
 		{/if}
-		</div>
+		
+</div>
 </div>
 <div class="card mx-3 card-body">
 	<div class="stdframe" style="margin-bottom:20px;">
