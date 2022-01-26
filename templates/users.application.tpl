@@ -45,10 +45,10 @@ function list_sel(n)
 		<form name="f_l" onsubmit="list_sel(0,0);return false;">
 			<div class=tab style="white-space:nowrap;">
 				&nbsp;&nbsp;&nbsp;
-				<a href="javascript:list_sel(0)" id="lst0" class="btn btn-outline-indigo btn-rounded active">New Application</a>
-				<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-indigo btn-rounded">Rejected</a>
-				<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-indigo btn-rounded">Approved</a>
-				<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-indigo btn-rounded">Activated</a>
+				<a href="javascript:list_sel(0)" id="lst0" class="btn btn-outline-primary btn-rounded active">New Application</a>
+				<a href="javascript:list_sel(2)" id="lst2" class="btn btn-outline-primary btn-rounded">Rejected</a>
+				<a href="javascript:list_sel(1)" id="lst1" class="btn btn-outline-primary btn-rounded">Approved</a>
+				<a href="javascript:list_sel(3)" id="lst3" class="btn btn-outline-primary btn-rounded">Activated</a>
 			</div>
 			<div id="application_list" >
 			</div>
