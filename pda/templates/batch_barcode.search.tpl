@@ -13,8 +13,8 @@
 - removed hardcoded width of textfields
 *}
 
-{include file='header.tpl'}
 
+{include file='header.tpl'}
 <script>
 {literal}
 function check_form(){
