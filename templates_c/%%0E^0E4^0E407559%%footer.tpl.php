@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-06-18 21:21:02
+<?php /* Smarty version 2.6.18, created on 2022-05-20 05:54:21
          compiled from footer.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'footer.tpl', 10, false),)), $this); ?>
@@ -9,8 +9,8 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format
 			<!-- main-content closed -->
 
 			<!-- Footer opened -->
-			<div class="main-footer ht-40">
-				<div class="container-fluid pd-t-0-f ht-100p">
+			<div class="main-footer">
+				<div class="container-fluid pd-t-0-f py-3">
 					<div style="height:25px">Copyright &copy; 2007-<?php echo ((is_array($_tmp=time())) ? $this->_run_mod_handler('date_format', true, $_tmp, "%Y") : smarty_modifier_date_format($_tmp, "%Y")); ?>
  <a class="footer-linkx" href="http://arms.my" target=_blank>ARMS Software International Sdn Bhd</a></div> 
 																																			<div style="height:25px">For Technical Assistance: Please <a class="footer-linkx" href="https://helpdesk.arms.my/" target="_blank">send ticket</a>
@@ -139,7 +139,51 @@ if ($this->_foreach['cpf']['total'] > 0):
 			'; ?>
 	
 		</script>
+	
+		<script>
+		<?php echo '
+			jQuery(document).ready(function(){
+				jQuery("#search-input").on("keyup", function() {
+					var value = jQuery(this).val().toLowerCase();
+					if(value =="")
+					{
+						jQuery(\'#search-content\').html(\'\');
+						jQuery(\'#search-content\').removeClass(\'p-3\');
+						console.clear();
+						return false;
+					}
+					console.clear();
+					jQuery(\'#search-content\').html(\'\');
+					jQuery(\'#search-content\').addClass(\'p-3\');
+					jQuery("#menu-list").find(\'a\').filter(function() {
+						if(jQuery(this).text().toLowerCase().indexOf(value) > -1)
+						{
+							console.log(jQuery(this).text());
+							if(jQuery(this).attr(\'href\') != "#")
+							{
+								jQuery(\'#search-content\')
+								.append(jQuery(\'<a href="\'+jQuery(this).attr(\'href\')+\'">\'+jQuery(this).text()+\'</a>\')
+										.addClass("btn btn-sm btn-primary mb-2")
+									)
+								}
+						}
+					});
+				});
+
+			});
 		
+		'; ?>
+
+		</script>
+			<script type="text/javascript">
+				<?php echo '
+					jQuery(document).ready(function() {
+						jQuery(\'.select2\').select2();
+					});
+				'; ?>
+
+
+			</script>
 
 
 		<!-- Back-to-top -->
@@ -160,6 +204,9 @@ if ($this->_foreach['cpf']['total'] > 0):
 
 		<!-- Sticky js -->
 		<script src="../assets/js/sticky.js"></script>
+
+		<!-- Internal Select2.min js -->
+		<script src="../assets/plugins/select2/js/select2.min.js"></script>
 
 		<!-- eva-icons js -->
 		<script src="../assets/js/eva-icons.min.js"></script>

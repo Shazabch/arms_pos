@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2021-09-08 19:28:49
+<?php /* Smarty version 2.6.18, created on 2022-05-20 05:54:19
          compiled from header.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'header.tpl', 172, false),)), $this); ?>
@@ -32,6 +32,9 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 		<!-- Icons css -->
 		<link href="../assets/css/icons.css" rel="stylesheet">
 
+		<!-- Internal Select2 css -->
+		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
+
 		<!--  Right-sidemenu css -->
 		<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
@@ -43,9 +46,6 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 
 		<!--- Style css --->
 		<link href="../assets/css/style.css" rel="stylesheet">
-		
-		<!-- Internal Select2 css -->
-		<link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet">
 		
 		<!--- Dark-mode css --->
 		<link href="../assets/css/style-dark.css" rel="stylesheet">
@@ -130,4 +130,4 @@ unset($_smarty_tpl_vars);
  ?><?php endif; ?>
 			<?php endif; ?>
 
-<?php endif; ?>
+<?php endif; ?>

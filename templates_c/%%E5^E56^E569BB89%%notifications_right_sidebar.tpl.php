@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-09-08 19:24:32
+<?php /* Smarty version 2.6.18, created on 2022-05-20 05:53:40
          compiled from notifications_right_sidebar.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 249, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 253, false),array('function', 'count', 'notifications_right_sidebar.tpl', 298, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'number_format', 'notifications_right_sidebar.tpl', 55, false),array('modifier', 'default', 'notifications_right_sidebar.tpl', 118, false),array('modifier', 'date_format', 'notifications_right_sidebar.tpl', 119, false),array('modifier', 'string_format', 'notifications_right_sidebar.tpl', 249, false),array('modifier', 'num_format', 'notifications_right_sidebar.tpl', 253, false),array('function', 'count', 'notifications_right_sidebar.tpl', 303, false),)), $this); ?>
 
 <!-- Price Change Notify -->
 <?php if ($this->_tpl_vars['price_history']): ?>
@@ -469,11 +469,16 @@ _<?php echo $this->_tpl_vars['grn']['id']; ?>
 </div>
 
 <!-- Stock Reorder -->
-<?php if ($this->_tpl_vars['stock_reorder_data']): ?>
+<div class="card mx-3">
+	<div class="card-body">
+		<?php if ($this->_tpl_vars['stock_reorder_data']): ?>
 	<h5>
-		<i class="icofont-user-suited icofont"></i> Vendor Stock Reorder</h5>
-	<div class="ntc">Belows are some pre-generated reorder list by vendor and department.</div>
-	<div style="border:1px solid #ccc;padding:5px;height:200px;overflow:auto;">
+		<div class="card-category fs-09">
+		<i class="icofont-user-suited icofont"></i> Vendor Stock Reorder
+	</div>
+</h5>
+	<div class="ntc text-muted text-center">Belows are some pre-generated reorder list by vendor and department.</div>
+	<div style="padding:5px;height:200px;width:300px; overflow:auto;">
 		<?php $_from = $this->_tpl_vars['stock_reorder_data']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
     foreach ($_from as $this->_tpl_vars['vendor_id'] => $this->_tpl_vars['tmp_vendor_data']):
 ?>
@@ -489,7 +494,7 @@ if ($this->_foreach['f_st']['total'] > 0):
 						<br />
 					<?php endif; ?>
 					
-					<div>
+					<div class="leading-loose text-left overflow-auto">
 						<img src="/ui/pixel.gif" width="20" align="absmiddle" height="1" /> 
 						<a href="/report.stock_reorder.php?load_report=1&category_id=<?php echo $this->_tpl_vars['r']['category_id']; ?>
 &vendor_id=<?php echo $this->_tpl_vars['r']['vendor_id']; ?>
@@ -514,3 +519,5 @@ if ($this->_foreach['f_st']['total'] > 0):
 		<?php endforeach; endif; unset($_from); ?>
 	</div>
 <?php endif; ?>
+	</div>
+</div>

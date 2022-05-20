@@ -1,1 +1,22 @@
-Could not open input file: cron.send_email.php
+
+Notice: Undefined index: HTTP_HOST in C:\laragon\www\arms_pos\config.php on line 6
+
+Notice: Undefined index: consignment_modules in C:\laragon\www\arms_pos\config.php on line 231
+
+Notice: Undefined index: HTTP_USER_AGENT in C:\laragon\www\arms_pos\config.php on line 485
+
+Notice: Undefined index: SERVER_NAME in C:\laragon\www\arms_pos\config.php on line 499
+Start
+Branch: HQ
+Branch ID: 1
+New Email: 0
+Branch: SL001
+Branch ID: 2
+New Email: 0
+Branch: SL002
+Branch ID: 3
+New Email: 0
+Branch: SL003
+Branch ID: 4
+New Email: 0
+Done.

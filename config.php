@@ -1,6 +1,6 @@
 <?php
 
-	$db_default_connection = array("localhost", "root", "", "armspos");
+	$db_default_connection = array("localhost", "root", "", "armshq");
 
 	// define constants
 	if (!$_SERVER['HTTP_HOST'])

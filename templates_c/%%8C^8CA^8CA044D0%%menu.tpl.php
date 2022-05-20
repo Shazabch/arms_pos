@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2021-09-08 19:28:49
+<?php /* Smarty version 2.6.18, created on 2022-05-20 05:54:19
          compiled from menu.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'menu.tpl', 1361, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'menu.tpl', 1364, false),)), $this); ?>
 
  
 <!-- Page -->
@@ -378,7 +378,8 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'me
 			                <?php if ($this->_tpl_vars['sessioninfo']['privilege']['DO_REQUEST_PROCESS']): ?>
 			                    <li><a class="slide-item" href="do_request.process.php">Process DO Request</a></li>
 			                <?php endif; ?>
-			                							
+			                	
+							
 							<?php if ($this->_tpl_vars['config']['enable_one_color_matrix_ibt'] && BRANCH_CODE == 'HQ' && file_exists ( 'do.matrix_ibt_process.php' )): ?>
 								<li><a class="sub-slide-item" class="slide-item" href="do.matrix_ibt_process.php">Matrix IBT Process</a></li>
 							<?php endif; ?>
@@ -758,7 +759,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'me
 								 					</ul>
 				</li>
 								<?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_UPDATE'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_APPLY'] || $this->_tpl_vars['sessioninfo']['privilege']['MST_SKU']): ?>
-				<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">SKU reports</span><i class="sub-angle fe fe-chevron-down"></i></a>
+				<li class="sub-slide"><a href="#" class="sub-side-menu__item" data-toggle="sub-slide"><span class="sub-side-menu__label">SKU</span><i class="sub-angle fe fe-chevron-down"></i></a>
 						<ul class="sub-slide-menu">
 							<li class="sub-slide-sub"><a class="sub-slide-item"  href="masterfile_sku.php">SKU Listing</a></li>
 								<?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_SKU_UPDATE_PRICE']): ?>
@@ -836,7 +837,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'me
 							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch.php">Add / Edit</a></li>
 							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch_group.php">Branches Group</a></li>
 								<?php if ($this->_tpl_vars['config']['masterfile_branch_enable_additional_sp'] && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/masterfile_branch.additional_selling_price.php" )): ?>
-							<li><a href="masterfile_branch.additional_selling_price.php">Branches Additional Selling Price</a></li>
+							<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_branch.additional_selling_price.php">Branches Additional Selling Price</a></li>
 								<?php endif; ?>
 						</ul>
 		</li>
@@ -970,13 +971,16 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'count', 'me
 						<li class="sub-slide-sub"><a class="sub-slide-item" href="masterfile_sa.position_setup.php">Position Table</a></li>
 					<?php endif; ?>
 					<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/masterfile_sa.kpi_setup.php" )): ?>
-						<li class="sub-slide-sub"><a href="#" class=submenu>KPI</a>
+						<li class="sub-slide-sub">
+							<a href="#" class="sub-side-menu_item sub-slide-item" data-toggle="sub-slide-sub"><span class="sub-side-menu_label">KPI</span><i class="sub-angle fe fe-chevron-down"></i></a>
+							
+							
 							<ul class="sub-slide-menu-sub">
 								<?php if ($this->_tpl_vars['sessioninfo']['privilege']['MST_SALES_AGENT_KPI_SETUP'] && file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/masterfile_sa.kpi_setup.php" )): ?>
-									<li><a class="sub-slide-item" href="masterfile_sa.kpi_setup.php">KPI Table</a></li>
+									<li class=""><a class="sub-slide-item" href="masterfile_sa.kpi_setup.php">KPI Table</a></li>
 								<?php endif; ?>
 								<?php if (file_exists ( ($_SERVER['DOCUMENT_ROOT'])."/masterfile_sa.kpi_result.php" )): ?>
-									<li><a class="sub-slide-item" href="masterfile_sa.kpi_result.php">KPI Result</a></li>
+									<li class=""><a class="sub-slide-item" href="masterfile_sa.kpi_result.php">KPI Result</a></li>
 								<?php endif; ?>
 							</ul>
 						</li>
