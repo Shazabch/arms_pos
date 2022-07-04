@@ -1,20 +1,8 @@
 
-Notice: Undefined index: HTTP_HOST in C:\laragon\www\arms_pos\config.php on line 6
+Warning: Undefined array key "HTTP_HOST" in C:\laragon\www\arms_pos\config.php on line 6
 
-Notice: Undefined index: consignment_modules in C:\laragon\www\arms_pos\config.php on line 231
+Warning: Undefined array key "consignment_modules" in C:\laragon\www\arms_pos\config.php on line 231
 
-Notice: Undefined index: HTTP_USER_AGENT in C:\laragon\www\arms_pos\config.php on line 485
+Warning: Undefined array key "HTTP_USER_AGENT" in C:\laragon\www\arms_pos\config.php on line 485
 
-Notice: Undefined index: SERVER_NAME in C:\laragon\www\arms_pos\config.php on line 499
-Start
-2022-05-20 05:54:11
-Branch: HQ
-Branch ID: 1
-Branch: SL001
-Branch ID: 2
-Branch: SL002
-Branch ID: 3
-Branch: SL003
-Branch ID: 4
-2022-05-20 05:54:11
-Done
+Warning: Undefined array key "SERVER_NAME" in C:\laragon\www\arms_pos\config.php on line 499

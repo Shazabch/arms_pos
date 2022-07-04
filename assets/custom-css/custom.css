@@ -46,7 +46,10 @@
 	margin-top:22px;
 }
 .bg-navy-blue{
-	background-color: #223B7C;
+	background-color: rgb(0, 102, 0);
+}
+.bg-primary{
+	background-color: rgb(0, 102, 0) !important;
 }
 .text-navy-blue{
 	color: #223B7C;
@@ -147,7 +150,7 @@
 }
 
 .selected{
-	background-color: #0162E8;
+	background-color: rgb(0, 102, 0);
 	color: white;
 }
 

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2022-05-20 05:54:21
+<?php /* Smarty version 2.6.18, created on 2022-07-04 15:43:53
          compiled from footer.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'footer.tpl', 10, false),)), $this); ?>
